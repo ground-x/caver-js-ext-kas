@@ -16,59 +16,143 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient'], factory)
+        define(['../../ApiClient', '../model/AccountCountByAccountID', '../model/AccountCountByKRN'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'))
+        module.exports = factory(
+            require('../../ApiClient'),
+            require('../model/AccountCountByAccountID'),
+            require('../model/AccountCountByKRN')
+        )
     } else {
         // Browser globals (root is window)
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.PubkeyUpdateKeyType = factory(root.WalletApi.ApiClient)
+        root.WalletApi.StatisticsApi = factory(
+            root.WalletApi.ApiClient,
+            root.WalletApi.AccountCountByAccountID,
+            root.WalletApi.AccountCountByKRN
+        )
     }
-})(this, function(ApiClient) {
+})(this, function(ApiClient, AccountCountByAccountID, AccountCountByKRN) {
     /**
-     * The PubkeyUpdateKeyType model module.
-     * @module model/PubkeyUpdateKeyType
+     * Statistics service.
+     * @module api/StatisticsApi
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>PubkeyUpdateKeyType</code>.
-     * 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
-     * @alias module:model/PubkeyUpdateKeyType
+     * Constructs a new StatisticsApi.
+     * @alias module:api/StatisticsApi
      * @class
+     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link module:ApiClient#instance} if unspecified.
      */
-    const PubkeyUpdateKeyType = function() {}
+    const exports = function(apiClient) {
+        this.apiClient = apiClient || ApiClient.instance
 
-    /**
-     * Constructs a <code>PubkeyUpdateKeyType</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PubkeyUpdateKeyType} obj Optional instance to populate.
-     * @return {module:model/PubkeyUpdateKeyType} The populated <code>PubkeyUpdateKeyType</code> instance.
-     */
-    PubkeyUpdateKeyType.constructFromObject = function(data, obj) {
-        if (data) {
-            obj = obj || new PubkeyUpdateKeyType()
-            if (data.hasOwnProperty('keyType')) obj.keyType = ApiClient.convertToType(data.keyType, 'Number')
-            if (data.hasOwnProperty('key')) obj.key = ApiClient.convertToType(data.key, 'String')
+        /**
+         * Callback function to receive the result of the getCreateAccount operation.
+         * @callback module:api/StatisticsApi~getCreateAccountCallback
+         * @param {String} error Error message, if any.
+         * @param {module:model/AccountCountByAccountID} data The data returned by the service call.
+         * @param {String} response The complete HTTP response.
+         */
+
+        /**
+         * CreateAccount
+         * 해당 KAS 계정이 보유한 모든 클레이튼 계정의 갯수를 조회합니다.
+         * @param {Object} opts Optional parameters
+         * @param {String} opts.xChainId
+         * @param {module:api/StatisticsApi~getCreateAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link module:model/AccountCountByAccountID}
+         */
+        this.getCreateAccount = function(opts, callback) {
+            opts = opts || {}
+            const postBody = null
+
+            const pathParams = {}
+            const queryParams = {}
+            const collectionQueryParams = {}
+            const headerParams = {
+                'x-chain-id': opts.xChainId,
+            }
+            const formParams = {}
+            const authNames = ['auth']
+            const contentTypes = ['application/json']
+            const accepts = ['application/json']
+            const returnType = AccountCountByAccountID
+
+            return this.apiClient.callApi(
+                '/v2/stat/count',
+                'GET',
+                pathParams,
+                queryParams,
+                collectionQueryParams,
+                headerParams,
+                formParams,
+                postBody,
+                authNames,
+                contentTypes,
+                accepts,
+                returnType,
+                callback
+            )
         }
-        return obj
+
+        /**
+         * Callback function to receive the result of the getCreateAccount1 operation.
+         * @callback module:api/StatisticsApi~getCreateAccount1Callback
+         * @param {String} error Error message, if any.
+         * @param {module:model/AccountCountByKRN} data The data returned by the service call.
+         * @param {String} response The complete HTTP response.
+         */
+
+        /**
+         * CreateAccount
+         * 특정 KRN 내에 저장된 계정의 갯수를 조회합니다.
+         * @param {Object} opts Optional parameters
+         * @param {String} opts.xChainId
+         * @param {String} opts.xKrn 계정 저장소
+         * @param {module:api/StatisticsApi~getCreateAccount1Callback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link module:model/AccountCountByKRN}
+         */
+        this.getCreateAccount1 = function(opts, callback) {
+            opts = opts || {}
+            const postBody = null
+
+            const pathParams = {}
+            const queryParams = {}
+            const collectionQueryParams = {}
+            const headerParams = {
+                'x-chain-id': opts.xChainId,
+                'x-krn': opts.xKrn,
+            }
+            const formParams = {}
+
+            const authNames = ['auth']
+            const contentTypes = ['application/json']
+            const accepts = ['application/json']
+            const returnType = AccountCountByKRN
+
+            return this.apiClient.callApi(
+                '/v2/stat/count/krn',
+                'GET',
+                pathParams,
+                queryParams,
+                collectionQueryParams,
+                headerParams,
+                formParams,
+                postBody,
+                authNames,
+                contentTypes,
+                accepts,
+                returnType,
+                callback
+            )
+        }
     }
 
-    /**
-     * 계정키의 타입
-     * @member {Number} keyType
-     */
-    PubkeyUpdateKeyType.prototype.keyType = undefined
-
-    /**
-     * 계정의 공개키
-     * @member {String} key
-     */
-    PubkeyUpdateKeyType.prototype.key = undefined
-
-    return PubkeyUpdateKeyType
+    return exports
 })
