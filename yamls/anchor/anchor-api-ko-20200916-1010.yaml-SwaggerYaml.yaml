@@ -1,0 +1,492 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Anchor API
+  description: >+
+    # Introduction
+
+    이 문서는 KAS\(Klaytn API Service\)의 Anchor API를 소개하는 문서입니다. Anchor API는 서비스 체인 데이터의 신뢰성을 보장하기 위해 데이터 신뢰성을 증명할 수 있는 메타데이터를 Klaytn 메인 체인에 전송하는 기능을 제공합니다.
+
+
+    자세한 사용 예시는 [튜토리얼](링크)를 확인하십시오.
+
+  contact: {}
+host: localhost
+basePath: /
+securityDefinitions:
+  auth:
+    type: basic
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v1/anchor:
+    post:
+      description: >-
+        블록체인 데이터를 앵커링 하기 위해 사용됩니다. 이미 설정한 오퍼레이터를 통해 앵커 트랜잭션 발생 및 관리합니다.
+
+        오퍼레이터 또는 사용자 Feepayer 를 통한 앵커링을 성공하기 위해서는 실제 요구되는 수수료의 10배이상 잔액을 보유하여야 합니다.
+      summary: AnchorBlock
+      tags:
+      - Data Anchoring Transaction
+      operationId: AnchorBlock
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/AnchorBlockRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/AnchorBlockStatus'
+          examples:
+            application/json:
+              status: succeed
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 2101
+              message: all configured accounts have insufficient funds
+  /v1/operator/{operator-id}/tx:
+    get:
+      description: 오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션 목록을 조회합니다.
+      summary: RetrieveAnchorBlock
+      tags:
+      - Data Anchoring Transaction
+      operationId: RetrieveAnchorBlock
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: size
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: '검색할 계정의 최대 사이즈 (default: 100, min:1, max:-)'
+      - name: cursor
+        in: query
+        required: false
+        type: string
+        description: 마지막으로 검색된 커서의 정보
+      - name: from-timestamp
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: 검색하고자 하는 처음 시간의 타임스탬프 (초단위)
+      - name: to-timestamp
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: 검색하고자 하는 마지막 시간의 타임스탬프 (초단위)
+      - name: operator-id
+        in: path
+        required: true
+        type: string
+        description: 오퍼레이터 계정 주소
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/AnchorTransactions'
+          examples:
+            application/json:
+              cursor: ''
+              items:
+              - createdAt: 1599142860
+                payloadId: c61cc0d0-5878-450e-bec8-bf73d6184798
+                transactionHash: 0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09296e79d
+              - createdAt: 1599142859
+                payloadId: d4f1a11f-4609-40f5-9d59-2313a5799508
+                transactionHash: 0x70f6f6745ad0b0f4ce5908f40d20a1f44bd34871e0428be782d84f9a53ea2ba0
+              - createdAt: 1599142857
+                payloadId: 48b59825-82b2-4595-abfb-c465112618cc
+                transactionHash: 0x3f90cd2e02576fd85572ab76aff49b87b9cf3efb623f34bb8d6354ee1b88869f
+              - createdAt: 1599142841
+                payloadId: b315de34-52cb-41c0-9383-3260ceafd3b2
+                transactionHash: 0x8a73a00f04a1f6e8d8af101487bd35f8dbcce6fcb3ddd95059f42b8f7fbc3345
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1071010
+              message: data don't exist
+  /v1/operator/{operator-id}/tx/{transaction-hash}:
+    get:
+      description: 트랜잭션 해시값과 오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션을 조회합니다. 트랜잭션을 일으킬 때 트랜잭션에 덧붙인 Payload를 살펴볼 수 있습니다.
+      summary: GetAnchorBlockByTx
+      tags:
+      - Data Anchoring Transaction
+      operationId: GetAnchorBlockByTx
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: operator-id
+        in: path
+        required: true
+        type: string
+        description: 오퍼레이터 계정 주소
+      - name: transaction-hash
+        in: path
+        required: true
+        type: string
+        description: 트랜잭션 해시
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/AnchorBlockTransactions'
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1071010
+              message: data don't exist
+  /v1/operator/{operator-id}/payload/{payload-id}:
+    get:
+      description: Paylaod ID와 오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션을 조회합니다. 트랜잭션을 일으킬 때 트랜잭션에 덧붙인 Payload를 살펴볼 수 있습니다.
+      summary: GetAnchorBlockByPayloadID
+      tags:
+      - Data Anchoring Transaction
+      operationId: GetAnchorBlockByPayloadID
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: operator-id
+        in: path
+        required: true
+        type: string
+        description: 오퍼레이터 계정 주소
+      - name: payload-id
+        in: path
+        required: true
+        type: string
+        description: 페이로드 ID
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/AnchorBlockTransactions'
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1071010
+              message: data don't exist
+  /v1/operator:
+    get:
+      description: 이미 생성된 오퍼레이터 목록 및 각 오퍼레이터 설정값을 조회합니다.
+      summary: RetrieveOperators
+      tags:
+      - Operator
+      operationId: RetrieveOperators
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: size
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: '검색할 계정의 최대 사이즈 (default: 100, min:1, max:-)'
+      - name: cursor
+        in: query
+        required: false
+        type: string
+        description: 마지막으로 검색된 커서의 정보
+      - name: from-timestamp
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: 검색하고자 하는 마지 시간의 타임스탬프 (초단위)
+      - name: to-timestamp
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: 검색하고자 하는 마지막 시간의 타임스탬프 (초단위)
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/Operators'
+          examples:
+            application/json:
+              cursor: ''
+              items:
+              - createdAt: 1600156363
+                operator: 0x36C144b998FbEF7faf092b01815194a18e1a1163
+                setting:
+                  useGlobalFeePayer: true
+                  useOperator: true
+              - createdAt: 1600156362
+                operator: 0xfD522BE38Ae3Ec4F84A7A411A9e2b3Aee81317b5
+                setting:
+                  useGlobalFeePayer: true
+                  useOperator: true
+              - createdAt: 1600156361
+                operator: 0xA54579E74e4709600AA7fb91D4cfefb1aECFF9ee
+                setting:
+                  useGlobalFeePayer: true
+                  useOperator: true
+              - createdAt: 1600156360
+                operator: 0xBBe7d40917d99eF1581b3abc7cdA69492C860F1F
+                setting:
+                  useGlobalFeePayer: true
+                  useOperator: true
+              - createdAt: 1600156359
+                operator: 0xc72408058DAC1343B8C99Ca90Cb58Ea89637C1eE
+                setting:
+                  useGlobalFeePayer: true
+                  useOperator: true
+              - createdAt: 1600156351
+                operator: 0x8f315315F90B0b3dEA038FC659F07bac62Fcb2f6
+                setting:
+                  useGlobalFeePayer: true
+                  useOperator: true
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1071010
+              message: data don't exist
+  /v1/operator/{operator-id}:
+    get:
+      description: 해당 오퍼레이터 설정 및 오퍼레이터 계정 잔액을 조회합니다.
+      summary: GetOperator
+      tags:
+      - Operator
+      operationId: GetOperator
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: operator-id
+        in: path
+        required: true
+        type: string
+        description: 오퍼레이터 계정 주소
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/Operator'
+          headers: {}
+definitions:
+  ErrorResponse:
+    title: ErrorResponse
+    description: this response contains error description.
+    type: object
+    properties:
+      code:
+        description: 서비스 코드(앞 3자리)와 에러 코드(뒤 4자리)
+        example: 2101
+        type: integer
+        format: int64
+      message:
+        description: 에러 메세지
+        example: all configured accounts have insufficient funds
+        type: string
+    required:
+    - code
+    - message
+  AnchorBlockStatus:
+    title: AnchorBlockStatus
+    description: 앵커링 상태 응답
+    type: object
+    properties:
+      status:
+        description: 앵커링 성공 여부
+        example: succeed
+        type: string
+    required:
+    - status
+  AnchorBlockRequest:
+    title: AnchorBlockRequest
+    description: anchor block request schema
+    type: object
+    properties:
+      operator:
+        description: operator 계정 주소
+        example: 0x84ddfb88a28de014d5fea114dc1efb06ce99cc42
+        type: string
+      payload:
+        description: anchor 데이터. id를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
+        type: object
+        additionalProperties:
+          type: object
+    required:
+    - operator
+    - payload
+  AnchorTransactions:
+    title: AnchorTransactions
+    description: 앵커링 트랜잭션 목록
+    type: object
+    properties:
+      cursor:
+        description: 마지막 검색 위치를 나타내는 커서 정보
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/AnchorTransaction'
+    required:
+    - cursor
+  AnchorTransaction:
+    title: AnchorTransaction
+    description: 앵커링 트랜잭션 정보
+    type: object
+    properties:
+      createdAt:
+        description: 앵커링 트랜잭션 생성 시간
+        example: 1599142860
+        type: integer
+        format: int64
+      payloadId:
+        description: 페이로드 ID
+        example: c61cc0d0-5878-450e-bec8-bf73d6184798
+        type: string
+      transactionHash:
+        description: 앵커링 트랜잭션의 트랜잭션 해시
+        example: 0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09296e79d
+        type: string
+    required:
+    - createdAt
+    - payloadId
+    - transactionHash
+  AnchorBlockTransactions:
+    title: AnchorBlockTransactions
+    description: 앵커링 트랜잭션 정보
+    type: object
+    properties:
+      payload:
+        description: anchor 데이터. id를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
+        type: object
+        additionalProperties:
+          type: object
+      transactionHash:
+        description: 앵커링 트랜잭션의 트랜잭션 해시
+        example: 0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09296e79d
+        type: string
+    required:
+    - payload
+    - transactionHash
+  Operators:
+    title: Operators
+    description: 오퍼레이터 목록
+    type: object
+    properties:
+      cursor:
+        description: 마지막 검색 위치를 나타내는 커서 정보
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Operator'
+    required:
+    - cursor
+  Operator:
+    title: Operator
+    description: 오퍼레이터 정보
+    type: object
+    properties:
+      createdAt:
+        description: 오퍼레이터 생성 시간
+        example: 1600156363
+        type: integer
+        format: int64
+      operator:
+        description: 오퍼레이터 클레이튼 계정 주소
+        example: 0x36C144b998FbEF7faf092b01815194a18e1a1163
+        type: string
+      setting:
+        $ref: '#/definitions/OperatorSetting'
+    required:
+    - createdAt
+    - operator
+  OperatorSetting:
+    title: OperatorSetting
+    description: 오퍼레이터 결제 정보
+    type: object
+    properties:
+      useGlobalFeePayer:
+        description: 글로벌 대납 계정 사용 여부
+        example: true
+        type: boolean
+      useOperator:
+        description: 오퍼레이터 결제 사용 여부
+        example: true
+        type: boolean
+    required:
+    - useGlobalFeePayer
+    - useOperator
+security:
+- auth: []
+tags:
+- name: Data Anchoring Transaction
+  description: ''
+- name: Operator
+  description: ''

@@ -1,0 +1,17 @@
+.DS_Store
+*.swp
+*/**/*un~
+*un~
+*/**/.DS_Store
+npm-debug.log
+.npm/
+node_modules/
+.idea/
+.npm/
+.vscode/
+package-lock.json
+.git
+dist/*
+caver-cli
+anchor1.0.0/*
+nodeAPI/*

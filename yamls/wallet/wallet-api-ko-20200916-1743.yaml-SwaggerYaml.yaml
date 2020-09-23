@@ -1,0 +1,3413 @@
+swagger: '2.0'
+info:
+  version: '2.0'
+  title: Wallet API
+  description: >+
+    # Introduction
+
+    Wallet API는 클레이튼 계정을 만들어 관리하고 트랜잭션을 전송하는 API입니다. Wallet API로 Klaytn 계정을 만들면 여러분은 개인키를 따로 관리할 필요가 없습니다. Wallet API는 BApp을 위해 Klaytn 계정 개인키를 안전하게 보관하는 지갑을 제공합니다. Wallet API 사용에 관한 자세한 내용은 [튜토리얼](링크)을 확인하십시오.
+
+
+    Wallet API는 크게 Klaytn 계정을 만들고 관리하는 Account 파트와 여러 종류의 트랜잭션을 전송하는 Transaction 파트로 나뉩니다.
+
+
+    Wallet API는 Klaytn 계정을 생성, 삭제, 모니터링하고 계정을 다중 서명 계정(Multisig 계정)으로 업데이트하며 KAS에 등록된 모든 계정의 개인키를 관리합니다.
+
+
+    또 Wallet API는 트랜잭션을 만들어 Klaytn에 전송합니다. 이 트랜잭션에는 다중 서명 계정이 보내는 트랜잭션도 포함됩니다. 다중 서명 시 임계값\(Threshold\)을 만족하면 트랜잭션은 Klaytn에 자동으로 전송됩니다. 다중 서명에 관한 자세한 내용은 [다음](링크)을 확인하십시오.
+
+
+    트랜잭션은 크게 기본 트랜잭션과 수수료 대납 트랜잭션으로 나뉩니다.
+
+    수수료 대납 트랜잭션은 크게 글로벌 수수료 대납 트랜잭션과 사용자 수수료 대납 트랜잭션으로 나뉩니다.
+
+    글로벌 수수료 대납 트랜잭션은 Ground X의 KAS 계정에서 트랜잭션 수수료를 일단 대납해주고 나중에 여러분에게 이 수수료를 청구하는 방식입니다.
+
+    사용자 수수료 대납 트랜잭션은 여러분이 직접 트랜잭션 수수료를 대납하는 계정을 만들고, 트랜잭션을 보낼 때 이 대납 계정이 트랜잭션 수수료를 납부하도록 하는 방식입니다.
+
+
+    Wallet API는 아래와 같은 기능 및 제약사항을 갖고 있습니다.
+
+
+    | Version | Item | Description |
+
+    | :--- | :--- | :--- |
+
+    | 2.0 | 제약사항 | Cypress(Mainnet), Baobab(Testnet) 지원\(Service Chain 미지원\) |
+
+    |  |  | 외부 관리키에 대한 계정 관리 미지원 |
+
+    |  |  | RLP 인코딩된 트랜잭션의 다중 서명 미지원 |
+
+    |  | 계정관리 | 계정 생성, 조회, 삭제 |
+
+    |  |  | 다중 서명 계정 업데이트 |
+
+    |  | 트랜잭션 관리 | [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic) 트랜잭션 생성 및 전송 |
+
+    |  |  | [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) 트랜잭션 생성 및 전송 |
+
+    |  |  | RLP 인코딩된 트랜잭션\([Legacy](https://ko.docs.klaytn.com/klaytn/design/transactions/basic#txtypelegacytransaction), [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic), [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation)\) 생성 및 전송 |
+
+    |  |  | 다중 서명 트랜잭션 관리 및 전송 |
+
+    |  | 관리자 | 리소스 풀 관리\(생성, 풀 조회, 삭제, 계정 조회\) |
+
+  contact: {}
+host: localhost
+basePath: /
+securityDefinitions:
+  auth:
+    type: basic
+schemes:
+- http
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v2/account:
+    post:
+      description: 클레이튼 계정을 생성합니다. 임의의 클레이튼 계정 주소와 개인키/공개키 쌍을 생성하며 public key와 private key ID를 반환합니다.
+      summary: CreateAccount
+      tags:
+      - Account
+      operationId: CreateAccount
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/Account'
+          examples:
+            application/json:
+              address: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+              chainId: 1001
+              createdAt: 1599187293
+              keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x4cbbcb974e32a7960e1b356edf60087613101919ed83199f12e872cba068a50f
+              krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+              publicKey: 0x04cdccfb99b2905561e3dd886687b429a004718f11b04914f17ce68fd3a0db46c598a45da85caa61fe84cb78a0f2eaa9983ec7b8805a93ef9428eb1350a8558237
+              updatedAt: 1599187293
+          headers: {}
+    get:
+      description: 이전에 생성한 클레이튼 계정 목록을 조회합니다.
+      summary: RetrieveAccounts
+      tags:
+      - Account
+      operationId: RetrieveAccounts
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: size
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: '불러올 계정의 최대 개수 (default: 100, min:1, max:-)'
+      - name: cursor
+        in: query
+        required: false
+        type: string
+        description: 마지막 검색 위치를 나타내는 커서 정보
+      - name: to-timestamp
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: '검색 범위: 시작 시간의 타임스탬프 (초단위)'
+      - name: from-timestamp
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: '검색 범위: 마지막 시간의 타임스탬프 (초단위)'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/Accounts'
+          examples:
+            application/json:
+              cursor: ''
+              items:
+              - address: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+                chainId: 1001
+                createdAt: 1599187293
+                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x4cbbcb974e32a7960e1b356edf60087613101919ed83199f12e872cba068a50f
+                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+                publicKey: 0x04cdccfb99b2905561e3dd886687b429a004718f11b04914f17ce68fd3a0db46c598a45da85caa61fe84cb78a0f2eaa9983ec7b8805a93ef9428eb1350a8558237
+                updatedAt: 1599187293
+              - address: 0x78B123CCCCd50f41E3192a60e6ED92B15E21b1B5
+                chainId: 1001
+                createdAt: 1599187194
+                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x6c4419647e7724853f9e50b0c54b5985d0870470ac37b3ef865e62c3ccfa4ea4
+                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+                publicKey: 0x0463cc38f08dd15dfd416966e9d0da93942e26d2a9a9bcac08d614f487f94a7e46e4418d1acda9e21706f19c917486de40c974eb20c12a2eca2eea91895499d379
+                updatedAt: 1599187194
+              - address: 0x82C26253757f21E86c9243736505890364c17720
+                chainId: 1001
+                createdAt: 1599187193
+                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0xd62dab851821082f2696e15adbd6ada9f33adb64c3066e340e722ad8c0f1d5e4
+                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+                publicKey: 0x04a7fd788942b9da8f522a4242c577633d5c5af119142ccd53cb4738bb6719f8af078151e9bfe467bc351864430ebbde75c29995bcb1b362268cdc196641b0a5db
+                updatedAt: 1599187193
+              - address: 0xe2546A7B93045CC06427326DAF988DA095B2D5A7
+                chainId: 1001
+                createdAt: 1599187192
+                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0xbf804d2f81f6f46361ec5a94cded9478afda6195127096f088a5d1d242143697
+                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+                publicKey: 0x049cd3c69b956e343996d9ba4a3667acc2be471b3038c06c2925dc3d8970729f58f229a50d985526cd4dc7067ab9fab0b0681cd2c893cdf89719edd74da7e43476
+                updatedAt: 1599187192
+              - address: 0x6DD1ad874fE50518890ec79284bF5b30C43272C9
+                chainId: 1001
+                createdAt: 1599187191
+                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x184beb98801245fbfebc6f00866fb45072278f44774e818b2934a74738ce95f8
+                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+                publicKey: 0x04138272347cf560b4af02f2faa3410cbb25f95a8e5dca200a983360d880ce02ff518b94f555674570d477a31c6ccb7d867c324f792fc6e25ca9c1f45e06dab2e2
+                updatedAt: 1599187191
+              - address: 0x7012B3916C3CffAC6D5002e20ba22ebAD23AB9e3
+                chainId: 1001
+                createdAt: 1599187189
+                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0xb567b552ae7a84e4f65d3f2e0cbf1691deb3fd4ce44e267eb135cb1d31647865
+                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+                publicKey: 0x04ba526aa53b7fb0d60f70f9e0101fecab256ffcf6cb78104e0753835e0bde0d75dbcc63bab7cfd2cad75db00eacd77fbb84c60cf86a198989c1f5adfeed507955
+                updatedAt: 1599187189
+              - address: 0x7ec5169EA28B2e3fFEF143a3513D7eC1CeFF2cB4
+                chainId: 1001
+                createdAt: 1599187161
+                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0xd3ee56e2616c8d412918e7f0e9222c805aacf5bad6d84b70b83c2229d61f21c9
+                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+                publicKey: 0x043ccf257d2ad3f8c3b2128969302efc6bf59d8cd8e578bcfdac8a4ac9cea6d4747350c98edaec5d23fafa9b3288a3b45816d2e9b3bb28443cc2486ad6bca652f1
+                updatedAt: 1599187161
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061010
+              message: data don't exist
+  /v2/account/{address}:
+    get:
+      description: 해당 클레이튼 계정을 조회합니다.
+      summary: RetrieveAccount
+      tags:
+      - Account
+      operationId: RetrieveAccount
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: address
+        in: path
+        required: true
+        type: string
+        description: Klaytn 계정 주소
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/Account'
+          examples:
+            application/json:
+              address: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+              chainId: 1001
+              createdAt: 1599187293
+              keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x4cbbcb974e32a7960e1b356edf60087613101919ed83199f12e872cba068a50f
+              krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+              publicKey: 0x04cdccfb99b2905561e3dd886687b429a004718f11b04914f17ce68fd3a0db46c598a45da85caa61fe84cb78a0f2eaa9983ec7b8805a93ef9428eb1350a8558237
+              updatedAt: 1599187293
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1010
+              message: data don't exist
+    delete:
+      description: 해당 클레이튼 계정을 삭제합니다.
+      summary: DeleteAccount
+      tags:
+      - Account
+      operationId: DeleteAccount
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: address
+        in: path
+        required: true
+        type: string
+        description: Klaytn 계정 주소
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/AccountStatus'
+          examples:
+            application/json:
+              status: deleted
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061010
+              message: data don't exist
+  /v2/account/{address}/disable:
+    put:
+      description: 해당 클레이튼 계정을 비활성화합니다. 계정을 비활성화하면 해당 계정이 조회되지 않습니다.
+      summary: DeactivateAccount
+      tags:
+      - Account
+      operationId: DeactivateAccount
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: address
+        in: path
+        required: true
+        type: string
+        description: Klaytn 계정 주소
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/AccountSummary'
+          examples:
+            application/json:
+              address: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+              krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+              updatedAt: 1599187344
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061510
+              message: account has been already deleted or disabled
+  /v2/account/{address}/enable:
+    put:
+      description: 비활성화된 클레이튼 계정을 다시 활성화합니다.
+      summary: ActivateAccount
+      tags:
+      - Account
+      operationId: ActivateAccount
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: address
+        in: path
+        required: true
+        type: string
+        description: Klaytn 계정 주소
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/AccountSummary'
+          examples:
+            application/json:
+              address: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+              krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+              updatedAt: 1599187359
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061511
+              message: account has been already deleted or enabled
+  /v2/account/{address}/tx/{transaction-id}/sign:
+    post:
+      description: 해당 클레이튼 계정으로 이 Transaction ID를 가진 트랜잭션에 서명합니다.
+      summary: SignTransactionIDResponse
+      tags:
+      - Account
+      operationId: SignTransactionIDResponse
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: address
+        in: path
+        required: true
+        type: string
+        description: Klaytn 계정 주소
+      - name: transaction-id
+        in: path
+        required: true
+        type: string
+        description: 서명하려는 트랜잭션의 ID
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/Signature'
+          examples:
+            application/json:
+              R: 0x670a63ca525b80f67cd412a88ffb5cabb84616fb4cb43ff827552586fc722403
+              S: 0x2f20ad3f4b3c2483a4ae4213a871e404f7214ffd84845fad022c3316eb0af09b
+              V: 0x7f6
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061010
+              message: data don't exist
+  /v2/account/{address}/multisig:
+    put:
+      description: 해당 클레이튼 계정을 Multisig 계정으로 업데이트합니다. 계정 업데이트 트랜잭션을 실행할 때 트랜잭션 수수료를 지불해야 하므로 적당한 잔액이 있어야 합니다.
+      summary: MultisigAccountUpdate
+      tags:
+      - Account
+      operationId: MultisigAccountUpdate
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: address
+        in: path
+        required: true
+        type: string
+        description: Klaytn 계정 주소
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/MultisigAccountUpdateRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/MultisigAccount'
+          examples:
+            application/json:
+              address: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+              krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+              multiSigKeys:
+              - publicKey: 0x04cdccfb99b2905561e3dd886687b429a004718f11b04914f17ce68fd3a0db46c598a45da85caa61fe84cb78a0f2eaa9983ec7b8805a93ef9428eb1350a8558237
+                weight: 3
+              - publicKey: 0x0463cc38f08dd15dfd416966e9d0da93942e26d2a9a9bcac08d614f487f94a7e46e4418d1acda9e21706f19c917486de40c974eb20c12a2eca2eea91895499d379
+                weight: 1
+              threshold: 4
+              transactionHash: 0xcd6c6a785bccbbb821e7fb0b3e1c15c0d35d6017706f843dd9cf7f3f4d3a452a
+              updatedAt: 1599187391
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061010
+              message: data don't exist
+  /v2/pubkey/{public-key}/account:
+    get:
+      description: 해당 공개키를 가진 클레이튼 계정 목록을 조회합니다.
+      summary: RetrieveAccountsByPubkey
+      tags:
+      - Account
+      operationId: RetrieveAccountsByPubkey
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: public-key
+        in: path
+        required: true
+        type: string
+        description: Klaytn 공개키
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/AccountsByPubkey'
+          examples:
+            application/json:
+              items:
+              - address: 0x0b7caaf70e7A0a5399041c64711E535CE8B3cf7d
+                chainId: 1001
+              - address: 0xc6C9356887b7F7887918Bf577417E5D8De253295
+                chainId: 1001
+          headers: {}
+  /v2/tx/legacy:
+    post:
+      description: 레거시 계정(공개키가 개인키로부터 파생된 계정)과 트랜잭션 포맷을 지원하는 트랜잭션을 생성합니다. KAS에서 처음 만드는 모든 Klaytn 계정은 기본적으로 레거시 계정입니다.
+      summary: LegacyTransaction
+      tags:
+      - Basic Transaction
+      operationId: LegacyTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/LegacyTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/TransactionResult'
+          examples:
+            application/json:
+              from: 0xf7093ab1f23bc6d5cdf73b222692d0de2696bcab
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+              nonce: 1
+              rlp: 0xf9018f018505d21dba00830f42408012b9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298207f6a02930c607ddb95575ef88b63a45caa0231da1f88fe99a0cad411a5a99bd4b6d5ba042adbae28a65c32220505e1c7a1509635b59143ddc65e6b7e266d5b3797370d4
+              signatures:
+              - R: 0x2930c607ddb95575ef88b63a45caa0231da1f88fe99a0cad411a5a99bd4b6d5b
+                S: 0x42adbae28a65c32220505e1c7a1509635b59143ddc65e6b7e266d5b3797370d4
+                V: 0x7f6
+              status: Submitted
+              transactionHash: 0x49a92d67aafc1e503a345ee9c5b9a5c58df10706e054fdcc18447398d553cef7
+              typeInt: 0
+              value: 0x12
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061607
+              message: it has to start with '0x' and allows [0-9a-fA-F]; input
+  /v2/tx/value:
+    post:
+      description: 클레이 전송 및 메모를 포함한 클레이 전송에 사용되는 트랜잭션을 생성합니다.
+      summary: ValueTransferTransaction
+      tags:
+      - Basic Transaction
+      operationId: ValueTransferTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/ValueTransferTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/TransactionResult'
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/contract/deploy:
+    post:
+      description: 컨트랙트를 배포하는 트랜잭션을 생성합니다.
+      summary: ContractDeployTransaction
+      tags:
+      - Basic Transaction
+      operationId: ContractDeployTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/ContractDeployTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/TransactionResult'
+          examples:
+            application/json:
+              from: 0xa4068f0d4e4ffad5945824cddd748ba2dc450330
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+              nonce: 1
+              rlp: 0x28f901aa018505d21dba00830f4240808094a4068f0d4e4ffad5945824cddd748ba2dc450330b9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298080f847f8458207f5a0c55cd386f8b6d4184db705800b40d3512d7d26dfbe4a07c3bbb87bda535dedb4a03b2a723c89f6de420d298a87076756efdb624818d604278afd34d5896566444e
+              signatures:
+              - R: 0xc55cd386f8b6d4184db705800b40d3512d7d26dfbe4a07c3bbb87bda535dedb4
+                S: 0x3b2a723c89f6de420d298a87076756efdb624818d604278afd34d5896566444e
+                V: 0x7f5
+              status: Submitted
+              transactionHash: 0xc8b00d7084f35bf6b4d7bc4ecb145e6b80c570b715309067eec003890cbb26ec
+              typeInt: 40
+              value: 0x0
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/contract/execute:
+    post:
+      description: 배포된 컨트랙트 함수를 실행하는 트랜잭션을 생성합니다.
+      summary: ContractExecutionTransaction
+      tags:
+      - Basic Transaction
+      operationId: ContractExecutionTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/ContractExecutionTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/TransactionResult'
+          examples:
+            application/json:
+              from: 0xa4068f0d4e4ffad5945824cddd748ba2dc450330
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0xd14e62b80000000000000000000000000000000000000000000000000000000000000005
+              nonce: 3
+              rlp: 0x30f8a4038505d21dba00830f4240940a0ca70bd0074160874dc9337ca7ff8049b2e63e8094a4068f0d4e4ffad5945824cddd748ba2dc450330a4d14e62b80000000000000000000000000000000000000000000000000000000000000005f847f8458207f5a002b41abdf77b3d943c3c9000be45144ccc8cd25a75e523705aca3621ffdd4dd8a01bbf357d02e5f4bbc015cf35107e150d50094ffcb8fccbb7db981c739149eadb
+              signatures:
+              - R: 0x2b41abdf77b3d943c3c9000be45144ccc8cd25a75e523705aca3621ffdd4dd8
+                S: 0x1bbf357d02e5f4bbc015cf35107e150d50094ffcb8fccbb7db981c739149eadb
+                V: 0x7f5
+              status: Submitted
+              to: 0x0a0ca70bd0074160874dc9337ca7ff8049b2e63e
+              transactionHash: 0x039e174f22e402caae753396d58e68e47062d8d32be1ae988bb1ddea7134afc0
+              typeInt: 48
+              value: 0x0
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061609
+              message: it just allow Klaytn address form; to
+  /v2/tx:
+    delete:
+      description: Klaytn에 전송했으나 보류중인 트랜잭션을 취소시키기 위한 트랜잭션을 생성합니다. 취소를 위해 논스 또는 트랜잭션 해시 둘 중 하나의 값이 꼭 필요합니다.
+      summary: CancelTransaction
+      tags:
+      - Basic Transaction
+      operationId: CancelTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/CancelTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/TransactionResult'
+          examples:
+            application/json:
+              from: 0xa4068f0d4e4ffad5945824cddd748ba2dc450330
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              nonce: 99
+              rlp: 0x38f869638505d21dba00830f424094a4068f0d4e4ffad5945824cddd748ba2dc450330f847f8458207f6a0df27642d09a731cb4002b3536db364821a2c25a1104e79d2295916c3368f6975a00db6df75befe463ca2da855e90b8389c41730cfe7773851e7391ab6431804852
+              signatures:
+              - R: 0xdf27642d09a731cb4002b3536db364821a2c25a1104e79d2295916c3368f6975
+                S: 0xdb6df75befe463ca2da855e90b8389c41730cfe7773851e7391ab6431804852
+                V: 0x7f6
+              status: Submitted
+              transactionHash: 0x665824b0c9cd2c8a76ac0fdb007f424f013d9c3e49723e2c8c896f38e7990375
+              typeInt: 56
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065000
+              message: failed to retrieve a transaction from klaytn node
+  /v2/tx/anchor:
+    post:
+      description: 서비스 체인 데이터를 Klaytn 메인 체인에 앵커링하는 트랜잭션을 생성합니다.
+      summary: AnchorTransaction
+      tags:
+      - Basic Transaction
+      operationId: AnchorTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/AnchorTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/TransactionResult'
+          examples:
+            application/json:
+              from: 0x325dbaf78b393dc2115138c86a58f897ed413aff
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x
+              nonce: 0
+              rlp: 0x48f86a808505d21dba00830f424094325dbaf78b393dc2115138c86a58f897ed413aff80f847f8458207f5a02005933be0d96e6d39762e3b1b5028d98495e4c07bf20d09660883c0a6e64285a036aa5181b89c72aa02921f8907cc6436103392d4b761a37920c1ffd99cba8a3f
+              signatures:
+              - R: 0x2005933be0d96e6d39762e3b1b5028d98495e4c07bf20d09660883c0a6e64285
+                S: 0x36aa5181b89c72aa02921f8907cc6436103392d4b761a37920c1ffd99cba8a3f
+                V: 0x7f5
+              status: Submitted
+              transactionHash: 0x3a1b7ad3802f901584539a1799f90a137464d2f84de27fc7eb98b96ed5e4fd7c
+              typeInt: 72
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/rlp:
+    post:
+      description: RLP(SigRLP 또는 TxHashRLP)를 이용하여 트랜잭션을 생성합니다.
+      summary: ProcessRLP
+      tags:
+      - Basic Transaction
+      operationId: ProcessRLP
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/ProcessRLPRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/TransactionResult'
+          examples:
+            application/json:
+              from: 0x325dbaf78b393dc2115138c86a58f897ed413aff
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x6d656d6f
+              nonce: 1
+              rlp: 0x10f886018505d21dba00830f4240942f87ba64de5526f7880f21481effbf950f70005c82010094325dbaf78b393dc2115138c86a58f897ed413aff846d656d6ff847f8458207f6a0f3d42d9f0d82f15a2acd18a5fbde0b1aff26936b89fec5151da59bdad4c4ddefa069a8b9319769c5dacffad42232d4d053d11722832169d71bca3f28b211f5f23d
+              signatures:
+              - R: 0xf3d42d9f0d82f15a2acd18a5fbde0b1aff26936b89fec5151da59bdad4c4ddef
+                S: 0x69a8b9319769c5dacffad42232d4d053d11722832169d71bca3f28b211f5f23d
+                V: 0x7f6
+              status: Submitted
+              to: 0x2f87ba64de5526f7880f21481effbf950f70005c
+              transactionHash: 0x62cbe2b959dd80b2dae88ccac3caba51c056989d2cb00bf7b4136c4945cc4644
+              typeInt: 16
+              value: 0x100
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065100
+              message: failed to get an account from AMS
+  /v2/tx/account:
+    put:
+      description: "클레이튼 계정 키를 업데이트하는 트랜잭션을 생성합니다. \n클레이튼 계정 키 종류는 [다음](https://ko.docs.klaytn.com/klaytn/design/accounts)을 확인하십시오."
+      summary: AccountUpdateTransaction
+      tags:
+      - Basic Transaction
+      operationId: AccountUpdateTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/AccountUpdateTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/TransactionResult'
+          examples:
+            application/json:
+              accountKey: 0x04f89303f890e301a1021c5c34cafdefddfd5d0c8baa9e9f75ff6aa6dc597776e5bf06e231c57926a2cbe301a1025552e73f34964eb04cad0d3c3dbd7cfeebbfb420ca83b1e7c640a9c76b42a4cae301a102ab9910325fd645a556fee3c6bbd8651be4fbff6688634d826474f3ef4baff7b1e301a103a1c4e3830f19d1fb2c78d00cd5b29f75cdcc706a8611cbf4192c2d20f4899cba
+              from: 0x325dbaf78b393dc2115138c86a58f897ed413aff
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              nonce: 2
+              rlp: 0x20f90101028505d21dba00830f424094325dbaf78b393dc2115138c86a58f897ed413affb89604f89303f890e301a1021c5c34cafdefddfd5d0c8baa9e9f75ff6aa6dc597776e5bf06e231c57926a2cbe301a1025552e73f34964eb04cad0d3c3dbd7cfeebbfb420ca83b1e7c640a9c76b42a4cae301a102ab9910325fd645a556fee3c6bbd8651be4fbff6688634d826474f3ef4baff7b1e301a103a1c4e3830f19d1fb2c78d00cd5b29f75cdcc706a8611cbf4192c2d20f4899cbaf847f8458207f5a0c669b62293629316d18e12cd90d5c4dc24000e13d31200c53e40ac8f01bf249ea062be831829631503e20cccd160fe1ec450950e6f982df16d83d3f6f948924aa1
+              signatures:
+              - R: 0xc669b62293629316d18e12cd90d5c4dc24000e13d31200c53e40ac8f01bf249e
+                S: 0x62be831829631503e20cccd160fe1ec450950e6f982df16d83d3f6f948924aa1
+                V: 0x7f5
+              status: Submitted
+              transactionHash: 0xd596aad17c6cf9f0fd9f3710652e00ebedd4f91cadc6cd856563e856492bd41c
+              typeInt: 32
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061903
+              message: failed to decode account keys
+  /v2/tx/{transaction-hash}:
+    get:
+      description: 트랜잭션 해시값으로 해당 트랜잭션 실행 결과를 조회합니다. 응답의 `status` 필드를 통해 실행 성공 여부를 알 수 있습니다.
+      summary: TransactionReceipt
+      tags:
+      - Basic Transaction
+      operationId: TransactionReceipt
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: transaction-hash
+        in: path
+        required: true
+        type: string
+        description: 트랜잭션 해시값
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/TransactionReceipt'
+          examples:
+            application/json:
+              blockHash: 0x205c2537286c8ac7889961e39c438f868385238c202deaa4398f85a3c140810c
+              blockNumber: 0x2e5a
+              codeFormat: 0x0
+              contractAddress: 0x0a868e321c0c689c2093001fdf7ecdb9d3ed79e1
+              feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
+              feePayerSignatures:
+              - R: 0xd94aa19287f89572f2f5660856d16e32bc2c0192d7443a55af614bcdec0e1e8
+                S: 0x424324292dd04da3930679bd5774723d12ed9e553f3a18eaacb4b89d85a26537
+                V: 0x7f5
+              from: 0x60b5c6b28a8a0339a43a0acd5f65eede5f68cf0e
+              gas: 0x895440
+              gasPrice: 0x5d21dba00
+              gasUsed: 0x25de7
+              hash: 0x3d13d31bd4b1e6ca37c4e73cfcb0ee4374a06290e84c6b01a41143c2cc2fa322
+              humanReadable: false
+              input: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+              logs: []
+              logsBloom: 0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+              nonce: 0x0
+              senderTxHash: 0x01bd21f13617fc725b80975a68ff1bc2002aec66277e536e5643a8791518c3df
+              signatures:
+              - R: 0x6f6371e31a01956e8810a026e173ed4a0861c53c9fc116c7a8047bd108458650
+                S: 0x3f7344ab86dcfb05c4ca38f51cf258d4981c4e17446567f8d68ec18a68e3dfba
+                V: 0x7f6
+              status: Committed
+              to: null
+              transactionHash: 0x3d13d31bd4b1e6ca37c4e73cfcb0ee4374a06290e84c6b01a41143c2cc2fa322
+              transactionIndex: 0x0
+              type: TxTypeFeeDelegatedSmartContractDeploy
+              typeInt: 41
+              value: 0x0
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065000
+              message: failed to retrieve a transaction from klaytn node
+  /v2/tx/fd/value:
+    post:
+      description: KAS 글로벌 대납 계정을 이용하여 클레이 전송 및 메모를 포함한 클레이 전송에 사용되는 트랜잭션을 생성합니다.
+      summary: FDValueTransferTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by KAS)
+      operationId: FDValueTransferTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDValueTransferTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/fd/contract/deploy:
+    post:
+      description: KAS 글로벌 대납 계정을 이용하여 컨트랙트 배포르 위해 사용되는 트랜잭션을 생성합니다.
+      summary: FDContractDeployTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by KAS)
+      operationId: FDContractDeployTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDContractDeployTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
+              from: 0x0bb26552ee02bf4c39ea03ea2d827037ac48ce0e
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+              nonce: 0
+              rlp: 0x29f90208808505d21dba00830f42408080940bb26552ee02bf4c39ea03ea2d827037ac48ce0eb9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298080f847f8458207f5a0b5ca30208d33d3c9add7a32372d27a51c62456be1c625067abd3252ea64ac326a0082faebbc1f59a4a5c47d8b0de9499c4ec06cba6b83e6a89c3ba479d86314cc99485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a05850db72f0ac66af5eab558ffb41c3ccfd138f1af7e75ffa5230998d6947b80ca05f66467e6c0fd3e9b0061f78f5bc589c1bd2e8c7acd974aa506c56e6fc009585
+              signatures:
+              - R: 0xb5ca30208d33d3c9add7a32372d27a51c62456be1c625067abd3252ea64ac326
+                S: 0x82faebbc1f59a4a5c47d8b0de9499c4ec06cba6b83e6a89c3ba479d86314cc9
+                V: 0x7f5
+              status: Submitted
+              transactionHash: 0xd906ce8bbd36ad3817a81835c697057f840db4636a9f690a464280bb66dbff3f
+              typeInt: 41
+              value: 0x0
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/fd/contract/execute:
+    post:
+      description: KAS 글로벌 대납 계정을 이용하여 배포된 컨트랙트 실행에 사용되는 트랜잭션을 생성합니다.
+      summary: FDContractExecutionTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by KAS)
+      operationId: FDContractExecutionTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDContractExecutionTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
+              from: 0x0bb26552ee02bf4c39ea03ea2d827037ac48ce0e
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0xd14e62b80000000000000000000000000000000000000000000000000000000000000005
+              nonce: 1
+              rlp: 0x31f90102018505d21dba00830f424094182efef646797698059fb0e6cbb4823687d869d880940bb26552ee02bf4c39ea03ea2d827037ac48ce0ea4d14e62b80000000000000000000000000000000000000000000000000000000000000005f847f8458207f6a08db143e03963e5a054d65c1a67b9677d9b798abe315c46341184e95aee145e17a0605a1409c8ff5980efbe0fffd5f7cc477f2dddbc057ac04fc1653eafc91f421b9485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a0343a1305e13dbf231d7e5d5f4c58684a5b61241163a8c3342bf609bc83af59cfa06870c9da05e6a41980cac29be3831c4a740e393379950d6a363a5e92309d3e1a
+              signatures:
+              - R: 0x8db143e03963e5a054d65c1a67b9677d9b798abe315c46341184e95aee145e17
+                S: 0x605a1409c8ff5980efbe0fffd5f7cc477f2dddbc057ac04fc1653eafc91f421b
+                V: 0x7f6
+              status: Submitted
+              to: 0x182efef646797698059fb0e6cbb4823687d869d8
+              transactionHash: 0x13598fd9229a4016eb2ef93a45eb029e895fa11ebed0da05ca9c437dbe0c04b9
+              typeInt: 49
+              value: 0x0
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061608
+              message: cannot be empty or zero value; to
+  /v2/tx/fd:
+    delete:
+      description: KAS 글로벌 대납 계정으로 Klaytn에 전송했으나 보류중인 트랜잭션을 취소시키기 위한 트랜잭션을 생성합니다. 취소를 위해 논스 또는 트랜잭션 해시 둘 중 하나의 값이 꼭 필요합니다.
+      summary: FDCancelTransactionResponse
+      tags:
+      - Fee Delegated Transaction (Paid by KAS)
+      operationId: FDCancelTransactionResponse
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDCancelTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
+              from: 0x0bb26552ee02bf4c39ea03ea2d827037ac48ce0e
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              nonce: 1000
+              rlp: 0x39f8c98203e88505d21dba00830f4240940bb26552ee02bf4c39ea03ea2d827037ac48ce0ef847f8458207f6a0af8a520dae0038184abe06fd3c62174e8dfc7139458de6a1453a6419687a63f0a00c4d101be2c635c19d79ac84cc475abe570b01f21056cfbcc21afc75a831d04a9485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a061ce8d4d8aebde14c707cb68efbb440af5281baaac62792595c319ffa88ee701a00e3ed7c6f3560fde5a3b7974e5e4011eeec2dc7a0bdfd220fb4ef5e4b6821f6f
+              signatures:
+              - R: 0xaf8a520dae0038184abe06fd3c62174e8dfc7139458de6a1453a6419687a63f0
+                S: 0xc4d101be2c635c19d79ac84cc475abe570b01f21056cfbcc21afc75a831d04a
+                V: 0x7f6
+              status: Submitted
+              transactionHash: 0x0a45d9589ea822c929d2eb2c49cbe22f366a2be6b66d8cb74efd7f08081b1e65
+              typeInt: 57
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065000
+              message: failed to retrieve a transaction from klaytn node
+  /v2/tx/fd/anchor:
+    post:
+      description: KAS 글로벌 대납 계정을 이용하여 블록체인 데이터를 앵커링 하기 위한 트랜잭션을 생성합니다.
+      summary: FDAnchorTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by KAS)
+      operationId: FDAnchorTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDAnchorTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
+              from: 0x0bb26552ee02bf4c39ea03ea2d827037ac48ce0e
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x
+              nonce: 2
+              rlp: 0x49f8c8028505d21dba00830f4240940bb26552ee02bf4c39ea03ea2d827037ac48ce0e80f847f8458207f6a0b2de48617681d138a4ee7fbbc12a945ca1cfe91581433b7f9150dad5af180dc8a01e1ed65333b45fee9ec4eafc42e4cf5ebb57e4471aa4fb3a5a4fc5c60ae8b4509485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a01836095337c12d8ec80b9a687a561efd7d639d67a7dd4997404f8927767d9c45a05e749781e95aa56e8c3064abae446abc3bd6ac9617675217cba7d6f3622f732a
+              signatures:
+              - R: 0xb2de48617681d138a4ee7fbbc12a945ca1cfe91581433b7f9150dad5af180dc8
+                S: 0x1e1ed65333b45fee9ec4eafc42e4cf5ebb57e4471aa4fb3a5a4fc5c60ae8b450
+                V: 0x7f6
+              status: Submitted
+              transactionHash: 0xbfe8e357fa05f66a1aff4ffd85ee1d7733c805bc47f1eac1ddb742878223de45
+              typeInt: 73
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061608
+              message: cannot be empty or zero value; input
+  /v2/tx/fd/rlp:
+    post:
+      description: KAS 글로벌 대납 계정을 이용하여 rlp(SigRLP 또는 TxHashRLP)를 이용하여 트랜잭션을 생성합니다.
+      summary: FDProcessRLP
+      tags:
+      - Fee Delegated Transaction (Paid by KAS)
+      operationId: FDProcessRLP
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDProcessRLPRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
+              from: 0x0bb26552ee02bf4c39ea03ea2d827037ac48ce0e
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+              nonce: 3
+              rlp: 0x29f90208038505d21dba00830f42408080940bb26552ee02bf4c39ea03ea2d827037ac48ce0eb9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298080f847f8458207f5a0362be8d5b05d0f9cb39a8ee11fa8d8a781016c235c557232e663acd6cf850bd4a0581a5e371ffdb867991dfddf21aa80713268c4d6d4195fb42a53885b4a6488ec9485b98485444c89880cd9c48807cef727c296f2daf847f8458207f5a0e3d59d25b00268c17a40b7d055c98795023fadf44197b117300820558fd2946da0135f8ca1ce0ea15bf247808122b8415a779e9b86bde862bf6050515a1b6b5cac
+              signatures:
+              - R: 0x362be8d5b05d0f9cb39a8ee11fa8d8a781016c235c557232e663acd6cf850bd4
+                S: 0x581a5e371ffdb867991dfddf21aa80713268c4d6d4195fb42a53885b4a6488ec
+                V: 0x7f5
+              status: Submitted
+              transactionHash: 0x73cb651658a6084ae5eca9ed01ed328728d5181f07d5f71e9991d8825683baff
+              typeInt: 41
+              value: 0x0
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/fd/account:
+    put:
+      description: KAS 글로벌 대납 계정을 이용하여 클레이튼 계정키를 업데이트 하기 위한 트랜잭션을 생성합니다. 클레이튼의 다양한 계정키는 [Klaytn docs](https://docs.klaytn.com/klaytn/design/accounts)를 참고하시기 바랍니다.
+      summary: FDAccountUpdateTransactionResponse
+      tags:
+      - Fee Delegated Transaction (Paid by KAS)
+      operationId: FDAccountUpdateTransactionResponse
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDAccountUpdateTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              accountKey: 0x04f84b04f848e303a102f06c992530e09ba93588b3878c5f575314a73e88d420ff1eba7690eeeb7a20f1e301a103ecc37d272d5ff2cee8c0724f9a94b25a748a766c2491a3c198f08942ca42ff68
+              feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
+              from: 0x0bb26552ee02bf4c39ea03ea2d827037ac48ce0e
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              nonce: 4
+              rlp: 0x21f90117048505d21dba00830f4240940bb26552ee02bf4c39ea03ea2d827037ac48ce0eb84e04f84b04f848e303a102f06c992530e09ba93588b3878c5f575314a73e88d420ff1eba7690eeeb7a20f1e301a103ecc37d272d5ff2cee8c0724f9a94b25a748a766c2491a3c198f08942ca42ff68f847f8458207f6a08e8550db87f58495bea65659aff4b441196327fa7d76c7d8e746b9ad47058112a0098f45c8ac7381a34d5fc93baaeb54b69ce1fe2f9e35cdc63d1190b4c74d034d9485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a0bef03d962ed60ac6b219940a6a78c3f422b33f2ada8a81575b061b77502f70d0a065613373a0787b6688787113217212e41b413d232da64f920f246cd8e3af2c23
+              signatures:
+              - R: 0x8e8550db87f58495bea65659aff4b441196327fa7d76c7d8e746b9ad47058112
+                S: 0x98f45c8ac7381a34d5fc93baaeb54b69ce1fe2f9e35cdc63d1190b4c74d034d
+                V: 0x7f6
+              status: Submitted
+              transactionHash: 0x366b3da2788d9d4f3cf95cd163d01d94b3dfc7fed20ca748be2c230c50d7d86e
+              typeInt: 33
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061903
+              message: failed to decode account keys
+  /v2/tx/fd-user/value:
+    post:
+      description: 유저가 생성한 대납 계정으로 메모와 함께 클레이를 전송하는 트랜잭션을 생성합니다.
+      summary: UFDValueTransferTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by User)
+      operationId: UFDValueTransferTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDUserValueTransferTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/fd-user/contract/deploy:
+    post:
+      description: 유저가 생성한 대납 계정으로 컨트랙트를 배포하는 트랜잭션을 생성합니다.
+      summary: UFDContractDeployTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by User)
+      operationId: UFDContractDeployTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDUserContractDeployTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
+              from: 0x9c56b45b7443bc73f47234199982481c64807f78
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+              nonce: 1
+              rlp: 0x29f90208018505d21dba00830f42408080949c56b45b7443bc73f47234199982481c64807f78b9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298080f847f8458207f6a0f746de3b0f1d16feb43d81afd8fa2e015a361637b56154af98ea7771c49d51f6a0532d1e59d20dc70ebdec6b634036c3224b69ed078a95069c9fe023156a80119894e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f6a0a7ffcbb1fe73d40785b25f583f70b4cfcd344c29c19bdcb172f3595fc296953ba01067b482a1c70b40ff4049295e83673005dca1dd1588ffda604b6fb88a14a2a8
+              signatures:
+              - R: 0xf746de3b0f1d16feb43d81afd8fa2e015a361637b56154af98ea7771c49d51f6
+                S: 0x532d1e59d20dc70ebdec6b634036c3224b69ed078a95069c9fe023156a801198
+                V: 0x7f6
+              status: Submitted
+              transactionHash: 0x245545412546364e8a5381f5d7574c2fe58b0c9099d867a23e4fbab82239f836
+              typeInt: 41
+              value: 0x0
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/fd-user/contract/execute:
+    post:
+      description: 유저가 생성한 대납 계정으로 배포된 컨트랙트 함수를 실행하는 트랜잭션을 생성합니다.
+      summary: UFDContractExecutionTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by User)
+      operationId: UFDContractExecutionTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDUserContractExecutionTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
+              from: 0x9c56b45b7443bc73f47234199982481c64807f78
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0xd14e62b80000000000000000000000000000000000000000000000000000000000000005
+              nonce: 2
+              rlp: 0x31f90102028505d21dba00830f424094182efef646797698059fb0e6cbb4823687d869d880949c56b45b7443bc73f47234199982481c64807f78a4d14e62b80000000000000000000000000000000000000000000000000000000000000005f847f8458207f5a03a5ff2dfb032a774d84af240a2aeacf4ac4bcf428de4f1f5adc6f4c003a96794a053e39aa65cd1006136be9ade19413e5bfd53c5575b40d5f32aa7e19037003df794e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f5a029cb2ac282e5880ef0ed8bf1bfca08f51ae151757ff50cdf08eccb23600c4ee4a048aedf8ef1415a3a7d32358f0d45d7223fd37532eafb8c4937828b2a284b80e3
+              signatures:
+              - R: 0x3a5ff2dfb032a774d84af240a2aeacf4ac4bcf428de4f1f5adc6f4c003a96794
+                S: 0x53e39aa65cd1006136be9ade19413e5bfd53c5575b40d5f32aa7e19037003df7
+                V: 0x7f5
+              status: Submitted
+              to: 0x182efef646797698059fb0e6cbb4823687d869d8
+              transactionHash: 0x4fcb4c06f81676d6b811f5b867f3ab5d166014e6c1dd982fec037eafdf89c88e
+              typeInt: 49
+              value: 0x0
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/fd-user:
+    delete:
+      description: 유저가 만든 대납 계정으로 Klaytn에 전송했으나 보류중인 트랜잭션을 취소시키기 위한 트랜잭션을 생성합니다. 취소를 위해 논스 또는 트랜잭션 해시 둘 중 하나의 값이 꼭 필요합니다.
+      summary: UFDUserCancelTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by User)
+      operationId: UFDUserCancelTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDUserCancelTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
+              from: 0x9c56b45b7443bc73f47234199982481c64807f78
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              nonce: 330
+              rlp: 0x39f8c982014a8505d21dba00830f4240949c56b45b7443bc73f47234199982481c64807f78f847f8458207f5a061ffd0e76da83a4c4b05ca23d8cd66ac4b6c5a63183b6cc89ac3b12e9688aeb8a052edf81652ff174e3a0e3856a35ee71ea814c70fbc9fb18f8c66adeb15d0550394e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f5a05a5bf47cbc87b1091ebfa140c504b3d7ab1756cdc1e25ea168a277e478a5e01da00f8bfdbad9f94507e53c3abfa6d9e824170939b47731483bc629d3d58326bbb9
+              signatures:
+              - R: 0x61ffd0e76da83a4c4b05ca23d8cd66ac4b6c5a63183b6cc89ac3b12e9688aeb8
+                S: 0x52edf81652ff174e3a0e3856a35ee71ea814c70fbc9fb18f8c66adeb15d05503
+                V: 0x7f5
+              status: Submitted
+              transactionHash: 0x176a40a522123e831107430e321adc34397f767ec9f75080ad0464ac0757be27
+              typeInt: 57
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065000
+              message: failed to retrieve a transaction from klaytn node
+  /v2/tx/fd-user/anchor:
+    post:
+      description: 유저가 생성한 대납 계정으로 서비스 체인 데이터를 메인 체인에 앵커링하는 트랜잭션을 생성합니다.
+      summary: UFDAnchorTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by User)
+      operationId: UFDAnchorTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDUserAnchorTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
+              from: 0x9c56b45b7443bc73f47234199982481c64807f78
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x
+              nonce: 5
+              rlp: 0x49f8c8058505d21dba00830f4240949c56b45b7443bc73f47234199982481c64807f7880f847f8458207f5a0aa2ae446f5dd35df839e8ec2005aede91f0b3ea0f1e6889f4294d4760529bfafa07b3efab682bcc86f7050819e12a2b5ea916871d684b9e1c8ca8f49869df4189694e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f6a0aa12d32c96ef21d3b90d1f126a389fa2eb4dc283b18e3a42d41ee1353dc91126a05d7f40f320f4b8388272d9f61ad4a7d194762cbfdcc4d31a51e7c87d72aca591
+              signatures:
+              - R: 0xaa2ae446f5dd35df839e8ec2005aede91f0b3ea0f1e6889f4294d4760529bfaf
+                S: 0x7b3efab682bcc86f7050819e12a2b5ea916871d684b9e1c8ca8f49869df41896
+                V: 0x7f5
+              status: Submitted
+              transactionHash: 0x341abe135468e12807906ff6c4fde87ebd33cec1fbbd5243e8b980eabad2551d
+              typeInt: 73
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+  /v2/tx/fd-user/rlp:
+    post:
+      description: 유저가 생성한 대납 계정으로 RLP(SigRLP 또는 TxHashRLP)를 사용해 트랜잭션을 생성합니다.
+      summary: UFDProcessRLP
+      tags:
+      - Fee Delegated Transaction (Paid by User)
+      operationId: UFDProcessRLP
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDUserProcessRLPRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
+              from: 0x9c56b45b7443bc73f47234199982481c64807f78
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              input: 0x
+              nonce: 4
+              rlp: 0x49f8c8048505d21dba00830f4240949c56b45b7443bc73f47234199982481c64807f7880f847f8458207f5a0dd824552d22d8bbb55fa36c0717d1f69305fe26c483d161f30cec3d9fd9aad1da0708b3c3a3b0030ad281ae414ec73f1c05d5095043f13e8a53b396db48c98cd6594e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f6a0e23bcc4cf32afbc3c3b362bd8c774cd33d5d3cba7eb4dc45b25dde28543bfd59a061a52ef000023d9ba61ef9d17546e4d2d3f9bbdf893c5192add8be24a07182a2
+              signatures:
+              - R: 0xdd824552d22d8bbb55fa36c0717d1f69305fe26c483d161f30cec3d9fd9aad1d
+                S: 0x708b3c3a3b0030ad281ae414ec73f1c05d5095043f13e8a53b396db48c98cd65
+                V: 0x7f5
+              status: Submitted
+              transactionHash: 0x366f4f11918ef23314e3d35b1d5bee1067a2d599359fd920f867aa0a3b31d2a2
+              typeInt: 73
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1912
+              message: rlp value and request value are not same; feeRatio
+  /v2/tx/fd-user/account:
+    put:
+      description: 유저가 생성한 대납 계정으로 클레이튼 계정 키를 다른 종류의 키로 업데이트하는 트랜잭션을 생성합니다. 클레이튼 계정 키 종류는 [다음](https://ko.docs.klaytn.com/klaytn/design/accounts)을 확인하십시오.
+      summary: UFDAccountUpdateTransaction
+      tags:
+      - Fee Delegated Transaction (Paid by User)
+      operationId: UFDAccountUpdateTransaction
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/FDUserAccountUpdateTransactionRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/FDTransactionResult'
+          examples:
+            application/json:
+              accountKey: 0x05f8778203c0b84e04f84b02f848e301a103e4a01407460c1c03ac0c82fd84f303a699b210c0b054f4aff72ff7dcdf01512de301a10336f6355f5b532c3c1606f18fa2be7a16ae200c5159c8031dd25bfa389a4c9c06a302a103698a5769e28d0a2cf138a4f6533b158e90f1000a6331fe56aea628cf061f74f2
+              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
+              from: 0x9c56b45b7443bc73f47234199982481c64807f78
+              gas: 1000000
+              gasPrice: 0x5d21dba00
+              nonce: 6
+              rlp: 0x21f90143068505d21dba00830f4240949c56b45b7443bc73f47234199982481c64807f78b87a05f8778203c0b84e04f84b02f848e301a103e4a01407460c1c03ac0c82fd84f303a699b210c0b054f4aff72ff7dcdf01512de301a10336f6355f5b532c3c1606f18fa2be7a16ae200c5159c8031dd25bfa389a4c9c06a302a103698a5769e28d0a2cf138a4f6533b158e90f1000a6331fe56aea628cf061f74f2f847f8458207f5a0417123ce3a739bda66493ccf83bbc2b0e6a8a5ef181c04a9cbf76169abb106b6a024d596ce7e8f108012f26ec8853a1b9b65b4e670be8de7cbcbe73709f3a3179994e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f5a0b2917ba146947e7898f3df954ffde028cf11c5f23338b3eccc5e1ce20e73ec9ca05251179f052c064813fecae03ec07b121622f8352c599c12f4671784d6b94a03
+              signatures:
+              - R: 0x417123ce3a739bda66493ccf83bbc2b0e6a8a5ef181c04a9cbf76169abb106b6
+                S: 0x24d596ce7e8f108012f26ec8853a1b9b65b4e670be8de7cbcbe73709f3a31799
+                V: 0x7f5
+              status: Submitted
+              transactionHash: 0x6bd7c53520171aa9dfb535b62ac35e97a16798de7060eb844cbad6afbd847b86
+              typeInt: 33
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1917
+              message: AccountKeyLegacy type is not supported in AccountKeyRoleBased type
+  /v2/multisig/account/{address}/tx:
+    get:
+      description: 해당 계정에서 보낸 트랜잭션 중 보류중인 트랜잭션 목록을 조회합니다.
+      summary: RetrieveMultisigTransactions
+      tags:
+      - Multisig Transaction Management
+      operationId: RetrieveMultisigTransactions
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: size
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: '불러올 트랜잭션의 최대 개수 (default: 100, min:1, max:-)'
+      - name: cursor
+        in: query
+        required: false
+        type: string
+        description: 마지막 검색 위치를 나타내는 커서 정보
+      - name: to-timestamp
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: '검색 범위: 시작 시간의 타임스탬프 (초단위)'
+      - name: from-timestamp
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: '검색 범위: 마지막 시간의 타임스탬프 (초단위)'
+      - name: address
+        in: path
+        required: true
+        type: string
+        description: 다중 서명 키를 가진 계정 주소 또는 서명자 계정 주소
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/MultisigTransactions'
+          examples:
+            application/json:
+              cursor: ''
+              items:
+              - address: 0xc6C9356887b7F7887918Bf577417E5D8De253295
+                chainId: 1001
+                createdAt: 1599144020
+                multiSigKeys:
+                - address: 0xc6C9356887b7F7887918Bf577417E5D8De253295
+                  weight: 3
+                - address: 0x0b7caaf70e7A0a5399041c64711E535CE8B3cf7d
+                  weight: 1
+                status: 2
+                threshold: 4
+                transactionId: 0x65111d4fba621a1bfa3bd97c219b3e0454471cf3c07827396f1202946df51ee2
+                txData:
+                  from: 0xc6c9356887b7f7887918bf577417e5d8de253295
+                  gas: 1000000
+                  gasPrice: 0x5d21dba00
+                  input: 0x6d656d6f
+                  to: 0x2f87ba64de5526f7880f21481effbf950f70005c
+                  typeInt: 16
+                  value: 0x1001
+                type: TX
+                updatedAt: 1599144020
+              - address: 0xc6C9356887b7F7887918Bf577417E5D8De253295
+                chainId: 1001
+                createdAt: 1599144013
+                multiSigKeys:
+                - address: 0xc6C9356887b7F7887918Bf577417E5D8De253295
+                  weight: 3
+                - address: 0x0b7caaf70e7A0a5399041c64711E535CE8B3cf7d
+                  weight: 1
+                status: 2
+                threshold: 4
+                transactionId: 0x36f9c5794fc141d3625e89a1164e6105fa973e8214d23bc6a210d2afe9dba6dd
+                txData:
+                  from: 0xc6c9356887b7f7887918bf577417e5d8de253295
+                  gas: 1000000
+                  gasPrice: 0x5d21dba00
+                  input: 0x6d656d6f
+                  to: 0x2f87ba64de5526f7880f21481effbf950f70005c
+                  typeInt: 16
+                  value: 0x100
+                type: TX
+                updatedAt: 1599144013
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061010
+              message: data don't exist
+  /v2/multisig/account/{address}/tx/{transaction-id}/sign:
+    post:
+      description: KAS에서 생성한 Klaytn 계정으로 보류중인 트랜잭션에 서명합니다.
+      summary: SignPendingTransaction
+      tags:
+      - Multisig Transaction Management
+      operationId: SignPendingTransaction
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: address
+        in: path
+        required: true
+        type: string
+        description: 서명자의 계정 주소
+      - name: transaction-id
+        in: path
+        required: true
+        type: string
+        description: 보류중인 트랜잭션의 ID
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/MultisigTransactionStatus'
+          examples:
+            application/json:
+              signedWeight: 4
+              status: Submitted
+              threshold: 4
+              transactionHash: 0x81f2ff422eae9b40d65b7a6f1e3c5ca598f83d1473ccc87e53d51b875fe75c82
+              transactionId: 0xfa275dba88d197a85504ef70e0dd2640acc708817e9eb3933d7850acfb048649
+              weight: 3
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061914
+              message: already submitted transaction. Confirm transaction hash; 0xb9612ec6ec39bfd3f2841daa7ab062fc94cf33f23503606c979b2f81e50b2cb1
+  /v2/multisig/tx/{transaction-id}/sign:
+    post:
+      description: 미리 준비한 서명 값으로 보류중인 트랜잭션에 서명합니다. KAS 외부에서 만든 Klaytn 계정이 있고 이 계정의 서명 값이 있다면, 이 서명 값으로 트랜잭션에 서명할 수 있습니다.
+      summary: SignPendingTransactionBySig
+      tags:
+      - Multisig Transaction Management
+      operationId: SignPendingTransactionBySig
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+      - name: transaction-id
+        in: path
+        required: true
+        type: string
+        description: 보류중인 트랜잭션의 ID
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/SignPendingTransactionBySigRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/MultisigTransactionStatus'
+          examples:
+            application/json:
+              signedWeight: 4
+              status: Submitted
+              threshold: 4
+              transactionHash: 0xf1ced3855f3cd1d5220f2991ec4ba845ec747a0c01028c2d63de3662ddad2083
+              transactionId: 0xae20ed8ce084d372fb804ea6f6073ba2f485a64bac086199efb83d665d0b31f2
+              weight: 1
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061512
+              message: account is invalid to sign the transaction; 0x35Cc4921B17Dfa67a58B93c9F8918f823e58b77e
+definitions:
+  EmptyUpdateKeyType:
+    title: EmptyUpdateKeyType
+    description: 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
+    type: object
+    properties:
+      keyType:
+        description: 계정키의 타입
+        type: integer
+        format: int64
+  PubkeyUpdateKeyType:
+    title: PubkeyUpdateKeyType
+    description: 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
+    type: object
+    properties:
+      keyType:
+        description: 계정키의 타입
+        type: integer
+        format: int64
+      key:
+        description: 계정의 공개키
+        type: string
+  MultisigUpdateKeyType:
+    title: MultisigUpdateKeyType
+    description: 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
+    type: object
+    properties:
+      keyType:
+        description: 계정키의 타입
+        type: integer
+        format: int64
+      key:
+        $ref: '#/definitions/MultisigUpdateKey'
+  MultisigUpdateKey:
+    title: MultisigUpdateKey
+    type: object
+    properties:
+      threshold:
+        description: 가중치 합계를 검증하는 기준치
+        type: integer
+        format: int64
+      weightedKeys:
+        type: array
+        items:
+          $ref: '#/definitions/MultisigKey'
+  RoleBasedUpdateKeyType:
+    title: RoleBasedUpdateKeyType
+    description: 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
+    type: object
+    properties:
+      keyType:
+        description: 계정키의 타입
+        type: integer
+        format: int64
+      key:
+        type: array
+        items:
+          type: object
+  Account:
+    title: Account
+    description: 계정 정보
+    type: object
+    properties:
+      address:
+        description: 클레이튼 계정주소
+        example: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+        type: string
+      chainId:
+        description: 클레이튼 체인 ID
+        example: 1001
+        type: integer
+        format: int64
+      createdAt:
+        description: 클레이튼 계정 생성 시간
+        example: 1599187293
+        type: integer
+        format: int64
+      keyId:
+        description: 해당 계정의 개인키 ID
+        example: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x4cbbcb974e32a7960e1b356edf60087613101919ed83199f12e872cba068a50f
+        type: string
+      krn:
+        description: KAS KRN
+        example: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+        type: string
+      publicKey:
+        description: 해당 계정의 공개키
+        example: 0x04cdccfb99b2905561e3dd886687b429a004718f11b04914f17ce68fd3a0db46c598a45da85caa61fe84cb78a0f2eaa9983ec7b8805a93ef9428eb1350a8558237
+        type: string
+      updatedAt:
+        description: 해당 계정 정보를 마지막으로 업데이트한 시간
+        example: 1599187293
+        type: integer
+        format: int64
+      multiSigKeys:
+        type: array
+        items:
+          $ref: '#/definitions/MultisigKey'
+      threshold:
+        example: 4
+        type: integer
+        format: int64
+    required:
+    - address
+    - chainId
+    - createdAt
+    - keyId
+    - krn
+    - publicKey
+    - updatedAt
+  ErrorResponse:
+    title: ErrorResponse
+    description: this response contains error description.
+    type: object
+    properties:
+      code:
+        description: 서비스 코드(앞 3자리)와 에러 코드(뒤 4자리)
+        example: 1061010
+        type: integer
+        format: int64
+      message:
+        description: 에러 메세지
+        example: data don't exist
+        type: string
+    required:
+    - code
+    - message
+  Accounts:
+    title: Accounts
+    description: 계정 정보 목록
+    type: object
+    properties:
+      cursor:
+        description: 마지막 검색 위치를 나타내는 커서 정보
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Account'
+    required:
+    - cursor
+  MultisigKey:
+    title: MultisigKey
+    type: object
+    properties:
+      publicKey:
+        example: 0x04c8901b732a08330d4b7a3d95841e82450f67ae290dadaf8941886913693a15c1819c7401768dea360b96fe02dca34db78d433c6ef4802a0866f4aa3b222f1d7e
+        type: string
+      weight:
+        example: 3
+        type: integer
+        format: int64
+  AccountSummary:
+    title: AccountSummary
+    description: 간략한 계정 정보
+    type: object
+    properties:
+      address:
+        description: 클레이튼 계정주소
+        example: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+        type: string
+      krn:
+        description: KAS KRN
+        example: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+        type: string
+      updatedAt:
+        description: 해당 계정 정보를 마지막으로 업데이트한 시간
+        example: 1599187344
+        type: integer
+        format: int64
+    required:
+    - address
+    - krn
+    - updatedAt
+  Signature:
+    title: Signature
+    description: 서명 값
+    type: object
+    properties:
+      R:
+        description: ECDSA 서명 정보
+        example: 0x670a63ca525b80f67cd412a88ffb5cabb84616fb4cb43ff827552586fc722403
+        type: string
+      S:
+        description: ECDSA 서명 정보
+        example: 0x2f20ad3f4b3c2483a4ae4213a871e404f7214ffd84845fad022c3316eb0af09b
+        type: string
+      V:
+        description: 공개키 복원 정보
+        example: 0x7f6
+        type: string
+    required:
+    - R
+    - S
+    - V
+  MultisigAccount:
+    title: MultisigAccount
+    description: 다중 서명 계정에 관한 정보
+    type: object
+    properties:
+      address:
+        description: 클레이튼 계정주소
+        example: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+        type: string
+      krn:
+        description: KAS KRN
+        example: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
+        type: string
+      multiSigKeys:
+        type: array
+        items:
+          $ref: '#/definitions/MultisigKey'
+      threshold:
+        description: 다중 서명 트랜잭션을 생성하는 데 필요한 가중치 합계 기준값.
+        example: 4
+        type: integer
+        format: int64
+      transactionHash:
+        description: 계정 정보를 업데이트하는 트랜잭션의 해시
+        example: 0xcd6c6a785bccbbb821e7fb0b3e1c15c0d35d6017706f843dd9cf7f3f4d3a452a
+        type: string
+      updatedAt:
+        description: 해당 계정 정보를 마지막으로 업데이트한 시간
+        example: 1599187391
+        type: integer
+        format: int64
+    required:
+    - address
+    - krn
+    - threshold
+    - transactionHash
+    - updatedAt
+  MultisigAccountUpdateRequest:
+    title: MultisigAccountUpdateRequest
+    description: Multisig 계정으로 업데이트 하기 위한 요청 스키마
+    type: object
+    properties:
+      threshold:
+        description: 가중치 합계를 검증하는 기준치
+        example: 4
+        type: integer
+        format: int64
+      weightedKeys:
+        type: array
+        items:
+          $ref: '#/definitions/MultisigKey'
+    required:
+    - threshold
+  AccountsByPubkey:
+    title: AccountsByPubkey
+    description: 해당 공개키를 가진 계정 목록입니다.
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/AccountByPubkey'
+  AccountByPubkey:
+    title: AccountByPubkey
+    description: 해당 공개키 연관 계정
+    type: object
+    properties:
+      address:
+        description: 클레이튼 계정주소
+        example: 0x0b7caaf70e7A0a5399041c64711E535CE8B3cf7d
+        type: string
+      chainId:
+        description: 클레이튼 체인 ID
+        example: 1001
+        type: integer
+        format: int64
+    required:
+    - address
+    - chainId
+  AccountStatus:
+    title: AccountStatus
+    description: 계정 상태
+    type: object
+    properties:
+      status:
+        description: 삭제된 계정인지 여부
+        example: deleted
+        type: string
+    required:
+    - status
+  TransactionResult:
+    title: TransactionResult
+    description: Klaytn에 전송된 트랜잭션 정보
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보낸 Klaytn 계정 주소
+        example: 0xf7093ab1f23bc6d5cdf73b222692d0de2696bcab
+        type: string
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      gasPrice:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas) 비용
+        example: 0x5d21dba00
+        type: string
+      input:
+        description: 트랜잭션을 Klaytn에 보낼 때 함께 보내는 데이터
+        example: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+        type: string
+      nonce:
+        description: 현재 해당 트랜잭션을 보내는 이가 과거에 보냈던 모든 트랜잭션의 개수
+        example: 1
+        type: integer
+        format: int64
+      rlp:
+        description: 해당 트랜잭션의 RLP 직렬화(serialization) 값
+        example: 0xf9018f018505d21dba00830f42408012b9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298207f6a02930c607ddb95575ef88b63a45caa0231da1f88fe99a0cad411a5a99bd4b6d5ba042adbae28a65c32220505e1c7a1509635b59143ddc65e6b7e266d5b3797370d4
+        type: string
+      signatures:
+        type: array
+        items:
+          $ref: '#/definitions/Signature'
+      status:
+        description: 해당 트랜잭션 전송 후의 상태(“Submitted” 또는 “Pending”)
+        example: Submitted
+        type: string
+      transactionHash:
+        description: 해당 트랜잭션에 대한 해시값
+        example: 0x49a92d67aafc1e503a345ee9c5b9a5c58df10706e054fdcc18447398d553cef7
+        type: string
+      typeInt:
+        description: 해당 트랜잭션 타입을 나타내는 숫자값
+        example: 0
+        type: integer
+        format: int64
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x12
+        type: string
+      to:
+        description: KLAY를 받는 Klaytn 계정 주소
+        example: 0xa311e7022a4db250689c89d99848f74ea5098f7d
+        type: string
+      transactionId:
+        description: Multisig 트랜잭션의 ID
+        example: 0x7ee5d33b931e1c172dee21027aeeca31c33ddd44efd02cd3fd4fdfa0a86f888e
+        type: string
+      accountKey:
+        description: 새롭게 업데이트된 계정 키
+        example: 0x04f89303f890e301a1021c5c34cafdefddfd5d0c8baa9e9f75ff6aa6dc597776e5bf06e231c57926a2cbe301a1025552e73f34964eb04cad0d3c3dbd7cfeebbfb420ca83b1e7c640a9c76b42a4cae301a102ab9910325fd645a556fee3c6bbd8651be4fbff6688634d826474f3ef4baff7b1e301a103a1c4e3830f19d1fb2c78d00cd5b29f75cdcc706a8611cbf4192c2d20f4899cba
+        type: string
+    required:
+    - from
+    - gas
+    - gasPrice
+    - nonce
+    - rlp
+    - typeInt
+  LegacyTransactionRequest:
+    title: LegacyTransactionRequest
+    description: 레거시 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x12
+        type: string
+      input:
+        description: 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
+        example: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      to:
+        description: KLAY를 받는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+    required:
+    - from
+  ValueTransferTransactionRequest:
+    title: ValueTransferTransactionRequest
+    description: 클레이 전송 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x100
+        type: string
+      to:
+        description: KLAY를 받는 Klaytn 계정 주소
+        example: 0x2F87Ba64de5526F7880F21481Effbf950f70005c
+        type: string
+      memo:
+        description: 해당 트랜잭션에 첨부할 메모
+        example: memo
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+    required:
+    - from
+    - value
+    - to
+  ContractDeployTransactionRequest:
+    title: ContractDeployTransactionRequest
+    description: 컨트랙트 배포 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x0
+        type: string
+      input:
+        description: 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
+        example: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+    required:
+    - from
+    - input
+  ContractExecutionTransactionRequest:
+    title: ContractExecutionTransactionRequest
+    description: 컨트랙트 실행 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x0
+        type: string
+      to:
+        description: 실행하고자 하는 Klaytn 계정 주소
+        example: 0x71ca8095264fdf58f1a2007e0f91140d67292736
+        type: string
+      input:
+        description: 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
+        example: 0xd14e62b80000000000000000000000000000000000000000000000000000000000000005
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+    required:
+    - from
+    - to
+    - input
+  CancelTransactionRequest:
+    title: CancelTransactionRequest
+    description: 취소 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      transactionHash:
+        description: 트랜잭션의 해시값
+        example: 0x7b0cccd1faf451086d73da2a08341827695ee716752b0069e7aede8713a0b2d9
+        type: string
+      nonce:
+        description: 트랜잭션을 식별하는 유일한 값이며 이 값을 기준으로 트랜잭션을 취소
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+    required:
+    - from
+  AnchorTransactionRequest:
+    title: AnchorTransactionRequest
+    description: 앵커 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      input:
+        description: 트랜잭션에 첨부되는 데이터로 여기에서는 메인 체인에 앵커링하려는 데이터
+        example: 0x123
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+    required:
+    - from
+    - input
+  ProcessRLPRequest:
+    title: ProcessRLPRequest
+    description: rlp 이용 트랜잭션 요청 스키마
+    type: object
+    properties:
+      rlp:
+        description: RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받음.
+        type: string
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+    required:
+    - rlp
+  AccountUpdateTransactionRequest:
+    title: AccountUpdateTransactionRequest
+    description: 계정 업데이트 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      accountKey:
+        type: object
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+    required:
+    - from
+  TransactionReceipt:
+    title: TransactionReceipt
+    description: 트랜잭션 영수증
+    type: object
+    properties:
+      blockHash:
+        description: 해당 트랜잭션이 있는 블록의 해시값
+        example: 0x205c2537286c8ac7889961e39c438f868385238c202deaa4398f85a3c140810c
+        type: string
+      blockNumber:
+        description: 해당 트랜잭션이 있는 블록의 번호
+        example: 0x2e5a
+        type: string
+      codeFormat:
+        description: 스마트 컨트랙트의 코드 포맷
+        example: 0x0
+        type: string
+      contractAddress:
+        description: 컨트랙트 주소. 만약 컨트랙트 배포가 아니면 `null` 값을 가짐.
+        example: 0x0a868e321c0c689c2093001fdf7ecdb9d3ed79e1
+        type: string
+      feePayer:
+        description: 트랜잭션 수수료를 대납할 계정 주소
+        example: 0x85b98485444c89880cd9c48807cef727c296f2da
+        type: string
+      feePayerSignatures:
+        type: array
+        items:
+          $ref: '#/definitions/feePayerSignaturesObj'
+      from:
+        description: 트랜잭션을 보낸 Klaytn 계정 주소
+        example: 0x60b5c6b28a8a0339a43a0acd5f65eede5f68cf0e
+        type: string
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용하도록 설정한 트랜잭션 수수료(gas)의 최대값
+        example: 0x895440
+        type: string
+      gasPrice:
+        description: 해당 트랜잭션을 보낼 때 사용하도록 설정한 트랜잭션 수수료(gas) 비용
+        example: 0x5d21dba00
+        type: string
+      gasUsed:
+        description: 해당 트랜잭션을 보낼 때 사용한 트랜잭션 수수료(gas)
+        example: 0x25de7
+        type: string
+      hash:
+        description: 트랜잭션 데이터 해시
+        example: 0x3d13d31bd4b1e6ca37c4e73cfcb0ee4374a06290e84c6b01a41143c2cc2fa322
+        type: string
+      humanReadable:
+        description: 해당 계정의 주소가 `humanReadable`인지 여부
+        example: false
+        type: boolean
+      input:
+        description: 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
+        example: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+        type: string
+      logs:
+        type: array
+        items:
+          type: object
+      logsBloom:
+        description: 관련 로그를 빨리 찾기 위해 사용된 Bloom 필터
+        example: 0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        type: string
+      nonce:
+        description: 현재 해당 트랜잭션을 보내는 이가 과거에 보냈던 모든 트랜잭션의 개수
+        example: 0x0
+        type: string
+      senderTxHash:
+        description: 대납 계정의 주소와 서명 값이 없는 트랜잭션의 해시값
+        example: 0x01bd21f13617fc725b80975a68ff1bc2002aec66277e536e5643a8791518c3df
+        type: string
+      signatures:
+        type: array
+        items:
+          $ref: '#/definitions/Signature'
+      status:
+        description: 해당 트랜잭션의 상태. 아직 txpool에 있을 경우 `Pending`, 성공한 트랜잭션의 경우 `Committed`, 실패한 트랜잭션의 경우 `CommitError`로 표시함.
+        example: Committed
+        type: string
+      transactionHash:
+        description: 해당 트랜잭션의 해시값
+        example: 0x3d13d31bd4b1e6ca37c4e73cfcb0ee4374a06290e84c6b01a41143c2cc2fa322
+        type: string
+      transactionIndex:
+        description: 트랜잭션이 들어있는 블록 안에서 해당 트랜잭션의 순서
+        example: 0x0
+        type: string
+      type:
+        description: 해당 트랜잭션 타입를 나타내는 문자값
+        example: TxTypeFeeDelegatedSmartContractDeploy
+        type: string
+      typeInt:
+        description: 해당 트랜잭션 타입을 나타내는 숫자값
+        example: 41
+        type: integer
+        format: int64
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x0
+        type: string
+      to:
+        description: KLAY를 받는 Klaytn 계정 주소
+        example: 0x2f87ba64de5526f7880f21481effbf950f70005c
+        type: string
+    required:
+    - to
+  feePayerSignaturesObj:
+    title: feePayerSignaturesObj
+    type: object
+    properties:
+      R:
+        example: 0xd94aa19287f89572f2f5660856d16e32bc2c0192d7443a55af614bcdec0e1e8
+        type: string
+      S:
+        example: 0x424324292dd04da3930679bd5774723d12ed9e553f3a18eaacb4b89d85a26537
+        type: string
+      V:
+        example: 0x7f5
+        type: string
+  FDTransactionResult:
+    title: FDTransactionResult
+    description: Klaytn에 전송한 수수료 대납 트랜잭션 정보
+    type: object
+    properties:
+      feePayer:
+        description: 트랜잭션 수수료를 대납할 계정 주소
+        example: 0x85b98485444c89880cd9c48807cef727c296f2da
+        type: string
+      from:
+        description: 트랜잭션을 보낸 Klaytn 계정 주소
+        example: 0xa809284c83b901ed106aba4ccda14628af128e14
+        type: string
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      gasPrice:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas) 비용
+        example: 0x5d21dba00
+        type: string
+      input:
+        description: 트랜잭션을 Klaytn에 보낼 때 함께 보내는 데이터
+        example: 0x6d656d6f
+        type: string
+      nonce:
+        description: 현재 해당 트랜잭션을 보내는 이가 과거에 보냈던 모든 트랜잭션의 개수
+        example: 1
+        type: integer
+        format: int64
+      status:
+        description: 해당 트랜잭션 전송 후의 상태(“Submitted” 또는 “Pending”)
+        example: Pending
+        type: string
+      to:
+        description: KLAY를 받는 Klaytn 계정 주소
+        example: 0x2f87ba64de5526f7880f21481effbf950f70005c
+        type: string
+      transactionId:
+        description: Multisig 트랜잭션의 ID
+        example: 0x0416bf52b804211220aca957250d6bc2e2c6ab8688e68dc9096ae035d009c334
+        type: string
+      typeInt:
+        description: 해당 트랜잭션 타입을 나타내는 숫자값
+        example: 17
+        type: integer
+        format: int64
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x12
+        type: string
+      rlp:
+        description: 해당 트랜잭션의 RLP 직렬화(serialization) 값
+        example: 0x11f8e2808505d21dba00830f4240942f87ba64de5526f7880f21481effbf950f70005c1294569a3da2e37b4c08e342820d580122e5283bafbc846d656d6ff847f8458207f5a048a6618e31293c2b05c093b6fe5c5f2513b844b793b3560934169f0fb7fa4fb5a02aaa4645c711bf0cc25dc3a3878462b13276143b30fed875455b62e14ab9a0a29485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a0307c6e2df0ba301a3a535c4cede427ce3d43a8a0ec2aaad17fcde9f753555a86a026e4d176ebd1e66b32b5bfa383edd60884e87fd5e788729116916c9313d30976
+        type: string
+      signatures:
+        type: array
+        items:
+          $ref: '#/definitions/Signature'
+      transactionHash:
+        description: 해당 트랜잭션에 대한 해시값
+        example: 0x0b3b7f02640692af371060c311576bc42c3c48122e4f68ca032e5076a3f983d0
+        type: string
+      accountKey:
+        description: 새롭게 업데이트된 계정 키
+        example: 0x04f84b04f848e303a102f06c992530e09ba93588b3878c5f575314a73e88d420ff1eba7690eeeb7a20f1e301a103ecc37d272d5ff2cee8c0724f9a94b25a748a766c2491a3c198f08942ca42ff68
+        type: string
+    required:
+    - rlp
+  FDValueTransferTransactionRequest:
+    title: FDValueTransferTransactionRequest
+    description: 대납 클레이 전송 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x12
+        type: string
+      to:
+        description: KLAY를 받는 Klaytn 계정 주소
+        example: 0x2F87Ba64de5526F7880F21481Effbf950f70005c
+        type: string
+      memo:
+        description: 해당 트랜잭션에 첨부할 메모
+        example: memo
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - value
+    - to
+  FDContractDeployTransactionRequest:
+    title: FDContractDeployTransactionRequest
+    description: 대납 컨트랙트 배포 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x0
+        type: string
+      input:
+        description: 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
+        example: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - input
+  FDContractExecutionTransactionRequest:
+    title: FDContractExecutionTransactionRequest
+    description: 대납 컨트랙트 실행 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x0
+        type: string
+      to:
+        description: 실행하고자 하는 Klaytn 계정 주소
+        type: string
+      input:
+        description: 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
+        example: 0xd14e62b80000000000000000000000000000000000000000000000000000000000000005
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - to
+    - input
+  FDCancelTransactionRequest:
+    title: FDCancelTransactionRequest
+    description: 대납 취소 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      transactionHash:
+        description: 트랜잭션의 해시값
+        example: 0x02e13becf638cac359381fa5dfc3ef8f598a90cceb9842eb714019bcd883fd59
+        type: string
+      nonce:
+        description: 보낸 트랜잭션을 식별하는 유일한 값. 취소하고자 하는 nonce 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+  FDAnchorTransactionRequest:
+    title: FDAnchorTransactionRequest
+    description: 대납 앵커 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      input:
+        description: 트랜잭션에 첨부되는 데이터로 여기에서는 메인 체인에 앵커링하려는 데이터
+        example: 0xadf
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - input
+  FDProcessRLPRequest:
+    title: FDProcessRLPRequest
+    description: rlp 이용 대납 트랜잭션 요청 스키마
+    type: object
+    properties:
+      rlp:
+        description: RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받음.
+        example: 0x2af90209028505d21dba00830f4240808094040f2bc5a8e96c0ac776296f21c5f35a5ba0fa5bb9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029801e80f847f8458207f6a0b9d8ece1dcf988f2ab4176608d3f865c04fd37cfefd95daf921df29d28ff6fd8a016d6fd13bd534c769a1d453572ad84f20afc05f9c5c8dae7783ac3c3da572062941b71a63903e35371e2fc41c6012effb99b9a2c0ff847f8458207f5a06092cab93d1002c5712588894736ccbdff252d3cb49fddd923aae8af0cabc33ba027501d67e650953982684ec69cdb727a0c87f5a09f4359b10a650e575822e682
+        type: string
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - rlp
+  FDAccountUpdateTransactionRequest:
+    title: FDAccountUpdateTransactionRequest
+    description: 대납 계정 업데이트 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      accountKey:
+        type: object
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+  FDUserValueTransferTransactionRequest:
+    title: FDUserValueTransferTransactionRequest
+    description: 유저 대납 클레이 전송 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x12
+        type: string
+      to:
+        description: KLAY를 받는 Klaytn 계정 주소
+        example: 0x2F87Ba64de5526F7880F21481Effbf950f70005c
+        type: string
+      memo:
+        description: 해당 트랜잭션에 첨부할 메모
+        example: memo
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feePayer:
+        description: 유저 트랜잭션 수수료를 대납할 계정 주소
+        example: 0x85B98485444c89880cD9C48807CEF727C296F2da
+        type: string
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - value
+    - to
+    - feePayer
+  FDUserContractDeployTransactionRequest:
+    title: FDUserContractDeployTransactionRequest
+    description: 유저 대납 컨트랙트 배포 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x0
+        type: string
+      input:
+        description: 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
+        example: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feePayer:
+        description: 트랜잭션 수수료를 대납할 계정 주소
+        example: 0x85B98485444c89880cD9C48807CEF727C296F2da
+        type: string
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - input
+    - feePayer
+  FDUserContractExecutionTransactionRequest:
+    title: FDUserContractExecutionTransactionRequest
+    description: 유저 대납 컨트랙트 실행 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      value:
+        description: peb 단위로 환산된 KLAY
+        example: 0x0
+        type: string
+      to:
+        description: 실행하고자 하는 Klaytn 계정 주소
+        example: 0x71ca8095264fdf58f1a2007e0f91140d67292736
+        type: string
+      input:
+        description: 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
+        example: 0xd14e62b80000000000000000000000000000000000000000000000000000000000000005
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feePayer:
+        description: 트랜잭션 수수료를 대납할 계정 주소
+        example: 0x85B98485444c89880cD9C48807CEF727C296F2da
+        type: string
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - to
+    - input
+    - feePayer
+  FDUserCancelTransactionRequest:
+    title: FDUserCancelTransactionRequest
+    description: 유저 대납 취소 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      transactionHash:
+        description: 트랜잭션의 해시값
+        example: 0x7b0cccd1faf451086d73da2a08341827695ee716752b0069e7aede8713a0b2d9
+        type: string
+      nonce:
+        description: 보낸 트랜잭션을 식별하는 유일한 값. 취소하고자 하는 nonce 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feePayer:
+        description: 트랜잭션 수수료를 대납할 계정 주소
+        example: 0x85B98485444c89880cD9C48807CEF727C296F2da
+        type: string
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - feePayer
+  FDUserAnchorTransactionRequest:
+    title: FDUserAnchorTransactionRequest
+    description: 유저 대납 앵커 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      input:
+        description: 트랜잭션에 첨부되는 데이터로 여기에서는 메인 체인에 앵커링하려는 데이터
+        example: 0x123
+        type: string
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feePayer:
+        description: 트랜잭션 수수료를 대납할 계정 주소
+        example: 0x85B98485444c89880cD9C48807CEF727C296F2da
+        type: string
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - input
+    - feePayer
+  FDUserProcessRLPRequest:
+    title: FDUserProcessRLPRequest
+    description: rlp 이용 유저 대납 트랜잭션 요청 스키마
+    type: object
+    properties:
+      rlp:
+        description: RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받음.
+        type: string
+      feePayer:
+        description: 트랜잭션 수수료를 대납할 계정 주소
+        example: 0x85B98485444c89880cD9C48807CEF727C296F2da
+        type: string
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 22
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+    required:
+    - rlp
+    - feePayer
+  FDUserAccountUpdateTransactionRequest:
+    title: FDUserAccountUpdateTransactionRequest
+    description: 유저 대납 계정 업데이트 트랜잭션 요청 스키마
+    type: object
+    properties:
+      from:
+        description: 트랜잭션을 보내는 Klaytn 계정 주소
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        type: string
+      accountKey:
+        type: object
+      nonce:
+        description: 보내는 트랜잭션을 식별하는 유일한 값
+        example: 0
+        type: integer
+        format: int64
+      gas:
+        description: 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
+        example: 1000000
+        type: integer
+        format: int64
+      submit:
+        description: 해당 트랜잭션을 Klaytn에 전송할지 여부
+        example: true
+        type: boolean
+      feePayer:
+        description: 트랜잭션 수수료를 대납할 계정 주소
+        example: 0x85B98485444c89880cD9C48807CEF727C296F2da
+        type: string
+      feeRatio:
+        description: 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율(1~99)
+        example: 0
+        type: integer
+        format: int64
+    required:
+    - from
+    - feePayer
+  MultisigTransactions:
+    title: MultisigTransactions
+    description: 보류중인 트랜잭션 목록
+    type: object
+    properties:
+      cursor:
+        description: 마지막 검색 위치를 나타내는 커서 정보
+        type: string
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/PendedTransaction'
+    required:
+    - cursor
+  PendedTransaction:
+    title: PendedTransaction
+    description: Pending 트랜잭션
+    type: object
+    properties:
+      address:
+        example: 0xc6C9356887b7F7887918Bf577417E5D8De253295
+        type: string
+      chainId:
+        description: 클레이튼 체인 ID
+        example: 1001
+        type: integer
+        format: int64
+      createdAt:
+        description: 트랜잭션 요청 시간
+        example: 1599144020
+        type: integer
+        format: int64
+      multiSigKeys:
+        type: array
+        items:
+          $ref: '#/definitions/MultisigAddress'
+      status:
+        description: 트랜잭션의 현재 상태
+        example: 2
+        type: integer
+        format: int64
+      threshold:
+        description: 이 트랜잭션이 전송되는 데 필요한 가중치 총합
+        example: 4
+        type: integer
+        format: int64
+      transactionId:
+        description: 다중 서명 트랜잭션을 식별하는 ID
+        example: 0x65111d4fba621a1bfa3bd97c219b3e0454471cf3c07827396f1202946df51ee2
+        type: string
+      txData:
+        $ref: '#/definitions/txData'
+      type:
+        description: 트랜잭션의 타입 (TX)
+        example: TX
+        type: string
+      updatedAt:
+        description: 해당 트랜잭션이 최종 업데이트 된 시간
+        example: 1599144020
+        type: integer
+        format: int64
+    required:
+    - chainId
+    - createdAt
+    - status
+    - threshold
+    - transactionId
+    - updatedAt
+  MultisigAddress:
+    title: MultisigAddress
+    description: Multisig 연관 계정
+    type: object
+    properties:
+      address:
+        description: Multisig 계정 주소
+        example: 0xc6C9356887b7F7887918Bf577417E5D8De253295
+        type: string
+      weight:
+        description: Multisig 계정의 가중치
+        example: 3
+        type: integer
+        format: int64
+    required:
+    - address
+    - weight
+  txData:
+    title: txData
+    type: object
+    properties:
+      from:
+        example: 0xc6c9356887b7f7887918bf577417e5d8de253295
+        type: string
+      gas:
+        example: 1000000
+        type: integer
+        format: int64
+      gasPrice:
+        example: 0x5d21dba00
+        type: string
+      input:
+        example: 0x6d656d6f
+        type: string
+      to:
+        example: 0x2f87ba64de5526f7880f21481effbf950f70005c
+        type: string
+      typeInt:
+        example: 16
+        type: integer
+        format: int64
+      value:
+        example: 0x1001
+        type: string
+  MultisigTransactionStatus:
+    title: MultisigTransactionStatus
+    description: 다중 서명 트랜잭션의 현재 상태
+    type: object
+    properties:
+      signedWeight:
+        description: 해당 트랜잭션이 서명을 받았을 때, 그 서명들이 가지는 가중치
+        example: 4
+        type: integer
+        format: int64
+      status:
+        description: 트랜잭션의 현재 상태
+        example: Submitted
+        type: string
+      threshold:
+        description: 이 트랜잭션이 전송되는 데 필요한 가중치 총합
+        example: 4
+        type: integer
+        format: int64
+      transactionHash:
+        example: 0x81f2ff422eae9b40d65b7a6f1e3c5ca598f83d1473ccc87e53d51b875fe75c82
+        type: string
+      transactionId:
+        description: 다중 서명 트랜잭션을 식별하는 ID
+        example: 0xfa275dba88d197a85504ef70e0dd2640acc708817e9eb3933d7850acfb048649
+        type: string
+      weight:
+        description: 트랜잭션의 연관된 Multisig account 전체의 가중치 합
+        example: 3
+        type: integer
+        format: int64
+      reminders:
+        type: array
+        items:
+          type: string
+    required:
+    - signedWeight
+    - status
+    - threshold
+    - transactionId
+    - weight
+  SignPendingTransactionBySigRequest:
+    title: SignPendingTransactionBySigRequest
+    description: 서명 값 이용 multisig 서명 요청 스키마
+    type: object
+    properties:
+      signatures:
+        type: array
+        items:
+          $ref: '#/definitions/Signature'
+security:
+- auth: []
+tags:
+- name: Account
+  description: ''
+- name: Basic Transaction
+  description: ''
+- name: Fee Delegated Transaction (Paid by KAS)
+  description: ''
+- name: Fee Delegated Transaction (Paid by User)
+  description: ''
+- name: Multisig Transaction Management
+  description: ''

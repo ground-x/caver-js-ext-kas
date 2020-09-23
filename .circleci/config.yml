@@ -1,0 +1,173 @@
+version: 2.1
+
+executors:
+  default:
+    docker:
+    - image: circleci/node:10.15.3
+    working_directory: ~/caver-js-ext-kas
+
+commands:
+  notify-success:
+    steps:
+      - run:
+          name: "notify slack when job success"
+          command : |
+            curl --data '{"text": "✅ Job *'$CIRCLE_JOB'* succeeded on *'$CIRCLE_BRANCH''$CIRCLE_TAG'*. Please see '$CIRCLE_BUILD_URL' for details."}' "$SLACK_WEBHOOK_URL"
+          when: on_success
+  notify-failure:
+    steps:
+      - run:
+          name: "notify slack when job fail"
+          command : |
+            curl --data '{"text": "❌ Job *'$CIRCLE_JOB'* failed on *'$CIRCLE_BRANCH''$CIRCLE_TAG'*. Please see '$CIRCLE_BUILD_URL' for details."}' "$SLACK_WEBHOOK_URL"
+          when: on_fail
+  check_rc:
+    steps:
+      - run:
+          name: Check RC
+          command: |
+            if [[ -n $CIRCLE_TAG ]]; then
+              RC_NUMBER=$CIRCLE_TAG
+              sed -i "s/\"version\": \".*\",/\"version\": \"${RC_MUMBER}\",/" package.json
+              sed -n '/\"version\":/p' package.json
+            else
+              echo "Not RC version"
+            fi
+
+jobs:
+  test:
+    executor: default
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run test
+
+  build:
+    executor: default
+    steps:
+      - checkout
+      - check_rc
+      - run: npm install
+      - run: npm run build
+      - persist_to_workspace:
+          root: ~/caver-js-ext-kas
+          paths:
+            - dist/*
+      - store_artifacts:
+          path: ./dist
+
+  tag_verify:
+    executor: default
+    steps:
+      - checkout
+      - run:
+          name: "Verify tag and file verison match"
+          command: ./.circleci/scripts/tag_verify.sh
+
+  publish:
+    executor: default
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/caver-js-ext-kas
+      - check_rc
+      - run:
+          name: "Authenticate with registry"
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: publish
+          command: npm publish
+      - notify-failure
+      - notify-success
+
+  release_PR:
+    executor: default
+    steps:
+      - add_ssh_keys 
+      - checkout
+      - run:
+          name: "Push release branch"
+          command: |
+              set -x
+              echo "push to release branch: /release/${CIRCLE_TAG%-*}"
+              git checkout -b release/${CIRCLE_TAG%-*}
+              git push origin release/${CIRCLE_TAG%-*}
+      - run:
+          name: "Make PR to master branch"
+          command: ./.circleci/scripts/release_pr.sh
+
+  tagging:
+    executor: default
+    steps:
+      - add_ssh_keys
+      - checkout
+      - run:
+          name: "Tagging and delete release branch"
+          command: ./.circleci/scripts/release_tag_branch.sh
+
+stage_defaults:
+  default: &stage_default
+    filters:
+      tags:
+        only:
+          - /^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+.*/
+          - /^v[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+.*/
+      branches:
+        ignore: 
+          - /release\/.*/
+  qa: &stage_qa
+    context: sdk_js_prod
+    filters:
+      tags:
+        only:
+          - /^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+.*/
+          - /^v[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+.*/
+      branches:
+        ignore: /.*/
+  rc: &stage_rc
+    context: sdk_js_prod
+    filters:
+      tags:
+        only: /^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+.*/
+      branches:
+        ignore: /.*/
+  tests: &test_steps
+    requires:
+      - test
+      - tag_verify
+      - build
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - test:
+          <<: *stage_default
+      - build:
+          <<: *stage_default
+
+      # publish jobs - rc
+      - tag_verify:
+          <<: *stage_qa
+
+      - publish:
+          <<: *stage_qa
+          <<: *test_steps
+          name: publish_rc
+
+      - release_PR:
+          <<: *stage_rc
+          requires:
+            - publish_rc
+
+      # publish jobs - prod
+      - publish:
+          context: sdk_js_prod
+          name: publish_prod
+          filters:
+            branches:
+              only: master
+      
+      - tagging:
+          requires:
+            - publish_prod

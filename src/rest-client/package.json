@@ -1,0 +1,12 @@
+{
+	"name": "rest-client",
+	"version": "1.0.0",
+	"description": "This is a sub package of [caver-js-ext-kas][https://github.com/ground-x/caver-js-ext-kas]",
+	"main": "src/index.js",
+	"scripts": {
+	  "test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Ground X Team",
+	"license": "Apache-2.0"
+  }
+  

@@ -1,0 +1,601 @@
+"openapi": "3.0.0"
+"info":
+  "title": "Anchor API"
+  "version": "1.0"
+  "description": "# Introduction
+
+    이 문서는 KAS\\(Klaytn API Service\\)의 Anchor API를 소개하는 문서입니다. Anchor API는
+    서비스 체인 데이터의 신뢰성을 보장하기 위해 데이터 신뢰성을 증명할 수 있는 메타데이터를 Klaytn 메인 체인에 전송하는 기능을
+    제공합니다.
+
+
+    자세한 사용 예시는 [튜토리얼](링크)를 확인하십시오.
+
+    \n"
+"paths":
+  "/v1/anchor":
+    "post":
+      "description": "블록체인 데이터를 앵커링 하기 위해 사용됩니다. 이미 설정한 오퍼레이터를 통해 앵커 트랜잭션 발생 및 관리합니다.
+
+        오퍼레이터 또는 사용자 Feepayer 를 통한 앵커링을 성공하기 위해서는 실제 요구되는 수수료의 10배이상 잔액을
+        보유하여야 합니다."
+      "parameters":
+        - "description": "Klaytn 체인 네트워크 ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "anchor Tx 생성":
+                  "summary": "anchor Tx 생성"
+                  "description": ""
+                  "value":
+                    "status": "succeed"
+              "schema":
+                "$ref": "#/components/schemas/AnchorBlockStatus"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "anchor Tx 생성 - 모든 설정값에서 잔액 부족":
+                  "summary": "anchor Tx 생성 - 모든 설정값에서 잔액 부족"
+                  "description": ""
+                  "value":
+                    "code": 2101
+                    "message": "all configured accounts have insufficient funds"
+                "anchor Tx 생성 - 같은 payload ID가 존재":
+                  "summary": "anchor Tx 생성 - 같은 payload ID가 존재"
+                  "description": ""
+                  "value":
+                    "code": 2100
+                    "message": "same payload ID or payload was already anchored"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "앵커링 트랜잭션 생성"
+      "operationId": "AnchorBlock"
+      "tags":
+        - "Data Anchoring Transaction"
+      "requestBody":
+        "$ref": "#/components/requestBodies/AnchorBlockRequest"
+  "/v1/operator/{operator-id}/tx":
+    "get":
+      "description": "오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션 목록을 조회합니다."
+      "parameters":
+        - "description": "Klaytn 체인 네트워크 ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "검색할 계정의 최대 사이즈 (default: 100, min:1, max:-)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 10
+        - "description": "마지막으로 검색된 커서의 정보"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "검색하고자 하는 처음 시간의 타임스탬프 (초단위)"
+          "in": "query"
+          "name": "from-timestamp"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+        - "description": "검색하고자 하는 마지막 시간의 타임스탬프 (초단위)"
+          "in": "query"
+          "name": "to-timestamp"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+        - "description": "오퍼레이터 계정 주소"
+          "in": "path"
+          "name": "operator-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "오퍼레이터로 앵커링 트랜잭션 목록 조회":
+                  "summary": "오퍼레이터로 앵커링 트랜잭션 목록 조회"
+                  "description": ""
+                  "value":
+                    "cursor": ""
+                    "items":
+                      - "createdAt": 1599142860
+                        "payloadId": "c61cc0d0-5878-450e-bec8-bf73d6184798"
+                        "transactionHash": "0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09\
+                          296e79d"
+                      - "createdAt": 1599142859
+                        "payloadId": "d4f1a11f-4609-40f5-9d59-2313a5799508"
+                        "transactionHash": "0x70f6f6745ad0b0f4ce5908f40d20a1f44bd34871e0428be782d84f9a5\
+                          3ea2ba0"
+                      - "createdAt": 1599142857
+                        "payloadId": "48b59825-82b2-4595-abfb-c465112618cc"
+                        "transactionHash": "0x3f90cd2e02576fd85572ab76aff49b87b9cf3efb623f34bb8d6354ee1\
+                          b88869f"
+                      - "createdAt": 1599142841
+                        "payloadId": "b315de34-52cb-41c0-9383-3260ceafd3b2"
+                        "transactionHash": "0x8a73a00f04a1f6e8d8af101487bd35f8dbcce6fcb3ddd95059f42b8f7\
+                          fbc3345"
+              "schema":
+                "$ref": "#/components/schemas/AnchorTransactions"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "anchor Tx 목록 조회 - 데이터가 없는 경우":
+                  "summary": "anchor Tx 목록 조회 - 데이터가 없는 경우"
+                  "description": ""
+                  "value":
+                    "code": 1071010
+                    "message": "data don't exist"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "오퍼레이터로 앵커링 트랜잭션 목록 조회"
+      "operationId": "RetrieveAnchorBlock"
+      "tags":
+        - "Data Anchoring Transaction"
+  "/v1/operator/{operator-id}/tx/{transaction-hash}":
+    "get":
+      "description": "트랜잭션 해시값과 오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션을 조회합니다. 트랜잭션을 일으킬 때
+        트랜잭션에 덧붙인 Payload를 살펴볼 수 있습니다."
+      "parameters":
+        - "description": "Klaytn 체인 네트워크 ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "오퍼레이터 계정 주소"
+          "in": "path"
+          "name": "operator-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "트랜잭션 해시"
+          "in": "path"
+          "name": "transaction-hash"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "트랜잭션 해시로 앵커링 트랜잭션 조회":
+                  "summary": "트랜잭션 해시로 앵커링 트랜잭션 조회"
+                  "description": ""
+                  "value":
+                    "payload":
+                      "custom_field1": "field1"
+                      "custom_field2": "field2"
+                      "id": "c61cc0d0-5878-450e-bec8-bf73d6184798"
+                    "transactionHash": "0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09\
+                      296e79d"
+              "schema":
+                "$ref": "#/components/schemas/AnchorBlockTransactions"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "anchor Tx 조회 by tx_hash  - 데이터가 없는 경우":
+                  "summary": "anchor Tx 조회 by tx_hash  - 데이터가 없는 경우"
+                  "description": ""
+                  "value":
+                    "code": 1071010
+                    "message": "data don't exist"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "트랜잭션 해시로 앵커링 트랜잭션 조회"
+      "operationId": "GetAnchorBlockByTx"
+      "tags":
+        - "Data Anchoring Transaction"
+  "/v1/operator/{operator-id}/payload/{payload-id}":
+    "get":
+      "description": "Paylaod ID와 오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션을 조회합니다. 트랜잭션을 일으킬
+        때 트랜잭션에 덧붙인 Payload를 살펴볼 수 있습니다."
+      "parameters":
+        - "description": "Klaytn 체인 네트워크 ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "오퍼레이터 계정 주소"
+          "in": "path"
+          "name": "operator-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "페이로드 ID"
+          "in": "path"
+          "name": "payload-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "페이로드로 앵커링 트랜잭션 조회":
+                  "summary": "페이로드로 앵커링 트랜잭션 조회"
+                  "description": ""
+                  "value":
+                    "payload":
+                      "custom_field1": "field1"
+                      "custom_field2": "field2"
+                      "id": "c61cc0d0-5878-450e-bec8-bf73d6184798"
+                    "transactionHash": "0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09\
+                      296e79d"
+              "schema":
+                "$ref": "#/components/schemas/AnchorBlockTransactions"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "anchor Tx 조회 by payload_id - 데이터가 없는 경우":
+                  "summary": "anchor Tx 조회 by payload_id - 데이터가 없는 경우"
+                  "description": ""
+                  "value":
+                    "code": 1071010
+                    "message": "data don't exist"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "페이로드로 앵커링 트랜잭션 조회"
+      "operationId": "GetAnchorBlockByPayloadID"
+      "tags":
+        - "Data Anchoring Transaction"
+  "/v1/operator":
+    "get":
+      "description": "이미 생성된 오퍼레이터 목록 및 각 오퍼레이터 설정값을 조회합니다."
+      "parameters":
+        - "description": "Klaytn 체인 네트워크 ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "검색할 계정의 최대 사이즈 (default: 100, min:1, max:-)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 10
+        - "description": "마지막으로 검색된 커서의 정보"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "검색하고자 하는 마지 시간의 타임스탬프 (초단위)"
+          "in": "query"
+          "name": "from-timestamp"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+        - "description": "검색하고자 하는 마지막 시간의 타임스탬프 (초단위)"
+          "in": "query"
+          "name": "to-timestamp"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "모든 오퍼레이터 목록 조회":
+                  "summary": "모든 오퍼레이터 목록 조회"
+                  "description": ""
+                  "value":
+                    "cursor": ""
+                    "items":
+                      - "createdAt": 1600156363
+                        "operator": "0x36C144b998FbEF7faf092b01815194a18e1a1163"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1600156362
+                        "operator": "0xfD522BE38Ae3Ec4F84A7A411A9e2b3Aee81317b5"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1600156361
+                        "operator": "0xA54579E74e4709600AA7fb91D4cfefb1aECFF9ee"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1600156360
+                        "operator": "0xBBe7d40917d99eF1581b3abc7cdA69492C860F1F"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1600156359
+                        "operator": "0xc72408058DAC1343B8C99Ca90Cb58Ea89637C1eE"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1600156351
+                        "operator": "0x8f315315F90B0b3dEA038FC659F07bac62Fcb2f6"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+              "schema":
+                "$ref": "#/components/schemas/Operators"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "오퍼레이터 목록 조회 - 데이터가 없는 경우":
+                  "summary": "오퍼레이터 목록 조회 - 데이터가 없는 경우"
+                  "description": ""
+                  "value":
+                    "code": 1071010
+                    "message": "data don't exist"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "모든 오퍼레이터 목록 조회"
+      "operationId": "RetrieveOperators"
+      "tags":
+        - "Operator"
+  "/v1/operator/{operator-id}":
+    "get":
+      "description": "해당 오퍼레이터 설정 및 오퍼레이터 계정 잔액을 조회합니다."
+      "parameters":
+        - "description": "Klaytn 체인 네트워크 ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "오퍼레이터 계정 주소"
+          "in": "path"
+          "name": "operator-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "특정 오퍼레이터 조회":
+                  "summary": "특정 오퍼레이터 조회"
+                  "description": ""
+                  "value":
+                    "operator": "0x6945B46Add33ABD0576b4D99B4c86Fe28c0Ad026"
+                    "setting":
+                      "useGlobalFeePayer": true
+                      "useOperator": true
+              "schema":
+                "$ref": "#/components/schemas/Operator"
+      "summary": "특정 오퍼레이터 조회"
+      "operationId": "GetOperator"
+      "tags":
+        - "Operator"
+"tags": []
+"servers":
+  - "url": "http://localhost"
+"components":
+  "schemas":
+    "ErrorResponse":
+      "type": "object"
+      "description": "this response contains error description."
+      "properties":
+        "code":
+          "type": "integer"
+          "format": "int64"
+          "example": 2101
+          "description": "서비스 코드(앞 3자리)와 에러 코드(뒤 4자리)"
+        "message":
+          "type": "string"
+          "example": "all configured accounts have insufficient funds"
+          "description": "에러 메세지"
+      "title": "ErrorResponse"
+      "required":
+        - "code"
+        - "message"
+    "AnchorBlockStatus":
+      "type": "object"
+      "description": "앵커링 상태 응답"
+      "properties":
+        "status":
+          "type": "string"
+          "example": "succeed"
+          "description": "앵커링 성공 여부"
+      "title": "AnchorBlockStatus"
+      "required":
+        - "status"
+    "AnchorBlockRequest":
+      "type": "object"
+      "description": "anchor block request schema"
+      "properties":
+        "operator":
+          "type": "string"
+          "example": "0x84ddfb88a28de014d5fea114dc1efb06ce99cc42"
+          "description": "operator 계정 주소"
+        "payload":
+          "$ref": "#/components/schemas/AnchorBlockPayload"
+      "title": "AnchorBlockRequest"
+      "required":
+        - "operator"
+        - "payload"
+    "AnchorBlockPayload":
+      "type": "object"
+      "description": "anchor 데이터. id를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨.
+        string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함."
+      "title": "AnchorBlockPayload"
+      "additionalProperties": {}
+    "AnchorTransactions":
+      "type": "object"
+      "description": "앵커링 트랜잭션 목록"
+      "properties":
+        "cursor":
+          "type": "string"
+          "example": ""
+          "description": "마지막 검색 위치를 나타내는 커서 정보"
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/AnchorTransaction"
+      "title": "AnchorTransactions"
+      "required":
+        - "cursor"
+    "AnchorTransaction":
+      "type": "object"
+      "description": "앵커링 트랜잭션 정보"
+      "properties":
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1599142860
+          "description": "앵커링 트랜잭션 생성 시간"
+        "payloadId":
+          "type": "string"
+          "example": "c61cc0d0-5878-450e-bec8-bf73d6184798"
+          "description": "페이로드 ID"
+        "transactionHash":
+          "type": "string"
+          "example": "0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09296e79d"
+          "description": "앵커링 트랜잭션의 트랜잭션 해시"
+      "title": "AnchorTransaction"
+      "required":
+        - "createdAt"
+        - "payloadId"
+        - "transactionHash"
+    "AnchorBlockTransactions":
+      "type": "object"
+      "description": "앵커링 트랜잭션 정보"
+      "properties":
+        "payload":
+          "$ref": "#/components/schemas/AnchorBlockPayload"
+        "transactionHash":
+          "type": "string"
+          "example": "0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09296e79d"
+          "description": "앵커링 트랜잭션의 트랜잭션 해시"
+      "title": "AnchorBlockTransactions"
+      "required":
+        - "payload"
+        - "transactionHash"
+    "Operators":
+      "type": "object"
+      "description": "오퍼레이터 목록"
+      "properties":
+        "cursor":
+          "type": "string"
+          "example": ""
+          "description": "마지막 검색 위치를 나타내는 커서 정보"
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/Operator"
+      "title": "Operators"
+      "required":
+        - "cursor"
+    "Operator":
+      "type": "object"
+      "description": "오퍼레이터 정보"
+      "properties":
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1600156363
+          "description": "오퍼레이터 생성 시간"
+        "operator":
+          "type": "string"
+          "example": "0x36C144b998FbEF7faf092b01815194a18e1a1163"
+          "description": "오퍼레이터 클레이튼 계정 주소"
+        "setting":
+          "$ref": "#/components/schemas/OperatorSetting"
+      "title": "Operator"
+      "required":
+        - "createdAt"
+        - "operator"
+    "OperatorSetting":
+      "type": "object"
+      "description": "오퍼레이터 결제 정보"
+      "properties":
+        "useGlobalFeePayer":
+          "type": "boolean"
+          "example": true
+          "description": "글로벌 대납 계정 사용 여부"
+        "useOperator":
+          "type": "boolean"
+          "example": true
+          "description": "오퍼레이터 결제 사용 여부"
+      "title": "OperatorSetting"
+      "required":
+        - "useGlobalFeePayer"
+        - "useOperator"
+  "securitySchemes":
+    "basic":
+      "description": "KAS는 Basic Auth를 사용합니다. 모든 요청은 반드시 올바른 Authorization 헤더를 가져야 하며
+        KAS 사용자는 access key ID를 `username`으로, secret access key를 `password`로
+        사용하여 Basic Auth에 사용할 credential을 생성합니다."
+      "type": "http"
+      "scheme": "basic"
+  "requestBodies":
+    "AnchorBlockRequest":
+      "content":
+        "application/json":
+          "examples":
+            "anchor Tx 생성 - 모든 설정값에서 잔액 부족":
+              "value":
+                "operator": "0x84ddfb88a28de014d5fea114dc1efb06ce99cc42"
+                "payload":
+                  "id": "custom_id"
+                  "custom_field1": "field1"
+                  "custom_field2": "field2"
+            "anchor Tx 생성 - 같은 payload ID가 존재":
+              "value":
+                "operator": ""
+                "payload":
+                  "id": "custom_id"
+                  "custom_field1": "field1"
+                  "custom_field2": "field2"
+            "anchor Tx 생성":
+              "value":
+                "operator": ""
+                "payload":
+                  "id": "unique_custom_id"
+                  "custom_field1": "field1"
+                  "custom_field2": "field2"
+          "schema":
+            "$ref": "#/components/schemas/AnchorBlockRequest"
+"security":
+  - "basic": []
