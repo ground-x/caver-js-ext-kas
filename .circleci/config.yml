@@ -27,8 +27,7 @@ commands:
           name: Check RC
           command: |
             if [[ -n $CIRCLE_TAG ]]; then
-              RC_NUMBER=$CIRCLE_TAG
-              sed -i "s/\"version\": \".*\",/\"version\": \"${RC_MUMBER}\",/" package.json
+              sed -i "s/\"version\": \".*\",/\"version\": \"${CIRCLE_TAG}\",/" package.json
               sed -n '/\"version\":/p' package.json
             else
               echo "Not RC version"
