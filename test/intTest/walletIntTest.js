@@ -3487,4 +3487,19 @@ describe('Wallet API service', () => {
         expect(ret.weight).to.equal(1)
         expect(ret.reminders.length).to.equal(1)
     }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-113: caver.kas.wallet.countAccounts should return the number of accounts in KAS', async () => {
+        const ret = await caver.kas.wallet.countAccounts()
+        console.log(ret)
+        expect(ret.accountId).to.equal(accountToTest.accountId)
+        expect(ret.count > 0).to.be.true
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-114: caver.kas.wallet.countAccountsByKRN should return the number of accounts in KAS by KRN', async () => {
+        const ret = await caver.kas.wallet.countAccountsByKRN(accountToTest.krn)
+        console.log(ret)
+        expect(ret.accountId).to.equal(accountToTest.accountId)
+        expect(ret.count > 0).to.be.true
+        expect(ret.krn).to.equal(accountToTest.krn)
+    }).timeout(500000)
 })
