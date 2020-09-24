@@ -64,6 +64,10 @@ jobs:
           command: ./.circleci/scripts/tag_verify.sh
 
   publish:
+    parameters:
+      environment:
+        type: string
+        default: ""
     executor: default
     steps:
       - checkout
@@ -75,7 +79,7 @@ jobs:
           command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/.npmrc
       - run:
           name: publish
-          command: npm publish
+          command: npm publish << parameters.environment >>
       - notify-failure
       - notify-success
 
@@ -153,6 +157,7 @@ workflows:
           <<: *stage_qa
           <<: *test_steps
           name: publish_rc
+          environment: --tag rc
 
       - release_PR:
           <<: *stage_rc
