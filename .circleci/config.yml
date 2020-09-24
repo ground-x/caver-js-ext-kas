@@ -72,7 +72,7 @@ jobs:
       - check_rc
       - run:
           name: "Authenticate with registry"
-          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/.npmrc
       - run:
           name: publish
           command: npm publish
