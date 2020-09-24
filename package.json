@@ -61,9 +61,9 @@
     "url": "git+https://github.com/ground-x/caver-js-ext-kas.git"
   },
   "bugs": {
-    "url": "https://github.com/ground/caver-js-ext-kas/issues"
+    "url": "https://github.com/ground-x/caver-js-ext-kas/issues"
   },
-  "homepage": "https://github.com/ground/caver-js-ext-kas#readme",
+  "homepage": "https://github.com/ground-x/caver-js-ext-kas#readme",
   "babel": {
     "presets": [
       "@babel/env"
