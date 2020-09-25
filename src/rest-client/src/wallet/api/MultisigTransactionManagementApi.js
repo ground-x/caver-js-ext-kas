@@ -18,10 +18,10 @@
         // AMD. Register as an anonymous module.
         define([
             '../../ApiClient',
-            '../model//ErrorResponse',
-            '../model//MultisigTransactionStatus',
-            '../model//MultisigTransactions',
-            '../model//SignPendingTransactionBySigRequest',
+            '../model/ErrorResponse',
+            '../model/MultisigTransactionStatus',
+            '../model/MultisigTransactions',
+            '../model/SignPendingTransactionBySigRequest',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.

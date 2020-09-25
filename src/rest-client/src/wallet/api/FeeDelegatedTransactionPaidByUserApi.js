@@ -18,15 +18,15 @@
         // AMD. Register as an anonymous module.
         define([
             '../../ApiClient',
-            '../model//ErrorResponse',
-            '../model//FDTransactionResult',
-            '../model//FDUserAccountUpdateTransactionRequest',
-            '../model//FDUserAnchorTransactionRequest',
-            '../model//FDUserCancelTransactionRequest',
-            '../model//FDUserContractDeployTransactionRequest',
-            '../model//FDUserContractExecutionTransactionRequest',
-            '../model//FDUserProcessRLPRequest',
-            '../model//FDUserValueTransferTransactionRequest',
+            '../model/ErrorResponse',
+            '../model/FDTransactionResult',
+            '../model/FDUserAccountUpdateTransactionRequest',
+            '../model/FDUserAnchorTransactionRequest',
+            '../model/FDUserCancelTransactionRequest',
+            '../model/FDUserContractDeployTransactionRequest',
+            '../model/FDUserContractExecutionTransactionRequest',
+            '../model/FDUserProcessRLPRequest',
+            '../model/FDUserValueTransferTransactionRequest',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
