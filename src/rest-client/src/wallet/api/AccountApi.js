@@ -18,15 +18,15 @@
         // AMD. Register as an anonymous module.
         define([
             '../../ApiClient',
-            '../model//Account',
-            '../model//AccountStatus',
-            '../model//AccountSummary',
-            '../model//Accounts',
-            '../model//AccountsByPubkey',
-            '../model//ErrorResponse',
-            '../model//MultisigAccount',
-            '../model//MultisigAccountUpdateRequest',
-            '../model//Signature',
+            '../model/Account',
+            '../model/AccountStatus',
+            '../model/AccountSummary',
+            '../model/Accounts',
+            '../model/AccountsByPubkey',
+            '../model/ErrorResponse',
+            '../model/MultisigAccount',
+            '../model/MultisigAccountUpdateRequest',
+            '../model/Signature',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.

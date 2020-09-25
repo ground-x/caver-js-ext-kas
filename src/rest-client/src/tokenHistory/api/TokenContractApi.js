@@ -18,10 +18,10 @@
         // AMD. Register as an anonymous module.
         define([
             '../../ApiClient',
-            '../model//FtContractDetail',
-            '../model//NftContractDetail',
-            '../model//PageableFtContractDetails',
-            '../model//PageableNftContractDetails',
+            '../model/FtContractDetail',
+            '../model/NftContractDetail',
+            '../model/PageableFtContractDetails',
+            '../model/PageableNftContractDetails',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
