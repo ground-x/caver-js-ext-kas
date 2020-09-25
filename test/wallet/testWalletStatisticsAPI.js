@@ -39,7 +39,7 @@ const sandbox = sinon.createSandbox()
 //     afterEach(() => {
 //         sandbox.restore()
 //     })
-	
+
 // 	context('caver.kas.wallet.countAccounts', () => {
 //         const resultOfApi = {
 //             address: '0xb2Fd3a28efC3226638B7f92D9b48C370588c49F2',
@@ -137,7 +137,7 @@ const sandbox = sinon.createSandbox()
 //             expect(ret.message).to.equal(errorResult.message)
 //         })
 //     })
-	
+
 // 	context('caver.kas.wallet.countAccountsByKRN', () => {
 //         const resultOfApi = {
 //             address: '0xb2Fd3a28efC3226638B7f92D9b48C370588c49F2',
