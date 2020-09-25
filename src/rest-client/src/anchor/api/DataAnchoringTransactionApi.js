@@ -1,6 +1,6 @@
 /*
  * Anchor API
- * # Introduction 이 문서는 KAS\\(Klaytn API Service\\)의 Anchor API를 소개하는 문서입니다. Anchor API는 서비스 체인 데이터의 신뢰성을 보장하기 위해 데이터 신뢰성을 증명할 수 있는 메타데이터를 Klaytn 메인 체인에 전송하는 기능을 제공합니다.  자세한 사용 예시는 [튜토리얼](링크)를 확인하십시오.
+ * # Introduction 이 문서는 KAS\\(Klaytn API Service\\)의 Anchor API를 소개하는 문서입니다. Anchor API는 서비스 체인 데이터의 신뢰성을 보장하기 위해 데이터 신뢰성을 증명할 수 있는 메타데이터를 Klaytn 메인 체인에 전송하는 기능을 제공합니다.  자세한 사용 예시는 [튜토리얼](링크)를 확인하십시오.    # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1071010 | data don't exist 1072100 | same payload ID or payload was already anchored 1072101 | all configured accounts have insufficient funds |
  *
  * OpenAPI spec version: 1.0
  *
@@ -18,11 +18,11 @@
         // AMD. Register as an anonymous module.
         define([
             '../../ApiClient',
-            '../model//AnchorBlockRequest',
-            '../model//AnchorBlockStatus',
-            '../model//AnchorBlockTransactions',
-            '../model//AnchorTransactions',
-            '../model//ErrorResponse',
+            '../model/AnchorBlockRequest',
+            '../model/AnchorBlockStatus',
+            '../model/AnchorBlockTransactions',
+            '../model/AnchorTransactions',
+            '../model/ErrorResponse',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
@@ -270,7 +270,7 @@
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} operatorId 오퍼레이터 계정 주소
          * @param {Object} opts Optional parameters
-         * @param {Number} opts.size 검색할 계정의 최대 사이즈 (default: 100, min:1, max:-)
+         * @param {Number} opts.size 검색할 계정의 최대 사이즈 (default to 100)
          * @param {String} opts.cursor 마지막으로 검색된 커서의 정보
          * @param {Number} opts.fromTimestamp 검색하고자 하는 처음 시간의 타임스탬프 (초단위)
          * @param {Number} opts.toTimestamp 검색하고자 하는 마지막 시간의 타임스탬프 (초단위)
