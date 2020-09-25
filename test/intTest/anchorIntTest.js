@@ -31,7 +31,7 @@ const { url, chainId, accessKeyId, secretAccessKey, operator } = require('../tes
 describe('Anchor API service', () => {
     before(() => {
         caver = new Caver(url)
-        caver.enableAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+        caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
     })
 
     it('CAVERJS-EXT-KAS-INT-001: caver.kas.anchor.sendAnchoringData should send post request to anchor data', async () => {

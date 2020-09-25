@@ -23,7 +23,7 @@ class Caver extends CaverBasic {
         this.kas = new KAS()
     }
 
-    enableNodeAPI(chainId, accessKeyId, secretAccessKey) {
+    initNodeAPI(chainId, accessKeyId, secretAccessKey) {
         this._requestManager.provider.headers = this._requestManager.provider.headers || []
         const auth = [
             { name: 'Authorization', value: `Basic ${Buffer.from(`${accessKeyId}:${secretAccessKey}`).toString('base64')}` },
@@ -32,16 +32,16 @@ class Caver extends CaverBasic {
         this._requestManager.provider.headers = this._requestManager.provider.headers.concat(auth)
     }
 
-    enableTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.kas.enableTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey)
+    initTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey) {
+        this.kas.initTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey)
     }
 
-    enableWalletAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.kas.enableWalletAPI(path, chainId, accessKeyId, secretAccessKey)
+    initWalletAPI(path, chainId, accessKeyId, secretAccessKey) {
+        this.kas.initWalletAPI(path, chainId, accessKeyId, secretAccessKey)
     }
 
-    enableAnchorAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.kas.enableAnchorAPI(path, chainId, accessKeyId, secretAccessKey)
+    initAnchorAPI(path, chainId, accessKeyId, secretAccessKey) {
+        this.kas.initAnchorAPI(path, chainId, accessKeyId, secretAccessKey)
     }
 }
 

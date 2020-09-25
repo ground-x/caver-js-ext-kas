@@ -128,8 +128,8 @@ function generateAccountKeySet() {
 describe('Wallet API service', () => {
     before(() => {
         caver = new Caver(auths.nodeAPI.url)
-        caver.enableNodeAPI(auths.nodeAPI.chainId, auths.nodeAPI.accessKeyId, auths.nodeAPI.secretAccessKey)
-        caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+        caver.initNodeAPI(auths.nodeAPI.chainId, auths.nodeAPI.accessKeyId, auths.nodeAPI.secretAccessKey)
+        caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
 
         senderKeyring = caver.wallet.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
     })
