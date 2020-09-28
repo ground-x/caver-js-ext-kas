@@ -59,6 +59,8 @@
             // Wallet
             './wallet/model/Account',
             './wallet/model/AccountByPubkey',
+            './wallet/model/AccountCountByAccountID',
+            './wallet/model/AccountCountByKRN',
             './wallet/model/AccountStatus',
             './wallet/model/AccountSummary',
             './wallet/model/AccountUpdateTransactionRequest',
@@ -110,6 +112,7 @@
             './wallet/api/FeeDelegatedTransactionPaidByKASApi',
             './wallet/api/FeeDelegatedTransactionPaidByUserApi',
             './wallet/api/MultisigTransactionManagementApi',
+            './wallet/api/StatisticsApi',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
@@ -156,6 +159,8 @@
             // Wallet
             require('./wallet/model/Account'),
             require('./wallet/model/AccountByPubkey'),
+            require('./wallet/model/AccountCountByAccountID'),
+            require('./wallet/model/AccountCountByKRN'),
             require('./wallet/model/AccountStatus'),
             require('./wallet/model/AccountSummary'),
             require('./wallet/model/AccountUpdateTransactionRequest'),
@@ -206,7 +211,8 @@
             require('./wallet/api/BasicTransactionApi'),
             require('./wallet/api/FeeDelegatedTransactionPaidByKASApi'),
             require('./wallet/api/FeeDelegatedTransactionPaidByUserApi'),
-            require('./wallet/api/MultisigTransactionManagementApi')
+            require('./wallet/api/MultisigTransactionManagementApi'),
+            require('./wallet/api/StatisticsApi')
         )
     }
 })(function(
@@ -252,6 +258,8 @@
     // Wallet
     Account,
     AccountByPubkey,
+    AccountCountByAccountID,
+    AccountCountByKRN,
     AccountStatus,
     AccountSummary,
     AccountUpdateTransactionRequest,
@@ -302,7 +310,8 @@
     BasicTransactionApi,
     FeeDelegatedTransactionPaidByKASApi,
     FeeDelegatedTransactionPaidByUserApi,
-    MultisigTransactionManagementApi
+    MultisigTransactionManagementApi,
+    StatisticsApi
 ) {
     /**
      * ERROR_UNKNOWN.<br>
@@ -342,6 +351,7 @@
          */
         ApiClient: ApiClient,
 
+        // Anchor
         /**
          * The AnchorBlockRequest model constructor.
          * @property {module:anchor/model/AnchorBlockRequest}
@@ -392,6 +402,8 @@
          * @property {module:anchor/api/OperatorApi}
          */
         OperatorApi: OperatorApi,
+
+        // TokenHistory
         /**
          * The FtContract model constructor.
          * @property {module:tokenHistory/model/FtContract}
@@ -507,6 +519,9 @@
          * @property {module:tokenHistory/api/TokenOwnershipApi}
          */
         TokenOwnershipApi: TokenOwnershipApi,
+
+        // Wallet
+
         /**
          * The Account model constructor.
          * @property {module:wallet/model/Account}
@@ -517,6 +532,16 @@
          * @property {module:wallet/model/AccountByPubkey}
          */
         AccountByPubkey: AccountByPubkey,
+        /**
+         * The AccountCountByAccountID model constructor.
+         * @property {module:wallet/model/AccountCountByAccountID}
+         */
+        AccountCountByAccountID: AccountCountByAccountID,
+        /**
+         * The AccountCountByKRN model constructor.
+         * @property {module:wallet/model/AccountCountByKRN}
+         */
+        AccountCountByKRN: AccountCountByKRN,
         /**
          * The AccountStatus model constructor.
          * @property {module:wallet/model/AccountStatus}
@@ -772,6 +797,11 @@
          * @property {module:wallet/api/MultisigTransactionManagementApi}
          */
         MultisigTransactionManagementApi: MultisigTransactionManagementApi,
+        /**
+         * The StatisticsApi service constructor.
+         * @property {module:wallet/api/StatisticsApi}
+         */
+        StatisticsApi: StatisticsApi,
     }
 
     return exports

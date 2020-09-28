@@ -47,6 +47,7 @@ const {
     FDUserProcessRLPRequest,
     FDUserAccountUpdateTransactionRequest,
     SignPendingTransactionBySigRequest,
+    StatisticsApi,
 } = require('../../rest-client/src')
 const WalletQueryOptions = require('./walletQueryOptions')
 const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey } = require('../../utils/helper')
@@ -76,6 +77,7 @@ class Wallet {
                 fdTransactionPaidByKAS: new FeeDelegatedTransactionPaidByKASApi(client),
                 fdTransactionPaidByUser: new FeeDelegatedTransactionPaidByUserApi(client),
                 multisigTransactionManagement: new MultisigTransactionManagementApi(client),
+                statistics: new StatisticsApi(client),
             }
         }
     }
@@ -144,6 +146,7 @@ class Wallet {
             fdTransactionPaidByKAS: new FeeDelegatedTransactionPaidByKASApi(client),
             fdTransactionPaidByUser: new FeeDelegatedTransactionPaidByUserApi(client),
             multisigTransactionManagement: new MultisigTransactionManagementApi(client),
+            statistics: new StatisticsApi(client),
         }
     }
 
@@ -180,6 +183,13 @@ class Wallet {
      */
     get multisigTransactionManagementApi() {
         return this.apiInstances.multisigTransactionManagement
+    }
+
+    /**
+     * @type {StatisticsApi}
+     */
+    get statisticsApi() {
+        return this.apiInstances.statistics
     }
 
     /**
@@ -1177,6 +1187,51 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.multisigTransactionManagementApi.signPendingTransactionBySig(this.chainId, transactionId, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    // Statistics Api
+
+    /**
+     * Return the number of accounts in KAS.
+     * GET /v2/stat/count
+     *
+     * @param {Function} [callback] The callback function to call.
+     * @return {object}
+     */
+    getAccountCount(callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.statisticsApi.getAccountCountByAccountID(this.chainId, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Return the number of accounts by KRN in KAS.
+     * GET /v2/stat/count/krn
+     *
+     * @param {string} krn The krn string to search.
+     * @param {Function} [callback] The callback function to call.
+     * @return {object}
+     */
+    getAccountCountByKRN(krn, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.statisticsApi.getAccountCountByKRN(this.chainId, { xKrn: krn }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

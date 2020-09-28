@@ -16,59 +16,152 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient'], factory)
+        define(['../../ApiClient', '../model/AccountCountByAccountID', '../model/AccountCountByKRN'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'))
+        module.exports = factory(
+            require('../../ApiClient'),
+            require('../model/AccountCountByAccountID'),
+            require('../model/AccountCountByKRN')
+        )
     } else {
         // Browser globals (root is window)
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.PubkeyUpdateKeyType = factory(root.WalletApi.ApiClient)
+        root.WalletApi.StatisticsApi = factory(
+            root.WalletApi.ApiClient,
+            root.WalletApi.AccountCountByAccountID,
+            root.WalletApi.AccountCountByKRN
+        )
     }
-})(this, function(ApiClient) {
+})(this, function(ApiClient, AccountCountByAccountID, AccountCountByKRN) {
     /**
-     * The PubkeyUpdateKeyType model module.
-     * @module model/PubkeyUpdateKeyType
+     * Statistics service.
+     * @module api/StatisticsApi
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>PubkeyUpdateKeyType</code>.
-     * 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
-     * @alias module:model/PubkeyUpdateKeyType
+     * Constructs a new StatisticsApi.
+     * @alias module:api/StatisticsApi
      * @class
+     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link module:ApiClient#instance} if unspecified.
      */
-    const PubkeyUpdateKeyType = function() {}
+    const exports = function(apiClient) {
+        this.apiClient = apiClient || ApiClient.instance
 
-    /**
-     * Constructs a <code>PubkeyUpdateKeyType</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PubkeyUpdateKeyType} obj Optional instance to populate.
-     * @return {module:model/PubkeyUpdateKeyType} The populated <code>PubkeyUpdateKeyType</code> instance.
-     */
-    PubkeyUpdateKeyType.constructFromObject = function(data, obj) {
-        if (data) {
-            obj = obj || new PubkeyUpdateKeyType()
-            if (data.hasOwnProperty('keyType')) obj.keyType = ApiClient.convertToType(data.keyType, 'Number')
-            if (data.hasOwnProperty('key')) obj.key = ApiClient.convertToType(data.key, 'String')
+        /**
+         * Callback function to receive the result of the getAccountCountByAccountID operation.
+         * @callback module:api/StatisticsApi~getAccountCountByAccountIDCallback
+         * @param {String} error Error message, if any.
+         * @param {module:model/AccountCountByAccountID} data The data returned by the service call.
+         * @param {String} response The complete HTTP response.
+         */
+
+        /**
+         * GetAccountCountByAccountID
+         * 해당 KAS 사용자가 가진 모든 클레이튼 계정 개수를 보여줍니다.
+         * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
+         * @param {module:api/StatisticsApi~getAccountCountByAccountIDCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link module:model/AccountCountByAccountID}
+         */
+        this.getAccountCountByAccountID = function(xChainId, callback) {
+            const postBody = null
+
+            // verify the required parameter 'xChainId' is set
+            if (xChainId === undefined || xChainId === null) {
+                throw new Error("Missing the required parameter 'xChainId' when calling getAccountCountByAccountID")
+            }
+
+            const pathParams = {}
+            const queryParams = {}
+            const collectionQueryParams = {}
+            const headerParams = {
+                'x-chain-id': xChainId,
+            }
+            const formParams = {}
+
+            const authNames = ['auth']
+            const contentTypes = ['application/json']
+            const accepts = ['application/json']
+            const returnType = AccountCountByAccountID
+
+            return this.apiClient.callApi(
+                '/v2/stat/count',
+                'GET',
+                pathParams,
+                queryParams,
+                collectionQueryParams,
+                headerParams,
+                formParams,
+                postBody,
+                authNames,
+                contentTypes,
+                accepts,
+                returnType,
+                callback
+            )
         }
-        return obj
+
+        /**
+         * Callback function to receive the result of the getAccountCountByKRN operation.
+         * @callback module:api/StatisticsApi~getAccountCountByKRNCallback
+         * @param {String} error Error message, if any.
+         * @param {module:model/AccountCountByKRN} data The data returned by the service call.
+         * @param {String} response The complete HTTP response.
+         */
+
+        /**
+         * GetAccountCountByKRN
+         * 사용자의 특정 계정 저장소에서의 클레이튼 계정 보유 개수를 보여줍니다.
+         * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
+         * @param {Object} opts Optional parameters
+         * @param {String} opts.xKrn 계정 저장소
+         * @param {module:api/StatisticsApi~getAccountCountByKRNCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link module:model/AccountCountByKRN}
+         */
+        this.getAccountCountByKRN = function(xChainId, opts, callback) {
+            opts = opts || {}
+            const postBody = null
+
+            // verify the required parameter 'xChainId' is set
+            if (xChainId === undefined || xChainId === null) {
+                throw new Error("Missing the required parameter 'xChainId' when calling getAccountCountByKRN")
+            }
+
+            const pathParams = {}
+            const queryParams = {}
+            const collectionQueryParams = {}
+            const headerParams = {
+                'x-chain-id': xChainId,
+                'x-krn': opts.xKrn,
+            }
+            const formParams = {}
+
+            const authNames = ['auth']
+            const contentTypes = ['application/json']
+            const accepts = ['application/json']
+            const returnType = AccountCountByKRN
+
+            return this.apiClient.callApi(
+                '/v2/stat/count/krn',
+                'GET',
+                pathParams,
+                queryParams,
+                collectionQueryParams,
+                headerParams,
+                formParams,
+                postBody,
+                authNames,
+                contentTypes,
+                accepts,
+                returnType,
+                callback
+            )
+        }
     }
 
-    /**
-     * 계정키의 타입
-     * @member {Number} keyType
-     */
-    PubkeyUpdateKeyType.prototype.keyType = undefined
-
-    /**
-     * 계정의 공개키
-     * @member {String} key
-     */
-    PubkeyUpdateKeyType.prototype.key = undefined
-
-    return PubkeyUpdateKeyType
+    return exports
 })

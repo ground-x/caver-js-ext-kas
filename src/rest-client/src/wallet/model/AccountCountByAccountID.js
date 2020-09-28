@@ -25,50 +25,55 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.PubkeyUpdateKeyType = factory(root.WalletApi.ApiClient)
+        root.WalletApi.AccountCountByAccountID = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The PubkeyUpdateKeyType model module.
-     * @module model/PubkeyUpdateKeyType
+     * The AccountCountByAccountID model module.
+     * @module model/AccountCountByAccountID
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>PubkeyUpdateKeyType</code>.
-     * 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
-     * @alias module:model/PubkeyUpdateKeyType
+     * Constructs a new <code>AccountCountByAccountID</code>.
+     * KAS 계정의 클레이튼 계정 보유 갯수
+     * @alias module:model/AccountCountByAccountID
      * @class
+     * @param accountId {String} KAS 계정 ID
+     * @param count {Number} KAS 계정의 클레이튼 계정 보유 갯수
      */
-    const PubkeyUpdateKeyType = function() {}
+    const AccountCountByAccountID = function(accountId, count) {
+        this.accountId = accountId
+        this.count = count
+    }
 
     /**
-     * Constructs a <code>PubkeyUpdateKeyType</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>AccountCountByAccountID</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PubkeyUpdateKeyType} obj Optional instance to populate.
-     * @return {module:model/PubkeyUpdateKeyType} The populated <code>PubkeyUpdateKeyType</code> instance.
+     * @param {module:model/AccountCountByAccountID} obj Optional instance to populate.
+     * @return {module:model/AccountCountByAccountID} The populated <code>AccountCountByAccountID</code> instance.
      */
-    PubkeyUpdateKeyType.constructFromObject = function(data, obj) {
+    AccountCountByAccountID.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new PubkeyUpdateKeyType()
-            if (data.hasOwnProperty('keyType')) obj.keyType = ApiClient.convertToType(data.keyType, 'Number')
-            if (data.hasOwnProperty('key')) obj.key = ApiClient.convertToType(data.key, 'String')
+            obj = obj || new AccountCountByAccountID()
+            if (data.hasOwnProperty('accountId')) obj.accountId = ApiClient.convertToType(data.accountId, 'String')
+            if (data.hasOwnProperty('count')) obj.count = ApiClient.convertToType(data.count, 'Number')
         }
         return obj
     }
 
     /**
-     * 계정키의 타입
-     * @member {Number} keyType
+     * KAS 계정 ID
+     * @member {String} accountId
      */
-    PubkeyUpdateKeyType.prototype.keyType = undefined
+    AccountCountByAccountID.prototype.accountId = undefined
 
     /**
-     * 계정의 공개키
-     * @member {String} key
+     * KAS 계정의 클레이튼 계정 보유 갯수
+     * @member {Number} count
      */
-    PubkeyUpdateKeyType.prototype.key = undefined
+    AccountCountByAccountID.prototype.count = undefined
 
-    return PubkeyUpdateKeyType
+    return AccountCountByAccountID
 })

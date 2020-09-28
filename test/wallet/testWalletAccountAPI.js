@@ -60,6 +60,7 @@ describe('Wallet API service enabling', () => {
             expect(caver.kas.wallet.fdTransactionPaidByKASApi).not.to.be.undefined
             expect(caver.kas.wallet.fdTransactionPaidByUserApi).not.to.be.undefined
             expect(caver.kas.wallet.multisigTransactionManagementApi).not.to.be.undefined
+            expect(caver.kas.wallet.statisticsApi).not.to.be.undefined
         })
     })
 
