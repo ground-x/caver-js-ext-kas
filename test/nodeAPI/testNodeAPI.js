@@ -17,7 +17,7 @@
 const _ = require('lodash')
 
 const { expect } = require('../extendedChai')
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 
 let caver
 const { url, accessKeyId, secretAccessKey } = require('../testEnv').auths.nodeAPI
@@ -29,7 +29,7 @@ const chainId = 1001
 
 describe('Node API service enabling', () => {
     beforeEach(() => {
-        caver = new Caver()
+        caver = new CaverExtKAS()
     })
 
     context('caver.initNodeAPI', () => {
@@ -54,7 +54,7 @@ describe('Node API service', () => {
     let sender
 
     before(() => {
-        caver = new Caver()
+        caver = new CaverExtKAS()
         caver.initNodeAPI(url, chainId, accessKeyId, secretAccessKey)
 
         if (senderPrivateKey !== '0x') sender = caver.wallet.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))

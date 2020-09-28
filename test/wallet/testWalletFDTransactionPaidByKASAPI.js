@@ -25,7 +25,7 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 const {
     FDValueTransferTransactionRequest,
     FDContractDeployTransactionRequest,
@@ -43,7 +43,7 @@ const sandbox = sinon.createSandbox()
 
 describe('Wallet API - FD transaction API paid by KAS', () => {
     beforeEach(() => {
-        caver = new Caver()
+        caver = new CaverExtKAS()
     })
 
     afterEach(() => {

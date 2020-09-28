@@ -24,7 +24,7 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 
 let caver
 const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.walletAPI
@@ -33,7 +33,7 @@ const sandbox = sinon.createSandbox()
 
 describe('Wallet Statistics API', () => {
     beforeEach(() => {
-        caver = new Caver()
+        caver = new CaverExtKAS()
     })
 
     afterEach(() => {

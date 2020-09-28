@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-const CaverBasic = require('caver-js')
+const Caver = require('caver-js')
 const KAS = require('./src/kas/kas')
 
-class Caver extends CaverBasic {
+class CaverExtKAS extends Caver {
     constructor(path) {
         super(path)
         this.kas = new KAS()
@@ -47,4 +47,4 @@ class Caver extends CaverBasic {
     }
 }
 
-module.exports = Caver
+module.exports = CaverExtKAS

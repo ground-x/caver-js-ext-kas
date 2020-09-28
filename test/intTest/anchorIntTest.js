@@ -23,14 +23,14 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 
 let caver
 const { url, chainId, accessKeyId, secretAccessKey, operator } = require('../testEnv').auths.anchorAPI
 
 describe('Anchor API service', () => {
     before(() => {
-        caver = new Caver()
+        caver = new CaverExtKAS()
         caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
     })
 
