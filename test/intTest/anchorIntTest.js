@@ -30,7 +30,7 @@ const { url, chainId, accessKeyId, secretAccessKey, operator } = require('../tes
 
 describe('Anchor API service', () => {
     before(() => {
-        caver = new Caver(url)
+        caver = new Caver()
         caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
     })
 

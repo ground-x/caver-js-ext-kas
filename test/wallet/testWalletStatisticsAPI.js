@@ -33,7 +33,7 @@ const sandbox = sinon.createSandbox()
 
 describe('Wallet Statistics API', () => {
     beforeEach(() => {
-        caver = new Caver(url)
+        caver = new Caver()
     })
 
     afterEach(() => {

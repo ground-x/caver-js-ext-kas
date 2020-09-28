@@ -30,7 +30,7 @@ const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').aut
 
 describe('TokenHistory API service', () => {
     before(() => {
-        caver = new Caver(url)
+        caver = new Caver()
         caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
     })
 

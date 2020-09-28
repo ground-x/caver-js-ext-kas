@@ -43,7 +43,7 @@ const sandbox = sinon.createSandbox()
 
 describe('Wallet API - FD transaction API paid by User', () => {
     beforeEach(() => {
-        caver = new Caver(url)
+        caver = new Caver()
     })
 
     afterEach(() => {

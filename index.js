@@ -23,7 +23,9 @@ class Caver extends CaverBasic {
         this.kas = new KAS()
     }
 
-    initNodeAPI(chainId, accessKeyId, secretAccessKey) {
+    initNodeAPI(path, chainId, accessKeyId, secretAccessKey) {
+        this.setProvider(path)
+
         this._requestManager.provider.headers = this._requestManager.provider.headers || []
         const auth = [
             { name: 'Authorization', value: `Basic ${Buffer.from(`${accessKeyId}:${secretAccessKey}`).toString('base64')}` },

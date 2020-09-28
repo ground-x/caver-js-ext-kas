@@ -29,17 +29,17 @@ const chainId = 1001
 
 describe('Node API service enabling', () => {
     beforeEach(() => {
-        caver = new Caver(url)
+        caver = new Caver()
     })
 
     context('caver.initNodeAPI', () => {
         it('should return error if nodeAPI is not initialized', async () => {
-            const expectedError = '{"code":1010008,"message":"The authorization header you provided is invalid."}'
+            const expectedError = 'Provider not set or invalid'
             await expect(caver.rpc.klay.getBlockNumber()).to.be.rejectedWith(expectedError)
         }).timeout(50000)
 
         it('should set valid headers to provider with x-chain-id and auth', () => {
-            caver.initNodeAPI(chainId, accessKeyId, secretAccessKey)
+            caver.initNodeAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const headers = caver._requestManager.provider.headers
             expect(headers[0].name).to.equal('Authorization')
@@ -54,8 +54,8 @@ describe('Node API service', () => {
     let sender
 
     before(() => {
-        caver = new Caver(url)
-        caver.initNodeAPI(chainId, accessKeyId, secretAccessKey)
+        caver = new Caver()
+        caver.initNodeAPI(url, chainId, accessKeyId, secretAccessKey)
 
         if (senderPrivateKey !== '0x') sender = caver.wallet.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
     })
