@@ -88,7 +88,7 @@ describe('Wallet Statistics API', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-163: should return count of accounts in KAS', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getCreateAccountSpy = sandbox.spy(caver.kas.wallet.statisticsApi, 'getAccountCountByAccountID')
             const callApiStub = sandbox.stub(caver.kas.wallet.statisticsApi.apiClient, 'callApi')
@@ -103,7 +103,7 @@ describe('Wallet Statistics API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-164: should call callback function with count of accounts in KAS', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getCreateAccountSpy = sandbox.spy(caver.kas.wallet.statisticsApi, 'getAccountCountByAccountID')
             const callApiStub = sandbox.stub(caver.kas.wallet.statisticsApi.apiClient, 'callApi')
@@ -122,7 +122,7 @@ describe('Wallet Statistics API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-165: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.wallet.statisticsApi.apiClient, 'callApi')
@@ -188,7 +188,7 @@ describe('Wallet Statistics API', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-166: should return count of accounts in KAS by KRN', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getCreateAccountSpy = sandbox.spy(caver.kas.wallet.statisticsApi, 'getAccountCountByKRN')
             const callApiStub = sandbox.stub(caver.kas.wallet.statisticsApi.apiClient, 'callApi')
@@ -203,7 +203,7 @@ describe('Wallet Statistics API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-167: should call callback function with count of accounts in KAS by KRN', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getCreateAccountSpy = sandbox.spy(caver.kas.wallet.statisticsApi, 'getAccountCountByKRN')
             const callApiStub = sandbox.stub(caver.kas.wallet.statisticsApi.apiClient, 'callApi')
@@ -222,7 +222,7 @@ describe('Wallet Statistics API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-168: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.wallet.statisticsApi.apiClient, 'callApi')

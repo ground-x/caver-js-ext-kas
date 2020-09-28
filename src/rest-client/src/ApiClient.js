@@ -501,7 +501,7 @@
                     } catch (err) {
                         error = err
                     }
-                } else if (response && response.body) {
+                } else if (response && Object.keys(response.body).length > 0) {
                     error = null
                     data = ErrorResponse.constructFromObject(response.body)
                 }

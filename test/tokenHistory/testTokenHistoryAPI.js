@@ -40,14 +40,14 @@ describe('TokenHistory API service enabling', () => {
         sandbox.restore()
     })
 
-    context('caver.enableTokenHistoryAPI', () => {
-        it('CAVERJS-EXT-KAS-TH-001: should return error if tokenHistoryAPI is not enabled', async () => {
-            const expectedError = `TokenHistory API is not enabled. Use 'caver.enableTokenHistoryAPI' function to enable TokenHistory API.`
+    context('caver.initTokenHistoryAPI', () => {
+        it('CAVERJS-EXT-KAS-TH-001: should return error if tokenHistoryAPI is not initialized', async () => {
+            const expectedError = `TokenHistory API is not initialized. Use 'caver.initTokenHistoryAPI' function to initialize TokenHistory API.`
             expect(() => caver.kas.tokenHistory.getFTContractList()).to.throw(expectedError)
         }).timeout(50000)
 
         it('CAVERJS-EXT-KAS-TH-002: should set valid auth and chain id', () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             expect(caver.kas.tokenHistory.accessOptions).not.to.be.undefined
             expect(caver.kas.tokenHistory.accessKeyId).to.equal(accessKeyId)
@@ -123,7 +123,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-003: should throw error when preset is invalid', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const expectedError = `Invalid type of presets: presets should be number or number array type.`
 
@@ -137,7 +137,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-004: should return token trasnfer history with one preset without query parameters', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = 1
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfers')
@@ -153,7 +153,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-005: should return token trasnfer history with presets without query parameters', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfers')
@@ -169,7 +169,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-006: should return token trasnfer history with query parameters (size)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = { size: 1 }
@@ -186,7 +186,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-007: should return token trasnfer history with query parameters (single kind)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = { kind: caver.kas.tokenHistory.queryOptions.kind.KLAY }
@@ -205,7 +205,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-008: should return token trasnfer history with query parameters (multiple kind)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = { kind: [caver.kas.tokenHistory.queryOptions.kind.KLAY, caver.kas.tokenHistory.queryOptions.kind.FT] }
@@ -224,7 +224,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-009: should return token trasnfer history with query parameters (cursor)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -244,7 +244,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-079: should return token trasnfer history with query parameters (range: from block number)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -263,7 +263,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-080: should return token trasnfer history with query parameters (range: from to block number without blank)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -282,7 +282,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-081: should return token trasnfer history with query parameters (range: from to block number with blank)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -301,7 +301,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-082: should return token trasnfer history with query parameters (range: from timestamp with milisecond string)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -320,7 +320,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-083: should return token trasnfer history with query parameters (range: from timestamp with second string)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -339,7 +339,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-084: should return token trasnfer history with query parameters (range: from to timestamp with milisecond string)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -358,7 +358,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-085: should return token trasnfer history with query parameters (range: from timestamp with second string)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -377,7 +377,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-086: should return token trasnfer history with query parameters (range: from to timestamp with milisecond string with blank)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -396,7 +396,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-087: should return token trasnfer history with query parameters (range: from timestamp with second string with blank)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -415,7 +415,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-097: should throw error when format of from and to are different', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -430,7 +430,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-010: should return token trasnfer history with query parameters (all)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = {
@@ -454,7 +454,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-011: should call callback function with token trasnfer history', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfers')
@@ -475,7 +475,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-012: should call callback function with token trasnfer history with query parameters', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const queryParams = { kind: caver.kas.tokenHistory.queryOptions.kind.KLAY }
@@ -498,7 +498,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-013: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const preset = [1, 2, 3]
             const errorResult = {
@@ -574,7 +574,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-014: should return token trasnfer record with specific transaction hash', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfersByTxHash')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenHistoryApi.apiClient, 'callApi')
@@ -588,7 +588,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-015: should call callback function with token trasnfer record with specific transaction hash', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfersByTxHash')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenHistoryApi.apiClient, 'callApi')
@@ -607,7 +607,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-016: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1040400,
@@ -701,7 +701,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-017: should return token trasnfer record with specific eoa address', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfersByEoa')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenHistoryApi.apiClient, 'callApi')
@@ -716,7 +716,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-018: should return token trasnfer record with specific eoa address with query options (single kind)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { kind: caver.kas.tokenHistory.queryOptions.kind.KLAY }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfersByEoa')
@@ -733,7 +733,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-019: should return token trasnfer record with specific eoa address with query options (multiple kind)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { kind: [caver.kas.tokenHistory.queryOptions.kind.KLAY, 'ft'] }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfersByEoa')
@@ -750,7 +750,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-020: should return token trasnfer record with specific eoa address with query options (caFilter)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { caFilter: ca }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfersByEoa')
@@ -766,7 +766,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-021: should return token trasnfer record with specific eoa address with query options (size)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { size: 1 }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfersByEoa')
@@ -782,7 +782,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-022: should return token trasnfer record with specific eoa address with query options (cursor)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 cursor:
@@ -801,7 +801,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-088: should return token trasnfer record with specific eoa address with query options (range: from block number)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 range: '0x12d1126',
@@ -819,7 +819,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-089: should return token trasnfer record with specific eoa address with query options (range: from to block number without blank)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 range: '0x12d1126,0x12e6520',
@@ -837,7 +837,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-090: should return token trasnfer record with specific eoa address with query options (range: from to block number with blank)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 range: '0x12d1126, 0x12e6520',
@@ -855,7 +855,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-091: should return token trasnfer record with specific eoa address with query options (range: from timestamp with milisecond string)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 range: '1596207600000',
@@ -873,7 +873,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-092: should return token trasnfer record with specific eoa address with query options (range: from timestamp with second string)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 range: '1596207600',
@@ -891,7 +891,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-093: should return token trasnfer record with specific eoa address with query options (range: from to timestamp with milisecond string)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 range: '1593529200000,1596207600000',
@@ -909,7 +909,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-094: should return token trasnfer record with specific eoa address with query options (range: from timestamp with second string)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 range: '1593529200,1596207600',
@@ -927,7 +927,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-095: should return token trasnfer record with specific eoa address with query options (range: from to timestamp with milisecond string with blank)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 range: '1593529200000, 1596207600000',
@@ -945,7 +945,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-096: should return token trasnfer record with specific eoa address with query options (range: from to timestamp with second string with blank)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 range: '1593529200, 1596207600',
@@ -963,7 +963,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-098: should throw error when format of from and to are different', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryParams = {
                 range: '1593529200,0x12e6520',
@@ -977,7 +977,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-023: should return token trasnfer record with specific eoa address with query options (all)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 kind: caver.kas.tokenHistory.queryOptions.kind.KLAY,
@@ -1000,7 +1000,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-024: should call callback function with transaction record', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenHistoryApi, 'getTransfersByEoa')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenHistoryApi.apiClient, 'callApi')
@@ -1020,7 +1020,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-025: should call callback function with transaction record with query options', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 kind: caver.kas.tokenHistory.queryOptions.kind.KLAY,
@@ -1048,7 +1048,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-026: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1041000,
@@ -1141,7 +1141,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-027: should return ft contract list', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListofFtContracts')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
@@ -1156,7 +1156,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-028: should return ft contract list with query options (status)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { status: caver.kas.tokenHistory.queryOptions.status.COMPLETE }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListofFtContracts')
@@ -1172,7 +1172,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-029: should return ft contract list with query options (type)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { type: caver.kas.tokenHistory.queryOptions.type.KIP7 }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListofFtContracts')
@@ -1188,7 +1188,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-030: should return ft contract list with query options (size)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { size: 1 }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListofFtContracts')
@@ -1204,7 +1204,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-031: should return ft contract list with query options (cursor)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 cursor:
@@ -1223,7 +1223,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-032: should return ft contract list with query options (all)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 status: caver.kas.tokenHistory.queryOptions.status.PROCESSING,
@@ -1246,7 +1246,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-033: should call callback function with ft contract list', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListofFtContracts')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
@@ -1266,7 +1266,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-034: should call callback function with ft contract list with query options', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 status: caver.kas.tokenHistory.queryOptions.status.PROCESSING,
@@ -1294,7 +1294,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-035: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1041000,
@@ -1366,7 +1366,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-036: should return fungible token contract with ft contract address', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getFtContractDetail')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
@@ -1380,7 +1380,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-037: should call callback function with ft contract', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getFtContractDetail')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
@@ -1399,7 +1399,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-038: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1040400,
@@ -1488,7 +1488,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-039: should return nft contract list', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfNftContracts')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
@@ -1503,7 +1503,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-040: should return nft contract list with query options (status)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { status: caver.kas.tokenHistory.queryOptions.status.COMPLETE }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfNftContracts')
@@ -1519,7 +1519,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-041: should return nft contract list with query options (type)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { type: caver.kas.tokenHistory.queryOptions.type.KIP17 }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfNftContracts')
@@ -1535,7 +1535,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-042: should return nft contract list with query options (size)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { size: 1 }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfNftContracts')
@@ -1551,7 +1551,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-043: should return nft contract list with query options (cursor)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 cursor:
@@ -1570,7 +1570,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-044: should return nft contract list with query options (all)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 status: caver.kas.tokenHistory.queryOptions.status.PROCESSING,
@@ -1593,7 +1593,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-045: should call callback function with nft contract list', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfNftContracts')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
@@ -1613,7 +1613,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-046: should call callback function with nft contract list with query options', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 status: caver.kas.tokenHistory.queryOptions.status.PROCESSING,
@@ -1641,7 +1641,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-047: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1041000,
@@ -1711,7 +1711,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-048: should return fungible token contract with ft contract address', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getNftContractDetail')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
@@ -1725,7 +1725,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-049: should call callback function with ft contract', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getNftContractDetail')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
@@ -1744,7 +1744,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-050: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1040400,
@@ -1829,7 +1829,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-051: should return nft list', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftsByContractAddress')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
@@ -1844,7 +1844,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-052: should return nft list with query options (status)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { status: caver.kas.tokenHistory.queryOptions.status.COMPLETE }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftsByContractAddress')
@@ -1860,7 +1860,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-053: should return nft list with query options (size)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { size: 1 }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftsByContractAddress')
@@ -1876,7 +1876,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-054: should return nft list with query options (cursor)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 cursor:
@@ -1895,7 +1895,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-055: should return nft list with query options (all)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 size: 1,
@@ -1916,7 +1916,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-056: should call callback function with nft list', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftsByContractAddress')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
@@ -1936,7 +1936,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-057: should call callback function with nft list with query options', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 size: 1,
@@ -1962,7 +1962,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-058: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1041000,
@@ -2040,7 +2040,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-059: should return nft list by owner', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftsByOwnerAddress')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
@@ -2055,7 +2055,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-060: should return nft list by owner with query options (status)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { status: caver.kas.tokenHistory.queryOptions.status.COMPLETE }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftsByOwnerAddress')
@@ -2071,7 +2071,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-061: should return nft list by owner with query options (size)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { size: 1 }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftsByOwnerAddress')
@@ -2087,7 +2087,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-062: should return nft list by owner with query options (cursor)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 cursor:
@@ -2106,7 +2106,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-063: should return nft list by owner with query options (all)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 size: 1,
@@ -2127,7 +2127,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-064: should call callback function with nft list by owner', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftsByOwnerAddress')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
@@ -2147,7 +2147,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-065: should call callback function with nft list by owner with query options', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 size: 1,
@@ -2173,7 +2173,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-066: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1041000,
@@ -2243,7 +2243,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-067: should return nft token', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftById')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
@@ -2257,7 +2257,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-068: should return nft token with number type of tokenId', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftById')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
@@ -2271,7 +2271,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-069: should call callback function with nft token', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getNftById')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
@@ -2290,7 +2290,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-070: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1040400,
@@ -2364,7 +2364,7 @@ describe('TokenHistory API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-TH-071: should return ownership history of nft token', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getListOfNftOwnershipChanges')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
@@ -2379,7 +2379,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-072: should return ownership history of nft token with query options (status)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { status: caver.kas.tokenHistory.queryOptions.status.COMPLETE }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getListOfNftOwnershipChanges')
@@ -2395,7 +2395,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-073: should return ownership history of nft token with query options (size)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = { size: 1 }
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getListOfNftOwnershipChanges')
@@ -2411,7 +2411,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-074: should return ownership history of nft token with query options (cursor)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 cursor:
@@ -2430,7 +2430,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-075: should return ownership history of nft token with query options (all)', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 size: 1,
@@ -2451,7 +2451,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-076: should call callback function with ownership history of nft token', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getListOfNftOwnershipChanges')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
@@ -2471,7 +2471,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-077: should call callback function with ownership history of nft token with query options', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const queryOptions = {
                 size: 1,
@@ -2497,7 +2497,7 @@ describe('TokenHistory API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-TH-078: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
 
             const errorResult = {
                 _code: 1041000,

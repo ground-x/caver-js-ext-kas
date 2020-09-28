@@ -34,19 +34,19 @@ class KAS {
         this.wallet.queryOptions = WalletQueryOptions
     }
 
-    enableTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey) {
+    initTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey) {
         const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
         this.tokenHistory.accessOptions = accessOptions
         this.tokenHistory.client = client
     }
 
-    enableWalletAPI(path, chainId, accessKeyId, secretAccessKey) {
+    initWalletAPI(path, chainId, accessKeyId, secretAccessKey) {
         const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
         this.wallet.accessOptions = accessOptions
         this.wallet.client = client
     }
 
-    enableAnchorAPI(path, chainId, accessKeyId, secretAccessKey) {
+    initAnchorAPI(path, chainId, accessKeyId, secretAccessKey) {
         const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
         this.anchor.accessOptions = accessOptions
         this.anchor.client = client
