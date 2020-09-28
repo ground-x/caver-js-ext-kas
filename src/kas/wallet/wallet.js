@@ -1205,11 +1205,11 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    countAccounts(callback) {
+    getAccountCount(callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
-            this.statisticsApi.getCreateAccount(this.chainId, (err, data, response) => {
+            this.statisticsApi.getAccountCountByAccountID(this.chainId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1227,11 +1227,11 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    countAccountsByKRN(krn, callback) {
+    getAccountCountByKRN(krn, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
-            this.statisticsApi.getCreateAccount1(this.chainId, krn, (err, data, response) => {
+            this.statisticsApi.getAccountCountByKRN(this.chainId, { xKrn: krn }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

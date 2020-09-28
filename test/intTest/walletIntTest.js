@@ -246,7 +246,7 @@ describe('Wallet API service', () => {
         }
 
         let status = ret.status
-        await timeout(3000)
+        await timeout(5000)
 
         while (status === 'Submitted') {
             await timeout(1000)
@@ -3488,17 +3488,15 @@ describe('Wallet API service', () => {
         expect(ret.reminders.length).to.equal(1)
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-113: caver.kas.wallet.countAccounts should return the number of accounts in KAS', async () => {
-        const ret = await caver.kas.wallet.countAccounts()
-        console.log(ret)
-        expect(ret.accountId).to.equal(accountToTest.accountId)
+    it('CAVERJS-EXT-KAS-INT-113: caver.kas.wallet.getAccountCount should return the number of accounts in KAS', async () => {
+        const ret = await caver.kas.wallet.getAccountCount()
+
         expect(ret.count > 0).to.be.true
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-114: caver.kas.wallet.countAccountsByKRN should return the number of accounts in KAS by KRN', async () => {
-        const ret = await caver.kas.wallet.countAccountsByKRN(accountToTest.krn)
-        console.log(ret)
-        expect(ret.accountId).to.equal(accountToTest.accountId)
+    it('CAVERJS-EXT-KAS-INT-114: caver.kas.wallet.getAccountCountByKRN should return the number of accounts in KAS by KRN', async () => {
+        const ret = await caver.kas.wallet.getAccountCountByKRN(accountToTest.krn)
+
         expect(ret.count > 0).to.be.true
         expect(ret.krn).to.equal(accountToTest.krn)
     }).timeout(500000)
