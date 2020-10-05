@@ -19,7 +19,7 @@ const payerPrivateKey = '0x'
 
 const auths = {
     nodeAPI: {
-        url: 'https://node-api.dev.klaytn.com/v1/klaytn',
+        url: 'https://node-api.dev.klaytn.com/v2/klaytn',
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
