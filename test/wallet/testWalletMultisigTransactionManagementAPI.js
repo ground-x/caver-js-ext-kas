@@ -40,7 +40,7 @@ describe('Wallet API - Basic transaction API', () => {
         sandbox.restore()
     })
 
-    context('caver.kas.wallet.getMultiSigTransctions', () => {
+    context('caver.kas.wallet.getMultiSigTransactionList', () => {
         const resultOfApi = {
             cursor: '',
             items: [
@@ -131,7 +131,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -150,7 +150,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, queryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -170,7 +170,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -190,7 +190,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -210,7 +210,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -230,7 +230,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -252,7 +252,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, queryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -278,7 +278,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -298,7 +298,7 @@ describe('Wallet API - Basic transaction API', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, () => {
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, () => {
                 isCalled = true
             })
 
@@ -329,7 +329,7 @@ describe('Wallet API - Basic transaction API', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams, () => {
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams, () => {
                 isCalled = true
             })
 
@@ -353,7 +353,7 @@ describe('Wallet API - Basic transaction API', () => {
                 callback(null, errorResult, {})
             })
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)

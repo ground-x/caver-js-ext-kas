@@ -174,7 +174,7 @@ class Anchor {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    getAnchoringTransactions(operator, queryOptions, callback) {
+    getAnchoringTransactionList(operator, queryOptions, callback) {
         if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         // operator
@@ -256,7 +256,7 @@ class Anchor {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    getOperators(queryOptions, callback) {
+    getOperatorList(queryOptions, callback) {
         if (!this.accessOptions || !this.operatorApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {

@@ -274,7 +274,7 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    getAccountByPublicKey(publicKey, callback) {
+    getAccountListByPublicKey(publicKey, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
@@ -1113,7 +1113,7 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    getMultiSigTransctions(address, queryOptions, callback) {
+    getMultiSigTransactionList(address, queryOptions, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
