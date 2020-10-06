@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-const CaverBasic = require('caver-js')
+const Caver = require('caver-js')
 const KAS = require('./src/kas/kas')
 
-class Caver extends CaverBasic {
+class CaverExtKAS extends Caver {
     constructor(path) {
         super(path)
         this.kas = new KAS()
     }
 
-    initNodeAPI(chainId, accessKeyId, secretAccessKey) {
+    initNodeAPI(path, chainId, accessKeyId, secretAccessKey) {
+        this.setProvider(path)
+
         this._requestManager.provider.headers = this._requestManager.provider.headers || []
         const auth = [
             { name: 'Authorization', value: `Basic ${Buffer.from(`${accessKeyId}:${secretAccessKey}`).toString('base64')}` },
@@ -45,4 +47,4 @@ class Caver extends CaverBasic {
     }
 }
 
-module.exports = Caver
+module.exports = CaverExtKAS

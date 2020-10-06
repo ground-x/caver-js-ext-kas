@@ -24,7 +24,7 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 
 let caver
 const { url, chainId, accessKeyId, secretAccessKey, operator } = require('../testEnv').auths.anchorAPI
@@ -33,7 +33,7 @@ const sandbox = sinon.createSandbox()
 
 describe('Anchor API service enabling', () => {
     beforeEach(() => {
-        caver = new Caver(url)
+        caver = new CaverExtKAS()
     })
 
     afterEach(() => {

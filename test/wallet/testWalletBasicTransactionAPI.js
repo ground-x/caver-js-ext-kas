@@ -25,7 +25,7 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 const {
     LegacyTransactionRequest,
     ValueTransferTransactionRequest,
@@ -44,7 +44,7 @@ const sandbox = sinon.createSandbox()
 
 describe('Wallet API - Basic transaction API', () => {
     beforeEach(() => {
-        caver = new Caver(url)
+        caver = new CaverExtKAS()
     })
 
     afterEach(() => {

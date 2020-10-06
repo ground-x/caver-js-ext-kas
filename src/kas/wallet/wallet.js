@@ -389,7 +389,7 @@ class Wallet {
     updateToMultiSigAccount(address, weightedMultiSig, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
-        // caver class use '_' prefix for private variable
+        // CaverExtKAS class use '_' prefix for private variable
         // so if parameter object has '_' prefix, call formatObjectKeyWithoutUnderscore to format
         const multisig = formatObjectKeyWithoutUnderscore(weightedMultiSig)
 

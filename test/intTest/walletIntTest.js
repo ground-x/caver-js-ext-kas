@@ -23,7 +23,7 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 
 let caver
 let accountToTest
@@ -127,8 +127,8 @@ function generateAccountKeySet() {
 
 describe('Wallet API service', () => {
     before(() => {
-        caver = new Caver(auths.nodeAPI.url)
-        caver.initNodeAPI(auths.nodeAPI.chainId, auths.nodeAPI.accessKeyId, auths.nodeAPI.secretAccessKey)
+        caver = new CaverExtKAS()
+        caver.initNodeAPI(auths.nodeAPI.url, auths.nodeAPI.chainId, auths.nodeAPI.accessKeyId, auths.nodeAPI.secretAccessKey)
         caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
 
         senderKeyring = caver.wallet.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
