@@ -34,6 +34,39 @@ class KAS {
         this.wallet.queryOptions = WalletQueryOptions
     }
 
+    /**
+     * @type {TokenHistory}
+     */
+    get tokenHistory() {
+        return this._tokenHistory
+    }
+
+    set tokenHistory(tokenHistory) {
+        this._tokenHistory = tokenHistory
+    }
+
+    /**
+     * @type {Wallet}
+     */
+    get wallet() {
+        return this._wallet
+    }
+
+    set wallet(wallet) {
+        this._wallet = wallet
+    }
+
+    /**
+     * @type {Anchor}
+     */
+    get anchor() {
+        return this._anchor
+    }
+
+    set anchor(anchor) {
+        this._anchor = anchor
+    }
+
     initTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey) {
         const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
         this.tokenHistory.accessOptions = accessOptions
