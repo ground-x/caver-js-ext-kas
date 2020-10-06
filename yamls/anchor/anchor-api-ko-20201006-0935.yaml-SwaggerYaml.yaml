@@ -2,22 +2,15 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: Anchor API
-  description: >+
-    # Introduction
-
-    이 문서는 KAS\(Klaytn API Service\)의 Anchor API를 소개하는 문서입니다. Anchor API는 서비스 체인 데이터의 신뢰성을 보장하기 위해 데이터 신뢰성을 증명할 수 있는 메타데이터를 Klaytn 메인 체인에 전송하는 기능을 제공합니다.
-
-
-    자세한 사용 예시는 [튜토리얼](링크)를 확인하십시오.
-
+  description: "# Introduction\n이 문서는 KAS\\(Klaytn API Service\\)의 Anchor API를 소개하는 문서입니다. Anchor API는 서비스 체인 데이터의 신뢰성을 보장하기 위해 데이터 신뢰성을 증명할 수 있는 메타데이터를 Klaytn 메인 체인에 전송하는 기능을 제공합니다.\n\n자세한 사용 예시는 [튜토리얼](링크)를 확인하십시오.\n\n\n\n# Error Codes\n\n## 400: Bad Request\n\n | Code | Messages | \n | --- | --- | \n | 1071010 | data don't exist\n1071615 | its value is out of range; size\n1072100 | same payload ID or payload was already anchored\n1072101 | all configured accounts have insufficient funds | \n"
   contact: {}
-host: localhost
+host: anchor-api.klaytnapi.com
 basePath: /
 securityDefinitions:
   auth:
     type: basic
 schemes:
-- http
+- https
 consumes:
 - application/json
 produces:
@@ -65,11 +58,24 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 2101
+              code: 1072101
               message: all configured accounts have insufficient funds
   /v1/operator/{operator-id}/tx:
     get:
-      description: 오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션 목록을 조회합니다.
+      description: >-
+        오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션 목록을 조회합니다.
+
+
+        ## Size
+
+
+        * `size` 쿼리 파라미터는 선택 파라미터입니다 (최소값 = 1, 최대값 = 1000, 기본값 = 100)
+
+        * 음수를 입력하면 오류를 반환합니다
+
+        * 0을 입력하면 기본값(`size=100`)을 사용합니다
+
+        * 최대값보다 큰 값을 입력하면 최대값을 사용합니다
       summary: RetrieveAnchorBlock
       tags:
       - Data Anchoring Transaction
@@ -86,9 +92,12 @@ paths:
       - name: size
         in: query
         required: false
+        default: 100
         type: integer
         format: int64
-        description: '검색할 계정의 최대 사이즈 (default: 100, min:1, max:-)'
+        maximum: 1000
+        exclusiveMaximum: false
+        description: 검색할 계정의 최대 사이즈
       - name: cursor
         in: query
         required: false
@@ -139,8 +148,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1071010
-              message: data don't exist
+              code: 1071615
+              message: its value is out of range; size
   /v1/operator/{operator-id}/tx/{transaction-hash}:
     get:
       description: 트랜잭션 해시값과 오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션을 조회합니다. 트랜잭션을 일으킬 때 트랜잭션에 덧붙인 Payload를 살펴볼 수 있습니다.
@@ -171,7 +180,7 @@ paths:
         200:
           description: ''
           schema:
-            $ref: '#/definitions/AnchorBlockTransactions'
+            $ref: '#/definitions/AnchorTransactionDetail'
           headers: {}
         400:
           description: ''
@@ -211,7 +220,7 @@ paths:
         200:
           description: ''
           schema:
-            $ref: '#/definitions/AnchorBlockTransactions'
+            $ref: '#/definitions/AnchorTransactionDetail'
           headers: {}
         400:
           description: ''
@@ -223,7 +232,20 @@ paths:
               message: data don't exist
   /v1/operator:
     get:
-      description: 이미 생성된 오퍼레이터 목록 및 각 오퍼레이터 설정값을 조회합니다.
+      description: >-
+        이미 생성된 오퍼레이터 목록 및 각 오퍼레이터 설정값을 조회합니다.
+
+
+        ## Size
+
+
+        * `size` 쿼리 파라미터는 선택 파라미터입니다 (최소값 = 1, 최대값 = 1000, 기본값 = 100)
+
+        * 음수를 입력하면 오류를 반환합니다
+
+        * 0을 입력하면 기본값(`size=100`)을 사용합니다
+
+        * 최대값보다 큰 값을 입력하면 최대값을 사용합니다
       summary: RetrieveOperators
       tags:
       - Operator
@@ -240,9 +262,12 @@ paths:
       - name: size
         in: query
         required: false
+        default: 100
         type: integer
         format: int64
-        description: '검색할 계정의 최대 사이즈 (default: 100, min:1, max:-)'
+        maximum: 1000
+        exclusiveMaximum: false
+        description: 검색할 계정의 최대 사이즈
       - name: cursor
         in: query
         required: false
@@ -253,7 +278,7 @@ paths:
         required: false
         type: integer
         format: int64
-        description: 검색하고자 하는 마지 시간의 타임스탬프 (초단위)
+        description: 검색하고자 하는 처음 시간의 타임스탬프 (초단위)
       - name: to-timestamp
         in: query
         required: false
@@ -306,8 +331,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1071010
-              message: data don't exist
+              code: 1071615
+              message: its value is out of range; size
   /v1/operator/{operator-id}:
     get:
       description: 해당 오퍼레이터 설정 및 오퍼레이터 계정 잔액을 조회합니다.
@@ -336,23 +361,6 @@ paths:
             $ref: '#/definitions/Operator'
           headers: {}
 definitions:
-  ErrorResponse:
-    title: ErrorResponse
-    description: this response contains error description.
-    type: object
-    properties:
-      code:
-        description: 서비스 코드(앞 3자리)와 에러 코드(뒤 4자리)
-        example: 2101
-        type: integer
-        format: int64
-      message:
-        description: 에러 메세지
-        example: all configured accounts have insufficient funds
-        type: string
-    required:
-    - code
-    - message
   AnchorBlockStatus:
     title: AnchorBlockStatus
     description: 앵커링 상태 응답
@@ -364,17 +372,34 @@ definitions:
         type: string
     required:
     - status
+  ErrorResponse:
+    title: ErrorResponse
+    description: 에러에 대한 설명을 포함한 응답
+    type: object
+    properties:
+      code:
+        description: 서비스 코드(앞 3자리)와 에러 코드(뒤 4자리)
+        example: 1072101
+        type: integer
+        format: int64
+      message:
+        description: 에러 메세지
+        example: all configured accounts have insufficient funds
+        type: string
+    required:
+    - code
+    - message
   AnchorBlockRequest:
     title: AnchorBlockRequest
-    description: anchor block request schema
+    description: 앵커 블록 요청 스키마
     type: object
     properties:
       operator:
-        description: operator 계정 주소
-        example: 0x84ddfb88a28de014d5fea114dc1efb06ce99cc42
+        description: 오퍼레이터 계정 주소
+        example: 0x426Cd8fF0672225c7e96E0bD2f9175B05790653d
         type: string
       payload:
-        description: anchor 데이터. id를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
+        description: 앵커 데이터. ID 를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
         type: object
         additionalProperties:
           type: object
@@ -417,13 +442,13 @@ definitions:
     - createdAt
     - payloadId
     - transactionHash
-  AnchorBlockTransactions:
-    title: AnchorBlockTransactions
+  AnchorTransactionDetail:
+    title: AnchorTransactionDetail
     description: 앵커링 트랜잭션 정보
     type: object
     properties:
       payload:
-        description: anchor 데이터. id를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
+        description: 앵커 데이터. ID 를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
         type: object
         additionalProperties:
           type: object
