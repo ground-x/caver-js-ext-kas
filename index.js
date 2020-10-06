@@ -23,6 +23,17 @@ class CaverExtKAS extends Caver {
         this.kas = new KAS()
     }
 
+    /**
+     * @type {KAS}
+     */
+    get kas() {
+        return this._kas
+    }
+
+    set kas(kas) {
+        this._kas = kas
+    }
+
     initNodeAPI(path, chainId, accessKeyId, secretAccessKey) {
         this.setProvider(path)
 
