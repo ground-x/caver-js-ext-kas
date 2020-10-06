@@ -172,8 +172,8 @@ describe('Wallet API service', () => {
         expect(ret).to.deep.equal(accountToTest)
     })
 
-    it('CAVERJS-EXT-KAS-INT-021: caver.kas.wallet.getAccountByPublicKey should return account in KAS wallet api service by public key', async () => {
-        const ret = await caver.kas.wallet.getAccountByPublicKey(accountToTest.publicKey)
+    it('CAVERJS-EXT-KAS-INT-021: caver.kas.wallet.getAccountListByPublicKey should return account in KAS wallet api service by public key', async () => {
+        const ret = await caver.kas.wallet.getAccountListByPublicKey(accountToTest.publicKey)
 
         expect(ret.items.length).to.equal(1)
         expect(ret.items[0].address).to.equal(accountToTest.address)
@@ -3458,8 +3458,8 @@ describe('Wallet API service', () => {
         }
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-110: caver.kas.wallet.getMultiSigTransctions should return multisig transaction list', async () => {
-        const ret = await caver.kas.wallet.getMultiSigTransctions(multiSigAccount.address)
+    it('CAVERJS-EXT-KAS-INT-110: caver.kas.wallet.getMultiSigTransactionList should return multisig transaction list', async () => {
+        const ret = await caver.kas.wallet.getMultiSigTransactionList(multiSigAccount.address)
 
         expect(ret.items).not.to.be.undefined
         expect(ret.items.length).to.equal(1)

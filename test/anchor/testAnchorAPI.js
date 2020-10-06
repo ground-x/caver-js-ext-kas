@@ -43,7 +43,7 @@ describe('Anchor API service enabling', () => {
     context('caver.initAnchorAPI', () => {
         it('CAVERJS-EXT-KAS-ANCHOR-001: should return error if anchorAPI is not initialized', async () => {
             const expectedError = `Anchor API is not initialized. Use 'caver.initAnchorAPI' function to initialize Anchor API.`
-            expect(() => caver.kas.anchor.getOperators()).to.throw(expectedError)
+            expect(() => caver.kas.anchor.getOperatorList()).to.throw(expectedError)
         }).timeout(50000)
 
         it('CAVERJS-EXT-KAS-ANCHOR-002: should set valid auth and chain id', () => {
@@ -163,7 +163,7 @@ describe('Anchor API service enabling', () => {
         })
     })
 
-    context('caver.kas.anchor.getAnchoringTransactions', () => {
+    context('caver.kas.anchor.getAnchoringTransactionList', () => {
         const anchoredTxsResult = {
             cursor:
                 'eyJjcmVhdGVkX2F0IjoxNTk4NDE2NTQ5LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMTUiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ==',
@@ -222,7 +222,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, operator)
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator)
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -237,7 +237,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, operator, queryParams)
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryParams)
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -253,7 +253,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, operator, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryParams)
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -269,7 +269,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, operator, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryParams)
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -285,7 +285,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, operator, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryParams)
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -301,7 +301,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, operator, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryParams)
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -319,7 +319,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, operator, queryParams)
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryParams)
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -341,7 +341,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, operator, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryParams)
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -357,7 +357,7 @@ describe('Anchor API service enabling', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, () => {
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, () => {
                 isCalled = true
             })
 
@@ -384,7 +384,7 @@ describe('Anchor API service enabling', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryParams, () => {
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryParams, () => {
                 isCalled = true
             })
 
@@ -407,7 +407,7 @@ describe('Anchor API service enabling', () => {
                 callback(null, anchoringErrorResult, {})
             })
 
-            const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryParams)
+            const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryParams)
 
             expect(ret.code).to.equal(anchoringErrorResult.code)
             expect(ret.message).to.equal(anchoringErrorResult.message)
@@ -596,7 +596,7 @@ describe('Anchor API service enabling', () => {
         })
     })
 
-    context('caver.kas.anchor.getOperators', () => {
+    context('caver.kas.anchor.getOperatorList', () => {
         const operatorsResult = {
             cursor:
                 'eyJjcmVhdGVkX2F0IjoxNTk4NTk2MjcwLCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweDM3MUUwNDk3OTEzMkMyMzMzMGVFNzc3NjAxQzk4MTQ1M2Y3ZjU0MmUiLCJycG4iOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdCIsInR5cGUiOiJPUFIifQ==',
@@ -655,7 +655,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub)
 
-            const ret = await caver.kas.anchor.getOperators()
+            const ret = await caver.kas.anchor.getOperatorList()
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -670,7 +670,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, queryParams)
 
-            const ret = await caver.kas.anchor.getOperators(queryParams)
+            const ret = await caver.kas.anchor.getOperatorList(queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -686,7 +686,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getOperators(queryParams)
+            const ret = await caver.kas.anchor.getOperatorList(queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -702,7 +702,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getOperators(queryParams)
+            const ret = await caver.kas.anchor.getOperatorList(queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -718,7 +718,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getOperators(queryParams)
+            const ret = await caver.kas.anchor.getOperatorList(queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -734,7 +734,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getOperators(queryParams)
+            const ret = await caver.kas.anchor.getOperatorList(queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -752,7 +752,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, queryParams)
 
-            const ret = await caver.kas.anchor.getOperators(queryParams)
+            const ret = await caver.kas.anchor.getOperatorList(queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -774,7 +774,7 @@ describe('Anchor API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.anchor.getOperators(queryParams)
+            const ret = await caver.kas.anchor.getOperatorList(queryParams)
 
             expect(anchorTxSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -790,7 +790,7 @@ describe('Anchor API service enabling', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.anchor.getOperators(() => {
+            const ret = await caver.kas.anchor.getOperatorList(() => {
                 isCalled = true
             })
 
@@ -817,7 +817,7 @@ describe('Anchor API service enabling', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.anchor.getOperators(queryParams, () => {
+            const ret = await caver.kas.anchor.getOperatorList(queryParams, () => {
                 isCalled = true
             })
 
@@ -840,7 +840,7 @@ describe('Anchor API service enabling', () => {
                 callback(null, anchoringErrorResult, {})
             })
 
-            const ret = await caver.kas.anchor.getOperators(queryParams)
+            const ret = await caver.kas.anchor.getOperatorList(queryParams)
 
             expect(ret.code).to.equal(anchoringErrorResult.code)
             expect(ret.message).to.equal(anchoringErrorResult.message)

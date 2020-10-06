@@ -526,7 +526,7 @@ describe('Wallet API service enabling', () => {
         })
     })
 
-    context('caver.kas.wallet.getAccountByPublicKey', () => {
+    context('caver.kas.wallet.getAccountListByPublicKey', () => {
         const resultOfApi = {
             items: [
                 {
@@ -579,7 +579,7 @@ describe('Wallet API service enabling', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub)
 
-            const ret = await caver.kas.wallet.getAccountByPublicKey(publicKey)
+            const ret = await caver.kas.wallet.getAccountListByPublicKey(publicKey)
 
             expect(retrieveAccountsByPubkeySpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -595,7 +595,7 @@ describe('Wallet API service enabling', () => {
             setCallFakeForCallApi(callApiStub)
 
             let isCalled = false
-            const ret = await caver.kas.wallet.getAccountByPublicKey(publicKey, () => {
+            const ret = await caver.kas.wallet.getAccountListByPublicKey(publicKey, () => {
                 isCalled = true
             })
 
@@ -616,7 +616,7 @@ describe('Wallet API service enabling', () => {
                 callback(null, errorResult, {})
             })
 
-            const ret = await caver.kas.wallet.getAccountByPublicKey(publicKey)
+            const ret = await caver.kas.wallet.getAccountListByPublicKey(publicKey)
 
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)

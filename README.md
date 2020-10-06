@@ -61,7 +61,7 @@ Set your authorization using the `caver.initXXXAPI` function as shown below.
 
 ```javascript
 const caver = new CaverExtKAS()
-caver.initNodeAPI('https://node-api.dev.klaytn.com/v2/klaytn', chainId, accessKeyId, secretAccessKey)
+caver.initNodeAPI('https://node-api.dev.klaytn.com/v1/klaytn', chainId, accessKeyId, secretAccessKey)
 ```
 
 The following describes how to initialize for tokenHistory, wallet, and anchor api. To initialize each api service, a separate url path must be given.
@@ -126,7 +126,7 @@ console.log(queryOptions)
 You can now use KAS's Anchor API through caver-js-ext-kas. You can send a Anchor API request to the KAS as shown below and check the results.
 
 ```javascript
-const operators = await caver.kas.anchor.getOperators()
+const operators = await caver.kas.anchor.getOperatorList()
 console.log(operators)
 ```
 
