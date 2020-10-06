@@ -22,7 +22,7 @@
             // Anchor
             './anchor/model/AnchorBlockRequest',
             './anchor/model/AnchorBlockStatus',
-            './anchor/model/AnchorBlockTransactions',
+            './anchor/model/AnchorTransactionDetail',
             './anchor/model/AnchorTransaction',
             './anchor/model/AnchorTransactions',
             './anchor/model/Operator',
@@ -122,7 +122,7 @@
             // Anchor
             require('./anchor/model/AnchorBlockRequest'),
             require('./anchor/model/AnchorBlockStatus'),
-            require('./anchor/model/AnchorBlockTransactions'),
+            require('./anchor/model/AnchorTransactionDetail'),
             require('./anchor/model/AnchorTransaction'),
             require('./anchor/model/AnchorTransactions'),
             require('./anchor/model/Operator'),
@@ -221,7 +221,7 @@
     // Anchor
     AnchorBlockRequest,
     AnchorBlockStatus,
-    AnchorBlockTransactions,
+    AnchorTransactionDetail,
     AnchorTransaction,
     AnchorTransactions,
     Operator,
@@ -363,10 +363,10 @@
          */
         AnchorBlockStatus: AnchorBlockStatus,
         /**
-         * The AnchorBlockTransactions model constructor.
-         * @property {module:anchor/model/AnchorBlockTransactions}
+         * The AnchorTransactionDetail model constructor.
+         * @property {module:anchor/model/AnchorTransactionDetail}
          */
-        AnchorBlockTransactions: AnchorBlockTransactions,
+        AnchorTransactionDetail: AnchorTransactionDetail,
         /**
          * The AnchorTransaction model constructor.
          * @property {module:anchor/model/AnchorTransaction}
