@@ -49,6 +49,13 @@ class CaverExtKAS extends Caver {
     }
 
     initNodeAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.node) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+
+        const splitted = url.split('/')
+        if (splitted[splitted.length - 1] !== 'klaytn' || splitted[splitted.length - 2] !== 'v1') {
+            url = `${splitted.join('/')}/v1/klaytn`
+        }
+
         this.setProvider(url)
 
         this._requestManager.provider.headers = this._requestManager.provider.headers || []
@@ -60,14 +67,17 @@ class CaverExtKAS extends Caver {
     }
 
     initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.tokenHistory) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 
     initWalletAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.wallet) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 
     initAnchorAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.anchor) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 }
