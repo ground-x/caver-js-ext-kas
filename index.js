@@ -17,6 +17,13 @@
 const Caver = require('caver-js')
 const KAS = require('./src/kas/kas')
 
+const productionEndpoints = {
+    node: 'https://node-api.klaytnapi.com/v1/klaytn',
+    wallet: 'https://wallet-api.klaytnapi.com',
+    anchor: 'https://anchor-api.klaytnapi.com',
+    tokenHistory: 'https://th-api.klaytnapi.com',
+}
+
 class CaverExtKAS extends Caver {
     constructor(path) {
         super(path)
@@ -34,8 +41,22 @@ class CaverExtKAS extends Caver {
         this._kas = kas
     }
 
-    initNodeAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.setProvider(path)
+    initKASAPI(chainId, accessKeyId, secretAccessKey) {
+        this.initNodeAPI(chainId, accessKeyId, secretAccessKey)
+        this.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey)
+        this.initWalletAPI(chainId, accessKeyId, secretAccessKey)
+        this.initAnchorAPI(chainId, accessKeyId, secretAccessKey)
+    }
+
+    initNodeAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.node) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+
+        const splitted = url.split('/')
+        if (splitted[splitted.length - 1] !== 'klaytn' || splitted[splitted.length - 2] !== 'v1') {
+            url = `${splitted.join('/')}/v1/klaytn`
+        }
+
+        this.setProvider(url)
 
         this._requestManager.provider.headers = this._requestManager.provider.headers || []
         const auth = [
@@ -45,16 +66,19 @@ class CaverExtKAS extends Caver {
         this._requestManager.provider.headers = this._requestManager.provider.headers.concat(auth)
     }
 
-    initTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.kas.initTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey)
+    initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.tokenHistory) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+        this.kas.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 
-    initWalletAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.kas.initWalletAPI(path, chainId, accessKeyId, secretAccessKey)
+    initWalletAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.wallet) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+        this.kas.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 
-    initAnchorAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.kas.initAnchorAPI(path, chainId, accessKeyId, secretAccessKey)
+    initAnchorAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.anchor) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+        this.kas.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 }
 

@@ -47,7 +47,7 @@ describe('Wallet API service enabling', () => {
         }).timeout(50000)
 
         it('CAVERJS-EXT-KAS-WALLET-002: should set valid auth and chain id', () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             expect(caver.kas.wallet.accessOptions).not.to.be.undefined
             expect(caver.kas.wallet.accessKeyId).to.equal(accessKeyId)
@@ -112,7 +112,7 @@ describe('Wallet API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-003: should create account in KAS', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const createAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'createAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -126,7 +126,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-004: should call callback function with api result', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const createAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'createAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -145,7 +145,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-005: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -219,7 +219,7 @@ describe('Wallet API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-006: should return accounts without query parameters', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const retrieveAccountsSpy = sandbox.spy(caver.kas.wallet.accountApi, 'retrieveAccounts')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -234,7 +234,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-007: should return accounts with query parameters (size)', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { size: 1 }
             const retrieveAccountsSpy = sandbox.spy(caver.kas.wallet.accountApi, 'retrieveAccounts')
@@ -250,7 +250,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-008: should return accounts with query parameters (from-timestamp)', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { 'from-timestamp': Date.now() }
             const expectedQueryParams = caver.kas.wallet.queryOptions.constructFromObject(queryParams)
@@ -267,7 +267,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-009: should return accounts with query parameters (fromTimestamp)', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { fromTimestamp: Date.now() }
             const expectedQueryParams = caver.kas.wallet.queryOptions.constructFromObject(queryParams)
@@ -284,7 +284,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-010: should return accounts with query parameters (to-timestamp)', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { 'to-timestamp': Date.now() }
             const expectedQueryParams = caver.kas.wallet.queryOptions.constructFromObject(queryParams)
@@ -301,7 +301,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-011: should return accounts with query parameters (toTimestamp)', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { toTimestamp: Date.now() }
             const expectedQueryParams = caver.kas.wallet.queryOptions.constructFromObject(queryParams)
@@ -318,7 +318,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-012: should return accounts with query parameters (cursor)', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 cursor:
@@ -337,7 +337,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-013: should return accounts with query parameters (size, fromTimestamp, toTimestamp, cursor)', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 size: 1,
@@ -360,7 +360,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-014: should call callback function with accounts', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const retrieveAccountsSpy = sandbox.spy(caver.kas.wallet.accountApi, 'retrieveAccounts')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -380,7 +380,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-015: should call callback function with accounts with query parameters', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 size: 1,
@@ -408,7 +408,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-016: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 fromTimestamp: Date.now(),
@@ -476,7 +476,7 @@ describe('Wallet API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-017: should return account from KAS', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const retrieveAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'retrieveAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -491,7 +491,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-018: should call callback function with account', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const retrieveAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'retrieveAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -510,7 +510,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-019: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -573,7 +573,7 @@ describe('Wallet API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-020: should return account', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const retrieveAccountsByPubkeySpy = sandbox.spy(caver.kas.wallet.accountApi, 'retrieveAccountsByPubkey')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -588,7 +588,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-021: should call callback function with account', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const retrieveAccountsByPubkeySpy = sandbox.spy(caver.kas.wallet.accountApi, 'retrieveAccountsByPubkey')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -607,7 +607,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-022: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -664,7 +664,7 @@ describe('Wallet API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-023: should return operators without query parameters', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const deleteAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'deleteAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -679,7 +679,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-024: should call callback function with operators', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const deleteAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'deleteAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -699,7 +699,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-025: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -760,7 +760,7 @@ describe('Wallet API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-026: should deactive account', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const deactivateAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'deactivateAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -775,7 +775,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-027: should call callback function with result of deactive', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const deactivateAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'deactivateAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -795,7 +795,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-028: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -856,7 +856,7 @@ describe('Wallet API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-029: should active account', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const activateAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'activateAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -871,7 +871,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-030: should call callback function with result of enable', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const activateAccountSpy = sandbox.spy(caver.kas.wallet.accountApi, 'activateAccount')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -891,7 +891,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-031: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -954,7 +954,7 @@ describe('Wallet API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-032: should call sign transaction api', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const signTransactionIDResponseSpy = sandbox.spy(caver.kas.wallet.accountApi, 'signTransactionIDResponse')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -969,7 +969,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-033: should call callback function with result of signing', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const signTransactionIDResponseSpy = sandbox.spy(caver.kas.wallet.accountApi, 'signTransactionIDResponse')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -989,7 +989,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-034: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -1094,7 +1094,7 @@ describe('Wallet API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-035: should send post request to update account to multisig', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.wallet.accountApi, 'multisigAccountUpdate')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -1109,7 +1109,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-036: should call callback function with update result', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.wallet.accountApi, 'multisigAccountUpdate')
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')
@@ -1129,7 +1129,7 @@ describe('Wallet API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-037: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.wallet.accountApi.apiClient, 'callApi')

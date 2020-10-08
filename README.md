@@ -57,19 +57,22 @@ $ npm run intTest
 
 You can use KAS' Node API, Token History API, Wallet API, and Anchor API through this library. To use KAS, you need your "access key id", "secret access key" and chain id of the Klaytn blochain network.
 
-Set your authorization using the `caver.initXXXAPI` function as shown below.
+Set your authorization using the `caver.initKASAPI` function as shown below. This function sets the authentication key used by the node api, token history api, wallet api and anchor api at once.
 
 ```javascript
 const caver = new CaverExtKAS()
-caver.initNodeAPI('https://node-api.dev.klaytn.com/v1/klaytn', chainId, accessKeyId, secretAccessKey)
+caver.initKASAPI(chainId, accessKeyId, secretAccessKey)
 ```
 
-The following describes how to initialize for tokenHistory, wallet, and anchor api. To initialize each api service, a separate url path must be given.
+The following describes how to set auth key for each node, tokenHistory, wallet, and anchor api.
+
+Each initialization function is provided so that you can pass an optional endpoint url as the last parameter. If the endpoint url is not passed as the last parameter, the KAS production url is set by default.
 
 ```javascript
-caver.initTokenHistoryAPI('https://th-api.dev.klaytn.com', chainId, accessKeyId, secretAccessKey)
-caver.initWalletAPI('https://wallet-api.dev.klaytn.com', chainId, accessKeyId, secretAccessKey)
-caver.initAnchorAPI('https://anchor-api.dev.klaytn.com', chainId, accessKeyId, secretAccessKey)
+caver.initNodeAPI(chainId, accessKeyId, secretAccessKey [, url])
+caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey [, url])
+caver.initWalletAPI(chainId, accessKeyId, secretAccessKey [, url])
+caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey [, url])
 ```
 
 ### Use Node API
