@@ -39,7 +39,7 @@ describe('Node API service enabling', () => {
         }).timeout(50000)
 
         it('should set valid headers to provider with x-chain-id and auth', () => {
-            caver.initNodeAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initNodeAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const headers = caver._requestManager.provider.headers
             expect(headers[0].name).to.equal('Authorization')
@@ -55,7 +55,7 @@ describe('Node API service', () => {
 
     before(() => {
         caver = new CaverExtKAS()
-        caver.initNodeAPI(url, chainId, accessKeyId, secretAccessKey)
+        caver.initNodeAPI(chainId, accessKeyId, secretAccessKey, url)
 
         if (senderPrivateKey !== '0x') sender = caver.wallet.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
     })

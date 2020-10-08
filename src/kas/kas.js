@@ -67,20 +67,20 @@ class KAS {
         this._anchor = anchor
     }
 
-    initTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey) {
-        const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
+    initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.tokenHistory.accessOptions = accessOptions
         this.tokenHistory.client = client
     }
 
-    initWalletAPI(path, chainId, accessKeyId, secretAccessKey) {
-        const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
+    initWalletAPI(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.wallet.accessOptions = accessOptions
         this.wallet.client = client
     }
 
-    initAnchorAPI(path, chainId, accessKeyId, secretAccessKey) {
-        const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
+    initAnchorAPI(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.anchor.accessOptions = accessOptions
         this.anchor.client = client
     }

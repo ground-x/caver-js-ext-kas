@@ -47,7 +47,7 @@ describe('Anchor API service enabling', () => {
         }).timeout(50000)
 
         it('CAVERJS-EXT-KAS-ANCHOR-002: should set valid auth and chain id', () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             expect(caver.kas.anchor.accessOptions).not.to.be.undefined
             expect(caver.kas.anchor.accessKeyId).to.equal(accessKeyId)
@@ -100,7 +100,7 @@ describe('Anchor API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-ANCHOR-003: should send post request to anchor data', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchoringData = { id: 'some id string' }
 
@@ -116,7 +116,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-004: should call callback function with anchored result', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchoringData = { id: 'some id string' }
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.anchorApi, 'anchorBlock')
@@ -136,7 +136,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-005: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchoringData = { id: 'some id string' }
             const anchoringErrorResult = { code: 1072100, message: 'same payload ID or payload was already anchored' }
@@ -153,7 +153,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-006: should throw error with invalid id', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             let expectedError = `The payload id should be defined.`
             expect(() => caver.kas.anchor.sendAnchoringData(operator, {})).to.throw(expectedError)
@@ -216,7 +216,7 @@ describe('Anchor API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-ANCHOR-007: should return anchored transactions without query parameters', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.anchorApi, 'retrieveAnchorBlock')
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
@@ -230,7 +230,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-008: should return anchored transactions with query parameters (size)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { size: 1 }
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.anchorApi, 'retrieveAnchorBlock')
@@ -245,7 +245,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-009: should return anchored transactions with query parameters (from-timestamp)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { 'from-timestamp': Date.now() }
             const expectedQueryParams = caver.kas.anchor.queryOptions.constructFromObject(queryParams)
@@ -261,7 +261,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-010: should return anchored transactions with query parameters (fromTimestamp)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { fromTimestamp: Date.now() }
             const expectedQueryParams = caver.kas.anchor.queryOptions.constructFromObject(queryParams)
@@ -277,7 +277,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-011: should return anchored transactions with query parameters (to-timestamp)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { 'to-timestamp': Date.now() }
             const expectedQueryParams = caver.kas.anchor.queryOptions.constructFromObject(queryParams)
@@ -293,7 +293,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-012: should return anchored transactions with query parameters (toTimestamp)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { toTimestamp: Date.now() }
             const expectedQueryParams = caver.kas.anchor.queryOptions.constructFromObject(queryParams)
@@ -309,7 +309,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-013: should return anchored transactions with query parameters (cursor)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 cursor:
@@ -327,7 +327,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-014: should return anchored transactions with query parameters (size, fromTimestamp, toTimestamp, cursor)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 size: 1,
@@ -349,7 +349,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-015: should call callback function with anchored transactions', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.anchorApi, 'retrieveAnchorBlock')
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
@@ -368,7 +368,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-016: should call callback function with anchored transactions with query parameters', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 size: 1,
@@ -395,7 +395,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-017: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 fromTimestamp: Date.now(),
@@ -457,7 +457,7 @@ describe('Anchor API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-ANCHOR-018: should return anchored transaction', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.anchorApi, 'getAnchorBlockByTx')
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
@@ -471,7 +471,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-019: should call callback function with anchored transaction', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.anchorApi, 'getAnchorBlockByTx')
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
@@ -489,7 +489,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-020: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchoringErrorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
@@ -548,7 +548,7 @@ describe('Anchor API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-ANCHOR-021: should return anchored transaction', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.anchorApi, 'getAnchorBlockByPayloadID')
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
@@ -562,7 +562,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-022: should call callback function with anchored transaction', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.anchorApi, 'getAnchorBlockByPayloadID')
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
@@ -580,7 +580,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-023: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchoringErrorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.anchor.anchorApi.apiClient, 'callApi')
@@ -649,7 +649,7 @@ describe('Anchor API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-ANCHOR-024: should return operators without query parameters', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.operatorApi, 'retrieveOperators')
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
@@ -663,7 +663,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-025: should return operators with query parameters (size)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { size: 1 }
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.operatorApi, 'retrieveOperators')
@@ -678,7 +678,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-026: should return operators with query parameters (from-timestamp)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { 'from-timestamp': Date.now() }
             const expectedQueryParams = caver.kas.anchor.queryOptions.constructFromObject(queryParams)
@@ -694,7 +694,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-027: should return operators with query parameters (fromTimestamp)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { fromTimestamp: Date.now() }
             const expectedQueryParams = caver.kas.anchor.queryOptions.constructFromObject(queryParams)
@@ -710,7 +710,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-028: should return operators with query parameters (to-timestamp)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { 'to-timestamp': Date.now() }
             const expectedQueryParams = caver.kas.anchor.queryOptions.constructFromObject(queryParams)
@@ -726,7 +726,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-029: should return operators with query parameters (toTimestamp)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { toTimestamp: Date.now() }
             const expectedQueryParams = caver.kas.anchor.queryOptions.constructFromObject(queryParams)
@@ -742,7 +742,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-030: should return operators with query parameters (cursor)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 cursor:
@@ -760,7 +760,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-031: should return operators with query parameters (size, fromTimestamp, toTimestamp, cursor)', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 size: 1,
@@ -782,7 +782,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-032: should call callback function with operators', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.operatorApi, 'retrieveOperators')
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
@@ -801,7 +801,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-033: should call callback function with operators with query parameters', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 size: 1,
@@ -828,7 +828,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-034: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 fromTimestamp: Date.now(),
@@ -890,7 +890,7 @@ describe('Anchor API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-ANCHOR-035: should return operators without query parameters', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.operatorApi, 'getOperator')
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
@@ -904,7 +904,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-036: should call callback function with operators', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchorTxSpy = sandbox.spy(caver.kas.anchor.operatorApi, 'getOperator')
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')
@@ -923,7 +923,7 @@ describe('Anchor API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-ANCHOR-037: should resolve the promise when error is returned from KAS server', async () => {
-            caver.initAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const anchoringErrorResult = { code: 1071010, message: "data don't exist" }
             const callApiStub = sandbox.stub(caver.kas.anchor.operatorApi.apiClient, 'callApi')

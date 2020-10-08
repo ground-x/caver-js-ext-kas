@@ -31,7 +31,7 @@ const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').aut
 describe('TokenHistory API service', () => {
     before(() => {
         caver = new CaverExtKAS()
-        caver.initTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+        caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
     })
 
     it('CAVERJS-EXT-KAS-INT-007: caver.kas.tokenHistory.getTransferHistory should query transfer history', async () => {

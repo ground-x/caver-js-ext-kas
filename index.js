@@ -17,6 +17,13 @@
 const Caver = require('caver-js')
 const KAS = require('./src/kas/kas')
 
+const productionEndpoints = {
+    node: 'https://node-api.klaytnapi.com/v1/klaytn',
+    wallet: 'https://wallet-api.klaytnapi.com',
+    anchor: 'https://anchor-api.klaytnapi.com',
+    tokenHistory: 'https://th-api.klaytnapi.com',
+}
+
 class CaverExtKAS extends Caver {
     constructor(path) {
         super(path)
@@ -34,8 +41,15 @@ class CaverExtKAS extends Caver {
         this._kas = kas
     }
 
-    initNodeAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.setProvider(path)
+    initKASAPI(chainId, accessKeyId, secretAccessKey) {
+        this.initNodeAPI(chainId, accessKeyId, secretAccessKey)
+        this.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey)
+        this.initWalletAPI(chainId, accessKeyId, secretAccessKey)
+        this.initAnchorAPI(chainId, accessKeyId, secretAccessKey)
+    }
+
+    initNodeAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.node) {
+        this.setProvider(url)
 
         this._requestManager.provider.headers = this._requestManager.provider.headers || []
         const auth = [
@@ -45,16 +59,16 @@ class CaverExtKAS extends Caver {
         this._requestManager.provider.headers = this._requestManager.provider.headers.concat(auth)
     }
 
-    initTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.kas.initTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey)
+    initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.tokenHistory) {
+        this.kas.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 
-    initWalletAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.kas.initWalletAPI(path, chainId, accessKeyId, secretAccessKey)
+    initWalletAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.wallet) {
+        this.kas.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 
-    initAnchorAPI(path, chainId, accessKeyId, secretAccessKey) {
-        this.kas.initAnchorAPI(path, chainId, accessKeyId, secretAccessKey)
+    initAnchorAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.anchor) {
+        this.kas.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 }
 
