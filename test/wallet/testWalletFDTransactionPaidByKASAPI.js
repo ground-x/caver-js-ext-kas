@@ -808,7 +808,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
         })
     })
 
-    context('caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer', () => {
+    context('caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer', () => {
         const resultOfApi = {
             rlp:
                 '0x09f8dc018505d21dba0082c3509476c6b1f34562ed7a843786e1d7f57d0d7948a6f101942d903845cc553f13c76ad6748304ed998ab050eff847f8458207f6a00c641e9a0cd50a62242e6998108a02ebacc89d48dd1e6a5a6e67524fd5d46e3ba06864a8891408c61e1cab4ffe8f76c945fa68f41bb36b926590f150429aeb2c34941b71a63903e35371e2fc41c6012effb99b9a2c0ff847f8458207f5a07ebe3dd5fec86fca2acb22798f3c1f81729b5db26dce26d12f15b4c5d064eda7a0149cb5e8dd5421623965a9431c90c8f293f83dad3ee5c0fea21bc8106a98d344',
@@ -882,7 +882,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByKASApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
-            const ret = await caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer(txObj)
+            const ret = await caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer(txObj)
 
             expect(apiFunctionSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -897,7 +897,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByKASApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
-            const ret = await caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer(requestModel)
+            const ret = await caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer(requestModel)
 
             expect(apiFunctionSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -913,7 +913,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer(txObj, () => {
+            const ret = await caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer(txObj, () => {
                 isCalled = true
             })
 
@@ -933,7 +933,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                 callback(null, errorResult, {})
             })
 
-            const ret = await caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer(txObj)
+            const ret = await caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer(txObj)
 
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)
