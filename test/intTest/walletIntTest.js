@@ -1770,7 +1770,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-070: caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer should request fee delegated transaction via RLP-encoded string paid by KAS global fee payer (submit true)', async () => {
+    it('CAVERJS-EXT-KAS-INT-070: caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer should request fee delegated transaction via RLP-encoded string paid by KAS global fee payer (submit true)', async () => {
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByGlobalFeePayer({
             from: accountToTest.address,
             to: senderKeyring.address,
@@ -1784,7 +1784,7 @@ describe('Wallet API service', () => {
             submit: true,
         }
 
-        const ret = await caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer(tx)
+        const ret = await caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer(tx)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -1813,7 +1813,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-071: caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer should return fee payer signed fee delegated transaction via RLP-encoded string paid by KAS global fee payer (submit false)', async () => {
+    it('CAVERJS-EXT-KAS-INT-071: caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer should return fee payer signed fee delegated transaction via RLP-encoded string paid by KAS global fee payer (submit false)', async () => {
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByGlobalFeePayer({
             from: accountToTest.address,
             to: senderKeyring.address,
@@ -1827,7 +1827,7 @@ describe('Wallet API service', () => {
             submit: false,
         }
 
-        const ret = await caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer(tx)
+        const ret = await caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer(tx)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -1855,7 +1855,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-072: caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer should request fee delegated with ratio transaction via RLP-encoded string paid by KAS global fee payer (submit true)', async () => {
+    it('CAVERJS-EXT-KAS-INT-072: caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer should request fee delegated with ratio transaction via RLP-encoded string paid by KAS global fee payer (submit true)', async () => {
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByGlobalFeePayer({
             from: accountToTest.address,
             to: senderKeyring.address,
@@ -1871,7 +1871,7 @@ describe('Wallet API service', () => {
             feeRatio: 99,
         }
 
-        const ret = await caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer(tx)
+        const ret = await caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer(tx)
 
         Object.keys(tx).map(k => {
             if (k === 'submit' || k === 'feeRatio') {
@@ -1900,7 +1900,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-073: caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer should return fee payer signed fee delegated with ratio transaction via RLP-encoded string paid by KAS global fee payer (submit false)', async () => {
+    it('CAVERJS-EXT-KAS-INT-073: caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer should return fee payer signed fee delegated with ratio transaction via RLP-encoded string paid by KAS global fee payer (submit false)', async () => {
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByGlobalFeePayer({
             from: accountToTest.address,
             to: senderKeyring.address,
@@ -1916,7 +1916,7 @@ describe('Wallet API service', () => {
             feeRatio: 99,
         }
 
-        const ret = await caver.kas.wallet.requestRawTransactionPaidByGlobalFeePayer(tx)
+        const ret = await caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer(tx)
 
         Object.keys(tx).map(k => {
             if (k === 'submit' || k === 'feeRatio') {
@@ -3039,7 +3039,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-102: caver.kas.wallet.requestRawTransactionPaidByUser should request fee delegated transaction via RLP-encoded string paid by user (submit true)', async () => {
+    it('CAVERJS-EXT-KAS-INT-102: caver.kas.wallet.requestFDRawTransactionPaidByUser should request fee delegated transaction via RLP-encoded string paid by user (submit true)', async () => {
         const result = await caver.kas.wallet.requestFDValueTransferPaidByUser({
             from: accountToTest.address,
             to: senderKeyring.address,
@@ -3056,7 +3056,7 @@ describe('Wallet API service', () => {
             submit: true,
         }
 
-        const ret = await caver.kas.wallet.requestRawTransactionPaidByUser(tx)
+        const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(tx)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -3085,7 +3085,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-103: caver.kas.wallet.requestRawTransactionPaidByUser should return fee payer signed fee delegated transaction via RLP-encoded string paid by user (submit false)', async () => {
+    it('CAVERJS-EXT-KAS-INT-103: caver.kas.wallet.requestFDRawTransactionPaidByUser should return fee payer signed fee delegated transaction via RLP-encoded string paid by user (submit false)', async () => {
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByUser({
             from: accountToTest.address,
             to: senderKeyring.address,
@@ -3101,7 +3101,7 @@ describe('Wallet API service', () => {
             submit: false,
         }
 
-        const ret = await caver.kas.wallet.requestRawTransactionPaidByUser(tx)
+        const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(tx)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -3129,7 +3129,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-104: caver.kas.wallet.requestRawTransactionPaidByUser should request fee delegated with ratio transaction via RLP-encoded string paid by user (submit true)', async () => {
+    it('CAVERJS-EXT-KAS-INT-104: caver.kas.wallet.requestFDRawTransactionPaidByUser should request fee delegated with ratio transaction via RLP-encoded string paid by user (submit true)', async () => {
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByUser({
             from: accountToTest.address,
             to: senderKeyring.address,
@@ -3147,7 +3147,7 @@ describe('Wallet API service', () => {
             submit: true,
         }
 
-        const ret = await caver.kas.wallet.requestRawTransactionPaidByUser(tx)
+        const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(tx)
 
         Object.keys(tx).map(k => {
             if (k === 'submit' || k === 'feeRatio') {
@@ -3176,7 +3176,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-105: caver.kas.wallet.requestRawTransactionPaidByUser should return fee payer signed fee delegated with ratio transaction via RLP-encoded string paid by user (submit false)', async () => {
+    it('CAVERJS-EXT-KAS-INT-105: caver.kas.wallet.requestFDRawTransactionPaidByUser should return fee payer signed fee delegated with ratio transaction via RLP-encoded string paid by user (submit false)', async () => {
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByUser({
             from: accountToTest.address,
             to: senderKeyring.address,
@@ -3194,7 +3194,7 @@ describe('Wallet API service', () => {
             submit: false,
         }
 
-        const ret = await caver.kas.wallet.requestRawTransactionPaidByUser(tx)
+        const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(tx)
 
         Object.keys(tx).map(k => {
             if (k === 'submit' || k === 'feeRatio') {

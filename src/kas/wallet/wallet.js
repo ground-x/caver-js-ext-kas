@@ -839,7 +839,7 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    requestRawTransactionPaidByGlobalFeePayer(rlpRequest, callback) {
+    requestFDRawTransactionPaidByGlobalFeePayer(rlpRequest, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (rlpRequest.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -1050,7 +1050,7 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    requestRawTransactionPaidByUser(rlpRequest, callback) {
+    requestFDRawTransactionPaidByUser(rlpRequest, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (rlpRequest.submit === undefined) throw new Error(`'submit' is not defined.`)
