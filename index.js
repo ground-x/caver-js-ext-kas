@@ -24,7 +24,16 @@ const productionEndpoints = {
     tokenHistory: 'https://th-api.klaytnapi.com',
 }
 
+/**
+ * An extension class of caver implemented to use KAS API service easily.
+ * @class
+ */
 class CaverExtKAS extends Caver {
+    /**
+     * Creates an instance of caver extension KAS.
+     * @constructor
+     * @param {string} [path] - The endpoint url to connect with. This path will be used with Node API.
+     */
     constructor(path) {
         super(path)
         this.kas = new KAS()
@@ -41,6 +50,15 @@ class CaverExtKAS extends Caver {
         this._kas = kas
     }
 
+    /**
+     * Sets chain id and authentication key.
+     * This function sets the configurations used by each KAS API services.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @return {void}
+     */
     initKASAPI(chainId, accessKeyId, secretAccessKey) {
         this.initNodeAPI(chainId, accessKeyId, secretAccessKey)
         this.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey)
@@ -48,6 +66,15 @@ class CaverExtKAS extends Caver {
         this.initAnchorAPI(chainId, accessKeyId, secretAccessKey)
     }
 
+    /**
+     * Sets chain id and authentication key for Node API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
     initNodeAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.node) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
 
@@ -66,16 +93,43 @@ class CaverExtKAS extends Caver {
         this._requestManager.provider.headers = this._requestManager.provider.headers.concat(auth)
     }
 
+    /**
+     * Sets chain id and authentication key for Token History API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
     initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.tokenHistory) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 
+    /**
+     * Sets chain id and authentication key for Wallet API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
     initWalletAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.wallet) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 
+    /**
+     * Sets chain id and authentication key for Anchor API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
     initAnchorAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.anchor) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
