@@ -23,7 +23,15 @@ const AnchorQueryOptions = require('./anchor/anchorQueryOptions')
 const TokenHistoryQueryOptions = require('./tokenHistory/tokenHistoryQueryOptions')
 const WalletQueryOptions = require('./wallet/walletQueryOptions')
 
+/**
+ * The class that manages KAS API services.
+ * @class
+ */
 class KAS {
+    /**
+     * Creates an instance of KAS.
+     * @constructor
+     */
     constructor() {
         this.tokenHistory = new TokenHistory()
         this.wallet = new Wallet()
@@ -67,18 +75,45 @@ class KAS {
         this._anchor = anchor
     }
 
+    /**
+     * Sets chain id and authentication key for Token History API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
     initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url) {
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.tokenHistory.accessOptions = accessOptions
         this.tokenHistory.client = client
     }
 
+    /**
+     * Sets chain id and authentication key for Wallet API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
     initWalletAPI(chainId, accessKeyId, secretAccessKey, url) {
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.wallet.accessOptions = accessOptions
         this.wallet.client = client
     }
 
+    /**
+     * Sets chain id and authentication key for Anchor API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
     initAnchorAPI(chainId, accessKeyId, secretAccessKey, url) {
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.anchor.accessOptions = accessOptions
