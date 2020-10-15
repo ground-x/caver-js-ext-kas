@@ -27,8 +27,7 @@ commands:
           name: Check RC
           command: |
             if [[ -n $CIRCLE_TAG ]]; then
-              RC_NUMBER=$CIRCLE_TAG
-              sed -i "s/\"version\": \".*\",/\"version\": \"${RC_MUMBER}\",/" package.json
+              sed -i "s/\"version\": \".*\",/\"version\": \"${CIRCLE_TAG}\",/" package.json
               sed -n '/\"version\":/p' package.json
             else
               echo "Not RC version"
@@ -65,6 +64,10 @@ jobs:
           command: ./.circleci/scripts/tag_verify.sh
 
   publish:
+    parameters:
+      environment:
+        type: string
+        default: ""
     executor: default
     steps:
       - checkout
@@ -73,10 +76,10 @@ jobs:
       - check_rc
       - run:
           name: "Authenticate with registry"
-          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/.npmrc
       - run:
           name: publish
-          command: npm publish
+          command: npm publish << parameters.environment >>
       - notify-failure
       - notify-success
 
@@ -154,6 +157,7 @@ workflows:
           <<: *stage_qa
           <<: *test_steps
           name: publish_rc
+          environment: --tag rc
 
       - release_PR:
           <<: *stage_rc

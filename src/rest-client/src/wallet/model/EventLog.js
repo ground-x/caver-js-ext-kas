@@ -25,50 +25,115 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.PubkeyUpdateKeyType = factory(root.WalletApi.ApiClient)
+        root.WalletApi.EventLog = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The PubkeyUpdateKeyType model module.
-     * @module model/PubkeyUpdateKeyType
+     * The EventLog model module.
+     * @module model/EventLog
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>PubkeyUpdateKeyType</code>.
-     * 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
-     * @alias module:model/PubkeyUpdateKeyType
+     * Constructs a new <code>EventLog</code>.
+     * 트랜잭션이 생성한 로그들
+     * @alias module:model/EventLog
      * @class
+     * @param address {String} 클레이튼 계정주소
+     * @param blockHash {String} 트랜잭션이 포함된 블록해시
+     * @param blockNumber {String} 트랜잭션이 포함된 블럭번호
+     * @param data {String} 트랜잭션 데이터
+     * @param logIndex {String} 로그 인덱스
+     * @param removed {Boolean} 삭제 여부
+     * @param transactionHash {String} 해당 트랜잭션에 대한 해시값
+     * @param transactionIndex {String} 해당 트랜잭션에 대한 인덱스
      */
-    const PubkeyUpdateKeyType = function() {}
+    const EventLog = function(address, blockHash, blockNumber, data, logIndex, removed, transactionHash, transactionIndex) {
+        this.address = address
+        this.blockHash = blockHash
+        this.blockNumber = blockNumber
+        this.data = data
+        this.logIndex = logIndex
+        this.removed = removed
+        this.transactionHash = transactionHash
+        this.transactionIndex = transactionIndex
+    }
 
     /**
-     * Constructs a <code>PubkeyUpdateKeyType</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>EventLog</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PubkeyUpdateKeyType} obj Optional instance to populate.
-     * @return {module:model/PubkeyUpdateKeyType} The populated <code>PubkeyUpdateKeyType</code> instance.
+     * @param {module:model/EventLog} obj Optional instance to populate.
+     * @return {module:model/EventLog} The populated <code>EventLog</code> instance.
      */
-    PubkeyUpdateKeyType.constructFromObject = function(data, obj) {
+    EventLog.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new PubkeyUpdateKeyType()
-            if (data.hasOwnProperty('keyType')) obj.keyType = ApiClient.convertToType(data.keyType, 'Number')
-            if (data.hasOwnProperty('key')) obj.key = ApiClient.convertToType(data.key, 'String')
+            obj = obj || new EventLog()
+            if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
+            if (data.hasOwnProperty('blockHash')) obj.blockHash = ApiClient.convertToType(data.blockHash, 'String')
+            if (data.hasOwnProperty('blockNumber')) obj.blockNumber = ApiClient.convertToType(data.blockNumber, 'String')
+            if (data.hasOwnProperty('data')) obj.data = ApiClient.convertToType(data.data, 'String')
+            if (data.hasOwnProperty('logIndex')) obj.logIndex = ApiClient.convertToType(data.logIndex, 'String')
+            if (data.hasOwnProperty('removed')) obj.removed = ApiClient.convertToType(data.removed, 'Boolean')
+            if (data.hasOwnProperty('topics')) obj.topics = ApiClient.convertToType(data.topics, ['String'])
+            if (data.hasOwnProperty('transactionHash')) obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
+            if (data.hasOwnProperty('transactionIndex')) obj.transactionIndex = ApiClient.convertToType(data.transactionIndex, 'String')
         }
         return obj
     }
 
     /**
-     * 계정키의 타입
-     * @member {Number} keyType
+     * 클레이튼 계정주소
+     * @member {String} address
      */
-    PubkeyUpdateKeyType.prototype.keyType = undefined
+    EventLog.prototype.address = undefined
 
     /**
-     * 계정의 공개키
-     * @member {String} key
+     * 트랜잭션이 포함된 블록해시
+     * @member {String} blockHash
      */
-    PubkeyUpdateKeyType.prototype.key = undefined
+    EventLog.prototype.blockHash = undefined
 
-    return PubkeyUpdateKeyType
+    /**
+     * 트랜잭션이 포함된 블럭번호
+     * @member {String} blockNumber
+     */
+    EventLog.prototype.blockNumber = undefined
+
+    /**
+     * 트랜잭션 데이터
+     * @member {String} data
+     */
+    EventLog.prototype.data = undefined
+
+    /**
+     * 로그 인덱스
+     * @member {String} logIndex
+     */
+    EventLog.prototype.logIndex = undefined
+
+    /**
+     * 삭제 여부
+     * @member {Boolean} removed
+     */
+    EventLog.prototype.removed = undefined
+
+    /**
+     * @member {Array.<String>} topics
+     */
+    EventLog.prototype.topics = undefined
+
+    /**
+     * 해당 트랜잭션에 대한 해시값
+     * @member {String} transactionHash
+     */
+    EventLog.prototype.transactionHash = undefined
+
+    /**
+     * 해당 트랜잭션에 대한 인덱스
+     * @member {String} transactionIndex
+     */
+    EventLog.prototype.transactionIndex = undefined
+
+    return EventLog
 })

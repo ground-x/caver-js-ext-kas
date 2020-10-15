@@ -24,7 +24,7 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 
 let caver
 const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.walletAPI
@@ -33,14 +33,14 @@ const sandbox = sinon.createSandbox()
 
 describe('Wallet API - Basic transaction API', () => {
     beforeEach(() => {
-        caver = new Caver(url)
+        caver = new CaverExtKAS()
     })
 
     afterEach(() => {
         sandbox.restore()
     })
 
-    context('caver.kas.wallet.getMultiSigTransctions', () => {
+    context('caver.kas.wallet.getMultiSigTransactionList', () => {
         const resultOfApi = {
             cursor: '',
             items: [
@@ -122,7 +122,7 @@ describe('Wallet API - Basic transaction API', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-146: should return multisig account transactions without query parameters', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const retrieveMultisigTransactionsSpy = sandbox.spy(
                 caver.kas.wallet.multisigTransactionManagementApi,
@@ -131,7 +131,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -140,7 +140,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-147: should return multisig account transactions with query parameters (size)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { size: 1 }
             const retrieveMultisigTransactionsSpy = sandbox.spy(
@@ -150,7 +150,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, queryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -159,7 +159,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-148: should return multisig account transactions with query parameters (from-timestamp)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { 'from-timestamp': Date.now() }
             const expectedQueryParams = caver.kas.wallet.queryOptions.constructFromObject(queryParams)
@@ -170,7 +170,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -179,7 +179,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-149: should return multisig account transactions with query parameters (fromTimestamp)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { fromTimestamp: Date.now() }
             const expectedQueryParams = caver.kas.wallet.queryOptions.constructFromObject(queryParams)
@@ -190,7 +190,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -199,7 +199,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-150: should return multisig account transactions with query parameters (to-timestamp)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { 'to-timestamp': Date.now() }
             const expectedQueryParams = caver.kas.wallet.queryOptions.constructFromObject(queryParams)
@@ -210,7 +210,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -219,7 +219,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-151: should return multisig account transactions with query parameters (toTimestamp)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = { toTimestamp: Date.now() }
             const expectedQueryParams = caver.kas.wallet.queryOptions.constructFromObject(queryParams)
@@ -230,7 +230,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -239,7 +239,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-152: should return multisig account transactions with query parameters (cursor)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 cursor:
@@ -252,7 +252,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, queryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -261,7 +261,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-153: should return multisig account transactions with query parameters (size, fromTimestamp, toTimestamp, cursor)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 size: 1,
@@ -278,7 +278,7 @@ describe('Wallet API - Basic transaction API', () => {
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, expectedQueryParams)
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(retrieveMultisigTransactionsSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -287,7 +287,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-154: should call callback function with multisig account transactions', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const retrieveMultisigTransactionsSpy = sandbox.spy(
                 caver.kas.wallet.multisigTransactionManagementApi,
@@ -298,7 +298,7 @@ describe('Wallet API - Basic transaction API', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, () => {
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, () => {
                 isCalled = true
             })
 
@@ -310,7 +310,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-155: should call callback function with multisig account transactions with query parameters', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 size: 1,
@@ -329,7 +329,7 @@ describe('Wallet API - Basic transaction API', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams, () => {
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams, () => {
                 isCalled = true
             })
 
@@ -341,7 +341,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-156: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryParams = {
                 fromTimestamp: Date.now(),
@@ -353,7 +353,7 @@ describe('Wallet API - Basic transaction API', () => {
                 callback(null, errorResult, {})
             })
 
-            const ret = await caver.kas.wallet.getMultiSigTransctions(address, queryParams)
+            const ret = await caver.kas.wallet.getMultiSigTransactionList(address, queryParams)
 
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)
@@ -411,7 +411,7 @@ describe('Wallet API - Basic transaction API', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-157: should request sign multisig transactionto KAS', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.multisigTransactionManagementApi, 'signPendingTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
@@ -425,7 +425,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-158: should call callback function with api result', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.multisigTransactionManagementApi, 'signPendingTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
@@ -444,7 +444,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-159: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
@@ -523,7 +523,7 @@ describe('Wallet API - Basic transaction API', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-160: should request append signatures multisig transactionto KAS (with object)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.multisigTransactionManagementApi, 'signPendingTransactionBySig')
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
@@ -537,7 +537,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-161: should request append signatures multisig transactionto KAS with SignPendingTransactionBySigRequest', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.multisigTransactionManagementApi, 'signPendingTransactionBySig')
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
@@ -551,7 +551,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-162: should call callback function with api result', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.multisigTransactionManagementApi, 'signPendingTransactionBySig')
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')
@@ -570,7 +570,7 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-163: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.multisigTransactionManagementApi.apiClient, 'callApi')

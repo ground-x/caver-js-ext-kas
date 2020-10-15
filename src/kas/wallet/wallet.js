@@ -47,11 +47,12 @@ const {
     FDUserProcessRLPRequest,
     FDUserAccountUpdateTransactionRequest,
     SignPendingTransactionBySigRequest,
+    StatisticsApi,
 } = require('../../rest-client/src')
 const WalletQueryOptions = require('./walletQueryOptions')
 const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey } = require('../../utils/helper')
 
-const NOT_ENABLE_API_ERR_MSG = `Wallet API is not enabled. Use 'caver.enableWalletAPI' function to enable Wallet API.`
+const NOT_INIT_API_ERR_MSG = `Wallet API is not initialized. Use 'caver.initWalletAPI' function to initialize Wallet API.`
 
 /**
  * A warpping class that connects Wallet API.
@@ -76,6 +77,7 @@ class Wallet {
                 fdTransactionPaidByKAS: new FeeDelegatedTransactionPaidByKASApi(client),
                 fdTransactionPaidByUser: new FeeDelegatedTransactionPaidByUserApi(client),
                 multisigTransactionManagement: new MultisigTransactionManagementApi(client),
+                statistics: new StatisticsApi(client),
             }
         }
     }
@@ -144,6 +146,7 @@ class Wallet {
             fdTransactionPaidByKAS: new FeeDelegatedTransactionPaidByKASApi(client),
             fdTransactionPaidByUser: new FeeDelegatedTransactionPaidByUserApi(client),
             multisigTransactionManagement: new MultisigTransactionManagementApi(client),
+            statistics: new StatisticsApi(client),
         }
     }
 
@@ -183,6 +186,13 @@ class Wallet {
     }
 
     /**
+     * @type {StatisticsApi}
+     */
+    get statisticsApi() {
+        return this.apiInstances.statistics
+    }
+
+    /**
      * Creates Klaytn Account through KAS Wallet API.
      * POST /v2/account
      *
@@ -190,7 +200,7 @@ class Wallet {
      * @return {object}
      */
     createAccount(callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.accountApi.createAccount(this.chainId, (err, data, response) => {
@@ -212,7 +222,7 @@ class Wallet {
      * @return {object}
      */
     getAccountList(queryOptions, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -243,7 +253,7 @@ class Wallet {
      * @return {object}
      */
     getAccount(address, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.accountApi.retrieveAccount(this.chainId, address, (err, data, response) => {
@@ -264,8 +274,8 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    getAccountByPublicKey(publicKey, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+    getAccountListByPublicKey(publicKey, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.accountApi.retrieveAccountsByPubkey(this.chainId, publicKey, (err, data, response) => {
@@ -287,7 +297,7 @@ class Wallet {
      * @return {object}
      */
     deleteAccount(address, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.accountApi.deleteAccount(this.chainId, address, (err, data, response) => {
@@ -309,7 +319,7 @@ class Wallet {
      * @return {object}
      */
     disableAccount(address, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.accountApi.deactivateAccount(this.chainId, address, (err, data, response) => {
@@ -331,7 +341,7 @@ class Wallet {
      * @return {object}
      */
     enableAccount(address, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.accountApi.activateAccount(this.chainId, address, (err, data, response) => {
@@ -354,7 +364,7 @@ class Wallet {
      * @return {object}
      */
     signTransaction(address, transactionId, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.accountApi.signTransactionIDResponse(this.chainId, address, transactionId, (err, data, response) => {
@@ -377,9 +387,9 @@ class Wallet {
      * @return {object}
      */
     updateToMultiSigAccount(address, weightedMultiSig, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
-        // caver class use '_' prefix for private variable
+        // CaverExtKAS class use '_' prefix for private variable
         // so if parameter object has '_' prefix, call formatObjectKeyWithoutUnderscore to format
         const multisig = formatObjectKeyWithoutUnderscore(weightedMultiSig)
 
@@ -421,7 +431,7 @@ class Wallet {
      * @return {object}
      */
     requestLegacyTransaction(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -451,7 +461,7 @@ class Wallet {
      * @return {object}
      */
     requestValueTransfer(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -481,7 +491,7 @@ class Wallet {
      * @return {object}
      */
     requestSmartContractDeploy(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -511,7 +521,7 @@ class Wallet {
      * @return {object}
      */
     requestSmartContractExecution(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -541,7 +551,7 @@ class Wallet {
      * @return {object}
      */
     requestCancel(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -570,7 +580,7 @@ class Wallet {
      * @return {object}
      */
     requestChainDataAnchoring(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -599,7 +609,7 @@ class Wallet {
      * @return {object}
      */
     requestRawTransaction(rlpRequest, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (rlpRequest.submit === undefined) throw new Error(`'submit' is not defined.`)
 
@@ -627,7 +637,7 @@ class Wallet {
      * @return {object}
      */
     requestAccountUpdate(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -659,7 +669,7 @@ class Wallet {
      * @return {object}
      */
     getTransaction(transactionHash, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.basicTransactionApi.transactionReceipt(this.chainId, transactionHash, (err, data, response) => {
@@ -684,7 +694,7 @@ class Wallet {
      * @return {object}
      */
     requestFDValueTransferPaidByGlobalFeePayer(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -714,7 +724,7 @@ class Wallet {
      * @return {object}
      */
     requestFDSmartContractDeployPaidByGlobalFeePayer(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -744,7 +754,7 @@ class Wallet {
      * @return {object}
      */
     requestFDSmartContractExecutionPaidByGlobalFeePayer(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -774,7 +784,7 @@ class Wallet {
      * @return {object}
      */
     requestFDCancelPaidByGlobalFeePayer(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -802,7 +812,7 @@ class Wallet {
      * @return {object}
      */
     requestFDChainDataAnchoringPaidByGlobalFeePayer(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -829,8 +839,8 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    requestRawTransactionPaidByGlobalFeePayer(rlpRequest, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+    requestFDRawTransactionPaidByGlobalFeePayer(rlpRequest, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (rlpRequest.submit === undefined) throw new Error(`'submit' is not defined.`)
 
@@ -858,7 +868,7 @@ class Wallet {
      * @return {object}
      */
     requestFDAccountUpdatePaidByGlobalFeePayer(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -893,7 +903,7 @@ class Wallet {
      * @return {object}
      */
     requestFDValueTransferPaidByUser(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -923,7 +933,7 @@ class Wallet {
      * @return {object}
      */
     requestFDSmartContractDeployPaidByUser(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -953,7 +963,7 @@ class Wallet {
      * @return {object}
      */
     requestFDSmartContractExecutionPaidByUser(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.value !== undefined) transaction.value = utils.toHex(transaction.value)
@@ -983,7 +993,7 @@ class Wallet {
      * @return {object}
      */
     requestFDCancelPaidByUser(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -1012,7 +1022,7 @@ class Wallet {
      * @return {object}
      */
     requestFDChainDataAnchoringPaidByUser(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -1040,8 +1050,8 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    requestRawTransactionPaidByUser(rlpRequest, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+    requestFDRawTransactionPaidByUser(rlpRequest, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (rlpRequest.submit === undefined) throw new Error(`'submit' is not defined.`)
 
@@ -1069,7 +1079,7 @@ class Wallet {
      * @return {object}
      */
     requestFDAccountUpdatePaidByUser(transaction, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (transaction.nonce !== undefined) transaction.nonce = utils.hexToNumber(transaction.nonce)
         if (transaction.submit === undefined) throw new Error(`'submit' is not defined.`)
@@ -1103,8 +1113,8 @@ class Wallet {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    getMultiSigTransctions(address, queryOptions, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+    getMultiSigTransactionList(address, queryOptions, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -1141,7 +1151,7 @@ class Wallet {
      * @return {object}
      */
     signMultiSigTransction(address, transactionId, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.multisigTransactionManagementApi.signPendingTransaction(this.chainId, address, transactionId, (err, data, response) => {
@@ -1164,7 +1174,7 @@ class Wallet {
      * @return {object}
      */
     appendSignatures(transactionId, sigs, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isArray(sigs)) {
             sigs = { signatures: sigs }
@@ -1177,6 +1187,51 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.multisigTransactionManagementApi.signPendingTransactionBySig(this.chainId, transactionId, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    // Statistics Api
+
+    /**
+     * Return the number of accounts in KAS.
+     * GET /v2/stat/count
+     *
+     * @param {Function} [callback] The callback function to call.
+     * @return {object}
+     */
+    getAccountCount(callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.statisticsApi.getAccountCountByAccountID(this.chainId, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Return the number of accounts by KRN in KAS.
+     * GET /v2/stat/count/krn
+     *
+     * @param {string} krn The krn string to search.
+     * @param {Function} [callback] The callback function to call.
+     * @return {object}
+     */
+    getAccountCountByKRN(krn, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.statisticsApi.getAccountCountByKRN(this.chainId, { xKrn: krn }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

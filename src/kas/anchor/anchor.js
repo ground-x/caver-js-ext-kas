@@ -19,7 +19,7 @@ const AnchorBlockRequest = require('../../rest-client/src/anchor/model/AnchorBlo
 const { OperatorApi, DataAnchoringTransactionApi } = require('../../rest-client/src')
 const AnchorQueryOptions = require('./anchorQueryOptions')
 
-const NOT_ENABLE_API_ERR_MSG = `Anchor API is not enabled. Use 'caver.enableAnchorAPI' function to enable Anchor API.`
+const NOT_INIT_API_ERR_MSG = `Anchor API is not initialized. Use 'caver.initAnchorAPI' function to initialize Anchor API.`
 
 /**
  * A warpping class that connects Anchor API.
@@ -145,7 +145,7 @@ class Anchor {
      * @return {object}
      */
     sendAnchoringData(operator, payload, callback) {
-        if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (payload.id === undefined) throw new Error(`The payload id should be defined.`)
         if (!_.isString(payload.id)) throw new Error(`The payload id must be string type.`)
@@ -174,8 +174,8 @@ class Anchor {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    getAnchoringTransactions(operator, queryOptions, callback) {
-        if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+    getAnchoringTransactionList(operator, queryOptions, callback) {
+        if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         // operator
         // operator, queryOptions
@@ -211,7 +211,7 @@ class Anchor {
      * @return {object}
      */
     getAnchoringTransactionByTxHash(operator, transactionHash, callback) {
-        if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.anchorApi.getAnchorBlockByTx(this.chainId, operator, transactionHash, (err, data, response) => {
@@ -234,7 +234,7 @@ class Anchor {
      * @return {object}
      */
     getAnchoringTransactionByPayloadId(operator, payloadId, callback) {
-        if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.anchorApi.getAnchorBlockByPayloadID(this.chainId, operator, payloadId, (err, data, response) => {
@@ -256,8 +256,8 @@ class Anchor {
      * @param {Function} [callback] The callback function to call.
      * @return {object}
      */
-    getOperators(queryOptions, callback) {
-        if (!this.accessOptions || !this.operatorApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+    getOperatorList(queryOptions, callback) {
+        if (!this.accessOptions || !this.operatorApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -288,7 +288,7 @@ class Anchor {
      * @return {object}
      */
     getOperator(operator, callback) {
-        if (!this.accessOptions || !this.operatorApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.operatorApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.operatorApi.getOperator(this.chainId, operator, (err, data, response) => {

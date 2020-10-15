@@ -23,15 +23,15 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 
 let caver
 const { url, chainId, accessKeyId, secretAccessKey, operator } = require('../testEnv').auths.anchorAPI
 
 describe('Anchor API service', () => {
     before(() => {
-        caver = new Caver(url)
-        caver.enableAnchorAPI(url, chainId, accessKeyId, secretAccessKey)
+        caver = new CaverExtKAS()
+        caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
     })
 
     it('CAVERJS-EXT-KAS-INT-001: caver.kas.anchor.sendAnchoringData should send post request to anchor data', async () => {
@@ -45,7 +45,7 @@ describe('Anchor API service', () => {
         expect(ret.status).to.equal('succeed')
     })
 
-    it('CAVERJS-EXT-KAS-INT-002: caver.kas.anchor.getAnchoringTransactions should query anchoring txs', async () => {
+    it('CAVERJS-EXT-KAS-INT-002: caver.kas.anchor.getAnchoringTransactionList should query anchoring txs', async () => {
         const queryOptions = caver.kas.anchor.queryOptions.constructFromObject({
             size: 1,
             fromTimestamp: new Date('2020-08-01'),
@@ -53,7 +53,7 @@ describe('Anchor API service', () => {
             cursor:
                 'eyJjcmVhdGVkX2F0IjoxNTk4NDE2NTk3LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMTYiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ==',
         })
-        const ret = await caver.kas.anchor.getAnchoringTransactions(operator, queryOptions)
+        const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryOptions)
 
         expect(ret.cursor).to.equal(
             'eyJjcmVhdGVkX2F0IjoxNTk4NDE2NTQ5LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMTUiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ=='
@@ -84,13 +84,13 @@ describe('Anchor API service', () => {
         expect(ret.transactionHash).to.equal(`0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2`)
     })
 
-    it('CAVERJS-EXT-KAS-INT-005: caver.kas.anchor.getOperators should query operators', async () => {
+    it('CAVERJS-EXT-KAS-INT-005: caver.kas.anchor.getOperatorList should query operators', async () => {
         const queryOptions = caver.kas.anchor.queryOptions.constructFromObject({
             size: 1,
             fromTimestamp: 1596207600,
             toTimestamp: Date.now(),
         })
-        const ret = await caver.kas.anchor.getOperators(queryOptions)
+        const ret = await caver.kas.anchor.getOperatorList(queryOptions)
 
         expect(ret.cursor).not.to.be.undefined
         expect(ret.items.length).to.equal(1)

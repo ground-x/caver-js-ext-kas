@@ -20,7 +20,7 @@ const utils = require('caver-js').utils
 const { TokenApi, TokenContractApi, TokenHistoryApi, TokenOwnershipApi } = require('../../rest-client/src')
 const TokenHistoryQueryOptions = require('./tokenHistoryQueryOptions')
 
-const NOT_ENABLE_API_ERR_MSG = `TokenHistory API is not enabled. Use 'caver.enableTokenHistoryAPI' function to enable TokenHistory API.`
+const NOT_INIT_API_ERR_MSG = `TokenHistory API is not initialized. Use 'caver.initTokenHistoryAPI' function to initialize TokenHistory API.`
 
 /**
  * A warpping class that connects TokenHistory API.
@@ -152,7 +152,7 @@ class TokenHistory {
      * @return {object}
      */
     getTransferHistory(presets, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (!_.isArray(presets)) presets = [presets]
         for (const p of presets) {
@@ -188,7 +188,7 @@ class TokenHistory {
      * @return {object}
      */
     getTransferHistoryByTxHash(transactionHash, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.tokenHistoryApi.getTransfersByTxHash(this.chainId, transactionHash, (err, data, response) => {
@@ -212,7 +212,7 @@ class TokenHistory {
      * @return {object}
      */
     getTransferHistoryByAccount(address, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -243,7 +243,7 @@ class TokenHistory {
      * @return {object}
      */
     getFTContractList(queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -274,7 +274,7 @@ class TokenHistory {
      * @return {object}
      */
     getFTContract(ftAddress, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.tokenContractApi.getFtContractDetail(this.chainId, ftAddress, (err, data, response) => {
@@ -296,7 +296,7 @@ class TokenHistory {
      * @return {object}
      */
     getNFTContractList(queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -327,7 +327,7 @@ class TokenHistory {
      * @return {object}
      */
     getNFTContract(nftAddress, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.tokenContractApi.getNftContractDetail(this.chainId, nftAddress, (err, data, response) => {
@@ -350,7 +350,7 @@ class TokenHistory {
      * @return {object}
      */
     getNFTList(nftAddress, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -383,7 +383,7 @@ class TokenHistory {
      * @return {object}
      */
     getNFTListByOwner(nftAddress, ownerAddress, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -414,7 +414,7 @@ class TokenHistory {
      * @return {object}
      */
     getNFT(nftAddress, tokenId, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.tokenApi.getNftById(this.chainId, nftAddress, utils.toHex(tokenId), (err, data, response) => {
@@ -438,7 +438,7 @@ class TokenHistory {
      * @return {object}
      */
     getNFTOwnershipHistory(nftAddress, tokenId, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions

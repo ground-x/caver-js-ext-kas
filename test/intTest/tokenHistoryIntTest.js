@@ -23,15 +23,15 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 
 let caver
 const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.tokenHistoryAPI
 
 describe('TokenHistory API service', () => {
     before(() => {
-        caver = new Caver(url)
-        caver.enableTokenHistoryAPI(url, chainId, accessKeyId, secretAccessKey)
+        caver = new CaverExtKAS()
+        caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
     })
 
     it('CAVERJS-EXT-KAS-INT-007: caver.kas.tokenHistory.getTransferHistory should query transfer history', async () => {

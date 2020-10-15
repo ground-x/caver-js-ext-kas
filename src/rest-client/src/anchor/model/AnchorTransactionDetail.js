@@ -25,64 +25,55 @@
         if (!root.AnchorApi) {
             root.AnchorApi = {}
         }
-        root.AnchorApi.AnchorTransaction = factory(root.AnchorApi.ApiClient)
+        root.AnchorApi.AnchorTransactionDetail = factory(root.AnchorApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The AnchorTransaction model module.
-     * @module model/AnchorTransaction
+     * The AnchorTransactionDetail model module.
+     * @module model/AnchorTransactionDetail
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>AnchorTransaction</code>.
+     * Constructs a new <code>AnchorTransactionDetail</code>.
      * 앵커링 트랜잭션 정보
-     * @alias module:model/AnchorTransaction
+     * @alias module:model/AnchorTransactionDetail
      * @class
-     * @param createdAt {Number} 앵커링 트랜잭션 생성 시간
-     * @param payloadId {String} 페이로드 ID
+     * @param payload {Object.<String, Object>} 앵커 데이터. ID 를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
      * @param transactionHash {String} 앵커링 트랜잭션의 트랜잭션 해시
      */
-    const AnchorTransaction = function(createdAt, payloadId, transactionHash) {
-        this.createdAt = createdAt
-        this.payloadId = payloadId
+    const AnchorTransactionDetail = function(payload, transactionHash) {
+        this.payload = payload
         this.transactionHash = transactionHash
     }
 
     /**
-     * Constructs a <code>AnchorTransaction</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>AnchorTransactionDetail</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AnchorTransaction} obj Optional instance to populate.
-     * @return {module:model/AnchorTransaction} The populated <code>AnchorTransaction</code> instance.
+     * @param {module:model/AnchorTransactionDetail} obj Optional instance to populate.
+     * @return {module:model/AnchorTransactionDetail} The populated <code>AnchorTransactionDetail</code> instance.
      */
-    AnchorTransaction.constructFromObject = function(data, obj) {
+    AnchorTransactionDetail.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new AnchorTransaction()
-            if (data.hasOwnProperty('createdAt')) obj.createdAt = ApiClient.convertToType(data.createdAt, 'Number')
-            if (data.hasOwnProperty('payloadId')) obj.payloadId = ApiClient.convertToType(data.payloadId, 'String')
+            obj = obj || new AnchorTransactionDetail()
+            if (data.hasOwnProperty('payload')) obj.payload = ApiClient.convertToType(data.payload, { String: Object })
             if (data.hasOwnProperty('transactionHash')) obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
         }
         return obj
     }
 
     /**
-     * 앵커링 트랜잭션 생성 시간
-     * @member {Number} createdAt
+     * 앵커 데이터. ID 를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
+     * @member {Object.<String, Object>} payload
      */
-    AnchorTransaction.prototype.createdAt = undefined
-
-    /**
-     * 페이로드 ID
-     * @member {String} payloadId
-     */
-    AnchorTransaction.prototype.payloadId = undefined
+    AnchorTransactionDetail.prototype.payload = undefined
 
     /**
      * 앵커링 트랜잭션의 트랜잭션 해시
      * @member {String} transactionHash
      */
-    AnchorTransaction.prototype.transactionHash = undefined
+    AnchorTransactionDetail.prototype.transactionHash = undefined
 
-    return AnchorTransaction
+    return AnchorTransactionDetail
 })

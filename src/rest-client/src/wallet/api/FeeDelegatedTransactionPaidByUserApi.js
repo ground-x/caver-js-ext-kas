@@ -1,8 +1,8 @@
 /*
  * Wallet API
- * # Introduction Wallet API는 클레이튼 계정을 만들어 관리하고 트랜잭션을 전송하는 API입니다. Wallet API로 Klaytn 계정을 만들면 여러분은 개인키를 따로 관리할 필요가 없습니다. Wallet API는 BApp을 위해 Klaytn 계정 개인키를 안전하게 보관하는 지갑을 제공합니다. Wallet API 사용에 관한 자세한 내용은 [튜토리얼](링크)을 확인하십시오.  Wallet API는 크게 Klaytn 계정을 만들고 관리하는 Account 파트와 여러 종류의 트랜잭션을 전송하는 Transaction 파트로 나뉩니다.  Wallet API는 Klaytn 계정을 생성, 삭제, 모니터링하고 계정을 다중 서명 계정(Multisig 계정)으로 업데이트하며 KAS에 등록된 모든 계정의 개인키를 관리합니다.  또 Wallet API는 트랜잭션을 만들어 Klaytn에 전송합니다. 이 트랜잭션에는 다중 서명 계정이 보내는 트랜잭션도 포함됩니다. 다중 서명 시 임계값\\(Threshold\\)을 만족하면 트랜잭션은 Klaytn에 자동으로 전송됩니다. 다중 서명에 관한 자세한 내용은 [다음](링크)을 확인하십시오.  트랜잭션은 크게 기본 트랜잭션과 수수료 대납 트랜잭션으로 나뉩니다. 수수료 대납 트랜잭션은 크게 글로벌 수수료 대납 트랜잭션과 사용자 수수료 대납 트랜잭션으로 나뉩니다. 글로벌 수수료 대납 트랜잭션은 Ground X의 KAS 계정에서 트랜잭션 수수료를 일단 대납해주고 나중에 여러분에게 이 수수료를 청구하는 방식입니다. 사용자 수수료 대납 트랜잭션은 여러분이 직접 트랜잭션 수수료를 대납하는 계정을 만들고, 트랜잭션을 보낼 때 이 대납 계정이 트랜잭션 수수료를 납부하도록 하는 방식입니다.  Wallet API는 아래와 같은 기능 및 제약사항을 갖고 있습니다.  | Version | Item | Description | | :--- | :--- | :--- | | 2.0 | 제약사항 | Cypress(Mainnet), Baobab(Testnet) 지원\\(Service Chain 미지원\\) | |  |  | 외부 관리키에 대한 계정 관리 미지원 | |  |  | RLP 인코딩된 트랜잭션의 다중 서명 미지원 | |  | 계정관리 | 계정 생성, 조회, 삭제 | |  |  | 다중 서명 계정 업데이트 | |  | 트랜잭션 관리 | [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic) 트랜잭션 생성 및 전송 | |  |  | [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) 트랜잭션 생성 및 전송 | |  |  | RLP 인코딩된 트랜잭션\\([Legacy](https://ko.docs.klaytn.com/klaytn/design/transactions/basic#txtypelegacytransaction), [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic), [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation)\\) 생성 및 전송 | |  |  | 다중 서명 트랜잭션 관리 및 전송 | |  | 관리자 | 리소스 풀 관리\\(생성, 풀 조회, 삭제, 계정 조회\\) |
+ * # Introduction Wallet API는 클레이튼 계정을 만들어 관리하고 트랜잭션을 전송하는 API입니다. Wallet API로 Klaytn 계정을 만들면 여러분은 개인키를 따로 관리할 필요가 없습니다. Wallet API는 BApp을 위해 Klaytn 계정 개인키를 안전하게 보관하는 지갑을 제공합니다. Wallet API 사용에 관한 자세한 내용은 [튜토리얼](https://docs.klaytnapi.com/v/ko/tutorial)을 확인하십시오.  Wallet API는 크게 Klaytn 계정을 만들고 관리하는 Account 파트와 여러 종류의 트랜잭션을 전송하는 Transaction 파트로 나뉩니다.  Wallet API는 Klaytn 계정을 생성, 삭제, 모니터링하고 계정을 다중 서명 계정(Multisig 계정)으로 업데이트하며 KAS에 등록된 모든 계정의 개인키를 관리합니다.  또 Wallet API는 트랜잭션을 만들어 Klaytn에 전송합니다. 이 트랜잭션에는 다중 서명 계정이 보내는 트랜잭션도 포함됩니다. 다중 서명 시 임계값\\(Threshold\\)을 만족하면 트랜잭션은 Klaytn에 자동으로 전송됩니다. 다중 서명에 관한 자세한 내용은 [다음](https://docs.klaytnapi.com/v/ko/tutorial)을 확인하십시오.  트랜잭션은 크게 기본 트랜잭션과 수수료 대납 트랜잭션으로 나뉩니다. 수수료 대납 트랜잭션은 크게 글로벌 수수료 대납 트랜잭션과 사용자 수수료 대납 트랜잭션으로 나뉩니다. 글로벌 수수료 대납 트랜잭션은 Ground X의 KAS 계정에서 트랜잭션 수수료를 일단 대납해주고 나중에 여러분에게 이 수수료를 청구하는 방식입니다. 사용자 수수료 대납 트랜잭션은 여러분이 직접 트랜잭션 수수료를 대납하는 계정을 만들고, 트랜잭션을 보낼 때 이 대납 계정이 트랜잭션 수수료를 납부하도록 하는 방식입니다.  Wallet API는 아래와 같은 기능 및 제약사항을 갖고 있습니다.  | Version | Item | Description | | :--- | :--- | :--- | | 2.0 | 제약사항 | Cypress(Mainnet), Baobab(Testnet) 지원\\(Service Chain 미지원\\) | |  |  | 외부 관리키에 대한 계정 관리 미지원 | |  |  | RLP 인코딩된 트랜잭션의 다중 서명 미지원 | |  | 계정관리 | 계정 생성, 조회, 삭제 | |  |  | 다중 서명 계정 업데이트 | |  | 트랜잭션 관리 | [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic) 트랜잭션 생성 및 전송 | |  |  | [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) 트랜잭션 생성 및 전송 | |  |  | RLP 인코딩된 트랜잭션\\([Legacy](https://ko.docs.klaytn.com/klaytn/design/transactions/basic#txtypelegacytransaction), [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic), [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation)\\) 생성 및 전송 | |  |  | 다중 서명 트랜잭션 관리 및 전송 | |  | 관리자 | 리소스 풀 관리\\(생성, 풀 조회, 삭제, 계정 조회\\) |    # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1061010 | data don't exist 1061510 | account has been already deleted or disabled 1061511 | account has been already deleted or enabled 1061512 | account is invalid to sign the transaction; 0xc9bFDDabf2c38396b097C8faBE9151955413995D</br>account is invalid to sign the transaction; 0x35Cc4921B17Dfa67a58B93c9F8918f823e58b77e 1061515 | the requested account must be a legacy account; if the account is multisig account, use `PUT /v2/tx/{fd|fd-user}/account` API for multisig transaction and /v2/multisig/_**_/_** APIs 1061607 | it has to start with '0x' and allows [0-9a-fA-F]; input</br>it has to start with '0x' and allows [0-9a-fA-F]; transaction-id 1061608 | cannot be empty or zero value; to</br>cannot be empty or zero value; input 1061609 | it just allow Klaytn address form; to 1061903 | failed to decode account keys 1061905 | failed to get feepayer 1061912 | rlp value and request value are not same; feeRatio</br>rlp value and request value are not same; feePayer 1061914 | already submitted transaction. Confirm transaction hash; 0xb9612ec6ec39bfd3f2841daa7ab062fc94cf33f23503606c979b2f81e50b2cb1 1061917 | AccountKeyLegacy type is not supported in AccountKeyRoleBased type 1061918 | it just allow (Partial)FeeDelegation transaction type 1061919 | PartialFeeDelegation transaction must set fee ratio to non-zero value 1061920 | FeeDelegation transaction cannot set fee ratio, use PartialFeeDelegation transaction type 1061921 | it just allow Basic transaction type 1065000 | failed to retrieve a transaction from klaytn node 1065001 | failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value </br>failed to send a raw transaction to klaytn node; -32000::not a program account (e.g., an account having code and storage)</br>failed to send a raw transaction to klaytn node; -32000::nonce too low</br>failed to send a raw transaction to klaytn node; -32000::insufficient funds of the fee payer for gas * price 1065100 | failed to get an account from AMS</br>failed to get an account from AMS; account key corrupted. can not use this account 1065102 | account key corrupted. can not use this account 1616 | feeration must be between 1 and 99; feeRatio 1918 | it just allow (Partial)FeeDelegation transaction type |
  *
- * OpenAPI spec version: 2.0
+ * OpenAPI spec version: 1.0
  *
  * NOTE: This class is auto generated by the swagger code generator program.
  * https://github.com/swagger-api/swagger-codegen.git
@@ -18,15 +18,15 @@
         // AMD. Register as an anonymous module.
         define([
             '../../ApiClient',
-            '../model//ErrorResponse',
-            '../model//FDTransactionResult',
-            '../model//FDUserAccountUpdateTransactionRequest',
-            '../model//FDUserAnchorTransactionRequest',
-            '../model//FDUserCancelTransactionRequest',
-            '../model//FDUserContractDeployTransactionRequest',
-            '../model//FDUserContractExecutionTransactionRequest',
-            '../model//FDUserProcessRLPRequest',
-            '../model//FDUserValueTransferTransactionRequest',
+            '../model/ErrorResponse',
+            '../model/FDTransactionResult',
+            '../model/FDUserAccountUpdateTransactionRequest',
+            '../model/FDUserAnchorTransactionRequest',
+            '../model/FDUserCancelTransactionRequest',
+            '../model/FDUserContractDeployTransactionRequest',
+            '../model/FDUserContractExecutionTransactionRequest',
+            '../model/FDUserProcessRLPRequest',
+            '../model/FDUserValueTransferTransactionRequest',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
@@ -75,7 +75,7 @@
     /**
      * FeeDelegatedTransactionPaidByUser service.
      * @module api/FeeDelegatedTransactionPaidByUserApi
-     * @version 2.0
+     * @version 1.0
      */
 
     /**
@@ -98,7 +98,7 @@
 
         /**
          * UFDAccountUpdateTransaction
-         * 유저가 생성한 대납 계정으로 클레이튼 계정 키를 다른 종류의 키로 업데이트하는 트랜잭션을 생성합니다. 클레이튼 계정 키 종류는 [다음](https://ko.docs.klaytn.com/klaytn/design/accounts)을 확인하십시오.
+         * 유저가 생성한 대납 계정으로 클레이튼 계정 키를 다른 종류의 키로 업데이트하는 트랜잭션을 생성합니다. 클레이튼 계정 키 종류는 [Klaytn Docs](https://ko.docs.klaytn.com/klaytn/design/accounts)을 확인하십시오.  이 API를 사용하기 위해서는 `account-pool`과 `feepayer-pool`에 대한 두개의 `x-krn`이 필요합니다. 두 개의 `x-krn`을 기술하기 위해서 comma 로 분리하여 기술하며, 예시는 아래와 같습니다.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {module:model/FDUserAccountUpdateTransactionRequest} opts.body
@@ -154,7 +154,7 @@
 
         /**
          * UFDAnchorTransaction
-         * 유저가 생성한 대납 계정으로 서비스 체인 데이터를 메인 체인에 앵커링하는 트랜잭션을 생성합니다.
+         * 유저가 생성한 대납 계정으로 서비스 체인 데이터를 메인 체인에 앵커링하는 트랜잭션을 생성합니다.  이 API를 사용하기 위해서는 `account-pool`과 `feepayer-pool`에 대한 두개의 `x-krn`이 필요합니다. 두 개의 `x-krn`을 기술하기 위해서 comma 로 분리하여 기술하며, 예시는 아래와 같습니다.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {module:model/FDUserAnchorTransactionRequest} opts.body
@@ -209,7 +209,7 @@
 
         /**
          * UFDContractDeployTransaction
-         * 유저가 생성한 대납 계정으로 컨트랙트를 배포하는 트랜잭션을 생성합니다.
+         * 유저가 생성한 대납 계정으로 컨트랙트를 배포하는 트랜잭션을 생성합니다.  이 API를 사용하기 위해서는 `account-pool`과 `feepayer-pool`에 대한 두개의 `x-krn`이 필요합니다. 두 개의 `x-krn`을 기술하기 위해서 comma 로 분리하여 기술하며, 예시는 아래와 같습니다.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {module:model/FDUserContractDeployTransactionRequest} opts.body
@@ -265,7 +265,7 @@
 
         /**
          * UFDContractExecutionTransaction
-         * 유저가 생성한 대납 계정으로 배포된 컨트랙트 함수를 실행하는 트랜잭션을 생성합니다.
+         * 유저가 생성한 대납 계정으로 배포된 컨트랙트 함수를 실행하는 트랜잭션을 생성합니다.  이 API를 사용하기 위해서는 `account-pool`과 `feepayer-pool`에 대한 두개의 `x-krn`이 필요합니다. 두 개의 `x-krn`을 기술하기 위해서 comma 로 분리하여 기술하며, 예시는 아래와 같습니다.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {module:model/FDUserContractExecutionTransactionRequest} opts.body
@@ -321,7 +321,7 @@
 
         /**
          * UFDProcessRLP
-         * 유저가 생성한 대납 계정으로 RLP(SigRLP 또는 TxHashRLP)를 사용해 트랜잭션을 생성합니다.
+         * 유저가 생성한 대납 계정으로 RLP(SigRLP 또는 TxHashRLP)를 사용해 트랜잭션을 생성합니다. Wallet API 내 transaction API에서 나오는 rlp 값은 서명값을 포함하는 TxHashRLP 포맷입니다. 서명값을 포함하지 않은 SigRLP 값의 경우 caver를 이용하면 더욱 쉽게 만들 수 있습니다. caver에서 각 트랜잭션 메서드로 SigRLP를 만들고자 할 경우 `getRLPEncodingForSignature()`, TxHashRLP를 만들고자 할 경우 `getRLPEncoding()`를 사용하시면 됩니다. SigRLP의 경우 해당 계정풀에서 생성한 것에 한해 `from`의 계정으로 서명을 합니다. 각 트랜잭션 타입별 SigRLP, TxHashRLP에 대한 자세한 설명은 [Klaytn Docs](https://docs.klaytn.com/klaytn/design/transactions)를 참고하시기 바랍니다.  이 API를 사용하기 위해서는 `account-pool`과 `feepayer-pool`에 대한 두개의 `x-krn`이 필요합니다. 두 개의 `x-krn`을 기술하기 위해서 comma 로 분리하여 기술하며, 예시는 아래와 같습니다.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {module:model/FDUserProcessRLPRequest} opts.body
@@ -377,7 +377,7 @@
 
         /**
          * UFDUserCancelTransaction
-         * 유저가 만든 대납 계정으로 Klaytn에 전송했으나 보류중인 트랜잭션을 취소시키기 위한 트랜잭션을 생성합니다. 취소를 위해 논스 또는 트랜잭션 해시 둘 중 하나의 값이 꼭 필요합니다.
+         * 유저가 만든 대납 계정으로 Klaytn에 전송했으나 보류중인 트랜잭션을 취소시키기 위한 트랜잭션을 생성합니다. 취소를 위해 논스 또는 트랜잭션 해시 둘 중 하나의 값이 꼭 필요합니다.  이 API를 사용하기 위해서는 `account-pool`과 `feepayer-pool`에 대한 두개의 `x-krn`이 필요합니다. 두 개의 `x-krn`을 기술하기 위해서 comma 로 분리하여 기술하며, 예시는 아래와 같습니다.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {module:model/FDUserCancelTransactionRequest} opts.body
@@ -433,7 +433,7 @@
 
         /**
          * UFDValueTransferTransaction
-         * 유저가 생성한 대납 계정으로 메모와 함께 클레이를 전송하는 트랜잭션을 생성합니다.
+         * 유저가 생성한 대납 계정으로 메모와 함께 클레이를 전송하는 트랜잭션을 생성합니다.  이 API를 사용하기 위해서는 `account-pool`과 `feepayer-pool`에 대한 두개의 `x-krn`이 필요합니다. 두 개의 `x-krn`을 기술하기 위해서 comma 로 분리하여 기술하며, 예시는 아래와 같습니다.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {module:model/FDUserValueTransferTransactionRequest} opts.body

@@ -23,7 +23,15 @@ const AnchorQueryOptions = require('./anchor/anchorQueryOptions')
 const TokenHistoryQueryOptions = require('./tokenHistory/tokenHistoryQueryOptions')
 const WalletQueryOptions = require('./wallet/walletQueryOptions')
 
+/**
+ * The class that manages KAS API services.
+ * @class
+ */
 class KAS {
+    /**
+     * Creates an instance of KAS.
+     * @constructor
+     */
     constructor() {
         this.tokenHistory = new TokenHistory()
         this.wallet = new Wallet()
@@ -34,20 +42,80 @@ class KAS {
         this.wallet.queryOptions = WalletQueryOptions
     }
 
-    enableTokenHistoryAPI(path, chainId, accessKeyId, secretAccessKey) {
-        const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
+    /**
+     * @type {TokenHistory}
+     */
+    get tokenHistory() {
+        return this._tokenHistory
+    }
+
+    set tokenHistory(tokenHistory) {
+        this._tokenHistory = tokenHistory
+    }
+
+    /**
+     * @type {Wallet}
+     */
+    get wallet() {
+        return this._wallet
+    }
+
+    set wallet(wallet) {
+        this._wallet = wallet
+    }
+
+    /**
+     * @type {Anchor}
+     */
+    get anchor() {
+        return this._anchor
+    }
+
+    set anchor(anchor) {
+        this._anchor = anchor
+    }
+
+    /**
+     * Sets chain id and authentication key for Token History API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.tokenHistory.accessOptions = accessOptions
         this.tokenHistory.client = client
     }
 
-    enableWalletAPI(path, chainId, accessKeyId, secretAccessKey) {
-        const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
+    /**
+     * Sets chain id and authentication key for Wallet API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initWalletAPI(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.wallet.accessOptions = accessOptions
         this.wallet.client = client
     }
 
-    enableAnchorAPI(path, chainId, accessKeyId, secretAccessKey) {
-        const { client, accessOptions } = createClient(path, chainId, accessKeyId, secretAccessKey)
+    /**
+     * Sets chain id and authentication key for Anchor API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initAnchorAPI(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.anchor.accessOptions = accessOptions
         this.anchor.client = client
     }

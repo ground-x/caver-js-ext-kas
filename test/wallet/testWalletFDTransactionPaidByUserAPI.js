@@ -25,7 +25,7 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const Caver = require('../../index.js')
+const CaverExtKAS = require('../../index.js')
 const {
     FDValueTransferTransactionRequest,
     FDContractDeployTransactionRequest,
@@ -43,7 +43,7 @@ const sandbox = sinon.createSandbox()
 
 describe('Wallet API - FD transaction API paid by User', () => {
     beforeEach(() => {
-        caver = new Caver(url)
+        caver = new CaverExtKAS()
     })
 
     afterEach(() => {
@@ -123,7 +123,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-113: should request fd value transfer transaction paid by User to KAS (with object)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDValueTransferTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -137,7 +137,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-114: should request fd value transfer memo transaction paid by User to KAS (with object)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const withMemo = Object.assign({ memo: 'memo' }, txObj)
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDValueTransferTransaction')
@@ -152,7 +152,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-115: should request fd value transfer transaction paid by User to KAS (with FDValueTransferTransactionRequest)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDValueTransferTransactionRequest.constructFromObject(txObj)
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDValueTransferTransaction')
@@ -167,7 +167,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-116: should request fd value transfer transaction paid by User to KAS (with number value)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
@@ -184,7 +184,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-117: should call callback function with api result', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDValueTransferTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -203,7 +203,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-118: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -293,7 +293,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-119: should request fd smart contract deploy transaction paid by User to KAS (with object)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractDeployTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -307,7 +307,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-120: should request fd smart contract deploy transaction paid by User to KAS (with FDContractDeployTransactionRequest)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDContractDeployTransactionRequest.constructFromObject(txObj)
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractDeployTransaction')
@@ -322,7 +322,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-121: should request fd smart contract deploy transaction paid by User to KAS (with number value)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
@@ -339,7 +339,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-122: should call callback function with api result', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractDeployTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -358,7 +358,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-123: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -449,7 +449,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-124: should request fd smart contract execution transaction paid by User to KAS (with object)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractExecutionTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -463,7 +463,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-125: should request fd smart contract execution transaction paid by User to KAS (with FDContractExecutionTransactionRequest)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDContractExecutionTransactionRequest.constructFromObject(txObj)
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractExecutionTransaction')
@@ -478,7 +478,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-126: should request fd smart contract deploy transaction paid by User to KAS (with number value)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
@@ -495,7 +495,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-127: should call callback function with api result', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractExecutionTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -514,7 +514,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-128: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -598,7 +598,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-129: should request fd cancel transaction paid by User to KAS (with object)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDUserCancelTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -612,7 +612,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-130: should request fd cancel transaction paid by User to KAS (with txHash)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestObject = Object.assign({}, txObj)
             delete requestObject.nonce
@@ -630,7 +630,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-131: should request fd cancel transaction paid by User to KAS (with FDCancelTransactionRequest)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDCancelTransactionRequest.constructFromObject(txObj)
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDUserCancelTransaction')
@@ -645,7 +645,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-132: should call callback function with api result', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDUserCancelTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -664,7 +664,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-133: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -750,7 +750,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-134: should request fd chain data anchoring transaction paid by User to KAS (with object)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAnchorTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -764,7 +764,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-135: should request fd chain data anchoring transaction paid by User to KAS (with FDAnchorTransactionRequest)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDAnchorTransactionRequest.constructFromObject(txObj)
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAnchorTransaction')
@@ -779,7 +779,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-136: should call callback function with api result', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAnchorTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -798,7 +798,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-137: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -814,7 +814,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
     })
 
-    context('caver.kas.wallet.requestRawTransactionPaidByUser', () => {
+    context('caver.kas.wallet.requestFDRawTransactionPaidByUser', () => {
         const resultOfApi = {
             rlp:
                 '0x09f8dc038505d21dba0082c3509476c6b1f34562ed7a843786e1d7f57d0d7948a6f10194758473e68179c446437b74ca8a74b58706792806f847f8458207f6a0ef617aa7de05d4e807bbc5b9c67ecf05ef067ca6a01aeff6cc81b1f4548216c5a023510f58c1dd82c583cd47302aac1d077c97926ba9bcaa9ca4ad0bc809cf08909444ee3906a7a2007762e9d706df6e4ef63fa1eda8f847f8458207f6a0637426d1221cf48837634c86fb31c96dc2c5f2f847cbdd8cff959308f2331cf0a02299f5f184fa1b9ba545ba6fa90474695b6e4860255f8c3837ec31495f0e0f39',
@@ -883,13 +883,13 @@ describe('Wallet API - FD transaction API paid by User', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-138: should request fd transaction paid by User to KAS via RLP-encoded string (with object)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDProcessRLP')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
-            const ret = await caver.kas.wallet.requestRawTransactionPaidByUser(txObj)
+            const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(txObj)
 
             expect(apiFunctionSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -897,14 +897,14 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-139: should request fd transaction paid by User to KAS (with FDProcessRLPRequest)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDProcessRLPRequest.constructFromObject(txObj)
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDProcessRLP')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
-            const ret = await caver.kas.wallet.requestRawTransactionPaidByUser(requestModel)
+            const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(requestModel)
 
             expect(apiFunctionSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -912,7 +912,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-140: should call callback function with api result', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDProcessRLP')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -920,7 +920,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
 
             let isCalled = false
 
-            const ret = await caver.kas.wallet.requestRawTransactionPaidByUser(txObj, () => {
+            const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(txObj, () => {
                 isCalled = true
             })
 
@@ -931,7 +931,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-141: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -940,7 +940,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
                 callback(null, errorResult, {})
             })
 
-            const ret = await caver.kas.wallet.requestRawTransactionPaidByUser(txObj)
+            const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(txObj)
 
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)
@@ -1121,7 +1121,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         }
 
         it('CAVERJS-EXT-KAS-WALLET-142: should request fd account update transaction paid by User to KAS (with object)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAccountUpdateTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -1140,7 +1140,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-143: should request fd account update transaction paid by User to KAS (with FDAccountUpdateTransactionRequest)', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAccountUpdateTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -1160,7 +1160,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-144: should call callback function with api result', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAccountUpdateTransaction')
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
@@ -1179,7 +1179,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-145: should resolve the promise when error is returned from KAS server', async () => {
-            caver.enableWalletAPI(url, chainId, accessKeyId, secretAccessKey)
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
             const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
