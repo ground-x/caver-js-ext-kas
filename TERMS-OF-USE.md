@@ -10,7 +10,7 @@ This Terms shall be applied to users installing and utilizing the Software inclu
 
 ## 3. Services provided by the Software
 
-The Software provides users with services which enable them to interact with KAS and users may refer to details of such services at KAS homepage (http://www.klaytnap.com).
+The Software provides users with services which enable them to interact with KAS and users may refer to details of such services at KAS homepage (http://www.klaytnapi.com).
 
 ## 4. Software use and installation
 
