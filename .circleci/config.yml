@@ -114,19 +114,9 @@ stage_defaults:
       tags:
         only:
           - /^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+.*/
-          - /^v[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+.*/
       branches:
         ignore: 
           - /release\/.*/
-  qa: &stage_qa
-    context: sdk_js_prod
-    filters:
-      tags:
-        only:
-          - /^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+.*/
-          - /^v[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+.*/
-      branches:
-        ignore: /.*/
   rc: &stage_rc
     context: sdk_js_prod
     filters:
@@ -151,14 +141,12 @@ workflows:
 
       # publish jobs - rc
       - tag_verify:
-          <<: *stage_qa
-
+          <<: *stage_rc
       - publish:
-          <<: *stage_qa
+          <<: *stage_rc
           <<: *test_steps
           name: publish_rc
           environment: --tag rc
-
       - release_PR:
           <<: *stage_rc
           requires:
@@ -166,12 +154,12 @@ workflows:
 
       # publish jobs - prod
       - publish:
+          <<: *test_steps
           context: sdk_js_prod
           name: publish_prod
           filters:
             branches:
               only: master
-      
       - tagging:
           requires:
             - publish_prod
