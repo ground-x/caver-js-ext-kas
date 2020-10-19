@@ -1,10 +1,16 @@
 version: 2.1
+orbs:
+  aws-eks: circleci/aws-eks@1.0.2
 
 executors:
   default:
     docker:
     - image: circleci/node:10.15.3
     working_directory: ~/caver-js-ext-kas
+  test_machine:
+    machine:
+      image: ubuntu-1604:202007-01
+    working_directory: ~/caver-java-ext-kas
 
 commands:
   notify-success:
@@ -38,6 +44,16 @@ jobs:
     executor: default
     steps:
       - checkout
+      - aws-eks/update-kubeconfig-with-authenticator:
+          cluster-name: ${EKS_CLUSTER_NAME}
+          install-kubectl: true
+          cluster-context-alias: test-cluster
+      - run:
+          command: |
+            set -xoeu
+            echo "127.0.0.1 $KAS_BASEDOMAINS" | sudo tee -a /etc/hosts
+            kubectl port-forward service/$KAS_SERVICE 8888:80 -n $KAS_NAMESPACE
+          background: true
       - run: npm install
       - run: npm run test
 
@@ -135,6 +151,7 @@ workflows:
   build_and_test:
     jobs:
       - test:
+          context: kas_caver_test
           <<: *stage_default
       - build:
           <<: *stage_default
