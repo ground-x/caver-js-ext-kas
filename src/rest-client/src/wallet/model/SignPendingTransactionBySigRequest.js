@@ -48,7 +48,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {SignPendingTransactionBySigRequest} obj Optional instance to populate.
      * @return {SignPendingTransactionBySigRequest} The populated <code>SignPendingTransactionBySigRequest</code> instance.
-* @memberof SignPendingTransactionBySigRequest
+     * @memberof SignPendingTransactionBySigRequest
      */
     SignPendingTransactionBySigRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -60,7 +60,7 @@
 
     /**
      * @member {Array.<Signature>} signatures
-* @memberof SignPendingTransactionBySigRequest
+     * @memberof SignPendingTransactionBySigRequest
      */
     SignPendingTransactionBySigRequest.prototype.signatures = undefined
 

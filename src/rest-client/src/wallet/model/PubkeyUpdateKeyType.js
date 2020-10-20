@@ -48,7 +48,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {PubkeyUpdateKeyType} obj Optional instance to populate.
      * @return {PubkeyUpdateKeyType} The populated <code>PubkeyUpdateKeyType</code> instance.
-* @memberof PubkeyUpdateKeyType
+     * @memberof PubkeyUpdateKeyType
      */
     PubkeyUpdateKeyType.constructFromObject = function(data, obj) {
         if (data) {
@@ -62,14 +62,14 @@
     /**
      * 계정키의 타입
      * @member {Number} keyType
-* @memberof PubkeyUpdateKeyType
+     * @memberof PubkeyUpdateKeyType
      */
     PubkeyUpdateKeyType.prototype.keyType = undefined
 
     /**
      * 계정의 공개키
      * @member {String} key
-* @memberof PubkeyUpdateKeyType
+     * @memberof PubkeyUpdateKeyType
      */
     PubkeyUpdateKeyType.prototype.key = undefined
 

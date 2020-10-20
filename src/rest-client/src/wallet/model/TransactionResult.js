@@ -61,7 +61,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {TransactionResult} obj Optional instance to populate.
      * @return {TransactionResult} The populated <code>TransactionResult</code> instance.
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.constructFromObject = function(data, obj) {
         if (data) {
@@ -89,109 +89,109 @@
     /**
      * 트랜잭션을 보낸 Klaytn 계정 주소
      * @member {String} from
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.from = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
      * @member {Number} gas
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.gas = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas) 비용
      * @member {String} gasPrice
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.gasPrice = undefined
 
     /**
      * 트랜잭션을 Klaytn에 보낼 때 함께 보내는 데이터
      * @member {String} input
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.input = undefined
 
     /**
      * 현재 해당 트랜잭션을 보내는 이가 과거에 보냈던 모든 트랜잭션의 개수
      * @member {Number} nonce
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션의 RLP 직렬화(serialization) 값
      * @member {String} rlp
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.rlp = undefined
 
     /**
      * @member {Array.<Signature>} signatures
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.signatures = undefined
 
     /**
      * 해당 트랜잭션 전송 후의 상태(“Submitted” 또는 “Pending”)
      * @member {String} status
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.status = undefined
 
     /**
      * KLAY를 받는 Klaytn 계정 주소
      * @member {String} to
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.to = undefined
 
     /**
      * 해당 트랜잭션에 대한 해시값
      * @member {String} transactionHash
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.transactionHash = undefined
 
     /**
      * 해당 트랜잭션 타입을 나타내는 숫자값
      * @member {Number} typeInt
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.typeInt = undefined
 
     /**
      * PEB 단위로 환산된 KLAY
      * @member {String} value
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.value = undefined
 
     /**
      * @member {Number} code
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.code = undefined
 
     /**
      * @member {String} message
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.message = undefined
 
     /**
      * Multisig 트랜잭션의 ID
      * @member {String} transactionId
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.transactionId = undefined
 
     /**
      * 새롭게 업데이트된 계정 키
      * @member {String} accountKey
-* @memberof TransactionResult
+     * @memberof TransactionResult
      */
     TransactionResult.prototype.accountKey = undefined
 

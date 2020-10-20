@@ -53,7 +53,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {AccountByPubkey} obj Optional instance to populate.
      * @return {AccountByPubkey} The populated <code>AccountByPubkey</code> instance.
-* @memberof AccountByPubkey
+     * @memberof AccountByPubkey
      */
     AccountByPubkey.constructFromObject = function(data, obj) {
         if (data) {
@@ -67,14 +67,14 @@
     /**
      * 클레이튼 계정주소
      * @member {String} address
-* @memberof AccountByPubkey
+     * @memberof AccountByPubkey
      */
     AccountByPubkey.prototype.address = undefined
 
     /**
      * 클레이튼 체인 ID
      * @member {Number} chainId
-* @memberof AccountByPubkey
+     * @memberof AccountByPubkey
      */
     AccountByPubkey.prototype.chainId = undefined
 

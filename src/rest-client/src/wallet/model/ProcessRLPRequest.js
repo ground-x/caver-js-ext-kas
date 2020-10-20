@@ -51,7 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {ProcessRLPRequest} obj Optional instance to populate.
      * @return {ProcessRLPRequest} The populated <code>ProcessRLPRequest</code> instance.
-* @memberof ProcessRLPRequest
+     * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -66,20 +66,20 @@
     /**
      * RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받으며, Legacy 트랜잭션과 Basic 트랜잭션 타입만 허용함.
      * @member {String} rlp
-* @memberof ProcessRLPRequest
+     * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.prototype.rlp = undefined
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
      * @member {Boolean} submit
-* @memberof ProcessRLPRequest
+     * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.prototype.submit = undefined
 
     /**
      * @member {String} from
-* @memberof ProcessRLPRequest
+     * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.prototype.from = undefined
 

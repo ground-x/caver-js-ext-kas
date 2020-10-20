@@ -48,7 +48,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {RoleBasedUpdateKeyType} obj Optional instance to populate.
      * @return {RoleBasedUpdateKeyType} The populated <code>RoleBasedUpdateKeyType</code> instance.
-* @memberof RoleBasedUpdateKeyType
+     * @memberof RoleBasedUpdateKeyType
      */
     RoleBasedUpdateKeyType.constructFromObject = function(data, obj) {
         if (data) {
@@ -62,13 +62,13 @@
     /**
      * 계정키의 타입
      * @member {Number} keyType
-* @memberof RoleBasedUpdateKeyType
+     * @memberof RoleBasedUpdateKeyType
      */
     RoleBasedUpdateKeyType.prototype.keyType = undefined
 
     /**
      * @member {Array.<Object>} key
-* @memberof RoleBasedUpdateKeyType
+     * @memberof RoleBasedUpdateKeyType
      */
     RoleBasedUpdateKeyType.prototype.key = undefined
 

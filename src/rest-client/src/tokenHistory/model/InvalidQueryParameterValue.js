@@ -47,7 +47,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {InvalidQueryParameterValue} obj Optional instance to populate.
      * @return {InvalidQueryParameterValue} The populated <code>InvalidQueryParameterValue</code> instance.
-* @memberof InvalidQueryParameterValue
+     * @memberof InvalidQueryParameterValue
      */
     InvalidQueryParameterValue.constructFromObject = function(data, obj) {
         if (data) {
@@ -60,13 +60,13 @@
 
     /**
      * @member {Number} code
-* @memberof InvalidQueryParameterValue
+     * @memberof InvalidQueryParameterValue
      */
     InvalidQueryParameterValue.prototype.code = undefined
 
     /**
      * @member {String} message
-* @memberof InvalidQueryParameterValue
+     * @memberof InvalidQueryParameterValue
      */
     InvalidQueryParameterValue.prototype.message = undefined
 

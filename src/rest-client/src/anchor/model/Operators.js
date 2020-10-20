@@ -51,7 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {Operators} obj Optional instance to populate.
      * @return {Operators} The populated <code>Operators</code> instance.
-* @memberof Operators
+     * @memberof Operators
      */
     Operators.constructFromObject = function(data, obj) {
         if (data) {
@@ -65,13 +65,13 @@
     /**
      * 마지막 검색 위치를 나타내는 커서 정보
      * @member {String} cursor
-* @memberof Operators
+     * @memberof Operators
      */
     Operators.prototype.cursor = undefined
 
     /**
      * @member {Array.<Operator>} items
-* @memberof Operators
+     * @memberof Operators
      */
     Operators.prototype.items = undefined
 

@@ -51,7 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {Accounts} obj Optional instance to populate.
      * @return {Accounts} The populated <code>Accounts</code> instance.
-* @memberof Accounts
+     * @memberof Accounts
      */
     Accounts.constructFromObject = function(data, obj) {
         if (data) {
@@ -65,13 +65,13 @@
     /**
      * 마지막 검색 위치를 나타내는 커서 정보
      * @member {String} cursor
-* @memberof Accounts
+     * @memberof Accounts
      */
     Accounts.prototype.cursor = undefined
 
     /**
      * @member {Array.<Account>} items
-* @memberof Accounts
+     * @memberof Accounts
      */
     Accounts.prototype.items = undefined
 

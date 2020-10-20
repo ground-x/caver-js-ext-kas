@@ -55,7 +55,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {AccountCountByKRN} obj Optional instance to populate.
      * @return {AccountCountByKRN} The populated <code>AccountCountByKRN</code> instance.
-* @memberof AccountCountByKRN
+     * @memberof AccountCountByKRN
      */
     AccountCountByKRN.constructFromObject = function(data, obj) {
         if (data) {
@@ -70,21 +70,21 @@
     /**
      * KAS 계정 ID
      * @member {String} accountId
-* @memberof AccountCountByKRN
+     * @memberof AccountCountByKRN
      */
     AccountCountByKRN.prototype.accountId = undefined
 
     /**
      * 특정 계정 저장소 내에 클레이튼 계정 보유 갯수
      * @member {Number} count
-* @memberof AccountCountByKRN
+     * @memberof AccountCountByKRN
      */
     AccountCountByKRN.prototype.count = undefined
 
     /**
      * KAS KRN(계정 저장소 이름)
      * @member {String} krn
-* @memberof AccountCountByKRN
+     * @memberof AccountCountByKRN
      */
     AccountCountByKRN.prototype.krn = undefined
 

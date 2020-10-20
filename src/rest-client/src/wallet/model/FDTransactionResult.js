@@ -63,7 +63,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {FDTransactionResult} obj Optional instance to populate.
      * @return {FDTransactionResult} The populated <code>FDTransactionResult</code> instance.
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.constructFromObject = function(data, obj) {
         if (data) {
@@ -91,111 +91,111 @@
     /**
      * 트랜잭션 수수료를 대납할 계정 주소
      * @member {String} feePayer
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.feePayer = undefined
 
     /**
      * 트랜잭션을 보낸 Klaytn 계정 주소
      * @member {String} from
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.from = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
      * @member {Number} gas
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.gas = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas) 비용
      * @member {String} gasPrice
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.gasPrice = undefined
 
     /**
      * 트랜잭션을 Klaytn에 보낼 때 함께 보내는 데이터
      * @member {String} input
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.input = undefined
 
     /**
      * 현재 해당 트랜잭션을 보내는 이가 과거에 보냈던 모든 트랜잭션의 개수
      * @member {Number} nonce
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션의 RLP 직렬화(serialization) 값
      * @member {String} rlp
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.rlp = undefined
 
     /**
      * @member {Array.<Signature>} signatures
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.signatures = undefined
 
     /**
      * 해당 트랜잭션 전송 후의 상태(“Submitted” 또는 “Pending”)
      * @member {String} status
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.status = undefined
 
     /**
      * KLAY를 받는 Klaytn 계정 주소
      * @member {String} to
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.to = undefined
 
     /**
      * 해당 트랜잭션에 대한 해시값
      * @member {String} transactionHash
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.transactionHash = undefined
 
     /**
      * 해당 트랜잭션 타입을 나타내는 숫자값
      * @member {Number} typeInt
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.typeInt = undefined
 
     /**
      * PEB 단위로 환산된 KLAY
      * @member {String} value
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.value = undefined
 
     /**
      * 발생 계정과 대납 계정 간의 수수료 대납 비율
      * @member {Number} feeRatio
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.feeRatio = undefined
 
     /**
      * Multisig 트랜잭션의 ID
      * @member {String} transactionId
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.transactionId = undefined
 
     /**
      * 새롭게 업데이트된 계정 키
      * @member {String} accountKey
-* @memberof FDTransactionResult
+     * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.accountKey = undefined
 

@@ -51,7 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {AccountStatus} obj Optional instance to populate.
      * @return {AccountStatus} The populated <code>AccountStatus</code> instance.
-* @memberof AccountStatus
+     * @memberof AccountStatus
      */
     AccountStatus.constructFromObject = function(data, obj) {
         if (data) {
@@ -64,7 +64,7 @@
     /**
      * 삭제된 계정인지 여부
      * @member {String} status
-* @memberof AccountStatus
+     * @memberof AccountStatus
      */
     AccountStatus.prototype.status = undefined
 
