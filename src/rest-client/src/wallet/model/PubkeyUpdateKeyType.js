@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The PubkeyUpdateKeyType model module.
-     * @module model/PubkeyUpdateKeyType
+     * @module PubkeyUpdateKeyType
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>PubkeyUpdateKeyType</code>.
      * 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
-     * @alias module:model/PubkeyUpdateKeyType
+     * @alias PubkeyUpdateKeyType
      * @class
      */
     const PubkeyUpdateKeyType = function() {}
@@ -46,8 +46,8 @@
      * Constructs a <code>PubkeyUpdateKeyType</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PubkeyUpdateKeyType} obj Optional instance to populate.
-     * @return {module:model/PubkeyUpdateKeyType} The populated <code>PubkeyUpdateKeyType</code> instance.
+     * @param {PubkeyUpdateKeyType} obj Optional instance to populate.
+     * @return {PubkeyUpdateKeyType} The populated <code>PubkeyUpdateKeyType</code> instance.
      */
     PubkeyUpdateKeyType.constructFromObject = function(data, obj) {
         if (data) {

@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDProcessRLPRequest model module.
-     * @module model/FDProcessRLPRequest
+     * @module FDProcessRLPRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDProcessRLPRequest</code>.
      * RLP 이용 대납 트랜잭션 요청 스키마
-     * @alias module:model/FDProcessRLPRequest
+     * @alias FDProcessRLPRequest
      * @class
      * @param rlp {String} RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받으며, (partial) fee delegation 트랜잭션 타입만 허용함.
      */
@@ -49,8 +49,8 @@
      * Constructs a <code>FDProcessRLPRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDProcessRLPRequest} obj Optional instance to populate.
-     * @return {module:model/FDProcessRLPRequest} The populated <code>FDProcessRLPRequest</code> instance.
+     * @param {FDProcessRLPRequest} obj Optional instance to populate.
+     * @return {FDProcessRLPRequest} The populated <code>FDProcessRLPRequest</code> instance.
      */
     FDProcessRLPRequest.constructFromObject = function(data, obj) {
         if (data) {

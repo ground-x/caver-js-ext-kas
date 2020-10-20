@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The Transaction model module.
-     * @module model/Transaction
+     * @module Transaction
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>Transaction</code>.
-     * @alias module:model/Transaction
+     * @alias Transaction
      * @class
      * @param feePayer {String} 수수료 대납 계정 주소 (20-byte)
      * @param feeRatio {Number} 수수료 대납 비율
@@ -62,8 +62,8 @@
      * Constructs a <code>Transaction</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Transaction} obj Optional instance to populate.
-     * @return {module:model/Transaction} The populated <code>Transaction</code> instance.
+     * @param {Transaction} obj Optional instance to populate.
+     * @return {Transaction} The populated <code>Transaction</code> instance.
      */
     Transaction.constructFromObject = function(data, obj) {
         if (data) {

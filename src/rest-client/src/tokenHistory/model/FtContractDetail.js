@@ -30,13 +30,13 @@
 })(this, function(ApiClient, FtLink) {
     /**
      * The FtContractDetail model module.
-     * @module model/FtContractDetail
+     * @module FtContractDetail
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>FtContractDetail</code>.
-     * @alias module:model/FtContractDetail
+     * @alias FtContractDetail
      * @class
      * @param address {String} 컨트랙트 주소 (20-byte)
      * @param decimals {Number} 토큰 자릿수
@@ -47,7 +47,7 @@
      * @param createdAt {Number} 라벨링된 시점 (timestamp)
      * @param updatedAt {Number} 라벨링 정보가 마지막으로 변경된 시점 (timestamp)
      * @param deletedAt {Number} 라벨링이 삭제된 시점 (timestamp); 삭제되지 않았을 경우 0
-     * @param link {module:model/FtLink}
+     * @param link {FtLink}
      * @param type {String} 컨트랙트 유형 (KIP-7, KIP-17, ERC-20, ERC-721)
      */
     const FtContractDetail = function(address, decimals, name, symbol, status, totalSupply, createdAt, updatedAt, deletedAt, link, type) {
@@ -68,8 +68,8 @@
      * Constructs a <code>FtContractDetail</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FtContractDetail} obj Optional instance to populate.
-     * @return {module:model/FtContractDetail} The populated <code>FtContractDetail</code> instance.
+     * @param {FtContractDetail} obj Optional instance to populate.
+     * @return {FtContractDetail} The populated <code>FtContractDetail</code> instance.
      */
     FtContractDetail.constructFromObject = function(data, obj) {
         if (data) {
@@ -144,7 +144,7 @@
     FtContractDetail.prototype.deletedAt = undefined
 
     /**
-     * @member {module:model/FtLink} link
+     * @member {FtLink} link
      */
     FtContractDetail.prototype.link = undefined
 

@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The ErrorResponse model module.
-     * @module model/ErrorResponse
+     * @module ErrorResponse
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>ErrorResponse</code>.
      * 에러에 대한 설명을 포함한 응답
-     * @alias module:model/ErrorResponse
+     * @alias ErrorResponse
      * @class
      * @param code {Number} 서비스 코드(앞 3자리)와 에러 코드(뒤 4자리)
      * @param message {String} 에러 메세지
@@ -51,8 +51,8 @@
      * Constructs a <code>ErrorResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/ErrorResponse} obj Optional instance to populate.
-     * @return {module:model/ErrorResponse} The populated <code>ErrorResponse</code> instance.
+     * @param {ErrorResponse} obj Optional instance to populate.
+     * @return {ErrorResponse} The populated <code>ErrorResponse</code> instance.
      */
     ErrorResponse.constructFromObject = function(data, obj) {
         if (data) {

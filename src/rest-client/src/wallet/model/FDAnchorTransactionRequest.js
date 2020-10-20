@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDAnchorTransactionRequest model module.
-     * @module model/FDAnchorTransactionRequest
+     * @module FDAnchorTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDAnchorTransactionRequest</code>.
      * 대납 앵커 트랜잭션 요청 스키마
-     * @alias module:model/FDAnchorTransactionRequest
+     * @alias FDAnchorTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param input {String} 트랜잭션에 첨부되는 데이터로 여기에서는 메인 체인에 앵커링하려는 데이터
@@ -51,8 +51,8 @@
      * Constructs a <code>FDAnchorTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDAnchorTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/FDAnchorTransactionRequest} The populated <code>FDAnchorTransactionRequest</code> instance.
+     * @param {FDAnchorTransactionRequest} obj Optional instance to populate.
+     * @return {FDAnchorTransactionRequest} The populated <code>FDAnchorTransactionRequest</code> instance.
      */
     FDAnchorTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

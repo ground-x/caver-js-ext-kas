@@ -30,14 +30,14 @@
 })(this, function(ApiClient, Signature) {
     /**
      * The SignPendingTransactionBySigRequest model module.
-     * @module model/SignPendingTransactionBySigRequest
+     * @module SignPendingTransactionBySigRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>SignPendingTransactionBySigRequest</code>.
      * 서명 값 이용 multisig 서명 요청 스키마
-     * @alias module:model/SignPendingTransactionBySigRequest
+     * @alias SignPendingTransactionBySigRequest
      * @class
      */
     const SignPendingTransactionBySigRequest = function() {}
@@ -46,8 +46,8 @@
      * Constructs a <code>SignPendingTransactionBySigRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/SignPendingTransactionBySigRequest} obj Optional instance to populate.
-     * @return {module:model/SignPendingTransactionBySigRequest} The populated <code>SignPendingTransactionBySigRequest</code> instance.
+     * @param {SignPendingTransactionBySigRequest} obj Optional instance to populate.
+     * @return {SignPendingTransactionBySigRequest} The populated <code>SignPendingTransactionBySigRequest</code> instance.
      */
     SignPendingTransactionBySigRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -58,7 +58,7 @@
     }
 
     /**
-     * @member {Array.<module:model/Signature>} signatures
+     * @member {Array.<Signature>} signatures
      */
     SignPendingTransactionBySigRequest.prototype.signatures = undefined
 

@@ -38,25 +38,25 @@
 })(this, function(ApiClient, AccountCountByAccountID, AccountCountByKRN) {
     /**
      * Statistics service.
-     * @module api/StatisticsApi
+     * @class StatisticsApi
      * @version 1.0
      */
 
     /**
      * Constructs a new StatisticsApi.
-     * @alias module:api/StatisticsApi
+     * @alias StatisticsApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
     const exports = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the getAccountCountByAccountID operation.
-         * @callback module:api/StatisticsApi~getAccountCountByAccountIDCallback
+         * @callback StatisticsApi~getAccountCountByAccountIDCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AccountCountByAccountID} data The data returned by the service call.
+         * @param {AccountCountByAccountID} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -64,8 +64,8 @@
          * GetAccountCountByAccountID
          * 해당 KAS 사용자가 가진 모든 클레이튼 계정 개수를 보여줍니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
-         * @param {module:api/StatisticsApi~getAccountCountByAccountIDCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AccountCountByAccountID}
+         * @param {StatisticsApi~getAccountCountByAccountIDCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AccountCountByAccountID}
          */
         this.getAccountCountByAccountID = function(xChainId, callback) {
             const postBody = null
@@ -107,9 +107,9 @@
 
         /**
          * Callback function to receive the result of the getAccountCountByKRN operation.
-         * @callback module:api/StatisticsApi~getAccountCountByKRNCallback
+         * @callback StatisticsApi~getAccountCountByKRNCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AccountCountByKRN} data The data returned by the service call.
+         * @param {AccountCountByKRN} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -119,8 +119,8 @@
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {String} opts.xKrn 계정 저장소
-         * @param {module:api/StatisticsApi~getAccountCountByKRNCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AccountCountByKRN}
+         * @param {StatisticsApi~getAccountCountByKRNCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AccountCountByKRN}
          */
         this.getAccountCountByKRN = function(xChainId, opts, callback) {
             opts = opts || {}

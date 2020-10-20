@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AccountCountByKRN model module.
-     * @module model/AccountCountByKRN
+     * @module AccountCountByKRN
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AccountCountByKRN</code>.
      * KAS 계정의 클레이튼 계정 보유 갯수
-     * @alias module:model/AccountCountByKRN
+     * @alias AccountCountByKRN
      * @class
      * @param accountId {String} KAS 계정 ID
      * @param count {Number} 특정 계정 저장소 내에 클레이튼 계정 보유 갯수
@@ -53,8 +53,8 @@
      * Constructs a <code>AccountCountByKRN</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AccountCountByKRN} obj Optional instance to populate.
-     * @return {module:model/AccountCountByKRN} The populated <code>AccountCountByKRN</code> instance.
+     * @param {AccountCountByKRN} obj Optional instance to populate.
+     * @return {AccountCountByKRN} The populated <code>AccountCountByKRN</code> instance.
      */
     AccountCountByKRN.constructFromObject = function(data, obj) {
         if (data) {

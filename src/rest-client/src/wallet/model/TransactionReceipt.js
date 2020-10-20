@@ -40,14 +40,14 @@
 })(this, function(ApiClient, EventLog, FeePayerSignaturesObj, Signature) {
     /**
      * The TransactionReceipt model module.
-     * @module model/TransactionReceipt
+     * @module TransactionReceipt
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>TransactionReceipt</code>.
      * 트랜잭션 영수증
-     * @alias module:model/TransactionReceipt
+     * @alias TransactionReceipt
      * @class
      * @param contractAddress {String} 컨트랙트 주소. 만약 컨트랙트 배포가 아니면 `null` 값을 가짐.
      */
@@ -59,8 +59,8 @@
      * Constructs a <code>TransactionReceipt</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/TransactionReceipt} obj Optional instance to populate.
-     * @return {module:model/TransactionReceipt} The populated <code>TransactionReceipt</code> instance.
+     * @param {TransactionReceipt} obj Optional instance to populate.
+     * @return {TransactionReceipt} The populated <code>TransactionReceipt</code> instance.
      */
     TransactionReceipt.constructFromObject = function(data, obj) {
         if (data) {
@@ -144,7 +144,7 @@
     TransactionReceipt.prototype.input = undefined
 
     /**
-     * @member {Array.<module:model/EventLog>} logs
+     * @member {Array.<EventLog>} logs
      */
     TransactionReceipt.prototype.logs = undefined
 
@@ -167,7 +167,7 @@
     TransactionReceipt.prototype.senderTxHash = undefined
 
     /**
-     * @member {Array.<module:model/Signature>} signatures
+     * @member {Array.<Signature>} signatures
      */
     TransactionReceipt.prototype.signatures = undefined
 
@@ -232,7 +232,7 @@
     TransactionReceipt.prototype.feePayer = undefined
 
     /**
-     * @member {Array.<module:model/FeePayerSignaturesObj>} feePayerSignatures
+     * @member {Array.<FeePayerSignaturesObj>} feePayerSignatures
      */
     TransactionReceipt.prototype.feePayerSignatures = undefined
 

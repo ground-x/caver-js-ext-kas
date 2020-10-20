@@ -30,7 +30,7 @@ class TokenHistory {
     /**
      * Creates an instance of token history api.
      * @constructor
-     * @param {RestClient.ApiClient} client - The Api client to use to connect with KAS.
+     * @param {ApiClient} client - The Api client to use to connect with KAS.
      * @param {AccessOptions} accessOptions - An instance of AccessOptions including `chainId`, `accessKeyId` and `secretAccessKey`.
      */
     constructor(client, accessOptions) {
@@ -149,7 +149,7 @@ class TokenHistory {
      * @param {Array.<number>} presets Preset IDs to be used for search, Preset ID can be checked in KAS Console.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `range`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableTransfers}
      */
     getTransferHistory(presets, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -185,7 +185,7 @@ class TokenHistory {
      *
      * @param {string} transactionHash Transaction hash to search transfer history.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Transfers}
      */
     getTransferHistoryByTxHash(transactionHash, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -209,7 +209,7 @@ class TokenHistory {
      *                         The from or to in the search result matches the suggested address value.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `caFilter`, `range`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableTransfers}
      */
     getTransferHistoryByAccount(address, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -240,7 +240,7 @@ class TokenHistory {
      *
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableFtContractDetails}
      */
     getFTContractList(queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -271,7 +271,7 @@ class TokenHistory {
      *
      * @param {string} ftAddress Address of the FT contract for which information is to be retrieved.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FtContractDetail}
      */
     getFTContract(ftAddress, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -293,7 +293,7 @@ class TokenHistory {
      *
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableNftContractDetails}
      */
     getNFTContractList(queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -324,7 +324,7 @@ class TokenHistory {
      *
      * @param {string} nftAddress Address of the NFT contract for which information is to be retrieved.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {NftContractDetail}
      */
     getNFTContract(nftAddress, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -347,7 +347,7 @@ class TokenHistory {
      * @param {string} nftAddress NFT contract address for which you want to search all issued NFTs.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableNfts}
      */
     getNFTList(nftAddress, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -380,7 +380,7 @@ class TokenHistory {
      * @param {string} ownerAddress Address of the EOA to be searched.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableNfts}
      */
     getNFTListByOwner(nftAddress, ownerAddress, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -411,7 +411,7 @@ class TokenHistory {
      * @param {string} nftAddress Address of the NFT contract to be searched.
      * @param {string} tokenId Token id to be searched.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Nft}
      */
     getNFT(nftAddress, tokenId, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -435,7 +435,7 @@ class TokenHistory {
      * @param {string} tokenId Token id to be searched.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableNftOwnershipChanges}
      */
     getNFTOwnershipHistory(nftAddress, tokenId, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)

@@ -30,25 +30,25 @@
 })(this, function(ApiClient, PageableNftOwnershipChanges) {
     /**
      * TokenOwnership service.
-     * @module api/TokenOwnershipApi
+     * @class TokenOwnershipApi
      * @version 0.7.0
      */
 
     /**
      * Constructs a new TokenOwnershipApi.
-     * @alias module:api/TokenOwnershipApi
+     * @alias TokenOwnershipApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
     const exports = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the getListOfNftOwnershipChanges operation.
-         * @callback module:api/TokenOwnershipApi~getListOfNftOwnershipChangesCallback
+         * @callback TokenOwnershipApi~getListOfNftOwnershipChangesCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/PageableNftOwnershipChanges} data The data returned by the service call.
+         * @param {PageableNftOwnershipChanges} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -61,8 +61,8 @@
          * @param {Object} opts Optional parameters
          * @param {Number} opts.size 응답 아이템 개수(min=1, max=1000, default=100)
          * @param {String} opts.cursor 특정 위치를 지정하기 위한 오프셋
-         * @param {module:api/TokenOwnershipApi~getListOfNftOwnershipChangesCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/PageableNftOwnershipChanges}
+         * @param {TokenOwnershipApi~getListOfNftOwnershipChangesCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link PageableNftOwnershipChanges}
          */
         this.getListOfNftOwnershipChanges = function(xChainId, nftAddress, tokenId, opts, callback) {
             opts = opts || {}

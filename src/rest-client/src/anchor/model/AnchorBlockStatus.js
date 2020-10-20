@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AnchorBlockStatus model module.
-     * @module model/AnchorBlockStatus
+     * @module AnchorBlockStatus
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AnchorBlockStatus</code>.
      * 앵커링 상태 응답
-     * @alias module:model/AnchorBlockStatus
+     * @alias AnchorBlockStatus
      * @class
      * @param status {String} 앵커링 성공 여부
      */
@@ -49,8 +49,8 @@
      * Constructs a <code>AnchorBlockStatus</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AnchorBlockStatus} obj Optional instance to populate.
-     * @return {module:model/AnchorBlockStatus} The populated <code>AnchorBlockStatus</code> instance.
+     * @param {AnchorBlockStatus} obj Optional instance to populate.
+     * @return {AnchorBlockStatus} The populated <code>AnchorBlockStatus</code> instance.
      */
     AnchorBlockStatus.constructFromObject = function(data, obj) {
         if (data) {

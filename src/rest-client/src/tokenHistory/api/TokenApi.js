@@ -30,25 +30,25 @@
 })(this, function(ApiClient, Nft, PageableNfts) {
     /**
      * Token service.
-     * @module api/TokenApi
+     * @class TokenApi
      * @version 0.7.0
      */
 
     /**
      * Constructs a new TokenApi.
-     * @alias module:api/TokenApi
+     * @alias TokenApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
     const exports = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the getNftById operation.
-         * @callback module:api/TokenApi~getNftByIdCallback
+         * @callback TokenApi~getNftByIdCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/Nft} data The data returned by the service call.
+         * @param {Nft} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -58,8 +58,8 @@
          * @param {String} xChainId Klaytn 네트워크 체인 ID (1001 or 8217)
          * @param {String} nftAddress 조회할 NFT 컨트랙트 주소
          * @param {String} tokenId 조회할 NFT ID (16진수)
-         * @param {module:api/TokenApi~getNftByIdCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/Nft}
+         * @param {TokenApi~getNftByIdCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Nft}
          */
         this.getNftById = function(xChainId, nftAddress, tokenId, callback) {
             const postBody = null
@@ -114,9 +114,9 @@
 
         /**
          * Callback function to receive the result of the getNftsByContractAddress operation.
-         * @callback module:api/TokenApi~getNftsByContractAddressCallback
+         * @callback TokenApi~getNftsByContractAddressCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/PageableNfts} data The data returned by the service call.
+         * @param {PageableNfts} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -128,8 +128,8 @@
          * @param {Object} opts Optional parameters
          * @param {Number} opts.size 응답 아이템 개수(min=1, max=1000, default=100)
          * @param {String} opts.cursor 특정 위치를 지정하기 위한 오프셋
-         * @param {module:api/TokenApi~getNftsByContractAddressCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/PageableNfts}
+         * @param {TokenApi~getNftsByContractAddressCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link PageableNfts}
          */
         this.getNftsByContractAddress = function(xChainId, nftAddress, opts, callback) {
             opts = opts || {}
@@ -182,9 +182,9 @@
 
         /**
          * Callback function to receive the result of the getNftsByOwnerAddress operation.
-         * @callback module:api/TokenApi~getNftsByOwnerAddressCallback
+         * @callback TokenApi~getNftsByOwnerAddressCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/PageableNfts} data The data returned by the service call.
+         * @param {PageableNfts} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -197,8 +197,8 @@
          * @param {Object} opts Optional parameters
          * @param {Number} opts.size 응답 아이템 개수(min=1, max=1000, default=100)
          * @param {String} opts.cursor 특정 위치를 지정하기 위한 오프셋
-         * @param {module:api/TokenApi~getNftsByOwnerAddressCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/PageableNfts}
+         * @param {TokenApi~getNftsByOwnerAddressCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link PageableNfts}
          */
         this.getNftsByOwnerAddress = function(xChainId, nftAddress, ownerAddress, opts, callback) {
             opts = opts || {}

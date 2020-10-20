@@ -30,15 +30,15 @@
 })(this, function(ApiClient, NftOwnershipChange) {
     /**
      * The PageableNftOwnershipChanges model module.
-     * @module model/PageableNftOwnershipChanges
+     * @module PageableNftOwnershipChanges
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>PageableNftOwnershipChanges</code>.
-     * @alias module:model/PageableNftOwnershipChanges
+     * @alias PageableNftOwnershipChanges
      * @class
-     * @param items {Array.<module:model/NftOwnershipChange>}
+     * @param items {Array.<NftOwnershipChange>}
      * @param cursor {String} 다음 페이지 커서
      */
     const PageableNftOwnershipChanges = function(items, cursor) {
@@ -50,8 +50,8 @@
      * Constructs a <code>PageableNftOwnershipChanges</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PageableNftOwnershipChanges} obj Optional instance to populate.
-     * @return {module:model/PageableNftOwnershipChanges} The populated <code>PageableNftOwnershipChanges</code> instance.
+     * @param {PageableNftOwnershipChanges} obj Optional instance to populate.
+     * @return {PageableNftOwnershipChanges} The populated <code>PageableNftOwnershipChanges</code> instance.
      */
     PageableNftOwnershipChanges.constructFromObject = function(data, obj) {
         if (data) {
@@ -63,7 +63,7 @@
     }
 
     /**
-     * @member {Array.<module:model/NftOwnershipChange>} items
+     * @member {Array.<NftOwnershipChange>} items
      */
     PageableNftOwnershipChanges.prototype.items = undefined
 

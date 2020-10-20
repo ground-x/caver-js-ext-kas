@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AccountUpdateTransactionRequest model module.
-     * @module model/AccountUpdateTransactionRequest
+     * @module AccountUpdateTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AccountUpdateTransactionRequest</code>.
      * 계정 업데이트 트랜잭션 요청 스키마
-     * @alias module:model/AccountUpdateTransactionRequest
+     * @alias AccountUpdateTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      */
@@ -49,8 +49,8 @@
      * Constructs a <code>AccountUpdateTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AccountUpdateTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/AccountUpdateTransactionRequest} The populated <code>AccountUpdateTransactionRequest</code> instance.
+     * @param {AccountUpdateTransactionRequest} obj Optional instance to populate.
+     * @return {AccountUpdateTransactionRequest} The populated <code>AccountUpdateTransactionRequest</code> instance.
      */
     AccountUpdateTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

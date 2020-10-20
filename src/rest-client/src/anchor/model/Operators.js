@@ -30,14 +30,14 @@
 })(this, function(ApiClient, Operator) {
     /**
      * The Operators model module.
-     * @module model/Operators
+     * @module Operators
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>Operators</code>.
      * 오퍼레이터 목록
-     * @alias module:model/Operators
+     * @alias Operators
      * @class
      * @param cursor {String} 마지막 검색 위치를 나타내는 커서 정보
      */
@@ -49,8 +49,8 @@
      * Constructs a <code>Operators</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Operators} obj Optional instance to populate.
-     * @return {module:model/Operators} The populated <code>Operators</code> instance.
+     * @param {Operators} obj Optional instance to populate.
+     * @return {Operators} The populated <code>Operators</code> instance.
      */
     Operators.constructFromObject = function(data, obj) {
         if (data) {
@@ -68,7 +68,7 @@
     Operators.prototype.cursor = undefined
 
     /**
-     * @member {Array.<module:model/Operator>} items
+     * @member {Array.<Operator>} items
      */
     Operators.prototype.items = undefined
 

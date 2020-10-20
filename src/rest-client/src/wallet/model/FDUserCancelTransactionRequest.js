@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDUserCancelTransactionRequest model module.
-     * @module model/FDUserCancelTransactionRequest
+     * @module FDUserCancelTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDUserCancelTransactionRequest</code>.
      * 유저 대납 취소 트랜잭션 요청 스키마
-     * @alias module:model/FDUserCancelTransactionRequest
+     * @alias FDUserCancelTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param feePayer {String} 유저 트랜잭션 수수료를 대납할 계정 주소
@@ -51,8 +51,8 @@
      * Constructs a <code>FDUserCancelTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDUserCancelTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/FDUserCancelTransactionRequest} The populated <code>FDUserCancelTransactionRequest</code> instance.
+     * @param {FDUserCancelTransactionRequest} obj Optional instance to populate.
+     * @return {FDUserCancelTransactionRequest} The populated <code>FDUserCancelTransactionRequest</code> instance.
      */
     FDUserCancelTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

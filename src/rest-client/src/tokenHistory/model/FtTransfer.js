@@ -34,19 +34,19 @@
 })(this, function(ApiClient, FtContract, Transaction) {
     /**
      * The FtTransfer model module.
-     * @module model/FtTransfer
+     * @module FtTransfer
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>FtTransfer</code>.
-     * @alias module:model/FtTransfer
+     * @alias FtTransfer
      * @class
-     * @param contract {module:model/FtContract}
+     * @param contract {FtContract}
      * @param formattedValue {String} decimal을 적용한 변환값
      * @param from {String} 보낸 사람 EOA (20-byte)
      * @param to {String} 받은 사람 EOA (20-byte)
-     * @param transaction {module:model/Transaction}
+     * @param transaction {Transaction}
      * @param transferType {String} 거래내역 유형
      * @param value {String} 전송한 토큰 개수 (16진수)
      */
@@ -64,8 +64,8 @@
      * Constructs a <code>FtTransfer</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FtTransfer} obj Optional instance to populate.
-     * @return {module:model/FtTransfer} The populated <code>FtTransfer</code> instance.
+     * @param {FtTransfer} obj Optional instance to populate.
+     * @return {FtTransfer} The populated <code>FtTransfer</code> instance.
      */
     FtTransfer.constructFromObject = function(data, obj) {
         if (data) {
@@ -82,7 +82,7 @@
     }
 
     /**
-     * @member {module:model/FtContract} contract
+     * @member {FtContract} contract
      */
     FtTransfer.prototype.contract = undefined
 
@@ -105,7 +105,7 @@
     FtTransfer.prototype.to = undefined
 
     /**
-     * @member {module:model/Transaction} transaction
+     * @member {Transaction} transaction
      */
     FtTransfer.prototype.transaction = undefined
 

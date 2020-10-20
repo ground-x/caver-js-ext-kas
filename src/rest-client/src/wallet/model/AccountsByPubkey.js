@@ -30,14 +30,14 @@
 })(this, function(ApiClient, AccountByPubkey) {
     /**
      * The AccountsByPubkey model module.
-     * @module model/AccountsByPubkey
+     * @module AccountsByPubkey
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AccountsByPubkey</code>.
      * 해당 공개키를 가진 계정 목록입니다.
-     * @alias module:model/AccountsByPubkey
+     * @alias AccountsByPubkey
      * @class
      */
     const AccountsByPubkey = function() {}
@@ -46,8 +46,8 @@
      * Constructs a <code>AccountsByPubkey</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AccountsByPubkey} obj Optional instance to populate.
-     * @return {module:model/AccountsByPubkey} The populated <code>AccountsByPubkey</code> instance.
+     * @param {AccountsByPubkey} obj Optional instance to populate.
+     * @return {AccountsByPubkey} The populated <code>AccountsByPubkey</code> instance.
      */
     AccountsByPubkey.constructFromObject = function(data, obj) {
         if (data) {
@@ -58,7 +58,7 @@
     }
 
     /**
-     * @member {Array.<module:model/AccountByPubkey>} items
+     * @member {Array.<AccountByPubkey>} items
      */
     AccountsByPubkey.prototype.items = undefined
 

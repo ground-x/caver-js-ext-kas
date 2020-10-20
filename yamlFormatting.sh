@@ -7,6 +7,7 @@ cd src
 DIRS=`ls -d ./*/`
  
 for i in ${DIRS};do
+echo ${i};
       echo "Entering directory=${i}model";
       cd ${i}model;
 

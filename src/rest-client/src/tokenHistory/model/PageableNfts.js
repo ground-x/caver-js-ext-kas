@@ -30,15 +30,15 @@
 })(this, function(ApiClient, Nft) {
     /**
      * The PageableNfts model module.
-     * @module model/PageableNfts
+     * @module PageableNfts
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>PageableNfts</code>.
-     * @alias module:model/PageableNfts
+     * @alias PageableNfts
      * @class
-     * @param items {Array.<module:model/Nft>}
+     * @param items {Array.<Nft>}
      * @param cursor {String} 다음 페이지 커서
      */
     const PageableNfts = function(items, cursor) {
@@ -50,8 +50,8 @@
      * Constructs a <code>PageableNfts</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PageableNfts} obj Optional instance to populate.
-     * @return {module:model/PageableNfts} The populated <code>PageableNfts</code> instance.
+     * @param {PageableNfts} obj Optional instance to populate.
+     * @return {PageableNfts} The populated <code>PageableNfts</code> instance.
      */
     PageableNfts.constructFromObject = function(data, obj) {
         if (data) {
@@ -63,7 +63,7 @@
     }
 
     /**
-     * @member {Array.<module:model/Nft>} items
+     * @member {Array.<Nft>} items
      */
     PageableNfts.prototype.items = undefined
 

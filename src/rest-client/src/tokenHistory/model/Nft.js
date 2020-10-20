@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The Nft model module.
-     * @module model/Nft
+     * @module Nft
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>Nft</code>.
-     * @alias module:model/Nft
+     * @alias Nft
      * @class
      * @param owner {String} 소유자 EOA (20-byte)
      * @param previousOwner {String} 직전 소유자 EOA (20-byte)
@@ -60,8 +60,8 @@
      * Constructs a <code>Nft</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Nft} obj Optional instance to populate.
-     * @return {module:model/Nft} The populated <code>Nft</code> instance.
+     * @param {Nft} obj Optional instance to populate.
+     * @return {Nft} The populated <code>Nft</code> instance.
      */
     Nft.constructFromObject = function(data, obj) {
         if (data) {

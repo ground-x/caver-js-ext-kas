@@ -30,15 +30,15 @@
 })(this, function(ApiClient, FtContractDetail) {
     /**
      * The PageableFtContractDetails model module.
-     * @module model/PageableFtContractDetails
+     * @module PageableFtContractDetails
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>PageableFtContractDetails</code>.
-     * @alias module:model/PageableFtContractDetails
+     * @alias PageableFtContractDetails
      * @class
-     * @param items {Array.<module:model/FtContractDetail>}
+     * @param items {Array.<FtContractDetail>}
      * @param cursor {String} 다음 페이지 커서
      */
     const PageableFtContractDetails = function(items, cursor) {
@@ -50,8 +50,8 @@
      * Constructs a <code>PageableFtContractDetails</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PageableFtContractDetails} obj Optional instance to populate.
-     * @return {module:model/PageableFtContractDetails} The populated <code>PageableFtContractDetails</code> instance.
+     * @param {PageableFtContractDetails} obj Optional instance to populate.
+     * @return {PageableFtContractDetails} The populated <code>PageableFtContractDetails</code> instance.
      */
     PageableFtContractDetails.constructFromObject = function(data, obj) {
         if (data) {
@@ -63,7 +63,7 @@
     }
 
     /**
-     * @member {Array.<module:model/FtContractDetail>} items
+     * @member {Array.<FtContractDetail>} items
      */
     PageableFtContractDetails.prototype.items = undefined
 

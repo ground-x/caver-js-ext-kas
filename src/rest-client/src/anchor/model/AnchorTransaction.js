@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AnchorTransaction model module.
-     * @module model/AnchorTransaction
+     * @module AnchorTransaction
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AnchorTransaction</code>.
      * 앵커링 트랜잭션 정보
-     * @alias module:model/AnchorTransaction
+     * @alias AnchorTransaction
      * @class
      * @param createdAt {Number} 앵커링 트랜잭션 생성 시간
      * @param payloadId {String} 페이로드 ID
@@ -53,8 +53,8 @@
      * Constructs a <code>AnchorTransaction</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AnchorTransaction} obj Optional instance to populate.
-     * @return {module:model/AnchorTransaction} The populated <code>AnchorTransaction</code> instance.
+     * @param {AnchorTransaction} obj Optional instance to populate.
+     * @return {AnchorTransaction} The populated <code>AnchorTransaction</code> instance.
      */
     AnchorTransaction.constructFromObject = function(data, obj) {
         if (data) {

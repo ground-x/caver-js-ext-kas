@@ -30,14 +30,14 @@
 })(this, function(ApiClient, MultisigKey) {
     /**
      * The Account model module.
-     * @module model/Account
+     * @module Account
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>Account</code>.
      * 계정 정보
-     * @alias module:model/Account
+     * @alias Account
      * @class
      * @param address {String} 클레이튼 계정주소
      * @param chainId {Number} 클레이튼 체인 ID
@@ -61,8 +61,8 @@
      * Constructs a <code>Account</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Account} obj Optional instance to populate.
-     * @return {module:model/Account} The populated <code>Account</code> instance.
+     * @param {Account} obj Optional instance to populate.
+     * @return {Account} The populated <code>Account</code> instance.
      */
     Account.constructFromObject = function(data, obj) {
         if (data) {
@@ -123,7 +123,7 @@
     Account.prototype.updatedAt = undefined
 
     /**
-     * @member {Array.<module:model/MultisigKey>} multiSigKeys
+     * @member {Array.<MultisigKey>} multiSigKeys
      */
     Account.prototype.multiSigKeys = undefined
 

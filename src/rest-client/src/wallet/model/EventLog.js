@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The EventLog model module.
-     * @module model/EventLog
+     * @module EventLog
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>EventLog</code>.
      * 트랜잭션이 생성한 로그들
-     * @alias module:model/EventLog
+     * @alias EventLog
      * @class
      * @param address {String} 클레이튼 계정주소
      * @param blockHash {String} 트랜잭션이 포함된 블록해시
@@ -63,8 +63,8 @@
      * Constructs a <code>EventLog</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/EventLog} obj Optional instance to populate.
-     * @return {module:model/EventLog} The populated <code>EventLog</code> instance.
+     * @param {EventLog} obj Optional instance to populate.
+     * @return {EventLog} The populated <code>EventLog</code> instance.
      */
     EventLog.constructFromObject = function(data, obj) {
         if (data) {

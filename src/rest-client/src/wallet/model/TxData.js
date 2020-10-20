@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The TxData model module.
-     * @module model/TxData
+     * @module TxData
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>TxData</code>.
-     * @alias module:model/TxData
+     * @alias TxData
      * @class
      */
     const TxData = function() {}
@@ -45,8 +45,8 @@
      * Constructs a <code>TxData</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/TxData} obj Optional instance to populate.
-     * @return {module:model/TxData} The populated <code>TxData</code> instance.
+     * @param {TxData} obj Optional instance to populate.
+     * @return {TxData} The populated <code>TxData</code> instance.
      */
     TxData.constructFromObject = function(data, obj) {
         if (data) {

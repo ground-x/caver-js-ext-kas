@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The FtLink model module.
-     * @module model/FtLink
+     * @module FtLink
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>FtLink</code>.
-     * @alias module:model/FtLink
+     * @alias FtLink
      * @class
      * @param website {String} 컨트랙트 대표 웹사이트 URL
      * @param icon {String} 토큰 아이콘 URL
@@ -50,8 +50,8 @@
      * Constructs a <code>FtLink</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FtLink} obj Optional instance to populate.
-     * @return {module:model/FtLink} The populated <code>FtLink</code> instance.
+     * @param {FtLink} obj Optional instance to populate.
+     * @return {FtLink} The populated <code>FtLink</code> instance.
      */
     FtLink.constructFromObject = function(data, obj) {
         if (data) {

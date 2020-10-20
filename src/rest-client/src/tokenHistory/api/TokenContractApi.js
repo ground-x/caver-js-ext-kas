@@ -48,25 +48,25 @@
 })(this, function(ApiClient, FtContractDetail, NftContractDetail, PageableFtContractDetails, PageableNftContractDetails) {
     /**
      * TokenContract service.
-     * @module api/TokenContractApi
+     * @class TokenContractApi
      * @version 0.7.0
      */
 
     /**
      * Constructs a new TokenContractApi.
-     * @alias module:api/TokenContractApi
+     * @alias TokenContractApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
     const exports = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the getFtContractDetail operation.
-         * @callback module:api/TokenContractApi~getFtContractDetailCallback
+         * @callback TokenContractApi~getFtContractDetailCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/FtContractDetail} data The data returned by the service call.
+         * @param {FtContractDetail} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -75,8 +75,8 @@
          * 라벨링된 FT 컨트랙트 1개의 정보를 불러옵니다.
          * @param {String} xChainId Klaytn 네트워크 체인 ID (1001 or 8217)
          * @param {String} ftAddress FT 컨트랙트 주소
-         * @param {module:api/TokenContractApi~getFtContractDetailCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/FtContractDetail}
+         * @param {TokenContractApi~getFtContractDetailCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link FtContractDetail}
          */
         this.getFtContractDetail = function(xChainId, ftAddress, callback) {
             const postBody = null
@@ -125,9 +125,9 @@
 
         /**
          * Callback function to receive the result of the getListOfNftContracts operation.
-         * @callback module:api/TokenContractApi~getListOfNftContractsCallback
+         * @callback TokenContractApi~getListOfNftContractsCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/PageableNftContractDetails} data The data returned by the service call.
+         * @param {PageableNftContractDetails} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -140,8 +140,8 @@
          * @param {String} opts.type 컨트랙트 타입 [KIP-17, ERC-721], 지정하지 않을 경우 모든 타입 반환
          * @param {Number} opts.size 응답 아이템 개수(min=1, max=1000, default=100)
          * @param {String} opts.cursor 응답 오프셋 (pagination)
-         * @param {module:api/TokenContractApi~getListOfNftContractsCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/PageableNftContractDetails}
+         * @param {TokenContractApi~getListOfNftContractsCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link PageableNftContractDetails}
          */
         this.getListOfNftContracts = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -189,9 +189,9 @@
 
         /**
          * Callback function to receive the result of the getListofFtContracts operation.
-         * @callback module:api/TokenContractApi~getListofFtContractsCallback
+         * @callback TokenContractApi~getListofFtContractsCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/PageableFtContractDetails} data The data returned by the service call.
+         * @param {PageableFtContractDetails} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -204,8 +204,8 @@
          * @param {String} opts.type 컨트랙트 타입 [KIP-7, ERC-20], 지정하지 않을 경우 모든 타입 반환
          * @param {Number} opts.size 응답 아이템 개수(min=1, max=1000, default=100)
          * @param {String} opts.cursor 특정 위치를 지정하기 위한 오프셋
-         * @param {module:api/TokenContractApi~getListofFtContractsCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/PageableFtContractDetails}
+         * @param {TokenContractApi~getListofFtContractsCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link PageableFtContractDetails}
          */
         this.getListofFtContracts = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -253,9 +253,9 @@
 
         /**
          * Callback function to receive the result of the getNftContractDetail operation.
-         * @callback module:api/TokenContractApi~getNftContractDetailCallback
+         * @callback TokenContractApi~getNftContractDetailCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/NftContractDetail} data The data returned by the service call.
+         * @param {NftContractDetail} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -264,8 +264,8 @@
          * 라벨링된 NFT 컨트랙트 1개의 정보를 불러옵니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} nftAddress NFT 컨트랙트 주소
-         * @param {module:api/TokenContractApi~getNftContractDetailCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/NftContractDetail}
+         * @param {TokenContractApi~getNftContractDetailCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link NftContractDetail}
          */
         this.getNftContractDetail = function(xChainId, nftAddress, callback) {
             const postBody = null
