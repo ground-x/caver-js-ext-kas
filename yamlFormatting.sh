@@ -15,8 +15,13 @@ echo ${i};
 
 		for j in ${FILES};do
 			model=$(grep -F '@module model/' $j | cut -d "/" -f2)
-			echo $model
 
+			cp=' '
+			if [${model} -eq ${cp} ]; then
+				model=$(grep -F '@alias ' $j | cut -d " " -f8)
+			fi
+
+			echo $model
 			# sed -i '' "s/ exports/ ${model}/" $j
 
 			sed -i '' "s/ exports/ ${model}/" $j
@@ -25,6 +30,13 @@ echo ${i};
 			sed -i '' "s/'model\/'/'..\/model\/'/" $j
 			sed -i '' "s/ model\// /" $j
 			sed -i '' "s/module:model\///" $j
+			sed -i '' '/return {'"$model"'}/ {a\
+			    * @memberof '"$model"'
+			}' $j
+			sed -i '' '/member {/ {a\
+			    * @memberof '"$model"'
+			}' $j
+			sed -i '' "s/@module/@class/" $j
 		done
 
       cd ../../;
@@ -36,6 +48,12 @@ echo ${i};
 
 		for j in ${FILES};do
 			api=$(grep -F '@module api/' $j | cut -d "/" -f2)
+
+			cp=' '
+			if [${api} -eq ${cp} ]; then
+				api=$(grep -F '@alias ' $j | cut -d " " -f8)
+			fi
+
 			echo $api
 
 			sed -i '' "s/'..\/ApiClient'/'..\/..\/ApiClient'/" $j
