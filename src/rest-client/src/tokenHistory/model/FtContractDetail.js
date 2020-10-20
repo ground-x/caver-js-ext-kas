@@ -30,7 +30,7 @@
 })(this, function(ApiClient, FtLink) {
     /**
      * The FtContractDetail model module.
-     * @module FtContractDetail
+     * @class FtContractDetail
      * @version 0.7.0
      */
 
@@ -70,6 +70,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {FtContractDetail} obj Optional instance to populate.
      * @return {FtContractDetail} The populated <code>FtContractDetail</code> instance.
+* @memberof FtContractDetail
      */
     FtContractDetail.constructFromObject = function(data, obj) {
         if (data) {
@@ -92,65 +93,76 @@
     /**
      * 컨트랙트 주소 (20-byte)
      * @member {String} address
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.address = undefined
 
     /**
      * 토큰 자릿수
      * @member {Number} decimals
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.decimals = undefined
 
     /**
      * 토큰 이름
      * @member {String} name
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.name = undefined
 
     /**
      * 토큰 심볼
      * @member {String} symbol
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.symbol = undefined
 
     /**
      * 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
      * @member {String} status
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.status = undefined
 
     /**
      * 총 발행량 (16진수로 표기)
      * @member {String} totalSupply
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.totalSupply = undefined
 
     /**
      * 라벨링된 시점 (timestamp)
      * @member {Number} createdAt
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.createdAt = undefined
 
     /**
      * 라벨링 정보가 마지막으로 변경된 시점 (timestamp)
      * @member {Number} updatedAt
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.updatedAt = undefined
 
     /**
      * 라벨링이 삭제된 시점 (timestamp); 삭제되지 않았을 경우 0
      * @member {Number} deletedAt
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.deletedAt = undefined
 
     /**
      * @member {FtLink} link
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.link = undefined
 
     /**
      * 컨트랙트 유형 (KIP-7, KIP-17, ERC-20, ERC-721)
      * @member {String} type
+* @memberof FtContractDetail
      */
     FtContractDetail.prototype.type = undefined
 

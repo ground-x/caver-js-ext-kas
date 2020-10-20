@@ -35,7 +35,7 @@
 })(this, function(ApiClient, FtContract, NftContract, Transaction) {
     /**
      * The TransferItem model module.
-     * @module TransferItem
+     * @class TransferItem
      * @version 0.7.0
      */
 
@@ -52,6 +52,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {TransferItem} obj Optional instance to populate.
      * @return {TransferItem} The populated <code>TransferItem</code> instance.
+* @memberof TransferItem
      */
     TransferItem.constructFromObject = function(data, obj) {
         if (data) {
@@ -89,82 +90,96 @@
     /**
      * 수수료 대납 계정 주소 (20-byte)
      * @member {String} feePayer
+* @memberof TransferItem
      */
     TransferItem.prototype.feePayer = undefined
 
     /**
      * 수수료 대납 비율
      * @member {Number} feeRatio
+* @memberof TransferItem
      */
     TransferItem.prototype.feeRatio = undefined
 
     /**
      * 가스비
      * @member {String} fee
+* @memberof TransferItem
      */
     TransferItem.prototype.fee = undefined
 
     /**
      * 보낸 사람 EOA (20-byte)
      * @member {String} from
+* @memberof TransferItem
      */
     TransferItem.prototype.from = undefined
 
     /**
      * 받은 사람 EOA (20-byte)
      * @member {String} to
+* @memberof TransferItem
      */
     TransferItem.prototype.to = undefined
 
     /**
      * 트랜잭션 해시
      * @member {String} transactionHash
+* @memberof TransferItem
      */
     TransferItem.prototype.transactionHash = undefined
 
     /**
      * 트랜잭션 인덱스
      * @member {Number} transactionIndex
+* @memberof TransferItem
      */
     TransferItem.prototype.transactionIndex = undefined
 
     /**
      * 거래내역 유형
      * @member {String} transferType
+* @memberof TransferItem
      */
     TransferItem.prototype.transferType = undefined
 
     /**
      * 트랜잭션 유형
      * @member {Number} typeInt
+* @memberof TransferItem
      */
     TransferItem.prototype.typeInt = undefined
 
     /**
      * KLAY 전송량 (16진수)
      * @member {String} value
+* @memberof TransferItem
      */
     TransferItem.prototype.value = undefined
 
     /**
      * @member {FtContract} contract
+* @memberof TransferItem
      */
     TransferItem.prototype.contract = undefined
 
     /**
      * decimal을 적용한 변환값
      * @member {String} formattedValue
+* @memberof TransferItem
      */
     TransferItem.prototype.formattedValue = undefined
 
     /**
      * @member {Transaction} transaction
+* @memberof TransferItem
      */
     TransferItem.prototype.transaction = undefined
 
     /**
      * 토큰 식별자 (16진수)
      * @member {String} tokenId
+* @memberof TransferItem
      */
     TransferItem.prototype.tokenId = undefined
 

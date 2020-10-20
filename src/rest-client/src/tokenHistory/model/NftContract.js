@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The NftContract model module.
-     * @module NftContract
+     * @class NftContract
      * @version 0.7.0
      */
 
@@ -54,6 +54,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {NftContract} obj Optional instance to populate.
      * @return {NftContract} The populated <code>NftContract</code> instance.
+* @memberof NftContract
      */
     NftContract.constructFromObject = function(data, obj) {
         if (data) {
@@ -69,24 +70,28 @@
     /**
      * 컨트랙트 주소 (20-byte)
      * @member {String} address
+* @memberof NftContract
      */
     NftContract.prototype.address = undefined
 
     /**
      * 토큰 이름
      * @member {String} name
+* @memberof NftContract
      */
     NftContract.prototype.name = undefined
 
     /**
      * 토큰 심볼
      * @member {String} symbol
+* @memberof NftContract
      */
     NftContract.prototype.symbol = undefined
 
     /**
      * 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
      * @member {String} status
+* @memberof NftContract
      */
     NftContract.prototype.status = undefined
 

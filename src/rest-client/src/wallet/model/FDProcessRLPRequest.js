@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The FDProcessRLPRequest model module.
-     * @module FDProcessRLPRequest
+     * @class FDProcessRLPRequest
      * @version 1.0
      */
 
@@ -51,6 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {FDProcessRLPRequest} obj Optional instance to populate.
      * @return {FDProcessRLPRequest} The populated <code>FDProcessRLPRequest</code> instance.
+* @memberof FDProcessRLPRequest
      */
     FDProcessRLPRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -65,18 +66,21 @@
     /**
      * RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받으며, (partial) fee delegation 트랜잭션 타입만 허용함.
      * @member {String} rlp
+* @memberof FDProcessRLPRequest
      */
     FDProcessRLPRequest.prototype.rlp = undefined
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
      * @member {Boolean} submit
+* @memberof FDProcessRLPRequest
      */
     FDProcessRLPRequest.prototype.submit = undefined
 
     /**
      * 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율
      * @member {Number} feeRatio
+* @memberof FDProcessRLPRequest
      */
     FDProcessRLPRequest.prototype.feeRatio = undefined
 

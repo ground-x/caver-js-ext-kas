@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The EmptyUpdateKeyType model module.
-     * @module EmptyUpdateKeyType
+     * @class EmptyUpdateKeyType
      * @version 1.0
      */
 
@@ -48,6 +48,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {EmptyUpdateKeyType} obj Optional instance to populate.
      * @return {EmptyUpdateKeyType} The populated <code>EmptyUpdateKeyType</code> instance.
+* @memberof EmptyUpdateKeyType
      */
     EmptyUpdateKeyType.constructFromObject = function(data, obj) {
         if (data) {
@@ -60,6 +61,7 @@
     /**
      * 계정키의 타입
      * @member {Number} keyType
+* @memberof EmptyUpdateKeyType
      */
     EmptyUpdateKeyType.prototype.keyType = undefined
 

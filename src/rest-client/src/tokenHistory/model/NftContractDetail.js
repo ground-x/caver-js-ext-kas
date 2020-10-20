@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The NftContractDetail model module.
-     * @module NftContractDetail
+     * @class NftContractDetail
      * @version 0.7.0
      */
 
@@ -66,6 +66,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {NftContractDetail} obj Optional instance to populate.
      * @return {NftContractDetail} The populated <code>NftContractDetail</code> instance.
+* @memberof NftContractDetail
      */
     NftContractDetail.constructFromObject = function(data, obj) {
         if (data) {
@@ -86,54 +87,63 @@
     /**
      * 컨트랙트 주소 (20-byte)
      * @member {String} address
+* @memberof NftContractDetail
      */
     NftContractDetail.prototype.address = undefined
 
     /**
      * 토큰 이름
      * @member {String} name
+* @memberof NftContractDetail
      */
     NftContractDetail.prototype.name = undefined
 
     /**
      * 토큰 심볼
      * @member {String} symbol
+* @memberof NftContractDetail
      */
     NftContractDetail.prototype.symbol = undefined
 
     /**
      * 총 발행량 (16진수로 표기)
      * @member {String} totalSupply
+* @memberof NftContractDetail
      */
     NftContractDetail.prototype.totalSupply = undefined
 
     /**
      * 라벨링된 시점 (timestamp)
      * @member {Number} createdAt
+* @memberof NftContractDetail
      */
     NftContractDetail.prototype.createdAt = undefined
 
     /**
      * 라벨링 정보가 마지막으로 변경된 시점 (timestamp)
      * @member {Number} updatedAt
+* @memberof NftContractDetail
      */
     NftContractDetail.prototype.updatedAt = undefined
 
     /**
      * 라벨링이 삭제된 시점 (timestamp); 삭제되지 않았을 경우 0
      * @member {Number} deletedAt
+* @memberof NftContractDetail
      */
     NftContractDetail.prototype.deletedAt = undefined
 
     /**
      * 컨트랙트 유형 (KIP-7, KIP-17, ERC-20, ERC-721)
      * @member {String} type
+* @memberof NftContractDetail
      */
     NftContractDetail.prototype.type = undefined
 
     /**
      * 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
      * @member {String} status
+* @memberof NftContractDetail
      */
     NftContractDetail.prototype.status = undefined
 

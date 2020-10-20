@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The FeePayerSignaturesObj model module.
-     * @module FeePayerSignaturesObj
+     * @class FeePayerSignaturesObj
      * @version 1.0
      */
 
@@ -47,6 +47,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {FeePayerSignaturesObj} obj Optional instance to populate.
      * @return {FeePayerSignaturesObj} The populated <code>FeePayerSignaturesObj</code> instance.
+* @memberof FeePayerSignaturesObj
      */
     FeePayerSignaturesObj.constructFromObject = function(data, obj) {
         if (data) {
@@ -60,16 +61,19 @@
 
     /**
      * @member {String} R
+* @memberof FeePayerSignaturesObj
      */
     FeePayerSignaturesObj.prototype.R = undefined
 
     /**
      * @member {String} S
+* @memberof FeePayerSignaturesObj
      */
     FeePayerSignaturesObj.prototype.S = undefined
 
     /**
      * @member {String} V
+* @memberof FeePayerSignaturesObj
      */
     FeePayerSignaturesObj.prototype.V = undefined
 

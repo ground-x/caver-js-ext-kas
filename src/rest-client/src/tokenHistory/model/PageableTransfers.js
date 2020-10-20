@@ -30,7 +30,7 @@
 })(this, function(ApiClient, TransferItem) {
     /**
      * The PageableTransfers model module.
-     * @module PageableTransfers
+     * @class PageableTransfers
      * @version 0.7.0
      */
 
@@ -52,6 +52,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {PageableTransfers} obj Optional instance to populate.
      * @return {PageableTransfers} The populated <code>PageableTransfers</code> instance.
+* @memberof PageableTransfers
      */
     PageableTransfers.constructFromObject = function(data, obj) {
         if (data) {
@@ -64,12 +65,14 @@
 
     /**
      * @member {Array.<TransferItem>} items
+* @memberof PageableTransfers
      */
     PageableTransfers.prototype.items = undefined
 
     /**
      * 다음 페이지 커서
      * @member {String} cursor
+* @memberof PageableTransfers
      */
     PageableTransfers.prototype.cursor = undefined
 

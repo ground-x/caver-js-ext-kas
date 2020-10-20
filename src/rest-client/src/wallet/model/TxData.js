@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The TxData model module.
-     * @module TxData
+     * @class TxData
      * @version 1.0
      */
 
@@ -47,6 +47,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {TxData} obj Optional instance to populate.
      * @return {TxData} The populated <code>TxData</code> instance.
+* @memberof TxData
      */
     TxData.constructFromObject = function(data, obj) {
         if (data) {
@@ -64,36 +65,43 @@
 
     /**
      * @member {String} from
+* @memberof TxData
      */
     TxData.prototype.from = undefined
 
     /**
      * @member {Number} gas
+* @memberof TxData
      */
     TxData.prototype.gas = undefined
 
     /**
      * @member {String} gasPrice
+* @memberof TxData
      */
     TxData.prototype.gasPrice = undefined
 
     /**
      * @member {String} input
+* @memberof TxData
      */
     TxData.prototype.input = undefined
 
     /**
      * @member {String} to
+* @memberof TxData
      */
     TxData.prototype.to = undefined
 
     /**
      * @member {Number} typeInt
+* @memberof TxData
      */
     TxData.prototype.typeInt = undefined
 
     /**
      * @member {String} value
+* @memberof TxData
      */
     TxData.prototype.value = undefined
 

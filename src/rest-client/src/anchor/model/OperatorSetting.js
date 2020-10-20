@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The OperatorSetting model module.
-     * @module OperatorSetting
+     * @class OperatorSetting
      * @version 1.0
      */
 
@@ -53,6 +53,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {OperatorSetting} obj Optional instance to populate.
      * @return {OperatorSetting} The populated <code>OperatorSetting</code> instance.
+* @memberof OperatorSetting
      */
     OperatorSetting.constructFromObject = function(data, obj) {
         if (data) {
@@ -66,12 +67,14 @@
     /**
      * 글로벌 대납 계정 사용 여부
      * @member {Boolean} useGlobalFeePayer
+* @memberof OperatorSetting
      */
     OperatorSetting.prototype.useGlobalFeePayer = undefined
 
     /**
      * 오퍼레이터 결제 사용 여부
      * @member {Boolean} useOperator
+* @memberof OperatorSetting
      */
     OperatorSetting.prototype.useOperator = undefined
 

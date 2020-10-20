@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The AnchorBlockStatus model module.
-     * @module AnchorBlockStatus
+     * @class AnchorBlockStatus
      * @version 1.0
      */
 
@@ -51,6 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {AnchorBlockStatus} obj Optional instance to populate.
      * @return {AnchorBlockStatus} The populated <code>AnchorBlockStatus</code> instance.
+* @memberof AnchorBlockStatus
      */
     AnchorBlockStatus.constructFromObject = function(data, obj) {
         if (data) {
@@ -63,6 +64,7 @@
     /**
      * 앵커링 성공 여부
      * @member {String} status
+* @memberof AnchorBlockStatus
      */
     AnchorBlockStatus.prototype.status = undefined
 
