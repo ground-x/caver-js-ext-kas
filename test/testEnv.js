@@ -19,31 +19,38 @@ const payerPrivateKey = '0x'
 
 const auths = {
     nodeAPI: {
-        url: 'https://node-api.dev.klaytn.com/v1/klaytn',
+        url: 'https://node-api.klaytnapi.com',
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
     },
     tokenHistoryAPI: {
-        url: 'https://th-api.dev.klaytn.com',
+        url: 'https://th-api.klaytnapi.com',
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
     },
     walletAPI: {
-        url: 'https://wallet-api.dev.klaytn.com',
+        url: 'https://wallet-api.klaytnapi.com',
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
         feePayerAddress: '',
     },
     anchorAPI: {
-        url: 'https://anchor-api.dev.klaytn.com',
+        url: 'https://anchor-api.klaytnapi.com',
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
         operator: '',
     },
+}
+
+if (process.env.CI && process.argv[process.argv.length - 1] === '--dev') {
+    auths.nodeAPI.url = process.env.NODEAPI_DEV
+    auths.tokenHistoryAPI.url = process.env.THAPI_DEV
+    auths.walletAPI.url = process.env.WALLETAPI_DEV
+    auths.anchorAPI.url = process.env.ANCHORAPI_DEV
 }
 
 module.exports = { senderPrivateKey, payerPrivateKey, auths }
