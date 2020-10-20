@@ -68,7 +68,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {KlayTransfer} obj Optional instance to populate.
      * @return {KlayTransfer} The populated <code>KlayTransfer</code> instance.
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.constructFromObject = function(data, obj) {
         if (data) {
@@ -90,70 +90,70 @@
     /**
      * 수수료 대납 계정 주소 (20-byte)
      * @member {String} feePayer
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.feePayer = undefined
 
     /**
      * 수수료 대납 비율
      * @member {Number} feeRatio
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.feeRatio = undefined
 
     /**
      * 가스비
      * @member {String} fee
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.fee = undefined
 
     /**
      * 보낸 사람 EOA (20-byte)
      * @member {String} from
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.from = undefined
 
     /**
      * 받은 사람 EOA (20-byte)
      * @member {String} to
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.to = undefined
 
     /**
      * 트랜잭션 해시
      * @member {String} transactionHash
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.transactionHash = undefined
 
     /**
      * 트랜잭션 인덱스
      * @member {Number} transactionIndex
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.transactionIndex = undefined
 
     /**
      * 거래내역 유형
      * @member {String} transferType
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.transferType = undefined
 
     /**
      * 트랜잭션 유형
      * @member {Number} typeInt
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.typeInt = undefined
 
     /**
      * KLAY 전송량 (16진수)
      * @member {String} value
-* @memberof KlayTransfer
+     * @memberof KlayTransfer
      */
     KlayTransfer.prototype.value = undefined
 

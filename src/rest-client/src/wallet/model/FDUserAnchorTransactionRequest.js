@@ -55,7 +55,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {FDUserAnchorTransactionRequest} obj Optional instance to populate.
      * @return {FDUserAnchorTransactionRequest} The populated <code>FDUserAnchorTransactionRequest</code> instance.
-* @memberof FDUserAnchorTransactionRequest
+     * @memberof FDUserAnchorTransactionRequest
      */
     FDUserAnchorTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -74,28 +74,28 @@
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
      * @member {String} from
-* @memberof FDUserAnchorTransactionRequest
+     * @memberof FDUserAnchorTransactionRequest
      */
     FDUserAnchorTransactionRequest.prototype.from = undefined
 
     /**
      * 트랜잭션에 첨부되는 데이터로 여기에서는 메인 체인에 앵커링하려는 데이터
      * @member {String} input
-* @memberof FDUserAnchorTransactionRequest
+     * @memberof FDUserAnchorTransactionRequest
      */
     FDUserAnchorTransactionRequest.prototype.input = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
      * @member {Number} nonce
-* @memberof FDUserAnchorTransactionRequest
+     * @memberof FDUserAnchorTransactionRequest
      */
     FDUserAnchorTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
      * @member {Number} gas
-* @memberof FDUserAnchorTransactionRequest
+     * @memberof FDUserAnchorTransactionRequest
      * @default 100000
      */
     FDUserAnchorTransactionRequest.prototype.gas = 100000
@@ -103,21 +103,21 @@
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
      * @member {Boolean} submit
-* @memberof FDUserAnchorTransactionRequest
+     * @memberof FDUserAnchorTransactionRequest
      */
     FDUserAnchorTransactionRequest.prototype.submit = undefined
 
     /**
      * 유저 트랜잭션 수수료를 대납할 계정 주소
      * @member {String} feePayer
-* @memberof FDUserAnchorTransactionRequest
+     * @memberof FDUserAnchorTransactionRequest
      */
     FDUserAnchorTransactionRequest.prototype.feePayer = undefined
 
     /**
      * 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율
      * @member {Number} feeRatio
-* @memberof FDUserAnchorTransactionRequest
+     * @memberof FDUserAnchorTransactionRequest
      */
     FDUserAnchorTransactionRequest.prototype.feeRatio = undefined
 

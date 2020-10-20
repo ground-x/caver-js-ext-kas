@@ -61,7 +61,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {PendedTransaction} obj Optional instance to populate.
      * @return {PendedTransaction} The populated <code>PendedTransaction</code> instance.
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.constructFromObject = function(data, obj) {
         if (data) {
@@ -82,68 +82,68 @@
 
     /**
      * @member {String} address
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.address = undefined
 
     /**
      * 클레이튼 체인 ID
      * @member {Number} chainId
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.chainId = undefined
 
     /**
      * 트랜잭션 요청 시간
      * @member {Number} createdAt
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.createdAt = undefined
 
     /**
      * @member {Array.<MultisigAddress>} multiSigKeys
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.multiSigKeys = undefined
 
     /**
      * 트랜잭션의 현재 상태
      * @member {Number} status
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.status = undefined
 
     /**
      * 이 트랜잭션이 전송되는 데 필요한 가중치 총합
      * @member {Number} threshold
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.threshold = undefined
 
     /**
      * 다중 서명 트랜잭션을 식별하는 ID
      * @member {String} transactionId
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.transactionId = undefined
 
     /**
      * @member {TxData} txData
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.txData = undefined
 
     /**
      * 트랜잭션의 타입 (TX)
      * @member {String} type
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.type = undefined
 
     /**
      * 해당 트랜잭션이 최종 업데이트 된 시간
      * @member {Number} updatedAt
-* @memberof PendedTransaction
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.updatedAt = undefined
 

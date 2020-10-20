@@ -52,7 +52,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {PageableNftContractDetails} obj Optional instance to populate.
      * @return {PageableNftContractDetails} The populated <code>PageableNftContractDetails</code> instance.
-* @memberof PageableNftContractDetails
+     * @memberof PageableNftContractDetails
      */
     PageableNftContractDetails.constructFromObject = function(data, obj) {
         if (data) {
@@ -65,14 +65,14 @@
 
     /**
      * @member {Array.<NftContractDetail>} items
-* @memberof PageableNftContractDetails
+     * @memberof PageableNftContractDetails
      */
     PageableNftContractDetails.prototype.items = undefined
 
     /**
      * 다음 페이지 커서
      * @member {String} cursor
-* @memberof PageableNftContractDetails
+     * @memberof PageableNftContractDetails
      */
     PageableNftContractDetails.prototype.cursor = undefined
 

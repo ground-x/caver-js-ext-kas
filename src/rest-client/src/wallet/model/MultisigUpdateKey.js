@@ -47,7 +47,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {MultisigUpdateKey} obj Optional instance to populate.
      * @return {MultisigUpdateKey} The populated <code>MultisigUpdateKey</code> instance.
-* @memberof MultisigUpdateKey
+     * @memberof MultisigUpdateKey
      */
     MultisigUpdateKey.constructFromObject = function(data, obj) {
         if (data) {
@@ -61,13 +61,13 @@
     /**
      * 가중치 합계를 검증하는 기준치
      * @member {Number} threshold
-* @memberof MultisigUpdateKey
+     * @memberof MultisigUpdateKey
      */
     MultisigUpdateKey.prototype.threshold = undefined
 
     /**
      * @member {Array.<MultisigKey>} weightedKeys
-* @memberof MultisigUpdateKey
+     * @memberof MultisigUpdateKey
      */
     MultisigUpdateKey.prototype.weightedKeys = undefined
 

@@ -55,7 +55,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {AccountSummary} obj Optional instance to populate.
      * @return {AccountSummary} The populated <code>AccountSummary</code> instance.
-* @memberof AccountSummary
+     * @memberof AccountSummary
      */
     AccountSummary.constructFromObject = function(data, obj) {
         if (data) {
@@ -70,21 +70,21 @@
     /**
      * 클레이튼 계정주소
      * @member {String} address
-* @memberof AccountSummary
+     * @memberof AccountSummary
      */
     AccountSummary.prototype.address = undefined
 
     /**
      * KAS KRN
      * @member {String} krn
-* @memberof AccountSummary
+     * @memberof AccountSummary
      */
     AccountSummary.prototype.krn = undefined
 
     /**
      * 해당 계정 정보를 마지막으로 업데이트한 시간
      * @member {Number} updatedAt
-* @memberof AccountSummary
+     * @memberof AccountSummary
      */
     AccountSummary.prototype.updatedAt = undefined
 

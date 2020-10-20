@@ -51,7 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {LegacyTransactionRequest} obj Optional instance to populate.
      * @return {LegacyTransactionRequest} The populated <code>LegacyTransactionRequest</code> instance.
-* @memberof LegacyTransactionRequest
+     * @memberof LegacyTransactionRequest
      */
     LegacyTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -70,42 +70,42 @@
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
      * @member {String} from
-* @memberof LegacyTransactionRequest
+     * @memberof LegacyTransactionRequest
      */
     LegacyTransactionRequest.prototype.from = undefined
 
     /**
      * PEB 단위로 환산된 KLAY
      * @member {String} value
-* @memberof LegacyTransactionRequest
+     * @memberof LegacyTransactionRequest
      */
     LegacyTransactionRequest.prototype.value = undefined
 
     /**
      * KLAY를 받는 Klaytn 계정 주소
      * @member {String} to
-* @memberof LegacyTransactionRequest
+     * @memberof LegacyTransactionRequest
      */
     LegacyTransactionRequest.prototype.to = undefined
 
     /**
      * 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
      * @member {String} input
-* @memberof LegacyTransactionRequest
+     * @memberof LegacyTransactionRequest
      */
     LegacyTransactionRequest.prototype.input = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
      * @member {Number} nonce
-* @memberof LegacyTransactionRequest
+     * @memberof LegacyTransactionRequest
      */
     LegacyTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
      * @member {Number} gas
-* @memberof LegacyTransactionRequest
+     * @memberof LegacyTransactionRequest
      * @default 100000
      */
     LegacyTransactionRequest.prototype.gas = 100000
@@ -113,7 +113,7 @@
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
      * @member {Boolean} submit
-* @memberof LegacyTransactionRequest
+     * @memberof LegacyTransactionRequest
      */
     LegacyTransactionRequest.prototype.submit = undefined
 

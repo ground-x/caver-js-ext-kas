@@ -53,7 +53,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {MultisigKey} obj Optional instance to populate.
      * @return {MultisigKey} The populated <code>MultisigKey</code> instance.
-* @memberof MultisigKey
+     * @memberof MultisigKey
      */
     MultisigKey.constructFromObject = function(data, obj) {
         if (data) {
@@ -67,14 +67,14 @@
     /**
      * 클레이튼 계정의 공개키
      * @member {String} publicKey
-* @memberof MultisigKey
+     * @memberof MultisigKey
      */
     MultisigKey.prototype.publicKey = undefined
 
     /**
      * 해당 공개키의 가중치
      * @member {Number} weight
-* @memberof MultisigKey
+     * @memberof MultisigKey
      */
     MultisigKey.prototype.weight = undefined
 

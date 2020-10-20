@@ -54,7 +54,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {NftOwnershipChange} obj Optional instance to populate.
      * @return {NftOwnershipChange} The populated <code>NftOwnershipChange</code> instance.
-* @memberof NftOwnershipChange
+     * @memberof NftOwnershipChange
      */
     NftOwnershipChange.constructFromObject = function(data, obj) {
         if (data) {
@@ -69,21 +69,21 @@
     /**
      * 보낸 사람 (직전 소유자) EOA (20-byte)
      * @member {String} from
-* @memberof NftOwnershipChange
+     * @memberof NftOwnershipChange
      */
     NftOwnershipChange.prototype.from = undefined
 
     /**
      * 받은 사람 (이 시점의 소유자) EOA (20-byte)
      * @member {String} to
-* @memberof NftOwnershipChange
+     * @memberof NftOwnershipChange
      */
     NftOwnershipChange.prototype.to = undefined
 
     /**
      * NFT 소유권이 변경된 시점 (timestamp)
      * @member {Number} timestamp
-* @memberof NftOwnershipChange
+     * @memberof NftOwnershipChange
      */
     NftOwnershipChange.prototype.timestamp = undefined
 

@@ -48,7 +48,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {EmptyUpdateKeyType} obj Optional instance to populate.
      * @return {EmptyUpdateKeyType} The populated <code>EmptyUpdateKeyType</code> instance.
-* @memberof EmptyUpdateKeyType
+     * @memberof EmptyUpdateKeyType
      */
     EmptyUpdateKeyType.constructFromObject = function(data, obj) {
         if (data) {
@@ -61,7 +61,7 @@
     /**
      * 계정키의 타입
      * @member {Number} keyType
-* @memberof EmptyUpdateKeyType
+     * @memberof EmptyUpdateKeyType
      */
     EmptyUpdateKeyType.prototype.keyType = undefined
 

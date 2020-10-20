@@ -51,7 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {AnchorBlockStatus} obj Optional instance to populate.
      * @return {AnchorBlockStatus} The populated <code>AnchorBlockStatus</code> instance.
-* @memberof AnchorBlockStatus
+     * @memberof AnchorBlockStatus
      */
     AnchorBlockStatus.constructFromObject = function(data, obj) {
         if (data) {
@@ -64,7 +64,7 @@
     /**
      * 앵커링 성공 여부
      * @member {String} status
-* @memberof AnchorBlockStatus
+     * @memberof AnchorBlockStatus
      */
     AnchorBlockStatus.prototype.status = undefined
 

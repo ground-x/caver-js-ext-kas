@@ -64,7 +64,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {Transaction} obj Optional instance to populate.
      * @return {Transaction} The populated <code>Transaction</code> instance.
-* @memberof Transaction
+     * @memberof Transaction
      */
     Transaction.constructFromObject = function(data, obj) {
         if (data) {
@@ -84,56 +84,56 @@
     /**
      * 수수료 대납 계정 주소 (20-byte)
      * @member {String} feePayer
-* @memberof Transaction
+     * @memberof Transaction
      */
     Transaction.prototype.feePayer = undefined
 
     /**
      * 수수료 대납 비율
      * @member {Number} feeRatio
-* @memberof Transaction
+     * @memberof Transaction
      */
     Transaction.prototype.feeRatio = undefined
 
     /**
      * 가스비
      * @member {String} fee
-* @memberof Transaction
+     * @memberof Transaction
      */
     Transaction.prototype.fee = undefined
 
     /**
      * 트랜잭션을 전송한 사람의 EOA (20-byte)
      * @member {String} from
-* @memberof Transaction
+     * @memberof Transaction
      */
     Transaction.prototype.from = undefined
 
     /**
      * 트랜잭션 발생 시간 (timestamp)
      * @member {Number} timestamp
-* @memberof Transaction
+     * @memberof Transaction
      */
     Transaction.prototype.timestamp = undefined
 
     /**
      * 트랜잭션 해시 (32-byte)
      * @member {String} transactionHash
-* @memberof Transaction
+     * @memberof Transaction
      */
     Transaction.prototype.transactionHash = undefined
 
     /**
      * 트랜잭션 유형
      * @member {Number} typeInt
-* @memberof Transaction
+     * @memberof Transaction
      */
     Transaction.prototype.typeInt = undefined
 
     /**
      * KLAY 전송량 (16진수)
      * @member {String} value
-* @memberof Transaction
+     * @memberof Transaction
      */
     Transaction.prototype.value = undefined
 

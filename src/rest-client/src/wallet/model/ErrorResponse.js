@@ -47,7 +47,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {ErrorResponse} obj Optional instance to populate.
      * @return {ErrorResponse} The populated <code>ErrorResponse</code> instance.
-* @memberof ErrorResponse
+     * @memberof ErrorResponse
      */
     ErrorResponse.constructFromObject = function(data, obj) {
         if (data) {
@@ -60,13 +60,13 @@
 
     /**
      * @member {Number} code
-* @memberof ErrorResponse
+     * @memberof ErrorResponse
      */
     ErrorResponse.prototype.code = undefined
 
     /**
      * @member {String} message
-* @memberof ErrorResponse
+     * @memberof ErrorResponse
      */
     ErrorResponse.prototype.message = undefined
 
