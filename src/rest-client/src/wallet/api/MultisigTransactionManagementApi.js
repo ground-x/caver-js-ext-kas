@@ -48,25 +48,25 @@
 })(this, function(ApiClient, ErrorResponse, MultisigTransactionStatus, MultisigTransactions, SignPendingTransactionBySigRequest) {
     /**
      * MultisigTransactionManagement service.
-     * @module api/MultisigTransactionManagementApi
+     * @class MultisigTransactionManagementApi
      * @version 1.0
      */
 
     /**
      * Constructs a new MultisigTransactionManagementApi.
-     * @alias module:api/MultisigTransactionManagementApi
+     * @alias MultisigTransactionManagementApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
     const exports = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the retrieveMultisigTransactions operation.
-         * @callback module:api/MultisigTransactionManagementApi~retrieveMultisigTransactionsCallback
+         * @callback MultisigTransactionManagementApi~retrieveMultisigTransactionsCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/MultisigTransactions} data The data returned by the service call.
+         * @param {MultisigTransactions} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -80,8 +80,8 @@
          * @param {String} opts.cursor 마지막으로 검색된 커서의 정보
          * @param {Number} opts.toTimestamp 검색하고자 하는 마지막 시간의 타임스탬프 (초단위)
          * @param {Number} opts.fromTimestamp 검색하고자 하는 처음 시간의 타임스탬프 (초단위)
-         * @param {module:api/MultisigTransactionManagementApi~retrieveMultisigTransactionsCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/MultisigTransactions}
+         * @param {MultisigTransactionManagementApi~retrieveMultisigTransactionsCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link MultisigTransactions}
          */
         this.retrieveMultisigTransactions = function(xChainId, address, opts, callback) {
             opts = opts || {}
@@ -136,9 +136,9 @@
 
         /**
          * Callback function to receive the result of the signPendingTransaction operation.
-         * @callback module:api/MultisigTransactionManagementApi~signPendingTransactionCallback
+         * @callback MultisigTransactionManagementApi~signPendingTransactionCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/MultisigTransactionStatus} data The data returned by the service call.
+         * @param {MultisigTransactionStatus} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -148,8 +148,8 @@
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} address 서명자의 계정 주소
          * @param {String} transactionId 보류중인 트랜잭션의 ID
-         * @param {module:api/MultisigTransactionManagementApi~signPendingTransactionCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/MultisigTransactionStatus}
+         * @param {MultisigTransactionManagementApi~signPendingTransactionCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link MultisigTransactionStatus}
          */
         this.signPendingTransaction = function(xChainId, address, transactionId, callback) {
             const postBody = null
@@ -204,9 +204,9 @@
 
         /**
          * Callback function to receive the result of the signPendingTransactionBySig operation.
-         * @callback module:api/MultisigTransactionManagementApi~signPendingTransactionBySigCallback
+         * @callback MultisigTransactionManagementApi~signPendingTransactionBySigCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/MultisigTransactionStatus} data The data returned by the service call.
+         * @param {MultisigTransactionStatus} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -216,9 +216,9 @@
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} transactionId 보류중인 트랜잭션의 ID
          * @param {Object} opts Optional parameters
-         * @param {module:model/SignPendingTransactionBySigRequest} opts.body
-         * @param {module:api/MultisigTransactionManagementApi~signPendingTransactionBySigCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/MultisigTransactionStatus}
+         * @param {SignPendingTransactionBySigRequest} opts.body
+         * @param {MultisigTransactionManagementApi~signPendingTransactionBySigCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link MultisigTransactionStatus}
          */
         this.signPendingTransactionBySig = function(xChainId, transactionId, opts, callback) {
             opts = opts || {}

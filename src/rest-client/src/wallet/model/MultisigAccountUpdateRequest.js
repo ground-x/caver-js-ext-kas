@@ -30,17 +30,17 @@
 })(this, function(ApiClient, MultisigKey) {
     /**
      * The MultisigAccountUpdateRequest model module.
-     * @module model/MultisigAccountUpdateRequest
+     * @module MultisigAccountUpdateRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>MultisigAccountUpdateRequest</code>.
      * Multisig 계정으로 업데이트 하기 위한 요청 스키마
-     * @alias module:model/MultisigAccountUpdateRequest
+     * @alias MultisigAccountUpdateRequest
      * @class
      * @param threshold {Number} 가중치 합계를 검증하는 기준치
-     * @param weightedKeys {Array.<module:model/MultisigKey>}
+     * @param weightedKeys {Array.<MultisigKey>}
      */
     const MultisigAccountUpdateRequest = function(threshold, weightedKeys) {
         this.threshold = threshold
@@ -51,8 +51,8 @@
      * Constructs a <code>MultisigAccountUpdateRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultisigAccountUpdateRequest} obj Optional instance to populate.
-     * @return {module:model/MultisigAccountUpdateRequest} The populated <code>MultisigAccountUpdateRequest</code> instance.
+     * @param {MultisigAccountUpdateRequest} obj Optional instance to populate.
+     * @return {MultisigAccountUpdateRequest} The populated <code>MultisigAccountUpdateRequest</code> instance.
      */
     MultisigAccountUpdateRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -70,7 +70,7 @@
     MultisigAccountUpdateRequest.prototype.threshold = undefined
 
     /**
-     * @member {Array.<module:model/MultisigKey>} weightedKeys
+     * @member {Array.<MultisigKey>} weightedKeys
      */
     MultisigAccountUpdateRequest.prototype.weightedKeys = undefined
 

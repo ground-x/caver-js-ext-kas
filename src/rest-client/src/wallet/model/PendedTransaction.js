@@ -30,14 +30,14 @@
 })(this, function(ApiClient, MultisigAddress, TxData) {
     /**
      * The PendedTransaction model module.
-     * @module model/PendedTransaction
+     * @module PendedTransaction
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>PendedTransaction</code>.
      * Pending 트랜잭션
-     * @alias module:model/PendedTransaction
+     * @alias PendedTransaction
      * @class
      * @param chainId {Number} 클레이튼 체인 ID
      * @param createdAt {Number} 트랜잭션 요청 시간
@@ -59,8 +59,8 @@
      * Constructs a <code>PendedTransaction</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PendedTransaction} obj Optional instance to populate.
-     * @return {module:model/PendedTransaction} The populated <code>PendedTransaction</code> instance.
+     * @param {PendedTransaction} obj Optional instance to populate.
+     * @return {PendedTransaction} The populated <code>PendedTransaction</code> instance.
      */
     PendedTransaction.constructFromObject = function(data, obj) {
         if (data) {
@@ -97,7 +97,7 @@
     PendedTransaction.prototype.createdAt = undefined
 
     /**
-     * @member {Array.<module:model/MultisigAddress>} multiSigKeys
+     * @member {Array.<MultisigAddress>} multiSigKeys
      */
     PendedTransaction.prototype.multiSigKeys = undefined
 
@@ -120,7 +120,7 @@
     PendedTransaction.prototype.transactionId = undefined
 
     /**
-     * @member {module:model/TxData} txData
+     * @member {TxData} txData
      */
     PendedTransaction.prototype.txData = undefined
 

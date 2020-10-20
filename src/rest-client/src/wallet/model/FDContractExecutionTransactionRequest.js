@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDContractExecutionTransactionRequest model module.
-     * @module model/FDContractExecutionTransactionRequest
+     * @module FDContractExecutionTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDContractExecutionTransactionRequest</code>.
      * 대납 컨트랙트 실행 트랜잭션 요청 스키마
-     * @alias module:model/FDContractExecutionTransactionRequest
+     * @alias FDContractExecutionTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param to {String} KLAY를 받는 Klaytn 계정 주소
@@ -53,8 +53,8 @@
      * Constructs a <code>FDContractExecutionTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDContractExecutionTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/FDContractExecutionTransactionRequest} The populated <code>FDContractExecutionTransactionRequest</code> instance.
+     * @param {FDContractExecutionTransactionRequest} obj Optional instance to populate.
+     * @return {FDContractExecutionTransactionRequest} The populated <code>FDContractExecutionTransactionRequest</code> instance.
      */
     FDContractExecutionTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

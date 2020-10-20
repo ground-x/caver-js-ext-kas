@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The RoleBasedUpdateKeyType model module.
-     * @module model/RoleBasedUpdateKeyType
+     * @module RoleBasedUpdateKeyType
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>RoleBasedUpdateKeyType</code>.
      * 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
-     * @alias module:model/RoleBasedUpdateKeyType
+     * @alias RoleBasedUpdateKeyType
      * @class
      */
     const RoleBasedUpdateKeyType = function() {}
@@ -46,8 +46,8 @@
      * Constructs a <code>RoleBasedUpdateKeyType</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/RoleBasedUpdateKeyType} obj Optional instance to populate.
-     * @return {module:model/RoleBasedUpdateKeyType} The populated <code>RoleBasedUpdateKeyType</code> instance.
+     * @param {RoleBasedUpdateKeyType} obj Optional instance to populate.
+     * @return {RoleBasedUpdateKeyType} The populated <code>RoleBasedUpdateKeyType</code> instance.
      */
     RoleBasedUpdateKeyType.constructFromObject = function(data, obj) {
         if (data) {

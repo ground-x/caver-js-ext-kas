@@ -40,25 +40,25 @@
 })(this, function(ApiClient, ErrorResponse, Operator, Operators) {
     /**
      * Operator service.
-     * @module api/OperatorApi
+     * @class OperatorApi
      * @version 1.0
      */
 
     /**
      * Constructs a new OperatorApi.
-     * @alias module:api/OperatorApi
+     * @alias OperatorApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
     const exports = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the getOperator operation.
-         * @callback module:api/OperatorApi~getOperatorCallback
+         * @callback OperatorApi~getOperatorCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/Operator} data The data returned by the service call.
+         * @param {Operator} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -67,8 +67,8 @@
          * 해당 오퍼레이터 설정 및 오퍼레이터 계정 잔액을 조회합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} operatorId 오퍼레이터 계정 주소
-         * @param {module:api/OperatorApi~getOperatorCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/Operator}
+         * @param {OperatorApi~getOperatorCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Operator}
          */
         this.getOperator = function(xChainId, operatorId, callback) {
             const postBody = null
@@ -117,9 +117,9 @@
 
         /**
          * Callback function to receive the result of the retrieveOperators operation.
-         * @callback module:api/OperatorApi~retrieveOperatorsCallback
+         * @callback OperatorApi~retrieveOperatorsCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/Operators} data The data returned by the service call.
+         * @param {Operators} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -132,8 +132,8 @@
          * @param {String} opts.cursor 마지막으로 검색된 커서의 정보
          * @param {Number} opts.fromTimestamp 검색하고자 하는 처음 시간의 타임스탬프 (초단위)
          * @param {Number} opts.toTimestamp 검색하고자 하는 마지막 시간의 타임스탬프 (초단위)
-         * @param {module:api/OperatorApi~retrieveOperatorsCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/Operators}
+         * @param {OperatorApi~retrieveOperatorsCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Operators}
          */
         this.retrieveOperators = function(xChainId, opts, callback) {
             opts = opts || {}

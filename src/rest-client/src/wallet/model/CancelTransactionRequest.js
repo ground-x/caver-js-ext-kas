@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The CancelTransactionRequest model module.
-     * @module model/CancelTransactionRequest
+     * @module CancelTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>CancelTransactionRequest</code>.
      * 취소 트랜잭션 요청 스키마
-     * @alias module:model/CancelTransactionRequest
+     * @alias CancelTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      */
@@ -49,8 +49,8 @@
      * Constructs a <code>CancelTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/CancelTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/CancelTransactionRequest} The populated <code>CancelTransactionRequest</code> instance.
+     * @param {CancelTransactionRequest} obj Optional instance to populate.
+     * @return {CancelTransactionRequest} The populated <code>CancelTransactionRequest</code> instance.
      */
     CancelTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

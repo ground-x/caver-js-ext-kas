@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The NftContractDetail model module.
-     * @module model/NftContractDetail
+     * @module NftContractDetail
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>NftContractDetail</code>.
-     * @alias module:model/NftContractDetail
+     * @alias NftContractDetail
      * @class
      * @param address {String} 컨트랙트 주소 (20-byte)
      * @param name {String} 토큰 이름
@@ -64,8 +64,8 @@
      * Constructs a <code>NftContractDetail</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/NftContractDetail} obj Optional instance to populate.
-     * @return {module:model/NftContractDetail} The populated <code>NftContractDetail</code> instance.
+     * @param {NftContractDetail} obj Optional instance to populate.
+     * @return {NftContractDetail} The populated <code>NftContractDetail</code> instance.
      */
     NftContractDetail.constructFromObject = function(data, obj) {
         if (data) {

@@ -62,7 +62,7 @@ class Wallet {
     /**
      * Creates an instance of token history api.
      * @constructor
-     * @param {RestClient.ApiClient} client - The Api client to use to connect with KAS.
+     * @param {ApiClient} client - The Api client to use to connect with KAS.
      * @param {AccessOptions} accessOptions - An instance of AccessOptions including `chainId`, `accessKeyId` and `secretAccessKey`.
      */
     constructor(client, accessOptions) {
@@ -197,7 +197,7 @@ class Wallet {
      * POST /v2/account
      *
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Account}
      */
     createAccount(callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -219,7 +219,7 @@ class Wallet {
      *
      * @param {WalletQueryOptions} [queryOptions] Filters required when retrieving data. `size`, `cursor`, `fromTimestamp` or `toTimestamp`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Accounts}
      */
     getAccountList(queryOptions, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -250,7 +250,7 @@ class Wallet {
      *
      * @param {string} address The address of Klaytn account.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Account}
      */
     getAccount(address, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -272,7 +272,7 @@ class Wallet {
      *
      * @param {string} publicKey The public key to search.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AccountsByPubkey}
      */
     getAccountListByPublicKey(publicKey, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -294,7 +294,7 @@ class Wallet {
      *
      * @param {string} address The address of Klaytn account to delete from KAS Wallet API service.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AccountStatus}
      */
     deleteAccount(address, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -316,7 +316,7 @@ class Wallet {
      *
      * @param {string} address The address of Klaytn account to disable from KAS Wallet API service.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AccountSummary}
      */
     disableAccount(address, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -338,7 +338,7 @@ class Wallet {
      *
      * @param {string} address The address of Klaytn account to enable from KAS Wallet API service.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AccountSummary}
      */
     enableAccount(address, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -361,7 +361,7 @@ class Wallet {
      * @param {string} address The address of the Klaytn account you want to use for signing.
      * @param {string} transactionId The ID of the transaction you want to sign.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Signature}
      */
     signTransaction(address, transactionId, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -384,7 +384,7 @@ class Wallet {
      * @param {string} address The address of the Klaytn account you want to use for signing.
      * @param {object|AccountKeyWeightedMultiSig} accountKeyWeightedMultiSig The ID of the transaction you want to sign.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {MultisigAccount}
      */
     updateToMultiSigAccount(address, weightedMultiSig, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -428,7 +428,7 @@ class Wallet {
      *
      * @param {LegacyTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {TransactionResult}
      */
     requestLegacyTransaction(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -458,7 +458,7 @@ class Wallet {
      *
      * @param {ValueTransferTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {TransactionResult}
      */
     requestValueTransfer(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -488,7 +488,7 @@ class Wallet {
      *
      * @param {ContractDeployTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {TransactionResult}
      */
     requestSmartContractDeploy(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -518,7 +518,7 @@ class Wallet {
      *
      * @param {ContractExecutionTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {TransactionResult}
      */
     requestSmartContractExecution(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -548,7 +548,7 @@ class Wallet {
      *
      * @param {CancelTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {TransactionResult}
      */
     requestCancel(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -577,7 +577,7 @@ class Wallet {
      *
      * @param {AnchorTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {TransactionResult}
      */
     requestChainDataAnchoring(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -606,7 +606,7 @@ class Wallet {
      *
      * @param {ProcessRLPRequest} rlpRequest The object that includes rlp request informations.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {TransactionResult}
      */
     requestRawTransaction(rlpRequest, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -634,7 +634,7 @@ class Wallet {
      *
      * @param {AccountUpdateTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {TransactionResult}
      */
     requestAccountUpdate(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -666,7 +666,7 @@ class Wallet {
      *
      * @param {string} transactionHash The hash of the transaction.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {TransactionReceipt}
      */
     getTransaction(transactionHash, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -691,7 +691,7 @@ class Wallet {
      *
      * @param {FDValueTransferTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDValueTransferPaidByGlobalFeePayer(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -721,7 +721,7 @@ class Wallet {
      *
      * @param {FDContractDeployTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDSmartContractDeployPaidByGlobalFeePayer(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -751,7 +751,7 @@ class Wallet {
      *
      * @param {FDContractExecutionTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDSmartContractExecutionPaidByGlobalFeePayer(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -781,7 +781,7 @@ class Wallet {
      *
      * @param {FDCancelTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDCancelPaidByGlobalFeePayer(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -809,7 +809,7 @@ class Wallet {
      *
      * @param {FDAnchorTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDChainDataAnchoringPaidByGlobalFeePayer(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -837,7 +837,7 @@ class Wallet {
      *
      * @param {FDProcessRLPRequest} rlpRequest The object that includes rlp request informations.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDRawTransactionPaidByGlobalFeePayer(rlpRequest, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -865,7 +865,7 @@ class Wallet {
      *
      * @param {FDAccountUpdateTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDAccountUpdatePaidByGlobalFeePayer(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -900,7 +900,7 @@ class Wallet {
      *
      * @param {FDUserValueTransferTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDValueTransferPaidByUser(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -930,7 +930,7 @@ class Wallet {
      *
      * @param {FDUserContractDeployTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDSmartContractDeployPaidByUser(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -960,7 +960,7 @@ class Wallet {
      *
      * @param {FDUserContractExecutionTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDSmartContractExecutionPaidByUser(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -990,7 +990,7 @@ class Wallet {
      *
      * @param {FDUserCancelTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDCancelPaidByUser(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -1019,7 +1019,7 @@ class Wallet {
      *
      * @param {FDUserAnchorTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDChainDataAnchoringPaidByUser(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -1048,7 +1048,7 @@ class Wallet {
      *
      * @param {FDUserProcessRLPRequest} rlpRequest The object that includes rlp request informations.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDRawTransactionPaidByUser(rlpRequest, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -1076,7 +1076,7 @@ class Wallet {
      *
      * @param {FDUserAccountUpdateTransactionRequest} transaction Transaction to be requested to KAS.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FDTransactionResult}
      */
     requestFDAccountUpdatePaidByUser(transaction, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -1111,7 +1111,7 @@ class Wallet {
      * @param {string} address Account address with multi-signature key or signer account address.
      * @param {WalletQueryOptions} [queryOptions] Filters required when retrieving data. `size`, `cursor`, `fromTimestamp` or `toTimestamp`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {MultisigTransactions}
      */
     getMultiSigTransactionList(address, queryOptions, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -1148,7 +1148,7 @@ class Wallet {
      * @param {string} address Account address to use for signing.
      * @param {string} transactionId The transaction id to sign.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {MultisigTransactionStatus}
      */
     signMultiSigTransction(address, transactionId, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -1171,7 +1171,7 @@ class Wallet {
      * @param {string} transactionId The transacion id.
      * @param {string} sigs The signatures to appen.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {MultisigTransactionStatus}
      */
     appendSignatures(transactionId, sigs, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -1203,10 +1203,10 @@ class Wallet {
      * GET /v2/stat/count
      *
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AccountCountByAccountID}
      */
     getAccountCount(callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.statisticsApi.getAccountCountByAccountID(this.chainId, (err, data, response) => {
@@ -1225,10 +1225,10 @@ class Wallet {
      *
      * @param {string} krn The krn string to search.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AccountCountByKRN}
      */
     getAccountCountByKRN(krn, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_ENABLE_API_ERR_MSG)
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.statisticsApi.getAccountCountByKRN(this.chainId, { xKrn: krn }, (err, data, response) => {

@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AccountSummary model module.
-     * @module model/AccountSummary
+     * @module AccountSummary
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AccountSummary</code>.
      * 간략한 계정 정보
-     * @alias module:model/AccountSummary
+     * @alias AccountSummary
      * @class
      * @param address {String} 클레이튼 계정주소
      * @param krn {String} KAS KRN
@@ -53,8 +53,8 @@
      * Constructs a <code>AccountSummary</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AccountSummary} obj Optional instance to populate.
-     * @return {module:model/AccountSummary} The populated <code>AccountSummary</code> instance.
+     * @param {AccountSummary} obj Optional instance to populate.
+     * @return {AccountSummary} The populated <code>AccountSummary</code> instance.
      */
     AccountSummary.constructFromObject = function(data, obj) {
         if (data) {

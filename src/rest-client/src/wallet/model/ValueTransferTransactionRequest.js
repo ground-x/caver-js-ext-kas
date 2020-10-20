@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The ValueTransferTransactionRequest model module.
-     * @module model/ValueTransferTransactionRequest
+     * @module ValueTransferTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>ValueTransferTransactionRequest</code>.
      * 클레이 전송 트랜잭션 요청 스키마
-     * @alias module:model/ValueTransferTransactionRequest
+     * @alias ValueTransferTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      */
@@ -49,8 +49,8 @@
      * Constructs a <code>ValueTransferTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/ValueTransferTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/ValueTransferTransactionRequest} The populated <code>ValueTransferTransactionRequest</code> instance.
+     * @param {ValueTransferTransactionRequest} obj Optional instance to populate.
+     * @return {ValueTransferTransactionRequest} The populated <code>ValueTransferTransactionRequest</code> instance.
      */
     ValueTransferTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

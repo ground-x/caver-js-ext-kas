@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The KlayTransfer model module.
-     * @module model/KlayTransfer
+     * @module KlayTransfer
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>KlayTransfer</code>.
-     * @alias module:model/KlayTransfer
+     * @alias KlayTransfer
      * @class
      * @param feePayer {String} 수수료 대납 계정 주소 (20-byte)
      * @param feeRatio {Number} 수수료 대납 비율
@@ -66,8 +66,8 @@
      * Constructs a <code>KlayTransfer</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/KlayTransfer} obj Optional instance to populate.
-     * @return {module:model/KlayTransfer} The populated <code>KlayTransfer</code> instance.
+     * @param {KlayTransfer} obj Optional instance to populate.
+     * @return {KlayTransfer} The populated <code>KlayTransfer</code> instance.
      */
     KlayTransfer.constructFromObject = function(data, obj) {
         if (data) {

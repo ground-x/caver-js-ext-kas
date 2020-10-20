@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The LegacyTransactionRequest model module.
-     * @module model/LegacyTransactionRequest
+     * @module LegacyTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>LegacyTransactionRequest</code>.
      * 레거시 트랜잭션 요청 스키마
-     * @alias module:model/LegacyTransactionRequest
+     * @alias LegacyTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      */
@@ -49,8 +49,8 @@
      * Constructs a <code>LegacyTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/LegacyTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/LegacyTransactionRequest} The populated <code>LegacyTransactionRequest</code> instance.
+     * @param {LegacyTransactionRequest} obj Optional instance to populate.
+     * @return {LegacyTransactionRequest} The populated <code>LegacyTransactionRequest</code> instance.
      */
     LegacyTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

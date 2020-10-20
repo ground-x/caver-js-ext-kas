@@ -34,13 +34,13 @@
 })(this, function(ApiClient, FtContract, Transaction) {
     /**
      * The TransferItem model module.
-     * @module model/TransferItem
+     * @module TransferItem
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>TransferItem</code>.
-     * @alias module:model/TransferItem
+     * @alias TransferItem
      * @class
      */
     const TransferItem = function() {}
@@ -49,8 +49,8 @@
      * Constructs a <code>TransferItem</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/TransferItem} obj Optional instance to populate.
-     * @return {module:model/TransferItem} The populated <code>TransferItem</code> instance.
+     * @param {TransferItem} obj Optional instance to populate.
+     * @return {TransferItem} The populated <code>TransferItem</code> instance.
      */
     TransferItem.constructFromObject = function(data, obj) {
         if (data) {
@@ -134,7 +134,7 @@
     TransferItem.prototype.value = undefined
 
     /**
-     * @member {module:model/FtContract} contract
+     * @member {FtContract} contract
      */
     TransferItem.prototype.contract = undefined
 
@@ -145,7 +145,7 @@
     TransferItem.prototype.formattedValue = undefined
 
     /**
-     * @member {module:model/Transaction} transaction
+     * @member {Transaction} transaction
      */
     TransferItem.prototype.transaction = undefined
 

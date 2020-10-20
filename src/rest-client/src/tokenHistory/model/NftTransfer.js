@@ -34,18 +34,18 @@
 })(this, function(ApiClient, NftContract, Transaction) {
     /**
      * The NftTransfer model module.
-     * @module model/NftTransfer
+     * @module NftTransfer
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>NftTransfer</code>.
-     * @alias module:model/NftTransfer
+     * @alias NftTransfer
      * @class
-     * @param contract {module:model/NftContract}
+     * @param contract {NftContract}
      * @param from {String} 보낸 사람 EOA (20-byte)
      * @param to {String} 받은 사람 EOA (20-byte)
-     * @param transaction {module:model/Transaction}
+     * @param transaction {Transaction}
      * @param transferType {String} 거래내역 유형
      * @param tokenId {String} 토큰 식별자 (16진수)
      */
@@ -62,8 +62,8 @@
      * Constructs a <code>NftTransfer</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/NftTransfer} obj Optional instance to populate.
-     * @return {module:model/NftTransfer} The populated <code>NftTransfer</code> instance.
+     * @param {NftTransfer} obj Optional instance to populate.
+     * @return {NftTransfer} The populated <code>NftTransfer</code> instance.
      */
     NftTransfer.constructFromObject = function(data, obj) {
         if (data) {
@@ -79,7 +79,7 @@
     }
 
     /**
-     * @member {module:model/NftContract} contract
+     * @member {NftContract} contract
      */
     NftTransfer.prototype.contract = undefined
 
@@ -96,7 +96,7 @@
     NftTransfer.prototype.to = undefined
 
     /**
-     * @member {module:model/Transaction} transaction
+     * @member {Transaction} transaction
      */
     NftTransfer.prototype.transaction = undefined
 

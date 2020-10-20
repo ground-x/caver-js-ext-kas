@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The Signature model module.
-     * @module model/Signature
+     * @module Signature
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>Signature</code>.
      * 서명 값
-     * @alias module:model/Signature
+     * @alias Signature
      * @class
      * @param R {String} ECDSA 서명 정보
      * @param S {String} ECDSA 서명 정보
@@ -53,8 +53,8 @@
      * Constructs a <code>Signature</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Signature} obj Optional instance to populate.
-     * @return {module:model/Signature} The populated <code>Signature</code> instance.
+     * @param {Signature} obj Optional instance to populate.
+     * @return {Signature} The populated <code>Signature</code> instance.
      */
     Signature.constructFromObject = function(data, obj) {
         if (data) {

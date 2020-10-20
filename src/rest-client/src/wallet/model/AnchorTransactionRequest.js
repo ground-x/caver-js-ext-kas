@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AnchorTransactionRequest model module.
-     * @module model/AnchorTransactionRequest
+     * @module AnchorTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AnchorTransactionRequest</code>.
      * 앵커 트랜잭션 요청 스키마
-     * @alias module:model/AnchorTransactionRequest
+     * @alias AnchorTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param input {String} 트랜잭션에 첨부되는 데이터로 여기에서는 메인 체인에 앵커링하려는 데이터
@@ -51,8 +51,8 @@
      * Constructs a <code>AnchorTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AnchorTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/AnchorTransactionRequest} The populated <code>AnchorTransactionRequest</code> instance.
+     * @param {AnchorTransactionRequest} obj Optional instance to populate.
+     * @return {AnchorTransactionRequest} The populated <code>AnchorTransactionRequest</code> instance.
      */
     AnchorTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

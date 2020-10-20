@@ -30,14 +30,14 @@
 })(this, function(ApiClient, MultisigKey) {
     /**
      * The MultisigAccount model module.
-     * @module model/MultisigAccount
+     * @module MultisigAccount
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>MultisigAccount</code>.
      * 다중 서명 계정에 관한 정보
-     * @alias module:model/MultisigAccount
+     * @alias MultisigAccount
      * @class
      * @param address {String} 클레이튼 계정주소
      * @param krn {String} KAS KRN
@@ -57,8 +57,8 @@
      * Constructs a <code>MultisigAccount</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultisigAccount} obj Optional instance to populate.
-     * @return {module:model/MultisigAccount} The populated <code>MultisigAccount</code> instance.
+     * @param {MultisigAccount} obj Optional instance to populate.
+     * @return {MultisigAccount} The populated <code>MultisigAccount</code> instance.
      */
     MultisigAccount.constructFromObject = function(data, obj) {
         if (data) {
@@ -86,7 +86,7 @@
     MultisigAccount.prototype.krn = undefined
 
     /**
-     * @member {Array.<module:model/MultisigKey>} multiSigKeys
+     * @member {Array.<MultisigKey>} multiSigKeys
      */
     MultisigAccount.prototype.multiSigKeys = undefined
 

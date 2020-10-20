@@ -30,14 +30,14 @@
 })(this, function(ApiClient, AnchorTransaction) {
     /**
      * The AnchorTransactions model module.
-     * @module model/AnchorTransactions
+     * @module AnchorTransactions
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AnchorTransactions</code>.
      * 앵커링 트랜잭션 목록
-     * @alias module:model/AnchorTransactions
+     * @alias AnchorTransactions
      * @class
      * @param cursor {String} 마지막 검색 위치를 나타내는 커서 정보
      */
@@ -49,8 +49,8 @@
      * Constructs a <code>AnchorTransactions</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AnchorTransactions} obj Optional instance to populate.
-     * @return {module:model/AnchorTransactions} The populated <code>AnchorTransactions</code> instance.
+     * @param {AnchorTransactions} obj Optional instance to populate.
+     * @return {AnchorTransactions} The populated <code>AnchorTransactions</code> instance.
      */
     AnchorTransactions.constructFromObject = function(data, obj) {
         if (data) {
@@ -68,7 +68,7 @@
     AnchorTransactions.prototype.cursor = undefined
 
     /**
-     * @member {Array.<module:model/AnchorTransaction>} items
+     * @member {Array.<AnchorTransaction>} items
      */
     AnchorTransactions.prototype.items = undefined
 

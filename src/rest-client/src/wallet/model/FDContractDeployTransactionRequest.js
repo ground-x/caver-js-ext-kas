@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDContractDeployTransactionRequest model module.
-     * @module model/FDContractDeployTransactionRequest
+     * @module FDContractDeployTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDContractDeployTransactionRequest</code>.
      * 대납 컨트랙트 배포 트랜잭션 요청 스키마
-     * @alias module:model/FDContractDeployTransactionRequest
+     * @alias FDContractDeployTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param input {String} 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
@@ -51,8 +51,8 @@
      * Constructs a <code>FDContractDeployTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDContractDeployTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/FDContractDeployTransactionRequest} The populated <code>FDContractDeployTransactionRequest</code> instance.
+     * @param {FDContractDeployTransactionRequest} obj Optional instance to populate.
+     * @return {FDContractDeployTransactionRequest} The populated <code>FDContractDeployTransactionRequest</code> instance.
      */
     FDContractDeployTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

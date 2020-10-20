@@ -30,15 +30,15 @@
 })(this, function(ApiClient, TransferItem) {
     /**
      * The PageableTransfers model module.
-     * @module model/PageableTransfers
+     * @module PageableTransfers
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>PageableTransfers</code>.
-     * @alias module:model/PageableTransfers
+     * @alias PageableTransfers
      * @class
-     * @param items {Array.<module:model/TransferItem>}
+     * @param items {Array.<TransferItem>}
      * @param cursor {String} 다음 페이지 커서
      */
     const PageableTransfers = function(items, cursor) {
@@ -50,8 +50,8 @@
      * Constructs a <code>PageableTransfers</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PageableTransfers} obj Optional instance to populate.
-     * @return {module:model/PageableTransfers} The populated <code>PageableTransfers</code> instance.
+     * @param {PageableTransfers} obj Optional instance to populate.
+     * @return {PageableTransfers} The populated <code>PageableTransfers</code> instance.
      */
     PageableTransfers.constructFromObject = function(data, obj) {
         if (data) {
@@ -63,7 +63,7 @@
     }
 
     /**
-     * @member {Array.<module:model/TransferItem>} items
+     * @member {Array.<TransferItem>} items
      */
     PageableTransfers.prototype.items = undefined
 

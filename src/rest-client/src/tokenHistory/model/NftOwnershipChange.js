@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The NftOwnershipChange model module.
-     * @module model/NftOwnershipChange
+     * @module NftOwnershipChange
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>NftOwnershipChange</code>.
-     * @alias module:model/NftOwnershipChange
+     * @alias NftOwnershipChange
      * @class
      * @param from {String} 보낸 사람 (직전 소유자) EOA (20-byte)
      * @param to {String} 받은 사람 (이 시점의 소유자) EOA (20-byte)
@@ -52,8 +52,8 @@
      * Constructs a <code>NftOwnershipChange</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/NftOwnershipChange} obj Optional instance to populate.
-     * @return {module:model/NftOwnershipChange} The populated <code>NftOwnershipChange</code> instance.
+     * @param {NftOwnershipChange} obj Optional instance to populate.
+     * @return {NftOwnershipChange} The populated <code>NftOwnershipChange</code> instance.
      */
     NftOwnershipChange.constructFromObject = function(data, obj) {
         if (data) {

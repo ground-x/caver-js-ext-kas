@@ -40,25 +40,25 @@
 })(this, function(ApiClient, InvalidQueryParameterValue, PageableTransfers, Transfers) {
     /**
      * TokenHistory service.
-     * @module api/TokenHistoryApi
+     * @class TokenHistoryApi
      * @version 0.7.0
      */
 
     /**
      * Constructs a new TokenHistoryApi.
-     * @alias module:api/TokenHistoryApi
+     * @alias TokenHistoryApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
     const exports = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the getTransfers operation.
-         * @callback module:api/TokenHistoryApi~getTransfersCallback
+         * @callback TokenHistoryApi~getTransfersCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/PageableTransfers} data The data returned by the service call.
+         * @param {PageableTransfers} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -72,8 +72,8 @@
          * @param {String} opts.range 조회 범위 지정 (블록번호 또는 Unix time)
          * @param {Number} opts.size 응답 아이템 개수 (min=1, max=1000, default=100)
          * @param {String} opts.cursor 응답 오프셋
-         * @param {module:api/TokenHistoryApi~getTransfersCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/PageableTransfers}
+         * @param {TokenHistoryApi~getTransfersCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link PageableTransfers}
          */
         this.getTransfers = function(xChainId, presets, opts, callback) {
             opts = opts || {}
@@ -127,9 +127,9 @@
 
         /**
          * Callback function to receive the result of the getTransfersByEoa operation.
-         * @callback module:api/TokenHistoryApi~getTransfersByEoaCallback
+         * @callback TokenHistoryApi~getTransfersByEoaCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/PageableTransfers} data The data returned by the service call.
+         * @param {PageableTransfers} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -144,8 +144,8 @@
          * @param {String} opts.range (csv) 조회 범위 지정 (블록번호 또는 Unix time)
          * @param {Number} opts.size 응답 아이템 개수(min=1, max=1000, default=100)
          * @param {String} opts.cursor 특정 위치를 지정하기 위한 오프셋
-         * @param {module:api/TokenHistoryApi~getTransfersByEoaCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/PageableTransfers}
+         * @param {TokenHistoryApi~getTransfersByEoaCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link PageableTransfers}
          */
         this.getTransfersByEoa = function(xChainId, address, opts, callback) {
             opts = opts || {}
@@ -201,9 +201,9 @@
 
         /**
          * Callback function to receive the result of the getTransfersByTxHash operation.
-         * @callback module:api/TokenHistoryApi~getTransfersByTxHashCallback
+         * @callback TokenHistoryApi~getTransfersByTxHashCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/Transfers} data The data returned by the service call.
+         * @param {Transfers} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -212,8 +212,8 @@
          * 트랜잭션 해시로 거래내역을 조회합니다. 거래내역은 KLAY 전송 (`KlayTransfer`), FT 전송 (`FtTransfer`), NFT 전송 (`NftTransfer`)으로 나뉘며 FT, NFT 전송의 경우 토큰 전송을 실행한 `KlayTransfer` 전송내역이 조회 결과에 포함됩니다. FT, NFT 전송을 실행한 `KlayTransfer`의 `value`는 0일 수 있습니다. 이와 관련된 자세한 설명은 `GET /v2/transfer`를 참조하여 주시기 바랍니다.
          * @param {String} xChainId Klaytn 네트워크 체인 ID (1001 or 8217)
          * @param {String} transactionHash 조회할 트랜잭션 해시
-         * @param {module:api/TokenHistoryApi~getTransfersByTxHashCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/Transfers}
+         * @param {TokenHistoryApi~getTransfersByTxHashCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Transfers}
          */
         this.getTransfersByTxHash = function(xChainId, transactionHash, callback) {
             const postBody = null

@@ -30,15 +30,15 @@
 })(this, function(ApiClient, TransferItem) {
     /**
      * The Transfers model module.
-     * @module model/Transfers
+     * @module Transfers
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>Transfers</code>.
-     * @alias module:model/Transfers
+     * @alias Transfers
      * @class
-     * @param items {Array.<module:model/TransferItem>}
+     * @param items {Array.<TransferItem>}
      */
     const Transfers = function(items) {
         this.items = items
@@ -48,8 +48,8 @@
      * Constructs a <code>Transfers</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Transfers} obj Optional instance to populate.
-     * @return {module:model/Transfers} The populated <code>Transfers</code> instance.
+     * @param {Transfers} obj Optional instance to populate.
+     * @return {Transfers} The populated <code>Transfers</code> instance.
      */
     Transfers.constructFromObject = function(data, obj) {
         if (data) {
@@ -60,7 +60,7 @@
     }
 
     /**
-     * @member {Array.<module:model/TransferItem>} items
+     * @member {Array.<TransferItem>} items
      */
     Transfers.prototype.items = undefined
 

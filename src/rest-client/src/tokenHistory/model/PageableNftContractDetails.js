@@ -30,15 +30,15 @@
 })(this, function(ApiClient, NftContractDetail) {
     /**
      * The PageableNftContractDetails model module.
-     * @module model/PageableNftContractDetails
+     * @module PageableNftContractDetails
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>PageableNftContractDetails</code>.
-     * @alias module:model/PageableNftContractDetails
+     * @alias PageableNftContractDetails
      * @class
-     * @param items {Array.<module:model/NftContractDetail>}
+     * @param items {Array.<NftContractDetail>}
      * @param cursor {String} 다음 페이지 커서
      */
     const PageableNftContractDetails = function(items, cursor) {
@@ -50,8 +50,8 @@
      * Constructs a <code>PageableNftContractDetails</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PageableNftContractDetails} obj Optional instance to populate.
-     * @return {module:model/PageableNftContractDetails} The populated <code>PageableNftContractDetails</code> instance.
+     * @param {PageableNftContractDetails} obj Optional instance to populate.
+     * @return {PageableNftContractDetails} The populated <code>PageableNftContractDetails</code> instance.
      */
     PageableNftContractDetails.constructFromObject = function(data, obj) {
         if (data) {
@@ -63,7 +63,7 @@
     }
 
     /**
-     * @member {Array.<module:model/NftContractDetail>} items
+     * @member {Array.<NftContractDetail>} items
      */
     PageableNftContractDetails.prototype.items = undefined
 

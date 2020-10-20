@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The OperatorSetting model module.
-     * @module model/OperatorSetting
+     * @module OperatorSetting
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>OperatorSetting</code>.
      * 오퍼레이터 결제 정보
-     * @alias module:model/OperatorSetting
+     * @alias OperatorSetting
      * @class
      * @param useGlobalFeePayer {Boolean} 글로벌 대납 계정 사용 여부
      * @param useOperator {Boolean} 오퍼레이터 결제 사용 여부
@@ -51,8 +51,8 @@
      * Constructs a <code>OperatorSetting</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/OperatorSetting} obj Optional instance to populate.
-     * @return {module:model/OperatorSetting} The populated <code>OperatorSetting</code> instance.
+     * @param {OperatorSetting} obj Optional instance to populate.
+     * @return {OperatorSetting} The populated <code>OperatorSetting</code> instance.
      */
     OperatorSetting.constructFromObject = function(data, obj) {
         if (data) {

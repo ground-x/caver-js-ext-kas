@@ -30,14 +30,14 @@
 })(this, function(ApiClient, PendedTransaction) {
     /**
      * The MultisigTransactions model module.
-     * @module model/MultisigTransactions
+     * @module MultisigTransactions
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>MultisigTransactions</code>.
      * 보류중인 트랜잭션 목록
-     * @alias module:model/MultisigTransactions
+     * @alias MultisigTransactions
      * @class
      * @param cursor {String} 마지막으로 검색된 커서의 정보
      */
@@ -49,8 +49,8 @@
      * Constructs a <code>MultisigTransactions</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultisigTransactions} obj Optional instance to populate.
-     * @return {module:model/MultisigTransactions} The populated <code>MultisigTransactions</code> instance.
+     * @param {MultisigTransactions} obj Optional instance to populate.
+     * @return {MultisigTransactions} The populated <code>MultisigTransactions</code> instance.
      */
     MultisigTransactions.constructFromObject = function(data, obj) {
         if (data) {
@@ -68,7 +68,7 @@
     MultisigTransactions.prototype.cursor = undefined
 
     /**
-     * @member {Array.<module:model/PendedTransaction>} items
+     * @member {Array.<PendedTransaction>} items
      */
     MultisigTransactions.prototype.items = undefined
 

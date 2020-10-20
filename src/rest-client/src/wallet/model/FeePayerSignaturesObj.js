@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The FeePayerSignaturesObj model module.
-     * @module model/FeePayerSignaturesObj
+     * @module FeePayerSignaturesObj
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FeePayerSignaturesObj</code>.
-     * @alias module:model/FeePayerSignaturesObj
+     * @alias FeePayerSignaturesObj
      * @class
      */
     const FeePayerSignaturesObj = function() {}
@@ -45,8 +45,8 @@
      * Constructs a <code>FeePayerSignaturesObj</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FeePayerSignaturesObj} obj Optional instance to populate.
-     * @return {module:model/FeePayerSignaturesObj} The populated <code>FeePayerSignaturesObj</code> instance.
+     * @param {FeePayerSignaturesObj} obj Optional instance to populate.
+     * @return {FeePayerSignaturesObj} The populated <code>FeePayerSignaturesObj</code> instance.
      */
     FeePayerSignaturesObj.constructFromObject = function(data, obj) {
         if (data) {

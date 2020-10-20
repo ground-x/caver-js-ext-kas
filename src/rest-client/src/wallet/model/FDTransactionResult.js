@@ -30,14 +30,14 @@
 })(this, function(ApiClient, Signature) {
     /**
      * The FDTransactionResult model module.
-     * @module model/FDTransactionResult
+     * @module FDTransactionResult
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDTransactionResult</code>.
      * Klaytn에 전송한 수수료 대납 트랜잭션 정보
-     * @alias module:model/FDTransactionResult
+     * @alias FDTransactionResult
      * @class
      * @param feePayer {String} 트랜잭션 수수료를 대납할 계정 주소
      * @param from {String} 트랜잭션을 보낸 Klaytn 계정 주소
@@ -61,8 +61,8 @@
      * Constructs a <code>FDTransactionResult</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDTransactionResult} obj Optional instance to populate.
-     * @return {module:model/FDTransactionResult} The populated <code>FDTransactionResult</code> instance.
+     * @param {FDTransactionResult} obj Optional instance to populate.
+     * @return {FDTransactionResult} The populated <code>FDTransactionResult</code> instance.
      */
     FDTransactionResult.constructFromObject = function(data, obj) {
         if (data) {
@@ -130,7 +130,7 @@
     FDTransactionResult.prototype.rlp = undefined
 
     /**
-     * @member {Array.<module:model/Signature>} signatures
+     * @member {Array.<Signature>} signatures
      */
     FDTransactionResult.prototype.signatures = undefined
 

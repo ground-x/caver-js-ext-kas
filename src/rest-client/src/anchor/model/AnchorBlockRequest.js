@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AnchorBlockRequest model module.
-     * @module model/AnchorBlockRequest
+     * @module AnchorBlockRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AnchorBlockRequest</code>.
      * 앵커 블록 요청 스키마
-     * @alias module:model/AnchorBlockRequest
+     * @alias AnchorBlockRequest
      * @class
      * @param operator {String} 오퍼레이터 계정 주소
      * @param payload {Object.<String, Object>} 앵커 데이터. ID 를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
@@ -51,8 +51,8 @@
      * Constructs a <code>AnchorBlockRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AnchorBlockRequest} obj Optional instance to populate.
-     * @return {module:model/AnchorBlockRequest} The populated <code>AnchorBlockRequest</code> instance.
+     * @param {AnchorBlockRequest} obj Optional instance to populate.
+     * @return {AnchorBlockRequest} The populated <code>AnchorBlockRequest</code> instance.
      */
     AnchorBlockRequest.constructFromObject = function(data, obj) {
         if (data) {

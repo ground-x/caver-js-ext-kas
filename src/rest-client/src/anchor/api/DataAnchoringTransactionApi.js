@@ -51,25 +51,25 @@
 })(this, function(ApiClient, AnchorBlockRequest, AnchorBlockStatus, AnchorTransactionDetail, AnchorTransactions, ErrorResponse) {
     /**
      * DataAnchoringTransaction service.
-     * @module api/DataAnchoringTransactionApi
+     * @class DataAnchoringTransactionApi
      * @version 1.0
      */
 
     /**
      * Constructs a new DataAnchoringTransactionApi.
-     * @alias module:api/DataAnchoringTransactionApi
+     * @alias DataAnchoringTransactionApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
     const exports = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the anchorBlock operation.
-         * @callback module:api/DataAnchoringTransactionApi~anchorBlockCallback
+         * @callback DataAnchoringTransactionApi~anchorBlockCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AnchorBlockStatus} data The data returned by the service call.
+         * @param {AnchorBlockStatus} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -78,9 +78,9 @@
          * 블록체인 데이터를 앵커링 하기 위해 사용됩니다. 이미 설정한 오퍼레이터를 통해 앵커 트랜잭션 발생 및 관리합니다. 오퍼레이터 또는 사용자 Feepayer 를 통한 앵커링을 성공하기 위해서는 실제 요구되는 수수료의 10배이상 잔액을 보유하여야 합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {module:model/AnchorBlockRequest} opts.body
-         * @param {module:api/DataAnchoringTransactionApi~anchorBlockCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AnchorBlockStatus}
+         * @param {AnchorBlockRequest} opts.body
+         * @param {DataAnchoringTransactionApi~anchorBlockCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AnchorBlockStatus}
          */
         this.anchorBlock = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -123,9 +123,9 @@
 
         /**
          * Callback function to receive the result of the getAnchorBlockByPayloadID operation.
-         * @callback module:api/DataAnchoringTransactionApi~getAnchorBlockByPayloadIDCallback
+         * @callback DataAnchoringTransactionApi~getAnchorBlockByPayloadIDCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AnchorTransactionDetail} data The data returned by the service call.
+         * @param {AnchorTransactionDetail} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -135,8 +135,8 @@
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} operatorId 오퍼레이터 계정 주소
          * @param {String} payloadId 페이로드 ID
-         * @param {module:api/DataAnchoringTransactionApi~getAnchorBlockByPayloadIDCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AnchorTransactionDetail}
+         * @param {DataAnchoringTransactionApi~getAnchorBlockByPayloadIDCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AnchorTransactionDetail}
          */
         this.getAnchorBlockByPayloadID = function(xChainId, operatorId, payloadId, callback) {
             const postBody = null
@@ -190,9 +190,9 @@
 
         /**
          * Callback function to receive the result of the getAnchorBlockByTx operation.
-         * @callback module:api/DataAnchoringTransactionApi~getAnchorBlockByTxCallback
+         * @callback DataAnchoringTransactionApi~getAnchorBlockByTxCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AnchorTransactionDetail} data The data returned by the service call.
+         * @param {AnchorTransactionDetail} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -202,8 +202,8 @@
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} operatorId 오퍼레이터 계정 주소
          * @param {String} transactionHash 트랜잭션 해시
-         * @param {module:api/DataAnchoringTransactionApi~getAnchorBlockByTxCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AnchorTransactionDetail}
+         * @param {DataAnchoringTransactionApi~getAnchorBlockByTxCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AnchorTransactionDetail}
          */
         this.getAnchorBlockByTx = function(xChainId, operatorId, transactionHash, callback) {
             const postBody = null
@@ -258,9 +258,9 @@
 
         /**
          * Callback function to receive the result of the retrieveAnchorBlock operation.
-         * @callback module:api/DataAnchoringTransactionApi~retrieveAnchorBlockCallback
+         * @callback DataAnchoringTransactionApi~retrieveAnchorBlockCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AnchorTransactions} data The data returned by the service call.
+         * @param {AnchorTransactions} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -274,8 +274,8 @@
          * @param {String} opts.cursor 마지막으로 검색된 커서의 정보
          * @param {Number} opts.fromTimestamp 검색하고자 하는 처음 시간의 타임스탬프 (초단위)
          * @param {Number} opts.toTimestamp 검색하고자 하는 마지막 시간의 타임스탬프 (초단위)
-         * @param {module:api/DataAnchoringTransactionApi~retrieveAnchorBlockCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AnchorTransactions}
+         * @param {DataAnchoringTransactionApi~retrieveAnchorBlockCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AnchorTransactions}
          */
         this.retrieveAnchorBlock = function(xChainId, operatorId, opts, callback) {
             opts = opts || {}

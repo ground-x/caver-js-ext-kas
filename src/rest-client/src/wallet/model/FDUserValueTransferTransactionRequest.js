@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDUserValueTransferTransactionRequest model module.
-     * @module model/FDUserValueTransferTransactionRequest
+     * @module FDUserValueTransferTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDUserValueTransferTransactionRequest</code>.
      * 유저 대납 클레이 전송 트랜잭션 요청 스키마
-     * @alias module:model/FDUserValueTransferTransactionRequest
+     * @alias FDUserValueTransferTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param value {String} PEB 단위로 환산된 KLAY
@@ -55,8 +55,8 @@
      * Constructs a <code>FDUserValueTransferTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDUserValueTransferTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/FDUserValueTransferTransactionRequest} The populated <code>FDUserValueTransferTransactionRequest</code> instance.
+     * @param {FDUserValueTransferTransactionRequest} obj Optional instance to populate.
+     * @return {FDUserValueTransferTransactionRequest} The populated <code>FDUserValueTransferTransactionRequest</code> instance.
      */
     FDUserValueTransferTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

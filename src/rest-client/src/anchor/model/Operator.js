@@ -30,14 +30,14 @@
 })(this, function(ApiClient, OperatorSetting) {
     /**
      * The Operator model module.
-     * @module model/Operator
+     * @module Operator
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>Operator</code>.
      * 오퍼레이터 정보
-     * @alias module:model/Operator
+     * @alias Operator
      * @class
      * @param createdAt {Number} 오퍼레이터 생성 시간
      * @param operator {String} 오퍼레이터 클레이튼 계정 주소
@@ -51,8 +51,8 @@
      * Constructs a <code>Operator</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Operator} obj Optional instance to populate.
-     * @return {module:model/Operator} The populated <code>Operator</code> instance.
+     * @param {Operator} obj Optional instance to populate.
+     * @return {Operator} The populated <code>Operator</code> instance.
      */
     Operator.constructFromObject = function(data, obj) {
         if (data) {
@@ -77,7 +77,7 @@
     Operator.prototype.operator = undefined
 
     /**
-     * @member {module:model/OperatorSetting} setting
+     * @member {OperatorSetting} setting
      */
     Operator.prototype.setting = undefined
 

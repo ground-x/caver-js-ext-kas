@@ -30,14 +30,14 @@
 })(this, function(ApiClient, Signature) {
     /**
      * The TransactionResult model module.
-     * @module model/TransactionResult
+     * @module TransactionResult
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>TransactionResult</code>.
      * Klaytn에 전송된 트랜잭션 정보
-     * @alias module:model/TransactionResult
+     * @alias TransactionResult
      * @class
      * @param from {String} 트랜잭션을 보낸 Klaytn 계정 주소
      * @param gas {Number} 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값
@@ -59,8 +59,8 @@
      * Constructs a <code>TransactionResult</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/TransactionResult} obj Optional instance to populate.
-     * @return {module:model/TransactionResult} The populated <code>TransactionResult</code> instance.
+     * @param {TransactionResult} obj Optional instance to populate.
+     * @return {TransactionResult} The populated <code>TransactionResult</code> instance.
      */
     TransactionResult.constructFromObject = function(data, obj) {
         if (data) {
@@ -122,7 +122,7 @@
     TransactionResult.prototype.rlp = undefined
 
     /**
-     * @member {Array.<module:model/Signature>} signatures
+     * @member {Array.<Signature>} signatures
      */
     TransactionResult.prototype.signatures = undefined
 

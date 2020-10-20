@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The ContractExecutionTransactionRequest model module.
-     * @module model/ContractExecutionTransactionRequest
+     * @module ContractExecutionTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>ContractExecutionTransactionRequest</code>.
      * 컨트랙트 실행 트랜잭션 요청 스키마
-     * @alias module:model/ContractExecutionTransactionRequest
+     * @alias ContractExecutionTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param to {String} KLAY를 받는 Klaytn 계정 주소
@@ -53,8 +53,8 @@
      * Constructs a <code>ContractExecutionTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/ContractExecutionTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/ContractExecutionTransactionRequest} The populated <code>ContractExecutionTransactionRequest</code> instance.
+     * @param {ContractExecutionTransactionRequest} obj Optional instance to populate.
+     * @return {ContractExecutionTransactionRequest} The populated <code>ContractExecutionTransactionRequest</code> instance.
      */
     ContractExecutionTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {

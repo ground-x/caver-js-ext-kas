@@ -29,7 +29,7 @@ class Anchor {
     /**
      * Creates an instance of anchor api.
      * @constructor
-     * @param {RestClient.ApiClient} client - The Api client to use to connect with KAS.
+     * @param {ApiClient} client - The Api client to use to connect with KAS.
      * @param {AccessOptions} accessOptions - An instance of AccessOptions including `chainId`, `accessKeyId` and `secretAccessKey`.
      */
     constructor(client, accessOptions) {
@@ -142,7 +142,7 @@ class Anchor {
      * @param {string} operator Operator address to send ChainDataAnchoring transaction.
      * @param {object} payload Data to be anchored to the Klaytn blockchain platform.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AnchorBlockStatus}
      */
     sendAnchoringData(operator, payload, callback) {
         if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -170,9 +170,9 @@ class Anchor {
      * GET /v1/operator/{operator-id}/tx
      *
      * @param {string} operator The address of the operator that anchored the data.
-     * @param {object} [queryOptions] Filters required when retrieving data. `size`, `fromTimestamp`, `toTimestamp`, and `cursor`.
+     * @param {AnchorQueryOptions} [queryOptions] Filters required when retrieving data. `size`, `fromTimestamp`, `toTimestamp`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AnchorTransactions}
      */
     getAnchoringTransactionList(operator, queryOptions, callback) {
         if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -208,7 +208,7 @@ class Anchor {
      * @param {string} operator The address of the operator that anchored the data.
      * @param {string} transactionHash The transaction hash to query.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AnchorTransactionDetail}
      */
     getAnchoringTransactionByTxHash(operator, transactionHash, callback) {
         if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -231,7 +231,7 @@ class Anchor {
      * @param {string} operator The address of the operator that anchored the data.
      * @param {string} payloadId The payload id to query.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {AnchorTransactionDetail}
      */
     getAnchoringTransactionByPayloadId(operator, payloadId, callback) {
         if (!this.accessOptions || !this.anchorApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -252,9 +252,9 @@ class Anchor {
      * Gets operator list.
      * GET /v1/operator
      *
-     * @param {object} [queryOptions] Filters required when retrieving data. `size`, `fromTimestamp`, `toTimestamp`, and `cursor`.
+     * @param {AnchorQueryOptions} [queryOptions] Filters required when retrieving data. `size`, `fromTimestamp`, `toTimestamp`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Operators}
      */
     getOperatorList(queryOptions, callback) {
         if (!this.accessOptions || !this.operatorApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -285,7 +285,7 @@ class Anchor {
      *
      * @param {string} operator The address of the operator.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Operator}
      */
     getOperator(operator, callback) {
         if (!this.accessOptions || !this.operatorApi) throw new Error(NOT_INIT_API_ERR_MSG)

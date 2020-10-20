@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AnchorTransactionDetail model module.
-     * @module model/AnchorTransactionDetail
+     * @module AnchorTransactionDetail
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AnchorTransactionDetail</code>.
      * 앵커링 트랜잭션 정보
-     * @alias module:model/AnchorTransactionDetail
+     * @alias AnchorTransactionDetail
      * @class
      * @param payload {Object.<String, Object>} 앵커 데이터. ID 를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
      * @param transactionHash {String} 앵커링 트랜잭션의 트랜잭션 해시
@@ -51,8 +51,8 @@
      * Constructs a <code>AnchorTransactionDetail</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AnchorTransactionDetail} obj Optional instance to populate.
-     * @return {module:model/AnchorTransactionDetail} The populated <code>AnchorTransactionDetail</code> instance.
+     * @param {AnchorTransactionDetail} obj Optional instance to populate.
+     * @return {AnchorTransactionDetail} The populated <code>AnchorTransactionDetail</code> instance.
      */
     AnchorTransactionDetail.constructFromObject = function(data, obj) {
         if (data) {

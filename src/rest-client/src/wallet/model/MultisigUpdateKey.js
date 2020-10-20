@@ -30,13 +30,13 @@
 })(this, function(ApiClient, MultisigKey) {
     /**
      * The MultisigUpdateKey model module.
-     * @module model/MultisigUpdateKey
+     * @module MultisigUpdateKey
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>MultisigUpdateKey</code>.
-     * @alias module:model/MultisigUpdateKey
+     * @alias MultisigUpdateKey
      * @class
      */
     const MultisigUpdateKey = function() {}
@@ -45,8 +45,8 @@
      * Constructs a <code>MultisigUpdateKey</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultisigUpdateKey} obj Optional instance to populate.
-     * @return {module:model/MultisigUpdateKey} The populated <code>MultisigUpdateKey</code> instance.
+     * @param {MultisigUpdateKey} obj Optional instance to populate.
+     * @return {MultisigUpdateKey} The populated <code>MultisigUpdateKey</code> instance.
      */
     MultisigUpdateKey.constructFromObject = function(data, obj) {
         if (data) {
@@ -64,7 +64,7 @@
     MultisigUpdateKey.prototype.threshold = undefined
 
     /**
-     * @member {Array.<module:model/MultisigKey>} weightedKeys
+     * @member {Array.<MultisigKey>} weightedKeys
      */
     MultisigUpdateKey.prototype.weightedKeys = undefined
 

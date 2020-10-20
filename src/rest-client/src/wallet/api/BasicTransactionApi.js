@@ -82,25 +82,25 @@
 ) {
     /**
      * BasicTransaction service.
-     * @module api/BasicTransactionApi
+     * @class BasicTransactionApi
      * @version 1.0
      */
 
     /**
      * Constructs a new BasicTransactionApi.
-     * @alias module:api/BasicTransactionApi
+     * @alias BasicTransactionApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
     const exports = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the accountUpdateTransaction operation.
-         * @callback module:api/BasicTransactionApi~accountUpdateTransactionCallback
+         * @callback BasicTransactionApi~accountUpdateTransactionCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/TransactionResult} data The data returned by the service call.
+         * @param {TransactionResult} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -109,9 +109,9 @@
          * 클레이튼 계정 키를 업데이트하는 트랜잭션을 생성합니다. 클레이튼 계정 키 종류는 [다음](https://ko.docs.klaytn.com/klaytn/design/accounts)을 확인하십시오.  해당 계정을 Legacy 키 타입(1)으로 업데이트하면, 계정은 Enabled 되면 사용가능한 상태가 됩니다. 해당 계정을 Public 키 타입(2)으로 업데이트하면, 계정은 월렛내에서 사용할수 없게됩니다. 다시 복구하기 위해서는 Global 수수료 대납 RLP API 를 사용하거나, 외부에서 legacy 키로 업데이트한 후에 계정은 Enable 해주세요. 해당 계정의 키를 Fail키 타입(3)으로 업데이트하면, 계정은 자동으로 disable 됩니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {module:model/AccountUpdateTransactionRequest} opts.body
-         * @param {module:api/BasicTransactionApi~accountUpdateTransactionCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/TransactionResult}
+         * @param {AccountUpdateTransactionRequest} opts.body
+         * @param {BasicTransactionApi~accountUpdateTransactionCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link TransactionResult}
          */
         this.accountUpdateTransaction = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -154,9 +154,9 @@
 
         /**
          * Callback function to receive the result of the anchorTransaction operation.
-         * @callback module:api/BasicTransactionApi~anchorTransactionCallback
+         * @callback BasicTransactionApi~anchorTransactionCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/TransactionResult} data The data returned by the service call.
+         * @param {TransactionResult} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -165,9 +165,9 @@
          * 서비스 체인 데이터를 Klaytn 메인 체인에 앵커링하는 트랜잭션을 생성합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {module:model/AnchorTransactionRequest} opts.body
-         * @param {module:api/BasicTransactionApi~anchorTransactionCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/TransactionResult}
+         * @param {AnchorTransactionRequest} opts.body
+         * @param {BasicTransactionApi~anchorTransactionCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link TransactionResult}
          */
         this.anchorTransaction = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -209,9 +209,9 @@
 
         /**
          * Callback function to receive the result of the cancelTransaction operation.
-         * @callback module:api/BasicTransactionApi~cancelTransactionCallback
+         * @callback BasicTransactionApi~cancelTransactionCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/TransactionResult} data The data returned by the service call.
+         * @param {TransactionResult} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -220,9 +220,9 @@
          * Klaytn에 전송했으나 보류중인 트랜잭션을 취소시키기 위한 트랜잭션을 생성합니다. 취소를 위해 논스 또는 트랜잭션 해시 둘 중 하나의 값이 꼭 필요합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {module:model/CancelTransactionRequest} opts.body
-         * @param {module:api/BasicTransactionApi~cancelTransactionCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/TransactionResult}
+         * @param {CancelTransactionRequest} opts.body
+         * @param {BasicTransactionApi~cancelTransactionCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link TransactionResult}
          */
         this.cancelTransaction = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -265,9 +265,9 @@
 
         /**
          * Callback function to receive the result of the contractDeployTransaction operation.
-         * @callback module:api/BasicTransactionApi~contractDeployTransactionCallback
+         * @callback BasicTransactionApi~contractDeployTransactionCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/TransactionResult} data The data returned by the service call.
+         * @param {TransactionResult} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -276,9 +276,9 @@
          * 컨트랙트를 배포하는 트랜잭션을 생성합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {module:model/ContractDeployTransactionRequest} opts.body
-         * @param {module:api/BasicTransactionApi~contractDeployTransactionCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/TransactionResult}
+         * @param {ContractDeployTransactionRequest} opts.body
+         * @param {BasicTransactionApi~contractDeployTransactionCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link TransactionResult}
          */
         this.contractDeployTransaction = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -321,9 +321,9 @@
 
         /**
          * Callback function to receive the result of the contractExecutionTransaction operation.
-         * @callback module:api/BasicTransactionApi~contractExecutionTransactionCallback
+         * @callback BasicTransactionApi~contractExecutionTransactionCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/TransactionResult} data The data returned by the service call.
+         * @param {TransactionResult} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -332,9 +332,9 @@
          * 배포된 컨트랙트 함수를 실행하는 트랜잭션을 생성합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {module:model/ContractExecutionTransactionRequest} opts.body
-         * @param {module:api/BasicTransactionApi~contractExecutionTransactionCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/TransactionResult}
+         * @param {ContractExecutionTransactionRequest} opts.body
+         * @param {BasicTransactionApi~contractExecutionTransactionCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link TransactionResult}
          */
         this.contractExecutionTransaction = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -377,9 +377,9 @@
 
         /**
          * Callback function to receive the result of the legacyTransaction operation.
-         * @callback module:api/BasicTransactionApi~legacyTransactionCallback
+         * @callback BasicTransactionApi~legacyTransactionCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/TransactionResult} data The data returned by the service call.
+         * @param {TransactionResult} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -388,9 +388,9 @@
          * 레거시 계정(공개키가 개인키로부터 파생된 계정)과 트랜잭션 포맷을 지원하는 트랜잭션을 생성합니다. KAS에서 처음 만드는 모든 Klaytn 계정은 기본적으로 레거시 계정입니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {module:model/LegacyTransactionRequest} opts.body
-         * @param {module:api/BasicTransactionApi~legacyTransactionCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/TransactionResult}
+         * @param {LegacyTransactionRequest} opts.body
+         * @param {BasicTransactionApi~legacyTransactionCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link TransactionResult}
          */
         this.legacyTransaction = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -433,9 +433,9 @@
 
         /**
          * Callback function to receive the result of the processRLP operation.
-         * @callback module:api/BasicTransactionApi~processRLPCallback
+         * @callback BasicTransactionApi~processRLPCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/TransactionResult} data The data returned by the service call.
+         * @param {TransactionResult} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -444,9 +444,9 @@
          * rlp(SigRLP 또는 TxHashRLP)를 이용하여 트랜잭션을 생성합니다. Wallet API 내 transaction API에서 나오는 rlp 값은 서명값을 포함하는 TxHashRLP 포맷입니다. 서명값을 포함하지 않은 SigRLP 값의 경우 caver를 이용하면 더욱 쉽게 만들 수 있습니다.  caver에서 각 트랜잭션 메서드로 SigRLP를 만들고자 할 경우 `getRLPEncodingForSignature()`, TxHashRLP를 만들고자 할 경우 `getRLPEncoding()`를 사용하시면 됩니다. SigRLP의 경우 해당 계정풀에서 생성한 것에 한해 `from`의 계정으로 서명을 합니다. 각 트랜잭션 타입별 SigRLP, TxHashRLP에 대한 자세한 설명은 [Klaytn Docs](https://docs.klaytn.com/klaytn/design/transactions)를 참고하시기 바랍니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {module:model/ProcessRLPRequest} opts.body
-         * @param {module:api/BasicTransactionApi~processRLPCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/TransactionResult}
+         * @param {ProcessRLPRequest} opts.body
+         * @param {BasicTransactionApi~processRLPCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link TransactionResult}
          */
         this.processRLP = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -489,9 +489,9 @@
 
         /**
          * Callback function to receive the result of the transactionReceipt operation.
-         * @callback module:api/BasicTransactionApi~transactionReceiptCallback
+         * @callback BasicTransactionApi~transactionReceiptCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/TransactionReceipt} data The data returned by the service call.
+         * @param {TransactionReceipt} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -500,8 +500,8 @@
          * 트랜잭션 해시값으로 해당 트랜잭션 실행 결과를 조회합니다. 응답의 `status` 필드를 통해 실행 성공 여부를 알 수 있습니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} transactionHash 트랜잭션 해시값
-         * @param {module:api/BasicTransactionApi~transactionReceiptCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/TransactionReceipt}
+         * @param {BasicTransactionApi~transactionReceiptCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link TransactionReceipt}
          */
         this.transactionReceipt = function(xChainId, transactionHash, callback) {
             const postBody = null
@@ -550,9 +550,9 @@
 
         /**
          * Callback function to receive the result of the valueTransferTransaction operation.
-         * @callback module:api/BasicTransactionApi~valueTransferTransactionCallback
+         * @callback BasicTransactionApi~valueTransferTransactionCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/TransactionResult} data The data returned by the service call.
+         * @param {TransactionResult} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -561,9 +561,9 @@
          * 클레이 전송 및 메모를 포함한 클레이 전송에 사용되는 트랜잭션을 생성합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {module:model/ValueTransferTransactionRequest} opts.body
-         * @param {module:api/BasicTransactionApi~valueTransferTransactionCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/TransactionResult}
+         * @param {ValueTransferTransactionRequest} opts.body
+         * @param {BasicTransactionApi~valueTransferTransactionCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link TransactionResult}
          */
         this.valueTransferTransaction = function(xChainId, opts, callback) {
             opts = opts || {}

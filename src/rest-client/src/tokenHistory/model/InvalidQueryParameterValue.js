@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The InvalidQueryParameterValue model module.
-     * @module model/InvalidQueryParameterValue
+     * @module InvalidQueryParameterValue
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>InvalidQueryParameterValue</code>.
-     * @alias module:model/InvalidQueryParameterValue
+     * @alias InvalidQueryParameterValue
      * @class
      */
     const InvalidQueryParameterValue = function() {}
@@ -45,8 +45,8 @@
      * Constructs a <code>InvalidQueryParameterValue</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/InvalidQueryParameterValue} obj Optional instance to populate.
-     * @return {module:model/InvalidQueryParameterValue} The populated <code>InvalidQueryParameterValue</code> instance.
+     * @param {InvalidQueryParameterValue} obj Optional instance to populate.
+     * @return {InvalidQueryParameterValue} The populated <code>InvalidQueryParameterValue</code> instance.
      */
     InvalidQueryParameterValue.constructFromObject = function(data, obj) {
         if (data) {

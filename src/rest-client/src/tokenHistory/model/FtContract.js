@@ -30,13 +30,13 @@
 })(this, function(ApiClient) {
     /**
      * The FtContract model module.
-     * @module model/FtContract
+     * @module FtContract
      * @version 0.7.0
      */
 
     /**
      * Constructs a new <code>FtContract</code>.
-     * @alias module:model/FtContract
+     * @alias FtContract
      * @class
      * @param address {String} 컨트랙트 주소 (20-byte)
      * @param decimals {Number} 토큰 자릿수
@@ -56,8 +56,8 @@
      * Constructs a <code>FtContract</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FtContract} obj Optional instance to populate.
-     * @return {module:model/FtContract} The populated <code>FtContract</code> instance.
+     * @param {FtContract} obj Optional instance to populate.
+     * @return {FtContract} The populated <code>FtContract</code> instance.
      */
     FtContract.constructFromObject = function(data, obj) {
         if (data) {
