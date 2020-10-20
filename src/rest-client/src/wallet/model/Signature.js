@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The Signature model module.
-     * @module Signature
+     * @class Signature
      * @version 1.0
      */
 
@@ -55,6 +55,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {Signature} obj Optional instance to populate.
      * @return {Signature} The populated <code>Signature</code> instance.
+* @memberof Signature
      */
     Signature.constructFromObject = function(data, obj) {
         if (data) {
@@ -69,18 +70,21 @@
     /**
      * ECDSA 서명 정보
      * @member {String} R
+* @memberof Signature
      */
     Signature.prototype.R = undefined
 
     /**
      * ECDSA 서명 정보
      * @member {String} S
+* @memberof Signature
      */
     Signature.prototype.S = undefined
 
     /**
      * 공개키 복원 정보
      * @member {String} V
+* @memberof Signature
      */
     Signature.prototype.V = undefined
 

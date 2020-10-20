@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The MultisigTransactionStatus model module.
-     * @module MultisigTransactionStatus
+     * @class MultisigTransactionStatus
      * @version 1.0
      */
 
@@ -59,6 +59,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {MultisigTransactionStatus} obj Optional instance to populate.
      * @return {MultisigTransactionStatus} The populated <code>MultisigTransactionStatus</code> instance.
+* @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.constructFromObject = function(data, obj) {
         if (data) {
@@ -77,40 +78,47 @@
     /**
      * 해당 트랜잭션이 서명을 받았을 때, 그 서명들이 가지는 가중치
      * @member {Number} signedWeight
+* @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.signedWeight = undefined
 
     /**
      * 트랜잭션의 현재 상태
      * @member {String} status
+* @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.status = undefined
 
     /**
      * 이 트랜잭션이 전송되는 데 필요한 가중치 총합
      * @member {Number} threshold
+* @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.threshold = undefined
 
     /**
      * @member {String} transactionHash
+* @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.transactionHash = undefined
 
     /**
      * 다중 서명 트랜잭션을 식별하는 ID
      * @member {String} transactionId
+* @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.transactionId = undefined
 
     /**
      * 해당 서명자의 가중치 값
      * @member {Number} weight
+* @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.weight = undefined
 
     /**
      * @member {Array.<String>} reminders
+* @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.reminders = undefined
 

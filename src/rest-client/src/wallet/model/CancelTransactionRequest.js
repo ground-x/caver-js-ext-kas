@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The CancelTransactionRequest model module.
-     * @module CancelTransactionRequest
+     * @class CancelTransactionRequest
      * @version 1.0
      */
 
@@ -51,6 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {CancelTransactionRequest} obj Optional instance to populate.
      * @return {CancelTransactionRequest} The populated <code>CancelTransactionRequest</code> instance.
+* @memberof CancelTransactionRequest
      */
     CancelTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -67,24 +68,28 @@
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
      * @member {String} from
+* @memberof CancelTransactionRequest
      */
     CancelTransactionRequest.prototype.from = undefined
 
     /**
      * 트랜잭션의 해시값
      * @member {String} transactionHash
+* @memberof CancelTransactionRequest
      */
     CancelTransactionRequest.prototype.transactionHash = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
      * @member {Number} nonce
+* @memberof CancelTransactionRequest
      */
     CancelTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
      * @member {Number} gas
+* @memberof CancelTransactionRequest
      * @default 100000
      */
     CancelTransactionRequest.prototype.gas = 100000
@@ -92,6 +97,7 @@
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
      * @member {Boolean} submit
+* @memberof CancelTransactionRequest
      */
     CancelTransactionRequest.prototype.submit = undefined
 

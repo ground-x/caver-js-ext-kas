@@ -30,7 +30,7 @@
 })(this, function(ApiClient, Signature) {
     /**
      * The SignPendingTransactionBySigRequest model module.
-     * @module SignPendingTransactionBySigRequest
+     * @class SignPendingTransactionBySigRequest
      * @version 1.0
      */
 
@@ -48,6 +48,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {SignPendingTransactionBySigRequest} obj Optional instance to populate.
      * @return {SignPendingTransactionBySigRequest} The populated <code>SignPendingTransactionBySigRequest</code> instance.
+* @memberof SignPendingTransactionBySigRequest
      */
     SignPendingTransactionBySigRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -59,6 +60,7 @@
 
     /**
      * @member {Array.<Signature>} signatures
+* @memberof SignPendingTransactionBySigRequest
      */
     SignPendingTransactionBySigRequest.prototype.signatures = undefined
 

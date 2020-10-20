@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The ErrorResponse model module.
-     * @module ErrorResponse
+     * @class ErrorResponse
      * @version 1.0
      */
 
@@ -53,6 +53,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {ErrorResponse} obj Optional instance to populate.
      * @return {ErrorResponse} The populated <code>ErrorResponse</code> instance.
+* @memberof ErrorResponse
      */
     ErrorResponse.constructFromObject = function(data, obj) {
         if (data) {
@@ -66,12 +67,14 @@
     /**
      * 서비스 코드(앞 3자리)와 에러 코드(뒤 4자리)
      * @member {Number} code
+* @memberof ErrorResponse
      */
     ErrorResponse.prototype.code = undefined
 
     /**
      * 에러 메세지
      * @member {String} message
+* @memberof ErrorResponse
      */
     ErrorResponse.prototype.message = undefined
 

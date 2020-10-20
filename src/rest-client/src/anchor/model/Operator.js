@@ -30,7 +30,7 @@
 })(this, function(ApiClient, OperatorSetting) {
     /**
      * The Operator model module.
-     * @module Operator
+     * @class Operator
      * @version 1.0
      */
 
@@ -53,6 +53,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {Operator} obj Optional instance to populate.
      * @return {Operator} The populated <code>Operator</code> instance.
+* @memberof Operator
      */
     Operator.constructFromObject = function(data, obj) {
         if (data) {
@@ -67,17 +68,20 @@
     /**
      * 오퍼레이터 생성 시간
      * @member {Number} createdAt
+* @memberof Operator
      */
     Operator.prototype.createdAt = undefined
 
     /**
      * 오퍼레이터 클레이튼 계정 주소
      * @member {String} operator
+* @memberof Operator
      */
     Operator.prototype.operator = undefined
 
     /**
      * @member {OperatorSetting} setting
+* @memberof Operator
      */
     Operator.prototype.setting = undefined
 

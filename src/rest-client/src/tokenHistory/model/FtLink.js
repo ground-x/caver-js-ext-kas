@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The FtLink model module.
-     * @module FtLink
+     * @class FtLink
      * @version 0.7.0
      */
 
@@ -52,6 +52,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {FtLink} obj Optional instance to populate.
      * @return {FtLink} The populated <code>FtLink</code> instance.
+* @memberof FtLink
      */
     FtLink.constructFromObject = function(data, obj) {
         if (data) {
@@ -65,12 +66,14 @@
     /**
      * 컨트랙트 대표 웹사이트 URL
      * @member {String} website
+* @memberof FtLink
      */
     FtLink.prototype.website = undefined
 
     /**
      * 토큰 아이콘 URL
      * @member {String} icon
+* @memberof FtLink
      */
     FtLink.prototype.icon = undefined
 

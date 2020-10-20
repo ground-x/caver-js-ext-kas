@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The EventLog model module.
-     * @module EventLog
+     * @class EventLog
      * @version 1.0
      */
 
@@ -65,6 +65,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {EventLog} obj Optional instance to populate.
      * @return {EventLog} The populated <code>EventLog</code> instance.
+* @memberof EventLog
      */
     EventLog.constructFromObject = function(data, obj) {
         if (data) {
@@ -85,53 +86,62 @@
     /**
      * 클레이튼 계정주소
      * @member {String} address
+* @memberof EventLog
      */
     EventLog.prototype.address = undefined
 
     /**
      * 트랜잭션이 포함된 블록해시
      * @member {String} blockHash
+* @memberof EventLog
      */
     EventLog.prototype.blockHash = undefined
 
     /**
      * 트랜잭션이 포함된 블럭번호
      * @member {String} blockNumber
+* @memberof EventLog
      */
     EventLog.prototype.blockNumber = undefined
 
     /**
      * 트랜잭션 데이터
      * @member {String} data
+* @memberof EventLog
      */
     EventLog.prototype.data = undefined
 
     /**
      * 로그 인덱스
      * @member {String} logIndex
+* @memberof EventLog
      */
     EventLog.prototype.logIndex = undefined
 
     /**
      * 삭제 여부
      * @member {Boolean} removed
+* @memberof EventLog
      */
     EventLog.prototype.removed = undefined
 
     /**
      * @member {Array.<String>} topics
+* @memberof EventLog
      */
     EventLog.prototype.topics = undefined
 
     /**
      * 해당 트랜잭션에 대한 해시값
      * @member {String} transactionHash
+* @memberof EventLog
      */
     EventLog.prototype.transactionHash = undefined
 
     /**
      * 해당 트랜잭션에 대한 인덱스
      * @member {String} transactionIndex
+* @memberof EventLog
      */
     EventLog.prototype.transactionIndex = undefined
 

@@ -30,7 +30,7 @@
 })(this, function(ApiClient, AnchorTransaction) {
     /**
      * The AnchorTransactions model module.
-     * @module AnchorTransactions
+     * @class AnchorTransactions
      * @version 1.0
      */
 
@@ -51,6 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {AnchorTransactions} obj Optional instance to populate.
      * @return {AnchorTransactions} The populated <code>AnchorTransactions</code> instance.
+* @memberof AnchorTransactions
      */
     AnchorTransactions.constructFromObject = function(data, obj) {
         if (data) {
@@ -64,11 +65,13 @@
     /**
      * 마지막 검색 위치를 나타내는 커서 정보
      * @member {String} cursor
+* @memberof AnchorTransactions
      */
     AnchorTransactions.prototype.cursor = undefined
 
     /**
      * @member {Array.<AnchorTransaction>} items
+* @memberof AnchorTransactions
      */
     AnchorTransactions.prototype.items = undefined
 

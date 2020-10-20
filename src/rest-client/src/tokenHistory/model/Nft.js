@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The Nft model module.
-     * @module Nft
+     * @class Nft
      * @version 0.7.0
      */
 
@@ -62,6 +62,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {Nft} obj Optional instance to populate.
      * @return {Nft} The populated <code>Nft</code> instance.
+* @memberof Nft
      */
     Nft.constructFromObject = function(data, obj) {
         if (data) {
@@ -80,42 +81,49 @@
     /**
      * 소유자 EOA (20-byte)
      * @member {String} owner
+* @memberof Nft
      */
     Nft.prototype.owner = undefined
 
     /**
      * 직전 소유자 EOA (20-byte)
      * @member {String} previousOwner
+* @memberof Nft
      */
     Nft.prototype.previousOwner = undefined
 
     /**
      * 토큰 ID (16진수)
      * @member {String} tokenId
+* @memberof Nft
      */
     Nft.prototype.tokenId = undefined
 
     /**
      * 토큰 고유의 URL
      * @member {String} tokenUri
+* @memberof Nft
      */
     Nft.prototype.tokenUri = undefined
 
     /**
      * 마지막 트랜잭션 해시 (32-byte)
      * @member {String} transactionHash
+* @memberof Nft
      */
     Nft.prototype.transactionHash = undefined
 
     /**
      * 토큰이 생성된 시점 (timestamp)
      * @member {Number} createdAt
+* @memberof Nft
      */
     Nft.prototype.createdAt = undefined
 
     /**
      * 토큰 정보가 마지막으로 변경된 시점 (timestamp)
      * @member {Number} updatedAt
+* @memberof Nft
      */
     Nft.prototype.updatedAt = undefined
 

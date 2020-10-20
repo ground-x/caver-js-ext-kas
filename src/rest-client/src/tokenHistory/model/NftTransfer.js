@@ -34,7 +34,7 @@
 })(this, function(ApiClient, NftContract, Transaction) {
     /**
      * The NftTransfer model module.
-     * @module NftTransfer
+     * @class NftTransfer
      * @version 0.7.0
      */
 
@@ -64,6 +64,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {NftTransfer} obj Optional instance to populate.
      * @return {NftTransfer} The populated <code>NftTransfer</code> instance.
+* @memberof NftTransfer
      */
     NftTransfer.constructFromObject = function(data, obj) {
         if (data) {
@@ -80,35 +81,41 @@
 
     /**
      * @member {NftContract} contract
+* @memberof NftTransfer
      */
     NftTransfer.prototype.contract = undefined
 
     /**
      * 보낸 사람 EOA (20-byte)
      * @member {String} from
+* @memberof NftTransfer
      */
     NftTransfer.prototype.from = undefined
 
     /**
      * 받은 사람 EOA (20-byte)
      * @member {String} to
+* @memberof NftTransfer
      */
     NftTransfer.prototype.to = undefined
 
     /**
      * @member {Transaction} transaction
+* @memberof NftTransfer
      */
     NftTransfer.prototype.transaction = undefined
 
     /**
      * 거래내역 유형
      * @member {String} transferType
+* @memberof NftTransfer
      */
     NftTransfer.prototype.transferType = undefined
 
     /**
      * 토큰 식별자 (16진수)
      * @member {String} tokenId
+* @memberof NftTransfer
      */
     NftTransfer.prototype.tokenId = undefined
 

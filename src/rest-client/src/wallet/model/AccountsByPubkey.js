@@ -30,7 +30,7 @@
 })(this, function(ApiClient, AccountByPubkey) {
     /**
      * The AccountsByPubkey model module.
-     * @module AccountsByPubkey
+     * @class AccountsByPubkey
      * @version 1.0
      */
 
@@ -48,6 +48,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {AccountsByPubkey} obj Optional instance to populate.
      * @return {AccountsByPubkey} The populated <code>AccountsByPubkey</code> instance.
+* @memberof AccountsByPubkey
      */
     AccountsByPubkey.constructFromObject = function(data, obj) {
         if (data) {
@@ -59,6 +60,7 @@
 
     /**
      * @member {Array.<AccountByPubkey>} items
+* @memberof AccountsByPubkey
      */
     AccountsByPubkey.prototype.items = undefined
 

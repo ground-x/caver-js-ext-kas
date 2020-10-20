@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The FtContract model module.
-     * @module FtContract
+     * @class FtContract
      * @version 0.7.0
      */
 
@@ -58,6 +58,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {FtContract} obj Optional instance to populate.
      * @return {FtContract} The populated <code>FtContract</code> instance.
+* @memberof FtContract
      */
     FtContract.constructFromObject = function(data, obj) {
         if (data) {
@@ -74,30 +75,35 @@
     /**
      * 컨트랙트 주소 (20-byte)
      * @member {String} address
+* @memberof FtContract
      */
     FtContract.prototype.address = undefined
 
     /**
      * 토큰 자릿수
      * @member {Number} decimals
+* @memberof FtContract
      */
     FtContract.prototype.decimals = undefined
 
     /**
      * 토큰 이름
      * @member {String} name
+* @memberof FtContract
      */
     FtContract.prototype.name = undefined
 
     /**
      * 토큰 심볼
      * @member {String} symbol
+* @memberof FtContract
      */
     FtContract.prototype.symbol = undefined
 
     /**
      * 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
      * @member {String} status
+* @memberof FtContract
      */
     FtContract.prototype.status = undefined
 

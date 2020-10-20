@@ -23,6 +23,10 @@ const AccessOptions = require('./accessOptions')
 const DEFAULT_CHAIN_ID = 1001 // BAOBAB
 
 /**
+ * The util module
+ * @module Helper
+ */
+/**
  * Create an instance of ApiClient and AccessOptions.
  *
  * @param {string} path The target url of KAS to use.

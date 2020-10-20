@@ -30,7 +30,7 @@
 })(this, function(ApiClient, TransferItem) {
     /**
      * The Transfers model module.
-     * @module Transfers
+     * @class Transfers
      * @version 0.7.0
      */
 
@@ -50,6 +50,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {Transfers} obj Optional instance to populate.
      * @return {Transfers} The populated <code>Transfers</code> instance.
+* @memberof Transfers
      */
     Transfers.constructFromObject = function(data, obj) {
         if (data) {
@@ -61,6 +62,7 @@
 
     /**
      * @member {Array.<TransferItem>} items
+* @memberof Transfers
      */
     Transfers.prototype.items = undefined
 

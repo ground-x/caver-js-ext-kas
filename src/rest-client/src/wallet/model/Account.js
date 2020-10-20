@@ -30,7 +30,7 @@
 })(this, function(ApiClient, MultisigKey) {
     /**
      * The Account model module.
-     * @module Account
+     * @class Account
      * @version 1.0
      */
 
@@ -63,6 +63,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {Account} obj Optional instance to populate.
      * @return {Account} The populated <code>Account</code> instance.
+* @memberof Account
      */
     Account.constructFromObject = function(data, obj) {
         if (data) {
@@ -83,53 +84,62 @@
     /**
      * 클레이튼 계정주소
      * @member {String} address
+* @memberof Account
      */
     Account.prototype.address = undefined
 
     /**
      * 클레이튼 체인 ID
      * @member {Number} chainId
+* @memberof Account
      */
     Account.prototype.chainId = undefined
 
     /**
      * 클레이튼 계정 생성 시간
      * @member {Number} createdAt
+* @memberof Account
      */
     Account.prototype.createdAt = undefined
 
     /**
      * 해당 계정의 개인키 ID
      * @member {String} keyId
+* @memberof Account
      */
     Account.prototype.keyId = undefined
 
     /**
      * KAS KRN
      * @member {String} krn
+* @memberof Account
      */
     Account.prototype.krn = undefined
 
     /**
      * 해당 계정의 공개키
      * @member {String} publicKey
+* @memberof Account
      */
     Account.prototype.publicKey = undefined
 
     /**
      * 해당 계정 정보를 마지막으로 업데이트한 시간
      * @member {Number} updatedAt
+* @memberof Account
      */
     Account.prototype.updatedAt = undefined
 
     /**
      * @member {Array.<MultisigKey>} multiSigKeys
+* @memberof Account
      */
     Account.prototype.multiSigKeys = undefined
 
     /**
      * 다중 서명 트랜잭션을 생성하는 데 필요한 가중치 합계 기준값.
      * @member {Number} threshold
+* @memberof Account
      */
     Account.prototype.threshold = undefined
 

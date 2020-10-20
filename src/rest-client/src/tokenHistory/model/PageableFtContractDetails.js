@@ -30,7 +30,7 @@
 })(this, function(ApiClient, FtContractDetail) {
     /**
      * The PageableFtContractDetails model module.
-     * @module PageableFtContractDetails
+     * @class PageableFtContractDetails
      * @version 0.7.0
      */
 
@@ -52,6 +52,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {PageableFtContractDetails} obj Optional instance to populate.
      * @return {PageableFtContractDetails} The populated <code>PageableFtContractDetails</code> instance.
+* @memberof PageableFtContractDetails
      */
     PageableFtContractDetails.constructFromObject = function(data, obj) {
         if (data) {
@@ -64,12 +65,14 @@
 
     /**
      * @member {Array.<FtContractDetail>} items
+* @memberof PageableFtContractDetails
      */
     PageableFtContractDetails.prototype.items = undefined
 
     /**
      * 다음 페이지 커서
      * @member {String} cursor
+* @memberof PageableFtContractDetails
      */
     PageableFtContractDetails.prototype.cursor = undefined
 

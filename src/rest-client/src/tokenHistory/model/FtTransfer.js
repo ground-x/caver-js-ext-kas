@@ -34,7 +34,7 @@
 })(this, function(ApiClient, FtContract, Transaction) {
     /**
      * The FtTransfer model module.
-     * @module FtTransfer
+     * @class FtTransfer
      * @version 0.7.0
      */
 
@@ -66,6 +66,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {FtTransfer} obj Optional instance to populate.
      * @return {FtTransfer} The populated <code>FtTransfer</code> instance.
+* @memberof FtTransfer
      */
     FtTransfer.constructFromObject = function(data, obj) {
         if (data) {
@@ -83,41 +84,48 @@
 
     /**
      * @member {FtContract} contract
+* @memberof FtTransfer
      */
     FtTransfer.prototype.contract = undefined
 
     /**
      * decimal을 적용한 변환값
      * @member {String} formattedValue
+* @memberof FtTransfer
      */
     FtTransfer.prototype.formattedValue = undefined
 
     /**
      * 보낸 사람 EOA (20-byte)
      * @member {String} from
+* @memberof FtTransfer
      */
     FtTransfer.prototype.from = undefined
 
     /**
      * 받은 사람 EOA (20-byte)
      * @member {String} to
+* @memberof FtTransfer
      */
     FtTransfer.prototype.to = undefined
 
     /**
      * @member {Transaction} transaction
+* @memberof FtTransfer
      */
     FtTransfer.prototype.transaction = undefined
 
     /**
      * 거래내역 유형
      * @member {String} transferType
+* @memberof FtTransfer
      */
     FtTransfer.prototype.transferType = undefined
 
     /**
      * 전송한 토큰 개수 (16진수)
      * @member {String} value
+* @memberof FtTransfer
      */
     FtTransfer.prototype.value = undefined
 

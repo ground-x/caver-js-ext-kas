@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The FDCancelTransactionRequest model module.
-     * @module FDCancelTransactionRequest
+     * @class FDCancelTransactionRequest
      * @version 1.0
      */
 
@@ -51,6 +51,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {FDCancelTransactionRequest} obj Optional instance to populate.
      * @return {FDCancelTransactionRequest} The populated <code>FDCancelTransactionRequest</code> instance.
+* @memberof FDCancelTransactionRequest
      */
     FDCancelTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -68,24 +69,28 @@
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
      * @member {String} from
+* @memberof FDCancelTransactionRequest
      */
     FDCancelTransactionRequest.prototype.from = undefined
 
     /**
      * 트랜잭션의 해시값
      * @member {String} transactionHash
+* @memberof FDCancelTransactionRequest
      */
     FDCancelTransactionRequest.prototype.transactionHash = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
      * @member {Number} nonce
+* @memberof FDCancelTransactionRequest
      */
     FDCancelTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
      * @member {Number} gas
+* @memberof FDCancelTransactionRequest
      * @default 100000
      */
     FDCancelTransactionRequest.prototype.gas = 100000
@@ -93,12 +98,14 @@
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
      * @member {Boolean} submit
+* @memberof FDCancelTransactionRequest
      */
     FDCancelTransactionRequest.prototype.submit = undefined
 
     /**
      * 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율
      * @member {Number} feeRatio
+* @memberof FDCancelTransactionRequest
      */
     FDCancelTransactionRequest.prototype.feeRatio = undefined
 

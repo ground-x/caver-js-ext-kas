@@ -30,7 +30,7 @@
 })(this, function(ApiClient) {
     /**
      * The AnchorTransaction model module.
-     * @module AnchorTransaction
+     * @class AnchorTransaction
      * @version 1.0
      */
 
@@ -55,6 +55,7 @@
      * @param {Object} data The plain JavaScript object bearing properties of interest.
      * @param {AnchorTransaction} obj Optional instance to populate.
      * @return {AnchorTransaction} The populated <code>AnchorTransaction</code> instance.
+* @memberof AnchorTransaction
      */
     AnchorTransaction.constructFromObject = function(data, obj) {
         if (data) {
@@ -69,18 +70,21 @@
     /**
      * 앵커링 트랜잭션 생성 시간
      * @member {Number} createdAt
+* @memberof AnchorTransaction
      */
     AnchorTransaction.prototype.createdAt = undefined
 
     /**
      * 페이로드 ID
      * @member {String} payloadId
+* @memberof AnchorTransaction
      */
     AnchorTransaction.prototype.payloadId = undefined
 
     /**
      * 앵커링 트랜잭션의 트랜잭션 해시
      * @member {String} transactionHash
+* @memberof AnchorTransaction
      */
     AnchorTransaction.prototype.transactionHash = undefined
 
