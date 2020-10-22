@@ -64,13 +64,13 @@
 
     /**
      * 마지막 검색 위치를 나타내는 커서 정보
-     * @member {String} cursor
+     * @type {String}
      * @memberof Operators
      */
     Operators.prototype.cursor = undefined
 
     /**
-     * @member {Array.<Operator>} items
+     * @type {Array.<Operator>}
      * @memberof Operators
      */
     Operators.prototype.items = undefined

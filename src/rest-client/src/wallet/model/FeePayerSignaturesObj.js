@@ -60,19 +60,19 @@
     }
 
     /**
-     * @member {String} R
+     * @type {String}
      * @memberof FeePayerSignaturesObj
      */
     FeePayerSignaturesObj.prototype.R = undefined
 
     /**
-     * @member {String} S
+     * @type {String}
      * @memberof FeePayerSignaturesObj
      */
     FeePayerSignaturesObj.prototype.S = undefined
 
     /**
-     * @member {String} V
+     * @type {String}
      * @memberof FeePayerSignaturesObj
      */
     FeePayerSignaturesObj.prototype.V = undefined

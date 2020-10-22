@@ -64,14 +64,14 @@
     }
 
     /**
-     * @member {Array.<NftContractDetail>} items
+     * @type {Array.<NftContractDetail>}
      * @memberof PageableNftContractDetails
      */
     PageableNftContractDetails.prototype.items = undefined
 
     /**
      * 다음 페이지 커서
-     * @member {String} cursor
+     * @type {String}
      * @memberof PageableNftContractDetails
      */
     PageableNftContractDetails.prototype.cursor = undefined

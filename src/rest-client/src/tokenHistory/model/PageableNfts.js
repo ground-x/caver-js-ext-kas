@@ -64,14 +64,14 @@
     }
 
     /**
-     * @member {Array.<Nft>} items
+     * @type {Array.<Nft>}
      * @memberof PageableNfts
      */
     PageableNfts.prototype.items = undefined
 
     /**
      * 다음 페이지 커서
-     * @member {String} cursor
+     * @type {String}
      * @memberof PageableNfts
      */
     PageableNfts.prototype.cursor = undefined

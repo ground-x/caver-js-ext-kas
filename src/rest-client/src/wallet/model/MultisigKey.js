@@ -66,14 +66,14 @@
 
     /**
      * 클레이튼 계정의 공개키
-     * @member {String} publicKey
+     * @type {String}
      * @memberof MultisigKey
      */
     MultisigKey.prototype.publicKey = undefined
 
     /**
      * 해당 공개키의 가중치
-     * @member {Number} weight
+     * @type {Number}
      * @memberof MultisigKey
      */
     MultisigKey.prototype.weight = undefined

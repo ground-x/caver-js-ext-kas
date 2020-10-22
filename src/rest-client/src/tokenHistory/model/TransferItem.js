@@ -89,96 +89,96 @@
 
     /**
      * 수수료 대납 계정 주소 (20-byte)
-     * @member {String} feePayer
+     * @type {String}
      * @memberof TransferItem
      */
     TransferItem.prototype.feePayer = undefined
 
     /**
      * 수수료 대납 비율
-     * @member {Number} feeRatio
+     * @type {Number}
      * @memberof TransferItem
      */
     TransferItem.prototype.feeRatio = undefined
 
     /**
      * 가스비
-     * @member {String} fee
+     * @type {String}
      * @memberof TransferItem
      */
     TransferItem.prototype.fee = undefined
 
     /**
      * 보낸 사람 EOA (20-byte)
-     * @member {String} from
+     * @type {String}
      * @memberof TransferItem
      */
     TransferItem.prototype.from = undefined
 
     /**
      * 받은 사람 EOA (20-byte)
-     * @member {String} to
+     * @type {String}
      * @memberof TransferItem
      */
     TransferItem.prototype.to = undefined
 
     /**
      * 트랜잭션 해시
-     * @member {String} transactionHash
+     * @type {String}
      * @memberof TransferItem
      */
     TransferItem.prototype.transactionHash = undefined
 
     /**
      * 트랜잭션 인덱스
-     * @member {Number} transactionIndex
+     * @type {Number}
      * @memberof TransferItem
      */
     TransferItem.prototype.transactionIndex = undefined
 
     /**
      * 거래내역 유형
-     * @member {String} transferType
+     * @type {String}
      * @memberof TransferItem
      */
     TransferItem.prototype.transferType = undefined
 
     /**
      * 트랜잭션 유형
-     * @member {Number} typeInt
+     * @type {Number}
      * @memberof TransferItem
      */
     TransferItem.prototype.typeInt = undefined
 
     /**
      * KLAY 전송량 (16진수)
-     * @member {String} value
+     * @type {String}
      * @memberof TransferItem
      */
     TransferItem.prototype.value = undefined
 
     /**
-     * @member {FtContract} contract
+     * @type {FtContract}
      * @memberof TransferItem
      */
     TransferItem.prototype.contract = undefined
 
     /**
      * decimal을 적용한 변환값
-     * @member {String} formattedValue
+     * @type {String}
      * @memberof TransferItem
      */
     TransferItem.prototype.formattedValue = undefined
 
     /**
-     * @member {Transaction} transaction
+     * @type {Transaction}
      * @memberof TransferItem
      */
     TransferItem.prototype.transaction = undefined
 
     /**
      * 토큰 식별자 (16진수)
-     * @member {String} tokenId
+     * @type {String}kenId
      * @memberof TransferItem
      */
     TransferItem.prototype.tokenId = undefined

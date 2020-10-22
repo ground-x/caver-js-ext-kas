@@ -76,41 +76,41 @@
 
     /**
      * 클레이튼 계정주소
-     * @member {String} address
+     * @type {String}
      * @memberof MultisigAccount
      */
     MultisigAccount.prototype.address = undefined
 
     /**
      * KAS KRN
-     * @member {String} krn
+     * @type {String}
      * @memberof MultisigAccount
      */
     MultisigAccount.prototype.krn = undefined
 
     /**
-     * @member {Array.<MultisigKey>} multiSigKeys
+     * @type {Array.<MultisigKey>}
      * @memberof MultisigAccount
      */
     MultisigAccount.prototype.multiSigKeys = undefined
 
     /**
      * 다중 서명 트랜잭션을 생성하는 데 필요한 가중치 합계 기준값.
-     * @member {Number} threshold
+     * @type {Number}
      * @memberof MultisigAccount
      */
     MultisigAccount.prototype.threshold = undefined
 
     /**
      * 계정 정보를 업데이트하는 트랜잭션의 해시
-     * @member {String} transactionHash
+     * @type {String}
      * @memberof MultisigAccount
      */
     MultisigAccount.prototype.transactionHash = undefined
 
     /**
      * 해당 계정 정보를 마지막으로 업데이트한 시간
-     * @member {Number} updatedAt
+     * @type {Number}
      * @memberof MultisigAccount
      */
     MultisigAccount.prototype.updatedAt = undefined

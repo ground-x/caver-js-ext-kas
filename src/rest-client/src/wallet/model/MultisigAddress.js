@@ -66,14 +66,14 @@
 
     /**
      * Multisig 연관 계정 주소
-     * @member {String} address
+     * @type {String}
      * @memberof MultisigAddress
      */
     MultisigAddress.prototype.address = undefined
 
     /**
      * Multisig 연관 계정의 가중치
-     * @member {Number} weight
+     * @type {Number}
      * @memberof MultisigAddress
      */
     MultisigAddress.prototype.weight = undefined

@@ -64,14 +64,14 @@
     }
 
     /**
-     * @member {Array.<TransferItem>} items
+     * @type {Array.<TransferItem>}
      * @memberof PageableTransfers
      */
     PageableTransfers.prototype.items = undefined
 
     /**
      * 다음 페이지 커서
-     * @member {String} cursor
+     * @type {String}
      * @memberof PageableTransfers
      */
     PageableTransfers.prototype.cursor = undefined

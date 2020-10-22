@@ -59,7 +59,7 @@
     }
 
     /**
-     * @member {Array.<AccountByPubkey>} items
+     * @type {Array.<AccountByPubkey>}
      * @memberof AccountsByPubkey
      */
     AccountsByPubkey.prototype.items = undefined

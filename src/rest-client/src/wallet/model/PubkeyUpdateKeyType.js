@@ -61,14 +61,14 @@
 
     /**
      * 계정키의 타입
-     * @member {Number} keyType
+     * @type {Number}
      * @memberof PubkeyUpdateKeyType
      */
     PubkeyUpdateKeyType.prototype.keyType = undefined
 
     /**
      * 계정의 공개키
-     * @member {String} key
+     * @type {String}
      * @memberof PubkeyUpdateKeyType
      */
     PubkeyUpdateKeyType.prototype.key = undefined

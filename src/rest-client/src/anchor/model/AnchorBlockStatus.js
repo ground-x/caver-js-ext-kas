@@ -63,7 +63,7 @@
 
     /**
      * 앵커링 성공 여부
-     * @member {String} status
+     * @type {String}
      * @memberof AnchorBlockStatus
      */
     AnchorBlockStatus.prototype.status = undefined

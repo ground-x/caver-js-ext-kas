@@ -61,13 +61,13 @@
 
     /**
      * 계정키의 타입
-     * @member {Number} keyType
+     * @type {Number}
      * @memberof MultisigUpdateKeyType
      */
     MultisigUpdateKeyType.prototype.keyType = undefined
 
     /**
-     * @member {MultisigUpdateKey} key
+     * @type {MultisigUpdateKey}
      * @memberof MultisigUpdateKeyType
      */
     MultisigUpdateKeyType.prototype.key = undefined

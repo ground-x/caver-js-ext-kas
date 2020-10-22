@@ -69,21 +69,21 @@
 
     /**
      * 앵커링 트랜잭션 생성 시간
-     * @member {Number} createdAt
+     * @type {Number}
      * @memberof AnchorTransaction
      */
     AnchorTransaction.prototype.createdAt = undefined
 
     /**
      * 페이로드 ID
-     * @member {String} payloadId
+     * @type {String}
      * @memberof AnchorTransaction
      */
     AnchorTransaction.prototype.payloadId = undefined
 
     /**
      * 앵커링 트랜잭션의 트랜잭션 해시
-     * @member {String} transactionHash
+     * @type {String}
      * @memberof AnchorTransaction
      */
     AnchorTransaction.prototype.transactionHash = undefined

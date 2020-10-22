@@ -65,14 +65,14 @@
 
     /**
      * 컨트랙트 대표 웹사이트 URL
-     * @member {String} website
+     * @type {String}
      * @memberof FtLink
      */
     FtLink.prototype.website = undefined
 
     /**
      * 토큰 아이콘 URL
-     * @member {String} icon
+     * @type {String}
      * @memberof FtLink
      */
     FtLink.prototype.icon = undefined

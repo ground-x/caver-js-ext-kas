@@ -92,76 +92,76 @@
 
     /**
      * 컨트랙트 주소 (20-byte)
-     * @member {String} address
+     * @type {String}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.address = undefined
 
     /**
      * 토큰 자릿수
-     * @member {Number} decimals
+     * @type {Number}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.decimals = undefined
 
     /**
      * 토큰 이름
-     * @member {String} name
+     * @type {String}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.name = undefined
 
     /**
      * 토큰 심볼
-     * @member {String} symbol
+     * @type {String}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.symbol = undefined
 
     /**
      * 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
-     * @member {String} status
+     * @type {String}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.status = undefined
 
     /**
      * 총 발행량 (16진수로 표기)
-     * @member {String} totalSupply
+     * @type {String}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.totalSupply = undefined
 
     /**
      * 라벨링된 시점 (timestamp)
-     * @member {Number} createdAt
+     * @type {Number}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.createdAt = undefined
 
     /**
      * 라벨링 정보가 마지막으로 변경된 시점 (timestamp)
-     * @member {Number} updatedAt
+     * @type {Number}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.updatedAt = undefined
 
     /**
      * 라벨링이 삭제된 시점 (timestamp); 삭제되지 않았을 경우 0
-     * @member {Number} deletedAt
+     * @type {Number}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.deletedAt = undefined
 
     /**
-     * @member {FtLink} link
+     * @type {FtLink}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.link = undefined
 
     /**
      * 컨트랙트 유형 (KIP-7, KIP-17, ERC-20, ERC-721)
-     * @member {String} type
+     * @type {String}
      * @memberof FtContractDetail
      */
     FtContractDetail.prototype.type = undefined

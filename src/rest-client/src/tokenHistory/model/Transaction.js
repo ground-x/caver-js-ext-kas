@@ -83,56 +83,56 @@
 
     /**
      * 수수료 대납 계정 주소 (20-byte)
-     * @member {String} feePayer
+     * @type {String}
      * @memberof Transaction
      */
     Transaction.prototype.feePayer = undefined
 
     /**
      * 수수료 대납 비율
-     * @member {Number} feeRatio
+     * @type {Number}
      * @memberof Transaction
      */
     Transaction.prototype.feeRatio = undefined
 
     /**
      * 가스비
-     * @member {String} fee
+     * @type {String}
      * @memberof Transaction
      */
     Transaction.prototype.fee = undefined
 
     /**
      * 트랜잭션을 전송한 사람의 EOA (20-byte)
-     * @member {String} from
+     * @type {String}
      * @memberof Transaction
      */
     Transaction.prototype.from = undefined
 
     /**
      * 트랜잭션 발생 시간 (timestamp)
-     * @member {Number} timestamp
+     * @type {Number}
      * @memberof Transaction
      */
     Transaction.prototype.timestamp = undefined
 
     /**
      * 트랜잭션 해시 (32-byte)
-     * @member {String} transactionHash
+     * @type {String}
      * @memberof Transaction
      */
     Transaction.prototype.transactionHash = undefined
 
     /**
      * 트랜잭션 유형
-     * @member {Number} typeInt
+     * @type {Number}
      * @memberof Transaction
      */
     Transaction.prototype.typeInt = undefined
 
     /**
      * KLAY 전송량 (16진수)
-     * @member {String} value
+     * @type {String}
      * @memberof Transaction
      */
     Transaction.prototype.value = undefined

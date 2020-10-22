@@ -59,13 +59,13 @@
     }
 
     /**
-     * @member {Number} code
+     * @type {Number}
      * @memberof InvalidQueryParameterValue
      */
     InvalidQueryParameterValue.prototype.code = undefined
 
     /**
-     * @member {String} message
+     * @type {String}
      * @memberof InvalidQueryParameterValue
      */
     InvalidQueryParameterValue.prototype.message = undefined

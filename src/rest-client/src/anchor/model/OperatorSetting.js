@@ -66,14 +66,14 @@
 
     /**
      * 글로벌 대납 계정 사용 여부
-     * @member {Boolean} useGlobalFeePayer
+     * @type {Boolean}
      * @memberof OperatorSetting
      */
     OperatorSetting.prototype.useGlobalFeePayer = undefined
 
     /**
      * 오퍼레이터 결제 사용 여부
-     * @member {Boolean} useOperator
+     * @type {Boolean}
      * @memberof OperatorSetting
      */
     OperatorSetting.prototype.useOperator = undefined

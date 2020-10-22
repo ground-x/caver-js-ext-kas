@@ -61,7 +61,7 @@
     }
 
     /**
-     * @member {Array.<TransferItem>} items
+     * @type {Array.<TransferItem>}
      * @memberof Transfers
      */
     Transfers.prototype.items = undefined

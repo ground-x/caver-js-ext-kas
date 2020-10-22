@@ -61,13 +61,13 @@
 
     /**
      * 계정키의 타입
-     * @member {Number} keyType
+     * @type {Number}
      * @memberof RoleBasedUpdateKeyType
      */
     RoleBasedUpdateKeyType.prototype.keyType = undefined
 
     /**
-     * @member {Array.<Object>} key
+     * @type {Array.<Object>}
      * @memberof RoleBasedUpdateKeyType
      */
     RoleBasedUpdateKeyType.prototype.key = undefined

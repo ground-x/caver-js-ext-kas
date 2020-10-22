@@ -69,28 +69,28 @@
 
     /**
      * 컨트랙트 주소 (20-byte)
-     * @member {String} address
+     * @type {String}
      * @memberof NftContract
      */
     NftContract.prototype.address = undefined
 
     /**
      * 토큰 이름
-     * @member {String} name
+     * @type {String}
      * @memberof NftContract
      */
     NftContract.prototype.name = undefined
 
     /**
      * 토큰 심볼
-     * @member {String} symbol
+     * @type {String}
      * @memberof NftContract
      */
     NftContract.prototype.symbol = undefined
 
     /**
      * 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
-     * @member {String} status
+     * @type {String}
      * @memberof NftContract
      */
     NftContract.prototype.status = undefined

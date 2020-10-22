@@ -68,21 +68,21 @@
 
     /**
      * 보낸 사람 (직전 소유자) EOA (20-byte)
-     * @member {String} from
+     * @type {String}
      * @memberof NftOwnershipChange
      */
     NftOwnershipChange.prototype.from = undefined
 
     /**
      * 받은 사람 (이 시점의 소유자) EOA (20-byte)
-     * @member {String} to
+     * @type {String}
      * @memberof NftOwnershipChange
      */
     NftOwnershipChange.prototype.to = undefined
 
     /**
      * NFT 소유권이 변경된 시점 (timestamp)
-     * @member {Number} timestamp
+     * @type {Number}
      * @memberof NftOwnershipChange
      */
     NftOwnershipChange.prototype.timestamp = undefined

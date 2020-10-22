@@ -69,21 +69,21 @@
 
     /**
      * KAS 계정 ID
-     * @member {String} accountId
+     * @type {String}
      * @memberof AccountCountByKRN
      */
     AccountCountByKRN.prototype.accountId = undefined
 
     /**
      * 특정 계정 저장소 내에 클레이튼 계정 보유 갯수
-     * @member {Number} count
+     * @type {Number}
      * @memberof AccountCountByKRN
      */
     AccountCountByKRN.prototype.count = undefined
 
     /**
      * KAS KRN(계정 저장소 이름)
-     * @member {String} krn
+     * @type {String}
      * @memberof AccountCountByKRN
      */
     AccountCountByKRN.prototype.krn = undefined

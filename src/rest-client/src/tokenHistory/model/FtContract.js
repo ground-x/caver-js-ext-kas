@@ -74,35 +74,35 @@
 
     /**
      * 컨트랙트 주소 (20-byte)
-     * @member {String} address
+     * @type {String}
      * @memberof FtContract
      */
     FtContract.prototype.address = undefined
 
     /**
      * 토큰 자릿수
-     * @member {Number} decimals
+     * @type {Number}
      * @memberof FtContract
      */
     FtContract.prototype.decimals = undefined
 
     /**
      * 토큰 이름
-     * @member {String} name
+     * @type {String}
      * @memberof FtContract
      */
     FtContract.prototype.name = undefined
 
     /**
      * 토큰 심볼
-     * @member {String} symbol
+     * @type {String}
      * @memberof FtContract
      */
     FtContract.prototype.symbol = undefined
 
     /**
      * 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
-     * @member {String} status
+     * @type {String}
      * @memberof FtContract
      */
     FtContract.prototype.status = undefined

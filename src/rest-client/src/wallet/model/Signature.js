@@ -69,21 +69,21 @@
 
     /**
      * ECDSA 서명 정보
-     * @member {String} R
+     * @type {String}
      * @memberof Signature
      */
     Signature.prototype.R = undefined
 
     /**
      * ECDSA 서명 정보
-     * @member {String} S
+     * @type {String}
      * @memberof Signature
      */
     Signature.prototype.S = undefined
 
     /**
      * 공개키 복원 정보
-     * @member {String} V
+     * @type {String}
      * @memberof Signature
      */
     Signature.prototype.V = undefined

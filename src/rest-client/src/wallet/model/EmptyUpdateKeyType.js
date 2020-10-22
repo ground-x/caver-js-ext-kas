@@ -60,7 +60,7 @@
 
     /**
      * 계정키의 타입
-     * @member {Number} keyType
+     * @type {Number}
      * @memberof EmptyUpdateKeyType
      */
     EmptyUpdateKeyType.prototype.keyType = undefined

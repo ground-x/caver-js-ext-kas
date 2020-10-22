@@ -63,7 +63,7 @@
 
     /**
      * 삭제된 계정인지 여부
-     * @member {String} status
+     * @type {String}
      * @memberof AccountStatus
      */
     AccountStatus.prototype.status = undefined

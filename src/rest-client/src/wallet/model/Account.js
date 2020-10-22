@@ -83,62 +83,62 @@
 
     /**
      * 클레이튼 계정주소
-     * @member {String} address
+     * @type {String}
      * @memberof Account
      */
     Account.prototype.address = undefined
 
     /**
      * 클레이튼 체인 ID
-     * @member {Number} chainId
+     * @type {Number}
      * @memberof Account
      */
     Account.prototype.chainId = undefined
 
     /**
      * 클레이튼 계정 생성 시간
-     * @member {Number} createdAt
+     * @type {Number}
      * @memberof Account
      */
     Account.prototype.createdAt = undefined
 
     /**
      * 해당 계정의 개인키 ID
-     * @member {String} keyId
+     * @type {String}
      * @memberof Account
      */
     Account.prototype.keyId = undefined
 
     /**
      * KAS KRN
-     * @member {String} krn
+     * @type {String}
      * @memberof Account
      */
     Account.prototype.krn = undefined
 
     /**
      * 해당 계정의 공개키
-     * @member {String} publicKey
+     * @type {String}
      * @memberof Account
      */
     Account.prototype.publicKey = undefined
 
     /**
      * 해당 계정 정보를 마지막으로 업데이트한 시간
-     * @member {Number} updatedAt
+     * @type {Number}
      * @memberof Account
      */
     Account.prototype.updatedAt = undefined
 
     /**
-     * @member {Array.<MultisigKey>} multiSigKeys
+     * @type {Array.<MultisigKey>}
      * @memberof Account
      */
     Account.prototype.multiSigKeys = undefined
 
     /**
      * 다중 서명 트랜잭션을 생성하는 데 필요한 가중치 합계 기준값.
-     * @member {Number} threshold
+     * @type {Number}
      * @memberof Account
      */
     Account.prototype.threshold = undefined

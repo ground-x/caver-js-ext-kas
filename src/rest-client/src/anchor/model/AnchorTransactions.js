@@ -64,13 +64,13 @@
 
     /**
      * 마지막 검색 위치를 나타내는 커서 정보
-     * @member {String} cursor
+     * @type {String}
      * @memberof AnchorTransactions
      */
     AnchorTransactions.prototype.cursor = undefined
 
     /**
-     * @member {Array.<AnchorTransaction>} items
+     * @type {Array.<AnchorTransaction>}
      * @memberof AnchorTransactions
      */
     AnchorTransactions.prototype.items = undefined

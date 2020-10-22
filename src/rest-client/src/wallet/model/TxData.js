@@ -64,43 +64,43 @@
     }
 
     /**
-     * @member {String} from
+     * @type {String}
      * @memberof TxData
      */
     TxData.prototype.from = undefined
 
     /**
-     * @member {Number} gas
+     * @type {Number}
      * @memberof TxData
      */
     TxData.prototype.gas = undefined
 
     /**
-     * @member {String} gasPrice
+     * @type {String}Price
      * @memberof TxData
      */
     TxData.prototype.gasPrice = undefined
 
     /**
-     * @member {String} input
+     * @type {String}
      * @memberof TxData
      */
     TxData.prototype.input = undefined
 
     /**
-     * @member {String} to
+     * @type {String}
      * @memberof TxData
      */
     TxData.prototype.to = undefined
 
     /**
-     * @member {Number} typeInt
+     * @type {Number}
      * @memberof TxData
      */
     TxData.prototype.typeInt = undefined
 
     /**
-     * @member {String} value
+     * @type {String}
      * @memberof TxData
      */
     TxData.prototype.value = undefined

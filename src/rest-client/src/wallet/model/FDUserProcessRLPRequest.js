@@ -68,28 +68,28 @@
 
     /**
      * RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받으며, (partial) fee delegation 트랜잭션 타입만 허용함.
-     * @member {String} rlp
+     * @type {String}
      * @memberof FDUserProcessRLPRequest
      */
     FDUserProcessRLPRequest.prototype.rlp = undefined
 
     /**
      * 유저 트랜잭션 수수료를 대납할 계정 주소
-     * @member {String} feePayer
+     * @type {String}
      * @memberof FDUserProcessRLPRequest
      */
     FDUserProcessRLPRequest.prototype.feePayer = undefined
 
     /**
      * 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율
-     * @member {Number} feeRatio
+     * @type {Number}
      * @memberof FDUserProcessRLPRequest
      */
     FDUserProcessRLPRequest.prototype.feeRatio = undefined
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
      * @memberof FDUserProcessRLPRequest
      */
     FDUserProcessRLPRequest.prototype.submit = undefined

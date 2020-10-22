@@ -66,14 +66,14 @@
 
     /**
      * 오퍼레이터 계정 주소
-     * @member {String} operator
+     * @type {String}
      * @memberof AnchorBlockRequest
      */
     AnchorBlockRequest.prototype.operator = undefined
 
     /**
      * 앵커 데이터. ID 를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
-     * @member {Object.<String, Object>} payload
+     * @type {Object.<String, Object>}
      * @memberof AnchorBlockRequest
      */
     AnchorBlockRequest.prototype.payload = undefined

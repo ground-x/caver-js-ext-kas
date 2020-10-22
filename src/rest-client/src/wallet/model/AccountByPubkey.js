@@ -66,14 +66,14 @@
 
     /**
      * 클레이튼 계정주소
-     * @member {String} address
+     * @type {String}
      * @memberof AccountByPubkey
      */
     AccountByPubkey.prototype.address = undefined
 
     /**
      * 클레이튼 체인 ID
-     * @member {Number} chainId
+     * @type {Number}
      * @memberof AccountByPubkey
      */
     AccountByPubkey.prototype.chainId = undefined

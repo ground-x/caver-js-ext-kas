@@ -65,20 +65,20 @@
 
     /**
      * RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받으며, Legacy 트랜잭션과 Basic 트랜잭션 타입만 허용함.
-     * @member {String} rlp
+     * @type {String}
      * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.prototype.rlp = undefined
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
      * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.prototype.submit = undefined
 
     /**
-     * @member {String} from
+     * @type {String}
      * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.prototype.from = undefined

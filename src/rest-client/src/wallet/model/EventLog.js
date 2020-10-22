@@ -62,7 +62,7 @@
     /**
      * Constructs a <code>EventLog</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {Object} The plain JavaScript object bearing properties of interest.
      * @param {EventLog} obj Optional instance to populate.
      * @return {EventLog} The populated <code>EventLog</code> instance.
      * @memberof EventLog
@@ -85,62 +85,62 @@
 
     /**
      * 클레이튼 계정주소
-     * @member {String} address
+     * @type {String}
      * @memberof EventLog
      */
     EventLog.prototype.address = undefined
 
     /**
      * 트랜잭션이 포함된 블록해시
-     * @member {String} blockHash
+     * @type {String}
      * @memberof EventLog
      */
     EventLog.prototype.blockHash = undefined
 
     /**
      * 트랜잭션이 포함된 블럭번호
-     * @member {String} blockNumber
+     * @type {String}
      * @memberof EventLog
      */
     EventLog.prototype.blockNumber = undefined
 
     /**
      * 트랜잭션 데이터
-     * @member {String} data
+     * @type {String}
      * @memberof EventLog
      */
     EventLog.prototype.data = undefined
 
     /**
      * 로그 인덱스
-     * @member {String} logIndex
+     * @type {String}
      * @memberof EventLog
      */
     EventLog.prototype.logIndex = undefined
 
     /**
      * 삭제 여부
-     * @member {Boolean} removed
+     * @type {Boolean}
      * @memberof EventLog
      */
     EventLog.prototype.removed = undefined
 
     /**
-     * @member {Array.<String>} topics
+     * @type {Array.<String>}
      * @memberof EventLog
      */
     EventLog.prototype.topics = undefined
 
     /**
      * 해당 트랜잭션에 대한 해시값
-     * @member {String} transactionHash
+     * @type {String}
      * @memberof EventLog
      */
     EventLog.prototype.transactionHash = undefined
 
     /**
      * 해당 트랜잭션에 대한 인덱스
-     * @member {String} transactionIndex
+     * @type {String}
      * @memberof EventLog
      */
     EventLog.prototype.transactionIndex = undefined

@@ -80,41 +80,41 @@
     }
 
     /**
-     * @member {NftContract} contract
+     * @type {NftContract}
      * @memberof NftTransfer
      */
     NftTransfer.prototype.contract = undefined
 
     /**
      * 보낸 사람 EOA (20-byte)
-     * @member {String} from
+     * @type {String}
      * @memberof NftTransfer
      */
     NftTransfer.prototype.from = undefined
 
     /**
      * 받은 사람 EOA (20-byte)
-     * @member {String} to
+     * @type {String}
      * @memberof NftTransfer
      */
     NftTransfer.prototype.to = undefined
 
     /**
-     * @member {Transaction} transaction
+     * @type {Transaction}
      * @memberof NftTransfer
      */
     NftTransfer.prototype.transaction = undefined
 
     /**
      * 거래내역 유형
-     * @member {String} transferType
+     * @type {String}
      * @memberof NftTransfer
      */
     NftTransfer.prototype.transferType = undefined
 
     /**
      * 토큰 식별자 (16진수)
-     * @member {String} tokenId
+     * @type {String}kenId
      * @memberof NftTransfer
      */
     NftTransfer.prototype.tokenId = undefined

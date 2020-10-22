@@ -83,48 +83,48 @@
     }
 
     /**
-     * @member {FtContract} contract
+     * @type {FtContract}
      * @memberof FtTransfer
      */
     FtTransfer.prototype.contract = undefined
 
     /**
      * decimal을 적용한 변환값
-     * @member {String} formattedValue
+     * @type {String}
      * @memberof FtTransfer
      */
     FtTransfer.prototype.formattedValue = undefined
 
     /**
      * 보낸 사람 EOA (20-byte)
-     * @member {String} from
+     * @type {String}
      * @memberof FtTransfer
      */
     FtTransfer.prototype.from = undefined
 
     /**
      * 받은 사람 EOA (20-byte)
-     * @member {String} to
+     * @type {String}
      * @memberof FtTransfer
      */
     FtTransfer.prototype.to = undefined
 
     /**
-     * @member {Transaction} transaction
+     * @type {Transaction}
      * @memberof FtTransfer
      */
     FtTransfer.prototype.transaction = undefined
 
     /**
      * 거래내역 유형
-     * @member {String} transferType
+     * @type {String}
      * @memberof FtTransfer
      */
     FtTransfer.prototype.transferType = undefined
 
     /**
      * 전송한 토큰 개수 (16진수)
-     * @member {String} value
+     * @type {String}
      * @memberof FtTransfer
      */
     FtTransfer.prototype.value = undefined

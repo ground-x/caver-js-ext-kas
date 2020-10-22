@@ -69,28 +69,28 @@
 
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
-     * @member {String} from
+     * @type {String}
      * @memberof AnchorTransactionRequest
      */
     AnchorTransactionRequest.prototype.from = undefined
 
     /**
      * 트랜잭션에 첨부되는 데이터로 여기에서는 메인 체인에 앵커링하려는 데이터
-     * @member {String} input
+     * @type {String}
      * @memberof AnchorTransactionRequest
      */
     AnchorTransactionRequest.prototype.input = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
-     * @member {Number} nonce
+     * @type {Number}
      * @memberof AnchorTransactionRequest
      */
     AnchorTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
-     * @member {Number} gas
+     * @type {Number}
      * @memberof AnchorTransactionRequest
      * @default 100000
      */
@@ -98,7 +98,7 @@
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
      * @memberof AnchorTransactionRequest
      */
     AnchorTransactionRequest.prototype.submit = undefined

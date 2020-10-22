@@ -64,14 +64,14 @@
     }
 
     /**
-     * @member {Array.<FtContractDetail>} items
+     * @type {Array.<FtContractDetail>}
      * @memberof PageableFtContractDetails
      */
     PageableFtContractDetails.prototype.items = undefined
 
     /**
      * 다음 페이지 커서
-     * @member {String} cursor
+     * @type {String}
      * @memberof PageableFtContractDetails
      */
     PageableFtContractDetails.prototype.cursor = undefined

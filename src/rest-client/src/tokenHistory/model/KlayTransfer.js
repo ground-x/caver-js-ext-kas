@@ -89,70 +89,70 @@
 
     /**
      * 수수료 대납 계정 주소 (20-byte)
-     * @member {String} feePayer
+     * @type {String}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.feePayer = undefined
 
     /**
      * 수수료 대납 비율
-     * @member {Number} feeRatio
+     * @type {Number}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.feeRatio = undefined
 
     /**
      * 가스비
-     * @member {String} fee
+     * @type {String}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.fee = undefined
 
     /**
      * 보낸 사람 EOA (20-byte)
-     * @member {String} from
+     * @type {String}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.from = undefined
 
     /**
      * 받은 사람 EOA (20-byte)
-     * @member {String} to
+     * @type {String}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.to = undefined
 
     /**
      * 트랜잭션 해시
-     * @member {String} transactionHash
+     * @type {String}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.transactionHash = undefined
 
     /**
      * 트랜잭션 인덱스
-     * @member {Number} transactionIndex
+     * @type {Number}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.transactionIndex = undefined
 
     /**
      * 거래내역 유형
-     * @member {String} transferType
+     * @type {String}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.transferType = undefined
 
     /**
      * 트랜잭션 유형
-     * @member {Number} typeInt
+     * @type {Number}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.typeInt = undefined
 
     /**
      * KLAY 전송량 (16진수)
-     * @member {String} value
+     * @type {String}
      * @memberof KlayTransfer
      */
     KlayTransfer.prototype.value = undefined

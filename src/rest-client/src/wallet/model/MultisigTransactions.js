@@ -64,13 +64,13 @@
 
     /**
      * 마지막으로 검색된 커서의 정보
-     * @member {String} cursor
+     * @type {String}
      * @memberof MultisigTransactions
      */
     MultisigTransactions.prototype.cursor = undefined
 
     /**
-     * @member {Array.<PendedTransaction>} items
+     * @type {Array.<PendedTransaction>}
      * @memberof MultisigTransactions
      */
     MultisigTransactions.prototype.items = undefined

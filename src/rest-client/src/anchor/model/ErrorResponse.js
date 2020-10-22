@@ -66,14 +66,14 @@
 
     /**
      * 서비스 코드(앞 3자리)와 에러 코드(뒤 4자리)
-     * @member {Number} code
+     * @type {Number}
      * @memberof ErrorResponse
      */
     ErrorResponse.prototype.code = undefined
 
     /**
      * 에러 메세지
-     * @member {String} message
+     * @type {String}
      * @memberof ErrorResponse
      */
     ErrorResponse.prototype.message = undefined

@@ -59,13 +59,13 @@
     }
 
     /**
-     * @member {Number} code
+     * @type {Number}
      * @memberof ErrorResponse
      */
     ErrorResponse.prototype.code = undefined
 
     /**
-     * @member {String} message
+     * @type {String}
      * @memberof ErrorResponse
      */
     ErrorResponse.prototype.message = undefined

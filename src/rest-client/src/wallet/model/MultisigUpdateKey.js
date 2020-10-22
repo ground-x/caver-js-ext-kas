@@ -60,13 +60,13 @@
 
     /**
      * 가중치 합계를 검증하는 기준치
-     * @member {Number} threshold
+     * @type {Number}
      * @memberof MultisigUpdateKey
      */
     MultisigUpdateKey.prototype.threshold = undefined
 
     /**
-     * @member {Array.<MultisigKey>} weightedKeys
+     * @type {Array.<MultisigKey>}
      * @memberof MultisigUpdateKey
      */
     MultisigUpdateKey.prototype.weightedKeys = undefined

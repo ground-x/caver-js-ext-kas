@@ -59,7 +59,7 @@
     }
 
     /**
-     * @member {Array.<Signature>} signatures
+     * @type {Array.<Signature>}
      * @memberof SignPendingTransactionBySigRequest
      */
     SignPendingTransactionBySigRequest.prototype.signatures = undefined

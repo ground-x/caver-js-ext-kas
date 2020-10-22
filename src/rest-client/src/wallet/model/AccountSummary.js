@@ -69,21 +69,21 @@
 
     /**
      * 클레이튼 계정주소
-     * @member {String} address
+     * @type {String}
      * @memberof AccountSummary
      */
     AccountSummary.prototype.address = undefined
 
     /**
      * KAS KRN
-     * @member {String} krn
+     * @type {String}
      * @memberof AccountSummary
      */
     AccountSummary.prototype.krn = undefined
 
     /**
      * 해당 계정 정보를 마지막으로 업데이트한 시간
-     * @member {Number} updatedAt
+     * @type {Number}
      * @memberof AccountSummary
      */
     AccountSummary.prototype.updatedAt = undefined

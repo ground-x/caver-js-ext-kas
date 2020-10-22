@@ -81,68 +81,68 @@
     }
 
     /**
-     * @member {String} address
+     * @type {String}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.address = undefined
 
     /**
      * 클레이튼 체인 ID
-     * @member {Number} chainId
+     * @type {Number}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.chainId = undefined
 
     /**
      * 트랜잭션 요청 시간
-     * @member {Number} createdAt
+     * @type {Number}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.createdAt = undefined
 
     /**
-     * @member {Array.<MultisigAddress>} multiSigKeys
+     * @type {Array.<MultisigAddress>}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.multiSigKeys = undefined
 
     /**
      * 트랜잭션의 현재 상태
-     * @member {Number} status
+     * @type {Number}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.status = undefined
 
     /**
      * 이 트랜잭션이 전송되는 데 필요한 가중치 총합
-     * @member {Number} threshold
+     * @type {Number}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.threshold = undefined
 
     /**
      * 다중 서명 트랜잭션을 식별하는 ID
-     * @member {String} transactionId
+     * @type {String}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.transactionId = undefined
 
     /**
-     * @member {TxData} txData
+     * @type {TxData}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.txData = undefined
 
     /**
      * 트랜잭션의 타입 (TX)
-     * @member {String} type
+     * @type {String}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.type = undefined
 
     /**
      * 해당 트랜잭션이 최종 업데이트 된 시간
-     * @member {Number} updatedAt
+     * @type {Number}
      * @memberof PendedTransaction
      */
     PendedTransaction.prototype.updatedAt = undefined

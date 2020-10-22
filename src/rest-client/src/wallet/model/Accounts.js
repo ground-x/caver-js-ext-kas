@@ -64,13 +64,13 @@
 
     /**
      * 마지막 검색 위치를 나타내는 커서 정보
-     * @member {String} cursor
+     * @type {String}
      * @memberof Accounts
      */
     Accounts.prototype.cursor = undefined
 
     /**
-     * @member {Array.<Account>} items
+     * @type {Array.<Account>}
      * @memberof Accounts
      */
     Accounts.prototype.items = undefined
