@@ -6,6 +6,7 @@
   "scripts": {
     "build": "./node_modules/.bin/webpack --mode production",
     "test": "npm run build && mocha ./test/anchor/testAnchorAPI.js && mocha ./test/tokenHistory/testTokenHistoryAPI.js && mocha ./test/wallet/*.js && mocha ./test/helperTest.js",
+    "testDev": "npm test --dev",
     "intTest": "mocha ./test/intTest/*.js",
     "lint": "eslint './**/*.js'",
     "lintFix": "eslint './**/*.js' --fix"
@@ -25,6 +26,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "caver-js": "^1.5.2-rc.5",
+    "dotenv": "^8.2.0",
     "lodash": "^4.17.19",
     "querystring": "0.2.0",
     "superagent": "3.7.0",
