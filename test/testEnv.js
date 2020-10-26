@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-const senderPrivateKey = '0x'
-const payerPrivateKey = '0x'
+const dotenv = require('dotenv')
+
+let senderPrivateKey = '0x'
+
+dotenv.config()
 
 const auths = {
     nodeAPI: {
@@ -46,11 +49,45 @@ const auths = {
     },
 }
 
-if (process.env.CI && process.argv[process.argv.length - 1] === '--dev') {
-    auths.nodeAPI.url = process.env.NODEAPI_DEV
-    auths.tokenHistoryAPI.url = process.env.THAPI_DEV
-    auths.walletAPI.url = process.env.WALLETAPI_DEV
-    auths.anchorAPI.url = process.env.ANCHORAPI_DEV
+if (process.argv[process.argv.length - 1] === '--dev') {
+    senderPrivateKey = process.env.SENDER_PRV_KEY_DEV
+
+    auths.nodeAPI.url = process.env.NODE_API_DEV
+    auths.nodeAPI.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.nodeAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+
+    auths.tokenHistoryAPI.url = process.env.TH_API_DEV
+    auths.tokenHistoryAPI.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.tokenHistoryAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+
+    auths.walletAPI.url = process.env.WALLET_API_DEV
+    auths.walletAPI.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.walletAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+    auths.walletAPI.feePayerAddress = process.env.FEE_PAYER_ADDR_DEV
+
+    auths.anchorAPI.url = process.env.ANCHOR_API_DEV
+    auths.anchorAPI.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.anchorAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+    auths.anchorAPI.operator = process.env.OPERATOR_DEV
+} else {
+    senderPrivateKey = process.env.SENDER_PRV_KEY
+
+    auths.nodeAPI.accessKeyId = process.env.ACCESS_KEY
+    auths.nodeAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+
+    auths.tokenHistoryAPI.accessKeyId = process.env.ACCESS_KEY
+    auths.tokenHistoryAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+
+    auths.walletAPI.accessKeyId = process.env.ACCESS_KEY
+    auths.walletAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+    auths.walletAPI.feePayerAddress = process.env.FEE_PAYER_ADDR
+
+    auths.anchorAPI.accessKeyId = process.env.ACCESS_KEY
+    auths.anchorAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+    auths.anchorAPI.operator = process.env.OPERATOR
 }
 
-module.exports = { senderPrivateKey, payerPrivateKey, auths }
+console.log(auths)
+console.log(senderPrivateKey)
+
+module.exports = { senderPrivateKey, auths }
