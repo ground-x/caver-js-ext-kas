@@ -136,6 +136,7 @@ workflows:
     jobs:
       - test:
           <<: *stage_default
+          context: kas_caver_test
       - build:
           <<: *stage_default
 
