@@ -32,6 +32,7 @@ const auths = {
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
+        presets: [],
     },
     walletAPI: {
         url: 'https://wallet-api.klaytnapi.com',
@@ -59,6 +60,7 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.tokenHistoryAPI.url = process.env.TH_API_DEV
     auths.tokenHistoryAPI.accessKeyId = process.env.ACCESS_KEY_DEV
     auths.tokenHistoryAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+    auths.tokenHistoryAPI.presets.push(Number(process.env.PRESET_DEV))
 
     auths.walletAPI.url = process.env.WALLET_API_DEV
     auths.walletAPI.accessKeyId = process.env.ACCESS_KEY_DEV
@@ -77,6 +79,7 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
 
     auths.tokenHistoryAPI.accessKeyId = process.env.ACCESS_KEY
     auths.tokenHistoryAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+    auths.tokenHistoryAPI.presets.push(Number(process.env.PRESET))
 
     auths.walletAPI.accessKeyId = process.env.ACCESS_KEY
     auths.walletAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
