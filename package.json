@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --mode production",
-    "test": "npm run build && mocha ./test/anchor/testAnchorAPI.js && mocha ./test/tokenHistory/testTokenHistoryAPI.js && mocha ./test/wallet/*.js && mocha ./test/helperTest.js",
-    "testDev": "npm test --dev",
-    "intTest": "mocha ./test/intTest/*.js",
+    "test": "mocha ./test/anchor/testAnchorAPI.js && mocha ./test/tokenHistory/testTokenHistoryAPI.js && mocha ./test/wallet/*.js && mocha ./test/helperTest.js",
+    "testDev": "npm run test --testEnv=dev ",
+    "intNodeAPITest": "mocha ./test/nodeAPI/testNodeAPI.js",
+    "intNodeAPITestDev": "mocha ./test/nodeAPI/testNodeAPI.js --testEnv=dev",
+    "intTest": "mocha ./test/intTest/*.js && npm run intNodeAPITest",
+    "intTestDev": "mocha ./test/intTest/*.js --testEnv=dev && npm run intNodeAPITestDev",
     "lint": "eslint './**/*.js'",
     "lintFix": "eslint './**/*.js' --fix"
   },

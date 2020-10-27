@@ -49,7 +49,7 @@ const auths = {
     },
 }
 
-if (process.argv[process.argv.length - 1] === '--dev') {
+if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm_config_testEnv === 'dev') {
     senderPrivateKey = process.env.SENDER_PRV_KEY_DEV
 
     auths.nodeAPI.url = process.env.NODE_API_DEV
