@@ -49,39 +49,37 @@ describe('Anchor API service', () => {
         const queryOptions = caver.kas.anchor.queryOptions.constructFromObject({
             size: 1,
             fromTimestamp: new Date('2020-08-01'),
-            toTimestamp: new Date('2020-08-30'),
+            toTimestamp: new Date('2020-10-28'),
             cursor:
-                'eyJjcmVhdGVkX2F0IjoxNTk4NDE2NTk3LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMTYiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ==',
+                'eyJjcmVhdGVkX2F0IjoxNjAzNzc4MjY3LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6MTczZGI2OWMtZjFiOC00ZGQ1LTlhYzItZWQ4YTBiYWRhYjI5Om9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweEJhM2NDNzViMWQxNzA3YTFFNTE3MmI0NjcxYzE1RDBBOEE4QUVCNTM6NzI5ODU5NDQ3NiIsInF1ZXJ5X2lkIjoia3JuOjEwMDE6YW5jaG9yOjE3M2RiNjljLWYxYjgtNGRkNS05YWMyLWVkOGEwYmFkYWIyOTpvcGVyYXRvci1wb29sOmRlZmF1bHQ6QU5DSF9UWDoweEJhM2NDNzViMWQxNzA3YTFFNTE3MmI0NjcxYzE1RDBBOEE4QUVCNTMiLCJ0eXBlIjoiQU5DSF9UWCJ9',
         })
         const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryOptions)
 
         expect(ret.cursor).to.equal(
-            'eyJjcmVhdGVkX2F0IjoxNTk4NDE2NTQ5LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMTUiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ=='
+            'eyJjcmVhdGVkX2F0IjoxNjAzNzc4MjU2LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6MTczZGI2OWMtZjFiOC00ZGQ1LTlhYzItZWQ4YTBiYWRhYjI5Om9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweEJhM2NDNzViMWQxNzA3YTFFNTE3MmI0NjcxYzE1RDBBOEE4QUVCNTM6MjM4NDY0MjkwNSIsInF1ZXJ5X2lkIjoia3JuOjEwMDE6YW5jaG9yOjE3M2RiNjljLWYxYjgtNGRkNS05YWMyLWVkOGEwYmFkYWIyOTpvcGVyYXRvci1wb29sOmRlZmF1bHQ6QU5DSF9UWDoweEJhM2NDNzViMWQxNzA3YTFFNTE3MmI0NjcxYzE1RDBBOEE4QUVCNTMiLCJ0eXBlIjoiQU5DSF9UWCJ9'
         )
         expect(ret.items.length).to.equal(1)
-        expect(ret.items[0].createdAt).to.equal(1598416549)
-        expect(ret.items[0].payloadId).to.equal(`90015`)
-        expect(ret.items[0].transactionHash).to.equal(`0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2`)
+        expect(ret.items[0].createdAt).to.equal(1603778256)
+        expect(ret.items[0].payloadId).to.equal(`2384642905`)
+        expect(ret.items[0].transactionHash).to.equal(`0x5a7b997ded45cfa9a2ae2877fbba56c77e2ca324261302f9732c806d74bc2b3a`)
     })
 
     it('CAVERJS-EXT-KAS-INT-003: caver.kas.anchor.getAnchoringTransactionByTxHash should query anchoring tx by transaction hash', async () => {
         const ret = await caver.kas.anchor.getAnchoringTransactionByTxHash(
             operator,
-            '0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2'
+            '0x097ee8bd7b7c75479d7ff4dea6bd41c0a27818e778954a9dc8b3bfae11a8a0b0'
         )
-        expect(ret.payload.block_number).to.equal(10)
-        expect(ret.payload.custom_field).to.equal('custom jasmine')
-        expect(ret.payload.id).to.equal('90015')
-        expect(ret.transactionHash).to.equal(`0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2`)
+        expect(ret.payload.custom_field).to.equal('jasmine is doing integration test anchor api through caver-js-ext-kas')
+        expect(ret.payload.id).to.equal('7017347815')
+        expect(ret.transactionHash).to.equal(`0x097ee8bd7b7c75479d7ff4dea6bd41c0a27818e778954a9dc8b3bfae11a8a0b0`)
     })
 
     it('CAVERJS-EXT-KAS-INT-004: caver.kas.anchor.getAnchoringTransactionByPayloadId should query anchoring tx by payload id', async () => {
-        const ret = await caver.kas.anchor.getAnchoringTransactionByPayloadId(operator, '90015')
+        const ret = await caver.kas.anchor.getAnchoringTransactionByPayloadId(operator, '7017347815')
 
-        expect(ret.payload.block_number).to.equal(10)
-        expect(ret.payload.custom_field).to.equal('custom jasmine')
-        expect(ret.payload.id).to.equal('90015')
-        expect(ret.transactionHash).to.equal(`0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2`)
+        expect(ret.payload.custom_field).to.equal('jasmine is doing integration test anchor api through caver-js-ext-kas')
+        expect(ret.payload.id).to.equal('7017347815')
+        expect(ret.transactionHash).to.equal(`0x097ee8bd7b7c75479d7ff4dea6bd41c0a27818e778954a9dc8b3bfae11a8a0b0`)
     })
 
     it('CAVERJS-EXT-KAS-INT-005: caver.kas.anchor.getOperatorList should query operators', async () => {

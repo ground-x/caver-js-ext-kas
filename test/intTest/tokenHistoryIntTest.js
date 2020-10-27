@@ -26,7 +26,7 @@ const expect = chai.expect
 const CaverExtKAS = require('../../index.js')
 
 let caver
-const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.tokenHistoryAPI
+const { url, chainId, accessKeyId, secretAccessKey, presets } = require('../testEnv').auths.tokenHistoryAPI
 
 describe('TokenHistory API service', () => {
     before(() => {
@@ -38,9 +38,9 @@ describe('TokenHistory API service', () => {
         const queryOptions = {
             kind: [caver.kas.tokenHistory.queryOptions.kind.KLAY],
             size: 1,
-            range: '1593529200,1599145200',
+            range: '1593529200,1603776414',
         }
-        const preset = [80]
+        const preset = presets
 
         const ret = await caver.kas.tokenHistory.getTransferHistory(preset, queryOptions)
 
@@ -50,7 +50,7 @@ describe('TokenHistory API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-008: caver.kas.tokenHistory.getTransferHistoryByTxHash should query transaction', async () => {
-        const transactionHash = '0x063b947b7bc70356ace9644a30188541e345b28e532810d1b80c132882c742ad'
+        const transactionHash = '0xd5e3e204a41f4ffab83cd8b4f5816e4020b618d507c5ae431fadd0fc9fe5333e'
 
         const ret = await caver.kas.tokenHistory.getTransferHistoryByTxHash(transactionHash)
 
@@ -60,12 +60,12 @@ describe('TokenHistory API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-009: caver.kas.tokenHistory.getTransferHistoryByAccount should query transaction by account', async () => {
-        const account = '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1'
+        const account = '0x60498fefbf1705a3db8d7bb5c80d5238956343e5'
         const queryOptions = {
             kind: [caver.kas.tokenHistory.queryOptions.kind.NFT],
             size: 1,
-            range: '1593529200,1599145200',
-            caFilter: '0xbbe63781168c9e67e7a8b112425aa84c479f39aa',
+            range: '1593529200,1603777118',
+            caFilter: '0x677837af7bf37f70a56a2c3853d5d1fa53d3bd92',
         }
 
         const ret = await caver.kas.tokenHistory.getTransferHistoryByAccount(account, queryOptions)
@@ -94,7 +94,7 @@ describe('TokenHistory API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-011: caver.kas.tokenHistory.getFTContract should query FT contract', async () => {
-        const contractAddress = '0x639bb15d5c012820bef8dd038254271e8597b3cf'
+        const contractAddress = '0xf0e5186029a70062e7e1fccb0f4ad53a4b7d6294'
 
         const ret = await caver.kas.tokenHistory.getFTContract(contractAddress)
 
@@ -118,7 +118,7 @@ describe('TokenHistory API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-013: caver.kas.tokenHistory.getNFTContract should query NFT contract', async () => {
-        const contractAddress = '0xbbe63781168c9e67e7a8b112425aa84c479f39aa'
+        const contractAddress = '0x677837af7bf37f70a56a2c3853d5d1fa53d3bd92'
 
         const ret = await caver.kas.tokenHistory.getNFTContract(contractAddress)
 
@@ -126,7 +126,7 @@ describe('TokenHistory API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-014: caver.kas.tokenHistory.getNFTList should query NFT list issued in specific NFT contract', async () => {
-        const contractAddress = '0xbbe63781168c9e67e7a8b112425aa84c479f39aa'
+        const contractAddress = '0x677837af7bf37f70a56a2c3853d5d1fa53d3bd92'
         const queryOptions = {
             size: 1,
         }
@@ -139,8 +139,8 @@ describe('TokenHistory API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-015: caver.kas.tokenHistory.getNFTListByOwner should query NFT list issued in specific NFT contract by owner', async () => {
-        const contractAddress = '0xbbe63781168c9e67e7a8b112425aa84c479f39aa'
-        const owner = '0xa1c56175bbafaeaac2da534bed2c50079c63344a'
+        const contractAddress = '0x677837af7bf37f70a56a2c3853d5d1fa53d3bd92'
+        const owner = '0x60498fefbf1705a3db8d7bb5c80d5238956343e5'
         const queryOptions = {
             size: 1,
         }
@@ -153,8 +153,8 @@ describe('TokenHistory API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-016: caver.kas.tokenHistory.getNFT should query NFT issued in specific NFT contract by owner', async () => {
-        const contractAddress = '0xbbe63781168c9e67e7a8b112425aa84c479f39aa'
-        const tokenId = '0x7b'
+        const contractAddress = '0x677837af7bf37f70a56a2c3853d5d1fa53d3bd92'
+        const tokenId = '0x2'
 
         const ret = await caver.kas.tokenHistory.getNFT(contractAddress, tokenId)
 
@@ -162,8 +162,8 @@ describe('TokenHistory API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-017: caver.kas.tokenHistory.getNFTOwnershipHistory should query NFT ownership history', async () => {
-        const contractAddress = '0xbbe63781168c9e67e7a8b112425aa84c479f39aa'
-        const tokenId = '0x7b'
+        const contractAddress = '0x677837af7bf37f70a56a2c3853d5d1fa53d3bd92'
+        const tokenId = '0x3'
 
         const ret = await caver.kas.tokenHistory.getNFTOwnershipHistory(contractAddress, tokenId)
 
