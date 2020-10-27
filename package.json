@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "./node_modules/.bin/webpack --mode production",
-    "test": "mocha ./test/anchor/testAnchorAPI.js && mocha ./test/tokenHistory/testTokenHistoryAPI.js && mocha ./test/wallet/*.js && mocha ./test/helperTest.js",
+    "test": "npm run build && mocha ./test/anchor/testAnchorAPI.js && mocha ./test/tokenHistory/testTokenHistoryAPI.js && mocha ./test/wallet/*.js && mocha ./test/helperTest.js",
     "testDev": "npm run test --testEnv=dev ",
     "intNodeAPITest": "mocha ./test/nodeAPI/testNodeAPI.js",
     "intNodeAPITestDev": "mocha ./test/nodeAPI/testNodeAPI.js --testEnv=dev",
