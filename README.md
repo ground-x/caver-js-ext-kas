@@ -37,18 +37,21 @@ The result of the build is located in "dist/" and is named "caver-js-ext-kas.min
 
 ## Test
 
-This library contains tests. Modify the contents of "test/testEnv.json" appropriately before performing the test.
+This library contains tests. Create `.env` file to define environment variables before performing the test like below.
 
-You can perform unit test with the command below.
+```
+SENDER_PRV_KEY=''
+ACCESS_KEY=''
+SECRET_ACCESS_KEY=''
+PRESET=
+FEE_PAYER_ADDR=''
+OPERATOR=''
+```
+
+You just need to fill in the values in the format above. After creating the `.env` file you can run the test using the command below.
 
 ```bash
 $ npm run test
-```
-
-In addition, the integration test, which is actually connected to KAS, can be executed through the command below.
-
-```bash
-$ npm run intTest
 ```
 
 ## Getting Started
