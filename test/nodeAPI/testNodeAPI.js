@@ -23,9 +23,34 @@ let caver
 const { url, accessKeyId, secretAccessKey } = require('../testEnv').auths.nodeAPI
 const { senderPrivateKey } = require('../testEnv')
 
-const testAddress = '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1'
+let testAddress
+let receipt
 
 const chainId = 1001
+
+async function sendTestKLAY(sender) {
+    const vt = new caver.transaction.valueTransfer({
+        from: testAddress,
+        to: testAddress,
+        value: 1,
+        gas: 25000,
+    })
+
+    await caver.wallet.sign(sender.address, vt)
+
+    receipt = await caver.rpc.klay.sendRawTransaction(vt)
+}
+
+async function getRawTransaction(keyring) {
+    const vt = new caver.transaction.valueTransfer({
+        from: keyring.address,
+        to: testAddress,
+        value: 1,
+        gas: 25000,
+    })
+    const signed = await vt.sign(keyring)
+    return signed.getRLPEncoding()
+}
 
 describe('Node API service enabling', () => {
     beforeEach(() => {
@@ -53,11 +78,18 @@ describe('Node API service enabling', () => {
 describe('Node API service', () => {
     let sender
 
-    before(() => {
+    before(function(done) {
+        this.timeout(200000)
+
         caver = new CaverExtKAS()
         caver.initNodeAPI(chainId, accessKeyId, secretAccessKey, url)
 
-        if (senderPrivateKey !== '0x') sender = caver.wallet.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
+        if (senderPrivateKey !== '0x') {
+            sender = caver.wallet.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
+            testAddress = sender.address
+        }
+
+        sendTestKLAY(sender).then(() => done())
     })
 
     context('caver.rpc.klay APIs', () => {
@@ -76,12 +108,12 @@ describe('Node API service', () => {
                 { name: 'getBlockByNumber', params: [1], returnType: 'object' },
                 {
                     name: 'getBlockByHash',
-                    params: ['0x9743edbd9463c725efdb2050262560b8c11a7e4ddde46b7e94165dab76af3567'],
+                    params: [receipt.blockHash],
                     returnType: 'object',
                 },
                 {
                     name: 'getBlockReceipts',
-                    params: ['0x9743edbd9463c725efdb2050262560b8c11a7e4ddde46b7e94165dab76af3567'],
+                    params: [receipt.blockHash],
                     returnType: 'array',
                 },
                 {
@@ -91,7 +123,7 @@ describe('Node API service', () => {
                 },
                 {
                     name: 'getBlockTransactionCountByHash',
-                    params: ['0x9743edbd9463c725efdb2050262560b8c11a7e4ddde46b7e94165dab76af3567'],
+                    params: [receipt.blockHash],
                     returnType: 'string',
                 },
                 {
@@ -101,7 +133,7 @@ describe('Node API service', () => {
                 },
                 {
                     name: 'getBlockWithConsensusInfoByHash',
-                    params: ['0x9743edbd9463c725efdb2050262560b8c11a7e4ddde46b7e94165dab76af3567'],
+                    params: [receipt.blockHash],
                     returnType: 'object',
                 },
                 { name: 'getCommittee', params: [], returnType: 'array' },
@@ -142,29 +174,29 @@ describe('Node API service', () => {
                 },
                 {
                     name: 'getTransactionByBlockHashAndIndex',
-                    params: ['0x9743edbd9463c725efdb2050262560b8c11a7e4ddde46b7e94165dab76af3567', 0],
+                    params: [receipt.blockHash, 0],
                     returnType: 'object',
                 },
                 {
                     name: 'getTransactionByBlockNumberAndIndex',
-                    params: [19037067, 0],
+                    params: [receipt.blockNumber, caver.utils.hexToNumber(receipt.transactionIndex)],
                     returnType: 'object',
                 },
                 {
                     name: 'getTransactionByHash',
-                    params: ['0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2'],
+                    params: [receipt.transactionHash],
                     returnType: 'object',
                 },
                 {
                     name: 'getTransactionReceipt',
-                    params: ['0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2'],
+                    params: [receipt.transactionHash],
                     returnType: 'object',
                 },
-                {
-                    name: 'sendRawTransaction',
-                    params: [await getRawTransaction(sender)],
-                    returnType: 'object',
-                },
+                // {
+                //     name: 'sendRawTransaction',
+                //     params: [await getRawTransaction(sender)],
+                //     returnType: 'object',
+                // },
                 { name: 'getChainId', params: [], returnType: 'string' },
                 { name: 'getClientVersion', params: [], returnType: 'string' },
                 { name: 'getGasPrice', params: [], returnType: 'string' },
@@ -229,14 +261,3 @@ describe('Node API service', () => {
         }).timeout(1000000)
     })
 })
-
-async function getRawTransaction(keyring) {
-    const vt = new caver.transaction.valueTransfer({
-        from: keyring.address,
-        to: caver.wallet.keyring.generate().address,
-        value: 1,
-        gas: 25000,
-    })
-    const signed = await vt.sign(keyring)
-    return signed.getRLPEncoding()
-}
