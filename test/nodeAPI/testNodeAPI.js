@@ -41,6 +41,17 @@ async function sendTestKLAY(sender) {
     receipt = await caver.rpc.klay.sendRawTransaction(vt)
 }
 
+async function getRawTransaction(keyring) {
+    const vt = new caver.transaction.valueTransfer({
+        from: keyring.address,
+        to: testAddress,
+        value: 1,
+        gas: 25000,
+    })
+    const signed = await vt.sign(keyring)
+    return signed.getRLPEncoding()
+}
+
 describe('Node API service enabling', () => {
     beforeEach(() => {
         caver = new CaverExtKAS()
@@ -217,13 +228,13 @@ describe('Node API service', () => {
 
                 if (api.name === 'sendRawTransaction' && !sender) continue
 
-                // console.log(
-                //     `test api name: ${api.name} / params: ${
-                //         _.isObject(api.params) ? JSON.stringify(api.params) : api.params
-                //     } / return type: ${api.returnType}`
-                // )
+                console.log(
+                    `test api name: ${api.name} / params: ${
+                        _.isObject(api.params) ? JSON.stringify(api.params) : api.params
+                    } / return type: ${api.returnType}`
+                )
                 const ret = await caver.rpc.klay[api.name](...api.params)
-                // console.log(ret)
+                console.log(ret)
 
                 expect(ret).not.to.be.undefined
                 expect(ret).not.to.be.null
@@ -250,14 +261,3 @@ describe('Node API service', () => {
         }).timeout(1000000)
     })
 })
-
-async function getRawTransaction(keyring) {
-    const vt = new caver.transaction.valueTransfer({
-        from: keyring.address,
-        to: caver.wallet.keyring.generate().address,
-        value: 1,
-        gas: 25000,
-    })
-    const signed = await vt.sign(keyring)
-    return signed.getRLPEncoding()
-}
