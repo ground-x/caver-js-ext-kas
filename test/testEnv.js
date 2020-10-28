@@ -90,6 +90,6 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.anchorAPI.operator = process.env.OPERATOR
 }
 
-console.log(auths)
+// console.log(auths)
 
 module.exports = { senderPrivateKey, auths }
