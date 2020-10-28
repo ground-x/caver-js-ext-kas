@@ -50,9 +50,6 @@ const auths = {
     },
 }
 
-console.log(process)
-// console.log
-
 if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm_config_testEnv === 'dev') {
     senderPrivateKey = process.env.SENDER_PRV_KEY_DEV
 
