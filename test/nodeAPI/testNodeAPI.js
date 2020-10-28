@@ -192,11 +192,11 @@ describe('Node API service', () => {
                     params: [receipt.transactionHash],
                     returnType: 'object',
                 },
-                {
-                    name: 'sendRawTransaction',
-                    params: [await getRawTransaction(sender)],
-                    returnType: 'object',
-                },
+                // {
+                //     name: 'sendRawTransaction',
+                //     params: [await getRawTransaction(sender)],
+                //     returnType: 'object',
+                // },
                 { name: 'getChainId', params: [], returnType: 'string' },
                 { name: 'getClientVersion', params: [], returnType: 'string' },
                 { name: 'getGasPrice', params: [], returnType: 'string' },
@@ -228,13 +228,13 @@ describe('Node API service', () => {
 
                 if (api.name === 'sendRawTransaction' && !sender) continue
 
-                console.log(
-                    `test api name: ${api.name} / params: ${
-                        _.isObject(api.params) ? JSON.stringify(api.params) : api.params
-                    } / return type: ${api.returnType}`
-                )
+                // console.log(
+                //     `test api name: ${api.name} / params: ${
+                //         _.isObject(api.params) ? JSON.stringify(api.params) : api.params
+                //     } / return type: ${api.returnType}`
+                // )
                 const ret = await caver.rpc.klay[api.name](...api.params)
-                console.log(ret)
+                // console.log(ret)
 
                 expect(ret).not.to.be.undefined
                 expect(ret).not.to.be.null
