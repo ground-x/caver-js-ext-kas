@@ -19,7 +19,7 @@
         define(['../../ApiClient', '../model/FtContract', '../model/Transaction'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./FtContract'), require('./Transaction'))
+        module.exports = factory(require('../../ApiClient'), require('./FtContract'), require('./NftContract'), require('./Transaction'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
@@ -28,10 +28,11 @@
         root.TokenHistoryApi.TransferItem = factory(
             root.TokenHistoryApi.ApiClient,
             root.TokenHistoryApi.FtContract,
+            root.TokenHistoryApi.NftContract,
             root.TokenHistoryApi.Transaction
         )
     }
-})(this, function(ApiClient, FtContract, Transaction) {
+})(this, function(ApiClient, FtContract, NftContract, Transaction) {
     /**
      * The TransferItem model module.
      * @module model/TransferItem
@@ -65,7 +66,19 @@
             if (data.hasOwnProperty('transferType')) obj.transferType = ApiClient.convertToType(data.transferType, 'String')
             if (data.hasOwnProperty('typeInt')) obj.typeInt = ApiClient.convertToType(data.typeInt, 'Number')
             if (data.hasOwnProperty('value')) obj.value = ApiClient.convertToType(data.value, 'String')
-            if (data.hasOwnProperty('contract')) obj.contract = FtContract.constructFromObject(data.contract)
+
+            if (data.hasOwnProperty('contract')) {
+                switch (data.transferType) {
+                    case 'nft':
+                        obj.contract = NftContract.constructFromObject(data.contract)
+                        break
+                    case 'ft':
+                        obj.contract = FtContract.constructFromObject(data.contract)
+                        break
+                    default:
+                        throw new Error(`Not supported trasnfer type: ${data.transferType}`)
+                }
+            }
             if (data.hasOwnProperty('formattedValue')) obj.formattedValue = ApiClient.convertToType(data.formattedValue, 'String')
             if (data.hasOwnProperty('transaction')) obj.transaction = Transaction.constructFromObject(data.transaction)
             if (data.hasOwnProperty('tokenId')) obj.tokenId = ApiClient.convertToType(data.tokenId, 'String')
