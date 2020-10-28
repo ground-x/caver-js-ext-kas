@@ -101,7 +101,9 @@ describe('TokenHistory API service', () => {
     it('CAVERJS-EXT-KAS-INT-008: caver.kas.tokenHistory.getTransferHistoryByTxHash should query transaction', async () => {
         const transactionHash = nftTransfer.transaction.transactionHash
 
+        console.log(`transactionHash: ${transactionHash}`)
         const ret = await caver.kas.tokenHistory.getTransferHistoryByTxHash(transactionHash)
+        console.log(ret)
 
         expect(ret.items).not.to.be.undefined
         expect(ret.items.length > 0).to.be.true
