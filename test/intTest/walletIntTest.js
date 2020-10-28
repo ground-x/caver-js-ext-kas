@@ -612,6 +612,9 @@ describe('Wallet API service', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-037: caver.kas.wallet.requestCancel should request cancel transaction (submit true)', async () => {
+        // Wait until transaction processing
+        await timeout(3000)
+
         const tx = {
             from: accountToTest.address,
             gas: 25000,
@@ -620,7 +623,6 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestCancel(tx)
-        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -1495,6 +1497,9 @@ describe('Wallet API service', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-062: caver.kas.wallet.requestFDCancelPaidByGlobalFeePayer should request fee delegated cancel transaction paid by KAS global fee payer (submit true)', async () => {
+        // Wait until transaction processing
+        await timeout(3000)
+
         const tx = {
             from: accountToTest.address,
             gas: 45000,
@@ -1503,7 +1508,6 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestFDCancelPaidByGlobalFeePayer(tx)
-        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -1564,6 +1568,9 @@ describe('Wallet API service', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-064: caver.kas.wallet.requestFDCancelPaidByGlobalFeePayer should request fee delegated cancel with ratio transaction paid by KAS global fee payer (submit true)', async () => {
+        // Wait until transaction processing
+        await timeout(3000)
+
         const tx = {
             from: accountToTest.address,
             gas: 45000,
@@ -1573,7 +1580,6 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestFDCancelPaidByGlobalFeePayer(tx)
-        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit' || k === 'feeRatio') {
@@ -2758,6 +2764,9 @@ describe('Wallet API service', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-094: caver.kas.wallet.requestFDCancelPaidByUser should request fee delegated cancel transaction paid by user (submit true)', async () => {
+        // Wait until transaction processing
+        await timeout(3000)
+
         const tx = {
             from: accountToTest.address,
             gas: 45000,
@@ -2767,7 +2776,6 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestFDCancelPaidByUser(tx)
-        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -2829,6 +2837,9 @@ describe('Wallet API service', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-096: caver.kas.wallet.requestFDCancelPaidByUser should request fee delegated cancel with ratio transaction paid by user (submit true)', async () => {
+        // Wait until transaction processing
+        await timeout(3000)
+
         const tx = {
             from: accountToTest.address,
             gas: 45000,
@@ -2839,7 +2850,6 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestFDCancelPaidByUser(tx)
-        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit' || k === 'feeRatio') {
