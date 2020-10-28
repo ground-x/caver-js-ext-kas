@@ -161,27 +161,27 @@ describe('Wallet API service', () => {
 
         expect(ret.cursor).not.to.be.undefined
         expect(ret.items.length).to.equal(1)
-    })
+    }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-020: caver.kas.wallet.getAccount should return account in KAS wallet api service', async () => {
         const ret = await caver.kas.wallet.getAccount(accountToTest.address)
 
         expect(ret).to.deep.equal(accountToTest)
-    })
+    }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-021: caver.kas.wallet.getAccountListByPublicKey should return account in KAS wallet api service by public key', async () => {
         const ret = await caver.kas.wallet.getAccountListByPublicKey(accountToTest.publicKey)
 
         expect(ret.items.length).to.equal(1)
         expect(ret.items[0].address).to.equal(accountToTest.address)
-    })
+    }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-022: caver.kas.wallet.deleteAccount should delete account in KAS wallet api service', async () => {
         const created = await caver.kas.wallet.createAccount()
         const ret = await caver.kas.wallet.deleteAccount(created.address)
 
         expect(ret.status).to.equal('deleted')
-    })
+    }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-023: caver.kas.wallet.disableAccount should change account status to disabled', async () => {
         const ret = await caver.kas.wallet.disableAccount(accountToTest.address)
@@ -189,7 +189,7 @@ describe('Wallet API service', () => {
         expect(ret.address).to.equal(accountToTest.address)
         expect(ret.krn).to.equal(accountToTest.krn)
         expect(ret.updatedAt >= accountToTest.updatedAt).to.be.true
-    })
+    }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-024: caver.kas.wallet.enableAccount should change account status to enabled', async () => {
         const ret = await caver.kas.wallet.enableAccount(accountToTest.address)
@@ -197,7 +197,7 @@ describe('Wallet API service', () => {
         expect(ret.address).to.equal(accountToTest.address)
         expect(ret.krn).to.equal(accountToTest.krn)
         expect(ret.updatedAt >= accountToTest.updatedAt).to.be.true
-    })
+    }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-025: caver.kas.wallet.updateToMultiSigAccount should update account key of account', async () => {
         multiSigAccount = await caver.kas.wallet.createAccount()
