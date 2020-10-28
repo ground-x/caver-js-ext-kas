@@ -620,6 +620,7 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestCancel(tx)
+        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -1502,6 +1503,7 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestFDCancelPaidByGlobalFeePayer(tx)
+        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -1571,6 +1573,7 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestFDCancelPaidByGlobalFeePayer(tx)
+        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit' || k === 'feeRatio') {
@@ -2764,6 +2767,7 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestFDCancelPaidByUser(tx)
+        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit') {
@@ -2835,6 +2839,7 @@ describe('Wallet API service', () => {
         }
 
         const ret = await caver.kas.wallet.requestFDCancelPaidByUser(tx)
+        console.log(ret)
 
         Object.keys(tx).map(k => {
             if (k === 'submit' || k === 'feeRatio') {
