@@ -101,13 +101,17 @@ describe('TokenHistory API service', () => {
     it('CAVERJS-EXT-KAS-INT-008: caver.kas.tokenHistory.getTransferHistoryByTxHash should query transaction', async () => {
         const transactionHash = nftTransfer.transaction.transactionHash
 
-        console.log(`transactionHash: ${transactionHash}`)
         const ret = await caver.kas.tokenHistory.getTransferHistoryByTxHash(transactionHash)
-        console.log(ret)
+
+        let nftTransferItem
+        for (const i of ret.items) {
+            if (i.transferType === 'nft') nftTransferItem = i
+        }
 
         expect(ret.items).not.to.be.undefined
         expect(ret.items.length > 0).to.be.true
-        expect(ret.items[0].transactionHash).to.equal(transactionHash)
+        expect(nftTransferItem).not.to.be.undefined
+        expect(nftTransferItem.transactionHash).to.equal(transactionHash)
     })
 
     it('CAVERJS-EXT-KAS-INT-009: caver.kas.tokenHistory.getTransferHistoryByAccount should query transaction by account', async () => {
