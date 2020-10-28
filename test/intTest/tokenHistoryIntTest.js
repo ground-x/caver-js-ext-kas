@@ -29,6 +29,7 @@ let caver
 const { url, chainId, accessKeyId, secretAccessKey, presets } = require('../testEnv').auths.tokenHistoryAPI
 const nodeAPIEnv = require('../testEnv').auths.nodeAPI
 const { senderPrivateKey } = require('../testEnv')
+const { timeout } = require('../testUtils')
 
 let ftContractAddress
 let nftContractAddress
@@ -40,6 +41,7 @@ const receiver = '0x60498fEFBF1705A3Db8d7Bb5c80D5238956343e5'
 let nftTransfer
 
 async function createTestTokenContracts(sender) {
+    await timeout(3000)
     const sendKLAY = new caver.transaction.valueTransfer({
         from: sender.address,
         to: receiver,
