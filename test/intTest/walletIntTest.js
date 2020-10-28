@@ -32,6 +32,7 @@ const multiSigAddresses = []
 const multiSigPublicKeys = []
 
 const { senderPrivateKey, auths } = require('../testEnv')
+const { timeout } = require('../testUtils')
 
 const { url, chainId, accessKeyId, secretAccessKey, feePayerAddress } = auths.walletAPI
 
@@ -48,10 +49,6 @@ const input =
 
 let pendingTx
 let transactionHashToGet
-
-function timeout(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms))
-}
 
 async function sendTestKLAY(to, klay = 1) {
     const vt = new caver.transaction.valueTransfer({
