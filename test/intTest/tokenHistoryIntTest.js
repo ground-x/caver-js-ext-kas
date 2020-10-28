@@ -94,6 +94,8 @@ describe('TokenHistory API service', () => {
         expect(ret.items).not.to.be.undefined
         expect(ret.items.length).to.equal(1)
         expect(ret.cursor).not.to.be.undefined
+        expect(ret.items[0].contract).not.to.be.undefined
+        expect(ret.items[0].contract.constructor.name).to.equal('NftContract')
 
         nftTransfer = ret.items[0]
     })
