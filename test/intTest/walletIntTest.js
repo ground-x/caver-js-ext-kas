@@ -517,10 +517,10 @@ describe('Wallet API service', () => {
                 expect(ret.signatures.length).to.equal(1)
                 expect(ret.status).to.equal('Submitted')
                 expect(ret.transactionHash).not.to.be.undefined
-                
+
                 const decoded = caver.transaction.decode(ret.rlp)
                 expect(decoded.type).to.equal('TxTypeSmartContractDeploy')
-                
+
                 setTimeout(() => {
                     caver.kas.wallet.getTransaction(ret.transactionHash).then(transaction => {
                         contractAddress = transaction.contractAddress
@@ -1263,7 +1263,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000).then(() => {  
+        timeout(1000).then(() => {
             caver.kas.wallet.requestFDSmartContractDeployPaidByGlobalFeePayer(tx).then(ret => {
                 Object.keys(tx).map(k => {
                     if (k === 'submit') {
@@ -1281,11 +1281,11 @@ describe('Wallet API service', () => {
                 expect(ret.status).to.equal('Submitted')
                 expect(ret.transactionHash).not.to.be.undefined
                 expect(ret.feePayer).not.to.be.undefined
-                
+
                 const decoded = caver.transaction.decode(ret.rlp)
                 expect(decoded.type).to.equal('TxTypeFeeDelegatedSmartContractDeploy')
                 expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
-                
+
                 setTimeout(() => {
                     caver.kas.wallet.getTransaction(ret.transactionHash).then(transaction => {
                         contractAddress = transaction.contractAddress
@@ -2586,11 +2586,11 @@ describe('Wallet API service', () => {
                 expect(ret.status).to.equal('Submitted')
                 expect(ret.transactionHash).not.to.be.undefined
                 expect(ret.feePayer).not.to.be.undefined
-                
+
                 const decoded = caver.transaction.decode(ret.rlp)
                 expect(decoded.type).to.equal('TxTypeFeeDelegatedSmartContractDeploy')
                 expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
-                
+
                 setTimeout(() => {
                     caver.kas.wallet.getTransaction(ret.transactionHash).then(transaction => {
                         contractAddress = transaction.contractAddress
