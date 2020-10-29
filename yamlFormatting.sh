@@ -7,13 +7,17 @@ cd src
 DIRS=`ls -d ./*/`
  
 for i in ${DIRS};do
+# i='tokenHistory/'
 echo ${i};
       echo "Entering directory=${i}model";
       cd ${i}model;
 
+	# cd ./tokenHistory/model;
 	  FILES=`ls`
 
+		# echo $FILES
 		for j in ${FILES};do
+			# j='./FtContractDetail.js'
 			model=$(grep -F '@module model/' $j | cut -d "/" -f2)
 
 			if [ -z "$model" ]; then
@@ -79,6 +83,9 @@ echo ${i};
 			fi
 
 			# echo $api
+
+			# Changed api name from exports to acutal
+			sed -i '' "s/ exports/ ${api}/g" $j
 
 			# Changed api name from exports to acutal
 			sed -i '' "s/ exports/ ${api}/g" $j
