@@ -51,7 +51,7 @@
      * @param {ApiClient} [apiClient] Optional API client implementation to use,
      * default to {@link ApiClient#instance} if unspecified.
      */
-    const exports = function(apiClient) {
+    const OperatorApi = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
@@ -180,5 +180,5 @@
         }
     }
 
-    return exports
+    return OperatorApi
 })
