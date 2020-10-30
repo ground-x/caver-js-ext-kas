@@ -34,7 +34,7 @@
     }
 })(this, function(superagent, querystring, ErrorResponse) {
     /**
-     * @module ApiClient
+     * @class ApiClient
      * @version 1.0
      */
 
@@ -42,10 +42,11 @@
      * Manages low level client-server communications, parameter marshalling, etc. There should not be any need for an
      * application to use this class directly - the *Api and model classes provide the public API for the service. The
      * contents of this file should be regarded as internal but are documented for completeness.
-     * @alias module:ApiClient
+     * @alias ApiClient
      * @class
+     * @memberof ApiClient
      */
-    const exports = function() {
+    const ApiClient = function() {
         /**
          * The base URL against which to resolve every API call's (relative) path.
          * @type {String}
@@ -107,8 +108,9 @@
      * Returns a string representation for an actual parameter.
      * @param param The actual parameter.
      * @returns {String} The string representation of <code>param</code>.
+     * @memberof ApiClient
      */
-    exports.prototype.paramToString = function(param) {
+    ApiClient.prototype.paramToString = function(param) {
         if (param == undefined || param == null) {
             return ''
         }
@@ -124,8 +126,9 @@
      * @param {String} path The path to append to the base URL.
      * @param {Object} pathParams The parameter values to append.
      * @returns {String} The encoded path with parameter values substituted.
+     * @memberof ApiClient
      */
-    exports.prototype.buildUrl = function(path, pathParams) {
+    ApiClient.prototype.buildUrl = function(path, pathParams) {
         if (!path.match(/^\//)) {
             path = `/${path}`
         }
@@ -153,8 +156,9 @@
      * </ul>
      * @param {String} contentType The MIME content type to check.
      * @returns {Boolean} <code>true</code> if <code>contentType</code> represents JSON, otherwise <code>false</code>.
+     * @memberof ApiClient
      */
-    exports.prototype.isJsonMime = function(contentType) {
+    ApiClient.prototype.isJsonMime = function(contentType) {
         return Boolean(contentType != null && contentType.match(/^application\/json(;.*)?$/i))
     }
 
@@ -162,8 +166,9 @@
      * Chooses a content type from the given array, with JSON preferred; i.e. return JSON if included, otherwise return the first.
      * @param {Array.<String>} contentTypes
      * @returns {String} The chosen content type, preferring JSON.
+     * @memberof ApiClient
      */
-    exports.prototype.jsonPreferredMime = function(contentTypes) {
+    ApiClient.prototype.jsonPreferredMime = function(contentTypes) {
         for (let i = 0; i < contentTypes.length; i++) {
             if (this.isJsonMime(contentTypes[i])) {
                 return contentTypes[i]
@@ -176,8 +181,9 @@
      * Checks whether the given parameter value represents file-like content.
      * @param param The parameter to check.
      * @returns {Boolean} <code>true</code> if <code>param</code> represents a file.
+     * @memberof ApiClient
      */
-    exports.prototype.isFileParam = function(param) {
+    ApiClient.prototype.isFileParam = function(param) {
         // fs.ReadStream in Node.js and Electron (but not in runtime like browserify)
         if (typeof require === 'function') {
             let fs
@@ -212,8 +218,9 @@
      * </ul>
      * @param {Object.<String, Object>} params The parameters as object properties.
      * @returns {Object.<String, Object>} normalized parameters.
+     * @memberof ApiClient
      */
-    exports.prototype.normalizeParams = function(params) {
+    ApiClient.prototype.normalizeParams = function(params) {
         const newParams = {}
         for (const key in params) {
             if (params.hasOwnProperty(key) && params[key] != undefined && params[key] != null) {
@@ -232,8 +239,9 @@
      * Enumeration of collection format separator strategies.
      * @enum {String}
      * @readonly
+     * @memberof ApiClient
      */
-    exports.CollectionFormatEnum = {
+    ApiClient.CollectionFormatEnum = {
         /**
          * Comma-separated values. Value: <code>csv</code>
          * @const
@@ -264,11 +272,12 @@
     /**
      * Builds a string representation of an array-type actual parameter, according to the given collection format.
      * @param {Array} param An array parameter.
-     * @param {module:ApiClient.CollectionFormatEnum} collectionFormat The array element separator strategy.
+     * @param {ApiClient.CollectionFormatEnum} collectionFormat The array element separator strategy.
      * @returns {String|Array} A string representation of the supplied collection, using the specified delimiter. Returns
      * <code>param</code> as is if <code>collectionFormat</code> is <code>multi</code>.
+     * @memberof ApiClient
      */
-    exports.prototype.buildCollectionParam = function buildCollectionParam(param, collectionFormat) {
+    ApiClient.prototype.buildCollectionParam = function buildCollectionParam(param, collectionFormat) {
         if (param == null) {
             return null
         }
@@ -293,8 +302,9 @@
      * Applies authentication headers to the request.
      * @param {Object} request The request object created by a <code>superagent()</code> call.
      * @param {Array.<String>} authNames An array of authentication method names.
+     * @memberof ApiClient
      */
-    exports.prototype.applyAuthToRequest = function(request, authNames) {
+    ApiClient.prototype.applyAuthToRequest = function(request, authNames) {
         const _this = this
         authNames.forEach(function(authName) {
             const auth = _this.authentications[authName]
@@ -338,8 +348,9 @@
      * return an object, pass an object with one property whose name is the key type and whose value is the corresponding value type:
      * all properties on <code>data<code> will be converted to this type.
      * @returns A value of the specified type.
+     * @memberof ApiClient
      */
-    exports.prototype.deserialize = function deserialize(response, returnType) {
+    ApiClient.prototype.deserialize = function deserialize(response, returnType) {
         if (response == null || returnType == null || response.status == 204) {
             return null
         }
@@ -350,12 +361,12 @@
             // SuperAgent does not always produce a body; use the unparsed response as a fallback
             data = response.text
         }
-        return exports.convertToType(data, returnType)
+        return ApiClient.convertToType(data, returnType)
     }
 
     /**
      * Callback function to receive the result of the operation.
-     * @callback module:ApiClient~callApiCallback
+     * @callback ApiClient~callApiCallback
      * @param {String} error Error message, if any.
      * @param data The data returned by the service call.
      * @param {String} response The complete HTTP response.
@@ -376,10 +387,11 @@
      * @param {Array.<String>} accepts An array of acceptable response MIME types.
      * @param {(String|Array|ObjectFunction)} returnType The required type to return; can be a string for simple types or the
      * constructor for a complex type.
-     * @param {module:ApiClient~callApiCallback} callback The callback function.
+     * @param {ApiClient~callApiCallback} callback The callback function.
      * @returns {Object} The SuperAgent request object.
+     * @memberof ApiClient
      */
-    exports.prototype.callApi = function callApi(
+    ApiClient.prototype.callApi = function callApi(
         path,
         httpMethod,
         pathParams,
@@ -516,8 +528,9 @@
      * Parses a string representation of a date value.
      * @param {String} str The date value as an ISO-8601 full-date or date-time string.
      * @returns {Date} The parsed date object.
+     * @memberof ApiClient
      */
-    exports.parseDate = function(str) {
+    ApiClient.parseDate = function(str) {
         // OpenAPI 2.0 & 3.0 specs state that:
         // - date values are serialized as ISO-8601 full-date strings.
         // - date-time values are serialized as ISO-8601 date-time strings, in which the timezone offset is mandatory.
@@ -532,8 +545,9 @@
      * return an object, pass an object with one property whose name is the key type and whose value is the corresponding value type:
      * all properties on <code>data<code> will be converted to this type.
      * @returns An instance of the specified type or null or undefined if data is null or undefined.
+     * @memberof ApiClient
      */
-    exports.convertToType = function(data, type) {
+    ApiClient.convertToType = function(data, type) {
         if (data === null || data === undefined) return data
 
         switch (type) {
@@ -562,7 +576,7 @@
                     // for array type like: ['String']
                     const itemType = type[0]
                     return data.map(function(item) {
-                        return exports.convertToType(item, itemType)
+                        return ApiClient.convertToType(item, itemType)
                     })
                 }
                 if (typeof type === 'object') {
@@ -579,8 +593,8 @@
                     const result = {}
                     for (const k in data) {
                         if (data.hasOwnProperty(k)) {
-                            const key = exports.convertToType(k, keyType)
-                            const value = exports.convertToType(data[k], valueType)
+                            const key = ApiClient.convertToType(k, keyType)
+                            const value = ApiClient.convertToType(data[k], valueType)
                             result[key] = value
                         }
                     }
@@ -595,24 +609,26 @@
      * Constructs a new map or array model from REST data.
      * @param data {Object|Array} The REST data.
      * @param obj {Object|Array} The target object or array.
+     * @memberof ApiClient
      */
-    exports.constructFromObject = function(data, obj, itemType) {
+    ApiClient.constructFromObject = function(data, obj, itemType) {
         if (Array.isArray(data)) {
             for (let i = 0; i < data.length; i++) {
-                if (data.hasOwnProperty(i)) obj[i] = exports.convertToType(data[i], itemType)
+                if (data.hasOwnProperty(i)) obj[i] = ApiClient.convertToType(data[i], itemType)
             }
         } else {
             for (const k in data) {
-                if (data.hasOwnProperty(k)) obj[k] = exports.convertToType(data[k], itemType)
+                if (data.hasOwnProperty(k)) obj[k] = ApiClient.convertToType(data[k], itemType)
             }
         }
     }
 
     /**
      * The default API client implementation.
-     * @type {module:ApiClient}
+     * @type {ApiClient}
+     * @memberof ApiClient
      */
-    exports.instance = new exports()
+    ApiClient.instance = new ApiClient()
 
-    return exports
+    return ApiClient
 })
