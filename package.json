@@ -4,7 +4,7 @@
   "description": "This is extenstion library of caver-js for connecting KAS",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --mode production",
+    "build": "./node_modules/.bin/webpack --mode production && jsdoc -c jsdoc.json README.md",
     "test": "npm run build && npm run unitTest && npm run intTest",
     "testDev": "npm run build && npm run unitTestDev && npm run intTestDev",
     "unitTest": "mocha ./test/anchor/testAnchorAPI.js && mocha ./test/tokenHistory/testTokenHistoryAPI.js && mocha ./test/wallet/*.js && mocha ./test/helperTest.js",
