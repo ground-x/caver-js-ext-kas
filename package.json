@@ -14,7 +14,7 @@
     "intTest": "npm run intNodeAPITest && mocha ./test/intTest/*.js",
     "intTestDev": "npm run intNodeAPITestDev && mocha ./test/intTest/*.js --testEnv=dev",
     "lint": "eslint './**/*.js'",
-    "lintFix": "eslint './**/*.js' --fix"
+    "lintFix": "./yamlFormatting.sh && eslint './**/*.js' --fix"
   },
   "keywords": [
     "caver",
