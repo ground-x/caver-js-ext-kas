@@ -84,14 +84,14 @@ describe('TokenHistory API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-007: caver.kas.tokenHistory.getTransferHistory should query transfer history', async () => {
+        await timeout(1000)
         const queryOptions = {
             kind: [caver.kas.tokenHistory.queryOptions.kind.NFT],
             size: 1,
             range: `${parseInt(Date.now() / 1000) - 100000},${parseInt(Date.now() / 1000)}`,
         }
-        const preset = presets
 
-        const ret = await caver.kas.tokenHistory.getTransferHistory(preset, queryOptions)
+        const ret = await caver.kas.tokenHistory.getTransferHistory(presets, queryOptions)
 
         expect(ret.items).not.to.be.undefined
         expect(ret.items.length).to.equal(1)
@@ -100,7 +100,7 @@ describe('TokenHistory API service', () => {
         expect(ret.items[0].contract.constructor.name).to.equal('NftContract')
 
         nftTransfer = ret.items[0]
-    })
+    }).timeout(10000)
 
     it('CAVERJS-EXT-KAS-INT-008: caver.kas.tokenHistory.getTransferHistoryByTxHash should query transaction', async () => {
         const transactionHash = nftTransfer.transaction.transactionHash
