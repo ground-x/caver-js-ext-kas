@@ -14,13 +14,27 @@
  * limitations under the License.
  */
 
+/**
+ * A class that inclues auth key and chainid.
+ * @class
+ */
 class AccessOptions {
+    /**
+     * Creates an instance of AccessOptions.
+     * @constructor
+     * @param {string} accessKeyId - The access key id.
+     * @param {string} secretAccessKey - The secret access key.
+     * @param {number} chainId -The chain id.
+     */
     constructor(accessKeyId, secretAccessKey, chainId) {
         this.accessKeyId = accessKeyId
         this.secretAccessKey = secretAccessKey
         this.chainId = chainId
     }
 
+    /**
+     * @type {string}
+     */
     get accessKeyId() {
         return this._accessKeyId
     }
@@ -29,6 +43,9 @@ class AccessOptions {
         this._accessKeyId = accessKeyId
     }
 
+    /**
+     * @type {string}
+     */
     get secretAccessKey() {
         return this._secretAccessKey
     }
@@ -37,6 +54,9 @@ class AccessOptions {
         this._secretAccessKey = secretAccessKey
     }
 
+    /**
+     * @type {number}
+     */
     get chainId() {
         return this._chainId
     }
@@ -45,6 +65,9 @@ class AccessOptions {
         this._chainId = chainId
     }
 
+    /**
+     * @type {string}
+     */
     get auth() {
         return `Basic ${Buffer.from(`${this.accessKeyId}:${this.secretAccessKey}`).toString('base64')}`
     }
