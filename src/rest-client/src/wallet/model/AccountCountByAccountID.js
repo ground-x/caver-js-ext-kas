@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AccountCountByAccountID model module.
-     * @module model/AccountCountByAccountID
+     * @class AccountCountByAccountID
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AccountCountByAccountID</code>.
      * KAS 계정의 클레이튼 계정 보유 갯수
-     * @alias module:model/AccountCountByAccountID
+     * @alias AccountCountByAccountID
      * @class
      * @param accountId {String} KAS 계정 ID
      * @param count {Number} KAS 계정의 클레이튼 계정 보유 갯수
@@ -51,8 +51,9 @@
      * Constructs a <code>AccountCountByAccountID</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AccountCountByAccountID} obj Optional instance to populate.
-     * @return {module:model/AccountCountByAccountID} The populated <code>AccountCountByAccountID</code> instance.
+     * @param {AccountCountByAccountID} obj Optional instance to populate.
+     * @return {AccountCountByAccountID} The populated <code>AccountCountByAccountID</code> instance.
+     * @memberof AccountCountByAccountID
      */
     AccountCountByAccountID.constructFromObject = function(data, obj) {
         if (data) {
@@ -65,13 +66,15 @@
 
     /**
      * KAS 계정 ID
-     * @member {String} accountId
+     * @type {String}
+     * @memberof AccountCountByAccountID
      */
     AccountCountByAccountID.prototype.accountId = undefined
 
     /**
      * KAS 계정의 클레이튼 계정 보유 갯수
-     * @member {Number} count
+     * @type {Number}
+     * @memberof AccountCountByAccountID
      */
     AccountCountByAccountID.prototype.count = undefined
 

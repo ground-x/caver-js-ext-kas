@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The ProcessRLPRequest model module.
-     * @module model/ProcessRLPRequest
+     * @class ProcessRLPRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>ProcessRLPRequest</code>.
      * RLP 이용 트랜잭션 요청 스키마
-     * @alias module:model/ProcessRLPRequest
+     * @alias ProcessRLPRequest
      * @class
      * @param rlp {String} RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받으며, Legacy 트랜잭션과 Basic 트랜잭션 타입만 허용함.
      */
@@ -49,8 +49,9 @@
      * Constructs a <code>ProcessRLPRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/ProcessRLPRequest} obj Optional instance to populate.
-     * @return {module:model/ProcessRLPRequest} The populated <code>ProcessRLPRequest</code> instance.
+     * @param {ProcessRLPRequest} obj Optional instance to populate.
+     * @return {ProcessRLPRequest} The populated <code>ProcessRLPRequest</code> instance.
+     * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -64,18 +65,21 @@
 
     /**
      * RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받으며, Legacy 트랜잭션과 Basic 트랜잭션 타입만 허용함.
-     * @member {String} rlp
+     * @type {String}
+     * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.prototype.rlp = undefined
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
+     * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.prototype.submit = undefined
 
     /**
-     * @member {String} from
+     * @type {String}
+     * @memberof ProcessRLPRequest
      */
     ProcessRLPRequest.prototype.from = undefined
 

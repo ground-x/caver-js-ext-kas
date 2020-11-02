@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The MultisigAddress model module.
-     * @module model/MultisigAddress
+     * @class MultisigAddress
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>MultisigAddress</code>.
      * Multisig 연관 계정
-     * @alias module:model/MultisigAddress
+     * @alias MultisigAddress
      * @class
      * @param address {String} Multisig 연관 계정 주소
      * @param weight {Number} Multisig 연관 계정의 가중치
@@ -51,8 +51,9 @@
      * Constructs a <code>MultisigAddress</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultisigAddress} obj Optional instance to populate.
-     * @return {module:model/MultisigAddress} The populated <code>MultisigAddress</code> instance.
+     * @param {MultisigAddress} obj Optional instance to populate.
+     * @return {MultisigAddress} The populated <code>MultisigAddress</code> instance.
+     * @memberof MultisigAddress
      */
     MultisigAddress.constructFromObject = function(data, obj) {
         if (data) {
@@ -65,13 +66,15 @@
 
     /**
      * Multisig 연관 계정 주소
-     * @member {String} address
+     * @type {String}
+     * @memberof MultisigAddress
      */
     MultisigAddress.prototype.address = undefined
 
     /**
      * Multisig 연관 계정의 가중치
-     * @member {Number} weight
+     * @type {Number}
+     * @memberof MultisigAddress
      */
     MultisigAddress.prototype.weight = undefined
 

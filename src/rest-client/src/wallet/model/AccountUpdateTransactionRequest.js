@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AccountUpdateTransactionRequest model module.
-     * @module model/AccountUpdateTransactionRequest
+     * @class AccountUpdateTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AccountUpdateTransactionRequest</code>.
      * 계정 업데이트 트랜잭션 요청 스키마
-     * @alias module:model/AccountUpdateTransactionRequest
+     * @alias AccountUpdateTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      */
@@ -49,8 +49,9 @@
      * Constructs a <code>AccountUpdateTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AccountUpdateTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/AccountUpdateTransactionRequest} The populated <code>AccountUpdateTransactionRequest</code> instance.
+     * @param {AccountUpdateTransactionRequest} obj Optional instance to populate.
+     * @return {AccountUpdateTransactionRequest} The populated <code>AccountUpdateTransactionRequest</code> instance.
+     * @memberof AccountUpdateTransactionRequest
      */
     AccountUpdateTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -66,31 +67,36 @@
 
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
-     * @member {String} from
+     * @type {String}
+     * @memberof AccountUpdateTransactionRequest
      */
     AccountUpdateTransactionRequest.prototype.from = undefined
 
     /**
-     * @member {Object} accountKey
+     * @type {Object}
+     * @memberof AccountUpdateTransactionRequest
      */
     AccountUpdateTransactionRequest.prototype.accountKey = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
-     * @member {Number} nonce
+     * @type {Number}
+     * @memberof AccountUpdateTransactionRequest
      */
     AccountUpdateTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
-     * @member {Number} gas
+     * @type {Number}
+     * @memberof AccountUpdateTransactionRequest
      * @default 100000
      */
     AccountUpdateTransactionRequest.prototype.gas = 100000
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
+     * @memberof AccountUpdateTransactionRequest
      */
     AccountUpdateTransactionRequest.prototype.submit = undefined
 

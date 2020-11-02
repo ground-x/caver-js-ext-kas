@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDUserProcessRLPRequest model module.
-     * @module model/FDUserProcessRLPRequest
+     * @class FDUserProcessRLPRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDUserProcessRLPRequest</code>.
      * rlp 이용 유저 대납 트랜잭션 요청 스키마
-     * @alias module:model/FDUserProcessRLPRequest
+     * @alias FDUserProcessRLPRequest
      * @class
      * @param rlp {String} RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받으며, (partial) fee delegation 트랜잭션 타입만 허용함.
      * @param feePayer {String} 유저 트랜잭션 수수료를 대납할 계정 주소
@@ -51,8 +51,9 @@
      * Constructs a <code>FDUserProcessRLPRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDUserProcessRLPRequest} obj Optional instance to populate.
-     * @return {module:model/FDUserProcessRLPRequest} The populated <code>FDUserProcessRLPRequest</code> instance.
+     * @param {FDUserProcessRLPRequest} obj Optional instance to populate.
+     * @return {FDUserProcessRLPRequest} The populated <code>FDUserProcessRLPRequest</code> instance.
+     * @memberof FDUserProcessRLPRequest
      */
     FDUserProcessRLPRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -67,25 +68,29 @@
 
     /**
      * RLP 값으로 Klaytn RLP 포맷인 SigRLP 또는 TxHashRLP을 받으며, (partial) fee delegation 트랜잭션 타입만 허용함.
-     * @member {String} rlp
+     * @type {String}
+     * @memberof FDUserProcessRLPRequest
      */
     FDUserProcessRLPRequest.prototype.rlp = undefined
 
     /**
      * 유저 트랜잭션 수수료를 대납할 계정 주소
-     * @member {String} feePayer
+     * @type {String}
+     * @memberof FDUserProcessRLPRequest
      */
     FDUserProcessRLPRequest.prototype.feePayer = undefined
 
     /**
      * 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율
-     * @member {Number} feeRatio
+     * @type {Number}
+     * @memberof FDUserProcessRLPRequest
      */
     FDUserProcessRLPRequest.prototype.feeRatio = undefined
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
+     * @memberof FDUserProcessRLPRequest
      */
     FDUserProcessRLPRequest.prototype.submit = undefined
 

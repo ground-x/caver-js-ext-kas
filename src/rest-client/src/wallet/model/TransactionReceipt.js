@@ -40,14 +40,14 @@
 })(this, function(ApiClient, EventLog, FeePayerSignaturesObj, Signature) {
     /**
      * The TransactionReceipt model module.
-     * @module model/TransactionReceipt
+     * @class TransactionReceipt
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>TransactionReceipt</code>.
      * 트랜잭션 영수증
-     * @alias module:model/TransactionReceipt
+     * @alias TransactionReceipt
      * @class
      * @param contractAddress {String} 컨트랙트 주소. 만약 컨트랙트 배포가 아니면 `null` 값을 가짐.
      */
@@ -59,8 +59,9 @@
      * Constructs a <code>TransactionReceipt</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/TransactionReceipt} obj Optional instance to populate.
-     * @return {module:model/TransactionReceipt} The populated <code>TransactionReceipt</code> instance.
+     * @param {TransactionReceipt} obj Optional instance to populate.
+     * @return {TransactionReceipt} The populated <code>TransactionReceipt</code> instance.
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.constructFromObject = function(data, obj) {
         if (data) {
@@ -97,148 +98,173 @@
 
     /**
      * 해당 트랜잭션이 있는 블록의 해시값
-     * @member {String} blockHash
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.blockHash = undefined
 
     /**
      * 해당 트랜잭션이 있는 블록의 번호
-     * @member {String} blockNumber
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.blockNumber = undefined
 
     /**
      * 트랜잭션을 보낸 Klaytn 계정 주소
-     * @member {String} from
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.from = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용하도록 설정한 트랜잭션 수수료(gas)의 최대값
-     * @member {String} gas
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.gas = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용하도록 설정한 트랜잭션 수수료(gas) 비용
-     * @member {String} gasPrice
+     * @type {String}Price
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.gasPrice = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용한 트랜잭션 수수료(gas)
-     * @member {String} gasUsed
+     * @type {String}Used
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.gasUsed = undefined
 
     /**
      * 트랜잭션 데이터 해시
-     * @member {String} hash
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.hash = undefined
 
     /**
      * 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
-     * @member {String} input
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.input = undefined
 
     /**
-     * @member {Array.<module:model/EventLog>} logs
+     * @type {Array.<EventLog>}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.logs = undefined
 
     /**
      * 관련 로그를 빨리 찾기 위해 사용된 Bloom 필터
-     * @member {String} logsBloom
+     * @type {String}Bloom
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.logsBloom = undefined
 
     /**
      * 현재 해당 트랜잭션을 보내는 이가 과거에 보냈던 모든 트랜잭션의 개수
-     * @member {String} nonce
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.nonce = undefined
 
     /**
      * 대납 계정의 주소와 서명 값이 없는 트랜잭션의 해시값
-     * @member {String} senderTxHash
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.senderTxHash = undefined
 
     /**
-     * @member {Array.<module:model/Signature>} signatures
+     * @type {Array.<Signature>}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.signatures = undefined
 
     /**
      * 해당 트랜잭션의 상태. 아직 txpool에 있을 경우 `Pending`, 성공한 트랜잭션의 경우 `Committed`, 실패한 트랜잭션의 경우 `CommitError`로 표시함.
-     * @member {String} status
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.status = undefined
 
     /**
      * KLAY를 받는 Klaytn 계정 주소
-     * @member {String} to
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.to = undefined
 
     /**
      * 해당 트랜잭션의 해시값
-     * @member {String} transactionHash
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.transactionHash = undefined
 
     /**
      * 트랜잭션이 들어있는 블록 안에서 해당 트랜잭션의 순서
-     * @member {String} transactionIndex
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.transactionIndex = undefined
 
     /**
      * 해당 트랜잭션 타입를 나타내는 문자값
-     * @member {String} type
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.type = undefined
 
     /**
      * 해당 트랜잭션 타입을 나타내는 숫자값
-     * @member {Number} typeInt
+     * @type {Number}Int
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.typeInt = undefined
 
     /**
      * PEB 단위로 환산된 KLAY
-     * @member {String} value
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.value = undefined
 
     /**
      * 컨트랙트 주소. 만약 컨트랙트 배포가 아니면 `null` 값을 가짐.
-     * @member {String} contractAddress
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.contractAddress = undefined
 
     /**
      * 스마트 컨트랙트의 코드 포맷
-     * @member {String} codeFormat
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.codeFormat = undefined
 
     /**
      * 트랜잭션 수수료를 대납할 계정 주소
-     * @member {String} feePayer
+     * @type {String}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.feePayer = undefined
 
     /**
-     * @member {Array.<module:model/FeePayerSignaturesObj>} feePayerSignatures
+     * @type {Array.<FeePayerSignaturesObj>}Signatures
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.feePayerSignatures = undefined
 
     /**
      * 해당 계정의 주소가 `humanReadable`인지 여부
-     * @member {Boolean} humanReadable
+     * @type {Boolean}
+     * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.humanReadable = undefined
 

@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The ContractDeployTransactionRequest model module.
-     * @module model/ContractDeployTransactionRequest
+     * @class ContractDeployTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>ContractDeployTransactionRequest</code>.
      * 컨트랙트 배포 트랜잭션 요청 스키마
-     * @alias module:model/ContractDeployTransactionRequest
+     * @alias ContractDeployTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param input {String} 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
@@ -51,8 +51,9 @@
      * Constructs a <code>ContractDeployTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/ContractDeployTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/ContractDeployTransactionRequest} The populated <code>ContractDeployTransactionRequest</code> instance.
+     * @param {ContractDeployTransactionRequest} obj Optional instance to populate.
+     * @return {ContractDeployTransactionRequest} The populated <code>ContractDeployTransactionRequest</code> instance.
+     * @memberof ContractDeployTransactionRequest
      */
     ContractDeployTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -69,38 +70,44 @@
 
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
-     * @member {String} from
+     * @type {String}
+     * @memberof ContractDeployTransactionRequest
      */
     ContractDeployTransactionRequest.prototype.from = undefined
 
     /**
      * PEB 단위로 환산된 KLAY
-     * @member {String} value
+     * @type {String}
+     * @memberof ContractDeployTransactionRequest
      */
     ContractDeployTransactionRequest.prototype.value = undefined
 
     /**
      * 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
-     * @member {String} input
+     * @type {String}
+     * @memberof ContractDeployTransactionRequest
      */
     ContractDeployTransactionRequest.prototype.input = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
-     * @member {Number} nonce
+     * @type {Number}
+     * @memberof ContractDeployTransactionRequest
      */
     ContractDeployTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
-     * @member {Number} gas
+     * @type {Number}
+     * @memberof ContractDeployTransactionRequest
      * @default 100000
      */
     ContractDeployTransactionRequest.prototype.gas = 100000
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
+     * @memberof ContractDeployTransactionRequest
      */
     ContractDeployTransactionRequest.prototype.submit = undefined
 

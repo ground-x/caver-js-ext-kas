@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The MultisigKey model module.
-     * @module model/MultisigKey
+     * @class MultisigKey
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>MultisigKey</code>.
      * Multisig를 위한 키 정보
-     * @alias module:model/MultisigKey
+     * @alias MultisigKey
      * @class
      * @param publicKey {String} 클레이튼 계정의 공개키
      * @param weight {Number} 해당 공개키의 가중치
@@ -51,8 +51,9 @@
      * Constructs a <code>MultisigKey</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultisigKey} obj Optional instance to populate.
-     * @return {module:model/MultisigKey} The populated <code>MultisigKey</code> instance.
+     * @param {MultisigKey} obj Optional instance to populate.
+     * @return {MultisigKey} The populated <code>MultisigKey</code> instance.
+     * @memberof MultisigKey
      */
     MultisigKey.constructFromObject = function(data, obj) {
         if (data) {
@@ -65,13 +66,15 @@
 
     /**
      * 클레이튼 계정의 공개키
-     * @member {String} publicKey
+     * @type {String}
+     * @memberof MultisigKey
      */
     MultisigKey.prototype.publicKey = undefined
 
     /**
      * 해당 공개키의 가중치
-     * @member {Number} weight
+     * @type {Number}
+     * @memberof MultisigKey
      */
     MultisigKey.prototype.weight = undefined
 

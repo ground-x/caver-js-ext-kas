@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The MultisigTransactionStatus model module.
-     * @module model/MultisigTransactionStatus
+     * @class MultisigTransactionStatus
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>MultisigTransactionStatus</code>.
      * 다중 서명 트랜잭션의 현재 상태
-     * @alias module:model/MultisigTransactionStatus
+     * @alias MultisigTransactionStatus
      * @class
      * @param signedWeight {Number} 해당 트랜잭션이 서명을 받았을 때, 그 서명들이 가지는 가중치
      * @param status {String} 트랜잭션의 현재 상태
@@ -57,8 +57,9 @@
      * Constructs a <code>MultisigTransactionStatus</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultisigTransactionStatus} obj Optional instance to populate.
-     * @return {module:model/MultisigTransactionStatus} The populated <code>MultisigTransactionStatus</code> instance.
+     * @param {MultisigTransactionStatus} obj Optional instance to populate.
+     * @return {MultisigTransactionStatus} The populated <code>MultisigTransactionStatus</code> instance.
+     * @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.constructFromObject = function(data, obj) {
         if (data) {
@@ -76,41 +77,48 @@
 
     /**
      * 해당 트랜잭션이 서명을 받았을 때, 그 서명들이 가지는 가중치
-     * @member {Number} signedWeight
+     * @type {Number}
+     * @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.signedWeight = undefined
 
     /**
      * 트랜잭션의 현재 상태
-     * @member {String} status
+     * @type {String}
+     * @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.status = undefined
 
     /**
      * 이 트랜잭션이 전송되는 데 필요한 가중치 총합
-     * @member {Number} threshold
+     * @type {Number}
+     * @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.threshold = undefined
 
     /**
-     * @member {String} transactionHash
+     * @type {String}
+     * @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.transactionHash = undefined
 
     /**
      * 다중 서명 트랜잭션을 식별하는 ID
-     * @member {String} transactionId
+     * @type {String}
+     * @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.transactionId = undefined
 
     /**
      * 해당 서명자의 가중치 값
-     * @member {Number} weight
+     * @type {Number}
+     * @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.weight = undefined
 
     /**
-     * @member {Array.<String>} reminders
+     * @type {Array.<String>}
+     * @memberof MultisigTransactionStatus
      */
     MultisigTransactionStatus.prototype.reminders = undefined
 

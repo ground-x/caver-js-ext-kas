@@ -30,14 +30,14 @@
 })(this, function(ApiClient, MultisigAddress, TxData) {
     /**
      * The PendedTransaction model module.
-     * @module model/PendedTransaction
+     * @class PendedTransaction
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>PendedTransaction</code>.
      * Pending 트랜잭션
-     * @alias module:model/PendedTransaction
+     * @alias PendedTransaction
      * @class
      * @param chainId {Number} 클레이튼 체인 ID
      * @param createdAt {Number} 트랜잭션 요청 시간
@@ -59,8 +59,9 @@
      * Constructs a <code>PendedTransaction</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/PendedTransaction} obj Optional instance to populate.
-     * @return {module:model/PendedTransaction} The populated <code>PendedTransaction</code> instance.
+     * @param {PendedTransaction} obj Optional instance to populate.
+     * @return {PendedTransaction} The populated <code>PendedTransaction</code> instance.
+     * @memberof PendedTransaction
      */
     PendedTransaction.constructFromObject = function(data, obj) {
         if (data) {
@@ -80,59 +81,69 @@
     }
 
     /**
-     * @member {String} address
+     * @type {String}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.address = undefined
 
     /**
      * 클레이튼 체인 ID
-     * @member {Number} chainId
+     * @type {Number}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.chainId = undefined
 
     /**
      * 트랜잭션 요청 시간
-     * @member {Number} createdAt
+     * @type {Number}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.createdAt = undefined
 
     /**
-     * @member {Array.<module:model/MultisigAddress>} multiSigKeys
+     * @type {Array.<MultisigAddress>}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.multiSigKeys = undefined
 
     /**
      * 트랜잭션의 현재 상태
-     * @member {Number} status
+     * @type {Number}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.status = undefined
 
     /**
      * 이 트랜잭션이 전송되는 데 필요한 가중치 총합
-     * @member {Number} threshold
+     * @type {Number}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.threshold = undefined
 
     /**
      * 다중 서명 트랜잭션을 식별하는 ID
-     * @member {String} transactionId
+     * @type {String}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.transactionId = undefined
 
     /**
-     * @member {module:model/TxData} txData
+     * @type {TxData}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.txData = undefined
 
     /**
      * 트랜잭션의 타입 (TX)
-     * @member {String} type
+     * @type {String}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.type = undefined
 
     /**
      * 해당 트랜잭션이 최종 업데이트 된 시간
-     * @member {Number} updatedAt
+     * @type {Number}
+     * @memberof PendedTransaction
      */
     PendedTransaction.prototype.updatedAt = undefined
 

@@ -30,14 +30,14 @@
 })(this, function(ApiClient, Account) {
     /**
      * The Accounts model module.
-     * @module model/Accounts
+     * @class Accounts
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>Accounts</code>.
      * 계정 정보 목록
-     * @alias module:model/Accounts
+     * @alias Accounts
      * @class
      * @param cursor {String} 마지막 검색 위치를 나타내는 커서 정보
      */
@@ -49,8 +49,9 @@
      * Constructs a <code>Accounts</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/Accounts} obj Optional instance to populate.
-     * @return {module:model/Accounts} The populated <code>Accounts</code> instance.
+     * @param {Accounts} obj Optional instance to populate.
+     * @return {Accounts} The populated <code>Accounts</code> instance.
+     * @memberof Accounts
      */
     Accounts.constructFromObject = function(data, obj) {
         if (data) {
@@ -63,12 +64,14 @@
 
     /**
      * 마지막 검색 위치를 나타내는 커서 정보
-     * @member {String} cursor
+     * @type {String}
+     * @memberof Accounts
      */
     Accounts.prototype.cursor = undefined
 
     /**
-     * @member {Array.<module:model/Account>} items
+     * @type {Array.<Account>}
+     * @memberof Accounts
      */
     Accounts.prototype.items = undefined
 

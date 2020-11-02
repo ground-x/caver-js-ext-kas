@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDUserCancelTransactionRequest model module.
-     * @module model/FDUserCancelTransactionRequest
+     * @class FDUserCancelTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDUserCancelTransactionRequest</code>.
      * 유저 대납 취소 트랜잭션 요청 스키마
-     * @alias module:model/FDUserCancelTransactionRequest
+     * @alias FDUserCancelTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param feePayer {String} 유저 트랜잭션 수수료를 대납할 계정 주소
@@ -51,8 +51,9 @@
      * Constructs a <code>FDUserCancelTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDUserCancelTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/FDUserCancelTransactionRequest} The populated <code>FDUserCancelTransactionRequest</code> instance.
+     * @param {FDUserCancelTransactionRequest} obj Optional instance to populate.
+     * @return {FDUserCancelTransactionRequest} The populated <code>FDUserCancelTransactionRequest</code> instance.
+     * @memberof FDUserCancelTransactionRequest
      */
     FDUserCancelTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -70,44 +71,51 @@
 
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
-     * @member {String} from
+     * @type {String}
+     * @memberof FDUserCancelTransactionRequest
      */
     FDUserCancelTransactionRequest.prototype.from = undefined
 
     /**
      * 트랜잭션의 해시값
-     * @member {String} transactionHash
+     * @type {String}
+     * @memberof FDUserCancelTransactionRequest
      */
     FDUserCancelTransactionRequest.prototype.transactionHash = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
-     * @member {Number} nonce
+     * @type {Number}
+     * @memberof FDUserCancelTransactionRequest
      */
     FDUserCancelTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
-     * @member {Number} gas
+     * @type {Number}
+     * @memberof FDUserCancelTransactionRequest
      * @default 100000
      */
     FDUserCancelTransactionRequest.prototype.gas = 100000
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
+     * @memberof FDUserCancelTransactionRequest
      */
     FDUserCancelTransactionRequest.prototype.submit = undefined
 
     /**
      * 유저 트랜잭션 수수료를 대납할 계정 주소
-     * @member {String} feePayer
+     * @type {String}
+     * @memberof FDUserCancelTransactionRequest
      */
     FDUserCancelTransactionRequest.prototype.feePayer = undefined
 
     /**
      * 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율
-     * @member {Number} feeRatio
+     * @type {Number}
+     * @memberof FDUserCancelTransactionRequest
      */
     FDUserCancelTransactionRequest.prototype.feeRatio = undefined
 

@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDAnchorTransactionRequest model module.
-     * @module model/FDAnchorTransactionRequest
+     * @class FDAnchorTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDAnchorTransactionRequest</code>.
      * 대납 앵커 트랜잭션 요청 스키마
-     * @alias module:model/FDAnchorTransactionRequest
+     * @alias FDAnchorTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param input {String} 트랜잭션에 첨부되는 데이터로 여기에서는 메인 체인에 앵커링하려는 데이터
@@ -51,8 +51,9 @@
      * Constructs a <code>FDAnchorTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDAnchorTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/FDAnchorTransactionRequest} The populated <code>FDAnchorTransactionRequest</code> instance.
+     * @param {FDAnchorTransactionRequest} obj Optional instance to populate.
+     * @return {FDAnchorTransactionRequest} The populated <code>FDAnchorTransactionRequest</code> instance.
+     * @memberof FDAnchorTransactionRequest
      */
     FDAnchorTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -69,38 +70,44 @@
 
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
-     * @member {String} from
+     * @type {String}
+     * @memberof FDAnchorTransactionRequest
      */
     FDAnchorTransactionRequest.prototype.from = undefined
 
     /**
      * 트랜잭션에 첨부되는 데이터로 여기에서는 메인 체인에 앵커링하려는 데이터
-     * @member {String} input
+     * @type {String}
+     * @memberof FDAnchorTransactionRequest
      */
     FDAnchorTransactionRequest.prototype.input = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
-     * @member {Number} nonce
+     * @type {Number}
+     * @memberof FDAnchorTransactionRequest
      */
     FDAnchorTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
-     * @member {Number} gas
+     * @type {Number}
+     * @memberof FDAnchorTransactionRequest
      * @default 100000
      */
     FDAnchorTransactionRequest.prototype.gas = 100000
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
+     * @memberof FDAnchorTransactionRequest
      */
     FDAnchorTransactionRequest.prototype.submit = undefined
 
     /**
      * 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율
-     * @member {Number} feeRatio
+     * @type {Number}
+     * @memberof FDAnchorTransactionRequest
      */
     FDAnchorTransactionRequest.prototype.feeRatio = undefined
 

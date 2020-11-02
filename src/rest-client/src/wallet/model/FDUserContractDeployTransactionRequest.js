@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDUserContractDeployTransactionRequest model module.
-     * @module model/FDUserContractDeployTransactionRequest
+     * @class FDUserContractDeployTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDUserContractDeployTransactionRequest</code>.
      * 유저 대납 컨트랙트 배포 트랜잭션 요청 스키마
-     * @alias module:model/FDUserContractDeployTransactionRequest
+     * @alias FDUserContractDeployTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param input {String} 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
@@ -53,8 +53,9 @@
      * Constructs a <code>FDUserContractDeployTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDUserContractDeployTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/FDUserContractDeployTransactionRequest} The populated <code>FDUserContractDeployTransactionRequest</code> instance.
+     * @param {FDUserContractDeployTransactionRequest} obj Optional instance to populate.
+     * @return {FDUserContractDeployTransactionRequest} The populated <code>FDUserContractDeployTransactionRequest</code> instance.
+     * @memberof FDUserContractDeployTransactionRequest
      */
     FDUserContractDeployTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -73,50 +74,58 @@
 
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
-     * @member {String} from
+     * @type {String}
+     * @memberof FDUserContractDeployTransactionRequest
      */
     FDUserContractDeployTransactionRequest.prototype.from = undefined
 
     /**
      * peb 단위로 환산된 KLAY
-     * @member {String} value
+     * @type {String}
+     * @memberof FDUserContractDeployTransactionRequest
      */
     FDUserContractDeployTransactionRequest.prototype.value = undefined
 
     /**
      * 보내는 트랜잭션에 첨부되며 트랜잭션 실행에 사용되는 데이터
-     * @member {String} input
+     * @type {String}
+     * @memberof FDUserContractDeployTransactionRequest
      */
     FDUserContractDeployTransactionRequest.prototype.input = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
-     * @member {Number} nonce
+     * @type {Number}
+     * @memberof FDUserContractDeployTransactionRequest
      */
     FDUserContractDeployTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
-     * @member {Number} gas
+     * @type {Number}
+     * @memberof FDUserContractDeployTransactionRequest
      * @default 900000
      */
     FDUserContractDeployTransactionRequest.prototype.gas = 900000
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
+     * @memberof FDUserContractDeployTransactionRequest
      */
     FDUserContractDeployTransactionRequest.prototype.submit = undefined
 
     /**
      * 트랜잭션 수수료를 대납할 계정 주소
-     * @member {String} feePayer
+     * @type {String}
+     * @memberof FDUserContractDeployTransactionRequest
      */
     FDUserContractDeployTransactionRequest.prototype.feePayer = undefined
 
     /**
      * 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율
-     * @member {Number} feeRatio
+     * @type {Number}
+     * @memberof FDUserContractDeployTransactionRequest
      */
     FDUserContractDeployTransactionRequest.prototype.feeRatio = undefined
 

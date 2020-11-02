@@ -74,25 +74,25 @@
 ) {
     /**
      * Account service.
-     * @module api/AccountApi
+     * @class AccountApi
      * @version 1.0
      */
 
     /**
      * Constructs a new AccountApi.
-     * @alias module:api/AccountApi
+     * @alias AccountApi
      * @class
-     * @param {module:ApiClient} [apiClient] Optional API client implementation to use,
-     * default to {@link module:ApiClient#instance} if unspecified.
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
-    const exports = function(apiClient) {
+    const AccountApi = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
          * Callback function to receive the result of the activateAccount operation.
-         * @callback module:api/AccountApi~activateAccountCallback
+         * @callback AccountApi~activateAccountCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AccountSummary} data The data returned by the service call.
+         * @param {AccountSummary} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -101,8 +101,8 @@
          * 비활성화된 클레이튼 계정을 다시 활성화합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} address Klaytn 계정 주소
-         * @param {module:api/AccountApi~activateAccountCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AccountSummary}
+         * @param {AccountApi~activateAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AccountSummary}
          */
         this.activateAccount = function(xChainId, address, callback) {
             const postBody = null
@@ -151,9 +151,9 @@
 
         /**
          * Callback function to receive the result of the createAccount operation.
-         * @callback module:api/AccountApi~createAccountCallback
+         * @callback AccountApi~createAccountCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/Account} data The data returned by the service call.
+         * @param {Account} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -161,8 +161,8 @@
          * CreateAccount
          * 클레이튼 계정을 생성합니다. 임의의 클레이튼 계정 주소와 개인키/공개키 쌍을 생성하며 public key와 private key ID를 반환합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
-         * @param {module:api/AccountApi~createAccountCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/Account}
+         * @param {AccountApi~createAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Account}
          */
         this.createAccount = function(xChainId, callback) {
             const postBody = null
@@ -204,9 +204,9 @@
 
         /**
          * Callback function to receive the result of the deactivateAccount operation.
-         * @callback module:api/AccountApi~deactivateAccountCallback
+         * @callback AccountApi~deactivateAccountCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AccountSummary} data The data returned by the service call.
+         * @param {AccountSummary} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -215,8 +215,8 @@
          * 해당 클레이튼 계정을 비활성화합니다. 계정을 비활성화하면 해당 계정이 조회되지 않습니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} address Klaytn 계정 주소
-         * @param {module:api/AccountApi~deactivateAccountCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AccountSummary}
+         * @param {AccountApi~deactivateAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AccountSummary}
          */
         this.deactivateAccount = function(xChainId, address, callback) {
             const postBody = null
@@ -265,9 +265,9 @@
 
         /**
          * Callback function to receive the result of the deleteAccount operation.
-         * @callback module:api/AccountApi~deleteAccountCallback
+         * @callback AccountApi~deleteAccountCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AccountStatus} data The data returned by the service call.
+         * @param {AccountStatus} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -276,8 +276,8 @@
          * 해당 클레이튼 계정을 삭제합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} address Klaytn 계정 주소
-         * @param {module:api/AccountApi~deleteAccountCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AccountStatus}
+         * @param {AccountApi~deleteAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AccountStatus}
          */
         this.deleteAccount = function(xChainId, address, callback) {
             const postBody = null
@@ -326,9 +326,9 @@
 
         /**
          * Callback function to receive the result of the multisigAccountUpdate operation.
-         * @callback module:api/AccountApi~multisigAccountUpdateCallback
+         * @callback AccountApi~multisigAccountUpdateCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/MultisigAccount} data The data returned by the service call.
+         * @param {MultisigAccount} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -338,9 +338,9 @@
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} address Klaytn 계정 주소
          * @param {Object} opts Optional parameters
-         * @param {module:model/MultisigAccountUpdateRequest} opts.body
-         * @param {module:api/AccountApi~multisigAccountUpdateCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/MultisigAccount}
+         * @param {MultisigAccountUpdateRequest} opts.body
+         * @param {AccountApi~multisigAccountUpdateCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link MultisigAccount}
          */
         this.multisigAccountUpdate = function(xChainId, address, opts, callback) {
             opts = opts || {}
@@ -390,9 +390,9 @@
 
         /**
          * Callback function to receive the result of the retrieveAccount operation.
-         * @callback module:api/AccountApi~retrieveAccountCallback
+         * @callback AccountApi~retrieveAccountCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/Account} data The data returned by the service call.
+         * @param {Account} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -401,8 +401,8 @@
          * 해당 클레이튼 계정을 조회합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} address Klaytn 계정 주소
-         * @param {module:api/AccountApi~retrieveAccountCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/Account}
+         * @param {AccountApi~retrieveAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Account}
          */
         this.retrieveAccount = function(xChainId, address, callback) {
             const postBody = null
@@ -451,9 +451,9 @@
 
         /**
          * Callback function to receive the result of the retrieveAccounts operation.
-         * @callback module:api/AccountApi~retrieveAccountsCallback
+         * @callback AccountApi~retrieveAccountsCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/Accounts} data The data returned by the service call.
+         * @param {Accounts} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -466,8 +466,8 @@
          * @param {String} opts.cursor 마지막으로 검색된 커서의 정보
          * @param {Number} opts.toTimestamp 검색하고자 하는 마지막 시간의 타임스탬프 (초단위)
          * @param {Number} opts.fromTimestamp 검색하고자 하는 처음 시간의 타임스탬프 (초단위)
-         * @param {module:api/AccountApi~retrieveAccountsCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/Accounts}
+         * @param {AccountApi~retrieveAccountsCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Accounts}
          */
         this.retrieveAccounts = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -515,9 +515,9 @@
 
         /**
          * Callback function to receive the result of the retrieveAccountsByPubkey operation.
-         * @callback module:api/AccountApi~retrieveAccountsByPubkeyCallback
+         * @callback AccountApi~retrieveAccountsByPubkeyCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/AccountsByPubkey} data The data returned by the service call.
+         * @param {AccountsByPubkey} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -526,8 +526,8 @@
          * 해당 공개키를 가진 클레이튼 계정 목록을 조회합니다.
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} publicKey Klaytn 공개키
-         * @param {module:api/AccountApi~retrieveAccountsByPubkeyCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/AccountsByPubkey}
+         * @param {AccountApi~retrieveAccountsByPubkeyCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AccountsByPubkey}
          */
         this.retrieveAccountsByPubkey = function(xChainId, publicKey, callback) {
             const postBody = null
@@ -576,9 +576,9 @@
 
         /**
          * Callback function to receive the result of the signTransactionIDResponse operation.
-         * @callback module:api/AccountApi~signTransactionIDResponseCallback
+         * @callback AccountApi~signTransactionIDResponseCallback
          * @param {String} error Error message, if any.
-         * @param {module:model/Signature} data The data returned by the service call.
+         * @param {Signature} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -588,8 +588,8 @@
          * @param {String} xChainId Klaytn 체인 네트워크 ID (1001 or 8217)
          * @param {String} address Klaytn 계정 주소
          * @param {String} transactionId 서명하려는 트랜잭션의 ID
-         * @param {module:api/AccountApi~signTransactionIDResponseCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link module:model/Signature}
+         * @param {AccountApi~signTransactionIDResponseCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Signature}
          */
         this.signTransactionIDResponse = function(xChainId, address, transactionId, callback) {
             const postBody = null
@@ -643,5 +643,5 @@
         }
     }
 
-    return exports
+    return AccountApi
 })

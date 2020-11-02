@@ -314,209 +314,182 @@
     StatisticsApi
 ) {
     /**
-     * ERROR_UNKNOWN.<br>
-     * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
-     * <p>
-     * An AMD (recommended!) or CommonJS application will generally do something equivalent to the following:
-     * <pre>
-     * var AnchorApi = require('index'); // See note below*.
-     * var xxxSvc = new AnchorApi.XxxApi(); // Allocate the API class we're going to use.
-     * var yyyModel = new AnchorApi.Yyy(); // Construct a model instance.
-     * yyyModel.someProperty = 'someValue';
-     * ...
-     * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
-     * ...
-     * </pre>
-     * <em>*NOTE: For a top-level AMD script, use require(['index'], function(){...})
-     * and put the application logic within the callback function.</em>
-     * </p>
-     * <p>
-     * A non-AMD browser application (discouraged) might do something like this:
-     * <pre>
-     * var xxxSvc = new AnchorApi.XxxApi(); // Allocate the API class we're going to use.
-     * var yyy = new AnchorApi.Yyy(); // Construct a model instance.
-     * yyyModel.someProperty = 'someValue';
-     * ...
-     * var zzz = xxxSvc.doSomething(yyyModel); // Invoke the service.
-     * ...
-     * </pre>
-     * </p>
-     * @module index
+     * @module RestClient
      * @version 1.0
      */
     const exports = {
         /**
          * The ApiClient constructor.
-         * @property {module:ApiClient}
+         * @property {ApiClient}
          */
         ApiClient: ApiClient,
 
         // Anchor
         /**
          * The AnchorBlockRequest model constructor.
-         * @property {module:anchor/model/AnchorBlockRequest}
+         * @property {AnchorBlockRequest}
          */
         AnchorBlockRequest: AnchorBlockRequest,
         /**
          * The AnchorBlockStatus model constructor.
-         * @property {module:anchor/model/AnchorBlockStatus}
+         * @property {AnchorBlockStatus}
          */
         AnchorBlockStatus: AnchorBlockStatus,
         /**
          * The AnchorTransactionDetail model constructor.
-         * @property {module:anchor/model/AnchorTransactionDetail}
+         * @property {AnchorTransactionDetail}
          */
         AnchorTransactionDetail: AnchorTransactionDetail,
         /**
          * The AnchorTransaction model constructor.
-         * @property {module:anchor/model/AnchorTransaction}
+         * @property {AnchorTransaction}
          */
         AnchorTransaction: AnchorTransaction,
         /**
          * The AnchorTransactions model constructor.
-         * @property {module:anchor/model/AnchorTransactions}
+         * @property {AnchorTransactions}
          */
         AnchorTransactions: AnchorTransactions,
         /**
          * The Operator model constructor.
-         * @property {module:anchor/model/Operator}
+         * @property {Operator}
          */
         Operator: Operator,
         /**
          * The OperatorSetting model constructor.
-         * @property {module:anchor/model/OperatorSetting}
+         * @property {OperatorSetting}
          */
         OperatorSetting: OperatorSetting,
         /**
          * The Operators model constructor.
-         * @property {module:anchor/model/Operators}
+         * @property {Operators}
          */
         Operators: Operators,
         /**
          * The DataAnchoringTransactionApi service constructor.
-         * @property {module:anchor/api/DataAnchoringTransactionApi}
+         * @property {DataAnchoringTransactionApi}
          */
         DataAnchoringTransactionApi: DataAnchoringTransactionApi,
         /**
          * The OperatorApi service constructor.
-         * @property {module:anchor/api/OperatorApi}
+         * @property {OperatorApi}
          */
         OperatorApi: OperatorApi,
 
         // TokenHistory
         /**
          * The FtContract model constructor.
-         * @property {module:tokenHistory/model/FtContract}
+         * @property {FtContract}
          */
         FtContract: FtContract,
         /**
          * The FtContractDetail model constructor.
-         * @property {module:tokenHistory/model/FtContractDetail}
+         * @property {FtContractDetail}
          */
         FtContractDetail: FtContractDetail,
         /**
          * The FtLink model constructor.
-         * @property {module:tokenHistory/model/FtLink}
+         * @property {FtLink}
          */
         FtLink: FtLink,
         /**
          * The FtTransfer model constructor.
-         * @property {module:tokenHistory/model/FtTransfer}
+         * @property {FtTransfer}
          */
         FtTransfer: FtTransfer,
         /**
          * The InvalidQueryParameterValue model constructor.
-         * @property {module:tokenHistory/model/InvalidQueryParameterValue}
+         * @property {InvalidQueryParameterValue}
          */
         InvalidQueryParameterValue: InvalidQueryParameterValue,
         /**
          * The TransferItem model constructor.
-         * @property {module:tokenHistory/model/TransferItem}
+         * @property {TransferItem}
          */
         TransferItem: TransferItem,
         /**
          * The KlayTransfer model constructor.
-         * @property {module:tokenHistory/model/KlayTransfer}
+         * @property {KlayTransfer}
          */
         KlayTransfer: KlayTransfer,
         /**
          * The Nft model constructor.
-         * @property {module:tokenHistory/model/Nft}
+         * @property {Nft}
          */
         Nft: Nft,
         /**
          * The NftContract model constructor.
-         * @property {module:tokenHistory/model/NftContract}
+         * @property {NftContract}
          */
         NftContract: NftContract,
         /**
          * The NftContractDetail model constructor.
-         * @property {module:tokenHistory/model/NftContractDetail}
+         * @property {NftContractDetail}
          */
         NftContractDetail: NftContractDetail,
         /**
          * The NftOwnershipChange model constructor.
-         * @property {module:tokenHistory/model/NftOwnershipChange}
+         * @property {NftOwnershipChange}
          */
         NftOwnershipChange: NftOwnershipChange,
         /**
          * The NftTransfer model constructor.
-         * @property {module:tokenHistory/model/NftTransfer}
+         * @property {NftTransfer}
          */
         NftTransfer: NftTransfer,
         /**
          * The PageableFtContractDetails model constructor.
-         * @property {module:tokenHistory/model/PageableFtContractDetails}
+         * @property {PageableFtContractDetails}
          */
         PageableFtContractDetails: PageableFtContractDetails,
         /**
          * The PageableNftContractDetails model constructor.
-         * @property {module:tokenHistory/model/PageableNftContractDetails}
+         * @property {PageableNftContractDetails}
          */
         PageableNftContractDetails: PageableNftContractDetails,
         /**
          * The PageableNftOwnershipChanges model constructor.
-         * @property {module:tokenHistory/model/PageableNftOwnershipChanges}
+         * @property {PageableNftOwnershipChanges}
          */
         PageableNftOwnershipChanges: PageableNftOwnershipChanges,
         /**
          * The PageableNfts model constructor.
-         * @property {module:tokenHistory/model/PageableNfts}
+         * @property {PageableNfts}
          */
         PageableNfts: PageableNfts,
         /**
          * The PageableTransfers model constructor.
-         * @property {module:tokenHistory/model/PageableTransfers}
+         * @property {PageableTransfers}
          */
         PageableTransfers: PageableTransfers,
         /**
          * The Transaction model constructor.
-         * @property {module:tokenHistory/model/Transaction}
+         * @property {Transaction}
          */
         Transaction: Transaction,
         /**
          * The Transfers model constructor.
-         * @property {module:tokenHistory/model/Transfers}
+         * @property {Transfers}
          */
         Transfers: Transfers,
         /**
          * The TokenApi service constructor.
-         * @property {module:tokenHistory/api/TokenApi}
+         * @property {TokenApi}
          */
         TokenApi: TokenApi,
         /**
          * The TokenContractApi service constructor.
-         * @property {module:tokenHistory/api/TokenContractApi}
+         * @property {TokenContractApi}
          */
         TokenContractApi: TokenContractApi,
         /**
          * The TokenHistoryApi service constructor.
-         * @property {module:tokenHistory/api/TokenHistoryApi}
+         * @property {TokenHistoryApi}
          */
         TokenHistoryApi: TokenHistoryApi,
         /**
          * The TokenOwnershipApi service constructor.
-         * @property {module:tokenHistory/api/TokenOwnershipApi}
+         * @property {TokenOwnershipApi}
          */
         TokenOwnershipApi: TokenOwnershipApi,
 
@@ -524,282 +497,282 @@
 
         /**
          * The Account model constructor.
-         * @property {module:wallet/model/Account}
+         * @property {Account}
          */
         Account: Account,
         /**
          * The AccountByPubkey model constructor.
-         * @property {module:wallet/model/AccountByPubkey}
+         * @property {AccountByPubkey}
          */
         AccountByPubkey: AccountByPubkey,
         /**
          * The AccountCountByAccountID model constructor.
-         * @property {module:wallet/model/AccountCountByAccountID}
+         * @property {AccountCountByAccountID}
          */
         AccountCountByAccountID: AccountCountByAccountID,
         /**
          * The AccountCountByKRN model constructor.
-         * @property {module:wallet/model/AccountCountByKRN}
+         * @property {AccountCountByKRN}
          */
         AccountCountByKRN: AccountCountByKRN,
         /**
          * The AccountStatus model constructor.
-         * @property {module:wallet/model/AccountStatus}
+         * @property {AccountStatus}
          */
         AccountStatus: AccountStatus,
         /**
          * The AccountSummary model constructor.
-         * @property {module:wallet/model/AccountSummary}
+         * @property {AccountSummary}
          */
         AccountSummary: AccountSummary,
         /**
          * The AccountUpdateTransactionRequest model constructor.
-         * @property {module:wallet/model/AccountUpdateTransactionRequest}
+         * @property {AccountUpdateTransactionRequest}
          */
         AccountUpdateTransactionRequest: AccountUpdateTransactionRequest,
         /**
          * The Accounts model constructor.
-         * @property {module:wallet/model/Accounts}
+         * @property {Accounts}
          */
         Accounts: Accounts,
         /**
          * The AccountsByPubkey model constructor.
-         * @property {module:wallet/model/AccountsByPubkey}
+         * @property {AccountsByPubkey}
          */
         AccountsByPubkey: AccountsByPubkey,
         /**
          * The AnchorTransactionRequest model constructor.
-         * @property {module:wallet/model/AnchorTransactionRequest}
+         * @property {AnchorTransactionRequest}
          */
         AnchorTransactionRequest: AnchorTransactionRequest,
         /**
          * The CancelTransactionRequest model constructor.
-         * @property {module:wallet/model/CancelTransactionRequest}
+         * @property {CancelTransactionRequest}
          */
         CancelTransactionRequest: CancelTransactionRequest,
         /**
          * The ContractDeployTransactionRequest model constructor.
-         * @property {module:wallet/model/ContractDeployTransactionRequest}
+         * @property {ContractDeployTransactionRequest}
          */
         ContractDeployTransactionRequest: ContractDeployTransactionRequest,
         /**
          * The ContractExecutionTransactionRequest model constructor.
-         * @property {module:wallet/model/ContractExecutionTransactionRequest}
+         * @property {ContractExecutionTransactionRequest}
          */
         ContractExecutionTransactionRequest: ContractExecutionTransactionRequest,
         /**
          * The EmptyUpdateKeyType model constructor.
-         * @property {module:wallet/model/EmptyUpdateKeyType}
+         * @property {EmptyUpdateKeyType}
          */
         EmptyUpdateKeyType: EmptyUpdateKeyType,
         /**
          * The ErrorResponse model constructor.
-         * @property {module:wallet/model/ErrorResponse}
+         * @property {ErrorResponse}
          */
         ErrorResponse: ErrorResponse,
         /**
          * The FDAccountUpdateTransactionRequest model constructor.
-         * @property {module:wallet/model/FDAccountUpdateTransactionRequest}
+         * @property {FDAccountUpdateTransactionRequest}
          */
         FDAccountUpdateTransactionRequest: FDAccountUpdateTransactionRequest,
         /**
          * The FDAnchorTransactionRequest model constructor.
-         * @property {module:wallet/model/FDAnchorTransactionRequest}
+         * @property {FDAnchorTransactionRequest}
          */
         FDAnchorTransactionRequest: FDAnchorTransactionRequest,
         /**
          * The FDCancelTransactionRequest model constructor.
-         * @property {module:wallet/model/FDCancelTransactionRequest}
+         * @property {FDCancelTransactionRequest}
          */
         FDCancelTransactionRequest: FDCancelTransactionRequest,
         /**
          * The FDContractDeployTransactionRequest model constructor.
-         * @property {module:wallet/model/FDContractDeployTransactionRequest}
+         * @property {FDContractDeployTransactionRequest}
          */
         FDContractDeployTransactionRequest: FDContractDeployTransactionRequest,
         /**
          * The FDContractExecutionTransactionRequest model constructor.
-         * @property {module:wallet/model/FDContractExecutionTransactionRequest}
+         * @property {FDContractExecutionTransactionRequest}
          */
         FDContractExecutionTransactionRequest: FDContractExecutionTransactionRequest,
         /**
          * The FDProcessRLPRequest model constructor.
-         * @property {module:wallet/model/FDProcessRLPRequest}
+         * @property {FDProcessRLPRequest}
          */
         FDProcessRLPRequest: FDProcessRLPRequest,
         /**
          * The FDTransactionResult model constructor.
-         * @property {module:wallet/model/FDTransactionResult}
+         * @property {FDTransactionResult}
          */
         FDTransactionResult: FDTransactionResult,
         /**
          * The FDUserAccountUpdateTransactionRequest model constructor.
-         * @property {module:wallet/model/FDUserAccountUpdateTransactionRequest}
+         * @property {FDUserAccountUpdateTransactionRequest}
          */
         FDUserAccountUpdateTransactionRequest: FDUserAccountUpdateTransactionRequest,
         /**
          * The FDUserAnchorTransactionRequest model constructor.
-         * @property {module:wallet/model/FDUserAnchorTransactionRequest}
+         * @property {FDUserAnchorTransactionRequest}
          */
         FDUserAnchorTransactionRequest: FDUserAnchorTransactionRequest,
         /**
          * The FDUserCancelTransactionRequest model constructor.
-         * @property {module:wallet/model/FDUserCancelTransactionRequest}
+         * @property {FDUserCancelTransactionRequest}
          */
         FDUserCancelTransactionRequest: FDUserCancelTransactionRequest,
         /**
          * The FDUserContractDeployTransactionRequest model constructor.
-         * @property {module:wallet/model/FDUserContractDeployTransactionRequest}
+         * @property {FDUserContractDeployTransactionRequest}
          */
         FDUserContractDeployTransactionRequest: FDUserContractDeployTransactionRequest,
         /**
          * The FDUserContractExecutionTransactionRequest model constructor.
-         * @property {module:wallet/model/FDUserContractExecutionTransactionRequest}
+         * @property {FDUserContractExecutionTransactionRequest}
          */
         FDUserContractExecutionTransactionRequest: FDUserContractExecutionTransactionRequest,
         /**
          * The FDUserProcessRLPRequest model constructor.
-         * @property {module:wallet/model/FDUserProcessRLPRequest}
+         * @property {FDUserProcessRLPRequest}
          */
         FDUserProcessRLPRequest: FDUserProcessRLPRequest,
         /**
          * The FDUserValueTransferTransactionRequest model constructor.
-         * @property {module:wallet/model/FDUserValueTransferTransactionRequest}
+         * @property {FDUserValueTransferTransactionRequest}
          */
         FDUserValueTransferTransactionRequest: FDUserValueTransferTransactionRequest,
         /**
          * The FDValueTransferTransactionRequest model constructor.
-         * @property {module:wallet/model/FDValueTransferTransactionRequest}
+         * @property {FDValueTransferTransactionRequest}
          */
         FDValueTransferTransactionRequest: FDValueTransferTransactionRequest,
         /**
          * The FeePayerSignaturesObj model constructor.
-         * @property {module:wallet/model/FeePayerSignaturesObj}
+         * @property {FeePayerSignaturesObj}
          */
         FeePayerSignaturesObj: FeePayerSignaturesObj,
         /**
          * The LegacyTransactionRequest model constructor.
-         * @property {module:wallet/model/LegacyTransactionRequest}
+         * @property {LegacyTransactionRequest}
          */
         LegacyTransactionRequest: LegacyTransactionRequest,
         /**
          * The MultisigAccount model constructor.
-         * @property {module:wallet/model/MultisigAccount}
+         * @property {MultisigAccount}
          */
         MultisigAccount: MultisigAccount,
         /**
          * The MultisigAccountUpdateRequest model constructor.
-         * @property {module:wallet/model/MultisigAccountUpdateRequest}
+         * @property {MultisigAccountUpdateRequest}
          */
         MultisigAccountUpdateRequest: MultisigAccountUpdateRequest,
         /**
          * The MultisigAddress model constructor.
-         * @property {module:wallet/model/MultisigAddress}
+         * @property {MultisigAddress}
          */
         MultisigAddress: MultisigAddress,
         /**
          * The MultisigKey model constructor.
-         * @property {module:wallet/model/MultisigKey}
+         * @property {MultisigKey}
          */
         MultisigKey: MultisigKey,
         /**
          * The MultisigTransactionStatus model constructor.
-         * @property {module:wallet/model/MultisigTransactionStatus}
+         * @property {MultisigTransactionStatus}
          */
         MultisigTransactionStatus: MultisigTransactionStatus,
         /**
          * The MultisigTransactions model constructor.
-         * @property {module:wallet/model/MultisigTransactions}
+         * @property {MultisigTransactions}
          */
         MultisigTransactions: MultisigTransactions,
         /**
          * The MultisigUpdateKey model constructor.
-         * @property {module:wallet/model/MultisigUpdateKey}
+         * @property {MultisigUpdateKey}
          */
         MultisigUpdateKey: MultisigUpdateKey,
         /**
          * The MultisigUpdateKeyType model constructor.
-         * @property {module:wallet/model/MultisigUpdateKeyType}
+         * @property {MultisigUpdateKeyType}
          */
         MultisigUpdateKeyType: MultisigUpdateKeyType,
         /**
          * The PendedTransaction model constructor.
-         * @property {module:wallet/model/PendedTransaction}
+         * @property {PendedTransaction}
          */
         PendedTransaction: PendedTransaction,
         /**
          * The ProcessRLPRequest model constructor.
-         * @property {module:wallet/model/ProcessRLPRequest}
+         * @property {ProcessRLPRequest}
          */
         ProcessRLPRequest: ProcessRLPRequest,
         /**
          * The PubkeyUpdateKeyType model constructor.
-         * @property {module:wallet/model/PubkeyUpdateKeyType}
+         * @property {PubkeyUpdateKeyType}
          */
         PubkeyUpdateKeyType: PubkeyUpdateKeyType,
         /**
          * The RoleBasedUpdateKeyType model constructor.
-         * @property {module:wallet/model/RoleBasedUpdateKeyType}
+         * @property {RoleBasedUpdateKeyType}
          */
         RoleBasedUpdateKeyType: RoleBasedUpdateKeyType,
         /**
          * The SignPendingTransactionBySigRequest model constructor.
-         * @property {module:wallet/model/SignPendingTransactionBySigRequest}
+         * @property {SignPendingTransactionBySigRequest}
          */
         SignPendingTransactionBySigRequest: SignPendingTransactionBySigRequest,
         /**
          * The Signature model constructor.
-         * @property {module:wallet/model/Signature}
+         * @property {Signature}
          */
         Signature: Signature,
         /**
          * The TransactionReceipt model constructor.
-         * @property {module:wallet/model/TransactionReceipt}
+         * @property {TransactionReceipt}
          */
         TransactionReceipt: TransactionReceipt,
         /**
          * The TransactionResult model constructor.
-         * @property {module:wallet/model/TransactionResult}
+         * @property {TransactionResult}
          */
         TransactionResult: TransactionResult,
         /**
          * The TxData model constructor.
-         * @property {module:wallet/model/TxData}
+         * @property {TxData}
          */
         TxData: TxData,
         /**
          * The ValueTransferTransactionRequest model constructor.
-         * @property {module:wallet/model/ValueTransferTransactionRequest}
+         * @property {ValueTransferTransactionRequest}
          */
         ValueTransferTransactionRequest: ValueTransferTransactionRequest,
         /**
          * The AccountApi service constructor.
-         * @property {module:wallet/api/AccountApi}
+         * @property {AccountApi}
          */
         AccountApi: AccountApi,
         /**
          * The BasicTransactionApi service constructor.
-         * @property {module:wallet/api/BasicTransactionApi}
+         * @property {BasicTransactionApi}
          */
         BasicTransactionApi: BasicTransactionApi,
         /**
          * The FeeDelegatedTransactionPaidByKASApi service constructor.
-         * @property {module:wallet/api/FeeDelegatedTransactionPaidByKASApi}
+         * @property {FeeDelegatedTransactionPaidByKASApi}
          */
         FeeDelegatedTransactionPaidByKASApi: FeeDelegatedTransactionPaidByKASApi,
         /**
          * The FeeDelegatedTransactionPaidByUserApi service constructor.
-         * @property {module:wallet/api/FeeDelegatedTransactionPaidByUserApi}
+         * @property {FeeDelegatedTransactionPaidByUserApi}
          */
         FeeDelegatedTransactionPaidByUserApi: FeeDelegatedTransactionPaidByUserApi,
         /**
          * The MultisigTransactionManagementApi service constructor.
-         * @property {module:wallet/api/MultisigTransactionManagementApi}
+         * @property {MultisigTransactionManagementApi}
          */
         MultisigTransactionManagementApi: MultisigTransactionManagementApi,
         /**
          * The StatisticsApi service constructor.
-         * @property {module:wallet/api/StatisticsApi}
+         * @property {StatisticsApi}
          */
         StatisticsApi: StatisticsApi,
     }

@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AccountStatus model module.
-     * @module model/AccountStatus
+     * @class AccountStatus
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AccountStatus</code>.
      * 계정 상태
-     * @alias module:model/AccountStatus
+     * @alias AccountStatus
      * @class
      * @param status {String} 삭제된 계정인지 여부
      */
@@ -49,8 +49,9 @@
      * Constructs a <code>AccountStatus</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AccountStatus} obj Optional instance to populate.
-     * @return {module:model/AccountStatus} The populated <code>AccountStatus</code> instance.
+     * @param {AccountStatus} obj Optional instance to populate.
+     * @return {AccountStatus} The populated <code>AccountStatus</code> instance.
+     * @memberof AccountStatus
      */
     AccountStatus.constructFromObject = function(data, obj) {
         if (data) {
@@ -62,7 +63,8 @@
 
     /**
      * 삭제된 계정인지 여부
-     * @member {String} status
+     * @type {String}
+     * @memberof AccountStatus
      */
     AccountStatus.prototype.status = undefined
 

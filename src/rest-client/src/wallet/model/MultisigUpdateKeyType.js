@@ -30,14 +30,14 @@
 })(this, function(ApiClient, MultisigUpdateKey) {
     /**
      * The MultisigUpdateKeyType model module.
-     * @module model/MultisigUpdateKeyType
+     * @class MultisigUpdateKeyType
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>MultisigUpdateKeyType</code>.
      * 해당 계정 키로 새롭게 사용할 계정 키(AccountKey)
-     * @alias module:model/MultisigUpdateKeyType
+     * @alias MultisigUpdateKeyType
      * @class
      */
     const MultisigUpdateKeyType = function() {}
@@ -46,8 +46,9 @@
      * Constructs a <code>MultisigUpdateKeyType</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultisigUpdateKeyType} obj Optional instance to populate.
-     * @return {module:model/MultisigUpdateKeyType} The populated <code>MultisigUpdateKeyType</code> instance.
+     * @param {MultisigUpdateKeyType} obj Optional instance to populate.
+     * @return {MultisigUpdateKeyType} The populated <code>MultisigUpdateKeyType</code> instance.
+     * @memberof MultisigUpdateKeyType
      */
     MultisigUpdateKeyType.constructFromObject = function(data, obj) {
         if (data) {
@@ -60,12 +61,14 @@
 
     /**
      * 계정키의 타입
-     * @member {Number} keyType
+     * @type {Number}
+     * @memberof MultisigUpdateKeyType
      */
     MultisigUpdateKeyType.prototype.keyType = undefined
 
     /**
-     * @member {module:model/MultisigUpdateKey} key
+     * @type {MultisigUpdateKey}
+     * @memberof MultisigUpdateKeyType
      */
     MultisigUpdateKeyType.prototype.key = undefined
 

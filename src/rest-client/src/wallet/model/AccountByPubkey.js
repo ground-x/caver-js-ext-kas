@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The AccountByPubkey model module.
-     * @module model/AccountByPubkey
+     * @class AccountByPubkey
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>AccountByPubkey</code>.
      * 해당 공개키 연관 계정
-     * @alias module:model/AccountByPubkey
+     * @alias AccountByPubkey
      * @class
      * @param address {String} 클레이튼 계정주소
      * @param chainId {Number} 클레이튼 체인 ID
@@ -51,8 +51,9 @@
      * Constructs a <code>AccountByPubkey</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/AccountByPubkey} obj Optional instance to populate.
-     * @return {module:model/AccountByPubkey} The populated <code>AccountByPubkey</code> instance.
+     * @param {AccountByPubkey} obj Optional instance to populate.
+     * @return {AccountByPubkey} The populated <code>AccountByPubkey</code> instance.
+     * @memberof AccountByPubkey
      */
     AccountByPubkey.constructFromObject = function(data, obj) {
         if (data) {
@@ -65,13 +66,15 @@
 
     /**
      * 클레이튼 계정주소
-     * @member {String} address
+     * @type {String}
+     * @memberof AccountByPubkey
      */
     AccountByPubkey.prototype.address = undefined
 
     /**
      * 클레이튼 체인 ID
-     * @member {Number} chainId
+     * @type {Number}
+     * @memberof AccountByPubkey
      */
     AccountByPubkey.prototype.chainId = undefined
 

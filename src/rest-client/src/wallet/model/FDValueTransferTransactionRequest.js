@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The FDValueTransferTransactionRequest model module.
-     * @module model/FDValueTransferTransactionRequest
+     * @class FDValueTransferTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>FDValueTransferTransactionRequest</code>.
      * 대납 클레이 전송 트랜잭션 요청 스키마
-     * @alias module:model/FDValueTransferTransactionRequest
+     * @alias FDValueTransferTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      * @param value {String} PEB 단위로 환산된 KLAY
@@ -53,8 +53,9 @@
      * Constructs a <code>FDValueTransferTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/FDValueTransferTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/FDValueTransferTransactionRequest} The populated <code>FDValueTransferTransactionRequest</code> instance.
+     * @param {FDValueTransferTransactionRequest} obj Optional instance to populate.
+     * @return {FDValueTransferTransactionRequest} The populated <code>FDValueTransferTransactionRequest</code> instance.
+     * @memberof FDValueTransferTransactionRequest
      */
     FDValueTransferTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -73,50 +74,58 @@
 
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
-     * @member {String} from
+     * @type {String}
+     * @memberof FDValueTransferTransactionRequest
      */
     FDValueTransferTransactionRequest.prototype.from = undefined
 
     /**
      * PEB 단위로 환산된 KLAY
-     * @member {String} value
+     * @type {String}
+     * @memberof FDValueTransferTransactionRequest
      */
     FDValueTransferTransactionRequest.prototype.value = undefined
 
     /**
      * KLAY를 받는 Klaytn 계정 주소
-     * @member {String} to
+     * @type {String}
+     * @memberof FDValueTransferTransactionRequest
      */
     FDValueTransferTransactionRequest.prototype.to = undefined
 
     /**
      * 해당 트랜잭션에 첨부할 메모
-     * @member {String} memo
+     * @type {String}
+     * @memberof FDValueTransferTransactionRequest
      */
     FDValueTransferTransactionRequest.prototype.memo = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
-     * @member {Number} nonce
+     * @type {Number}
+     * @memberof FDValueTransferTransactionRequest
      */
     FDValueTransferTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
-     * @member {Number} gas
+     * @type {Number}
+     * @memberof FDValueTransferTransactionRequest
      * @default 100000
      */
     FDValueTransferTransactionRequest.prototype.gas = 100000
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
+     * @memberof FDValueTransferTransactionRequest
      */
     FDValueTransferTransactionRequest.prototype.submit = undefined
 
     /**
      * 전체 트랜잭션 수수료에서 수수료 대납자가 대납할 수수료의 비율
-     * @member {Number} feeRatio
+     * @type {Number}
+     * @memberof FDValueTransferTransactionRequest
      */
     FDValueTransferTransactionRequest.prototype.feeRatio = undefined
 

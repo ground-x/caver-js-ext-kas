@@ -30,14 +30,14 @@
 })(this, function(ApiClient, MultisigKey) {
     /**
      * The MultisigAccount model module.
-     * @module model/MultisigAccount
+     * @class MultisigAccount
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>MultisigAccount</code>.
      * 다중 서명 계정에 관한 정보
-     * @alias module:model/MultisigAccount
+     * @alias MultisigAccount
      * @class
      * @param address {String} 클레이튼 계정주소
      * @param krn {String} KAS KRN
@@ -57,8 +57,9 @@
      * Constructs a <code>MultisigAccount</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/MultisigAccount} obj Optional instance to populate.
-     * @return {module:model/MultisigAccount} The populated <code>MultisigAccount</code> instance.
+     * @param {MultisigAccount} obj Optional instance to populate.
+     * @return {MultisigAccount} The populated <code>MultisigAccount</code> instance.
+     * @memberof MultisigAccount
      */
     MultisigAccount.constructFromObject = function(data, obj) {
         if (data) {
@@ -75,36 +76,42 @@
 
     /**
      * 클레이튼 계정주소
-     * @member {String} address
+     * @type {String}
+     * @memberof MultisigAccount
      */
     MultisigAccount.prototype.address = undefined
 
     /**
      * KAS KRN
-     * @member {String} krn
+     * @type {String}
+     * @memberof MultisigAccount
      */
     MultisigAccount.prototype.krn = undefined
 
     /**
-     * @member {Array.<module:model/MultisigKey>} multiSigKeys
+     * @type {Array.<MultisigKey>}
+     * @memberof MultisigAccount
      */
     MultisigAccount.prototype.multiSigKeys = undefined
 
     /**
      * 다중 서명 트랜잭션을 생성하는 데 필요한 가중치 합계 기준값.
-     * @member {Number} threshold
+     * @type {Number}
+     * @memberof MultisigAccount
      */
     MultisigAccount.prototype.threshold = undefined
 
     /**
      * 계정 정보를 업데이트하는 트랜잭션의 해시
-     * @member {String} transactionHash
+     * @type {String}
+     * @memberof MultisigAccount
      */
     MultisigAccount.prototype.transactionHash = undefined
 
     /**
      * 해당 계정 정보를 마지막으로 업데이트한 시간
-     * @member {Number} updatedAt
+     * @type {Number}
+     * @memberof MultisigAccount
      */
     MultisigAccount.prototype.updatedAt = undefined
 

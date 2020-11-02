@@ -30,14 +30,14 @@
 })(this, function(ApiClient) {
     /**
      * The ValueTransferTransactionRequest model module.
-     * @module model/ValueTransferTransactionRequest
+     * @class ValueTransferTransactionRequest
      * @version 1.0
      */
 
     /**
      * Constructs a new <code>ValueTransferTransactionRequest</code>.
      * 클레이 전송 트랜잭션 요청 스키마
-     * @alias module:model/ValueTransferTransactionRequest
+     * @alias ValueTransferTransactionRequest
      * @class
      * @param from {String} 트랜잭션을 보내는 Klaytn 계정 주소
      */
@@ -49,8 +49,9 @@
      * Constructs a <code>ValueTransferTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {module:model/ValueTransferTransactionRequest} obj Optional instance to populate.
-     * @return {module:model/ValueTransferTransactionRequest} The populated <code>ValueTransferTransactionRequest</code> instance.
+     * @param {ValueTransferTransactionRequest} obj Optional instance to populate.
+     * @return {ValueTransferTransactionRequest} The populated <code>ValueTransferTransactionRequest</code> instance.
+     * @memberof ValueTransferTransactionRequest
      */
     ValueTransferTransactionRequest.constructFromObject = function(data, obj) {
         if (data) {
@@ -68,44 +69,51 @@
 
     /**
      * 트랜잭션을 보내는 Klaytn 계정 주소
-     * @member {String} from
+     * @type {String}
+     * @memberof ValueTransferTransactionRequest
      */
     ValueTransferTransactionRequest.prototype.from = undefined
 
     /**
      * PEB 단위로 환산된 KLAY
-     * @member {String} value
+     * @type {String}
+     * @memberof ValueTransferTransactionRequest
      */
     ValueTransferTransactionRequest.prototype.value = undefined
 
     /**
      * KLAY를 받는 Klaytn 계정 주소
-     * @member {String} to
+     * @type {String}
+     * @memberof ValueTransferTransactionRequest
      */
     ValueTransferTransactionRequest.prototype.to = undefined
 
     /**
      * 해당 트랜잭션에 첨부할 메모
-     * @member {String} memo
+     * @type {String}
+     * @memberof ValueTransferTransactionRequest
      */
     ValueTransferTransactionRequest.prototype.memo = undefined
 
     /**
      * 보내는 트랜잭션을 식별하는 유일한 값 (0을 넣으면 nonce 를 자동으로 선택)
-     * @member {Number} nonce
+     * @type {Number}
+     * @memberof ValueTransferTransactionRequest
      */
     ValueTransferTransactionRequest.prototype.nonce = undefined
 
     /**
      * 해당 트랜잭션을 보낼 때 사용할 트랜잭션 수수료(gas)의 최대값 (0일때는 기본값 사용)
-     * @member {Number} gas
+     * @type {Number}
+     * @memberof ValueTransferTransactionRequest
      * @default 100000
      */
     ValueTransferTransactionRequest.prototype.gas = 100000
 
     /**
      * 해당 트랜잭션을 Klaytn에 전송할지 여부
-     * @member {Boolean} submit
+     * @type {Boolean}
+     * @memberof ValueTransferTransactionRequest
      */
     ValueTransferTransactionRequest.prototype.submit = undefined
 
