@@ -58,7 +58,7 @@ for i in ${DIRS};do
 			members=$(grep -F '@member ' $j | rev | cut -d ' ' -f1 | rev)
 
 			for item in ${members};do
-				sed -i '' 's/} '"$item"'/}/g' $j
+				sed -i '' 's/} '"$item"'$/}/g' $j
 			done
 			sed -i '' "s/@member /@type /g" $j
 		done
