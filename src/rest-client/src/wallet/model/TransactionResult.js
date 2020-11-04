@@ -102,7 +102,7 @@
 
     /**
      * Gas price for sending the transaction
-     * @type {String}Price
+     * @type {String}
      * @memberof TransactionResult
      */
     TransactionResult.prototype.gasPrice = undefined

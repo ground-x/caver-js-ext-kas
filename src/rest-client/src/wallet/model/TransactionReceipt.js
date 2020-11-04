@@ -126,14 +126,14 @@
 
     /**
      * Transaction fee (gas) for sending the transaction
-     * @type {String}Price
+     * @type {String}
      * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.gasPrice = undefined
 
     /**
      * Transaction fee (gas) for sending the transaction
-     * @type {String}Used
+     * @type {String}
      * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.gasUsed = undefined
@@ -160,7 +160,7 @@
 
     /**
      * Bloom filter for finding related logs quickly
-     * @type {String}Bloom
+     * @type {String}
      * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.logsBloom = undefined
@@ -222,7 +222,7 @@
 
     /**
      * Numeric value of transaction type
-     * @type {Number}Int
+     * @type {Number}
      * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.typeInt = undefined
@@ -256,7 +256,7 @@
     TransactionReceipt.prototype.feePayer = undefined
 
     /**
-     * @type {Array.<FeePayerSignaturesObj>}Signatures
+     * @type {Array.<FeePayerSignaturesObj>}
      * @memberof TransactionReceipt
      */
     TransactionReceipt.prototype.feePayerSignatures = undefined

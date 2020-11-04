@@ -89,7 +89,7 @@
 
     /**
      * Transaction fee (gas) for sending the transaction
-     * @type {String}Price
+     * @type {String}
      * @memberof TxData
      */
     TxData.prototype.gasPrice = undefined
