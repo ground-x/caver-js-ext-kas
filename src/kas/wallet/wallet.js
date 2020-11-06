@@ -193,7 +193,7 @@ class Wallet {
     }
 
     /**
-     * Creates Klaytn Account through KAS Wallet API.
+     * Creates Klaytn Account through KAS Wallet API. <br>
      * POST /v2/account
      *
      * @param {Function} [callback] The callback function to call.
@@ -214,7 +214,7 @@ class Wallet {
     }
 
     /**
-     * Retrieves the list of accounts created using the KAS Wallet API.
+     * Retrieves the list of accounts created using the KAS Wallet API. <br>
      * GET /v2/account
      *
      * @param {WalletQueryOptions} [queryOptions] Filters required when retrieving data. `size`, `cursor`, `fromTimestamp` or `toTimestamp`.
@@ -245,7 +245,7 @@ class Wallet {
     }
 
     /**
-     * Retrieves an account created using the KAS Wallet API.
+     * Retrieves an account created using the KAS Wallet API. <br>
      * GET /v2/account/{address}
      *
      * @param {string} address The address of Klaytn account.
@@ -267,7 +267,7 @@ class Wallet {
     }
 
     /**
-     * Retrieves the list of Klaytn accounts with the corresponding public key.
+     * Retrieves the list of Klaytn accounts with the corresponding public key. <br>
      * GET /v2/pubkey/{public-key}/account
      *
      * @param {string} publicKey The public key to search.
@@ -289,7 +289,7 @@ class Wallet {
     }
 
     /**
-     * Deletes an account created using the KAS Wallet API.
+     * Deletes an account created using the KAS Wallet API. <br>
      * DELETE /v2/account/{address}
      *
      * @param {string} address The address of Klaytn account to delete from KAS Wallet API service.
@@ -311,7 +311,7 @@ class Wallet {
     }
 
     /**
-     * Deactivates Klaytn Account.
+     * Deactivates Klaytn Account. <br>
      * PUT /v2/account/{address}/disable
      *
      * @param {string} address The address of Klaytn account to disable from KAS Wallet API service.
@@ -333,7 +333,7 @@ class Wallet {
     }
 
     /**
-     * Activates Klaytn Account.
+     * Activates Klaytn Account. <br>
      * PUT /v2/account/{address}/enable
      *
      * @param {string} address The address of Klaytn account to enable from KAS Wallet API service.
@@ -355,7 +355,7 @@ class Wallet {
     }
 
     /**
-     * Signs the transaction with this transactionId with that Klaytn account.
+     * Signs the transaction with this transactionId with that Klaytn account. <br>
      * POST /v2/account/{address}/tx/{transaction-id}/sign
      *
      * @param {string} address The address of the Klaytn account you want to use for signing.
@@ -378,7 +378,7 @@ class Wallet {
     }
 
     /**
-     * Signs the transaction with this transactionId with that Klaytn account.
+     * Signs the transaction with this transactionId with that Klaytn account. <br>
      * PUT /v2/account/{address}/multisig
      *
      * @param {string} address The address of the Klaytn account you want to use for signing.
@@ -423,7 +423,7 @@ class Wallet {
     // Basic Transaction Api
 
     /**
-     * Create LegacyTransaction.
+     * Create LegacyTransaction. <br>
      * POST /v2/tx/legacy
      *
      * @param {LegacyTransactionRequest} transaction Transaction to be requested to KAS.
@@ -453,7 +453,7 @@ class Wallet {
     }
 
     /**
-     * Create ValueTransfer or ValueTransferMemo.
+     * Create ValueTransfer or ValueTransferMemo. <br>
      * POST /v2/tx/value
      *
      * @param {ValueTransferTransactionRequest} transaction Transaction to be requested to KAS.
@@ -483,7 +483,7 @@ class Wallet {
     }
 
     /**
-     * Create SmartContractDeploy.
+     * Create SmartContractDeploy. <br>
      * POST /v2/tx/contract/deploy
      *
      * @param {ContractDeployTransactionRequest} transaction Transaction to be requested to KAS.
@@ -513,7 +513,7 @@ class Wallet {
     }
 
     /**
-     * Create SmartContractExecution.
+     * Create SmartContractExecution. <br>
      * POST /v2/tx/contract/execute
      *
      * @param {ContractExecutionTransactionRequest} transaction Transaction to be requested to KAS.
@@ -543,7 +543,7 @@ class Wallet {
     }
 
     /**
-     * Create Cancel.
+     * Create Cancel. <br>
      * DELETE /v2/tx
      *
      * @param {CancelTransactionRequest} transaction Transaction to be requested to KAS.
@@ -572,7 +572,7 @@ class Wallet {
     }
 
     /**
-     * Create ChainDataAnchoring.
+     * Create ChainDataAnchoring. <br>
      * POST /v2/tx/anchor
      *
      * @param {AnchorTransactionRequest} transaction Transaction to be requested to KAS.
@@ -601,7 +601,7 @@ class Wallet {
     }
 
     /**
-     * Create transaction through RLP-encoded string.
+     * Create transaction through RLP-encoded string. <br>
      * POST /v2/tx/rlp
      *
      * @param {ProcessRLPRequest} rlpRequest The object that includes rlp request informations.
@@ -629,7 +629,7 @@ class Wallet {
     }
 
     /**
-     * Create AccountUpdate.
+     * Create AccountUpdate. <br>
      * PUT /v2/tx/account
      *
      * @param {AccountUpdateTransactionRequest} transaction Transaction to be requested to KAS.
@@ -661,7 +661,7 @@ class Wallet {
     }
 
     /**
-     * Retrieves the transaction by the transaction hash value.
+     * Retrieves the transaction by the transaction hash value. <br>
      * GET /v2/tx/{transaction-hash}
      *
      * @param {string} transactionHash The hash of the transaction.
@@ -686,7 +686,7 @@ class Wallet {
 
     /**
      * Create FeeDelegatedValueTransfer, FeeDelegatedValueTransferMemo,
-     * FeeDelegatedValueTransferWithRatio or FeeDelegatedValueTransferMemoWithRatio.
+     * FeeDelegatedValueTransferWithRatio or FeeDelegatedValueTransferMemoWithRatio. <br>
      * POST /v2/tx/fd/value
      *
      * @param {FDValueTransferTransactionRequest} transaction Transaction to be requested to KAS.
@@ -716,7 +716,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedSmartContractDeploy.
+     * Create FeeDelegatedSmartContractDeploy. <br>
      * POST /v2/tx/fd/contract/deploy
      *
      * @param {FDContractDeployTransactionRequest} transaction Transaction to be requested to KAS.
@@ -746,7 +746,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedSmartContractExecution.
+     * Create FeeDelegatedSmartContractExecution. <br>
      * POST /v2/tx/fd/contract/execute
      *
      * @param {FDContractExecutionTransactionRequest} transaction Transaction to be requested to KAS.
@@ -776,7 +776,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedCancel.
+     * Create FeeDelegatedCancel. <br>
      * DELETE /v2/tx/fd
      *
      * @param {FDCancelTransactionRequest} transaction Transaction to be requested to KAS.
@@ -804,7 +804,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedChainDataAnchoring.
+     * Create FeeDelegatedChainDataAnchoring. <br>
      * POST /v2/tx/fd/anchor
      *
      * @param {FDAnchorTransactionRequest} transaction Transaction to be requested to KAS.
@@ -832,7 +832,7 @@ class Wallet {
     }
 
     /**
-     * Create transaction through RLP-encoded string.
+     * Create transaction through RLP-encoded string. <br>
      * POST /v2/tx/fd/rlp
      *
      * @param {FDProcessRLPRequest} rlpRequest The object that includes rlp request informations.
@@ -860,7 +860,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedAccountUpdate.
+     * Create FeeDelegatedAccountUpdate. <br>
      * PUT /v2/tx/fd/account
      *
      * @param {FDAccountUpdateTransactionRequest} transaction Transaction to be requested to KAS.
@@ -895,7 +895,7 @@ class Wallet {
 
     /**
      * Create FeeDelegatedValueTransfer, FeeDelegatedValueTransferMemo,
-     * FeeDelegatedValueTransferWithRatio or FeeDelegatedValueTransferMemoWithRatio.
+     * FeeDelegatedValueTransferWithRatio or FeeDelegatedValueTransferMemoWithRatio. <br>
      * POST /v2/tx/fd-user/value
      *
      * @param {FDUserValueTransferTransactionRequest} transaction Transaction to be requested to KAS.
@@ -925,7 +925,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedSmartContractDeploy.
+     * Create FeeDelegatedSmartContractDeploy. <br>
      * POST /v2/tx/fd-user/contract/deploy
      *
      * @param {FDUserContractDeployTransactionRequest} transaction Transaction to be requested to KAS.
@@ -955,7 +955,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedSmartContractExecution.
+     * Create FeeDelegatedSmartContractExecution. <br>
      * POST /v2/tx/fd-user/contract/execute
      *
      * @param {FDUserContractExecutionTransactionRequest} transaction Transaction to be requested to KAS.
@@ -985,7 +985,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedCancel.
+     * Create FeeDelegatedCancel. <br>
      * DELETE /v2/tx/fd-user
      *
      * @param {FDUserCancelTransactionRequest} transaction Transaction to be requested to KAS.
@@ -1014,7 +1014,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedChainDataAnchoring.
+     * Create FeeDelegatedChainDataAnchoring. <br>
      * POST /v2/tx/fd-user/anchor
      *
      * @param {FDUserAnchorTransactionRequest} transaction Transaction to be requested to KAS.
@@ -1043,7 +1043,7 @@ class Wallet {
     }
 
     /**
-     * Create transaction through RLP-encoded string.
+     * Create transaction through RLP-encoded string. <br>
      * POST /v2/tx/fd-user/rlp
      *
      * @param {FDUserProcessRLPRequest} rlpRequest The object that includes rlp request informations.
@@ -1071,7 +1071,7 @@ class Wallet {
     }
 
     /**
-     * Create FeeDelegatedAccountUpdate.
+     * Create FeeDelegatedAccountUpdate. <br>
      * PUT /v2/tx/fd-user/account
      *
      * @param {FDUserAccountUpdateTransactionRequest} transaction Transaction to be requested to KAS.
@@ -1105,7 +1105,7 @@ class Wallet {
     // Multisig Transaction Management Api
 
     /**
-     * Retrieves the list of pending transactions among transactions sent from the account.
+     * Retrieves the list of pending transactions among transactions sent from the account. <br>
      * GET /v2/multisig/account/{address}/tx
      *
      * @param {string} address Account address with multi-signature key or signer account address.
@@ -1142,7 +1142,7 @@ class Wallet {
     }
 
     /**
-     * Signs a pending transaction with the Klaytn account created by KAS.
+     * Signs a pending transaction with the Klaytn account created by KAS. <br>
      * POST /v2/multisig/account/{address}/tx/{transaction-id}/sign
      *
      * @param {string} address Account address to use for signing.
@@ -1165,7 +1165,7 @@ class Wallet {
     }
 
     /**
-     * Signs a pending transaction with the Klaytn account created by KAS.
+     * Signs a pending transaction with the Klaytn account created by KAS. <br>
      * POST /v2/multisig/tx/{transaction-id}/sign
      *
      * @param {string} transactionId The transacion id.
@@ -1199,7 +1199,7 @@ class Wallet {
     // Statistics Api
 
     /**
-     * Return the number of accounts in KAS.
+     * Return the number of accounts in KAS. <br>
      * GET /v2/stat/count
      *
      * @param {Function} [callback] The callback function to call.
@@ -1220,7 +1220,7 @@ class Wallet {
     }
 
     /**
-     * Return the number of accounts by KRN in KAS.
+     * Return the number of accounts by KRN in KAS. <br>
      * GET /v2/stat/count/krn
      *
      * @param {string} krn The krn string to search.

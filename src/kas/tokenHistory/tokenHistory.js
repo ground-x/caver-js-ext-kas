@@ -143,7 +143,7 @@ class TokenHistory {
     }
 
     /**
-     * Gets token transfer history list.
+     * Gets token transfer history list. <br>
      * GET /v2/transfer
      *
      * @param {Array.<number>} presets Preset IDs to be used for search, Preset ID can be checked in KAS Console.
@@ -180,7 +180,7 @@ class TokenHistory {
     }
 
     /**
-     * Token transaction history inquiry with transaction hash.
+     * Token transaction history inquiry with transaction hash. <br>
      * GET /v2/transfer/tx/{transaction-hash}
      *
      * @param {string} transactionHash Transaction hash to search transfer history.
@@ -202,7 +202,7 @@ class TokenHistory {
     }
 
     /**
-     * Search token transfer history of a specific EOA.
+     * Search token transfer history of a specific EOA. <br>
      * GET /v2/transfer/account/{address}
      *
      * @param {string} address The EOA address used to search for token transfer history.
@@ -235,7 +235,7 @@ class TokenHistory {
     }
 
     /**
-     * Retrieve information of all labeled FT contracts.
+     * Retrieve information of all labeled FT contracts. <br>
      * GET /v2/contract/ft
      *
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
@@ -266,7 +266,7 @@ class TokenHistory {
     }
 
     /**
-     * Retrieves the information of the FT contract labeled with the address of the FT contract.
+     * Retrieves the information of the FT contract labeled with the address of the FT contract. <br>
      * GET /v2/contract/ft/{ft-address}
      *
      * @param {string} ftAddress Address of the FT contract for which information is to be retrieved.
@@ -288,7 +288,7 @@ class TokenHistory {
     }
 
     /**
-     * Retrieve information of all labeled NFT contracts.
+     * Retrieve information of all labeled NFT contracts. <br>
      * GET /v2/contract/nft
      *
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
@@ -319,7 +319,7 @@ class TokenHistory {
     }
 
     /**
-     * Retrieves the information of the NFT contract labeled with the address of the NFT contract.
+     * Retrieves the information of the NFT contract labeled with the address of the NFT contract. <br>
      * GET /v2/contract/nft/{nftAddress}
      *
      * @param {string} nftAddress Address of the NFT contract for which information is to be retrieved.
@@ -341,7 +341,7 @@ class TokenHistory {
     }
 
     /**
-     * Retrieves information of all NFTs issued by a specific NFT contract.
+     * Retrieves information of all NFTs issued by a specific NFT contract. <br>
      * GET /v2/contract/nft/{nft-address}/token
      *
      * @param {string} nftAddress NFT contract address for which you want to search all issued NFTs.
@@ -373,7 +373,7 @@ class TokenHistory {
 
     /**
      * Among the NFTs issued from the NFT contract address,
-     * the information of the NFT owned by the EOA address received as a parameter is retrieved.
+     * the information of the NFT owned by the EOA address received as a parameter is retrieved. <br>
      * GET /v2/contract/nft/{nft-address}/owner/{owner-address}
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
@@ -405,7 +405,7 @@ class TokenHistory {
     }
 
     /**
-     * Retrieve information of a specific NFT.
+     * Retrieve information of a specific NFT. <br>
      * GET /v2/contract/nft/{nft-address}/token/{token-id}
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
@@ -428,7 +428,7 @@ class TokenHistory {
     }
 
     /**
-     * Retrieve the record of ownership changes for a specific NFT.
+     * Retrieve the record of ownership changes for a specific NFT. <br>
      * GET /v2/contract/nft/{nft-address}/token/{token-id}/history
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
