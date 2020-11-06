@@ -98,7 +98,7 @@
 
         /**
          * UFDAccountUpdateTransaction
-         * Create a transaction for updating Klaytn account keys with a user fee delegation account. For details about different Klaytn account keys, refer to [Klaytn Docs](https://ko.docs.klaytn.com/klaytn/design/accounts)  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
+         * Create a transaction for updating Klaytn account keys with a user fee delegation account. For details about different Klaytn account keys, refer to [Klaytn Docs](https://ko.docs.klaytn.com/klaytn/design/accounts)<p></p>  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.<p></p>  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {FDUserAccountUpdateTransactionRequest} opts.body
@@ -154,7 +154,7 @@
 
         /**
          * UFDAnchorTransaction
-         * Create a transaction for anchoring service chain data to the main chain using the user fee delegation account.  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
+         * Create a transaction for anchoring service chain data to the main chain using the user fee delegation account.<p></p>  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.<p></p>  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {FDUserAnchorTransactionRequest} opts.body
@@ -210,7 +210,7 @@
 
         /**
          * UFDContractDeployTransaction
-         * Create a transaction for releasing a contract using the user fee delegation account.  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
+         * Create a transaction for releasing a contract using the user fee delegation account.<p></p>  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.<p></p>  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {FDUserContractDeployTransactionRequest} opts.body
@@ -266,7 +266,7 @@
 
         /**
          * UFDContractExecutionTransaction
-         * Create a transaction for executing a released contract function using the user fee delegation account.  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
+         * Create a transaction for executing a released contract function using the user fee delegation account.<p></p>  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.<p></p>  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {FDUserContractExecutionTransactionRequest} opts.body
@@ -322,7 +322,7 @@
 
         /**
          * UFDProcessRLP
-         * Create a transaction using the rlp(SigRLP or TxHashRLP) with user fee payer account. Rlp value from transaction API is TxHashRLP format which contains signatures. SigRLP which does not contain signatures can easily be made from caver.  If you want to make SigRLP, you can use method `getRLPEncodingForSignature()` of certain transaction object. If you want to make TxHashRLP, you can use method `getRLPEncoding()` of certain transaction object. If you give SigRLP in rlp value, we sign the trasnaction using `from` address in your account pool. If you need detail description about SigRLP, TxHashRLP of each of transaction, you can refer [Klaytn Docs](https://docs.klaytn.com/klaytn/design/transactions).  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
+         * Create a transaction using the rlp(SigRLP or TxHashRLP) with user fee payer account. Rlp value from transaction API is TxHashRLP format which contains signatures. SigRLP which does not contain signatures can easily be made from caver.<p></p>  If you want to make SigRLP, you can use method `getRLPEncodingForSignature()` of certain transaction object. If you want to make TxHashRLP, you can use method `getRLPEncoding()` of certain transaction object. If you give SigRLP in rlp value, we sign the trasnaction using `from` address in your account pool. If you need detail description about SigRLP, TxHashRLP of each of transaction, you can refer [Klaytn Docs](https://docs.klaytn.com/klaytn/design/transactions).<p></p>  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.<p></p>  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {FDUserProcessRLPRequest} opts.body
@@ -378,7 +378,7 @@
 
         /**
          * UFDUserCancelTransaction
-         * Create a transaction for canceling a pending transaction for a transfer to Klaytn using the user fee delegation account. Either a nonce or transaction hash is required for cancellation.  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
+         * Create a transaction for canceling a pending transaction for a transfer to Klaytn using the user fee delegation account. Either a nonce or transaction hash is required for cancellation.<p></p>  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.<p></p>  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {FDUserCancelTransactionRequest} opts.body
@@ -434,7 +434,7 @@
 
         /**
          * UFDValueTransferTransaction
-         * Create a transaction for transferring KLAYs with a memo using the user fee delegation account.  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
+         * Create a transaction for transferring KLAYs with a memo using the user fee delegation account.<p></p>  If you want to use this API, you need two kind of `x-krn` about `account-pool` and `feepayer-pool`. Two kind of `x-krn` can be written with comma like below example.<p></p>  ``` x-krn: krn:1001:wallet:{{account-id}}:account-pool:{{account-pool-id}},krn:1001:wallet:{{account-id}}:feepayer-pool:{{feepayer-pool-id}} ```
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {FDUserValueTransferTransactionRequest} opts.body
