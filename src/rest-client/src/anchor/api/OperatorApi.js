@@ -125,7 +125,7 @@
 
         /**
          * RetrieveOperators
-         * Search for a list of created operators and the settings of each of them.  ## Size  * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100). * Submitting negative values result in errors. * Submitting zero results in a query with `size=100`, which is the default value. * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.
+         * Search for a list of created operators and the settings of each of them.<p></p>  ## Size<p></p>  * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br> * Submitting negative values result in errors.<br> * Submitting zero results in a query with `size=100`, which is the default value.<br> * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {Number} opts.size Maximum size of account to search (default to 100)

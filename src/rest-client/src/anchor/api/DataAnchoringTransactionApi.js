@@ -267,7 +267,7 @@
 
         /**
          * RetrieveAnchorBlock
-         * Specify an operator ID to search for a list of transactions that were created by the operator.  ## Size  * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100). * Submitting negative values result in errors. * Submitting zero results in a query with `size=100`, which is the default value. * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.
+         * Specify an operator ID to search for a list of transactions that were created by the operator.<p></p>  ## Size<p></p>  * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br> * Submitting negative values result in errors.<br> * Submitting zero results in a query with `size=100`, which is the default value.<br> * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {String} operatorId Operator account address
          * @param {Object} opts Optional parameters
