@@ -118,7 +118,7 @@
 
     /**
      * Gas price for sending the transaction
-     * @type {String}Price
+     * @type {String}
      * @memberof FDTransactionResult
      */
     FDTransactionResult.prototype.gasPrice = undefined

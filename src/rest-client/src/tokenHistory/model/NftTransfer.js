@@ -114,7 +114,7 @@
 
     /**
      * Token identifier (in hexadecimal)
-     * @type {String}kenId
+     * @type {String}
      * @memberof NftTransfer
      */
     NftTransfer.prototype.tokenId = undefined

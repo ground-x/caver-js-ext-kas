@@ -178,7 +178,7 @@
 
     /**
      * Token identifier (in hexadecimal)
-     * @type {String}kenId
+     * @type {String}
      * @memberof TransferItem
      */
     TransferItem.prototype.tokenId = undefined
