@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: Anchor API
-  description: "# Introduction\n이 문서는 KAS\\(Klaytn API Service\\)의 Anchor API를 소개하는 문서입니다. Anchor API는 서비스 체인 데이터의 신뢰성을 보장하기 위해 데이터 신뢰성을 증명할 수 있는 메타데이터를 Klaytn 메인 체인에 전송하는 기능을 제공합니다.\n\n자세한 사용 예시는 [튜토리얼](링크)를 확인하십시오.\n\n\n\n# Error Codes\n\n## 400: Bad Request\n\n | Code | Messages | \n | --- | --- | \n | 1071010 | data don't exist\n1071615 | its value is out of range; size\n1072100 | same payload ID or payload was already anchored\n1072101 | all configured accounts have insufficient funds | \n"
+  description: "# Introduction\nThis document discusses Klaytn API Service (KAS) Anchor API. Anchor API features functions for sending metadata to prove data reliability and ensuring the reliability of service chain data to the Klaytn main chain.\n\n\n\n\n# Error Codes\n\n## 400: Bad Request\n\n | Code | Messages | \n | --- | --- | \n | 1071010 | data don't exist\n1071615 | its value is out of range; size\n1072100 | same payload ID or payload was already anchored\n1072101 | all configured accounts have insufficient funds | \n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
   contact: {}
 host: anchor-api.klaytnapi.com
 basePath: /
@@ -18,10 +18,7 @@ produces:
 paths:
   /v1/anchor:
     post:
-      description: >-
-        블록체인 데이터를 앵커링 하기 위해 사용됩니다. 이미 설정한 오퍼레이터를 통해 앵커 트랜잭션 발생 및 관리합니다.
-
-        오퍼레이터 또는 사용자 Feepayer 를 통한 앵커링을 성공하기 위해서는 실제 요구되는 수수료의 10배이상 잔액을 보유하여야 합니다.
+      description: It is used to anchor blockchain data. A preconfigured operator is used to create and manage anchoring transactions.
       summary: AnchorBlock
       tags:
       - Data Anchoring Transaction
@@ -36,7 +33,7 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn chain network ID (1001 or 8217)
       - name: body
         in: body
         required: false
@@ -63,19 +60,19 @@ paths:
   /v1/operator/{operator-id}/tx:
     get:
       description: >-
-        오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션 목록을 조회합니다.
+        Specify an operator ID to search for a list of transactions that were created by the operator.<p></p>
 
 
-        ## Size
+        ## Size<p></p>
 
 
-        * `size` 쿼리 파라미터는 선택 파라미터입니다 (최소값 = 1, 최대값 = 1000, 기본값 = 100)
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
 
-        * 음수를 입력하면 오류를 반환합니다
+        * Submitting negative values result in errors.<br>
 
-        * 0을 입력하면 기본값(`size=100`)을 사용합니다
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
 
-        * 최대값보다 큰 값을 입력하면 최대값을 사용합니다
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
       summary: RetrieveAnchorBlock
       tags:
       - Data Anchoring Transaction
@@ -88,7 +85,7 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn chain network ID (1001 or 8217)
       - name: size
         in: query
         required: false
@@ -97,29 +94,29 @@ paths:
         format: int64
         maximum: 1000
         exclusiveMaximum: false
-        description: 검색할 계정의 최대 사이즈
+        description: Maximum size of account to search
       - name: cursor
         in: query
         required: false
         type: string
-        description: 마지막으로 검색된 커서의 정보
+        description: Information on last searched cursor
       - name: from-timestamp
         in: query
         required: false
         type: integer
         format: int64
-        description: 검색하고자 하는 처음 시간의 타임스탬프 (초단위)
+        description: Timestamp of the start time to be searched (in seconds)
       - name: to-timestamp
         in: query
         required: false
         type: integer
         format: int64
-        description: 검색하고자 하는 마지막 시간의 타임스탬프 (초단위)
+        description: Timestamp of the end time to be searched (in seconds)
       - name: operator-id
         in: path
         required: true
         type: string
-        description: 오퍼레이터 계정 주소
+        description: Operator account address
       responses:
         200:
           description: ''
@@ -152,7 +149,7 @@ paths:
               message: its value is out of range; size
   /v1/operator/{operator-id}/tx/{transaction-hash}:
     get:
-      description: 트랜잭션 해시값과 오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션을 조회합니다. 트랜잭션을 일으킬 때 트랜잭션에 덧붙인 Payload를 살펴볼 수 있습니다.
+      description: Specify a transaction hash value and operator ID to search for a list of transactions that were created by the operator. When creating a transaction, you may check the payload that is added to a transaction.
       summary: GetAnchorBlockByTx
       tags:
       - Data Anchoring Transaction
@@ -165,17 +162,17 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn chain network ID (1001 or 8217)
       - name: operator-id
         in: path
         required: true
         type: string
-        description: 오퍼레이터 계정 주소
+        description: Operator account address
       - name: transaction-hash
         in: path
         required: true
         type: string
-        description: 트랜잭션 해시
+        description: Transaction hash
       responses:
         200:
           description: ''
@@ -192,7 +189,7 @@ paths:
               message: data don't exist
   /v1/operator/{operator-id}/payload/{payload-id}:
     get:
-      description: Paylaod ID와 오퍼레이터 ID를 지정하여, 이 오퍼레이터가 생성한 트랜잭션을 조회합니다. 트랜잭션을 일으킬 때 트랜잭션에 덧붙인 Payload를 살펴볼 수 있습니다.
+      description: Specify a payload ID and operator ID to search for a list of transactions that were created by the operator. When creating a transaction, you may check the payload that is added to a transaction.
       summary: GetAnchorBlockByPayloadID
       tags:
       - Data Anchoring Transaction
@@ -205,17 +202,17 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn chain network ID (1001 or 8217)
       - name: operator-id
         in: path
         required: true
         type: string
-        description: 오퍼레이터 계정 주소
+        description: Operator account address
       - name: payload-id
         in: path
         required: true
         type: string
-        description: 페이로드 ID
+        description: Payload ID
       responses:
         200:
           description: ''
@@ -233,19 +230,19 @@ paths:
   /v1/operator:
     get:
       description: >-
-        이미 생성된 오퍼레이터 목록 및 각 오퍼레이터 설정값을 조회합니다.
+        Search for a list of created operators and the settings of each of them.<p></p>
 
 
-        ## Size
+        ## Size<p></p>
 
 
-        * `size` 쿼리 파라미터는 선택 파라미터입니다 (최소값 = 1, 최대값 = 1000, 기본값 = 100)
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
 
-        * 음수를 입력하면 오류를 반환합니다
+        * Submitting negative values result in errors.<br>
 
-        * 0을 입력하면 기본값(`size=100`)을 사용합니다
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
 
-        * 최대값보다 큰 값을 입력하면 최대값을 사용합니다
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
       summary: RetrieveOperators
       tags:
       - Operator
@@ -258,7 +255,7 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn chain network ID (1001 or 8217)
       - name: size
         in: query
         required: false
@@ -267,24 +264,24 @@ paths:
         format: int64
         maximum: 1000
         exclusiveMaximum: false
-        description: 검색할 계정의 최대 사이즈
+        description: Maximum size of account to search
       - name: cursor
         in: query
         required: false
         type: string
-        description: 마지막으로 검색된 커서의 정보
+        description: Information on last searched cursor
       - name: from-timestamp
         in: query
         required: false
         type: integer
         format: int64
-        description: 검색하고자 하는 처음 시간의 타임스탬프 (초단위)
+        description: Timestamp of the start time to be searched (in seconds)
       - name: to-timestamp
         in: query
         required: false
         type: integer
         format: int64
-        description: 검색하고자 하는 마지막 시간의 타임스탬프 (초단위)
+        description: Timestamp of the end time to be searched (in seconds)
       responses:
         200:
           description: ''
@@ -335,7 +332,7 @@ paths:
               message: its value is out of range; size
   /v1/operator/{operator-id}:
     get:
-      description: 해당 오퍼레이터 설정 및 오퍼레이터 계정 잔액을 조회합니다.
+      description: Search for the settings of a specific operator.
       summary: GetOperator
       tags:
       - Operator
@@ -348,12 +345,12 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn chain network ID (1001 or 8217)
       - name: operator-id
         in: path
         required: true
         type: string
-        description: 오퍼레이터 계정 주소
+        description: Operator account address
       responses:
         200:
           description: ''
@@ -363,27 +360,27 @@ paths:
 definitions:
   AnchorBlockStatus:
     title: AnchorBlockStatus
-    description: 앵커링 상태 응답
+    description: Anchoring state response
     type: object
     properties:
       status:
-        description: 앵커링 성공 여부
+        description: Anchoring success/failure
         example: succeed
         type: string
     required:
     - status
   ErrorResponse:
     title: ErrorResponse
-    description: 에러에 대한 설명을 포함한 응답
+    description: This response contains error description.
     type: object
     properties:
       code:
-        description: 서비스 코드(앞 3자리)와 에러 코드(뒤 4자리)
+        description: Service code (first 3 digits) and error code (last 4 digits)
         example: 1072101
         type: integer
         format: int64
       message:
-        description: 에러 메세지
+        description: Error message
         example: all configured accounts have insufficient funds
         type: string
     required:
@@ -391,15 +388,15 @@ definitions:
     - message
   AnchorBlockRequest:
     title: AnchorBlockRequest
-    description: 앵커 블록 요청 스키마
+    description: Anchor block request schema
     type: object
     properties:
       operator:
-        description: 오퍼레이터 계정 주소
+        description: Operator account address
         example: 0x426Cd8fF0672225c7e96E0bD2f9175B05790653d
         type: string
       payload:
-        description: 앵커 데이터. ID 를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
+        description: Anchor data. ID is set to SHA256 (payload) by default if an ID is not provided. It receives a string-type ID value and determines that it is not set if it is not a string type.
         type: object
         additionalProperties:
           type: object
@@ -408,11 +405,11 @@ definitions:
     - payload
   AnchorTransactions:
     title: AnchorTransactions
-    description: 앵커링 트랜잭션 목록
+    description: List of anchoring transactions
     type: object
     properties:
       cursor:
-        description: 마지막 검색 위치를 나타내는 커서 정보
+        description: Cursor information on last searched location
         type: string
       items:
         type: array
@@ -422,20 +419,20 @@ definitions:
     - cursor
   AnchorTransaction:
     title: AnchorTransaction
-    description: 앵커링 트랜잭션 정보
+    description: Anchoring transaction information
     type: object
     properties:
       createdAt:
-        description: 앵커링 트랜잭션 생성 시간
+        description: Anchoring transaction creation time
         example: 1599142860
         type: integer
         format: int64
       payloadId:
-        description: 페이로드 ID
+        description: Payload ID
         example: c61cc0d0-5878-450e-bec8-bf73d6184798
         type: string
       transactionHash:
-        description: 앵커링 트랜잭션의 트랜잭션 해시
+        description: Transaction hash of anchoring transaction
         example: 0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09296e79d
         type: string
     required:
@@ -444,16 +441,16 @@ definitions:
     - transactionHash
   AnchorTransactionDetail:
     title: AnchorTransactionDetail
-    description: 앵커링 트랜잭션 정보
+    description: Anchoring transaction information
     type: object
     properties:
       payload:
-        description: 앵커 데이터. ID 를 설정하지 않는 경우에는 기본적으로 id = SHA256(payload)로 설정됨. string 타입의 id 값을 받으며 string 타입이 아닌 경우 설정하지 않은 것으로 판단함.
+        description: Anchor data. ID is set to SHA256 (payload) by default if an ID is not provided. It receives a string-type ID value and determines that it is not set if it is not a string type.
         type: object
         additionalProperties:
           type: object
       transactionHash:
-        description: 앵커링 트랜잭션의 트랜잭션 해시
+        description: Transaction hash of anchoring transaction
         example: 0x5aeb4ddc5d77b9ce977a87461573da00c0aed0ac59962892ecf58ec09296e79d
         type: string
     required:
@@ -461,11 +458,11 @@ definitions:
     - transactionHash
   Operators:
     title: Operators
-    description: 오퍼레이터 목록
+    description: List of operators
     type: object
     properties:
       cursor:
-        description: 마지막 검색 위치를 나타내는 커서 정보
+        description: Cursor information on last searched location
         type: string
       items:
         type: array
@@ -475,16 +472,16 @@ definitions:
     - cursor
   Operator:
     title: Operator
-    description: 오퍼레이터 정보
+    description: Operator information
     type: object
     properties:
       createdAt:
-        description: 오퍼레이터 생성 시간
+        description: Operator creation time
         example: 1600156363
         type: integer
         format: int64
       operator:
-        description: 오퍼레이터 클레이튼 계정 주소
+        description: Operator’s Klaytn account address
         example: 0x36C144b998FbEF7faf092b01815194a18e1a1163
         type: string
       setting:
@@ -494,15 +491,15 @@ definitions:
     - operator
   OperatorSetting:
     title: OperatorSetting
-    description: 오퍼레이터 결제 정보
+    description: Operator payment information
     type: object
     properties:
       useGlobalFeePayer:
-        description: 글로벌 대납 계정 사용 여부
+        description: Global fee delegation account enabled/disabled
         example: true
         type: boolean
       useOperator:
-        description: 오퍼레이터 결제 사용 여부
+        description: Operator payment enabled/disabled
         example: true
         type: boolean
     required:

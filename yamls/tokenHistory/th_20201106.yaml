@@ -1,0 +1,4289 @@
+openapi: 3.0.0
+info:
+  title: Token History API
+  description: |-
+    # Introduction
+
+    Token History API allows users to search for information and transfer records on KLAY, FT (KIP-7, Labeled ERC-20), and NFT (KIP-17, Labeled ERC-721) tokens. You can use Token History API to check the records of a specific EOA transferring KLAY, retrieve NFT information, or other purposes.
+
+    For more details on Token History API, refer to our [tutorial](https://klaytn.com).
+
+    For any questions regarding this document or KAS, visit [the developer forum](https://forum.klaytn.com/).
+
+    # Authentication
+
+    <!-- ReDoc-Inject: <security-definitions> -->
+paths:
+  /v2/transfer:
+    get:
+      description: |
+        Search for integrated transfer details. The transfer details include KLAY (`KlayTransfer`), FT (`FtTransfer`), and NFT (`NftTransfer`) transfers.<p></p>
+
+        ## KlayTransfer in the FT/NFT Transaction Details Search Result<p></p>
+
+        For FT and NFT transfers, the `KlayTransfer` transfer detail for executing the token transfer is included. This is because the FT/NFT token transfer is basically an execution of the FT/NFT contract function, and the API includes the triggering KlayTransfer in response which executed the token transfer. Because transactions that execute contract functions do not generally transfer KLAY, the `value` of the `KlayTransfer` for executing the FT and NFT transfers can be 0.<p></p>
+
+        ## Transaction Type<p></p>
+
+        * Set the `kind` parameter to search for transaction details regarding KLAY, FT, or NFT.<br>
+        * Transaction details for all types will be included in the search response if the `kind` parameter is not set.<p></p><br>
+
+        ## Search period<p></p>
+
+        * For `range`, enter the query in the `range={from},{to}` format.<br>
+        * `{from}` and `{to}` will be regarded as Unix time if they are integers and block numbers if they are in hexadecimal format.<br>
+        * If the `{to}` value is empty, the current time or recent block number will be used.<br>
+        * Transaction details can be retrieved for up to six (6) months at once (for both Unix time and block numbers).<p></p><br>
+
+        ## Preset<p></p>
+
+        A Preset contains EOA, FT, and NFT contract addresses, allowing users to easily and quickly retrieve transfer histories of a frequently requested set of accounts.<p></p>
+
+        * The `presets` query parameter is a required parameter.<br>
+        * [Preset](https://console.klaytnapi.com/service/th/preset/list) must be pre-generated in the KAS Console.<br>
+        * The preset ID can be checked in the KAS Console.<p></p><br>
+
+        ## Size<p></p>
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+        * Submitting negative values result in errors.<br>
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: '(csv) Indicate the [“klay”, “ft”, or “nft”] type. All types will be searched if no type is specified.'
+          in: query
+          name: kind
+          required: false
+          explode: false
+          schema:
+            type: string
+          example: 'klay,ft,nft'
+        - description: Search range (block number of Unix time)
+          in: query
+          name: range
+          required: false
+          schema:
+            type: string
+          example: '0x1,0x2'
+        - description: 'Maximum number of items to retrieve (min=1, max=1000, default=100)'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 100
+        - description: Response offset
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: ''
+        - description: ' (csv) Preset IDs to use in search, check Preset IDs in KSA Console'
+          in: query
+          name: presets
+          required: true
+          explode: false
+          schema:
+            type: string
+          example: '65,68'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageableTransfers'
+              examples:
+                'Success, empty':
+                  summary: 'Success, empty'
+                  description: ''
+                  value:
+                    items: null
+                    cursor: ''
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int64
+                    example: 1040010
+                  message:
+                    type: string
+                    example: '[InvalidQueryParameterValue]required presets'
+                title: InvalidQueryParameterValue
+                example:
+                  code: 1040010
+                  message: '[InvalidQueryParameterValue]required presets'
+      summary: Search for Token Transfer History
+      operationId: getTransfers
+      tags:
+        - Token History
+  '/v2/transfer/tx/{transaction-hash}':
+    get:
+      description: 'Search for transfer details with a transaction hash. Transfer details include KLAY (`KlayTransfer`), FT (`FtTransfer`), and NFT (`NftTransfer`) transfers. For the FT and NFT transfers, the KlayTransfer transfer details for executing the token transfer are included. The `value` of the `KlayTransfer` for executing the FT and NFT transfers can be 0. For more details, refer to `GET /v2/transfer`.'
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: Transaction hash to search
+          in: path
+          name: transaction-hash
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transfers'
+              examples:
+                Empty response:
+                  summary: Empty response
+                  description: ''
+                  value:
+                    items: null
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    items:
+                      - transferType: ft
+                        transaction:
+                          from: '0x5bf30ff4a1a3a905531c5e1b52c635892a9fc28d'
+                          fee: '0x48abe561cf400'
+                          transactionHash: '0x9fb236689b26fc8b8a938a8eb2b7e5a6afc1c7a837c61751f08eac7358db8d73'
+                          typeInt: 49
+                          timestamp: 1597649114
+                          value: '0x0'
+                          feePayer: '0xacb22916b804ac088c61c8711ec196b518f2e7fc'
+                          feeRatio: 0
+                        contract:
+                          address: '0xb1a7abe0c5a9e06cc7585a435e74976d2dee07f3'
+                          name: BlockchainPetToken
+                          symbol: BPT
+                          decimals: 2
+                        from: '0x5bf30ff4a1a3a905531c5e1b52c635892a9fc28d'
+                        to: '0xeb7f7926cc4f866cec135728d35a7531c1d12791'
+                        value: '0x3e8'
+                        formattedValue: '10'
+                      - transferType: klay
+                        from: '0x5bf30ff4a1a3a905531c5e1b52c635892a9fc28d'
+                        fee: '0x48abe561cf400'
+                        status: 1
+                        to: '0xb1a7abe0c5a9e06cc7585a435e74976d2dee07f3'
+                        transactionHash: '0x9fb236689b26fc8b8a938a8eb2b7e5a6afc1c7a837c61751f08eac7358db8d73'
+                        transactionIndex: 1
+                        typeInt: 49
+                        timestamp: 1597649114
+                        value: '0x0'
+                        feePayer: '0xacb22916b804ac088c61c8711ec196b518f2e7fc'
+                        feeRatio: 0
+      summary: Search for Token Transfer History with a Transaction Hash
+      operationId: getTransfersByTxHash
+      tags:
+        - Token History
+  '/v2/transfer/account/{address}':
+    get:
+      description: |
+        Search for token transfer details of a specific EOA. This is functionally similar to `GET /v2/transfer`. However, if this EOA receives or transfers the token in the returned transfer object, `to` or `from` is the same with the EOA, respectively.<p></p>
+
+        Transfer details include KLAY (`KlayTransfer`), FT (`FtTransfer`), and NFT (`NftTransfer`) transfers. For the FT and NFT transfers, the KlayTransfer transfer details for executing the token transfer are included. The `value` of the `KlayTransfer` for executing the FT and NFT transfers can be 0. For more details, refer to `GET /v2/transfer`.<p></p>
+
+        ## Transaction Type<p></p>
+
+        * Set the `kind` parameter to search for transaction details regarding KLAY, FT, or NFT.<br>
+        * Transaction details for all types will be included in the search response if the `kind` parameter is not set.<p></p><br>
+
+        ## Search period<p></p>
+
+        * For `range`, enter the query in the `range={from},{to}` format.<br>
+        * `{from}` and `{to}` will be regarded as Unix time if they are integers and block numbers if they are in hexadecimal format.<br>
+        * If the `{to}` value is empty, the current time or recent block number will be used.<br>
+        * Transaction details can be retrieved for up to six (6) months at once (for both Unix time and block numbers).<p></p><br>
+
+        ## Size<p></p>
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+        * Submitting negative values result in errors.<br>
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      parameters:
+        - description: ' Klaytn chain network ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: '(csv) Indicate the [“klay”, “ft”, or “nft”] type. All types will be searched if no type is specified.'
+          in: query
+          name: kind
+          required: false
+          explode: false
+          schema:
+            type: string
+          example: 'klay,ft,nft'
+        - description: |
+            FT/NFT contract address to filter from the result. If set, the response only contains FT/NFT transfer details with the matching address specified in `ca-filter`.
+          in: query
+          name: ca-filter
+          required: false
+          schema:
+            type: string
+          example: '0xc7565d24af561fe783aa73747ca0eda1f09f1118'
+        - description: Search range (block number of Unix time)
+          in: query
+          name: range
+          required: false
+          schema:
+            type: string
+          example: '0x1,0x2'
+        - description: 'Maximum number of items to retrieve (min=1, max=1000, default=100)'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 100
+        - description: Response offset
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: ''
+        - description: 'EOA to search, the response only contains transfer details where each transfer detail''s `from` or `to` is equal to `address`'
+          in: path
+          name: address
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageableTransfers'
+              examples:
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    items:
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x26439f2a16c00'
+                        status: 1
+                        to: '0x9a6349ed4a06792f476b7d270e7e6babe8944bb1'
+                        transactionHash: '0xc058d822e1267163acf529e08e6acb98480250919fc0f4e796ffd3a851aa94ab'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1597675981
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x364bda5e55a400'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x9799eef1cac229bae3face1b6ef31cf8f6c9f6a05b531eafad79330dbd043849'
+                        transactionIndex: 2
+                        typeInt: 0
+                        timestamp: 1597675977
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x93bef96958600'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x73c4bf10cefa6798e4475b4f5c9067b3b5624b3818a74f067a8deec9bc5fe8a5'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1597675972
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x3b949706bdc00'
+                        status: 1
+                        to: '0x9a6349ed4a06792f476b7d270e7e6babe8944bb1'
+                        transactionHash: '0x1a7707e089c4053de5c2ae0b902e587751494963de7197dcc358ce58e460eb57'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1597675967
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0xcb8f22d2c4400'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xbda60698bdffde4beb1465fb8c4c16922bd3e760681ecb40b428c4c8ea4a06e1'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1597675962
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x13701508b5d2e6f936b6d2be54d4aad84531fabf9a1b300c5ff7ffe0e67adf14'
+                        transactionIndex: 1
+                        typeInt: 48
+                        timestamp: 1597397371
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x99c6b8641112588f7f0813447b430408f96e5eeecb634fc2c206647da83e6994'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1597397318
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xe7c169d32ea402b20bcd704f302546e84f2d6b3ee89ad944ed19f19ec1d04f52'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1597397272
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x97d8d2efaa7cc33b441c977ec5e87346a8ca963bd2517c487a3f2d29b911b356'
+                        transactionIndex: 2
+                        typeInt: 48
+                        timestamp: 1597284585
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xd0e9cdbe9c3396f3da47994d684a4169324f88882f169c872c300f8cbe1d5c9c'
+                        transactionIndex: 1
+                        typeInt: 48
+                        timestamp: 1597281012
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xc743f0a22fd76c010b02123619f7ce84a05190783d06491037dfc1bf8870c06b'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1597208517
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xa486138b6a25cc8664aa68478cc5cdcf75e264b0077a9d6faaf5279aa8e1d90d'
+                        transactionIndex: 4
+                        typeInt: 48
+                        timestamp: 1597133520
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xa1910a2f9fa9b82ab3e5c92e84998b547b921b6b8c7ec7256dc089aadcee1358'
+                        transactionIndex: 6
+                        typeInt: 48
+                        timestamp: 1597124125
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x8f78b0d658d1b2e4f4d93890801dabe08f2c7b9a4fadd9f0ea7ea566af71aa32'
+                        transactionIndex: 1
+                        typeInt: 48
+                        timestamp: 1597124066
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x544e783d6aa0802a763b8746408aa98f14822728ea400c3095a05b38b04799fe'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1597124007
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x52add4f9a86291c49117a788c61c9d73646ac5e0ee2b48c8ed0635c37e76eb1f'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1597123963
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x21eb45b137a3474b6e215b70d08548f4433a72e84e429ddd65536312e00c9c50'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1597123885
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xf279da8d71ae6ec707774d61de1c5dbf69e835a133b0183c885f1feae31ba892'
+                        transactionIndex: 2
+                        typeInt: 48
+                        timestamp: 1595496155
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x050f758e1b85eb785a63b3f02d2746314dd7a335da38a73b1c118d937af58ffd'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1595496106
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xb901531185fe1efa7baee2fb190cdee0d035345d552e3daa90b37acfa217a97f'
+                        transactionIndex: 2
+                        typeInt: 48
+                        timestamp: 1595496036
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x0b08b71042edf4a9ddc41f6d6973d52048f5e6aee7c4d3e46798d9f7d46cdce3'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1594101847
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x29c33b7d84ae758ec4333880cf3006c3cbf93863988f92ad75d3c0e97d08c803'
+                        transactionIndex: 4
+                        typeInt: 48
+                        timestamp: 1594092546
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x8d18095077c00'
+                        status: 1
+                        to: '0x69f9f9ef99af670c323f7bf569fbdedf129d1a2c'
+                        transactionHash: '0x384ea3167f3b99187b657a6de60c4d914740776f5c1f8f163548144f47bfcf90'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1593152567
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x42eff8b924600'
+                        status: 1
+                        to: '0x701487d35897e7c810b922d891c081c3b7ed8db0'
+                        transactionHash: '0x6153f92e8219fb2d7a68433858ec968d818fe00ff1cb97b25eab1061c90835dd'
+                        transactionIndex: 1
+                        typeInt: 48
+                        timestamp: 1593152564
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x8bb49b194a200'
+                        status: 1
+                        to: '0x9bb2251b67b013ce135540856cd86c09ee3bd8ba'
+                        transactionHash: '0x96baf02c170c28d6223c4384846cbd4f38933380faa9515b871618dc13c3d025'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1593152335
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x264859e23de00'
+                        status: 1
+                        to: '0xe568c6fa231f843f58630c9fd0cf9b9c9b176674'
+                        transactionHash: '0x4ea8ec654c62ba60e36a856e1cdee067bcdec3a024705c314646d322fc04e261'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1593150245
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x75935732de1600'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xb5f25af9d0750b50b80bcf757b4c91456baeafa99a34e7f23355da3f01249fd5'
+                        transactionIndex: 2
+                        typeInt: 0
+                        timestamp: 1593150241
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x12686e260efec00'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xe29fe4a39f0ec2b2115ecc3f8bb92afed7df09cf016ee2462f8443be3ab90a15'
+                        transactionIndex: 3
+                        typeInt: 0
+                        timestamp: 1593150238
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6eee6d2653200'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xfd82098b8f4e7662d47f4c782fcdcbef0391b4fd741d5456b157d2f7e2590f3c'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1593150235
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x9873d3ce82ec00'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xf3ca05c23aab06c8423e29d5d3207e80750411875dd5b1d3a5b9a9c7100af05c'
+                        transactionIndex: 5
+                        typeInt: 0
+                        timestamp: 1593150232
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6eee6d2653200'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xa311cdc4c99e50ed77442892da117e580ef2f08ca0eac54b7962e5ef6f21c4ad'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1593150228
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x120f5462a5e2e00'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xb4c27cd0b012e61457f9a75120cb3c97b19cb1721f8e9aeec729f9ac7dd26688'
+                        transactionIndex: 3
+                        typeInt: 0
+                        timestamp: 1593150220
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x3d42f0aa886600'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x020bd1aaf844b3bcfdd33af2a7838d4d146a08933e6daab1345a0c5af56c8bcd'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1593150215
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x2af627d7693000'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x7c6f1611516ff3ebccb0fc3f4af678b3b775355bc3ef2ded1d6242c89bc9afd7'
+                        transactionIndex: 2
+                        typeInt: 0
+                        timestamp: 1593150211
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0xc67013a134ee00'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x3ffd53662b1d87f443b3bc8007b8f0e90e922364eb138eac5c6a7fbc042953d4'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1593150206
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x186b7ae4364600'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x5cc6ab3e890645e06a4263331705b24567e872f28c03121b9e093e90971aed4e'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1593150202
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0xa484272e8b000'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x5ba5e5913d99a5781916ce47e2d64b64df6a18a15c0894691bd41138ea7075d1'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1593150197
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x3b9951bee4e00'
+                        status: 1
+                        to: '0xe568c6fa231f843f58630c9fd0cf9b9c9b176674'
+                        transactionHash: '0x05c07cd9241c18698a0460a85b981991b1bd39a0c126aee39921daee14a1b1dd'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1593150192
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x10c10a64106400'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x4a50684eb84a5cb32c8b8216c9321a2ae90d9b3eec5e930a8d3f51759da7aae7'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1593150188
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x42eff8b924600'
+                        status: 1
+                        to: '0x6ca65ad4ff1393b19b723d599ce6b64a9d67ba36'
+                        transactionHash: '0x26265457ebb172fd0358c97e58c8376eba1bbad6be57429b32ab2803f2ac99ec'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1592421772
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x8bb49b194a200'
+                        status: 1
+                        to: '0x86d386d901b06a1451f28a17e439f3abce8536f7'
+                        transactionHash: '0x893390ff9b456cc27e0fa2e8f47269d8c735023ec46937280e0d564771c14c4a'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1592421676
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x8d18095077c00'
+                        status: 1
+                        to: '0xe4f1433b73aa49582f7acbb935da516cfbbfaf10'
+                        transactionHash: '0x57e8cd3855c759234f21357501cdcb8b332766e6a7856f8de623717fb849c735'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1592421555
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x42eff8b924600'
+                        status: 1
+                        to: '0x6ca65ad4ff1393b19b723d599ce6b64a9d67ba36'
+                        transactionHash: '0x8b3c768694f00e1ff985c423ceb5e022139d70b80f4a13e7e6d5e6f5144a3aae'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1592421553
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x264859e23de00'
+                        status: 1
+                        to: '0x390562bcca4a429ea6cf2f88a9cf4137bd01845b'
+                        transactionHash: '0x2f886e824c415c024ce58015a73f678460577befb084c4d4b108bcaf186c62a3'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419854
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x75935732de1600'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x1ce6fea0f9eec119d9b611e819395fd765883711c411762998a55b7c68a5b7ad'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419850
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x12686e260efec00'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xb3208695729e7b1d2ff76952fab377354081a1c234c328d2a83f7efdb9599ba5'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1592419846
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6eee6d2653200'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x2a51c680b0ab5bbf9e9f1021eb6f90863396091890971b4aa475c62f41b6a0f3'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419841
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x9873d3ce82ec00'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x1b6ba7ca7452c0cb364dea8a03fbbc745ee90244c0b1701be2fd462851b0c28c'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419836
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6eee6d2653200'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x2bc826dbc5ba69fcdc46f9741495b3e30ad143ebecf9345d6b3e35d5575dcae7'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1592419833
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x120f5462a5e2e00'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xeddc049a8c61cd6e9112a46ef73a9340b73005a4adfe54452a67f483df043fbd'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419829
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x3d42f0aa886600'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x6be8a5625a087eb245411b8fea96931b62ce7dc1b08887fcc589b1f24432c0b8'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419825
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x2af627d7693000'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x9b077dcc05673cc4e05ce1f7ab590b485955cc63737ea0b3f16d095379c12339'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419822
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0xc67013a134ee00'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xa0f28acaba844cd063a1561d2cf1862e80f722e6774a1f86cd0f434f8a8fa551'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419818
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x186b7ae4364600'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0xc5adf9cc0f039f7e8327b848705d8052a60887c8e85459796d695ce7f80f9634'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419813
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0xa484272e8b000'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x74346178b97e36e6aa44941badfc60836d803f064352a85807e514fc0914f921'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419808
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x3b9951bee4e00'
+                        status: 1
+                        to: '0x390562bcca4a429ea6cf2f88a9cf4137bd01845b'
+                        transactionHash: '0x889fa6b581de85c91083b24f7dcfe6195030de4fb2640cbe59a8de8865badbeb'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419804
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x10c10a64106400'
+                        status: 1
+                        to: '0x0000000000000000000000000000000000000000'
+                        transactionHash: '0x5c94f2ea00abf7f2145081a9be27ebeb1f115d64b895fc158e845b07c3e65fdb'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1592419799
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x42eff8b924600'
+                        status: 1
+                        to: '0xe31c74b1e2efb8163c478720e3b826abd8ad4aff'
+                        transactionHash: '0xb6cd7435d6673f59ae37c773f430ee9d28572a6d45a42ea89487d7e87f85650e'
+                        transactionIndex: 2
+                        typeInt: 48
+                        timestamp: 1592417797
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x42eff8b924600'
+                        status: 1
+                        to: '0xe31c74b1e2efb8163c478720e3b826abd8ad4aff'
+                        transactionHash: '0x4e5d69687acf7094ab225bf6d067bf8c49c2d5cded07a82634dc61b98cf443f8'
+                        transactionIndex: 1
+                        typeInt: 48
+                        timestamp: 1592417351
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x8d18095077c00'
+                        status: 1
+                        to: '0x9ac9831a47d99997e78ca2eeedd049a12e96d005'
+                        transactionHash: '0x22e5ac21667d5c535c062c3231cdddc3f3f2dc5315bf5e2274fc60a19e893299'
+                        transactionIndex: 1
+                        typeInt: 48
+                        timestamp: 1592411588
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x42eff8b924600'
+                        status: 1
+                        to: '0xe31c74b1e2efb8163c478720e3b826abd8ad4aff'
+                        transactionHash: '0x76cf4c0666f695dab87b2f494f68e718d937d301321a3ff2810f786b871459d6'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1592411586
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xf1988ac7fc309302c792c20187f44af4836222bd143bb148c5924bbd2b3459fe'
+                        transactionIndex: 2
+                        typeInt: 48
+                        timestamp: 1591680741
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xb7aa51438a44662ff5bb7be8efd2835af21fd7e6d2ea1961d7ec11265fe1a25b'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1591680598
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xdf3594a56498e6c89286ea27e674aeb8a8c448da34bdef30800322b4cc9e8ada'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1590571660
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x52c1a0b9cd34add043f3e237866a54c236355fd35b5d914ae42d3007d412c57b'
+                        transactionIndex: 9
+                        typeInt: 48
+                        timestamp: 1590571532
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xf19b3c6c8d4af6d7188f8fef590706a2ea90e5773b14abb7412c149649a55147'
+                        transactionIndex: 14
+                        typeInt: 48
+                        timestamp: 1590569653
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x562bf9d3f4c00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xc0416c4319681ab5cfb3afe4804e0bca164b0a0a64e0cc02be713323c228af6d'
+                        transactionIndex: 2
+                        typeInt: 48
+                        timestamp: 1588924935
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x562bf9d3f4c00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x88dbd4ce3245ba43d1e7bef31372ed2301f9a3135d5174093d0eb41d19f7922f'
+                        transactionIndex: 5
+                        typeInt: 48
+                        timestamp: 1588924790
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x155e79e375aeee78e0e3a0650557548dcfc69301a0d47005ee64274fe2bbd3a6'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1586741364
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xf9832bb07706895b7269c13c8a3e8014c2a017338386ded0414aa2176b21353e'
+                        transactionIndex: 0
+                        typeInt: 48
+                        timestamp: 1586741074
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x5ae416ffb52eb40b2a21d62791e441f5fc96a0f507b8186afd86700fbce9bb92'
+                        transactionIndex: 1
+                        typeInt: 48
+                        timestamp: 1585793008
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xa470bd76e503ad0c846dfd4cd56ba6e7abfee0efd3939a738fed1e9b8d96cdea'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1585282702
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x34b699e05d42ebeb8fec2a0a1f58fcd9137b555ac08348345946f5eadaffb7af'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1585282603
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a3529706bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xc656406af4e195a6f2eaaede49e5857bf7ab175823c5e561364d5c25c99d1b91'
+                        transactionIndex: 2
+                        typeInt: 0
+                        timestamp: 1585127607
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x2f771e05e080f8746aff85ef157a45f1d3ef8bf1c1a95cf62b893470b597929f'
+                        transactionIndex: 3
+                        typeInt: 48
+                        timestamp: 1584979172
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xb5cff59c1988e24b6577db2233911f0b5b18898c4bf5bfbad5a60d396da38f36'
+                        transactionIndex: 2
+                        typeInt: 0
+                        timestamp: 1584497931
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xffc3505910d6bb32f2157a877187165a3e25d6d96f10468bbc6d622eaba084a4'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1583980594
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0xa90564701e400'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xbf3722ef8ae12c66bb01dff4de14ebe5724d15d031dceaa0bf2403670ae82db8'
+                        transactionIndex: 4
+                        typeInt: 48
+                        timestamp: 1583494455
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x73b2d4dcdb7ca32f975f195799750a703ce428a7a528a0580b68d397eff4314b'
+                        transactionIndex: 4
+                        typeInt: 48
+                        timestamp: 1583419212
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xe8394916b8ac9b125b0d88de2b544d4eb4b1631bb63de0bcf29d21ec148be728'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1582707198
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x342c5be8162090f2a8cfac238e827945e2d0af430fd85b077e0c4973b27a3f23'
+                        transactionIndex: 6
+                        typeInt: 0
+                        timestamp: 1582687457
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x23ae9b349ad9534d53633de2d9b303d3b1fa97e44462b42592f44263e95353c9'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1582683682
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: ft
+                        transaction:
+                          from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                          fee: '0x6b7cf1b09bc00'
+                          transactionHash: '0x8d9c23f2a9381243062b5f5b15f9d4793942bc74d7f6a3ac9bbb294e693c1540'
+                          typeInt: 48
+                          timestamp: 1582622881
+                          value: '0x0'
+                          feePayer: ''
+                          feeRatio: 0
+                        contract:
+                          address: '0x46f307b58bf05ff089ba23799fae0e518557f87c'
+                          name: Airbloc
+                          symbol: ABL
+                          decimals: 18
+                        from: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        to: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        value: '0xde0b6b3a7640000'
+                        formattedValue: '1'
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x6b7cf1b09bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x8d9c23f2a9381243062b5f5b15f9d4793942bc74d7f6a3ac9bbb294e693c1540'
+                        transactionIndex: 10
+                        typeInt: 48
+                        timestamp: 1582622881
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x59d80794cbc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xfe0889c48076baedfc9ae1f2c729c4a103e6ed396fa2d47ad453e63e8b81834b'
+                        transactionIndex: 2
+                        typeInt: 0
+                        timestamp: 1582598701
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x82cfa113740f409dd028d0ff520e34d04111b529029838fd9f3c3654d1a16dbd'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1582529124
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x44b5a0a5f4c00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xc5a80bc94c827f843341c55aface1ce1b11d8f2f93a3446ea6173d2d97ab7b4c'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1582523746
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x44b5a0a5f4c00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xe4e0e745cd4193d9af02113b41c7f5b9f72c00ae7229a34cdccce74b42d39ecd'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1582267635
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x8ad85a0e0b2e7428a665265794ae32c005d1694196b86af59e95494dfbefa688'
+                        transactionIndex: 2
+                        typeInt: 0
+                        timestamp: 1582261544
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x449e582f0cc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xc93453af98297b953afb34f8aed92ae2acc3d96cd5291e9fc43bfea1fedfc076'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1582254900
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x59ef500bb3c00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xfed6076bd576d1040411e7bff8beff14bc578ed2de0315c77f5f4b9d78cd793d'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1582254876
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x3ba3de94c6000'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x5f80c2c62ab4fc76f2df671c000401c5e5e89fed1274c33499ca81c29d18b81e'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1582196646
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a1de0f983c00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x1f3ead43e6feac76ba12879d863adb23b48527f25f99bf4c33bb36d5d6665e68'
+                        transactionIndex: 5
+                        typeInt: 0
+                        timestamp: 1582173048
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xd2dfc13428e073359477d9183b7506bcf004751849825bfc3a7f669274c6b836'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1582096973
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xed9b481c766ca06c91ee5e1270a45f92d105ccfb02b6808ce19fc9c614e7341e'
+                        transactionIndex: 4
+                        typeInt: 0
+                        timestamp: 1582096898
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x59ef500bb3c00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x36a3009d717b6bb25892d3346ae52a87f89bf6c709b5d31e2212c2cc3bdda4de'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1582085580
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x59ef500bb3c00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x260425f493e19701888b2b9e6d0751875ca17617416a11446596c2cf91c74415'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1582085556
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0x6a619610d959342ddf57099d240693b02899604c3954b4fa0cd7e86cc25dadc2'
+                        transactionIndex: 0
+                        typeInt: 0
+                        timestamp: 1581996376
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x5a0698829bc00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xd8b980d330c836c9ef0837aff5ea834072ea87955b9a0fde9ae6409155d5e803'
+                        transactionIndex: 2
+                        typeInt: 0
+                        timestamp: 1581995993
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                      - transferType: klay
+                        from: '0xc060632ad88d0dec2bbc44bbea9d4c48c2ead48f'
+                        fee: '0x59ef500bb3c00'
+                        status: 1
+                        to: '0xd07453030abc0e37ee81371e2505bf55e0be6440'
+                        transactionHash: '0xd68fa21f7d58ebcf847e09e99af0e7c506758dccde577b5fe0dbb192545aa8bb'
+                        transactionIndex: 1
+                        typeInt: 0
+                        timestamp: 1581995572
+                        value: '0x0'
+                        feePayer: ''
+                        feeRatio: 0
+                    cursor: 18G42d0gY531Z2pzqEVrDWMLmQ9kz2epXE8JZwadKGrOqW3oVRxNx8g0Xzkv3p8iKW6LBZJe2OvvT2nDL6Pxgb9m4YQv5AM0NlB17ePxoOK8vk74wbG6NaBAJlX309vK
+      summary: Search for Token Transfer History with EOA
+      operationId: getTransfersByEoa
+      tags:
+        - Token History
+  /v2/contract/ft:
+    get:
+      description: |
+        Retrieve information for all labeled FT contracts.<p></p>
+
+        ## Size<p></p>
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+        * Submitting negative values result in errors.<br>
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'Labeling status [completed, processing, failed, cancelled]'
+          in: query
+          name: status
+          required: false
+          schema:
+            type: string
+          example: completed
+        - description: 'Contract type [KIP-7, ERC-20]. If not set, return all types.'
+          in: query
+          name: type
+          required: false
+          schema:
+            type: string
+          example: KIP-7
+        - description: 'Maximum number of items to return (min=1, max=1000, default=100)'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 100
+        - description: Response offset
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: ''
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageableFtContractDetails'
+              examples:
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    items:
+                      - address: '0x293073d135c3774145591bd2ccb04f3bccf52bee'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Bifrost Klay
+                        symbol: BFCK
+                        totalSupply: '0xcecb8f27f4200f3a0000000'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1599638669
+                        updatedAt: 1599638669
+                        deletedAt: 0
+                      - address: '0x3ea399061310992c92944a65698285c5efdcd89a'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Bifrost Klay
+                        symbol: BFCK
+                        totalSupply: '0xcecb8f27f4200f3a0000000'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1599638326
+                        updatedAt: 1599638326
+                        deletedAt: 0
+                      - address: '0x7aeba062cb347c52435d8325fdd62b61addede51'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xa4ba9c68a7d1d33e288702f1ace1559d8924001c'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x905eb05427d27a895e93a3e709dcaa522bba126b'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xd43188c50fdee5621ea5893cf06cfad05467c286'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xd502b5849542653bd8cfa507bac7f107b74f8b52'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x2f249ded20f8f2fbd7a7189e6b7c9d4953aea2f4'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x236296804e1d80eff40499c45adb4b4bd06f837c'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x636067b413f66cd14efbe0d251409c0acea3415f'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x02e8e95958a828081817ab11cae4455d313a7c65'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x99abe9c31dbee2db9fc2bce55314c98b11099532'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xe2ae90cb782d9de64118fc3487f59d5a8d6e3486'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x46cc90ddcbc57076e30f814b5b157114f7dba907'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xa43fb2e5893878acd587a52713d4f455e03b99d7'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x9e5399407939bcb7fb50324fa2e53056b5fa6f91'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xb727a8c0efe88ef691399c632f5950fefaead681'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xb6aedede3f5a72c883ae03878959a2c4f3455429'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x5da69cc1ca6052af3fe3500a61d0c7ddecca6352'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xfe5574d345df7d60e6014900b1b60896ee977674'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x553afffd52da15717b4ef4b1ef47c112802cb3d9'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x81da3e7d89c9e1da7c84693c1c89c7e3d8c476f0'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: cancelled
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x7f8bb7e8da765006a87f0285c99a9704d86e1a49'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xf150e714f78eab0811aa83256104fead1c88ea26'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xe8ddd98e8d0dbad41c4197c402321c7bd2989f2f'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x4df5a927cc199cc931fe2cd75cbc4aef248cec99'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x09c960f7a6afc99bba314d9c9158c525c451df99'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x4bfd60ce884ad42359b490d04e6aad93eee0022a'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xbc5ce32fa39e65d7b2f8a55c4ecdd0da2d1bb136'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xd4e34a03d900b1d534d14f2bb1b4b4ece93aaef8'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x272e24aa7555c00ab4de96e41696e2cfed6d4408'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x3c0fb1279b87de2428f505eee61f3e4d7d00b66c'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: ERC-20
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xcb43a7d2d2ed8b1d75e4ca8f903407650a66d5bb'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xcfe14771af5870857939bbcdff94e1806ff6faab'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xc11d6570fca10624ad63bd16f19372af7c0e6c9e'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x5854fb3825ec57426ac4d0c63deacd05fee123ab'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0xdcd7c1f60fd98c76e5f2fec975757228ee57bc18'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x9b3be069c5cd5a02976cbb98e1ace6dd88061441'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x404abbabc74b5107c63281c4069e7a5cf590b9bb'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x88c859fdf29bb22efe02ab24afbc407e8e9aec11'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x12fed96c71539ad4aef6d13fc76092916888e513'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253239
+                        updatedAt: 1598253239
+                        deletedAt: 0
+                      - address: '0x357ada355a7c2951aebce3c5226b4af70ce3d6c0'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: failed
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x4a625109d1d2e07d4936425f6c830793d6178b51'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x9a8bd341eb366e8adadd6b32181d0b49e110bde6'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x1777130af157448b51703c42d24c08e6ede75081'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0xb6a934714e8a5b122c01a40ef07396f2a30c9870'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x6983c5d7ee93302ff2ff838a2e53e92d25620b6e'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x7015659c0721419e0ef869f0d64a2a0d467e5693'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0xd181946a4fa3fef3336df28f98cc0b38ba58f5b0'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x5da7c6657f87ce155210f2bbbdb4a78e344eb9db'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x8f590722a6bd7ccde1d42b7d312b4d72a92b7122'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x601dd60fba7de2585d9c425a6c2af2399e6e9ffd'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: ERC-20
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0xbe0867fb17aaf52fdb52fe9959685c47b9f95623'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0xef974ad60a5418f6fbb24f94188690b83134599b'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x4a5b5473a4fff37e0abc9cb6787115e50a23f96c'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x35b6cb596a4886fee9cc0bb4f581f8b20cd5dac2'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0xfb823f17fdf5e926cef1e7338d18852fb40e1c54'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x83dd3fb750b0fb1d9e9567bdaa77281c43031bdf'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x89972600f3b57c0e263ead5e4c1a6849d813acfe'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x9543e6bab896e8021710228d629f54c1773fb2a2'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0xfe3bdb821a6ff6aa3737be56dfddfac6167d7a38'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x4fd9e3354c686a26ebb4dfc2d44923354862799d'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ''
+                        symbol: ''
+                        totalSupply: '-1'
+                        status: processing
+                        type: KIP-7
+                        createdAt: 1598253238
+                        updatedAt: 1598253238
+                        deletedAt: 0
+                      - address: '0x75b5f0106f4094d6e3dd38bdc7acf7742596ea42'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: MyStarChain
+                        symbol: MSC
+                        totalSupply: '0x33b2e3c9fd0803ce8000000'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1596506420
+                        updatedAt: 1596506420
+                        deletedAt: 0
+                      - address: '0x73923fcc41c10754302bbd0363c35e1bf556c11f'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: 'TESSA[#0003] : Jean-Michel Basquiat [1]'
+                        symbol: TSA
+                        totalSupply: '0x1adb0'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1595996913
+                        updatedAt: 1595996913
+                        deletedAt: 0
+                      - address: '0xa338e75cf75e64cc21017b87a142c352fa272e3d'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: 'TESSA[#0002] : David Hockney [2]'
+                        symbol: TSA
+                        totalSupply: '0xe678'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1595996827
+                        updatedAt: 1595996827
+                        deletedAt: 0
+                      - address: '0x5b5b404193600bce0580e945d723c30f02321c4e'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: 'TESSA[#0001] : David Hockney [1]'
+                        symbol: TSA
+                        totalSupply: '0x15ba8'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1595996757
+                        updatedAt: 1595996757
+                        deletedAt: 0
+                      - address: '0x6cd6e8deda6ed735cab353b6b0dcf1708dcf4b96'
+                        decimals: 0
+                        link:
+                          icon: ''
+                          website: ''
+                        name: 'TESSA[#0004] : Keith Haring [1]'
+                        symbol: TSA
+                        totalSupply: '0x1d4c0'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1594737023
+                        updatedAt: 1594737023
+                        deletedAt: 0
+                      - address: '0x5288f80f4145035866ac4cb45a4d8dea889ec827'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Social Innovator Token
+                        symbol: SIT
+                        totalSupply: '0x84595161401484a000000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355686
+                        updatedAt: 1593355686
+                        deletedAt: 0
+                      - address: '0x275f942985503d8ce9558f8377cc526a3aba3566'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: ProjectWITH
+                        symbol: WIKEN
+                        totalSupply: '0x36afb02a36d33e82de40000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355639
+                        updatedAt: 1593355639
+                        deletedAt: 0
+                      - address: '0x46f307b58bf05ff089ba23799fae0e518557f87c'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Airbloc
+                        symbol: ABL
+                        totalSupply: '0x134b7e13729b9d839f00000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355615
+                        updatedAt: 1593355615
+                        deletedAt: 0
+                      - address: '0x3b3b30a76d169f72a0a38ae01b0d6e0fbee3cc2e'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: TEMCO
+                        symbol: TEMCO
+                        totalSupply: '0x1363156bbee3016d70000000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355595
+                        updatedAt: 1593355595
+                        deletedAt: 0
+                      - address: '0xbe7377db700664331beb28023cfbd46de079efac'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Att
+                        symbol: att
+                        totalSupply: '0x2863c1f5cdae42f9540000000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355554
+                        updatedAt: 1593355554
+                        deletedAt: 0
+                      - address: '0x472fac08cf4836bee54343edfb49023746b27933'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: SPIN Protocol
+                        symbol: SPIN
+                        totalSupply: '0x379381ac56689db13000000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355543
+                        updatedAt: 1593355543
+                        deletedAt: 0
+                      - address: '0x5425b810432bc7e7dbc74859ed3c37bb39d9df00'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Pixel
+                        symbol: PXL
+                        totalSupply: '0x33b2e3c9fd0803ce8000000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355534
+                        updatedAt: 1593355534
+                        deletedAt: 0
+                      - address: '0x52cfda3e278837d852c4315586c9464be762647e'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: CosmoCoin
+                        symbol: COSM
+                        totalSupply: '0x3e68ceb5b8501bbf15ce0f0'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355524
+                        updatedAt: 1593355524
+                        deletedAt: 0
+                      - address: '0x8a4727b93d1644fc732bda43112bdd3cac7b686f'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: HINT Token
+                        symbol: HINT
+                        totalSupply: '0x33b2e3cadb136f08f640000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355515
+                        updatedAt: 1593355515
+                        deletedAt: 0
+                      - address: '0x9657fb399847d85a9c1a234ece9ca09d5c00f466'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Insureum Token
+                        symbol: ISR
+                        totalSupply: '0xefe1e38044253062000000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355505
+                        updatedAt: 1593355505
+                        deletedAt: 0
+                      - address: '0x28052f558a2bbc04bde9bbe2e7dcdd31edb90b56'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: PaletteToken
+                        symbol: PLT
+                        totalSupply: '0x52b7d2dcc80cd2e4000000'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355458
+                        updatedAt: 1593355458
+                        deletedAt: 0
+                      - address: '0xafde910130c335fa5bd5fe991053e3e0a49dce7b'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Pibble Token
+                        symbol: PIB
+                        totalSupply: '0x1d7c196fe73446cc70a17e00'
+                        status: completed
+                        type: ERC-20
+                        createdAt: 1593355458
+                        updatedAt: 1593355458
+                        deletedAt: 0
+                      - address: '0x5206e20bca7f9bbae6748a059de9907b01655a61'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Do What You Want
+                        symbol: DWYW
+                        totalSupply: '0xf82778a438dd2c53640000'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1593353416
+                        updatedAt: 1593353416
+                        deletedAt: 0
+                      - address: '0xd95a6f458f5f4f6910f32723fdba9cd16971988e'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Blue Point Token
+                        symbol: BLUEPT
+                        totalSupply: '0x204fce5e3e25026110000000'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1593353416
+                        updatedAt: 1593353416
+                        deletedAt: 0
+                      - address: '0x91c978f64038dbd1e691dc3a0541ab764a9fc280'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: Blue Point Token
+                        symbol: BLUEPT
+                        totalSupply: '0x204fce5e3e25026110000000'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1593353416
+                        updatedAt: 1593353416
+                        deletedAt: 0
+                      - address: '0xef82b1c6a550e730d8283e1edd4977cd01faf435'
+                        decimals: 18
+                        link:
+                          icon: ''
+                          website: ''
+                        name: SIX
+                        symbol: SIX
+                        totalSupply: '0xa56fa5b99019a5c8000000'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1593353416
+                        updatedAt: 1593353416
+                        deletedAt: 0
+                      - address: '0xb1a7abe0c5a9e06cc7585a435e74976d2dee07f3'
+                        decimals: 2
+                        link:
+                          icon: ''
+                          website: ''
+                        name: BlockchainPetToken
+                        symbol: BPT
+                        totalSupply: '0x312587d38'
+                        status: completed
+                        type: KIP-7
+                        createdAt: 1593353416
+                        updatedAt: 1593353416
+                        deletedAt: 0
+                    cursor: ''
+      summary: Search List of All FT Contract Information
+      operationId: getListofFtContracts
+      tags:
+        - Token Contract
+  '/v2/contract/ft/{ft-address}':
+    get:
+      description: |
+        Retrieve information for one (1) labeled FT contract.
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'FT contract address '
+          in: path
+          name: ft-address
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FtContractDetail'
+              examples:
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    address: '0x275f942985503d8ce9558f8377cc526a3aba3566'
+                    decimals: 18
+                    link:
+                      icon: ''
+                      website: ''
+                    name: ProjectWITH
+                    symbol: WIKEN
+                    totalSupply: '0x3e09de221ddbf1412700000'
+                    status: completed
+                    type: erc
+                    createdAt: 1593355639
+                    updatedAt: 1593355639
+                    deletedAt: 0
+      summary: Search Specific FT Contract Information
+      operationId: getFtContractDetail
+      tags:
+        - Token Contract
+  /v2/contract/nft:
+    get:
+      description: |
+        Retrieve information for all labeled NFT contracts.<p></p>
+
+        ## Size<p></p>
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+        * Submitting negative values result in errors.<br>
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'Labeling status [completed, processing, failed, cancelled]'
+          in: query
+          name: status
+          required: false
+          schema:
+            type: string
+          example: completed
+        - description: 'Contract type [KIP-17, ERC-721]. If not set, return all types.'
+          in: query
+          name: type
+          required: false
+          schema:
+            type: string
+          example: KIP-17
+        - description: 'Maximum number of items to return (min=1, max=1000, default=100)'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 10
+        - description: |
+            Response offset
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: ''
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageableNftContractDetails'
+              examples:
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    items:
+                      - address: '0x251f622e8b5e713f357e9c4d990e91da2f448134'
+                        name: MineralNFT
+                        symbol: FSI
+                        totalSupply: '0x9'
+                        status: completed
+                        type: kip
+                        createdAt: 1597284956
+                        updatedAt: 1597284956
+                        deletedAt: 0
+                      - address: '0x53571b1eb0c1bed4e06be67e78a1977cc0bd9b74'
+                        name: Sword & Magic Item
+                        symbol: SMI
+                        totalSupply: '0x115d'
+                        status: completed
+                        type: erc
+                        createdAt: 1595680399
+                        updatedAt: 1595681227
+                        deletedAt: 0
+                      - address: '0x201a8198a1994b646694395c6ac82e4e47438297'
+                        name: Klip Launch Event Card
+                        symbol: KLEC
+                        totalSupply: 0x-1
+                        status: completed
+                        type: erc
+                        createdAt: 1595680352
+                        updatedAt: 1595680353
+                        deletedAt: 0
+                      - address: '0x56f14d510a395e028316e22f7356a473caa7f07f'
+                        name: Good Neighbors
+                        symbol: GNB
+                        totalSupply: '0x7c'
+                        status: completed
+                        type: erc
+                        createdAt: 1595554189
+                        updatedAt: 1595554190
+                        deletedAt: 0
+                      - address: '0x369611bc873b38175b91d6cc8c4018bdd3068b86'
+                        name: Konnect NFT Certification
+                        symbol: KNC
+                        totalSupply: '0x6a'
+                        status: completed
+                        type: erc
+                        createdAt: 1595554180
+                        updatedAt: 1595554180
+                        deletedAt: 0
+                      - address: '0x3a1028e054be6a738c85a5793f656f56990c6862'
+                        name: Klip NFT Test
+                        symbol: KNT
+                        totalSupply: '0x150'
+                        status: completed
+                        type: erc
+                        createdAt: 1595554172
+                        updatedAt: 1595554172
+                        deletedAt: 0
+                      - address: '0x16bac10d4681d7f7a9331a70722c3b777fb14d89'
+                        name: TEMCONFT
+                        symbol: TEMCONFT
+                        totalSupply: '0x1'
+                        status: completed
+                        type: erc
+                        createdAt: 1595554152
+                        updatedAt: 1595554152
+                        deletedAt: 0
+                      - address: '0x0eaddf500c9a07746e068aea73fac7f85749c5e3'
+                        name: CryptoDragons
+                        symbol: CD
+                        totalSupply: 0x-1
+                        status: completed
+                        type: erc
+                        createdAt: 1595553820
+                        updatedAt: 1595576332
+                        deletedAt: 0
+                      - address: '0xb26e09db6656b998d2913f13870e06c151c37900'
+                        name: Klip
+                        symbol: KLIP
+                        totalSupply: '0x2cd2b'
+                        status: completed
+                        type: erc
+                        createdAt: 1595547241
+                        updatedAt: 1595643458
+                        deletedAt: 0
+                      - address: '0xd346d304ea1837053452357c2066a4701de9a04b'
+                        name: Spells of Genesis FirstOasis Card
+                        symbol: SOG
+                        totalSupply: '0x1b2'
+                        status: completed
+                        type: kip
+                        createdAt: 1595056633
+                        updatedAt: 1595056633
+                        deletedAt: 0
+                      - address: '0x8f52f1e6e31aca3bf8dd102373919d805c6a641b'
+                        name: Blue Asset Token
+                        symbol: BLUEAT
+                        totalSupply: '0x52c'
+                        status: completed
+                        type: kip
+                        createdAt: 1594002325
+                        updatedAt: 1594002325
+                        deletedAt: 0
+                      - address: '0x104db7947a46fb411e47f51c7bf6c3dcef078ad7'
+                        name: Blue Asset Token
+                        symbol: BLUEAT
+                        totalSupply: '0x2'
+                        status: completed
+                        type: kip
+                        createdAt: 1593997986
+                        updatedAt: 1593997986
+                        deletedAt: 0
+                      - address: '0x5574756180f9148a3a2eadcd22fab381934f0283'
+                        name: CryptoDragons
+                        symbol: CD
+                        totalSupply: 0x-1
+                        status: completed
+                        type: erc
+                        createdAt: 1593355863
+                        updatedAt: 1593355863
+                        deletedAt: 0
+                      - address: '0x5866774609fef73f5e4e60862a2984ac4edd4871'
+                        name: Blue NFT for Stock Of Things
+                        symbol: BLUENFT
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353200
+                        updatedAt: 1593353200
+                        deletedAt: 0
+                      - address: '0xb712eb1af83fc8a1ec4b477b479f52672a417988'
+                        name: Blue Asset Token
+                        symbol: BLUEAT
+                        totalSupply: '0x132'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353203
+                        updatedAt: 1593353203
+                        deletedAt: 0
+                      - address: '0x3f825b1e88a000c2dff98d37e593b49b358146f4'
+                        name: ''
+                        symbol: ''
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353199
+                        updatedAt: 1593353199
+                        deletedAt: 0
+                      - address: '0x295edb5c9f9a9479a42338e4cb17475860e21874'
+                        name: MineralNFT
+                        symbol: FSI
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353198
+                        updatedAt: 1593353198
+                        deletedAt: 0
+                      - address: '0xe01d8ed3247e079186080f0b10f1c82e22479530'
+                        name: GX_CARD
+                        symbol: GXC
+                        totalSupply: 0x-1
+                        status: completed
+                        type: kip
+                        createdAt: 1593353204
+                        updatedAt: 1593353204
+                        deletedAt: 0
+                      - address: '0xe3656452c8238334efdfc811d6f98e5962fe4461'
+                        name: CryptoCarto PinToken
+                        symbol: CARTO
+                        totalSupply: '0x1670'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353204
+                        updatedAt: 1593353204
+                        deletedAt: 0
+                      - address: '0x9f88e9bf4aafaee0fc07ba0aa04725a140fdb3ec'
+                        name: Cryptornado ERC721 Token(Away)
+                        symbol: CryptornadoItem
+                        totalSupply: '0xb98'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353202
+                        updatedAt: 1593353202
+                        deletedAt: 0
+                      - address: '0xa18cf37159c9b00a47eaa6d5ad805b3ea9944516'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x14bdf'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353203
+                        updatedAt: 1593353203
+                        deletedAt: 0
+                      - address: '0x4413284e57cfde6cd289ee9fbf4e2763297ef27f'
+                        name: Cryptornado ERC721 Token(Away)
+                        symbol: CryptornadoItem
+                        totalSupply: '0xf2'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353199
+                        updatedAt: 1593353199
+                        deletedAt: 0
+                      - address: '0xd6cadb4650d507e8a272a0c2c7dd690492360ea5'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x1b1'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353204
+                        updatedAt: 1593353204
+                        deletedAt: 0
+                      - address: '0x25a1df5f79d0a3f39f44b168ddefb46aedc967c7'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0x71c'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353198
+                        updatedAt: 1593353198
+                        deletedAt: 0
+                      - address: '0x7144c807c601e21d332227dff24a67d4c70dcfb5'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0xf'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353201
+                        updatedAt: 1593353201
+                        deletedAt: 0
+                      - address: '0x60a1555b8759f667a8637e34245ef8bf1231714f'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0xe'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353200
+                        updatedAt: 1593353200
+                        deletedAt: 0
+                      - address: '0x99d1d729cdc11bef91d21669b3cd1cbbfa00a2a9'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0x4'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353202
+                        updatedAt: 1593353202
+                        deletedAt: 0
+                      - address: '0xf2281cbf1684b0ceae3d92a354970657e202ae0e'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0x4'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353204
+                        updatedAt: 1593353204
+                        deletedAt: 0
+                      - address: '0x9387ff96ada7be4c824a81cb7ba764adc2533c9e'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353202
+                        updatedAt: 1593353202
+                        deletedAt: 0
+                      - address: '0x6bd5606ab3f08086b27e7533dc158754a59805f2'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353201
+                        updatedAt: 1593353201
+                        deletedAt: 0
+                      - address: '0xf4c0bdf6320c2a3dc3c63d5a193865c8568f7dbb'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0xb'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353205
+                        updatedAt: 1593353205
+                        deletedAt: 0
+                      - address: '0xd6b51b646e3316cdb440465456ce42a8fa1a8fb6'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353204
+                        updatedAt: 1593353204
+                        deletedAt: 0
+                      - address: '0x8ac1dd8cf7ba96305f06a4f04a5ef6827ce382d4'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353202
+                        updatedAt: 1593353202
+                        deletedAt: 0
+                      - address: '0x300ce07f0fc3bad3832cb0b37b58fde1766e54ca'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353199
+                        updatedAt: 1593353199
+                        deletedAt: 0
+                      - address: '0x67c2ca86855b6f6e70d366e60b8cfea9f66f5b5b'
+                        name: BlockNation.XYZ land token
+                        symbol: XLAND
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353200
+                        updatedAt: 1593353200
+                        deletedAt: 0
+                      - address: '0x8eae3c346d6129be5b6a31e71441f727389219dc'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x173'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353202
+                        updatedAt: 1593353202
+                        deletedAt: 0
+                      - address: '0xf3b225609ee92337144ecb7fc8a701f7e5cb7db4'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353204
+                        updatedAt: 1593353204
+                        deletedAt: 0
+                      - address: '0x3cbbd6e508bdb8afeeabfbe52ce7b14cb5eb69ae'
+                        name: Cryptornado ERC721 Token(Away)
+                        symbol: CryptornadoItem
+                        totalSupply: '0x3f'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353199
+                        updatedAt: 1593353199
+                        deletedAt: 0
+                      - address: '0xcb37c6f0e95e6bc8ec12e7ec7e3991b8ef32597a'
+                        name: Cryptornado ERC721 Token(Away)
+                        symbol: CryptornadoItem
+                        totalSupply: '0x5'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353203
+                        updatedAt: 1593353203
+                        deletedAt: 0
+                      - address: '0x6cd2cc8d42981e03c498e1c2f3ad08787b7745b4'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0xa'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353201
+                        updatedAt: 1593353201
+                        deletedAt: 0
+                      - address: '0xb4fe5ff38ed8722c7a8543846605b259280c63d6'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x29'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353203
+                        updatedAt: 1593353203
+                        deletedAt: 0
+                      - address: '0x5fa21d68e32e2f1a2b65128434b219138cb6e4ff'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353200
+                        updatedAt: 1593353200
+                        deletedAt: 0
+                      - address: '0xcad5ffdd0dd2c6b683106f0d73718a966ecd4f87'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353203
+                        updatedAt: 1593353203
+                        deletedAt: 0
+                      - address: '0x838b22e306d50bad8fd07ffd4a859510902c7dc1'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353201
+                        updatedAt: 1593353201
+                        deletedAt: 0
+                      - address: '0x90f43ec1462281604f8e48a32e0d443b733e1d03'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353202
+                        updatedAt: 1593353202
+                        deletedAt: 0
+                      - address: '0x14343f60924d2b0215f2542b38700d1ef3a5ed00'
+                        name: Cryptornado ERC721 Token(Away)
+                        symbol: CryptornadoItem
+                        totalSupply: '0x1'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353197
+                        updatedAt: 1593353197
+                        deletedAt: 0
+                      - address: '0x844b4d5d3baadf6abb17aaae07e05ec912096a9e'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x68d'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353201
+                        updatedAt: 1593353201
+                        deletedAt: 0
+                      - address: '0xbdbc9c6614361abf5b36c02711cdf62932d3f7d5'
+                        name: Cryptornado ERC721 Token(Away)
+                        symbol: CryptornadoItem
+                        totalSupply: '0x37c'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353203
+                        updatedAt: 1593353203
+                        deletedAt: 0
+                      - address: '0x3b8b3b7255caa79b4b2e8a39bd77f5e6e6e49303'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x65'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353199
+                        updatedAt: 1593353199
+                        deletedAt: 0
+                      - address: '0x6672590576e0358baa275c8ab53822a847f4b4ab'
+                        name: Cryptornado ERC721 Token(Away)
+                        symbol: CryptornadoItem
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353200
+                        updatedAt: 1593353200
+                        deletedAt: 0
+                      - address: '0x7a7b4b25f8381f6d4fc3793a198dfc1037a533d1'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x64'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353201
+                        updatedAt: 1593353201
+                        deletedAt: 0
+                      - address: '0x2e6a1e354e8d17697ea759663fb42fa0c978fcb5'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353198
+                        updatedAt: 1593353198
+                        deletedAt: 0
+                      - address: '0x48c71ae4d464d8d8939b7a488450441c2b2e6916'
+                        name: Cryptornado ERC721 Token
+                        symbol: CryptornadoItem
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353200
+                        updatedAt: 1593353200
+                        deletedAt: 0
+                      - address: '0x376261aeb5bdc9b80b95777413c55ba682149db5'
+                        name: Cryptornado ERC721 Token(Away)
+                        symbol: CryptornadoItem
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353199
+                        updatedAt: 1593353199
+                        deletedAt: 0
+                      - address: '0x49cb48af44f57521bef643ee3cd26b75bbbb2281'
+                        name: EMOJI
+                        symbol: EMOJI
+                        totalSupply: '0x32'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353200
+                        updatedAt: 1593353200
+                        deletedAt: 0
+                      - address: '0xf86c03a92a076137c5cb258994f26e2a582acf6b'
+                        name: MineralNFT
+                        symbol: FSI
+                        totalSupply: '0x690'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353205
+                        updatedAt: 1593353205
+                        deletedAt: 0
+                      - address: '0x1f49e1d2a4691e4514ae91bc3040767cf344ad82'
+                        name: Klaytn Champ
+                        symbol: CHAMP
+                        totalSupply: '0x49'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353198
+                        updatedAt: 1593353198
+                        deletedAt: 0
+                      - address: '0xe8eab56781a443482b3dd784cd16712ba463977d'
+                        name: Klaytn Champ
+                        symbol: CHAMP
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353204
+                        updatedAt: 1593353204
+                        deletedAt: 0
+                      - address: '0xb5c8a15427db3165213c1241d2f897c7d6dc3c41'
+                        name: Klaytn Champ
+                        symbol: CHAMP
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353203
+                        updatedAt: 1593353203
+                        deletedAt: 0
+                      - address: '0x7cfea4375a419a22c7c782523c881b214603b413'
+                        name: Klaytn Champ
+                        symbol: CHAMP
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353201
+                        updatedAt: 1593353201
+                        deletedAt: 0
+                      - address: '0xe6a61d581af1477c31812465f3a4518087ae9175'
+                        name: Klaytn Champ
+                        symbol: CHAMP
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353204
+                        updatedAt: 1593353204
+                        deletedAt: 0
+                      - address: '0xa46f7bce83cfd83e7dc4935758b64d7e3e03eddf'
+                        name: Klaytn Champ
+                        symbol: CHAMP
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353203
+                        updatedAt: 1593353203
+                        deletedAt: 0
+                      - address: '0x452ff9216d07b1d0b2c893d0c74cced6205e7522'
+                        name: Klaytn Champ
+                        symbol: CHAMP
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353200
+                        updatedAt: 1593353200
+                        deletedAt: 0
+                      - address: '0x98381488777c7d3276200bed2079fba0e1829337'
+                        name: Klaytn Champ
+                        symbol: CHAMP
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353202
+                        updatedAt: 1593353202
+                        deletedAt: 0
+                      - address: '0x429907c0365089343079a8777e723b92a42718ac'
+                        name: Klaytn Champ
+                        symbol: CHAMP
+                        totalSupply: '0x0'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353199
+                        updatedAt: 1593353199
+                        deletedAt: 0
+                      - address: '0x883e22bf8aebf5975c9fcb94250e13a14ae8ee3a'
+                        name: MineralNFT
+                        symbol: FSI
+                        totalSupply: '0x35'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353202
+                        updatedAt: 1593353202
+                        deletedAt: 0
+                      - address: '0x1b11b70ee1032a5ce849ca261c95e392041f9445'
+                        name: FiveStarsItem
+                        symbol: FSI
+                        totalSupply: '0x8'
+                        status: completed
+                        type: kip
+                        createdAt: 1593353198
+                        updatedAt: 1593353198
+                        deletedAt: 0
+                    cursor: ''
+      summary: Search List of All NFT Contract Information
+      operationId: getListOfNftContracts
+      tags:
+        - Token Contract
+  '/v2/contract/nft/{nft-address}':
+    get:
+      description: |
+        Retrieve information for one (1) labeled NFT contract.
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: NFT contract address
+          in: path
+          name: nft-address
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NftContractDetail'
+              examples:
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    address: '0x251f622e8b5e713f357e9c4d990e91da2f448134'
+                    name: MineralNFT
+                    symbol: FSI
+                    totalSupply: '0x9'
+                    status: completed
+                    type: kip
+                    createdAt: 1597284956
+                    updatedAt: 1597284956
+                    deletedAt: 0
+      summary: Search Specific NFT Contract Information
+      operationId: getNftContractDetail
+      tags:
+        - Token Contract
+  '/v2/contract/nft/{nft-address}/token':
+    get:
+      description: |
+        Specify an NFT contract to retrieve the information for all NFTs issued by the contract.<p></p>
+
+        ## Size<p></p>
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+        * Submitting negative values result in errors.<br>
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'Maxium number of items to return (min=1, max=1000, default=100)'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 100
+        - description: Response offset
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: ''
+        - description: NFT contract address
+          in: path
+          name: nft-address
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageableNfts'
+              examples:
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    items:
+                      - tokenId: '0x9'
+                        owner: '0x36884a060be5438226c4deaf799b0f7de5abd5df'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://ec2-13-125-244-0.ap-northeast-2.compute.amazonaws.com:8080/meta/item9'
+                        transactionHash: '0x2f6e8113862c1dbdc76a2fb29cda2dbefeca5878897af0bb3df6822323e89440'
+                        createdAt: 1597718863
+                        updatedAt: 1597718863
+                      - tokenId: '0x8'
+                        owner: '0x36884a060be5438226c4deaf799b0f7de5abd5df'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://ec2-13-125-244-0.ap-northeast-2.compute.amazonaws.com:8080/meta/item8'
+                        transactionHash: '0x1e3722b8beccfd21712c1e782b711ad8f44d3fb1f27586475c4c1cd533b0beb6'
+                        createdAt: 1597718855
+                        updatedAt: 1597718855
+                      - tokenId: '0x7'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item7'
+                        transactionHash: '0x9b9d553d8b3141eabdc6ececd44958475366b1bc289088248b2b3dadcecf8ab4'
+                        createdAt: 1597308968
+                        updatedAt: 1597308968
+                      - tokenId: '0x6'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item6'
+                        transactionHash: '0x441c617bfc1e0baee363bc495617579a4e3eb2a6ddd6249ad3ece5363e3faee2'
+                        createdAt: 1597308146
+                        updatedAt: 1597308146
+                      - tokenId: '0x5'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item5'
+                        transactionHash: '0x74e18033869cdeb35f966efc000912e059c6369a52dec748ccb60abebdcd95c6'
+                        createdAt: 1597307178
+                        updatedAt: 1597307178
+                      - tokenId: '0x4'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item4'
+                        transactionHash: '0x790e0d328665213fa80c3fb7579e771f978bd23efed46feaaced46a59e1e3e68'
+                        createdAt: 1597307015
+                        updatedAt: 1597307015
+                      - tokenId: '0x3'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item3'
+                        transactionHash: '0xe2746677d1f11b360833a7e9d045fa6c51bf891958a4bdb4f8dda758c9cfcfe2'
+                        createdAt: 1597306783
+                        updatedAt: 1597306783
+                      - tokenId: '0x2'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item2'
+                        transactionHash: '0xc7d07066e4e42a7d896c34420ed43568ba44ae15a8ef771b13ba1f6f2d2820c4'
+                        createdAt: 1597304701
+                        updatedAt: 1597304701
+                      - tokenId: '0x1'
+                        owner: '0x36884a060be5438226c4deaf799b0f7de5abd5df'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://ec2-13-125-244-0.ap-northeast-2.compute.amazonaws.com:8080/meta/item1'
+                        transactionHash: '0x0020ff2d5d0216f0795c6764a3b6fc90497d8eb6b4fee2d23315e86a42d94443'
+                        createdAt: 1597226350
+                        updatedAt: 1597226350
+                    cursor: ''
+      summary: Search All Token Information for Specific NFT Contract
+      operationId: getNftsByContractAddress
+      tags:
+        - Token
+  '/v2/contract/nft/{nft-address}/owner/{owner-address}':
+    get:
+      description: |
+        Specify the NFT contract and EOA to retrieve the information of the NFTs which the EOA currently owns and were issued by the NFT contract.<p></p>
+
+        ## Size<p></p>
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+        * Submitting negative values result in errors.<br>
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'Maximum number of items to return (min=1, max=1000, default=100)'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 100
+        - description: Response offset
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: ''
+        - description: NFT contract address
+          in: path
+          name: nft-address
+          required: true
+          schema:
+            type: string
+        - description: EOA address
+          in: path
+          name: owner-address
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageableNfts'
+              examples:
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    items:
+                      - tokenId: '0x7'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item7'
+                        transactionHash: '0x9b9d553d8b3141eabdc6ececd44958475366b1bc289088248b2b3dadcecf8ab4'
+                        createdAt: 1597308968
+                        updatedAt: 1597308968
+                      - tokenId: '0x6'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item6'
+                        transactionHash: '0x441c617bfc1e0baee363bc495617579a4e3eb2a6ddd6249ad3ece5363e3faee2'
+                        createdAt: 1597308146
+                        updatedAt: 1597308146
+                      - tokenId: '0x5'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item5'
+                        transactionHash: '0x74e18033869cdeb35f966efc000912e059c6369a52dec748ccb60abebdcd95c6'
+                        createdAt: 1597307178
+                        updatedAt: 1597307178
+                      - tokenId: '0x4'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item4'
+                        transactionHash: '0x790e0d328665213fa80c3fb7579e771f978bd23efed46feaaced46a59e1e3e68'
+                        createdAt: 1597307015
+                        updatedAt: 1597307015
+                      - tokenId: '0x3'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item3'
+                        transactionHash: '0xe2746677d1f11b360833a7e9d045fa6c51bf891958a4bdb4f8dda758c9cfcfe2'
+                        createdAt: 1597306783
+                        updatedAt: 1597306783
+                      - tokenId: '0x2'
+                        owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenUri: 'http://172.16.15.49:8080/meta/item2'
+                        transactionHash: '0xc7d07066e4e42a7d896c34420ed43568ba44ae15a8ef771b13ba1f6f2d2820c4'
+                        createdAt: 1597304701
+                        updatedAt: 1597304701
+                    cursor: ''
+      summary: Search All Token Information for Specific EOA
+      operationId: getNftsByOwnerAddress
+      tags:
+        - Token
+  '/v2/contract/nft/{nft-address}/token/{token-id}':
+    get:
+      description: Retrieve information for a specific NFT.
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: NFT contract address
+          in: path
+          name: nft-address
+          required: true
+          schema:
+            type: string
+        - description: NFT ID (HEX)
+          in: path
+          name: token-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Nft'
+              examples:
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    tokenId: '0x2'
+                    owner: '0xe5389503156ee02775ee18552f0c9d9846b66a91'
+                    previousOwner: '0x0000000000000000000000000000000000000000'
+                    tokenUri: 'http://172.16.15.49:8080/meta/item2'
+                    transactionHash: '0xc7d07066e4e42a7d896c34420ed43568ba44ae15a8ef771b13ba1f6f2d2820c4'
+                    createdAt: 1597304701
+                    updatedAt: 1597304701
+      summary: Search Specific NFT Token Information
+      operationId: getNftById
+      tags:
+        - Token
+  '/v2/contract/nft/{nft-address}/token/{token-id}/history':
+    get:
+      description: |
+        Search for the ownership change history of a specific NFT.<p></p>
+
+        ## Size<p></p>
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+        * Submitting negative values result in errors.<br>
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      parameters:
+        - description: ' Klaytn network chain ID (1001 or 8217)'
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'Maximum number of items to return (min=1, max=1000, default=100)'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: 100
+        - description: Response offset
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: ''
+        - description: NFT contract address
+          in: path
+          name: nft-address
+          required: true
+          schema:
+            type: string
+        - description: NFT ID (HEX)
+          in: path
+          name: token-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageableNftOwnershipChanges'
+              examples:
+                Success:
+                  summary: Success
+                  description: ''
+                  value:
+                    items:
+                      - from: '0x0000000000000000000000000000000000000000'
+                        to: '0x36884a060be5438226c4deaf799b0f7de5abd5df'
+                        timestamp: 1597226350
+                    cursor: ''
+      summary: Search Ownership Change History of Specific NFT
+      operationId: getListOfNftOwnershipChanges
+      tags:
+        - Token Ownership
+tags: []
+servers:
+  - url: 'https://th-api.klaytnapi.com'
+components:
+  schemas:
+    FtContract:
+      title: FtContract
+      type: object
+      properties:
+        address:
+          type: string
+          description: Contract address (20-byte)
+          example: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
+        decimals:
+          type: integer
+          format: int64
+          description: Number of token digits
+          example: 8
+        name:
+          type: string
+          description: Token name
+          example: Test Coin
+        symbol:
+          type: string
+          description: Token symbol
+          example: TSTC
+        status:
+          type: string
+          description: 'Contract labeling status (completed, processing, failed, cancelled)'
+          example: completed
+      required:
+        - address
+        - decimals
+        - name
+        - symbol
+        - status
+    FtContractDetail:
+      title: FtContractDetail
+      type: object
+      properties:
+        address:
+          type: string
+          description: Contract address (20-byte)
+          example: '0xaD15bCa7D0f1e077f43eC18ACBA7eE2a347ADE87'
+        decimals:
+          type: integer
+          format: int32
+          description: Number of token digits
+          example: 8
+        name:
+          type: string
+          description: Token name
+          example: Test Token
+        symbol:
+          type: string
+          description: Token symbol
+          example: TSC
+        status:
+          type: string
+          description: 'Contract labeling status (completed, processing, failed, cancelled)'
+          example: completed
+        totalSupply:
+          type: string
+          description: Total issue count (in hexadecimal)
+          example: '0x174876e800'
+        createdAt:
+          type: integer
+          format: int64
+          description: Time of labeling (timestamp)
+          example: 1592180992
+        updatedAt:
+          type: integer
+          format: int64
+          description: Time when labeling information was last changed (timestamp)
+          example: 1592180992
+        deletedAt:
+          type: integer
+          format: int64
+          description: Time when labeling was deleted (timestamp); 0 if it was not removed
+          example: 1592180992
+        link:
+          $ref: '#/components/schemas/Link'
+        type:
+          type: string
+          description: 'Contract type (KIP-7, KIP-17, ERC-20, ERC-721)'
+      required:
+        - address
+        - decimals
+        - name
+        - symbol
+        - totalSupply
+        - createdAt
+        - updatedAt
+        - deletedAt
+        - link
+        - type
+        - status
+    Link:
+      title: FtLink
+      type: object
+      properties:
+        website:
+          type: string
+          description: URL of the contract's website
+          example: 'https://link.to/ft'
+        icon:
+          type: string
+          description: Token icon URL
+          example: 'https://link.to/ft/icon.png'
+      required:
+        - website
+        - icon
+    Nft:
+      title: Nft
+      type: object
+      properties:
+        owner:
+          type: string
+          description: EOA of owner (20-byte)
+          example: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
+        previousOwner:
+          type: string
+          description: EOA of previous owner (20-byte)
+          example: '0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770'
+        tokenId:
+          type: string
+          description: Token ID (in hexadecimal)
+          example: '0x1'
+        tokenUri:
+          type: string
+          description: Unique token URL
+          example: 'https://link.to/nft/1'
+        transactionHash:
+          type: string
+          description: Latest transaction hash (32-byte)
+          example: '0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8'
+        createdAt:
+          type: integer
+          format: int64
+          description: Time of token's creation (timestamp)
+          example: 1592180992
+        updatedAt:
+          type: integer
+          format: int64
+          description: Time when token information was last changed (timestamp)
+          example: 1592180992
+      required:
+        - owner
+        - previousOwner
+        - tokenId
+        - tokenUri
+        - createdAt
+        - updatedAt
+        - transactionHash
+    PageableNfts:
+      title: PageableNfts
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            title: Nft
+            $ref: '#/components/schemas/Nft'
+        cursor:
+          type: string
+          description: Next page cursor
+          example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+      required:
+        - items
+        - cursor
+    NftContract:
+      title: NftContract
+      type: object
+      properties:
+        address:
+          type: string
+          description: Contract address (20-byte)
+          example: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
+        name:
+          type: string
+          description: Token name
+          example: Test contract
+        symbol:
+          type: string
+          description: Token symbol
+          example: TSTC
+        status:
+          type: string
+          description: 'Contract labeling status (completed, processing, failed, cancelled)'
+          example: completed
+      required:
+        - address
+        - name
+        - symbol
+    NftContractDetail:
+      title: NftContractDetail
+      type: object
+      properties:
+        address:
+          type: string
+          description: Contract address (20-byte)
+          example: '0xc7565d24af561fe783aa73747ca0eda1f09f1118'
+        name:
+          type: string
+          description: Contract name
+          example: Test Token
+        symbol:
+          type: string
+          description: Contract symbol
+          example: TSTC
+        totalSupply:
+          type: string
+          description: Total issue count (in hexadecimal)
+          example: '0x174876e800'
+        createdAt:
+          type: integer
+          format: int64
+          description: Time of labeling (timestamp)
+          example: 1592180992
+        updatedAt:
+          type: integer
+          format: int64
+          description: Time when labeling information was last changed (timestamp)
+          example: 1592180992
+        deletedAt:
+          type: integer
+          format: int64
+          description: Time when labeling was deleted (timestamp); 0 if it was not removed
+          example: 1592180992
+        type:
+          type: string
+          description: 'Contract type (KIP-7, KIP-17, ERC-20, ERC-721)'
+          example: KIP-7
+        status:
+          type: string
+          description: 'Contract labeling status (completed, processing, failed, cancelled)'
+          example: completed
+      required:
+        - address
+        - name
+        - symbol
+        - totalSupply
+        - createdAt
+        - updatedAt
+        - deletedAt
+        - type
+        - status
+    NftOwnershipChange:
+      title: NftOwnershipChange
+      type: object
+      properties:
+        from:
+          type: string
+          description: EOA of sender (previous owner) (20-byte)
+          example: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
+        to:
+          type: string
+          description: EOA of receiver (current owner) (20-byte)
+          example: '0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770'
+        timestamp:
+          type: integer
+          format: int64
+          description: Time of ownership change (timestamp)
+          example: 1592180992
+      required:
+        - to
+        - from
+        - timestamp
+    PageableNftOwnershipChanges:
+      title: PageableNftOwnershipChanges
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            title: NftOwnershipChange
+            $ref: '#/components/schemas/NftOwnershipChange'
+        cursor:
+          type: string
+          description: Next page cursor
+          example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+      required:
+        - items
+        - cursor
+    TransferArray:
+      title: TransferArray
+      type: array
+      items:
+        title: TransferItem
+        anyOf:
+          - $ref: '#/components/schemas/KlayTransfer'
+          - $ref: '#/components/schemas/FtTransfer'
+          - $ref: '#/components/schemas/NftTransfer'
+    NftTransfer:
+      title: NftTransfer
+      type: object
+      properties:
+        contract:
+          $ref: '#/components/schemas/NftContract'
+        from:
+          type: string
+          description: Sender EOA (20-byte)
+          example: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
+        to:
+          type: string
+          description: Receiver EOA (20-byte)
+          example: '0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770'
+        transaction:
+          $ref: '#/components/schemas/Transaction'
+        transferType:
+          type: string
+          description: Type of transaction detail
+          example: nft
+        tokenId:
+          type: string
+          description: Token identifier (in hexadecimal)
+          example: '0x1'
+      required:
+        - contract
+        - from
+        - to
+        - transaction
+        - transferType
+        - tokenId
+    Transaction:
+      title: Transaction
+      type: object
+      properties:
+        feePayer:
+          type: string
+          description: Fee delegation account address (20-byte)
+          example: '0xd0ea3e0eabaea095ea3ba231c043dbf8c0feb40a'
+        feeRatio:
+          type: integer
+          format: int32
+          description: Fee delegation ratio
+          example: 100
+        fee:
+          type: string
+          description: Gas fee
+          example: '0xa455'
+        from:
+          type: string
+          description: EOA of transaction sender (20-byte)
+          example: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
+        timestamp:
+          type: integer
+          format: int64
+          description: Transaction time (timestamp)
+          example: 1592180992
+        transactionHash:
+          type: string
+          description: Transaction hash (32-byte)
+          example: '0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8'
+        typeInt:
+          type: integer
+          format: int32
+          description: Transaction type
+          example: 10
+        value:
+          type: string
+          description: The amount of tranferring KLAY (in hexadecimal)
+          example: '0xa'
+      required:
+        - feePayer
+        - feeRatio
+        - fee
+        - from
+        - timestamp
+        - transactionHash
+        - typeInt
+        - value
+    FtTransfer:
+      title: FtTransfer
+      type: object
+      properties:
+        contract:
+          $ref: '#/components/schemas/FtContract'
+        formattedValue:
+          type: string
+          description: Converted value with the contract specific decimal
+          example: '0.000000000000000002'
+        from:
+          type: string
+          description: Sender EOA (20-byte)
+          example: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
+        to:
+          type: string
+          description: Receiver EOA (20-byte)
+          example: '0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770'
+        transaction:
+          $ref: '#/components/schemas/Transaction'
+        transferType:
+          type: string
+          description: Type of transaction detail
+          example: ft
+        value:
+          type: string
+          description: Number of tokens transferred (in hexadecimal)
+          example: '0xa'
+      required:
+        - contract
+        - formattedValue
+        - from
+        - to
+        - transaction
+        - transferType
+        - value
+    KlayTransfer:
+      title: KlayTransfer
+      type: object
+      properties:
+        feePayer:
+          type: string
+          description: Fee delegation account address (20-byte)
+          example: '0xd0ea3e0eabaea095ea3ba231c043dbf8c0feb40a'
+        feeRatio:
+          type: integer
+          format: int32
+          description: Fee delegation ratio
+          example: 100
+        fee:
+          type: string
+          description: Gas fee
+          example: '0xa455'
+        from:
+          type: string
+          description: Sender EOA (20-byte)
+          example: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
+        to:
+          type: string
+          description: Receiver EOA (20-byte)
+          example: '0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770'
+        transactionHash:
+          type: string
+          description: Transaction hash
+          example: '0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8'
+        transactionIndex:
+          type: integer
+          format: int32
+          description: Transaction index
+          example: 1
+        transferType:
+          type: string
+          description: Type of transaction detail
+          example: klay
+        typeInt:
+          type: integer
+          format: int32
+          description: Transaction type
+          example: 50
+        value:
+          type: string
+          description: The amount of tranferring KLAY (in hexadecimal)
+          example: '0xa'
+      required:
+        - feePayer
+        - feeRatio
+        - fee
+        - from
+        - to
+        - transactionHash
+        - transactionIndex
+        - transferType
+        - typeInt
+        - value
+    PageableNftContractDetails:
+      title: PageableNftContractDetails
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            title: NftContractDetail
+            $ref: '#/components/schemas/NftContractDetail'
+        cursor:
+          type: string
+          description: Next page cursor
+          example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+      required:
+        - items
+        - cursor
+    PageableFtContractDetails:
+      title: PageableFtContractDetails
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            title: FtContractDetail
+            $ref: '#/components/schemas/FtContractDetail'
+        cursor:
+          type: string
+          description: Next page cursor
+          example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+      required:
+        - items
+        - cursor
+    PageableTransfers:
+      title: PageableTransfers
+      type: object
+      properties:
+        items:
+          $ref: '#/components/schemas/TransferArray'
+        cursor:
+          type: string
+          description: Next page cursor
+          example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+      required:
+        - items
+        - cursor
+    Transfers:
+      title: Transfers
+      type: object
+      properties:
+        items:
+          $ref: '#/components/schemas/TransferArray'
+      required:
+        - items
+  securitySchemes:
+    basic:
+      description: |+
+        KAS uses Basic HTTP Auth. All requests MUST have a valid Authorization header where its value is derived from KAS account's access key ID (as `username`) and secret access key (as `password`).
+
+        Please note that it is your responsibility to keep your KAS API access keys safe. Do not share your KAS credentials with others as they provide full access to all KAS services and APIs including executing transactions and transferring your KLAY and KCT funds deposited in accounts managed by KAS Wallet API.
+        ### cURL
+        ```
+          curl --location --request GET 'https://th-api.klaytnapi.com/v2/contract/ft' \
+          -u ${your_accessKeyId}:${your_secretAccessKey} \
+          --header 'x-chain-id: 8217' \
+          --header 'Content-Type: application/json'
+        ```      
+
+      type: http
+      scheme: basic
+security:
+  - basic: []

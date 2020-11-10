@@ -1,21 +1,24 @@
 swagger: '2.0'
 info:
-  version: '0.7.0'
+  version: '1.0'
   title: Token History API
-  description: >+
+  description: >-
     # Introduction
 
 
-    Token History API는 KLAY, FT (KIP-7, Labeled ERC-20), NFT (KIP-17, Labeled ERC-721) 토큰 정보, 이들 토큰을 주고받은 기록을 조회하는 기능을 제공합니다. 여러분은 특정 EOA가 KLAY를 주고받은 기록을 확인하거나 EOA가 가지고 있는 NFT 정보를 불러오는 등 Token History API를 다양하게 활용할 수 있습니다.
+    Token History API allows users to search for information and transfer records on KLAY, FT (KIP-7, Labeled ERC-20), and NFT (KIP-17, Labeled ERC-721) tokens. You can use Token History API to check the records of a specific EOA transferring KLAY, retrieve NFT information, or other purposes.
 
 
-
-    Token History API 사용에 관한 자세한 내용은 [튜토리얼](https://klaytn.com)을 확인하십시오.
-
+    For more details on Token History API, refer to our [tutorial](https://klaytn.com).
 
 
-    이 문서 혹은 KAS에 관한 문의는 [개발자 포럼](https://forum.klaytn.com/)을 방문해 도움을 받으십시오
+    For any questions regarding this document or KAS, visit [the developer forum](https://forum.klaytn.com/).
 
+
+    # Authentication
+
+
+    <!-- ReDoc-Inject: <security-definitions> -->
   contact: {}
 host: th-api.klaytnapi.com
 basePath: /
@@ -31,7 +34,59 @@ produces:
 paths:
   /v2/transfer:
     get:
-      description: "거래내역을 통합 조회합니다. 거래내역은 KLAY 전송 (`KlayTransfer`), FT 전송 (`FtTransfer`), NFT 전송 (`NftTransfer`)으로 나뉩니다. \n\n## FT/NFT 거래내역 조회 결과에 포함된 KlayTransfer \n\nFT, NFT 전송의 경우 토큰 전송을 실행한 `KlayTransfer` 전송내역이 조회 결과에 포함됩니다. 이것은 FT/NFT 토큰 전송은 기본적으로 FT/NFT 컨트랙트 함수의 실행이기 때문이며 `transfer`는 토큰 전송 함수를 실행하는 트랜잭션에 대응하는 `KlayTransfer`를 응답에 포함합니다. 컨트랙트 함수를 실행하는 트랜잭션들은 대체로 KLAY를 전송하지 않기 때문에 FT, NFT 전송을 실행한 `KlayTransfer`의 `value`는 0일 수 있습니다. \n\n\n## 거래유형\n\n* `kind` 파라메터를 설정하여 KLAY, FT, NFT 중 한 가지 유형을 골라 거래내역을 조회할 수 있습니다\n* `kind`가 설정되지 않으면 모든 유형의 거래내역이 조회됩니다\n\n## 조회기간\n\n* `range`의 경우 `range={from},{to}` 포맷으로 질의합니다\n* `{from}`과 `{to}`가 정수일 경우 Unix time으로, 16진수 문자열일 경우 블록 번호로 간주합니다\n* `{to}`값이 없는 경우 현재 시간 또는 최신 블록 번호가 사용됩니다\n* 한 번에 불러올 수 있는 거래내역은 최대 과거 6개월 분량입니다(Unix time, 블록 두 경우 모두 해당).\n\n## Preset\n\n* `presets` 쿼리 파라미터는 필수 파라미터입니다\n* [Preset](https://www.klaytn.com)은 KAS Console에서 사전에 생성되어 있어야 합니다\n* Preset ID는 KAS Console에서 확인하실 수 있습니다\n"
+      description: >
+        Search for integrated transfer details. The transfer details include KLAY (`KlayTransfer`), FT (`FtTransfer`), and NFT (`NftTransfer`) transfers.<p></p>
+
+
+        ## KlayTransfer in the FT/NFT Transaction Details Search Result<p></p>
+
+
+        For FT and NFT transfers, the `KlayTransfer` transfer detail for executing the token transfer is included. This is because the FT/NFT token transfer is basically an execution of the FT/NFT contract function, and the API includes the triggering KlayTransfer in response which executed the token transfer. Because transactions that execute contract functions do not generally transfer KLAY, the `value` of the `KlayTransfer` for executing the FT and NFT transfers can be 0.<p></p>
+
+
+        ## Transaction Type<p></p>
+
+
+        * Set the `kind` parameter to search for transaction details regarding KLAY, FT, or NFT.<br>
+
+        * Transaction details for all types will be included in the search response if the `kind` parameter is not set.<p></p><br>
+
+
+        ## Search period<p></p>
+
+
+        * For `range`, enter the query in the `range={from},{to}` format.<br>
+
+        * `{from}` and `{to}` will be regarded as Unix time if they are integers and block numbers if they are in hexadecimal format.<br>
+
+        * If the `{to}` value is empty, the current time or recent block number will be used.<br>
+
+        * Transaction details can be retrieved for up to six (6) months at once (for both Unix time and block numbers).<p></p><br>
+
+
+        ## Preset<p></p>
+
+
+        A Preset contains EOA, FT, and NFT contract addresses, allowing users to easily and quickly retrieve transfer histories of a frequently requested set of accounts.<p></p>
+
+
+        * The `presets` query parameter is a required parameter.<br>
+
+        * [Preset](https://console.klaytnapi.com/service/th/preset/list) must be pre-generated in the KAS Console.<br>
+
+        * The preset ID can be checked in the KAS Console.<p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
       summary: getTransfers
       tags:
       - Token History
@@ -44,33 +99,33 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 네트워크 체인 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: kind
         in: query
         required: false
         type: string
-        description: (csv) [“klay”, “ft”, “nft”] 중 포함 할 유형, 지정안될 경우 모든 유형을 조회
+        description: (csv) Indicate the [“klay”, “ft”, or “nft”] type. All types will be searched if no type is specified.
       - name: range
         in: query
         required: false
         type: string
-        description: 조회 범위 지정 (블록번호 또는 Unix time)
+        description: Search range (block number of Unix time)
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: 응답 아이템 개수 (min=1, max=1000, default=100)
+        description: Maximum number of items to retrieve (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: 응답 오프셋
+        description: Response offset
       - name: presets
         in: query
         required: true
         type: string
-        description: (csv) 검색에 사용할 Preset ID들, Preset ID는 KAS Console에서 확인
+        description: (csv) Preset IDs to use in search, check Preset IDs in KSA Console
       responses:
         200:
           description: Success
@@ -83,8 +138,7 @@ paths:
             $ref: '#/definitions/InvalidQueryParameterValue'
   /v2/transfer/tx/{transaction-hash}:
     get:
-      description: >
-        트랜잭션 해시로 거래내역을 조회합니다. 거래내역은 KLAY 전송 (`KlayTransfer`), FT 전송 (`FtTransfer`), NFT 전송 (`NftTransfer`)으로 나뉘며 FT, NFT 전송의 경우 토큰 전송을 실행한 `KlayTransfer` 전송내역이 조회 결과에 포함됩니다. FT, NFT 전송을 실행한 `KlayTransfer`의 `value`는 0일 수 있습니다. 이와 관련된 자세한 설명은 `GET /v2/transfer`를 참조하여 주시기 바랍니다.
+      description: Search for transfer details with a transaction hash. Transfer details include KLAY (`KlayTransfer`), FT (`FtTransfer`), and NFT (`NftTransfer`) transfers. For the FT and NFT transfers, the KlayTransfer transfer details for executing the token transfer are included. The `value` of the `KlayTransfer` for executing the FT and NFT transfers can be 0. For more details, refer to `GET /v2/transfer`.
       summary: getTransfersByTxHash
       tags:
       - Token History
@@ -97,12 +151,12 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 네트워크 체인 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: transaction-hash
         in: path
         required: true
         type: string
-        description: 조회할 트랜잭션 해시
+        description: Transaction hash to search
       responses:
         200:
           description: Success
@@ -111,7 +165,43 @@ paths:
           headers: {}
   /v2/transfer/account/{address}:
     get:
-      description: "특정 EOA의 토큰 거래내역을 조회합니다. 기능적으로 `GET /v2/transfer`와 같습니다. 단, 결과로 반환된 Transfer 객체에서 이 EOA가 토큰을 받았다면 `to`가, 토큰을 보냈다면 `from`이 EOA와 같습니다.\n   \n거래내역은 KLAY 전송 (`KlayTransfer`), FT 전송 (`FtTransfer`), NFT 전송 (`NftTransfer`)으로 나뉘며 FT, NFT 전송의 경우 토큰 전송을 실행한 `KlayTransfer` 전송내역이 조회 결과에 포함됩니다. FT, NFT 전송을 실행한 `KlayTransfer`의 `value`는 0일 수 있습니다. 이와 관련된 자세한 설명은 `GET /v2/transfer`를 참조하여 주시기 바랍니다.\n\n## 거래유형\n\n* `kind` 파라메터를 설정하여 여러 유형의 거래내역을 조회할 수 있습니다\n* `kind`가 설정되지 않으면 모든 유형의 거래내역이 조회됩니다\n\n## 조회기간\n\n* `range`의 경우 `range={from},{to}` 포맷으로 질의합니다\n* `{from}`과 `{to}`가 정수일 경우 Unix time으로, 16진수 문자열일 경우 블록 번호로 간주합니다\n* `{to}`값이 없는 경우 현재 시간 또는 최신 블록 번호가 사용됩니다\n* 최대 검색기간은 6개월로 제한됩니다 (Unix time, 블록 두 경우 모두 해당)\n"
+      description: >
+        Search for token transfer details of a specific EOA. This is functionally similar to `GET /v2/transfer`. However, if this EOA receives or transfers the token in the returned transfer object, `to` or `from` is the same with the EOA, respectively.<p></p>
+
+
+        Transfer details include KLAY (`KlayTransfer`), FT (`FtTransfer`), and NFT (`NftTransfer`) transfers. For the FT and NFT transfers, the KlayTransfer transfer details for executing the token transfer are included. The `value` of the `KlayTransfer` for executing the FT and NFT transfers can be 0. For more details, refer to `GET /v2/transfer`.<p></p>
+
+
+        ## Transaction Type<p></p>
+
+
+        * Set the `kind` parameter to search for transaction details regarding KLAY, FT, or NFT.<br>
+
+        * Transaction details for all types will be included in the search response if the `kind` parameter is not set.<p></p><br>
+
+
+        ## Search period<p></p>
+
+
+        * For `range`, enter the query in the `range={from},{to}` format.<br>
+
+        * `{from}` and `{to}` will be regarded as Unix time if they are integers and block numbers if they are in hexadecimal format.<br>
+
+        * If the `{to}` value is empty, the current time or recent block number will be used.<br>
+
+        * Transaction details can be retrieved for up to six (6) months at once (for both Unix time and block numbers).<p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
       summary: getTransfersByEoa
       tags:
       - Token History
@@ -124,38 +214,38 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn chain network ID (1001 or 8217)
       - name: kind
         in: query
         required: false
         type: string
-        description: (csv) [“klay”, “ft”, “nft”] 중 포함 할 유형, 지정안될 경우 모든 유형을 조회
+        description: (csv) Indicate the [“klay”, “ft”, or “nft”] type. All types will be searched if no type is specified.
       - name: ca-filter
         in: query
         required: false
         type: string
-        description: 조회할 FT 또는 NFT 컨트랙트의 주소, 설정될 경우 `transferType`이 "ft" 또는 "nft"인 것들 중 ca-filter 값과 같은 것들만 결과물로 반환.
+        description: FT/NFT contract address to filter from the result. If set, the response only contains FT/NFT transfer details with the matching address specified in `ca-filter`.
       - name: range
         in: query
         required: false
         type: string
-        description: (csv) 조회 범위 지정 (블록번호 또는 Unix time)
+        description: Search range (block number of Unix time)
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: 응답 아이템 개수(min=1, max=1000, default=100)
+        description: Maximum number of items to retrieve (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: 특정 위치를 지정하기 위한 오프셋
+        description: Response offset
       - name: address
         in: path
         required: true
         type: string
-        description: 검색기준이 되는 EOA, 검색결과의 from 또는 to가 제시된 address값과 일치
+        description: EOA to search, the response only contains transfer details where each transfer detail's `from` or `to` is equal to `address`
       responses:
         200:
           description: Success
@@ -165,7 +255,19 @@ paths:
   /v2/contract/ft:
     get:
       description: >
-        라벨링된 모든 FT 컨트랙트들의 정보를 불러옵니다.
+        Retrieve information for all labeled FT contracts.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
       summary: getListofFtContracts
       tags:
       - Token Contract
@@ -178,28 +280,28 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: status
         in: query
         required: false
         type: string
-        description: 라벨링 상태 [completed, processing, failed, cancelled]
+        description: Labeling status [completed, processing, failed, cancelled]
       - name: type
         in: query
         required: false
         type: string
-        description: 컨트랙트 타입 [KIP-7, ERC-20], 지정하지 않을 경우 모든 타입 반환
+        description: Contract type [KIP-7, ERC-20]. If not set, return all types.
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: 응답 아이템 개수(min=1, max=1000, default=100)
+        description: Maximum number of items to return (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: 특정 위치를 지정하기 위한 오프셋
+        description: Response offset
       responses:
         200:
           description: Success
@@ -1305,7 +1407,7 @@ paths:
   /v2/contract/ft/{ft-address}:
     get:
       description: >
-        라벨링된 FT 컨트랙트 1개의 정보를 불러옵니다.
+        Retrieve information for one (1) labeled FT contract.
       summary: getFtContractDetail
       tags:
       - Token Contract
@@ -1318,12 +1420,12 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 네트워크 체인 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: ft-address
         in: path
         required: true
         type: string
-        description: FT 컨트랙트 주소
+        description: FT contract address
       responses:
         200:
           description: Success
@@ -1348,7 +1450,19 @@ paths:
   /v2/contract/nft:
     get:
       description: >
-        라벨링된 모든 NFT 컨트랙트들의 정보를 불러옵니다.
+        Retrieve information for all labeled NFT contracts.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
       summary: getListOfNftContracts
       tags:
       - Token Contract
@@ -1361,28 +1475,28 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: status
         in: query
         required: false
         type: string
-        description: 라벨링 상태 [completed, processing, failed, cancelled]
+        description: Labeling status [completed, processing, failed, cancelled]
       - name: type
         in: query
         required: false
         type: string
-        description: 컨트랙트 타입 [KIP-17, ERC-721], 지정하지 않을 경우 모든 타입 반환
+        description: Contract type [KIP-17, ERC-721]. If not set, return all types.
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: 응답 아이템 개수(min=1, max=1000, default=100)
+        description: Maximum number of items to return (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: 응답 오프셋 (pagination)
+        description: Response offset
       responses:
         200:
           description: Success
@@ -1999,7 +2113,7 @@ paths:
   /v2/contract/nft/{nft-address}:
     get:
       description: >
-        라벨링된 NFT 컨트랙트 1개의 정보를 불러옵니다.
+        Retrieve information for one (1) labeled NFT contract.
       summary: getNftContractDetail
       tags:
       - Token Contract
@@ -2012,12 +2126,12 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: nft-address
         in: path
         required: true
         type: string
-        description: NFT 컨트랙트 주소
+        description: NFT contract address
       responses:
         200:
           description: Success
@@ -2038,7 +2152,19 @@ paths:
   /v2/contract/nft/{nft-address}/token:
     get:
       description: >
-        NFT 컨트랙트를 지정하면, 이 NFT 컨트랙트에서 발행된 모든 NFT의 정보를 불러옵니다.
+        Specify an NFT contract to retrieve the information for all NFTs issued by the contract.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
       summary: getNftsByContractAddress
       tags:
       - Token
@@ -2051,23 +2177,23 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 체인 네트워크 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: 응답 아이템 개수(min=1, max=1000, default=100)
+        description: Maxium number of items to return (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: 특정 위치를 지정하기 위한 오프셋
+        description: Response offset
       - name: nft-address
         in: path
         required: true
         type: string
-        description: ''
+        description: NFT contract address
       responses:
         200:
           description: Success
@@ -2144,7 +2270,19 @@ paths:
   /v2/contract/nft/{nft-address}/owner/{owner-address}:
     get:
       description: >
-        NFT 컨트랙트와 EOA를 지정하면, 이 NFT 컨트랙트에서 발행된 NFT 중 EOA가 가지고 있는 NFT의 정보를 불러옵니다.
+        Specify the NFT contract and EOA to retrieve the information of the NFTs which the EOA currently owns and were issued by the NFT contract.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
       summary: getNftsByOwnerAddress
       tags:
       - Token
@@ -2157,28 +2295,28 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 네트워크 체인 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: 응답 아이템 개수(min=1, max=1000, default=100)
+        description: Maximum number of items to return (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: 특정 위치를 지정하기 위한 오프셋
+        description: Response offset
       - name: nft-address
         in: path
         required: true
         type: string
-        description: 조회할 컨트랙트 주소
+        description: NFT contract address
       - name: owner-address
         in: path
         required: true
         type: string
-        description: 조회할 EOA 주소
+        description: EOA address
       responses:
         200:
           description: Success
@@ -2233,8 +2371,7 @@ paths:
           headers: {}
   /v2/contract/nft/{nft-address}/token/{token-id}:
     get:
-      description: >
-        특정 NFT의 정보를 불러옵니다.
+      description: Retrieve information for a specific NFT.
       summary: getNftById
       tags:
       - Token
@@ -2247,17 +2384,17 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 네트워크 체인 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: nft-address
         in: path
         required: true
         type: string
-        description: 조회할 NFT 컨트랙트 주소
+        description: NFT contract address
       - name: token-id
         in: path
         required: true
         type: string
-        description: 조회할 NFT ID (16진수)
+        description: NFT ID (HEX)
       responses:
         200:
           description: Success
@@ -2276,7 +2413,19 @@ paths:
   /v2/contract/nft/{nft-address}/token/{token-id}/history:
     get:
       description: >
-        특정 NFT의 소유권 변경 기록을 조회합니다.
+        Search for the ownership change history of a specific NFT.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
       summary: getListOfNftOwnershipChanges
       tags:
       - Token Ownership
@@ -2289,28 +2438,28 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn 네트워크 체인 ID (1001 or 8217)
+        description: Klaytn network chain ID (1001 or 8217)
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: 응답 아이템 개수(min=1, max=1000, default=100)
+        description: Maximum number of items to return (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: 특정 위치를 지정하기 위한 오프셋
+        description: Response offset
       - name: nft-address
         in: path
         required: true
         type: string
-        description: 조회할 NFT 컨트랙트 주소
+        description: NFT contract address
       - name: token-id
         in: path
         required: true
         type: string
-        description: 조회할 NFT ID (16진수)
+        description: NFT ID (HEX)
       responses:
         200:
           description: Success
@@ -2330,24 +2479,24 @@ definitions:
     type: object
     properties:
       address:
-        description: 컨트랙트 주소 (20-byte)
+        description: Contract address (20-byte)
         example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
         type: string
       decimals:
-        description: 토큰 자릿수
+        description: Number of token digits
         example: 8
         type: integer
         format: int64
       name:
-        description: 토큰 이름
+        description: Token name
         example: Test Coin
         type: string
       symbol:
-        description: 토큰 심볼
+        description: Token symbol
         example: TSTC
         type: string
       status:
-        description: 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
+        description: Contract labeling status (completed, processing, failed, cancelled)
         example: completed
         type: string
     required:
@@ -2361,49 +2510,49 @@ definitions:
     type: object
     properties:
       address:
-        description: 컨트랙트 주소 (20-byte)
+        description: Contract address (20-byte)
         example: 0xaD15bCa7D0f1e077f43eC18ACBA7eE2a347ADE87
         type: string
       decimals:
-        description: 토큰 자릿수
+        description: Number of token digits
         example: 8
         type: integer
         format: int32
       name:
-        description: 토큰 이름
+        description: Token name
         example: Test Token
         type: string
       symbol:
-        description: 토큰 심볼
+        description: Token symbol
         example: TSC
         type: string
       status:
-        description: 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
+        description: Contract labeling status (completed, processing, failed, cancelled)
         example: completed
         type: string
       totalSupply:
-        description: 총 발행량 (16진수로 표기)
+        description: Total issue count (in hexadecimal)
         example: 0x174876e800
         type: string
       createdAt:
-        description: 라벨링된 시점 (timestamp)
+        description: Time of labeling (timestamp)
         example: 1592180992
         type: integer
         format: int64
       updatedAt:
-        description: 라벨링 정보가 마지막으로 변경된 시점 (timestamp)
+        description: Time when labeling information was last changed (timestamp)
         example: 1592180992
         type: integer
         format: int64
       deletedAt:
-        description: 라벨링이 삭제된 시점 (timestamp); 삭제되지 않았을 경우 0
+        description: Time when labeling was deleted (timestamp); 0 if it was not removed
         example: 1592180992
         type: integer
         format: int64
       link:
         $ref: '#/definitions/FtLink'
       type:
-        description: 컨트랙트 유형 (KIP-7, KIP-17, ERC-20, ERC-721)
+        description: Contract type (KIP-7, KIP-17, ERC-20, ERC-721)
         type: string
     required:
     - address
@@ -2422,11 +2571,11 @@ definitions:
     type: object
     properties:
       website:
-        description: 컨트랙트 대표 웹사이트 URL
+        description: URL of the contract's website
         example: https://link.to/ft
         type: string
       icon:
-        description: 토큰 아이콘 URL
+        description: Token icon URL
         example: https://link.to/ft/icon.png
         type: string
     required:
@@ -2437,32 +2586,32 @@ definitions:
     type: object
     properties:
       owner:
-        description: 소유자 EOA (20-byte)
+        description: EOA of owner (20-byte)
         example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
         type: string
       previousOwner:
-        description: 직전 소유자 EOA (20-byte)
+        description: EOA of previous owner (20-byte)
         example: 0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770
         type: string
       tokenId:
-        description: 토큰 ID (16진수)
+        description: Token ID (in hexadecimal)
         example: 0x1
         type: string
       tokenUri:
-        description: 토큰 고유의 URL
+        description: Unique token URL
         example: https://link.to/nft/1
         type: string
       transactionHash:
-        description: 마지막 트랜잭션 해시 (32-byte)
+        description: Latest transaction hash (32-byte)
         example: 0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8
         type: string
       createdAt:
-        description: 토큰이 생성된 시점 (timestamp)
+        description: Time of token's creation (timestamp)
         example: 1592180992
         type: integer
         format: int64
       updatedAt:
-        description: 토큰 정보가 마지막으로 변경된 시점 (timestamp)
+        description: Time when token information was last changed (timestamp)
         example: 1592180992
         type: integer
         format: int64
@@ -2483,7 +2632,7 @@ definitions:
         items:
           $ref: '#/definitions/Nft'
       cursor:
-        description: 다음 페이지 커서
+        description: Next page cursor
         example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
         type: string
     required:
@@ -2494,19 +2643,19 @@ definitions:
     type: object
     properties:
       address:
-        description: 컨트랙트 주소 (20-byte)
+        description: Contract address (20-byte)
         example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
         type: string
       name:
-        description: 토큰 이름
+        description: Token name
         example: Test contract
         type: string
       symbol:
-        description: 토큰 심볼
+        description: Token symbol
         example: TSTC
         type: string
       status:
-        description: 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
+        description: Contract labeling status (completed, processing, failed, cancelled)
         example: completed
         type: string
     required:
@@ -2518,42 +2667,42 @@ definitions:
     type: object
     properties:
       address:
-        description: 컨트랙트 주소 (20-byte)
+        description: Contract address (20-byte)
         example: 0xc7565d24af561fe783aa73747ca0eda1f09f1118
         type: string
       name:
-        description: 토큰 이름
+        description: Contract name
         example: Test Token
         type: string
       symbol:
-        description: 토큰 심볼
+        description: Contract symbol
         example: TSTC
         type: string
       totalSupply:
-        description: 총 발행량 (16진수로 표기)
+        description: Total issue count (in hexadecimal)
         example: 0x174876e800
         type: string
       createdAt:
-        description: 라벨링된 시점 (timestamp)
+        description: Time of labeling (timestamp)
         example: 1592180992
         type: integer
         format: int64
       updatedAt:
-        description: 라벨링 정보가 마지막으로 변경된 시점 (timestamp)
+        description: Time when labeling information was last changed (timestamp)
         example: 1592180992
         type: integer
         format: int64
       deletedAt:
-        description: 라벨링이 삭제된 시점 (timestamp); 삭제되지 않았을 경우 0
+        description: Time when labeling was deleted (timestamp); 0 if it was not removed
         example: 1592180992
         type: integer
         format: int64
       type:
-        description: 컨트랙트 유형 (KIP-7, KIP-17, ERC-20, ERC-721)
+        description: Contract type (KIP-7, KIP-17, ERC-20, ERC-721)
         example: KIP-7
         type: string
       status:
-        description: 컨트랙트 라벨링 상태 (completed, processing, failed, cancelled)
+        description: Contract labeling status (completed, processing, failed, cancelled)
         example: completed
         type: string
     required:
@@ -2571,15 +2720,15 @@ definitions:
     type: object
     properties:
       from:
-        description: 보낸 사람 (직전 소유자) EOA (20-byte)
+        description: EOA of sender (previous owner) (20-byte)
         example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
         type: string
       to:
-        description: 받은 사람 (이 시점의 소유자) EOA (20-byte)
+        description: EOA of receiver (current owner) (20-byte)
         example: 0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770
         type: string
       timestamp:
-        description: NFT 소유권이 변경된 시점 (timestamp)
+        description: Time of ownership change (timestamp)
         example: 1592180992
         type: integer
         format: int64
@@ -2596,7 +2745,7 @@ definitions:
         items:
           $ref: '#/definitions/NftOwnershipChange'
       cursor:
-        description: 다음 페이지 커서
+        description: Next page cursor
         example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
         type: string
     required:
@@ -2609,21 +2758,21 @@ definitions:
       contract:
         $ref: '#/definitions/NftContract'
       from:
-        description: 보낸 사람 EOA (20-byte)
+        description: Sender EOA (20-byte)
         example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
         type: string
       to:
-        description: 받은 사람 EOA (20-byte)
+        description: Receiver EOA (20-byte)
         example: 0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770
         type: string
       transaction:
         $ref: '#/definitions/Transaction'
       transferType:
-        description: 거래내역 유형
+        description: Type of transaction detail
         example: nft
         type: string
       tokenId:
-        description: 토큰 식별자 (16진수)
+        description: Token identifier (in hexadecimal)
         example: 0x1
         type: string
     required:
@@ -2638,38 +2787,38 @@ definitions:
     type: object
     properties:
       feePayer:
-        description: 수수료 대납 계정 주소 (20-byte)
+        description: Fee delegation account address (20-byte)
         example: 0xd0ea3e0eabaea095ea3ba231c043dbf8c0feb40a
         type: string
       feeRatio:
-        description: 수수료 대납 비율
+        description: Fee delegation ratio
         example: 100
         type: integer
         format: int32
       fee:
-        description: 가스비
+        description: Gas fee
         example: 0xa455
         type: string
       from:
-        description: 트랜잭션을 전송한 사람의 EOA (20-byte)
+        description: EOA of transaction sender (20-byte)
         example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
         type: string
       timestamp:
-        description: 트랜잭션 발생 시간 (timestamp)
+        description: Transaction time (timestamp)
         example: 1592180992
         type: integer
         format: int64
       transactionHash:
-        description: 트랜잭션 해시 (32-byte)
+        description: Transaction hash (32-byte)
         example: 0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8
         type: string
       typeInt:
-        description: 트랜잭션 유형
+        description: Transaction type
         example: 10
         type: integer
         format: int32
       value:
-        description: KLAY 전송량 (16진수)
+        description: The amount of tranferring KLAY (in hexadecimal)
         example: 0xa
         type: string
     required:
@@ -2688,25 +2837,25 @@ definitions:
       contract:
         $ref: '#/definitions/FtContract'
       formattedValue:
-        description: decimal을 적용한 변환값
+        description: Converted value with the contract specific decimal
         example: 0.000000000000000002
         type: string
       from:
-        description: 보낸 사람 EOA (20-byte)
+        description: Sender EOA (20-byte)
         example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
         type: string
       to:
-        description: 받은 사람 EOA (20-byte)
+        description: Receiver EOA (20-byte)
         example: 0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770
         type: string
       transaction:
         $ref: '#/definitions/Transaction'
       transferType:
-        description: 거래내역 유형
+        description: Type of transaction detail
         example: ft
         type: string
       value:
-        description: 전송한 토큰 개수 (16진수)
+        description: Number of tokens transferred (in hexadecimal)
         example: 0xa
         type: string
     required:
@@ -2722,46 +2871,46 @@ definitions:
     type: object
     properties:
       feePayer:
-        description: 수수료 대납 계정 주소 (20-byte)
+        description: Fee delegation account address (20-byte)
         example: 0xd0ea3e0eabaea095ea3ba231c043dbf8c0feb40a
         type: string
       feeRatio:
-        description: 수수료 대납 비율
+        description: Fee delegation ratio
         example: 100
         type: integer
         format: int32
       fee:
-        description: 가스비
+        description: Gas fee
         example: 0xa455
         type: string
       from:
-        description: 보낸 사람 EOA (20-byte)
+        description: Sender EOA (20-byte)
         example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
         type: string
       to:
-        description: 받은 사람 EOA (20-byte)
+        description: Receiver EOA (20-byte)
         example: 0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770
         type: string
       transactionHash:
-        description: 트랜잭션 해시
+        description: Transaction hash
         example: 0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8
         type: string
       transactionIndex:
-        description: 트랜잭션 인덱스
+        description: Transaction index
         example: 1
         type: integer
         format: int32
       transferType:
-        description: 거래내역 유형
+        description: Type of transaction detail
         example: klay
         type: string
       typeInt:
-        description: 트랜잭션 유형
+        description: Transaction type
         example: 50
         type: integer
         format: int32
       value:
-        description: KLAY 전송량 (16진수)
+        description: The amount of tranferring KLAY (in hexadecimal)
         example: 0xa
         type: string
     required:
@@ -2784,7 +2933,7 @@ definitions:
         items:
           $ref: '#/definitions/NftContractDetail'
       cursor:
-        description: 다음 페이지 커서
+        description: Next page cursor
         example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
         type: string
     required:
@@ -2799,7 +2948,7 @@ definitions:
         items:
           $ref: '#/definitions/FtContractDetail'
       cursor:
-        description: 다음 페이지 커서
+        description: Next page cursor
         example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
         type: string
     required:
@@ -2814,7 +2963,7 @@ definitions:
         items:
           $ref: '#/definitions/TransferItem'
       cursor:
-        description: 다음 페이지 커서
+        description: Next page cursor
         example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
         type: string
     required:
@@ -2849,58 +2998,58 @@ definitions:
     type: object
     properties:
       feePayer:
-        description: 수수료 대납 계정 주소 (20-byte)
+        description: Fee delegation account address (20-byte)
         example: 0xd0ea3e0eabaea095ea3ba231c043dbf8c0feb40a
         type: string
       feeRatio:
-        description: 수수료 대납 비율
+        description: Fee delegation ratio
         example: 100
         type: integer
         format: int32
       fee:
-        description: 가스비
+        description: Gas fee
         example: 0xa455
         type: string
       from:
-        description: 보낸 사람 EOA (20-byte)
+        description: Sender EOA (20-byte)
         example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
         type: string
       to:
-        description: 받은 사람 EOA (20-byte)
+        description: Receiver EOA (20-byte)
         example: 0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770
         type: string
       transactionHash:
-        description: 트랜잭션 해시
+        description: Transaction hash
         example: 0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8
         type: string
       transactionIndex:
-        description: 트랜잭션 인덱스
+        description: Transaction index
         example: 1
         type: integer
         format: int32
       transferType:
-        description: 거래내역 유형
+        description: Type of transaction detail
         example: klay
         type: string
       typeInt:
-        description: 트랜잭션 유형
+        description: Transaction type
         example: 50
         type: integer
         format: int32
       value:
-        description: KLAY 전송량 (16진수)
+        description: The amount of tranferring KLAY (in hexadecimal)
         example: 0xa
         type: string
       contract:
         $ref: '#/definitions/FtContract'
       formattedValue:
-        description: decimal을 적용한 변환값
+        description: Converted value with the contract specific decimal
         example: 0.000000000000000002
         type: string
       transaction:
         $ref: '#/definitions/Transaction'
       tokenId:
-        description: 토큰 식별자 (16진수)
+        description: Token identifier (in hexadecimal)
         example: 0x1
         type: string
 security:
