@@ -16,6 +16,7 @@
 
 const Caver = require('caver-js')
 const KAS = require('./src/kas/kas')
+const KASWallet = require('./src/wallet/kasWallet')
 
 const productionEndpoints = {
     node: 'https://node-api.klaytnapi.com/v1/klaytn',
@@ -36,8 +37,9 @@ class CaverExtKAS extends Caver {
      */
     constructor(path) {
         super(path)
-        this.kas = new KAS()
+        this.keyringContainer = this.wallet
 
+        this.kas = new KAS()
         // Allocate class and functions to use for account migration
         // TODO: naming
         this.kas.wallet.accountsMigration = {
@@ -46,6 +48,35 @@ class CaverExtKAS extends Caver {
             feeDelegatedAccountUpdate: this.transaction.feeDelegatedAccountUpdate,
             createWithAccountKeyPublic: this.account.createWithAccountKeyPublic,
         }
+
+        this.kasWallet = new KASWallet(this.kas.wallet)
+        this.kasWallet.keyring = this.wallet.keyring
+    }
+
+    /**
+     * @type {KeyringContainer|KASWallet}
+     */
+    get wallet() {
+        return this._wallet
+    }
+
+    set wallet(wallet) {
+        if (!wallet || (wallet.constructor.name !== 'KeyringContainer' && !(wallet instanceof KASWallet))) {
+            throw new Error(`Failed to set wallet: wallet should be an instance of KeyringContainer or KASWallet`)
+        }
+
+        this._wallet = wallet
+    }
+
+    /**
+     * @type {KASWallet}
+     */
+    get kasWallet() {
+        return this._kasWallet
+    }
+
+    set kasWallet(kasWallet) {
+        this._kasWallet = kasWallet
     }
 
     /**

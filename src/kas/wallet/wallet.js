@@ -256,6 +256,34 @@ class Wallet {
     }
 
     /**
+     * Sign to the caver transaction. <br>
+     * To sign caver transaction, use `requestRawTransaction` function.
+     * POST /v2/tx/rlp
+     *
+     * @param {Function} [callback] The callback function to call.
+     * @return {TransactionResult}
+     */
+    async sign(transaction, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        await transaction.fillTransaction()
+
+        const opts = {
+            body: ProcessRLPRequest.constructFromObject({ rlp: transaction.getRLPEncoding(), submit: false }),
+        }
+
+        return new Promise((resolve, reject) => {
+            this.basicTransactionApi.processRLP(this.chainId, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
      * Creates Klaytn Account through KAS Wallet API. <br>
      * POST /v2/account
      *
