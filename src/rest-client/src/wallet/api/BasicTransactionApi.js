@@ -442,7 +442,7 @@
 
         /**
          * ProcessRLP
-         * Create a transaction using the rlp(SigRLP or TxHashRLP). Rlp value from transaction API is TxHashRLP format which contains signatures. SigRLP which does not contain signatures can easily be made from caver.  If you want to make SigRLP, you can use method `getRLPEncodingForSignature()` of certain transaction object. If you want to make TxHashRLP, you can use method `getRLPEncoding()` of certain transaction object. If you give SigRLP in rlp value, we sign the trasnaction using `from` address in your account pool. If you need detail description about SigRLP, TxHashRLP of each of transaction, you can refer [Klaytn Docs](https://docs.klaytn.com/klaytn/design/transactions).
+         * Create a transaction using the rlp(SigRLP or TxHashRLP). Rlp value from transaction API is TxHashRLP format which contains signatures. SigRLP which does not contain signatures can easily be made from caver.<p></p>  If you want to make SigRLP, you can use method `getRLPEncodingForSignature()` of certain transaction object. If you want to make TxHashRLP, you can use method `getRLPEncoding()` of certain transaction object. If you give SigRLP in rlp value, we sign the trasnaction using `from` address in your account pool. If you need detail description about SigRLP, TxHashRLP of each of transaction, you can refer [Klaytn Docs](https://docs.klaytn.com/klaytn/design/transactions).
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {ProcessRLPRequest} opts.body
