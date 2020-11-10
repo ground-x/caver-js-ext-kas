@@ -27,7 +27,7 @@ commands:
           name: Check RC
           command: |
             if [[ -n $CIRCLE_TAG ]]; then
-              sed -i "s/\"version\": \".*\",/\"version\": \"${CIRCLE_TAG}\",/" package.json
+              sed -i "s/\"version\": \".*\",/\"version\": \"${CIRCLE_TAG:1}\",/" package.json
               sed -n '/\"version\":/p' package.json
             else
               echo "Not RC version"
@@ -52,6 +52,7 @@ jobs:
           root: ~/caver-js-ext-kas
           paths:
             - dist/*
+            - out/*
       - store_artifacts:
           path: ./dist
 
@@ -82,6 +83,23 @@ jobs:
           command: npm publish << parameters.environment >>
       - notify-failure
       - notify-success
+
+  docs_update:
+    executor: default
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/caver-js-ext-kas
+      - check_rc
+      - run:
+          name: "Upload S3 bucket"
+          command: |
+            sudo apt-get update && sudo apt-get install awscli
+            VERSION=$(awk '/"version/ {gsub("\"",""); print $2}' package.json | tr -d ',')
+            if [[ -z $CIRCLE_TAG ]]; then
+              aws s3 sync out/ s3://$FRONTEND_BUCKET/en/sdk/js/latest/
+            fi
+            aws s3 sync out/ s3://$FRONTEND_BUCKET/en/sdk/js/v$VERSION/
 
   release_PR:
     executor: default
@@ -152,6 +170,13 @@ workflows:
           <<: *stage_rc
           requires:
             - publish_rc
+      - docs_update:
+          <<: *stage_rc
+          <<: *test_steps
+          requires:
+            - publish_rc
+          context: kas_common_refs_prod
+          name: docs_update_rc
 
       # publish jobs - prod
       - publish:
@@ -164,3 +189,8 @@ workflows:
       - tagging:
           requires:
             - publish_prod
+      - docs_update:
+          requires:
+            - publish_prod
+          context: kas_common_refs_prod
+          name: docs_update_prod
