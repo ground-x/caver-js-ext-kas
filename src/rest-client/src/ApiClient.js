@@ -515,7 +515,7 @@
                     }
                 } else if (response && Object.keys(response.body).length > 0) {
                     error = null
-                    data = ErrorResponse.constructFromObject(response.body)
+                    error = ErrorResponse.constructFromObject(response.body)
                 }
                 callback(error, data, response)
             }
