@@ -146,3 +146,4 @@ console.log(queryOptions)
 ## Other Docs
 
 [KAS Docs](https://docs.klaytnapi.com)
+[caver-java-ext-kas API Reference](https://www.javadoc.io/doc/xyz.groundx.caver/caver-java-ext-kas/latest/index.html)
