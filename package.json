@@ -1,14 +1,21 @@
 {
   "name": "caver-js-ext-kas",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is extenstion library of caver-js for connecting KAS",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/.bin/webpack --mode production --entry ./webpack.js  --output dist/caver-js-ext-kas.min.js",
-    "test": "npm run build && mocha ./test/anchor/testAnchorAPI.js && mocha ./test/tokenHistory/testTokenHistoryAPI.js && mocha ./test/wallet/*.js && mocha ./test/helperTest.js",
-    "intTest": "mocha ./test/intTest/*.js",
+    "build": "./node_modules/.bin/webpack --mode production && npm run generateDocs",
+    "generateDocs": "jsdoc -c jsdoc.json README.md",
+    "test": "npm run build && npm run unitTest && npm run intTest",
+    "testDev": "npm run build && npm run unitTestDev && npm run intTestDev",
+    "unitTest": "mocha ./test/anchor/testAnchorAPI.js && mocha ./test/tokenHistory/testTokenHistoryAPI.js && mocha ./test/wallet/*.js && mocha ./test/helperTest.js",
+    "unitTestDev": "npm run unitTest --testEnv=dev ",
+    "intNodeAPITest": "mocha ./test/nodeAPI/testNodeAPI.js",
+    "intNodeAPITestDev": "mocha ./test/nodeAPI/testNodeAPI.js --testEnv=dev",
+    "intTest": "npm run intNodeAPITest && mocha ./test/intTest/*.js",
+    "intTestDev": "npm run intNodeAPITestDev && mocha ./test/intTest/*.js --testEnv=dev",
     "lint": "eslint './**/*.js'",
-    "lintFix": "eslint './**/*.js' --fix"
+    "lintFix": "./yamlFormatting.sh && eslint './**/*.js' --fix"
   },
   "keywords": [
     "caver",
@@ -25,13 +32,13 @@
   "license": "Apache-2.0",
   "dependencies": {
     "caver-js": "^1.5.2-rc.5",
+    "dotenv": "^8.2.0",
     "lodash": "^4.17.19",
     "querystring": "0.2.0",
     "superagent": "3.7.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.12"
   },
-  "type": "module",
   "devDependencies": {
     "@babel/cli": "^7.10.5",
     "@babel/core": "^7.11.1",
@@ -39,8 +46,9 @@
     "@babel/preset-env": "^7.11.0",
     "babel-eslint": "^8.2.6",
     "chai": "^4.2.0",
-    "mocha": "^8.1.3",
+    "mocha": "^6.2.2",
     "chai-as-promised": "^7.1.1",
+    "docdash": "^1.2.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^17.0.0",
     "eslint-config-google": "^0.14.0",
@@ -49,6 +57,7 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-react": "^7.10.0",
+    "jsdoc": "^3.6.6",
     "prettier": "1.18.2",
     "sinon": "^9.0.3",
     "sinon-chai": "^3.5.0"

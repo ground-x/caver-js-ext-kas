@@ -26,18 +26,23 @@ const expect = chai.expect
 const CaverExtKAS = require('../../index.js')
 
 let caver
+let anchoredData
+let fromTimestamp
+const customFieldString = 'caver-js-ext-kas test'
 const { url, chainId, accessKeyId, secretAccessKey, operator } = require('../testEnv').auths.anchorAPI
+const { timeout } = require('../testUtils')
 
 describe('Anchor API service', () => {
     before(() => {
         caver = new CaverExtKAS()
         caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
+        fromTimestamp = Date.now()
     })
 
     it('CAVERJS-EXT-KAS-INT-001: caver.kas.anchor.sendAnchoringData should send post request to anchor data', async () => {
         const anchoringData = {
             id: Math.floor(Math.random() * 10000000000).toString(),
-            custom_field: 'jasmine is doing integration test anchor api through caver-js-ext-kas',
+            custom_field: customFieldString,
         }
 
         const ret = await caver.kas.anchor.sendAnchoringData(operator, anchoringData)
@@ -46,42 +51,44 @@ describe('Anchor API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-002: caver.kas.anchor.getAnchoringTransactionList should query anchoring txs', async () => {
+        const anchoringData = {
+            id: Math.floor(Math.random() * 10000000000).toString(),
+            custom_field: customFieldString,
+        }
+
+        await caver.kas.anchor.sendAnchoringData(operator, anchoringData)
+
+        await timeout(3000)
+
         const queryOptions = caver.kas.anchor.queryOptions.constructFromObject({
-            size: 1,
-            fromTimestamp: new Date('2020-08-01'),
-            toTimestamp: new Date('2020-08-30'),
-            cursor:
-                'eyJjcmVhdGVkX2F0IjoxNTk4NDE2NTk3LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMTYiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ==',
+            fromTimestamp,
+            toTimestamp: Date.now(),
         })
         const ret = await caver.kas.anchor.getAnchoringTransactionList(operator, queryOptions)
 
-        expect(ret.cursor).to.equal(
-            'eyJjcmVhdGVkX2F0IjoxNTk4NDE2NTQ5LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMTUiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ=='
-        )
-        expect(ret.items.length).to.equal(1)
-        expect(ret.items[0].createdAt).to.equal(1598416549)
-        expect(ret.items[0].payloadId).to.equal(`90015`)
-        expect(ret.items[0].transactionHash).to.equal(`0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2`)
-    })
+        expect(ret.cursor).not.to.undefined
+        expect(ret.items.length > 1).to.be.true
+        for (const i of ret.items) {
+            expect(i.createdAt).not.to.be.undefined
+            expect(i.payloadId).to.not.to.be.undefined
+            expect(i.transactionHash).not.to.be.undefined
+            anchoredData = i
+        }
+    }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-003: caver.kas.anchor.getAnchoringTransactionByTxHash should query anchoring tx by transaction hash', async () => {
-        const ret = await caver.kas.anchor.getAnchoringTransactionByTxHash(
-            operator,
-            '0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2'
-        )
-        expect(ret.payload.block_number).to.equal(10)
-        expect(ret.payload.custom_field).to.equal('custom jasmine')
-        expect(ret.payload.id).to.equal('90015')
-        expect(ret.transactionHash).to.equal(`0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2`)
+        const ret = await caver.kas.anchor.getAnchoringTransactionByTxHash(operator, anchoredData.transactionHash)
+        expect(ret.payload.custom_field).to.equal(customFieldString)
+        expect(ret.payload.id).to.equal(anchoredData.payloadId)
+        expect(ret.transactionHash).to.equal(anchoredData.transactionHash)
     })
 
     it('CAVERJS-EXT-KAS-INT-004: caver.kas.anchor.getAnchoringTransactionByPayloadId should query anchoring tx by payload id', async () => {
-        const ret = await caver.kas.anchor.getAnchoringTransactionByPayloadId(operator, '90015')
+        const ret = await caver.kas.anchor.getAnchoringTransactionByPayloadId(operator, anchoredData.payloadId)
 
-        expect(ret.payload.block_number).to.equal(10)
-        expect(ret.payload.custom_field).to.equal('custom jasmine')
-        expect(ret.payload.id).to.equal('90015')
-        expect(ret.transactionHash).to.equal(`0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2`)
+        expect(ret.payload.custom_field).to.equal(customFieldString)
+        expect(ret.payload.id).to.equal(anchoredData.payloadId)
+        expect(ret.transactionHash).to.equal(anchoredData.transactionHash)
     })
 
     it('CAVERJS-EXT-KAS-INT-005: caver.kas.anchor.getOperatorList should query operators', async () => {

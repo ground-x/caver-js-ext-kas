@@ -30,7 +30,7 @@ class TokenHistory {
     /**
      * Creates an instance of token history api.
      * @constructor
-     * @param {RestClient.ApiClient} client - The Api client to use to connect with KAS.
+     * @param {ApiClient} client - The Api client to use to connect with KAS.
      * @param {AccessOptions} accessOptions - An instance of AccessOptions including `chainId`, `accessKeyId` and `secretAccessKey`.
      */
     constructor(client, accessOptions) {
@@ -143,13 +143,13 @@ class TokenHistory {
     }
 
     /**
-     * Gets token transfer history list.
+     * Gets token transfer history list. <br>
      * GET /v2/transfer
      *
      * @param {Array.<number>} presets Preset IDs to be used for search, Preset ID can be checked in KAS Console.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `range`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableTransfers}
      */
     getTransferHistory(presets, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -180,12 +180,12 @@ class TokenHistory {
     }
 
     /**
-     * Token transaction history inquiry with transaction hash.
+     * Token transaction history inquiry with transaction hash. <br>
      * GET /v2/transfer/tx/{transaction-hash}
      *
      * @param {string} transactionHash Transaction hash to search transfer history.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Transfers}
      */
     getTransferHistoryByTxHash(transactionHash, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -202,14 +202,14 @@ class TokenHistory {
     }
 
     /**
-     * Search token transfer history of a specific EOA.
+     * Search token transfer history of a specific EOA. <br>
      * GET /v2/transfer/account/{address}
      *
      * @param {string} address The EOA address used to search for token transfer history.
      *                         The from or to in the search result matches the suggested address value.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `caFilter`, `range`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableTransfers}
      */
     getTransferHistoryByAccount(address, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -235,12 +235,12 @@ class TokenHistory {
     }
 
     /**
-     * Retrieve information of all labeled FT contracts.
+     * Retrieve information of all labeled FT contracts. <br>
      * GET /v2/contract/ft
      *
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableFtContractDetails}
      */
     getFTContractList(queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -266,12 +266,12 @@ class TokenHistory {
     }
 
     /**
-     * Retrieves the information of the FT contract labeled with the address of the FT contract.
+     * Retrieves the information of the FT contract labeled with the address of the FT contract. <br>
      * GET /v2/contract/ft/{ft-address}
      *
      * @param {string} ftAddress Address of the FT contract for which information is to be retrieved.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {FtContractDetail}
      */
     getFTContract(ftAddress, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -288,12 +288,12 @@ class TokenHistory {
     }
 
     /**
-     * Retrieve information of all labeled NFT contracts.
+     * Retrieve information of all labeled NFT contracts. <br>
      * GET /v2/contract/nft
      *
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableNftContractDetails}
      */
     getNFTContractList(queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -319,12 +319,12 @@ class TokenHistory {
     }
 
     /**
-     * Retrieves the information of the NFT contract labeled with the address of the NFT contract.
+     * Retrieves the information of the NFT contract labeled with the address of the NFT contract. <br>
      * GET /v2/contract/nft/{nftAddress}
      *
      * @param {string} nftAddress Address of the NFT contract for which information is to be retrieved.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {NftContractDetail}
      */
     getNFTContract(nftAddress, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -341,13 +341,13 @@ class TokenHistory {
     }
 
     /**
-     * Retrieves information of all NFTs issued by a specific NFT contract.
+     * Retrieves information of all NFTs issued by a specific NFT contract. <br>
      * GET /v2/contract/nft/{nft-address}/token
      *
      * @param {string} nftAddress NFT contract address for which you want to search all issued NFTs.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableNfts}
      */
     getNFTList(nftAddress, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -373,14 +373,14 @@ class TokenHistory {
 
     /**
      * Among the NFTs issued from the NFT contract address,
-     * the information of the NFT owned by the EOA address received as a parameter is retrieved.
+     * the information of the NFT owned by the EOA address received as a parameter is retrieved. <br>
      * GET /v2/contract/nft/{nft-address}/owner/{owner-address}
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
      * @param {string} ownerAddress Address of the EOA to be searched.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableNfts}
      */
     getNFTListByOwner(nftAddress, ownerAddress, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -405,13 +405,13 @@ class TokenHistory {
     }
 
     /**
-     * Retrieve information of a specific NFT.
+     * Retrieve information of a specific NFT. <br>
      * GET /v2/contract/nft/{nft-address}/token/{token-id}
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
      * @param {string} tokenId Token id to be searched.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {Nft}
      */
     getNFT(nftAddress, tokenId, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -428,14 +428,14 @@ class TokenHistory {
     }
 
     /**
-     * Retrieve the record of ownership changes for a specific NFT.
+     * Retrieve the record of ownership changes for a specific NFT. <br>
      * GET /v2/contract/nft/{nft-address}/token/{token-id}/history
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
      * @param {string} tokenId Token id to be searched.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {object}
+     * @return {PageableNftOwnershipChanges}
      */
     getNFTOwnershipHistory(nftAddress, tokenId, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)

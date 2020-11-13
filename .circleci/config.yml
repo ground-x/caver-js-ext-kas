@@ -27,7 +27,7 @@ commands:
           name: Check RC
           command: |
             if [[ -n $CIRCLE_TAG ]]; then
-              sed -i "s/\"version\": \".*\",/\"version\": \"${CIRCLE_TAG}\",/" package.json
+              sed -i "s/\"version\": \".*\",/\"version\": \"${CIRCLE_TAG:1}\",/" package.json
               sed -n '/\"version\":/p' package.json
             else
               echo "Not RC version"
@@ -52,6 +52,7 @@ jobs:
           root: ~/caver-js-ext-kas
           paths:
             - dist/*
+            - out/*
       - store_artifacts:
           path: ./dist
 
@@ -82,6 +83,23 @@ jobs:
           command: npm publish << parameters.environment >>
       - notify-failure
       - notify-success
+
+  docs_update:
+    executor: default
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/caver-js-ext-kas
+      - check_rc
+      - run:
+          name: "Upload S3 bucket"
+          command: |
+            sudo apt-get update && sudo apt-get install awscli
+            VERSION=$(awk '/"version/ {gsub("\"",""); print $2}' package.json | tr -d ',')
+            if [[ -z $CIRCLE_TAG ]]; then
+              aws s3 sync out/ s3://$FRONTEND_BUCKET/en/sdk/js/latest/
+            fi
+            aws s3 sync out/ s3://$FRONTEND_BUCKET/en/sdk/js/v$VERSION/
 
   release_PR:
     executor: default
@@ -114,19 +132,9 @@ stage_defaults:
       tags:
         only:
           - /^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+.*/
-          - /^v[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+.*/
       branches:
         ignore: 
           - /release\/.*/
-  qa: &stage_qa
-    context: sdk_js_prod
-    filters:
-      tags:
-        only:
-          - /^v[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+.*/
-          - /^v[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+.*/
-      branches:
-        ignore: /.*/
   rc: &stage_rc
     context: sdk_js_prod
     filters:
@@ -146,32 +154,43 @@ workflows:
     jobs:
       - test:
           <<: *stage_default
+          context: kas_caver_test
       - build:
           <<: *stage_default
 
       # publish jobs - rc
       - tag_verify:
-          <<: *stage_qa
-
+          <<: *stage_rc
       - publish:
-          <<: *stage_qa
+          <<: *stage_rc
           <<: *test_steps
           name: publish_rc
           environment: --tag rc
-
       - release_PR:
           <<: *stage_rc
           requires:
             - publish_rc
+      - docs_update:
+          <<: *stage_rc
+          <<: *test_steps
+          requires:
+            - publish_rc
+          context: kas_common_refs_prod
+          name: docs_update_rc
 
       # publish jobs - prod
       - publish:
+          <<: *test_steps
           context: sdk_js_prod
           name: publish_prod
           filters:
             branches:
               only: master
-      
       - tagging:
           requires:
             - publish_prod
+      - docs_update:
+          requires:
+            - publish_prod
+          context: kas_common_refs_prod
+          name: docs_update_prod

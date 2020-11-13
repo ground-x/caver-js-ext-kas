@@ -14,31 +14,35 @@
  * limitations under the License.
  */
 
-const senderPrivateKey = '0x'
-const payerPrivateKey = '0x'
+const dotenv = require('dotenv')
+
+let senderPrivateKey = '0x'
+
+dotenv.config()
 
 const auths = {
     nodeAPI: {
-        url: 'https://node-api.dev.klaytn.com/v1/klaytn',
+        url: 'https://node-api.klaytnapi.com',
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
     },
     tokenHistoryAPI: {
-        url: 'https://th-api.dev.klaytn.com',
+        url: 'https://th-api.klaytnapi.com',
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
+        presets: [],
     },
     walletAPI: {
-        url: 'https://wallet-api.dev.klaytn.com',
+        url: 'https://wallet-api.klaytnapi.com',
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
         feePayerAddress: '',
     },
     anchorAPI: {
-        url: 'https://anchor-api.dev.klaytn.com',
+        url: 'https://anchor-api.klaytnapi.com',
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
@@ -46,4 +50,46 @@ const auths = {
     },
 }
 
-module.exports = { senderPrivateKey, payerPrivateKey, auths }
+if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm_config_testEnv === 'dev') {
+    senderPrivateKey = process.env.SENDER_PRV_KEY_DEV
+
+    auths.nodeAPI.url = process.env.NODE_API_DEV
+    auths.nodeAPI.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.nodeAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+
+    auths.tokenHistoryAPI.url = process.env.TH_API_DEV
+    auths.tokenHistoryAPI.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.tokenHistoryAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+    auths.tokenHistoryAPI.presets.push(Number(process.env.PRESET_DEV))
+
+    auths.walletAPI.url = process.env.WALLET_API_DEV
+    auths.walletAPI.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.walletAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+    auths.walletAPI.feePayerAddress = process.env.FEE_PAYER_ADDR_DEV
+
+    auths.anchorAPI.url = process.env.ANCHOR_API_DEV
+    auths.anchorAPI.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.anchorAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+    auths.anchorAPI.operator = process.env.OPERATOR_DEV
+} else {
+    senderPrivateKey = process.env.SENDER_PRV_KEY
+
+    auths.nodeAPI.accessKeyId = process.env.ACCESS_KEY
+    auths.nodeAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+
+    auths.tokenHistoryAPI.accessKeyId = process.env.ACCESS_KEY
+    auths.tokenHistoryAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+    auths.tokenHistoryAPI.presets.push(Number(process.env.PRESET))
+
+    auths.walletAPI.accessKeyId = process.env.ACCESS_KEY
+    auths.walletAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+    auths.walletAPI.feePayerAddress = process.env.FEE_PAYER_ADDR
+
+    auths.anchorAPI.accessKeyId = process.env.ACCESS_KEY
+    auths.anchorAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+    auths.anchorAPI.operator = process.env.OPERATOR
+}
+
+// console.log(auths)
+
+module.exports = { senderPrivateKey, auths }

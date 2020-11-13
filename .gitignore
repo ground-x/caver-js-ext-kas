@@ -15,3 +15,5 @@ node_modules
 package-lock.json
 .git
 dist/*
+.env
+out/
