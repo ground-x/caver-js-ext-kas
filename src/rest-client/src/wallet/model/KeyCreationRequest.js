@@ -25,58 +25,49 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.MultisigKey = factory(root.WalletApi.ApiClient)
+        root.WalletApi.KeyCreationRequest = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The MultisigKey model module.
-     * @class MultisigKey
+     * The KeyCreationRequest model module.
+     * @class KeyCreationRequest
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>MultisigKey</code>.
-     * Key information for multisig
-     * @alias MultisigKey
+     * Constructs a new <code>KeyCreationRequest</code>.
+     * Batch Key Creation Request Schema
+     * @alias KeyCreationRequest
      * @class
-     * @param publicKey {String} Public key of Klaytn account
-     * @param weight {Number} Weight of public key
+     * @param size {Number} Key count to create
      */
-    const MultisigKey = function(publicKey, weight) {
-        this.publicKey = publicKey
-        this.weight = weight
+    const KeyCreationRequest = function(size) {
+        this.size = size
     }
 
     /**
-     * Constructs a <code>MultisigKey</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>KeyCreationRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {MultisigKey} obj Optional instance to populate.
-     * @return {MultisigKey} The populated <code>MultisigKey</code> instance.
-     * @memberof MultisigKey
+     * @param {KeyCreationRequest} obj Optional instance to populate.
+     * @return {KeyCreationRequest} The populated <code>KeyCreationRequest</code> instance.
+     * @memberof KeyCreationRequest
      */
-    MultisigKey.constructFromObject = function(data, obj) {
+    KeyCreationRequest.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new MultisigKey()
-            if (data.hasOwnProperty('publicKey')) obj.publicKey = ApiClient.convertToType(data.publicKey, 'String')
-            if (data.hasOwnProperty('weight')) obj.weight = ApiClient.convertToType(data.weight, 'Number')
+            obj = obj || new KeyCreationRequest()
+            if (data.hasOwnProperty('size')) obj.size = ApiClient.convertToType(data.size, 'Number')
         }
         return obj
     }
 
     /**
-     * Public key of Klaytn account
-     * @type {String}
-     * @memberof MultisigKey
-     */
-    MultisigKey.prototype.publicKey = undefined
-
-    /**
-     * Weight of public key
+     * Key count to create
      * @type {Number}
-     * @memberof MultisigKey
+     * @memberof KeyCreationRequest
+     * @default 1
      */
-    MultisigKey.prototype.weight = undefined
+    KeyCreationRequest.prototype.size = 1
 
-    return MultisigKey
+    return KeyCreationRequest
 })
