@@ -206,10 +206,6 @@ class Wallet {
     /**
      * Migrates Klaytn accounts to KAS Wallet API. <br>
      * await caver.kas.wallet.migarateAccounts('./keystores', ['passphrase1', 'passphrase2', 'passphrase3']) <br>
-     *
-     * @example
-     *
-     *
      * @param {string} dir The directory path to migrate accounts to KAS.
      * @param {Array.<string>} passphrases The directory path to migrate accounts to KAS.
      * @return {}

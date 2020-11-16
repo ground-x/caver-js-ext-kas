@@ -28,8 +28,6 @@
         root.WalletApi.EmptyUpdateKeyType = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
-    'use strict'
-
     /**
      * The EmptyUpdateKeyType model module.
      * @class EmptyUpdateKeyType
@@ -42,7 +40,8 @@
      * @alias EmptyUpdateKeyType
      * @class
      */
-  let EmptyUpdateKeyType = function() {
+    const EmptyUpdateKeyType = function() {}
+
     /**
      * Constructs a <code>EmptyUpdateKeyType</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
@@ -54,7 +53,7 @@
     EmptyUpdateKeyType.constructFromObject = function(data, obj) {
         if (data) {
             obj = obj || new EmptyUpdateKeyType()
-            if (data.hasOwnProperty('keyType')) obj.keyType = ApiClient.convertToType(data['keyType'], 'Number')
+            if (data.hasOwnProperty('keyType')) obj.keyType = ApiClient.convertToType(data.keyType, 'Number')
         }
         return obj
     }
