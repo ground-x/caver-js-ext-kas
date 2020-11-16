@@ -233,7 +233,7 @@ class Wallet {
         ]
 
         if (addresses.length !== publicKeys.length) {
-            // throw error
+            // TODO: throw error
         }
 
         const rawTransactions = []
