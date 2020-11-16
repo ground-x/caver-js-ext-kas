@@ -202,7 +202,7 @@ class Wallet {
         return this.apiInstances.statistics
     }
 
-    // TODO: decription, define return type, implementation
+    // TODO: description, define return type, implementation
     /**
      * Migrates Klaytn accounts to KAS Wallet API. <br>
      * await caver.kas.wallet.migarateAccounts('./keystores', ['passphrase1', 'passphrase2', 'passphrase3']) <br>
