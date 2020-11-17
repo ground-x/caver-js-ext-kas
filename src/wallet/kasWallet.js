@@ -15,28 +15,31 @@
  */
 
 /**
- * The class that manages KAS API services.
+ * The wallet class that uses the KAS Wallet API.
  * @class
  */
 class KASWallet {
     /**
-     * Creates an instance of KAS.
+     * Creates a wallet instance that uses the KAS Wallet API. <br>
+     * @example <caption>If you want to use KASWallet as a substitute for an in-memory wallet, you should pass last parameter in constructor. Please refer to the example below.</caption>
+     * const caver = new Caver(chainId, accessKeyId, secretAccessKey, true) // Use KASWallet
+     *
+     * const caver = new Caver(chainId, accessKeyId, secretAccessKey, false) // Use in-memory wallet
+     *
      * @constructor
+     * @param {Wallet} walletAPI - An instance of KAS Wallet api to use.
      */
     constructor(walletAPI) {
         this.walletAPI = walletAPI
     }
 
     /**
-     * generates keyrings in the keyringContainer with randomly generated key pairs.
+     * Generates accounts in the KAS wallet api service with randomly generated key pairs.
      *
-     * @param {number} numberOfKeyrings The number of keyrings to create.
-     * @param {string} [entropy] A random string to increase entropy. If undefined, a random string will be generated using randomHex.
+     * @param {number} numberOfKeyrings The number of accounts to create.
      * @return {Array.<string>}
      */
-    async generate(numberOfKeyrings, entropy) {
-        if (entropy) throw new Error(`KAS Wallet not support entropy`)
-
+    async generate(numberOfKeyrings) {
         const addresses = []
         for (let i = 0; i < numberOfKeyrings; ++i) {
             const account = await this.walletAPI.createAccount()
@@ -46,150 +49,125 @@ class KASWallet {
     }
 
     /**
-     * creates a keyring instance with given parameters and adds it to the keyringContainer.
-     * KeyringContainer manages Keyring instance using Map <string:Keyring> which has address as key value.
+     * Get the account in KAS Wallet API Service corresponding to the address
      *
-     * @param {string} address The address of the keyring.
-     * @param {string|Array.<string>|Array.<Array.<string>>} key Private key string(s) to use in keyring. If different keys are used for each role, key must be defined as a two-dimensional array.
-     * @return {Keyring}
+     * @param {string} address The address of account to query.
+     * @return {AccountCountByAccountID}
      */
-    async newKeyring(address, key) {
-        throw new Error(`Not nsupported`)
-    }
-
-    /**
-     * updates the keyring inside the keyringContainer.
-     * Query the keyring to be updated from keyringContainer with the keyring's address,
-     * and an error occurs when the keyring is not found in the keyringContainer.
-     *
-     * @param {Keyring} keyring The keyring with new key.
-     * @return {Keyring}
-     */
-    async updateKeyring(keyring) {
-        throw new Error(`Not nsupported`)
-    }
-
-    /**
-     * Get the keyring in container corresponding to the address
-     *
-     * @param {string} address The address of keyring to query.
-     * @return {Keyring}
-     */
-    async getKeyring(address) {
+    async getAccount(address) {
         const account = await this.walletAPI.getAccount(address)
 
         return account
     }
 
     /**
-     * Get the keyring in container corresponding to the address
+     * Returns whether the account corresponding to the address exists
      *
-     * @param {string} address The address of keyring to query.
-     * @return {Keyring}
+     * @param {string} address The address of account to check existence.
+     * @return {boolean}
      */
     async isExisted(address) {
         try {
             await this.walletAPI.getAccount(address)
             return true
         } catch (e) {
-            return false
+            if (e.code === 1061010) return false
+            throw e
         }
     }
 
-    // /**
-    //  * adds a keyring to the keyringContainer.
-    //  *
-    //  * @param {Keyring} keyring A keyring instance to add to keyringContainer.
-    //  * @return {Keyring}
-    //  */
-    // async add(keyring) {
-    //     if (this._addressKeyringMap.get(keyring.address.toLowerCase()) !== undefined)
-    //         throw new Error(`Duplicate Account ${keyring.address}. Please use updateKeyring() instead.`)
-
-    //     const keyringToAdd = keyring.copy()
-
-    //     this._addressKeyringMap.set(keyringToAdd.address.toLowerCase(), keyringToAdd)
-
-    //     return keyringToAdd
-    // }
-
-    // /**
-    //  * deletes the keyring that associates with the given address from keyringContainer.
-    //  *
-    //  * @param {string} address An address of the keyring to be deleted in keyringContainer.
-    //  * @return {boolean}
-    //  */
-    // async remove(address) {
-    //     let keyringToRemove
-    //     if (utils.isAddress(address)) {
-    //         keyringToRemove = this.getKeyring(address)
-    //     } else {
-    //         throw new Error(`To remove the keyring, the first parameter should be an address string.`)
-    //     }
-
-    //     if (keyringToRemove === undefined) return false
-
-    //     // deallocate keyring object created for keyringContainer
-    //     keyringToRemove.keys = null
-    //     this._addressKeyringMap.delete(keyringToRemove.address.toLowerCase())
-
-    //     return true
-    // }
-
-    // /**
-    //  * signs with data and returns the result object that includes `signature`, `message` and `messageHash`
-    //  *
-    //  * @param {string} address An address of keyring in keyringContainer.
-    //  * @param {string} data The data string to sign.
-    //  * @param {number} role A number indicating the role of the key. You can use `caver.wallet.keyring.role`.
-    //  * @param {number} [index] An index of key to use for signing.
-    //  * @return {object}
-    //  */
-    // async signMessage(address, data, role, index) {
-    //     const keyring = this.getKeyring(address)
-    //     if (keyring === undefined) throw new Error(`Failed to find keyring from wallet with ${address}`)
-    //     return keyring.signMessage(data, role, index)
-    // }
+    /**
+     * Deletes the account that associates with the given address from KAS Wallet API service.
+     *
+     * @param {string} address An address of the account to be deleted in KAS Wallet API service.
+     * @return {boolean}
+     */
+    async remove(address) {
+        const deleted = await this.walletAPI.deleteAccount(address)
+        return deleted.status === 'deleted'
+    }
 
     /**
-     * signs the transaction using one key and return the transactionHash
+     * Signs the transaction using one key and return the transactionHash
      *
      * @param {string} address An address of keyring in keyringContainer.
-     * @param {Transaction} transaction A transaction object.
-     * @param {number} [index] An index of key to use for signing. If index is undefined, all private keys in keyring will be used.
-     * @param {function} [hasher] A function to return hash of transaction.
-     * @return {Transaction}
+     * @param {AbstractTransaction} transaction A transaction object of caver-js. See [Klaytn Docs - Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction) for details.
+     * @return {AbstractTransaction}
+     * @see {@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction#class|Transaction}
      */
-    async sign(address, transaction, index, hasher) {
-        if (index !== undefined || hasher !== undefined) throw new Error(`index and hasher cannnot be defined`)
-
-        transaction.from = transaction.from || address
+    async sign(address, transaction) {
+        // Check from address
+        transaction.from = transaction.from && transaction.from !== '0x' ? transaction.from : address
         if (transaction.from.toLowerCase() !== address.toLowerCase()) throw new Error(`From addresses are not matched.`)
 
-        const ret = await this.walletAPI.sign(transaction)
-        console.log(`Result this.walletAPI.sign`)
-        transaction.signatures = ret.signatures
-        console.log(transaction)
+        // Check accountKey in Klaytn network
+        const accountKey = await transaction.constructor._klaytnCall.getAccountKey(transaction.from)
+        if (accountKey.keyType > 3) {
+            throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
+        }
+
+        // Fill optional values
+        await transaction.fillTransaction()
+
+        // 이미 signatures가 있는 경우 동작 확인 필요 -> 서명을 하지 않는다
+        let signed
+        const existingSigs = transaction.signatures
+        transaction.signatures = []
+
+        const requestObject = { rlp: transaction.getRLPEncoding(), submit: false }
+
+        if (!transaction.type.includes('TxTypeFeeDelegated')) {
+            signed = await this.walletAPI.requestRawTransaction(requestObject)
+        } else {
+            signed = await this.walletAPI.requestFDRawTransactionPaidByGlobalFeePayer(requestObject)
+        }
+        transaction.signatures = signed.signatures
+        transaction.appendSignatures(existingSigs)
 
         return transaction
     }
 
-    // /**
-    //  * signs the transaction as a fee payer using one key and return the transactionHash
-    //  *
-    //  * @param {string} address An address of keyring in keyringContainer.
-    //  * @param {Transaction} transaction A transaction object. This should be `FEE_DELEGATED` type.
-    //  * @param {number} [index] An index of key to use for signing. If index is undefined, all private keys in keyring will be used.
-    //  * @param {function} [hasher] A function to return hash of transaction.
-    //  * @return {Transaction}
-    //  */
-    // async signAsFeePayer(address, transaction, index, hasher) {
-    //     const keyring = this.getKeyring(address)
-    //     if (keyring === undefined) throw new Error(`Failed to find keyring from wallet with ${address}`)
-    //     const signed = await transaction.signAsFeePayer(keyring, index, hasher)
+    /**
+     * Signs the transaction as a fee payer using one key and return the transactionHash
+     *
+     * @param {string} address An address of keyring in keyringContainer.
+     * @param {AbstractFeeDelegatedTransaction} transaction A fee delegated transaction object of caver-js. See [Klaytn Docs - Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/fee-delegation) and https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/partial-fee-delegation for details.
+     * @return {AbstractFeeDelegatedTransaction}
+     * @see {@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction#class|Transaction}
+     */
+    async signAsFeePayer(address, transaction) {
+        // Check feePayer address
+        transaction.feePayer = transaction.feePayer && transaction.feePayer !== '0x' ? transaction.feePayer : address
+        if (transaction.feePayer.toLowerCase() !== address.toLowerCase()) throw new Error(`feePayer addresses are not matched.`)
 
-    //     return signed
-    // }
+        // Check transaction type
+        if (!transaction.type.includes('TxTypeFeeDelegated')) {
+            throw new Error(`Invalid transaction type: Only feeDelegated transactions can use 'caver.wallet.signAsFeePayer'.`)
+        }
+
+        // Check accountKey in Klaytn network
+        const accountKey = await transaction.constructor._klaytnCall.getAccountKey(transaction.feePayer)
+        const keyType = accountKey.keyType === 5 ? accountKey.key[2].keyType : accountKey.keyType
+        if (keyType > 3) {
+            throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
+        }
+
+        // Fill optional values
+        await transaction.fillTransaction()
+
+        // 이미 signatures가 있는 경우 동작 확인 필요 -> 서명을 하지 않는다
+        const existingSigs = transaction.feePayerSignatures
+        transaction.feePayerSignatures = []
+        const requestObject = { rlp: transaction.getRLPEncoding(), feePayer: transaction.feePayer, submit: false }
+        const ret = await this.walletAPI.requestFDRawTransactionPaidByUser(requestObject)
+
+        // Call static decode method to get feePayerSignatures from RLP-encoded string.
+        const { feePayerSignatures } = transaction.constructor.decode(ret.rlp)
+        transaction.feePayerSignatures = feePayerSignatures
+        transaction.appendFeePayerSignatures(existingSigs)
+
+        return transaction
+    }
 }
 
 module.exports = KASWallet
