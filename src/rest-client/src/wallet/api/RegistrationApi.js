@@ -16,67 +16,98 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient'], factory)
+        define(['../../ApiClient', '../model/AccountRegistrationRequest', '../model/StatusResponse'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'))
+        module.exports = factory(
+            require('../../ApiClient'),
+            require('../model/AccountRegistrationRequest'),
+            require('../model/StatusResponse')
+        )
     } else {
         // Browser globals (root is window)
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.MultisigKey = factory(root.WalletApi.ApiClient)
+        root.WalletApi.RegistrationApi = factory(
+            root.WalletApi.ApiClient,
+            root.WalletApi.AccountRegistrationRequest,
+            root.WalletApi.StatusResponse
+        )
     }
-})(this, function(ApiClient) {
+})(this, function(ApiClient, AccountRegistrationRequest, StatusResponse) {
     /**
-     * The MultisigKey model module.
-     * @class MultisigKey
+     * Registration service.
+     * @class RegistrationApi
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>MultisigKey</code>.
-     * Key information for multisig
-     * @alias MultisigKey
+     * Constructs a new RegistrationApi.
+     * @alias RegistrationApi
      * @class
-     * @param publicKey {String} Public key of Klaytn account
-     * @param weight {Number} Weight of public key
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
-    const MultisigKey = function(publicKey, weight) {
-        this.publicKey = publicKey
-        this.weight = weight
-    }
+    const RegistrationApi = function(apiClient) {
+        this.apiClient = apiClient || ApiClient.instance
 
-    /**
-     * Constructs a <code>MultisigKey</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {MultisigKey} obj Optional instance to populate.
-     * @return {MultisigKey} The populated <code>MultisigKey</code> instance.
-     * @memberof MultisigKey
-     */
-    MultisigKey.constructFromObject = function(data, obj) {
-        if (data) {
-            obj = obj || new MultisigKey()
-            if (data.hasOwnProperty('publicKey')) obj.publicKey = ApiClient.convertToType(data.publicKey, 'String')
-            if (data.hasOwnProperty('weight')) obj.weight = ApiClient.convertToType(data.weight, 'Number')
+        /**
+         * Callback function to receive the result of the registerAccount operation.
+         * @callback RegistrationApi~registerAccountCallback
+         * @param {String} error Error message, if any.
+         * @param {StatusResponse} data The data returned by the service call.
+         * @param {String} response The complete HTTP response.
+         */
+
+        /**
+         * RegisterAccount
+         * Register account which used before
+         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * @param {Object} opts Optional parameters
+         * @param {AccountRegistrationRequest} opts.body
+         * @param {RegistrationApi~registerAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link StatusResponse}
+         */
+        this.registerAccount = function(xChainId, opts, callback) {
+            opts = opts || {}
+            const postBody = opts.body
+
+            // verify the required parameter 'xChainId' is set
+            if (xChainId === undefined || xChainId === null) {
+                throw new Error("Missing the required parameter 'xChainId' when calling registerAccount")
+            }
+
+            const pathParams = {}
+            const queryParams = {}
+            const collectionQueryParams = {}
+            const headerParams = {
+                'x-chain-id': xChainId,
+            }
+            const formParams = {}
+
+            const authNames = ['auth']
+            const contentTypes = ['application/json']
+            const accepts = ['application/json']
+            const returnType = StatusResponse
+
+            return this.apiClient.callApi(
+                '/v2/registration/account',
+                'POST',
+                pathParams,
+                queryParams,
+                collectionQueryParams,
+                headerParams,
+                formParams,
+                postBody,
+                authNames,
+                contentTypes,
+                accepts,
+                returnType,
+                callback
+            )
         }
-        return obj
     }
 
-    /**
-     * Public key of Klaytn account
-     * @type {String}
-     * @memberof MultisigKey
-     */
-    MultisigKey.prototype.publicKey = undefined
-
-    /**
-     * Weight of public key
-     * @type {Number}
-     * @memberof MultisigKey
-     */
-    MultisigKey.prototype.weight = undefined
-
-    return MultisigKey
+    return RegistrationApi
 })

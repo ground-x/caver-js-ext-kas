@@ -25,58 +25,78 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.MultisigKey = factory(root.WalletApi.ApiClient)
+        root.WalletApi.Key = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The MultisigKey model module.
-     * @class MultisigKey
+     * The Key model module.
+     * @class Key
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>MultisigKey</code>.
-     * Key information for multisig
-     * @alias MultisigKey
+     * Constructs a new <code>Key</code>.
+     * Created key information
+     * @alias Key
      * @class
-     * @param publicKey {String} Public key of Klaytn account
-     * @param weight {Number} Weight of public key
+     * @param blob {String} Encrypted private key
+     * @param keyId {String} Key ID
+     * @param krn {String} Name of the resource
+     * @param publicKey {String} Public key
      */
-    const MultisigKey = function(publicKey, weight) {
+    const Key = function(blob, keyId, krn, publicKey) {
+        this.blob = blob
+        this.keyId = keyId
+        this.krn = krn
         this.publicKey = publicKey
-        this.weight = weight
     }
 
     /**
-     * Constructs a <code>MultisigKey</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Key</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {MultisigKey} obj Optional instance to populate.
-     * @return {MultisigKey} The populated <code>MultisigKey</code> instance.
-     * @memberof MultisigKey
+     * @param {Key} obj Optional instance to populate.
+     * @return {Key} The populated <code>Key</code> instance.
+     * @memberof Key
      */
-    MultisigKey.constructFromObject = function(data, obj) {
+    Key.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new MultisigKey()
+            obj = obj || new Key()
+            if (data.hasOwnProperty('blob')) obj.blob = ApiClient.convertToType(data.blob, 'String')
+            if (data.hasOwnProperty('keyId')) obj.keyId = ApiClient.convertToType(data.keyId, 'String')
+            if (data.hasOwnProperty('krn')) obj.krn = ApiClient.convertToType(data.krn, 'String')
             if (data.hasOwnProperty('publicKey')) obj.publicKey = ApiClient.convertToType(data.publicKey, 'String')
-            if (data.hasOwnProperty('weight')) obj.weight = ApiClient.convertToType(data.weight, 'Number')
         }
         return obj
     }
 
     /**
-     * Public key of Klaytn account
+     * Encrypted private key
      * @type {String}
-     * @memberof MultisigKey
+     * @memberof Key
      */
-    MultisigKey.prototype.publicKey = undefined
+    Key.prototype.blob = undefined
 
     /**
-     * Weight of public key
-     * @type {Number}
-     * @memberof MultisigKey
+     * Key ID
+     * @type {String}
+     * @memberof Key
      */
-    MultisigKey.prototype.weight = undefined
+    Key.prototype.keyId = undefined
 
-    return MultisigKey
+    /**
+     * Name of the resource
+     * @type {String}
+     * @memberof Key
+     */
+    Key.prototype.krn = undefined
+
+    /**
+     * Public key
+     * @type {String}
+     * @memberof Key
+     */
+    Key.prototype.publicKey = undefined
+
+    return Key
 })

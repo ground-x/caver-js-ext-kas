@@ -25,58 +25,68 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.MultisigKey = factory(root.WalletApi.ApiClient)
+        root.WalletApi.AccountRegistration = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The MultisigKey model module.
-     * @class MultisigKey
+     * The AccountRegistration model module.
+     * @class AccountRegistration
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>MultisigKey</code>.
-     * Key information for multisig
-     * @alias MultisigKey
+     * Constructs a new <code>AccountRegistration</code>.
+     * Account registeration item
+     * @alias AccountRegistration
      * @class
-     * @param publicKey {String} Public key of Klaytn account
-     * @param weight {Number} Weight of public key
+     * @param keyId {String} Key ID
+     * @param publicKey {String} Public key
+     * @param address {String} Klaytn address
      */
-    const MultisigKey = function(publicKey, weight) {
+    const AccountRegistration = function(keyId, publicKey, address) {
+        this.keyId = keyId
         this.publicKey = publicKey
-        this.weight = weight
+        this.address = address
     }
 
     /**
-     * Constructs a <code>MultisigKey</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>AccountRegistration</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {MultisigKey} obj Optional instance to populate.
-     * @return {MultisigKey} The populated <code>MultisigKey</code> instance.
-     * @memberof MultisigKey
+     * @param {AccountRegistration} obj Optional instance to populate.
+     * @return {AccountRegistration} The populated <code>AccountRegistration</code> instance.
+     * @memberof AccountRegistration
      */
-    MultisigKey.constructFromObject = function(data, obj) {
+    AccountRegistration.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new MultisigKey()
+            obj = obj || new AccountRegistration()
+            if (data.hasOwnProperty('keyId')) obj.keyId = ApiClient.convertToType(data.keyId, 'String')
             if (data.hasOwnProperty('publicKey')) obj.publicKey = ApiClient.convertToType(data.publicKey, 'String')
-            if (data.hasOwnProperty('weight')) obj.weight = ApiClient.convertToType(data.weight, 'Number')
+            if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
         }
         return obj
     }
 
     /**
-     * Public key of Klaytn account
+     * Key ID
      * @type {String}
-     * @memberof MultisigKey
+     * @memberof AccountRegistration
      */
-    MultisigKey.prototype.publicKey = undefined
+    AccountRegistration.prototype.keyId = undefined
 
     /**
-     * Weight of public key
-     * @type {Number}
-     * @memberof MultisigKey
+     * Public key
+     * @type {String}
+     * @memberof AccountRegistration
      */
-    MultisigKey.prototype.weight = undefined
+    AccountRegistration.prototype.publicKey = undefined
 
-    return MultisigKey
+    /**
+     * Klaytn address
+     * @type {String}
+     * @memberof AccountRegistration
+     */
+    AccountRegistration.prototype.address = undefined
+
+    return AccountRegistration
 })

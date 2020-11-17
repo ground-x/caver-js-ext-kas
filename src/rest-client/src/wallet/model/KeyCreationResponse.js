@@ -16,67 +16,53 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient'], factory)
+        define(['../../ApiClient', '../model/Key'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'))
+        module.exports = factory(require('../../ApiClient'), require('./Key'))
     } else {
         // Browser globals (root is window)
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.MultisigKey = factory(root.WalletApi.ApiClient)
+        root.WalletApi.KeyCreationResponse = factory(root.WalletApi.ApiClient, root.WalletApi.Key)
     }
-})(this, function(ApiClient) {
+})(this, function(ApiClient, Key) {
     /**
-     * The MultisigKey model module.
-     * @class MultisigKey
+     * The KeyCreationResponse model module.
+     * @class KeyCreationResponse
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>MultisigKey</code>.
-     * Key information for multisig
-     * @alias MultisigKey
+     * Constructs a new <code>KeyCreationResponse</code>.
+     * Key Creation Response
+     * @alias KeyCreationResponse
      * @class
-     * @param publicKey {String} Public key of Klaytn account
-     * @param weight {Number} Weight of public key
      */
-    const MultisigKey = function(publicKey, weight) {
-        this.publicKey = publicKey
-        this.weight = weight
-    }
+    const KeyCreationResponse = function() {}
 
     /**
-     * Constructs a <code>MultisigKey</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>KeyCreationResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {MultisigKey} obj Optional instance to populate.
-     * @return {MultisigKey} The populated <code>MultisigKey</code> instance.
-     * @memberof MultisigKey
+     * @param {KeyCreationResponse} obj Optional instance to populate.
+     * @return {KeyCreationResponse} The populated <code>KeyCreationResponse</code> instance.
+     * @memberof KeyCreationResponse
      */
-    MultisigKey.constructFromObject = function(data, obj) {
+    KeyCreationResponse.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new MultisigKey()
-            if (data.hasOwnProperty('publicKey')) obj.publicKey = ApiClient.convertToType(data.publicKey, 'String')
-            if (data.hasOwnProperty('weight')) obj.weight = ApiClient.convertToType(data.weight, 'Number')
+            obj = obj || new KeyCreationResponse()
+            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [Key])
         }
         return obj
     }
 
     /**
-     * Public key of Klaytn account
-     * @type {String}
-     * @memberof MultisigKey
+     * @type {Array.<Key>}
+     * @memberof KeyCreationResponse
      */
-    MultisigKey.prototype.publicKey = undefined
+    KeyCreationResponse.prototype.items = undefined
 
-    /**
-     * Weight of public key
-     * @type {Number}
-     * @memberof MultisigKey
-     */
-    MultisigKey.prototype.weight = undefined
-
-    return MultisigKey
+    return KeyCreationResponse
 })

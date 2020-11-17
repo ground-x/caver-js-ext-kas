@@ -15,6 +15,7 @@
  */
 
 const _ = require('lodash')
+const fs = require('fs')
 const utils = require('caver-js').utils
 
 const {
@@ -47,6 +48,13 @@ const {
     FDUserProcessRLPRequest,
     FDUserAccountUpdateTransactionRequest,
     SignPendingTransactionBySigRequest,
+    AccountRegistration,
+    AccountRegistrationRequest,
+    Key,
+    KeyCreationRequest,
+    KeyCreationResponse,
+    KeyApi,
+    RegistrationApi,
     StatisticsApi,
 } = require('../../rest-client/src')
 const WalletQueryOptions = require('./walletQueryOptions')
@@ -78,6 +86,8 @@ class Wallet {
                 fdTransactionPaidByUser: new FeeDelegatedTransactionPaidByUserApi(client),
                 multisigTransactionManagement: new MultisigTransactionManagementApi(client),
                 statistics: new StatisticsApi(client),
+                key: new KeyApi(client),
+                registration: new RegistrationApi(client),
             }
         }
     }
@@ -190,6 +200,59 @@ class Wallet {
      */
     get statisticsApi() {
         return this.apiInstances.statistics
+    }
+
+    // TODO: description, define return type, implementation
+    /**
+     * Migrates Klaytn accounts to KAS Wallet API. <br>
+     * await caver.kas.wallet.migarateAccounts('./keystores', ['passphrase1', 'passphrase2', 'passphrase3']) <br>
+     * @param {string} dir The directory path to migrate accounts to KAS.
+     * @param {Array.<string>} passphrases The directory path to migrate accounts to KAS.
+     * @return {}
+     */
+    async migrateAccounts(dir, passphrases) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        let keyringContainer = new this.accountsMigration.keyringContainer()
+        const files = fs.readdirSync(dir)
+        const addresses = []
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i]
+            const passphrase = passphrases[i]
+
+            const encrypted = fs.readFileSync(`${dir}/${file}`)
+            const decrypted = this.accountsMigration.decrypt(encrypted.toString(), passphrase)
+            keyringContainer.add(decrypted)
+            addresses.push(decrypted.address)
+        }
+
+        // const publicKeys = await this.accountApi.xxx(addresses.length)
+        const publicKeys = [
+            '0xa581cdbe9c6bd52618bfcad4dcde74875c0cd6a4171fa2b84f9caeb2e2b100c39436adb6c7605b70f35ce49b4c256ab86d108b3345c41fbb893021fa840bad19',
+        ]
+
+        if (addresses.length !== publicKeys.length) {
+            // TODO: throw error
+        }
+
+        const rawTransactions = []
+        for (let i = 0; i < addresses.length; i++) {
+            const updateTx = new this.accountsMigration.feeDelegatedAccountUpdate({
+                from: addresses[i],
+                account: this.accountsMigration.createWithAccountKeyPublic(addresses[i], publicKeys[i]),
+                gas: 40000,
+            })
+
+            await keyringContainer.sign(addresses[i], updateTx)
+            // keyringContainer.remove(addresses[i])
+
+            rawTransactions.push(updateTx.getRLPEncoding())
+        }
+        console.log(rawTransactions)
+
+        // After migration
+        keyringContainer = null
     }
 
     /**

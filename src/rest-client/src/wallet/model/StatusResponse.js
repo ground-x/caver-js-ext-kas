@@ -25,58 +25,48 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.MultisigKey = factory(root.WalletApi.ApiClient)
+        root.WalletApi.StatusResponse = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The MultisigKey model module.
-     * @class MultisigKey
+     * The StatusResponse model module.
+     * @class StatusResponse
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>MultisigKey</code>.
-     * Key information for multisig
-     * @alias MultisigKey
+     * Constructs a new <code>StatusResponse</code>.
+     * Status Response Schema
+     * @alias StatusResponse
      * @class
-     * @param publicKey {String} Public key of Klaytn account
-     * @param weight {Number} Weight of public key
+     * @param status {String} status of request
      */
-    const MultisigKey = function(publicKey, weight) {
-        this.publicKey = publicKey
-        this.weight = weight
+    const StatusResponse = function(status) {
+        this.status = status
     }
 
     /**
-     * Constructs a <code>MultisigKey</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>StatusResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {MultisigKey} obj Optional instance to populate.
-     * @return {MultisigKey} The populated <code>MultisigKey</code> instance.
-     * @memberof MultisigKey
+     * @param {StatusResponse} obj Optional instance to populate.
+     * @return {StatusResponse} The populated <code>StatusResponse</code> instance.
+     * @memberof StatusResponse
      */
-    MultisigKey.constructFromObject = function(data, obj) {
+    StatusResponse.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new MultisigKey()
-            if (data.hasOwnProperty('publicKey')) obj.publicKey = ApiClient.convertToType(data.publicKey, 'String')
-            if (data.hasOwnProperty('weight')) obj.weight = ApiClient.convertToType(data.weight, 'Number')
+            obj = obj || new StatusResponse()
+            if (data.hasOwnProperty('status')) obj.status = ApiClient.convertToType(data.status, 'String')
         }
         return obj
     }
 
     /**
-     * Public key of Klaytn account
+     * status of request
      * @type {String}
-     * @memberof MultisigKey
+     * @memberof StatusResponse
      */
-    MultisigKey.prototype.publicKey = undefined
+    StatusResponse.prototype.status = undefined
 
-    /**
-     * Weight of public key
-     * @type {Number}
-     * @memberof MultisigKey
-     */
-    MultisigKey.prototype.weight = undefined
-
-    return MultisigKey
+    return StatusResponse
 })
