@@ -45,7 +45,6 @@ class CaverExtKAS extends Caver {
      */
     constructor(chainId, accessKeyId, secretAccessKey, useKASWallet = false) {
         super()
-        this.keyringContainer = this.wallet
 
         this.kas = new KAS()
         // Allocate class and functions to use for account migration
