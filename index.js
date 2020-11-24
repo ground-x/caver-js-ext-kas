@@ -15,7 +15,6 @@
  */
 
 const Caver = require('caver-js')
-const lodash = require('lodash')
 const KAS = require('./src/kas/kas')
 const KASWallet = require('./src/wallet/kasWallet')
 
@@ -41,9 +40,8 @@ class CaverExtKAS extends Caver {
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
-     * @param {boolean} [useKASWallet] Whether to use KAS Wallet API as a substitute for in-memory wallet.
      */
-    constructor(chainId, accessKeyId, secretAccessKey, useKASWallet = false) {
+    constructor(chainId, accessKeyId, secretAccessKey) {
         super()
 
         this.kas = new KAS()
@@ -56,38 +54,24 @@ class CaverExtKAS extends Caver {
             createWithAccountKeyPublic: this.account.createWithAccountKeyPublic,
         }
 
-        this.kasWallet = new KASWallet(this.kas.wallet)
-        this.kasWallet.keyring = this.wallet.keyring
+        // `caver.wallet` in CaverExtKAS is a KASWallet that internally connects the KAS Wallet API
+        const kasWallet = new KASWallet(this.kas.wallet)
+        kasWallet.keyring = this.wallet.keyring
+        this.keyringContainer = this.wallet.constructor
+        this.wallet = kasWallet
 
-        if (chainId !== undefined && accessKeyId && secretAccessKey && useKASWallet !== undefined)
-            this.initKASAPI(chainId, accessKeyId, secretAccessKey, useKASWallet)
+        if (chainId !== undefined && accessKeyId && secretAccessKey) this.initKASAPI(chainId, accessKeyId, secretAccessKey)
     }
 
     /**
-     * @type {KeyringContainer|KASWallet}
-     * @see {@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.wallet#keyringcontainer|KeyringContainer}
+     * @type {KASWallet}
      */
     get wallet() {
         return this._wallet
     }
 
     set wallet(wallet) {
-        if (!wallet || (wallet.constructor.name !== 'KeyringContainer' && !(wallet instanceof KASWallet))) {
-            throw new Error(`Failed to set wallet: wallet should be an instance of KeyringContainer or KASWallet`)
-        }
-
         this._wallet = wallet
-    }
-
-    /**
-     * @type {KASWallet}
-     */
-    get kasWallet() {
-        return this._kasWallet
-    }
-
-    set kasWallet(kasWallet) {
-        this._kasWallet = kasWallet
     }
 
     /**
@@ -108,13 +92,12 @@ class CaverExtKAS extends Caver {
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
-     * @param {boolean} [useKASWallet] Whether to use KAS Wallet API as a substitute for in-memory wallet.
      * @return {void}
      */
-    initKASAPI(chainId, accessKeyId, secretAccessKey, useKASWallet = false) {
+    initKASAPI(chainId, accessKeyId, secretAccessKey) {
         this.initNodeAPI(chainId, accessKeyId, secretAccessKey)
         this.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey)
-        this.initWalletAPI(chainId, accessKeyId, secretAccessKey, useKASWallet)
+        this.initWalletAPI(chainId, accessKeyId, secretAccessKey)
         this.initAnchorAPI(chainId, accessKeyId, secretAccessKey)
     }
 
@@ -165,33 +148,15 @@ class CaverExtKAS extends Caver {
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
-     * @param {boolean} [useKASWallet] Whether to use KAS Wallet API as a substitute for in-memory wallet.
      * @param {string} [url] The end point url.
      * @return {void}
      */
-    initWalletAPI(chainId, accessKeyId, secretAccessKey, useKASWallet, url) {
+    initWalletAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.wallet) {
         // chainId, accessKeyId, secretAccessKey
         // chainId, accessKeyId, secretAccessKey, url
-        // chainId, accessKeyId, secretAccessKey, useKASWallet
-        // chainId, accessKeyId, secretAccessKey, useKASWallet, url
-        if (useKASWallet === undefined && url === undefined) {
-            useKASWallet = false
-            url = productionEndpoints.wallet
-        } else if (url === undefined && useKASWallet !== undefined) {
-            if (lodash.isBoolean(useKASWallet)) {
-                url = productionEndpoints.wallet
-            } else if (lodash.isString(useKASWallet)) {
-                url = useKASWallet
-                useKASWallet = false
-            } else {
-                throw new Error(`Invalid parameters: Please check your parameters`)
-            }
-        }
 
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
-
-        if (useKASWallet) this.wallet = this.kasWallet
     }
 
     /**

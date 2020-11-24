@@ -63,17 +63,15 @@ You can use KAS' Node API, Token History API, Wallet API, and Anchor API through
 
 Set your authorization using the `constructor` or the `caver.initKASAPI` function as shown below. Below code sets the authentication key used by the node api, token history api, wallet api and anchor api at once.
 
-Depending on the useKASWallet parameter, it is determined whether to use the [in-memory wallet](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.wallet) or KAS Wallet API in `caver.wallet`. If useKASWallet is `true`, the account stored in KAS Wallet API is used to sign.
-
 ```javascript
 // Set an authorization through constructor
-const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey [, useKASWallet])
+const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey)
 ```
 
 ```javascript
 // Set an authorization through 'caver.initKASAPI' function
 const caver = new CaverExtKAS()
-caver.initKASAPI(chainId, accessKeyId, secretAccessKey [, useKASWallet])
+caver.initKASAPI(chainId, accessKeyId, secretAccessKey)
 ```
 
 The following describes how to set auth key for each node, tokenHistory, wallet, and anchor api.
@@ -83,11 +81,29 @@ Each initialization function is provided so that you can pass an optional endpoi
 ```javascript
 caver.initNodeAPI(chainId, accessKeyId, secretAccessKey [, url])
 caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey [, url])
-caver.initWalletAPI(chainId, accessKeyId, secretAccessKey [, useKASWallet] [, url])
+caver.initWalletAPI(chainId, accessKeyId, secretAccessKey [, url])
 caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey [, url])
 ```
 
-In the `caver.initWalletAPI` function, if useKASWallet is `true`, the KAS Wallet API is used by replacing the in-memory wallet.
+`caver.wallet` in [CaverExtKAS](https://refs.klaytnapi.com/en/sdk/js/latest/CaverExtKAS.html) is a [KASWallet](https://refs.klaytnapi.com/en/sdk/js/latest/KASWallet.html) that internally connects the [KAS Wallet API](https://refs.klaytnapi.com/en/sdk/js/latest/Wallet.html) since [caver-js-ext-kas v1.0.2](https://www.npmjs.com/package/caver-js-ext-kas/v/1.0.2).
+
+If you want to use the [in-memory wallet](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.wallet) provided by the [caver-js](https://www.npmjs.com/package/caver-js) as it is, create and use an instance of [KeyringContainer](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.wallet) as shown below.
+
+```javascript
+const caver = new CaverExtKAS()
+
+// Create a KeyringContainer instance
+const keyringContainer = new caver.keyringContainer()
+
+// Create a keyring from private key
+const keyring = caver.wallet.keyring.createFromPrivateKey('0x{private key}')
+
+// Add a keyring to the keyringContainer
+keyringContainer.add(keyring)
+
+// Sign with the keyring added to keyringContainer
+await keyringContainer.sign(keyring.address, transaction)
+```
 
 ### Use Node API
 
@@ -158,21 +174,15 @@ console.log(queryOptions)
 
 You can use caver's [Contract](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.contract), [KIP7](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip7) and [KIP17](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip17) as it is by using the account stored in KAS.
 
-To use the account stored in KAS, pass `useKASWallet` to `true` in the constructor of CaverExtKAS like below.
+Since CaverExtKAS wallet is a [KASWallet](https://refs.klaytnapi.com/en/sdk/js/latest/KASWallet.html) that connects with and operates with KAS Wallet API, [Contract](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.contract), [KIP7](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip7) and [KIP17](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip17) can be used the same as the existing caver-js.
 
-```javascript
-const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey, true)
-```
-
-For more information on initialization, please refer to [here](#set-auth).
-
-If you initialized useKASWallet to `true`, you can now use it the same way you used caver. Here, we introduce a simple example using Contract, KIP7, and KIP17 respectively. Please refer to [Contract](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.contract), [KIP7](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip7) and [KIP17](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip17) of [Klaytn Docs](https://docs.klaytn.com/bapp/sdk/caver-js) for detailed usage.
+Here, we introduce a simple example using Contract, KIP7, and KIP17 respectively. Please refer to [Contract](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.contract), [KIP7](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip7) and [KIP17](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip17) of [Klaytn Docs](https://docs.klaytn.com/bapp/sdk/caver-js) for detailed usage.
 
 The example below introduces how to use `caver.contract`.
 
 ```javascript
 // Deploy contract
-const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey, true)
+const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey)
 
 const abi = [{"constant":true,"inputs":[],"name":"count","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}, ...]
 
@@ -189,7 +199,7 @@ const deployed = await contract.deploy({
 
 ```javascript
 // Execute contract
-const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey, true)
+const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey)
 
 const abi = [{"constant":true,"inputs":[],"name":"count","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}, ...]
 
@@ -202,7 +212,7 @@ The example below introduces how to use `caver.kct.kip7`.
 
 ```javascript
 // Deploy KIP-7
-const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey, true)
+const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey)
 
 const kip7 = await caver.kct.kip7.deploy({
     name: 'Jasmine',
@@ -214,7 +224,7 @@ const kip7 = await caver.kct.kip7.deploy({
 
 ```javascript
 // Execute KIP-7 contract
-const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey, true)
+const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey)
 
 const kip7 = new caver.kct.kip7('0x{contract address}')
 const receipt = await kip7.transfer('0x{to address}', 1, { from: '0x{from address}' })
@@ -224,7 +234,7 @@ The example below introduces how to use `caver.kct.kip17`.
 
 ```javascript
 // Deploy KIP-17
-const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey, true)
+const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey)
 
 const kip7 = await caver.kct.kip17.deploy({
     name: 'Jasmine',
@@ -234,7 +244,7 @@ const kip7 = await caver.kct.kip17.deploy({
 
 ```javascript
 // Execute KIP-17 contract
-const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey, true)
+const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey)
 
 const kip17 = new caver.kct.kip17('0x{contract address}')
 const receipt = await kip17.transferFrom('0x{from address}', '0x{to address}', tokenId, { from: '0x{from address}' })
