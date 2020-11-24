@@ -36,12 +36,12 @@ class KASWallet {
     /**
      * Generates accounts in the KAS wallet api service with randomly generated key pairs.
      *
-     * @param {number} numberOfKeyrings The number of accounts to create.
+     * @param {number} numberOfAccounts The number of accounts to create.
      * @return {Array.<string>}
      */
-    async generate(numberOfKeyrings) {
+    async generate(numberOfAccounts) {
         const addresses = []
-        for (let i = 0; i < numberOfKeyrings; ++i) {
+        for (let i = 0; i < numberOfAccounts; ++i) {
             const account = await this.walletAPI.createAccount()
             addresses.push(account.address)
         }
@@ -90,7 +90,7 @@ class KASWallet {
     /**
      * Signs the transaction using one key and return the transactionHash
      *
-     * @param {string} address An address of keyring in keyringContainer.
+     * @param {string} address An address of account in KAS Wallet API Service.
      * @param {AbstractTransaction} transaction A transaction object of caver-js. See [Klaytn Docs - Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction) for details.
      * @return {AbstractTransaction}
      * @see {@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction#class|Transaction}
@@ -130,7 +130,7 @@ class KASWallet {
     /**
      * Signs the transaction as a fee payer using one key and return the transactionHash
      *
-     * @param {string} address An address of keyring in keyringContainer.
+     * @param {string} address An address of account in KAS Wallet API Service.
      * @param {AbstractFeeDelegatedTransaction} transaction A fee delegated transaction object of caver-js. See [Klaytn Docs - Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/fee-delegation) and https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/partial-fee-delegation for details.
      * @return {AbstractFeeDelegatedTransaction}
      * @see {@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction#class|Transaction}
