@@ -65,6 +65,8 @@ class CaverExtKAS extends Caver {
 
     /**
      * @type {KASWallet}
+     * The wallet member variable of CaverExtKAS is a [KASWallet]{@link KASWallet} that operates by using the [KAS Wallet API]{@link Wallet}. <br>
+     * If you want to use the [in-memory wallet]{@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.wallet} provided by caver-js as it is, you can create an instance of [KeyringContainer]{@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.wallet#keyringcontainer} with `const keyringContainer = new caver.keyringContainer()`.
      */
     get wallet() {
         return this._wallet
