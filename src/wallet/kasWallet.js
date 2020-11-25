@@ -102,7 +102,13 @@ class KASWallet {
 
         // Check accountKey in Klaytn network
         const accountKey = await transaction.constructor._klaytnCall.getAccountKey(transaction.from)
-        if (accountKey.keyType > 3) {
+        const keyType =
+            accountKey.keyType === 5
+                ? transaction.type.includes('AccountUpdate')
+                    ? accountKey.key[1].keyType
+                    : accountKey.key[0].keyType
+                : accountKey.keyType
+        if (keyType > 3) {
             throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
         }
 
