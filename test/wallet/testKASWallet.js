@@ -44,21 +44,21 @@ describe('caver.wallet with KASWallet', () => {
     })
 
     context('CaverExtKAS use a KASWallet as caver.wallet', () => {
-        it('caver.wallet should be an instance of KASWallet', () => {
+        it('CAVERJS-EXT-KAS-WALLET-169: caver.wallet should be an instance of KASWallet', () => {
             expect(caver.wallet instanceof KASWallet).to.be.true
         }).timeout(50000)
 
-        it('caver.keyringContainer should be available', () => {
+        it('CAVERJS-EXT-KAS-WALLET-170: caver.keyringContainer should be available', () => {
             expect(caver.keyringContainer).not.to.be.undefined
         }).timeout(50000)
 
-        it('caver.wallet.keyring should be available', () => {
+        it('CAVERJS-EXT-KAS-WALLET-171: caver.wallet.keyring should be available', () => {
             expect(caver.wallet.keyring).not.to.be.undefined
         }).timeout(50000)
     })
 
     context('caver.wallet.generate', () => {
-        it('caver.wallet.generate generates account in wallet api', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-172: caver.wallet.generate generates account in wallet api', async () => {
             const resultOfCreateAccount = {
                 address: '0xAe85f5A090e0e9Df46ca796d70F324A5076ae595',
                 chainId: 1001,
@@ -83,7 +83,7 @@ describe('caver.wallet with KASWallet', () => {
     })
 
     context('caver.wallet.getAccount', () => {
-        it('caver.wallet.getAccount query account from KAS Wallet API Service', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-173: caver.wallet.getAccount query account from KAS Wallet API Service', async () => {
             const resultOfGetAccount = {
                 address: '0xb2Fd3a28efC3226638B7f92D9b48C370588c49F2',
                 chainId: 1001,
@@ -108,7 +108,7 @@ describe('caver.wallet with KASWallet', () => {
     })
 
     context('caver.wallet.isExisted', () => {
-        it('caver.wallet.isExisted return true when account is existed in KAS Wallet API Service', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-174:  return true when account is existed in KAS Wallet API Service', async () => {
             const resultOfGetAccount = {
                 address: '0xb2Fd3a28efC3226638B7f92D9b48C370588c49F2',
                 chainId: 1001,
@@ -131,7 +131,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(existence).to.be.true
         }).timeout(50000)
 
-        it('caver.wallet.isExisted return false when account is not existed in KAS Wallet API Service', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-175: caver.wallet.isExisted return false when account is not existed in KAS Wallet API Service', async () => {
             const error = { code: 1061010, message: "data don't exist" }
 
             const getAccountStub = sandbox.stub(caver.wallet.walletAPI, 'getAccount')
@@ -143,7 +143,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(existence).to.be.false
         }).timeout(50000)
 
-        it('caver.wallet.isExisted throw error instance if something wrong with KAS Wallet API Service error object', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-176: caver.wallet.isExisted throw error instance if something wrong with KAS Wallet API Service error object', async () => {
             const error = { code: 1061011, message: 'test error' }
 
             const getAccountStub = sandbox.stub(caver.wallet.walletAPI, 'getAccount')
@@ -153,7 +153,7 @@ describe('caver.wallet with KASWallet', () => {
             await expect(caver.wallet.isExisted(address)).to.be.rejectedWith('test error')
         }).timeout(50000)
 
-        it('caver.wallet.isExisted throw error instance if something wrong', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-177: caver.wallet.isExisted throw error instance if something wrong', async () => {
             const error = new Error(`Error test`)
 
             const getAccountStub = sandbox.stub(caver.wallet.walletAPI, 'getAccount')
@@ -165,7 +165,7 @@ describe('caver.wallet with KASWallet', () => {
     })
 
     context('caver.wallet.remove', () => {
-        it('caver.wallet.remove call deleteAccount with KAS Wallet API', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-178: caver.wallet.remove call deleteAccount with KAS Wallet API', async () => {
             const resultOfDeleteAccount = { status: 'deleted' }
 
             const deleteAccountStub = sandbox.stub(caver.wallet.walletAPI, 'deleteAccount')
@@ -228,7 +228,7 @@ describe('caver.wallet with KASWallet', () => {
             })
         })
 
-        it('caver.wallet.sign adds signatures to transaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-179: caver.wallet.sign adds signatures to transaction', async () => {
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 1, key: {} })
 
@@ -250,7 +250,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.signatures.length).to.equal(1)
         }).timeout(50000)
 
-        it('caver.wallet.sign appends signatures to transaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-180: caver.wallet.sign appends signatures to transaction', async () => {
             tx.signatures = [
                 {
                     R: '0x237491673d0014cca219705291f3ee7350295ef549069e639b5e9d0d8014ffd5',
@@ -280,7 +280,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.signatures.length).to.equal(2)
         }).timeout(50000)
 
-        it('caver.wallet.sign adds signatures to feeDelegatedTransaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-181: caver.wallet.sign adds signatures to feeDelegatedTransaction', async () => {
             const getAccountKeyStub = sandbox.stub(fdtx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 1, key: {} })
 
@@ -302,7 +302,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.signatures.length).to.equal(1)
         }).timeout(50000)
 
-        it('caver.wallet.sign appends signatures to feeDelegatedTransaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-182: caver.wallet.sign appends signatures to feeDelegatedTransaction', async () => {
             fdtx.signatures = [
                 {
                     R: '0x237491673d0014cca219705291f3ee7350295ef549069e639b5e9d0d8014ffd5',
@@ -332,7 +332,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.signatures.length).to.equal(2)
         }).timeout(50000)
 
-        it('caver.wallet.sign remove duplicated signatures to transaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-183: caver.wallet.sign remove duplicated signatures to transaction', async () => {
             tx.signatures = resultOfSigning.signatures
 
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
@@ -356,7 +356,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.signatures.length).to.equal(1)
         }).timeout(50000)
 
-        it('caver.wallet.sign throw error when account key is accountKeyWeightedMutliSig', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-184: caver.wallet.sign throw error when account key is accountKeyWeightedMutliSig', async () => {
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 4, key: {} })
 
@@ -364,7 +364,7 @@ describe('caver.wallet with KASWallet', () => {
             await expect(caver.wallet.sign(address, tx)).to.be.rejectedWith(expectedError)
         }).timeout(50000)
 
-        it('caver.wallet.sign signs with signle roleTransactionKey when account key is AccountKeyRoleBased', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-185: caver.wallet.sign signs with signle roleTransactionKey when account key is AccountKeyRoleBased', async () => {
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 5, key: [{ keyType: 2 }, { keyType: 4 }, {}] })
 
@@ -386,7 +386,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.signatures.length).to.equal(1)
         }).timeout(50000)
 
-        it('caver.wallet.sign signs with signle roleAccountUpdateKey when account key is AccountKeyRoleBased', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-186: caver.wallet.sign signs with signle roleAccountUpdateKey when account key is AccountKeyRoleBased', async () => {
             const upateTx = new caver.transaction.accountUpdate({
                 from: address,
                 account: caver.account.createWithAccountKeyLegacy(address),
@@ -463,7 +463,7 @@ describe('caver.wallet with KASWallet', () => {
             })
         })
 
-        it('caver.wallet.sign adds feePayerSignatures to transaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-187: caver.wallet.sign adds feePayerSignatures to transaction', async () => {
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 1, key: {} })
 
@@ -483,7 +483,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.feePayerSignatures.length).to.equal(1)
         }).timeout(50000)
 
-        it('caver.wallet.sign appends feePayerSignatures to transaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-188: caver.wallet.sign appends feePayerSignatures to transaction', async () => {
             tx.feePayerSignatures = [
                 {
                     R: '0x237491673d0014cca219705291f3ee7350295ef549069e639b5e9d0d8014ffd5',
@@ -511,7 +511,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.feePayerSignatures.length).to.equal(2)
         }).timeout(50000)
 
-        it('caver.wallet.sign remove duplicated feePayerSignatures to transaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-189: caver.wallet.sign remove duplicated feePayerSignatures to transaction', async () => {
             tx.feePayerSignatures = caver.transaction.decode(resultOfSigning.rlp).feePayerSignatures
 
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
@@ -533,7 +533,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.feePayerSignatures.length).to.equal(1)
         }).timeout(50000)
 
-        it('caver.wallet.sign throw error when account key is accountKeyWeightedMutliSig', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-190: caver.wallet.sign throw error when account key is accountKeyWeightedMutliSig', async () => {
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 4, key: {} })
 
@@ -541,7 +541,7 @@ describe('caver.wallet with KASWallet', () => {
             await expect(caver.wallet.signAsFeePayer(feePayerAddress, tx)).to.be.rejectedWith(expectedError)
         }).timeout(50000)
 
-        it('caver.wallet.sign signs with signle roleFeePayerKey when account key is AccountKeyRoleBased', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-191: caver.wallet.sign signs with signle roleFeePayerKey when account key is AccountKeyRoleBased', async () => {
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 5, key: [{ keyType: 4 }, { keyType: 4 }, { keyType: 2 }] })
 
