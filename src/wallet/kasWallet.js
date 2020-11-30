@@ -88,7 +88,7 @@ class KASWallet {
     }
 
     /**
-     * Signs the transaction using one key and return the transaction
+     * Signs the transaction using one key and return the signed transaction
      *
      * @param {string} address An address of account in KAS Wallet API Service.
      * @param {AbstractTransaction} transaction A transaction object of caver-js. See [Klaytn Docs - Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction) for details.
