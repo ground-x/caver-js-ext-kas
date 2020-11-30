@@ -34,7 +34,7 @@ class CaverExtKAS extends Caver {
      * Creates an instance of caver extension KAS. <br>
      * This constructor sets the configurations used by each KAS API services with parameters. <br>
      * When initializing the KAS API in the constructor, initialize the authentication key used in the Node API, Wallet API, Token History API, and Anchor API at once with KAS Production URL as default. <br>
-     * If you want to initialize each service or use an endpoint URL other than the production URL set as default,
+     * If you want to initialize each service or use an endpoint URL other than the production URL set as default,<br>
      * you need to initialize it for each service using [initNodeAPI]{@link CaverExtKAS#initNodeAPI}, [initTokenHistoryAPI]{@link CaverExtKAS#initTokenHistoryAPI}, [initWalletAPI]{@link CaverExtKAS#initWalletAPI}, and [initAnchorAPI]{@link CaverExtKAS#initAnchorAPI}. <br>
      * @constructor
      * @param {number} chainId The chain id.
