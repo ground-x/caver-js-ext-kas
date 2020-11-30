@@ -21,10 +21,7 @@
 class KASWallet {
     /**
      * Creates a wallet instance that uses the KAS Wallet API. <br>
-     * @example <caption>If you want to use KASWallet as a substitute for an in-memory wallet, you should pass last parameter in constructor. Please refer to the example below.</caption>
-     * const caver = new Caver(chainId, accessKeyId, secretAccessKey, true) // Use KASWallet
-     *
-     * const caver = new Caver(chainId, accessKeyId, secretAccessKey, false) // Use in-memory wallet
+     * This will be used in `caver.wallet` with CaverExtKAS.
      *
      * @constructor
      * @param {Wallet} walletAPI - An instance of KAS Wallet api to use.
@@ -115,7 +112,7 @@ class KASWallet {
         // Fill optional values
         await transaction.fillTransaction()
 
-        // 이미 signatures가 있는 경우 동작 확인 필요 -> 서명을 하지 않는다
+        // This is for appending original signatures to signed transaction
         let signed
         const existingSigs = transaction.signatures
         transaction.signatures = []
@@ -161,7 +158,7 @@ class KASWallet {
         // Fill optional values
         await transaction.fillTransaction()
 
-        // 이미 signatures가 있는 경우 동작 확인 필요 -> 서명을 하지 않는다
+        // This is for appending original feePayerSignatures to signed transaction
         const existingSigs = transaction.feePayerSignatures
         transaction.feePayerSignatures = []
         const requestObject = { rlp: transaction.getRLPEncoding(), feePayer: transaction.feePayer, submit: false }
