@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+const { ACCOUNT_KEY_TAG } = require('../../node_modules/caver-js/packages/caver-account/src/accountKey/accountKeyHelper')
+const { KEY_ROLE } = require('../../node_modules/caver-js/packages/caver-wallet/src/keyring/keyringHelper')
+
 /**
  * The wallet class that uses the KAS Wallet API.
  * @class
@@ -100,10 +103,10 @@ class KASWallet {
         // Check accountKey in Klaytn network
         const accountKey = await transaction.constructor._klaytnCall.getAccountKey(transaction.from)
         const keyType =
-            accountKey.keyType === 5
+            accountKey.keyType === Number(ACCOUNT_KEY_TAG.ACCOUNT_KEY_ROLE_BASED_TAG)
                 ? transaction.type.includes('AccountUpdate')
-                    ? accountKey.key[1].keyType
-                    : accountKey.key[0].keyType
+                    ? accountKey.key[KEY_ROLE.roleAccountUpdateKey].keyType
+                    : accountKey.key[KEY_ROLE.roleTransactionKey].keyType
                 : accountKey.keyType
         if (keyType > 3) {
             throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
@@ -150,7 +153,10 @@ class KASWallet {
 
         // Check accountKey in Klaytn network
         const accountKey = await transaction.constructor._klaytnCall.getAccountKey(transaction.feePayer)
-        const keyType = accountKey.keyType === 5 ? accountKey.key[2].keyType : accountKey.keyType
+        const keyType =
+            accountKey.keyType === Number(ACCOUNT_KEY_TAG.ACCOUNT_KEY_ROLE_BASED_TAG)
+                ? accountKey.key[KEY_ROLE.roleFeePayerKey].keyType
+                : accountKey.keyType
         if (keyType > 3) {
             throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
         }
