@@ -16,6 +16,7 @@
 
 const Caver = require('caver-js')
 const KAS = require('./src/kas/kas')
+const KASWallet = require('./src/wallet/kasWallet')
 
 const productionEndpoints = {
     node: 'https://node-api.klaytnapi.com/v1/klaytn',
@@ -30,14 +31,20 @@ const productionEndpoints = {
  */
 class CaverExtKAS extends Caver {
     /**
-     * Creates an instance of caver extension KAS.
+     * Creates an instance of caver extension KAS. <br>
+     * This constructor sets the configurations used by each KAS API services with parameters. <br>
+     * When initializing the KAS API in the constructor, initialize the authentication key used in the Node API, Wallet API, Token History API, and Anchor API at once with KAS Production URL as default. <br>
+     * If you want to initialize each service or use an endpoint URL other than the production URL set as default,<br>
+     * you need to initialize it for each service using [initNodeAPI]{@link CaverExtKAS#initNodeAPI}, [initTokenHistoryAPI]{@link CaverExtKAS#initTokenHistoryAPI}, [initWalletAPI]{@link CaverExtKAS#initWalletAPI}, and [initAnchorAPI]{@link CaverExtKAS#initAnchorAPI}. <br>
      * @constructor
-     * @param {string} [path] - The endpoint url to connect with. This path will be used with Node API.
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
      */
-    constructor(path) {
-        super(path)
-        this.kas = new KAS()
+    constructor(chainId, accessKeyId, secretAccessKey) {
+        super()
 
+        this.kas = new KAS()
         // Allocate class and functions to use for account migration
         // TODO: naming
         this.kas.wallet.accountsMigration = {
@@ -46,6 +53,27 @@ class CaverExtKAS extends Caver {
             feeDelegatedAccountUpdate: this.transaction.feeDelegatedAccountUpdate,
             createWithAccountKeyPublic: this.account.createWithAccountKeyPublic,
         }
+
+        // `caver.wallet` in CaverExtKAS is a KASWallet that internally connects the KAS Wallet API
+        const kasWallet = new KASWallet(this.kas.wallet)
+        kasWallet.keyring = this.wallet.keyring
+        this.keyringContainer = this.wallet.constructor
+        this.wallet = kasWallet
+
+        if (chainId !== undefined && accessKeyId && secretAccessKey) this.initKASAPI(chainId, accessKeyId, secretAccessKey)
+    }
+
+    /**
+     * @type {KASWallet}
+     * The wallet member variable of CaverExtKAS is a [KASWallet]{@link KASWallet} that operates by using the [KAS Wallet API]{@link Wallet}. <br>
+     * If you want to use the [in-memory wallet]{@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.wallet} provided by caver-js as it is, you can create an instance of [KeyringContainer]{@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.wallet#keyringcontainer} with `const keyringContainer = new caver.keyringContainer()`.
+     */
+    get wallet() {
+        return this._wallet
+    }
+
+    set wallet(wallet) {
+        this._wallet = wallet
     }
 
     /**
@@ -126,6 +154,9 @@ class CaverExtKAS extends Caver {
      * @return {void}
      */
     initWalletAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.wallet) {
+        // chainId, accessKeyId, secretAccessKey
+        // chainId, accessKeyId, secretAccessKey, url
+
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
     }

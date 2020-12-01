@@ -25,6 +25,7 @@ const { senderPrivateKey } = require('../testEnv')
 
 let testAddress
 let receipt
+let keyringContainer
 
 const chainId = 1001
 
@@ -36,7 +37,7 @@ async function sendTestKLAY(sender) {
         gas: 25000,
     })
 
-    await caver.wallet.sign(sender.address, vt)
+    await keyringContainer.sign(sender.address, vt)
 
     receipt = await caver.rpc.klay.sendRawTransaction(vt)
 }
@@ -82,10 +83,11 @@ describe('Node API service', () => {
         this.timeout(200000)
 
         caver = new CaverExtKAS()
+        keyringContainer = new caver.keyringContainer()
         caver.initNodeAPI(chainId, accessKeyId, secretAccessKey, url)
 
         if (senderPrivateKey !== '0x') {
-            sender = caver.wallet.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
+            sender = keyringContainer.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
             testAddress = sender.address
         }
 
