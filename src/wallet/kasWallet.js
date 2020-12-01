@@ -133,16 +133,10 @@ class KASWallet {
             throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
         }
 
-        // Fill optional values
-        await transaction.fillTransaction()
-
         // This is for appending original signatures to signed transaction
         let signed
-        const existingSigs = transaction.signatures
-        transaction.signatures = []
 
-        const requestObject = { rlp: transaction.getRLPEncoding(), submit: false }
-
+        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(transaction, false)
         if (!transaction.type.includes('TxTypeFeeDelegated')) {
             signed = await this.walletAPI.requestRawTransaction(requestObject)
         } else {
@@ -170,11 +164,6 @@ class KASWallet {
         transaction.feePayer = transaction.feePayer && transaction.feePayer !== '0x' ? transaction.feePayer : address
         if (transaction.feePayer.toLowerCase() !== address.toLowerCase()) throw new Error(`feePayer addresses are not matched.`)
 
-        // Check transaction type
-        if (!transaction.type.includes('TxTypeFeeDelegated')) {
-            throw new Error(`Invalid transaction type: Only feeDelegated transactions can use 'caver.wallet.signAsFeePayer'.`)
-        }
-
         // Check accountKey in Klaytn network
         const accountKey = await transaction.constructor._klaytnCall.getAccountKey(transaction.feePayer)
         const keyType =
@@ -185,13 +174,7 @@ class KASWallet {
             throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
         }
 
-        // Fill optional values
-        await transaction.fillTransaction()
-
-        // This is for appending original feePayerSignatures to signed transaction
-        const existingSigs = transaction.feePayerSignatures
-        transaction.feePayerSignatures = []
-        const requestObject = { rlp: transaction.getRLPEncoding(), feePayer: transaction.feePayer, submit: false }
+        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(transaction, true)
         const ret = await this.walletAPI.requestFDRawTransactionPaidByUser(requestObject)
 
         // Call static decode method to get feePayerSignatures from RLP-encoded string.
@@ -217,18 +200,8 @@ class KASWallet {
             throw new Error(`To sign the transaction using the global fee payer, feePayer cannot be defined in the transaction.`)
         }
 
-        // Check transaction type
-        if (!transaction.type.includes('TxTypeFeeDelegated')) {
-            throw new Error(`Invalid transaction type: Only feeDelegated transactions can use 'caver.wallet.signAsGlobalFeePayer'.`)
-        }
+        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(transaction, true)
 
-        // Fill optional values
-        await transaction.fillTransaction()
-
-        // This is for appending original feePayerSignatures to signed transaction
-        const existingSigs = transaction.feePayerSignatures
-        transaction.feePayerSignatures = []
-        const requestObject = { rlp: transaction.getRLPEncoding(), submit: false }
         const ret = await this.walletAPI.requestFDRawTransactionPaidByGlobalFeePayer(requestObject)
 
         // Call static decode method to get feePayerSignatures from RLP-encoded string.
@@ -239,6 +212,30 @@ class KASWallet {
 
         return transaction
     }
+}
+
+async function makeObjectForRawTxRequest(tx, isFeeDelegated) {
+    // Check transaction type
+    if (isFeeDelegated && !tx.type.includes('TxTypeFeeDelegated')) {
+        throw new Error(`Invalid transaction type: Only feeDelegated transactions can use 'caver.wallet.signAsGlobalFeePayer'.`)
+    }
+
+    let existingSigs = isFeeDelegated ? tx.feePayerSignatures : tx.signatures
+    if (isFeeDelegated) {
+        existingSigs = tx.feePayerSignatures
+        tx.feePayerSignatures = []
+    } else {
+        existingSigs = tx.signatures
+        tx.signatures = []
+    }
+
+    // Fill optional values
+    await tx.fillTransaction()
+
+    const requestObject = { rlp: tx.getRLPEncoding(), submit: false }
+    if (isFeeDelegated && tx.feePayer && tx.feePayer !== '0x') requestObject.feePayer = tx.feePayer
+
+    return { requestObject, existingSigs }
 }
 
 module.exports = KASWallet
