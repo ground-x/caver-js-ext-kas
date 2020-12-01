@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+const lodash = require('lodash')
 const chai = require('chai')
 const sinon = require('sinon')
 const sinonChai = require('sinon-chai')
@@ -176,6 +177,42 @@ describe('caver.wallet with KASWallet', () => {
 
             expect(deleteAccountStub.called).to.be.true
             expect(removed).to.be.true
+        }).timeout(50000)
+    })
+
+    context('caver.wallet.disableAccount', () => {
+        it('CAVERJS-EXT-KAS-WALLET-192: caver.wallet.disableAccount return accounts from KAS Wallet API Service', async () => {
+            const resultOfDisableAccount = {
+                address: '0x03ef0d8F4F019b42CfA5321Da10F0704B7aa9847',
+                krn: 'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:account-pool:default',
+                updatedAt: 1600324841,
+            }
+
+            const disableAccountStub = sandbox.stub(caver.wallet.walletAPI, 'disableAccount')
+            disableAccountStub.resolves(resultOfDisableAccount)
+
+            const disabled = await caver.wallet.disableAccount()
+
+            expect(disableAccountStub.called).to.be.true
+            expect(disabled.address).not.to.be.undefined
+        }).timeout(50000)
+    })
+
+    context('caver.wallet.enableAccount', () => {
+        it('CAVERJS-EXT-KAS-WALLET-193: caver.wallet.enableAccount return accounts from KAS Wallet API Service', async () => {
+            const resultOfDisableAccount = {
+                address: '0x03ef0d8F4F019b42CfA5321Da10F0704B7aa9847',
+                krn: 'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:account-pool:default',
+                updatedAt: 1600324841,
+            }
+
+            const enableAccountStub = sandbox.stub(caver.wallet.walletAPI, 'enableAccount')
+            enableAccountStub.resolves(resultOfDisableAccount)
+
+            const enabled = await caver.wallet.enableAccount()
+
+            expect(enableAccountStub.called).to.be.true
+            expect(enabled.address).not.to.be.undefined
         }).timeout(50000)
     })
 
@@ -463,7 +500,7 @@ describe('caver.wallet with KASWallet', () => {
             })
         })
 
-        it('CAVERJS-EXT-KAS-WALLET-187: caver.wallet.sign adds feePayerSignatures to transaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-187: caver.wallet.signAsFeePayer adds feePayerSignatures to transaction', async () => {
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 1, key: {} })
 
@@ -483,7 +520,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.feePayerSignatures.length).to.equal(1)
         }).timeout(50000)
 
-        it('CAVERJS-EXT-KAS-WALLET-188: caver.wallet.sign appends feePayerSignatures to transaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-188: caver.wallet.signAsFeePayer appends feePayerSignatures to transaction', async () => {
             tx.feePayerSignatures = [
                 {
                     R: '0x237491673d0014cca219705291f3ee7350295ef549069e639b5e9d0d8014ffd5',
@@ -511,7 +548,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.feePayerSignatures.length).to.equal(2)
         }).timeout(50000)
 
-        it('CAVERJS-EXT-KAS-WALLET-189: caver.wallet.sign remove duplicated feePayerSignatures to transaction', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-189: caver.wallet.signAsFeePayer remove duplicated feePayerSignatures to transaction', async () => {
             tx.feePayerSignatures = caver.transaction.decode(resultOfSigning.rlp).feePayerSignatures
 
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
@@ -533,7 +570,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.feePayerSignatures.length).to.equal(1)
         }).timeout(50000)
 
-        it('CAVERJS-EXT-KAS-WALLET-190: caver.wallet.sign throw error when account key is accountKeyWeightedMutliSig', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-190: caver.wallet.signAsFeePayer throw error when account key is accountKeyWeightedMutliSig', async () => {
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 4, key: {} })
 
@@ -541,7 +578,7 @@ describe('caver.wallet with KASWallet', () => {
             await expect(caver.wallet.signAsFeePayer(feePayerAddress, tx)).to.be.rejectedWith(expectedError)
         }).timeout(50000)
 
-        it('CAVERJS-EXT-KAS-WALLET-191: caver.wallet.sign signs with signle roleFeePayerKey when account key is AccountKeyRoleBased', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-191: caver.wallet.signAsFeePayer signs with signle roleFeePayerKey when account key is AccountKeyRoleBased', async () => {
             const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
             getAccountKeyStub.resolves({ keyType: 5, key: [{ keyType: 4 }, { keyType: 4 }, { keyType: 2 }] })
 
@@ -559,6 +596,136 @@ describe('caver.wallet with KASWallet', () => {
             expect(fdRawRequestStub.callCount).to.equal(1)
             expect(appendFeePayerSignaturesSpy.callCount).to.equal(1)
             expect(signed.feePayerSignatures.length).to.equal(1)
+        }).timeout(50000)
+
+        it('CAVERJS-EXT-KAS-WALLET-194: caver.wallet.signAsFeePayer calls signAsGlobalFeePayer when address is not defined', async () => {
+            const signAsGlobalFeePayerSpy = sandbox.stub(caver.wallet, 'signAsGlobalFeePayer')
+
+            await caver.wallet.signAsFeePayer(undefined, tx)
+            await caver.wallet.signAsFeePayer(null, tx)
+            await caver.wallet.signAsFeePayer('0x', tx)
+
+            expect(signAsGlobalFeePayerSpy.callCount).to.equal(3)
+        }).timeout(50000)
+    })
+
+    context('caver.wallet.signAsGlobalFeePayer', () => {
+        const resultOfSigning = {
+            rlp:
+                '0x09f8dc808505d21dba0082c3509476c6b1f34562ed7a843786e1d7f57d0d7948a6f10194ac3bd4b108f56ffcec6339fda14f649be01819c8f847f8458207f5a07b253fdb79561ba2d24ee39a0ba0a6edf0a2df60ebeae6713015288a0c0cfb20a0150c054bb93919b4fb3bed927b5dfb7162a54c29a6da52c9ad60ce6e2b62ef25941b71a63903e35371e2fc41c6012effb99b9a2c0ff847f8458207f6a03be553ff9d261860fbb0c4b2c2d6ad7dd8093a35ff4ee7ba7cccd9f88841e289a0559530699189bccbf9684af9e66e7609aa6a09253f98f1bfe626856f089a9414',
+            feePayer: '0x1b71a63903e35371e2fc41c6012effb99b9a2c0f',
+            from: '0xac3bd4b108f56ffcec6339fda14f649be01819c8',
+            gas: 50000,
+            gasPrice: '0x5d21dba00',
+            nonce: 0,
+            status: 'Submitted',
+            to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
+            typeInt: 9,
+            value: '0x1',
+            signatures: [
+                {
+                    R: '0x7b253fdb79561ba2d24ee39a0ba0a6edf0a2df60ebeae6713015288a0c0cfb20',
+                    S: '0x150c054bb93919b4fb3bed927b5dfb7162a54c29a6da52c9ad60ce6e2b62ef25',
+                    V: '0x7f5',
+                },
+            ],
+            transactionHash: '0xf09b03035d5af3f25ce1d3fc3bf94fe18a6dcf8fc06e776af1d8e6f17d78e445',
+        }
+
+        const feePayerAddress = '0x1b71a63903e35371e2fc41c6012effb99b9a2c0f'
+
+        let tx
+
+        beforeEach(() => {
+            tx = new caver.transaction.feeDelegatedValueTransfer({
+                from: '0xac3bd4b108f56ffcec6339fda14f649be01819c8',
+                to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
+                value: 1,
+                gas: '0xc350',
+                nonce: '0x3',
+                gasPrice: '0x5d21dba00',
+                chainId: 1001,
+                signatures: [
+                    {
+                        v: '0x07f5',
+                        r: '0x7b253fdb79561ba2d24ee39a0ba0a6edf0a2df60ebeae6713015288a0c0cfb20',
+                        s: '0x150c054bb93919b4fb3bed927b5dfb7162a54c29a6da52c9ad60ce6e2b62ef25',
+                    },
+                ],
+            })
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-195: caver.wallet.signAsGlobalFeePayer adds feePayerSignatures to transaction', async () => {
+            const fillTransactionSpy = sandbox.spy(tx, 'fillTransaction')
+            const getRLPEncodingSpy = sandbox.spy(tx, 'getRLPEncoding')
+            const fdRawRequestStub = sandbox.stub(caver.wallet.walletAPI, 'requestFDRawTransactionPaidByGlobalFeePayer')
+            fdRawRequestStub.resolves(resultOfSigning)
+            const appendFeePayerSignaturesSpy = sandbox.spy(tx, 'appendFeePayerSignatures')
+
+            const signed = await caver.wallet.signAsGlobalFeePayer(tx)
+
+            expect(fillTransactionSpy.callCount).to.equal(1)
+            expect(getRLPEncodingSpy.callCount).to.equal(1)
+            expect(fdRawRequestStub.callCount).to.equal(1)
+            expect(signed.feePayer.toLowerCase()).to.equal(feePayerAddress.toLowerCase())
+            expect(appendFeePayerSignaturesSpy.callCount).to.equal(1)
+            expect(signed.feePayerSignatures.length).to.equal(1)
+        }).timeout(50000)
+
+        it('CAVERJS-EXT-KAS-WALLET-196: caver.wallet.signAsGlobalFeePayer appends feePayerSignatures to transaction', async () => {
+            tx.feePayerSignatures = [
+                {
+                    R: '0x3be553ff9d261860fbb0c4b2c2d6ad7dd8093a35ff4ee7ba7cccd9f88841e289',
+                    S: '0x559530699189bccbf9684af9e66e7609aa6a09253f98f1bfe626856f089a9414',
+                    V: '0x07f5',
+                },
+            ]
+
+            const fillTransactionSpy = sandbox.spy(tx, 'fillTransaction')
+            const getRLPEncodingSpy = sandbox.spy(tx, 'getRLPEncoding')
+            const fdRawRequestStub = sandbox.stub(caver.wallet.walletAPI, 'requestFDRawTransactionPaidByGlobalFeePayer')
+            fdRawRequestStub.resolves(resultOfSigning)
+            const appendFeePayerSignaturesSpy = sandbox.spy(tx, 'appendFeePayerSignatures')
+
+            const signed = await caver.wallet.signAsGlobalFeePayer(tx)
+
+            expect(fillTransactionSpy.callCount).to.equal(1)
+            expect(getRLPEncodingSpy.callCount).to.equal(1)
+            expect(fdRawRequestStub.callCount).to.equal(1)
+            expect(signed.feePayer.toLowerCase()).to.equal(feePayerAddress.toLowerCase())
+            expect(appendFeePayerSignaturesSpy.callCount).to.equal(1)
+            expect(signed.feePayerSignatures.length).to.equal(2)
+        }).timeout(50000)
+
+        it('CAVERJS-EXT-KAS-WALLET-197: caver.wallet.signAsGlobalFeePayer remove duplicated feePayerSignatures to transaction', async () => {
+            tx.feePayerSignatures = caver.transaction.decode(resultOfSigning.rlp).feePayerSignatures
+
+            const fillTransactionSpy = sandbox.spy(tx, 'fillTransaction')
+            const getRLPEncodingSpy = sandbox.spy(tx, 'getRLPEncoding')
+            const fdRawRequestStub = sandbox.stub(caver.wallet.walletAPI, 'requestFDRawTransactionPaidByGlobalFeePayer')
+            fdRawRequestStub.resolves(resultOfSigning)
+            const appendFeePayerSignaturesSpy = sandbox.spy(tx, 'appendFeePayerSignatures')
+
+            const signed = await caver.wallet.signAsGlobalFeePayer(tx)
+
+            expect(fillTransactionSpy.callCount).to.equal(1)
+            expect(getRLPEncodingSpy.callCount).to.equal(1)
+            expect(fdRawRequestStub.callCount).to.equal(1)
+            expect(signed.feePayer.toLowerCase()).to.equal(feePayerAddress.toLowerCase())
+            expect(appendFeePayerSignaturesSpy.callCount).to.equal(1)
+            expect(signed.feePayerSignatures.length).to.equal(1)
+        }).timeout(50000)
+
+        it('CAVERJS-EXT-KAS-WALLET-198: caver.wallet.signAsGlobalFeePayer throw error when fee payer is defined in transaction', async () => {
+            tx.feePayer = feePayerAddress
+
+            const expectedError = `To sign the transaction using the global fee payer, feePayer cannot be defined in the transaction.`
+            await expect(caver.wallet.signAsGlobalFeePayer(tx)).to.be.rejectedWith(expectedError)
+        }).timeout(50000)
+
+        it('CAVERJS-EXT-KAS-WALLET-199: caver.wallet.signAsGlobalFeePayer throw error when parameter is invalid', async () => {
+            const expectedError = `Invalid parameter type: signAsGlobalFeePayer(tx) takes transaction as a only parameter.`
+            await expect(caver.wallet.signAsGlobalFeePayer(feePayerAddress, tx)).to.be.rejectedWith(expectedError)
         }).timeout(50000)
     })
 })
