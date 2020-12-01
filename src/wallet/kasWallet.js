@@ -234,6 +234,7 @@ async function makeObjectForRawTxRequest(tx, isFeeDelegated) {
 
     const requestObject = { rlp: tx.getRLPEncoding(), submit: false }
     if (isFeeDelegated && tx.feePayer && tx.feePayer !== '0x') requestObject.feePayer = tx.feePayer
+    if (isFeeDelegated && tx.feeRatio) requestObject.feeRatio = Number(tx.feeRatio)
 
     return { requestObject, existingSigs }
 }

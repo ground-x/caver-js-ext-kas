@@ -606,6 +606,52 @@ describe('caver.wallet with KASWallet', () => {
 
             expect(signAsGlobalFeePayerSpy.callCount).to.equal(3)
         }).timeout(50000)
+
+        it('CAVERJS-EXT-KAS-WALLET-201: caver.wallet.signAsFeePayer set feeRatio to requestObject', async () => {
+            tx = new caver.transaction.feeDelegatedValueTransferWithRatio({
+                from: '0xac3bd4b108f56ffcec6339fda14f649be01819c8',
+                to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
+                value: 1,
+                gas: '0xc350',
+                nonce: '0x3',
+                gasPrice: '0x5d21dba00',
+                chainId: 1001,
+                signatures: [
+                    {
+                        v: '0x07f5',
+                        r: '0x7b253fdb79561ba2d24ee39a0ba0a6edf0a2df60ebeae6713015288a0c0cfb20',
+                        s: '0x150c054bb93919b4fb3bed927b5dfb7162a54c29a6da52c9ad60ce6e2b62ef25',
+                    },
+                ],
+                feeRatio: 50,
+            })
+
+            const getAccountKeyStub = sandbox.stub(tx.constructor._klaytnCall, 'getAccountKey')
+            getAccountKeyStub.resolves({ keyType: 1, key: {} })
+
+            const fillTransactionSpy = sandbox.spy(tx, 'fillTransaction')
+            const getRLPEncodingSpy = sandbox.spy(tx, 'getRLPEncoding')
+            const fdRawRequestStub = sandbox.stub(caver.wallet.walletAPI, 'requestFDRawTransactionPaidByUser')
+            fdRawRequestStub.callsFake(param => {
+                expect(param.feeRatio).to.equal(Number(tx.feeRatio))
+                expect(param.feePayer).to.equal(tx.feePayer)
+                return Object.assign(resultOfSigning, {
+                    rlp:
+                        '0x0af8dd038505d21dba0082c3509476c6b1f34562ed7a843786e1d7f57d0d7948a6f10194ac3bd4b108f56ffcec6339fda14f649be01819c832f847f8458207f5a07b253fdb79561ba2d24ee39a0ba0a6edf0a2df60ebeae6713015288a0c0cfb20a0150c054bb93919b4fb3bed927b5dfb7162a54c29a6da52c9ad60ce6e2b62ef25941b71a63903e35371e2fc41c6012effb99b9a2c0ff847f8458207f6a03be553ff9d261860fbb0c4b2c2d6ad7dd8093a35ff4ee7ba7cccd9f88841e289a0559530699189bccbf9684af9e66e7609aa6a09253f98f1bfe626856f089a9414',
+                })
+            })
+            const appendFeePayerSignaturesSpy = sandbox.spy(tx, 'appendFeePayerSignatures')
+
+            const signed = await caver.wallet.signAsFeePayer(feePayerAddress, tx)
+
+            expect(getAccountKeyStub.callCount).to.equal(1)
+            expect(fillTransactionSpy.callCount).to.equal(1)
+            expect(getRLPEncodingSpy.callCount).to.equal(1)
+            expect(fdRawRequestStub.callCount).to.equal(1)
+            expect(signed.feePayer.toLowerCase()).to.equal(feePayerAddress.toLowerCase())
+            expect(appendFeePayerSignaturesSpy.callCount).to.equal(1)
+            expect(signed.feePayerSignatures.length).to.equal(1)
+        }).timeout(50000)
     })
 
     context('caver.wallet.signAsGlobalFeePayer', () => {
@@ -725,6 +771,47 @@ describe('caver.wallet with KASWallet', () => {
         it('CAVERJS-EXT-KAS-WALLET-199: caver.wallet.signAsGlobalFeePayer throw error when parameter is invalid', async () => {
             const expectedError = `Invalid parameter type: signAsGlobalFeePayer(tx) takes transaction as a only parameter.`
             await expect(caver.wallet.signAsGlobalFeePayer(feePayerAddress, tx)).to.be.rejectedWith(expectedError)
+        }).timeout(50000)
+
+        it('CAVERJS-EXT-KAS-WALLET-200: caver.wallet.signAsGlobalFeePayer set feeRatio to requestObject', async () => {
+            tx = new caver.transaction.feeDelegatedValueTransferWithRatio({
+                from: '0xac3bd4b108f56ffcec6339fda14f649be01819c8',
+                to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
+                value: 1,
+                gas: '0xc350',
+                nonce: '0x3',
+                gasPrice: '0x5d21dba00',
+                chainId: 1001,
+                signatures: [
+                    {
+                        v: '0x07f5',
+                        r: '0x7b253fdb79561ba2d24ee39a0ba0a6edf0a2df60ebeae6713015288a0c0cfb20',
+                        s: '0x150c054bb93919b4fb3bed927b5dfb7162a54c29a6da52c9ad60ce6e2b62ef25',
+                    },
+                ],
+                feeRatio: 50,
+            })
+
+            const fillTransactionSpy = sandbox.spy(tx, 'fillTransaction')
+            const getRLPEncodingSpy = sandbox.spy(tx, 'getRLPEncoding')
+            const fdRawRequestStub = sandbox.stub(caver.wallet.walletAPI, 'requestFDRawTransactionPaidByGlobalFeePayer')
+            fdRawRequestStub.callsFake(param => {
+                expect(param.feeRatio).to.equal(Number(tx.feeRatio))
+                return Object.assign(resultOfSigning, {
+                    rlp:
+                        '0x0af8dd038505d21dba0082c3509476c6b1f34562ed7a843786e1d7f57d0d7948a6f10194ac3bd4b108f56ffcec6339fda14f649be01819c832f847f8458207f5a07b253fdb79561ba2d24ee39a0ba0a6edf0a2df60ebeae6713015288a0c0cfb20a0150c054bb93919b4fb3bed927b5dfb7162a54c29a6da52c9ad60ce6e2b62ef25941b71a63903e35371e2fc41c6012effb99b9a2c0ff847f8458207f6a03be553ff9d261860fbb0c4b2c2d6ad7dd8093a35ff4ee7ba7cccd9f88841e289a0559530699189bccbf9684af9e66e7609aa6a09253f98f1bfe626856f089a9414',
+                })
+            })
+            const appendFeePayerSignaturesSpy = sandbox.spy(tx, 'appendFeePayerSignatures')
+
+            const signed = await caver.wallet.signAsGlobalFeePayer(tx)
+
+            expect(fillTransactionSpy.callCount).to.equal(1)
+            expect(getRLPEncodingSpy.callCount).to.equal(1)
+            expect(fdRawRequestStub.callCount).to.equal(1)
+            expect(signed.feePayer.toLowerCase()).to.equal(feePayerAddress.toLowerCase())
+            expect(appendFeePayerSignaturesSpy.callCount).to.equal(1)
+            expect(signed.feePayerSignatures.length).to.equal(1)
         }).timeout(50000)
     })
 })
