@@ -17,6 +17,7 @@
 const lodash = require('lodash')
 const { ACCOUNT_KEY_TAG } = require('../../node_modules/caver-js/packages/caver-account/src/accountKey/accountKeyHelper')
 const { KEY_ROLE } = require('../../node_modules/caver-js/packages/caver-wallet/src/keyring/keyringHelper')
+const utils = require('../../node_modules/caver-js/packages/caver-utils')
 
 /**
  * The wallet class that uses the KAS Wallet API.
@@ -234,7 +235,7 @@ async function makeObjectForRawTxRequest(tx, isFeeDelegated) {
 
     const requestObject = { rlp: tx.getRLPEncoding(), submit: false }
     if (isFeeDelegated && tx.feePayer && tx.feePayer !== '0x') requestObject.feePayer = tx.feePayer
-    if (isFeeDelegated && tx.feeRatio) requestObject.feeRatio = Number(tx.feeRatio)
+    if (isFeeDelegated && tx.feeRatio) requestObject.feeRatio = utils.hexToNumber(tx.feeRatio)
 
     return { requestObject, existingSigs }
 }

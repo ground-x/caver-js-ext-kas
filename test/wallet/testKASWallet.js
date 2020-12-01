@@ -633,7 +633,7 @@ describe('caver.wallet with KASWallet', () => {
             const getRLPEncodingSpy = sandbox.spy(tx, 'getRLPEncoding')
             const fdRawRequestStub = sandbox.stub(caver.wallet.walletAPI, 'requestFDRawTransactionPaidByUser')
             fdRawRequestStub.callsFake(param => {
-                expect(param.feeRatio).to.equal(Number(tx.feeRatio))
+                expect(param.feeRatio).to.equal(caver.utils.hexToNumber(tx.feeRatio))
                 expect(param.feePayer).to.equal(tx.feePayer)
                 return Object.assign(resultOfSigning, {
                     rlp:
@@ -796,7 +796,7 @@ describe('caver.wallet with KASWallet', () => {
             const getRLPEncodingSpy = sandbox.spy(tx, 'getRLPEncoding')
             const fdRawRequestStub = sandbox.stub(caver.wallet.walletAPI, 'requestFDRawTransactionPaidByGlobalFeePayer')
             fdRawRequestStub.callsFake(param => {
-                expect(param.feeRatio).to.equal(Number(tx.feeRatio))
+                expect(param.feeRatio).to.equal(caver.utils.hexToNumber(tx.feeRatio))
                 return Object.assign(resultOfSigning, {
                     rlp:
                         '0x0af8dd038505d21dba0082c3509476c6b1f34562ed7a843786e1d7f57d0d7948a6f10194ac3bd4b108f56ffcec6339fda14f649be01819c832f847f8458207f5a07b253fdb79561ba2d24ee39a0ba0a6edf0a2df60ebeae6713015288a0c0cfb20a0150c054bb93919b4fb3bed927b5dfb7162a54c29a6da52c9ad60ce6e2b62ef25941b71a63903e35371e2fc41c6012effb99b9a2c0ff847f8458207f6a03be553ff9d261860fbb0c4b2c2d6ad7dd8093a35ff4ee7ba7cccd9f88841e289a0559530699189bccbf9684af9e66e7609aa6a09253f98f1bfe626856f089a9414',
