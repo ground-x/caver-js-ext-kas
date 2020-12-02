@@ -189,7 +189,7 @@ class KASWallet {
     /**
      * Signs the transaction with the global fee payer using one key and return the signed transactionHash
      *
-     * @param {AbstractFeeDelegatedTransaction} transaction A fee delegated transaction object of caver-js. See [Klaytn Docs - Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/fee-delegation) and https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/partial-fee-delegation for details.
+     * @param {AbstractFeeDelegatedTransaction} transaction A fee delegated transaction object of caver-js. See [Klaytn Docs - Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/fee-delegation) and [Klaytn Docs - Partial Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/partial-fee-delegation) for details.
      * @return {AbstractFeeDelegatedTransaction}
      * @see {@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction#class|Transaction}
      */
