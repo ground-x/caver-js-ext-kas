@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
+const lodash = require('lodash')
 const { ACCOUNT_KEY_TAG } = require('../../node_modules/caver-js/packages/caver-account/src/accountKey/accountKeyHelper')
 const { KEY_ROLE } = require('../../node_modules/caver-js/packages/caver-wallet/src/keyring/keyringHelper')
+const utils = require('../../node_modules/caver-js/packages/caver-utils')
 
 /**
  * The wallet class that uses the KAS Wallet API.
@@ -88,6 +90,26 @@ class KASWallet {
     }
 
     /**
+     * Deactivates account in KAS Wallet API Service
+     *
+     * @param {string} address The address of Klaytn account to disable from KAS Wallet API service.
+     * @return {AccountSummary}
+     */
+    async disableAccount(address) {
+        return this.walletAPI.disableAccount(address)
+    }
+
+    /**
+     * Activates account in KAS Wallet API Service
+     *
+     * @param {string} address The address of Klaytn account to enable from KAS Wallet API service.
+     * @return {AccountSummary}
+     */
+    async enableAccount(address) {
+        return this.walletAPI.enableAccount(address)
+    }
+
+    /**
      * Signs the transaction using one key and return the signed transaction
      *
      * @param {string} address An address of account in KAS Wallet API Service.
@@ -112,16 +134,10 @@ class KASWallet {
             throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
         }
 
-        // Fill optional values
-        await transaction.fillTransaction()
-
         // This is for appending original signatures to signed transaction
         let signed
-        const existingSigs = transaction.signatures
-        transaction.signatures = []
 
-        const requestObject = { rlp: transaction.getRLPEncoding(), submit: false }
-
+        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(transaction, false)
         if (!transaction.type.includes('TxTypeFeeDelegated')) {
             signed = await this.walletAPI.requestRawTransaction(requestObject)
         } else {
@@ -142,14 +158,12 @@ class KASWallet {
      * @see {@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction#class|Transaction}
      */
     async signAsFeePayer(address, transaction) {
+        // If address is undefined, sign the transaction with a global fee payer in KAS Wallet API Serivce
+        if (!address || address === '0x') return this.signAsGlobalFeePayer(transaction)
+
         // Check feePayer address
         transaction.feePayer = transaction.feePayer && transaction.feePayer !== '0x' ? transaction.feePayer : address
         if (transaction.feePayer.toLowerCase() !== address.toLowerCase()) throw new Error(`feePayer addresses are not matched.`)
-
-        // Check transaction type
-        if (!transaction.type.includes('TxTypeFeeDelegated')) {
-            throw new Error(`Invalid transaction type: Only feeDelegated transactions can use 'caver.wallet.signAsFeePayer'.`)
-        }
 
         // Check accountKey in Klaytn network
         const accountKey = await transaction.constructor._klaytnCall.getAccountKey(transaction.feePayer)
@@ -161,13 +175,7 @@ class KASWallet {
             throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
         }
 
-        // Fill optional values
-        await transaction.fillTransaction()
-
-        // This is for appending original feePayerSignatures to signed transaction
-        const existingSigs = transaction.feePayerSignatures
-        transaction.feePayerSignatures = []
-        const requestObject = { rlp: transaction.getRLPEncoding(), feePayer: transaction.feePayer, submit: false }
+        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(transaction, true)
         const ret = await this.walletAPI.requestFDRawTransactionPaidByUser(requestObject)
 
         // Call static decode method to get feePayerSignatures from RLP-encoded string.
@@ -177,6 +185,59 @@ class KASWallet {
 
         return transaction
     }
+
+    /**
+     * Signs the transaction with the global fee payer using one key and return the signed transactionHash
+     *
+     * @param {AbstractFeeDelegatedTransaction} transaction A fee delegated transaction object of caver-js. See [Klaytn Docs - Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/fee-delegation) and [Klaytn Docs - Partial Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/partial-fee-delegation) for details.
+     * @return {AbstractFeeDelegatedTransaction}
+     * @see {@link https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction#class|Transaction}
+     */
+    async signAsGlobalFeePayer(transaction) {
+        if (!lodash.isObject(transaction)) {
+            throw new Error(`Invalid parameter type: signAsGlobalFeePayer(tx) takes transaction as a only parameter.`)
+        }
+        if (transaction.feePayer && transaction.feePayer !== '0x') {
+            throw new Error(`To sign the transaction using the global fee payer, feePayer cannot be defined in the transaction.`)
+        }
+
+        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(transaction, true)
+
+        const ret = await this.walletAPI.requestFDRawTransactionPaidByGlobalFeePayer(requestObject)
+
+        // Call static decode method to get feePayerSignatures from RLP-encoded string.
+        const { feePayer, feePayerSignatures } = transaction.constructor.decode(ret.rlp)
+        transaction.feePayer = feePayer
+        transaction.feePayerSignatures = feePayerSignatures
+        transaction.appendFeePayerSignatures(existingSigs)
+
+        return transaction
+    }
+}
+
+async function makeObjectForRawTxRequest(tx, isFeeDelegated) {
+    // Check transaction type
+    if (isFeeDelegated && !tx.type.includes('TxTypeFeeDelegated')) {
+        throw new Error(`Invalid transaction type: Only feeDelegated transactions can use 'caver.wallet.signAsGlobalFeePayer'.`)
+    }
+
+    let existingSigs = isFeeDelegated ? tx.feePayerSignatures : tx.signatures
+    if (isFeeDelegated) {
+        existingSigs = tx.feePayerSignatures
+        tx.feePayerSignatures = []
+    } else {
+        existingSigs = tx.signatures
+        tx.signatures = []
+    }
+
+    // Fill optional values
+    await tx.fillTransaction()
+
+    const requestObject = { rlp: tx.getRLPEncoding(), submit: false }
+    if (isFeeDelegated && tx.feePayer && tx.feePayer !== '0x') requestObject.feePayer = tx.feePayer
+    if (isFeeDelegated && tx.feeRatio) requestObject.feeRatio = utils.hexToNumber(tx.feeRatio)
+
+    return { requestObject, existingSigs }
 }
 
 module.exports = KASWallet
