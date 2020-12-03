@@ -282,7 +282,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(getRLPEncodingSpy.callCount).to.equal(1)
             expect(basicRawRequestStub.callCount).to.equal(1)
             expect(fdRawRequestSpy.called).not.to.be.true
-            expect(appendSignaturesSpy.callCount).to.equal(1)
+            expect(appendSignaturesSpy.called).not.to.be.true
             expect(signed.signatures.length).to.equal(1)
         }).timeout(50000)
 
@@ -334,7 +334,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(getRLPEncodingSpy.callCount).to.equal(1)
             expect(fdRawRequestStub.callCount).to.equal(1)
             expect(basicRawRequestSpy.called).not.to.be.true
-            expect(appendSignaturesSpy.callCount).to.equal(1)
+            expect(appendSignaturesSpy.called).not.to.be.true
             expect(signed.signatures.length).to.equal(1)
         }).timeout(50000)
 
@@ -418,7 +418,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(getRLPEncodingSpy.callCount).to.equal(1)
             expect(basicRawRequestStub.callCount).to.equal(1)
             expect(fdRawRequestSpy.called).not.to.be.true
-            expect(appendSignaturesSpy.callCount).to.equal(1)
+            expect(appendSignaturesSpy.called).not.to.be.true
             expect(signed.signatures.length).to.equal(1)
         }).timeout(50000)
 
@@ -448,7 +448,7 @@ describe('caver.wallet with KASWallet', () => {
             expect(getRLPEncodingSpy.callCount).to.equal(1)
             expect(basicRawRequestStub.callCount).to.equal(1)
             expect(fdRawRequestSpy.called).not.to.be.true
-            expect(appendSignaturesSpy.callCount).to.equal(1)
+            expect(appendSignaturesSpy.called).not.to.be.true
             expect(signed.signatures.length).to.equal(1)
         }).timeout(50000)
     })
@@ -761,11 +761,20 @@ describe('caver.wallet with KASWallet', () => {
             expect(signed.feePayerSignatures.length).to.equal(1)
         }).timeout(50000)
 
-        it('CAVERJS-EXT-KAS-WALLET-198: caver.wallet.signAsGlobalFeePayer throw error when fee payer is defined in transaction', async () => {
-            tx.feePayer = feePayerAddress
+        it('CAVERJS-EXT-KAS-WALLET-198: caver.wallet.signAsGlobalFeePayer throw error when fee payer address is different', async () => {
+            // Define different fee payer address in transaction
+            tx.feePayer = caver.wallet.keyring.generate().address
 
-            const expectedError = `To sign the transaction using the global fee payer, feePayer cannot be defined in the transaction.`
+            const fillTransactionSpy = sandbox.spy(tx, 'fillTransaction')
+            const getRLPEncodingSpy = sandbox.spy(tx, 'getRLPEncoding')
+            const fdRawRequestStub = sandbox.stub(caver.wallet.walletAPI, 'requestFDRawTransactionPaidByGlobalFeePayer')
+            fdRawRequestStub.resolves(resultOfSigning)
+
+            const expectedError = `Invalid fee payer: The address of the fee payer defined in the transaction does not match the address of the global fee payer. To sign with a global fee payer, you must define the global fee payer's address in the feePayer field, or the feePayer field must not be defined.`
             await expect(caver.wallet.signAsGlobalFeePayer(tx)).to.be.rejectedWith(expectedError)
+            expect(fillTransactionSpy.callCount).to.equal(1)
+            expect(getRLPEncodingSpy.callCount).to.equal(1)
+            expect(fdRawRequestStub.callCount).to.equal(1)
         }).timeout(50000)
 
         it('CAVERJS-EXT-KAS-WALLET-199: caver.wallet.signAsGlobalFeePayer throw error when parameter is invalid', async () => {

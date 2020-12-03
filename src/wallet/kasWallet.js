@@ -41,7 +41,7 @@ class KASWallet {
      * @param {number} numberOfAccounts The number of accounts to create.
      * @return {Array.<string>}
      */
-    async generate(numberOfAccounts) {
+    async generate(numberOfAccounts = 1) {
         const addresses = []
         for (let i = 0; i < numberOfAccounts; ++i) {
             const account = await this.walletAPI.createAccount()
@@ -124,27 +124,35 @@ class KASWallet {
 
         // Check accountKey in Klaytn network
         const accountKey = await transaction.constructor._klaytnCall.getAccountKey(transaction.from)
-        const keyType =
-            accountKey.keyType === Number(ACCOUNT_KEY_TAG.ACCOUNT_KEY_ROLE_BASED_TAG)
-                ? transaction.type.includes('AccountUpdate')
-                    ? accountKey.key[KEY_ROLE.roleAccountUpdateKey].keyType
-                    : accountKey.key[KEY_ROLE.roleTransactionKey].keyType
-                : accountKey.keyType
-        if (keyType > 3) {
-            throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
+        // If accountKey is null, there is no need to execute the following logic.
+        if (accountKey) {
+            const keyType =
+                accountKey.keyType === Number(ACCOUNT_KEY_TAG.ACCOUNT_KEY_ROLE_BASED_TAG)
+                    ? transaction.type.includes('AccountUpdate')
+                        ? accountKey.key[KEY_ROLE.roleAccountUpdateKey].keyType
+                        : accountKey.key[KEY_ROLE.roleTransactionKey].keyType
+                    : accountKey.keyType
+            if (keyType > 3) {
+                throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
+            }
         }
 
         // This is for appending original signatures to signed transaction
         let signed
 
-        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(transaction, false)
+        if (transaction.type.includes('Legacy') && !utils.isEmptySig(transaction.signatures)) {
+            throw new Error(`Legacy transactions cannot contain multiple signatures.`)
+        }
+
+        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(address, transaction, false)
+
         if (!transaction.type.includes('TxTypeFeeDelegated')) {
             signed = await this.walletAPI.requestRawTransaction(requestObject)
         } else {
             signed = await this.walletAPI.requestFDRawTransactionPaidByGlobalFeePayer(requestObject)
         }
         transaction.signatures = signed.signatures
-        transaction.appendSignatures(existingSigs)
+        if (!utils.isEmptySig(existingSigs)) transaction.appendSignatures(existingSigs)
 
         return transaction
     }
@@ -167,15 +175,18 @@ class KASWallet {
 
         // Check accountKey in Klaytn network
         const accountKey = await transaction.constructor._klaytnCall.getAccountKey(transaction.feePayer)
-        const keyType =
-            accountKey.keyType === Number(ACCOUNT_KEY_TAG.ACCOUNT_KEY_ROLE_BASED_TAG)
-                ? accountKey.key[KEY_ROLE.roleFeePayerKey].keyType
-                : accountKey.keyType
-        if (keyType > 3) {
-            throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
+        // If accountKey is null, there is no need to execute the following logic.
+        if (accountKey) {
+            const keyType =
+                accountKey.keyType === Number(ACCOUNT_KEY_TAG.ACCOUNT_KEY_ROLE_BASED_TAG)
+                    ? accountKey.key[KEY_ROLE.roleFeePayerKey].keyType
+                    : accountKey.keyType
+            if (keyType > 3) {
+                throw new Error(`Not supported: Using multiple keys in an account is currently not supported.`)
+            }
         }
 
-        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(transaction, true)
+        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(address, transaction, true)
         const ret = await this.walletAPI.requestFDRawTransactionPaidByUser(requestObject)
 
         // Call static decode method to get feePayerSignatures from RLP-encoded string.
@@ -197,16 +208,21 @@ class KASWallet {
         if (!lodash.isObject(transaction)) {
             throw new Error(`Invalid parameter type: signAsGlobalFeePayer(tx) takes transaction as a only parameter.`)
         }
-        if (transaction.feePayer && transaction.feePayer !== '0x') {
-            throw new Error(`To sign the transaction using the global fee payer, feePayer cannot be defined in the transaction.`)
-        }
 
-        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(transaction, true)
+        let existingFeePayer
+        if (transaction.feePayer && transaction.feePayer !== '0x') existingFeePayer = transaction.feePayer
+
+        const { requestObject, existingSigs } = await makeObjectForRawTxRequest(undefined, transaction, true)
 
         const ret = await this.walletAPI.requestFDRawTransactionPaidByGlobalFeePayer(requestObject)
 
         // Call static decode method to get feePayerSignatures from RLP-encoded string.
         const { feePayer, feePayerSignatures } = transaction.constructor.decode(ret.rlp)
+        if (existingFeePayer && existingFeePayer.toLowerCase() !== feePayer.toLowerCase()) {
+            throw new Error(
+                `Invalid fee payer: The address of the fee payer defined in the transaction does not match the address of the global fee payer. To sign with a global fee payer, you must define the global fee payer's address in the feePayer field, or the feePayer field must not be defined.`
+            )
+        }
         transaction.feePayer = feePayer
         transaction.feePayerSignatures = feePayerSignatures
         transaction.appendFeePayerSignatures(existingSigs)
@@ -215,14 +231,14 @@ class KASWallet {
     }
 }
 
-async function makeObjectForRawTxRequest(tx, isFeeDelegated) {
+async function makeObjectForRawTxRequest(address, tx, isFeePayerSign) {
     // Check transaction type
-    if (isFeeDelegated && !tx.type.includes('TxTypeFeeDelegated')) {
+    if (isFeePayerSign && !tx.type.includes('TxTypeFeeDelegated')) {
         throw new Error(`Invalid transaction type: Only feeDelegated transactions can use 'caver.wallet.signAsGlobalFeePayer'.`)
     }
 
-    let existingSigs = isFeeDelegated ? tx.feePayerSignatures : tx.signatures
-    if (isFeeDelegated) {
+    let existingSigs = isFeePayerSign ? tx.feePayerSignatures : tx.signatures
+    if (isFeePayerSign) {
         existingSigs = tx.feePayerSignatures
         tx.feePayerSignatures = []
     } else {
@@ -234,8 +250,9 @@ async function makeObjectForRawTxRequest(tx, isFeeDelegated) {
     await tx.fillTransaction()
 
     const requestObject = { rlp: tx.getRLPEncoding(), submit: false }
-    if (isFeeDelegated && tx.feePayer && tx.feePayer !== '0x') requestObject.feePayer = tx.feePayer
-    if (isFeeDelegated && tx.feeRatio) requestObject.feeRatio = utils.hexToNumber(tx.feeRatio)
+    if (isFeePayerSign && tx.feePayer && tx.feePayer !== '0x') requestObject.feePayer = tx.feePayer
+    if (tx.feeRatio) requestObject.feeRatio = utils.hexToNumber(tx.feeRatio)
+    if (tx.type.includes('Legacy')) requestObject.from = address
 
     return { requestObject, existingSigs }
 }
