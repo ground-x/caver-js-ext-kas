@@ -68,6 +68,9 @@ async function createTestTokenContracts(sender) {
 
     await kip17.mintWithTokenURI(sender.address, nftTokenId, 'test URI 1', { from: sender.address })
     await kip17.transferFrom(sender.address, receiver, nftTokenId, { from: sender.address })
+
+    // Wait until applying the transactions to KAS
+    await timeout(5000)
 }
 
 describe('TokenHistory API service', () => {
