@@ -119,7 +119,10 @@ class KASWallet {
      */
     async sign(address, transaction) {
         // Check from address
-        transaction.from = transaction.from && transaction.from !== '0x' ? transaction.from : address
+        transaction.from =
+            transaction.from && transaction.from !== '0x' && transaction.from !== '0x0000000000000000000000000000000000000000'
+                ? transaction.from
+                : address
         if (transaction.from.toLowerCase() !== address.toLowerCase()) throw new Error(`From addresses are not matched.`)
 
         // Check accountKey in Klaytn network
@@ -167,10 +170,14 @@ class KASWallet {
      */
     async signAsFeePayer(address, transaction) {
         // If address is undefined, sign the transaction with a global fee payer in KAS Wallet API Serivce
-        if (!address || address === '0x') return this.signAsGlobalFeePayer(transaction)
+        if (!address || address === '0x' || address === '0x0000000000000000000000000000000000000000')
+            return this.signAsGlobalFeePayer(transaction)
 
         // Check feePayer address
-        transaction.feePayer = transaction.feePayer && transaction.feePayer !== '0x' ? transaction.feePayer : address
+        transaction.feePayer =
+            transaction.feePayer && transaction.feePayer !== '0x' && transaction.feePayer !== '0x0000000000000000000000000000000000000000'
+                ? transaction.feePayer
+                : address
         if (transaction.feePayer.toLowerCase() !== address.toLowerCase()) throw new Error(`feePayer addresses are not matched.`)
 
         // Check accountKey in Klaytn network
@@ -210,7 +217,8 @@ class KASWallet {
         }
 
         let existingFeePayer
-        if (transaction.feePayer && transaction.feePayer !== '0x') existingFeePayer = transaction.feePayer
+        if (transaction.feePayer && transaction.feePayer !== '0x' && transaction.feePayer !== '0x0000000000000000000000000000000000000000')
+            existingFeePayer = transaction.feePayer
 
         const { requestObject, existingSigs } = await makeObjectForRawTxRequest(undefined, transaction, true)
 
@@ -250,7 +258,8 @@ async function makeObjectForRawTxRequest(address, tx, isFeePayerSign) {
     await tx.fillTransaction()
 
     const requestObject = { rlp: tx.getRLPEncoding(), submit: false }
-    if (isFeePayerSign && tx.feePayer && tx.feePayer !== '0x') requestObject.feePayer = tx.feePayer
+    if (isFeePayerSign && tx.feePayer && tx.feePayer !== '0x' && tx.feePayer !== '0x0000000000000000000000000000000000000000')
+        requestObject.feePayer = tx.feePayer
     if (tx.feeRatio) requestObject.feeRatio = utils.hexToNumber(tx.feeRatio)
     if (tx.type.includes('Legacy')) requestObject.from = address
 
