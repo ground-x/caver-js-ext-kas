@@ -1810,36 +1810,36 @@ describe('KAS Wallet', () => {
         expect(caver.utils.isAddress(signed.feePayer)).to.be.true
     }).timeout(500000)
 
-    // it('CAVERJS-EXT-KAS-INT-221: caver.wallet.signAsGlobalFeePayer signs the fee delegated account update with ratio transaction as fee payer with the account in KAS Wallet API Service', async () => {
-    //     const tx = new caver.transaction.feeDelegatedAccountUpdateWithRatio({
-    //         from,
-    //         gas: 50000,
-    //         feeRatio: 50,
-    //         account: caver.account.createWithAccountKeyLegacy(from),
-    //     })
-    //     const signed = await caver.wallet.signAsGlobalFeePayer(tx)
-    //     expect(signed.feePayerSignatures.length).to.equal(1)
-    //     expect(caver.utils.isEmptySig(signed.feePayerSignatures)).to.be.false
-    //     expect(caver.utils.isEmptySig(signed.signatures)).to.be.true
-    //     expect(signed.type).to.equal(tx.type)
-    //     expect(caver.utils.isAddress(signed.feePayer)).to.be.true
-    // }).timeout(500000)
+    it('CAVERJS-EXT-KAS-INT-221: caver.wallet.signAsGlobalFeePayer signs the fee delegated account update with ratio transaction as fee payer with the account in KAS Wallet API Service', async () => {
+        const tx = new caver.transaction.feeDelegatedAccountUpdateWithRatio({
+            from,
+            gas: 50000,
+            feeRatio: 50,
+            account: caver.account.createWithAccountKeyLegacy(from),
+        })
+        const signed = await caver.wallet.signAsGlobalFeePayer(tx)
+        expect(signed.feePayerSignatures.length).to.equal(1)
+        expect(caver.utils.isEmptySig(signed.feePayerSignatures)).to.be.false
+        expect(caver.utils.isEmptySig(signed.signatures)).to.be.true
+        expect(signed.type).to.equal(tx.type)
+        expect(caver.utils.isAddress(signed.feePayer)).to.be.true
+    }).timeout(500000)
 
-    // it('CAVERJS-EXT-KAS-INT-222: caver.wallet.signAsGlobalFeePayer appends feePayerSignatures to the fee delegated account update with ratio transaction', async () => {
-    //     const tx = new caver.transaction.feeDelegatedAccountUpdateWithRatio({
-    //         from,
-    //         gas: 50000,
-    //         feeRatio: 50,
-    //         account: caver.account.createWithAccountKeyLegacy(from),
-    //     })
-    //     const feePayerSignedTx = await caver.wallet.signAsGlobalFeePayer(tx)
-    //     const signed = await caver.wallet.signAsGlobalFeePayer(feePayerSignedTx)
-    //     expect(signed.feePayerSignatures.length).to.equal(2)
-    //     expect(caver.utils.isEmptySig(signed.feePayerSignatures)).to.be.false
-    //     expect(caver.utils.isEmptySig(signed.signatures)).to.be.true
-    //     expect(signed.type).to.equal(tx.type)
-    //     expect(caver.utils.isAddress(signed.feePayer)).to.be.true
-    // }).timeout(500000)
+    it('CAVERJS-EXT-KAS-INT-222: caver.wallet.signAsGlobalFeePayer appends feePayerSignatures to the fee delegated account update with ratio transaction', async () => {
+        const tx = new caver.transaction.feeDelegatedAccountUpdateWithRatio({
+            from,
+            gas: 50000,
+            feeRatio: 50,
+            account: caver.account.createWithAccountKeyLegacy(from),
+        })
+        const feePayerSignedTx = await caver.wallet.signAsGlobalFeePayer(tx)
+        const signed = await caver.wallet.signAsGlobalFeePayer(feePayerSignedTx)
+        expect(signed.feePayerSignatures.length).to.equal(2)
+        expect(caver.utils.isEmptySig(signed.feePayerSignatures)).to.be.false
+        expect(caver.utils.isEmptySig(signed.signatures)).to.be.true
+        expect(signed.type).to.equal(tx.type)
+        expect(caver.utils.isAddress(signed.feePayer)).to.be.true
+    }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-223: caver.wallet.signAsGlobalFeePayer signs the fee delegated cancel with ratio transaction as fee payer with the account in KAS Wallet API Service', async () => {
         const tx = new caver.transaction.feeDelegatedCancelWithRatio({
