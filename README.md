@@ -96,7 +96,7 @@ const caver = new CaverExtKAS()
 const keyringContainer = new caver.keyringContainer()
 
 // Create a keyring from private key
-const keyring = caver.wallet.keyring.createFromPrivateKey('0x{private key}')
+const keyring = keyringContainer.keyring.createFromPrivateKey('0x{private key}')
 
 // Add a keyring to the keyringContainer
 keyringContainer.add(keyring)

@@ -84,7 +84,7 @@ describe('TokenHistory API service', () => {
         caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
         caver.initNodeAPI(nodeAPIEnv.chainId, nodeAPIEnv.accessKeyId, nodeAPIEnv.secretAccessKey, nodeAPIEnv.url)
 
-        sender = keyringContainer.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
+        sender = keyringContainer.add(keyringContainer.keyring.createFromPrivateKey(senderPrivateKey))
 
         createTestTokenContracts(sender).then(() => done())
     })

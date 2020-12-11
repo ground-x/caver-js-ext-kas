@@ -130,7 +130,7 @@ describe('Wallet API service', () => {
         caver.initNodeAPI(auths.nodeAPI.chainId, auths.nodeAPI.accessKeyId, auths.nodeAPI.secretAccessKey, auths.nodeAPI.url)
         caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-        senderKeyring = keyringContainer.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
+        senderKeyring = keyringContainer.add(keyringContainer.keyring.createFromPrivateKey(senderPrivateKey))
     })
 
     it('CAVERJS-EXT-KAS-INT-018: caver.kas.wallet.createAccount should create account in KAS wallet API service', async () => {
