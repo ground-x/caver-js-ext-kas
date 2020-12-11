@@ -55,6 +55,11 @@ describe('caver.wallet with KASWallet', () => {
         it('CAVERJS-EXT-KAS-WALLET-171: caver.wallet.keyring should be available', () => {
             expect(caver.wallet.keyring).not.to.be.undefined
         }).timeout(50000)
+
+        it('CAVERJS-EXT-KAS-WALLET-202: caver.wallet.keyring should be available', () => {
+            const keyringContainer = new caver.keyringContainer()
+            expect(keyringContainer.keyring).not.to.be.undefined
+        }).timeout(50000)
     })
 
     context('caver.wallet.generate', () => {
