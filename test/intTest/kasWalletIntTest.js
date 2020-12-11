@@ -62,7 +62,7 @@ const input =
     '0xe942b5160000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000036b65790000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000576616c7565000000000000000000000000000000000000000000000000000000'
 
 async function sendTestKLAY(to, klay = 1) {
-    const keyring = caver.wallet.keyring.createFromPrivateKey(senderPrivateKey)
+    const keyring = caver.keyringContainer.keyring.createFromPrivateKey(senderPrivateKey)
     const vt = new caver.transaction.valueTransfer({
         from: keyring.address,
         to,
@@ -126,7 +126,7 @@ describe('KAS Wallet', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-118: caver.wallet.getAccount rejects if account is not existed in KAS Wallet API Service', async () => {
-        await expect(caver.wallet.getAccount(caver.wallet.keyring.generate().address)).to.be.rejectedWith(`data don't exist`)
+        await expect(caver.wallet.getAccount(caver.keyringContainer.keyring.generate().address)).to.be.rejectedWith(`data don't exist`)
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-119: caver.wallet.isExisted returns true if account is existed in KAS Wallet API Service', async () => {
@@ -135,7 +135,7 @@ describe('KAS Wallet', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-120: caver.wallet.isExisted returns false if account is not existed in KAS Wallet API Service', async () => {
-        const isExist = await caver.wallet.isExisted(caver.wallet.keyring.generate().address)
+        const isExist = await caver.wallet.isExisted(caver.keyringContainer.keyring.generate().address)
         expect(isExist).to.be.false
     }).timeout(500000)
 
@@ -151,7 +151,7 @@ describe('KAS Wallet', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-122: caver.wallet.remove rejects if use tried to remove an account which is not existed in KAS Wallet API Service', async () => {
-        await expect(caver.wallet.remove(caver.wallet.keyring.generate().address)).to.be.rejectedWith(`data don't exist`)
+        await expect(caver.wallet.remove(caver.keyringContainer.keyring.generate().address)).to.be.rejectedWith(`data don't exist`)
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-123: caver.wallet.disableAccount deactivates an account in KAS Wallet API Service', async () => {
@@ -172,7 +172,7 @@ describe('KAS Wallet', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-124: caver.wallet.disableAccount rejects if use tried to deactivate an account which is not existed in KAS Wallet API Service', async () => {
-        await expect(caver.wallet.disableAccount(caver.wallet.keyring.generate().address)).to.be.rejectedWith(
+        await expect(caver.wallet.disableAccount(caver.keyringContainer.keyring.generate().address)).to.be.rejectedWith(
             `account has been already deleted or disabled`
         )
     }).timeout(500000)
@@ -196,7 +196,7 @@ describe('KAS Wallet', () => {
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-126: caver.wallet.enableAccount rejects if use tried to activate an account which is not existed in KAS Wallet API Service', async () => {
-        await expect(caver.wallet.enableAccount(caver.wallet.keyring.generate().address)).to.be.rejectedWith(
+        await expect(caver.wallet.enableAccount(caver.keyringContainer.keyring.generate().address)).to.be.rejectedWith(
             `account has been already deleted or enabled`
         )
     }).timeout(500000)
@@ -328,7 +328,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-135: caver.wallet.sign signs the smart contract deploy transaction with the account in KAS Wallet API Service', async () => {
         const tx = new caver.transaction.smartContractExecution({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             input,
         })
@@ -340,7 +340,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-136: caver.wallet.sign appends signatures to the smart contract deploy transaction', async () => {
         const tx = new caver.transaction.smartContractExecution({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             input,
             signatures: [
@@ -549,7 +549,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-149: caver.wallet.sign signs the fee delegated smart contract deploy transaction with the account in KAS Wallet API Service', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecution({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             input,
         })
@@ -562,7 +562,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-150: caver.wallet.sign appends signatures to the fee delegated smart contract deploy transaction', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecution({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             input,
             signatures: [
@@ -784,7 +784,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-163: caver.wallet.sign signs the fee delegated smart contract deploy with ratio transaction with the account in KAS Wallet API Service', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecutionWithRatio({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             feeRatio: 50,
             input,
@@ -798,7 +798,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-164: caver.wallet.sign appends signatures to the fee delegated smart contract deploy with ratio transaction', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecutionWithRatio({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             feeRatio: 50,
             input,
@@ -1037,7 +1037,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-177: caver.wallet.signAsFeePayer signs the fee delegated smart contract deploy transaction as fee payer with the account in KAS Wallet API Service', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecution({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             input,
         })
@@ -1052,7 +1052,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-178: caver.wallet.signAsFeePayer appends feePayerSignatures to the fee delegated smart contract deploy transaction', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecution({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             input,
             feePayer,
@@ -1307,7 +1307,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-191: caver.wallet.signAsFeePayer signs the fee delegated smart contract deploy with ratio transaction as fee payer with the account in KAS Wallet API Service', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecutionWithRatio({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             feeRatio: 50,
             input,
@@ -1323,7 +1323,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-192: caver.wallet.signAsFeePayer appends feePayerSignatures to the fee delegated smart contract deploy with ratio transaction', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecutionWithRatio({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             feeRatio: 50,
             input,
@@ -1559,7 +1559,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-205: caver.wallet.signAsGlobalFeePayer signs the fee delegated smart contract deploy transaction as fee payer with the account in KAS Wallet API Service', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecution({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             input,
         })
@@ -1574,7 +1574,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-206: caver.wallet.signAsGlobalFeePayer appends feePayerSignatures to the fee delegated smart contract deploy transaction', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecution({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             input,
         })
@@ -1780,7 +1780,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-219: caver.wallet.signAsGlobalFeePayer signs the fee delegated smart contract deploy with ratio transaction as fee payer with the account in KAS Wallet API Service', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecutionWithRatio({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             feeRatio: 50,
             input,
@@ -1796,7 +1796,7 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-220: caver.wallet.signAsGlobalFeePayer appends feePayerSignatures to the fee delegated smart contract deploy with ratio transaction', async () => {
         const tx = new caver.transaction.feeDelegatedSmartContractExecutionWithRatio({
             from,
-            to: caver.wallet.keyring.generate().address,
+            to: caver.keyringContainer.keyring.generate().address,
             gas: 50000,
             feeRatio: 50,
             input,
@@ -1947,7 +1947,7 @@ describe('KAS Wallet', () => {
 
     it('CAVERJS-EXT-KAS-INT-230: caver.contract execute KIP-7 contract with an account in KAS Wallet API Service', async () => {
         const kip7 = new caver.kct.kip7(kip7Address)
-        const receipt = await kip7.transfer(caver.wallet.keyring.generate().address, 1, { from })
+        const receipt = await kip7.transfer(caver.keyringContainer.keyring.generate().address, 1, { from })
 
         expect(receipt.from.toLowerCase()).to.equal(from)
         expect(receipt.to.toLowerCase()).to.equal(kip7Address)

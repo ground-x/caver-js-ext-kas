@@ -57,7 +57,17 @@ class CaverExtKAS extends Caver {
         // `caver.wallet` in CaverExtKAS is a KASWallet that internally connects the KAS Wallet API
         const kasWallet = new KASWallet(this.kas.wallet)
         kasWallet.keyring = this.wallet.keyring
-        this.keyringContainer = this.wallet.constructor
+
+        const _this = this
+        class KeyringContainer extends this.wallet.constructor {
+            constructor(keyrings) {
+                super(keyrings)
+                this.keyring = _this.wallet.keyring
+            }
+        }
+
+        this.keyringContainer = KeyringContainer
+        this.keyringContainer.keyring = this.wallet.keyring
         this.wallet = kasWallet
 
         if (chainId !== undefined && accessKeyId && secretAccessKey) this.initKASAPI(chainId, accessKeyId, secretAccessKey)

@@ -87,7 +87,7 @@ describe('Node API service', () => {
         caver.initNodeAPI(chainId, accessKeyId, secretAccessKey, url)
 
         if (senderPrivateKey !== '0x') {
-            sender = keyringContainer.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
+            sender = keyringContainer.add(keyringContainer.keyring.createFromPrivateKey(senderPrivateKey))
             testAddress = sender.address
         }
 

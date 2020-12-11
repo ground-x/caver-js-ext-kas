@@ -55,6 +55,11 @@ describe('caver.wallet with KASWallet', () => {
         it('CAVERJS-EXT-KAS-WALLET-171: caver.wallet.keyring should be available', () => {
             expect(caver.wallet.keyring).not.to.be.undefined
         }).timeout(50000)
+
+        it('CAVERJS-EXT-KAS-WALLET-202: keyring can be accessed through keyringContainer', () => {
+            const keyringContainer = new caver.keyringContainer()
+            expect(keyringContainer.keyring).not.to.be.undefined
+        }).timeout(50000)
     })
 
     context('caver.wallet.generate', () => {
@@ -763,7 +768,7 @@ describe('caver.wallet with KASWallet', () => {
 
         it('CAVERJS-EXT-KAS-WALLET-198: caver.wallet.signAsGlobalFeePayer throw error when fee payer address is different', async () => {
             // Define different fee payer address in transaction
-            tx.feePayer = caver.wallet.keyring.generate().address
+            tx.feePayer = caver.keyringContainer.keyring.generate().address
 
             const fillTransactionSpy = sandbox.spy(tx, 'fillTransaction')
             const getRLPEncodingSpy = sandbox.spy(tx, 'getRLPEncoding')
