@@ -62,7 +62,6 @@
             './wallet/model/AccountCountByAccountID',
             './wallet/model/AccountCountByKRN',
             './wallet/model/AccountRegistration',
-            './wallet/model/AccountRegistrationRequest',
             './wallet/model/AccountStatus',
             './wallet/model/AccountSummary',
             './wallet/model/AccountUpdateTransactionRequest',
@@ -90,10 +89,13 @@
             './wallet/model/FDUserProcessRLPRequest',
             './wallet/model/FDUserValueTransferTransactionRequest',
             './wallet/model/FDValueTransferTransactionRequest',
+            './wallet/model/Failures',
             './wallet/model/FeePayerSignaturesObj',
             './wallet/model/Key',
             './wallet/model/KeyCreationRequest',
             './wallet/model/KeyCreationResponse',
+            './wallet/model/KeySignDataRequest',
+            './wallet/model/KeySignDataResponse',
             './wallet/model/LegacyTransactionRequest',
             './wallet/model/MultisigAccount',
             './wallet/model/MultisigAccountUpdateRequest',
@@ -171,7 +173,6 @@
             require('./wallet/model/AccountCountByAccountID'),
             require('./wallet/model/AccountCountByKRN'),
             require('./wallet/model/AccountRegistration'),
-            require('./wallet/model/AccountRegistrationRequest'),
             require('./wallet/model/AccountStatus'),
             require('./wallet/model/AccountSummary'),
             require('./wallet/model/AccountUpdateTransactionRequest'),
@@ -199,10 +200,13 @@
             require('./wallet/model/FDUserProcessRLPRequest'),
             require('./wallet/model/FDUserValueTransferTransactionRequest'),
             require('./wallet/model/FDValueTransferTransactionRequest'),
+            require('./wallet/model/Failures'),
             require('./wallet/model/FeePayerSignaturesObj'),
             require('./wallet/model/Key'),
             require('./wallet/model/KeyCreationRequest'),
             require('./wallet/model/KeyCreationResponse'),
+            require('./wallet/model/KeySignDataRequest'),
+            require('./wallet/model/KeySignDataResponse'),
             require('./wallet/model/LegacyTransactionRequest'),
             require('./wallet/model/MultisigAccount'),
             require('./wallet/model/MultisigAccountUpdateRequest'),
@@ -279,7 +283,6 @@
     AccountCountByAccountID,
     AccountCountByKRN,
     AccountRegistration,
-    AccountRegistrationRequest,
     AccountStatus,
     AccountSummary,
     AccountUpdateTransactionRequest,
@@ -307,10 +310,13 @@
     FDUserProcessRLPRequest,
     FDUserValueTransferTransactionRequest,
     FDValueTransferTransactionRequest,
+    Failures,
     FeePayerSignaturesObj,
     Key,
     KeyCreationRequest,
     KeyCreationResponse,
+    KeySignDataRequest,
+    KeySignDataResponse,
     LegacyTransactionRequest,
     MultisigAccount,
     MultisigAccountUpdateRequest,
@@ -548,11 +554,6 @@
          */
         AccountRegistration: AccountRegistration,
         /**
-         * The AccountRegistrationRequest model constructor.
-         * @property {AccountRegistrationRequest}
-         */
-        AccountRegistrationRequest: AccountRegistrationRequest,
-        /**
          * The AccountStatus model constructor.
          * @property {AccountStatus}
          */
@@ -688,6 +689,11 @@
          */
         FDValueTransferTransactionRequest: FDValueTransferTransactionRequest,
         /**
+         * The Failures model constructor.
+         * @property {Failures}
+         */
+        Failures: Failures,
+        /**
          * The FeePayerSignaturesObj model constructor.
          * @property {FeePayerSignaturesObj}
          */
@@ -707,6 +713,16 @@
          * @property {KeyCreationResponse}
          */
         KeyCreationResponse: KeyCreationResponse,
+        /**
+         * The KeySignDataRequest model constructor.
+         * @property {KeySignDataRequest}
+         */
+        KeySignDataRequest: KeySignDataRequest,
+        /**
+         * The KeySignDataResponse model constructor.
+         * @property {KeySignDataResponse}
+         */
+        KeySignDataResponse: KeySignDataResponse,
         /**
          * The LegacyTransactionRequest model constructor.
          * @property {LegacyTransactionRequest}

@@ -25,119 +25,52 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.FDUserContractExecutionTransactionRequest = factory(root.WalletApi.ApiClient)
+        root.WalletApi.Failures = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The FDUserContractExecutionTransactionRequest model module.
-     * @class FDUserContractExecutionTransactionRequest
+     * The Failures model module.
+     * @class Failures
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>FDUserContractExecutionTransactionRequest</code>.
-     * User Fee Delegation Contract Execution Transaction Request Scheme
-     * @alias FDUserContractExecutionTransactionRequest
+     * Constructs a new <code>Failures</code>.
+     * @alias Failures
      * @class
-     * @param from {String} Klaytn account address sending a transaction
-     * @param to {String} Contract address
-     * @param input {String} Data attached to and used for executing the outgoing transaction
-     * @param feePayer {String} Account address for fee delegation of transaction fee
      */
-    const FDUserContractExecutionTransactionRequest = function(from, to, input, feePayer) {
-        this.from = from
-        this.to = to
-        this.input = input
-        this.feePayer = feePayer
-    }
+    const Failures = function() {}
 
     /**
-     * Constructs a <code>FDUserContractExecutionTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Failures</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {FDUserContractExecutionTransactionRequest} obj Optional instance to populate.
-     * @return {FDUserContractExecutionTransactionRequest} The populated <code>FDUserContractExecutionTransactionRequest</code> instance.
-     * @memberof FDUserContractExecutionTransactionRequest
+     * @param {Failures} obj Optional instance to populate.
+     * @return {Failures} The populated <code>Failures</code> instance.
+     * @memberof Failures
      */
-    FDUserContractExecutionTransactionRequest.constructFromObject = function(data, obj) {
+    Failures.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new FDUserContractExecutionTransactionRequest()
-            if (data.hasOwnProperty('from')) obj.from = ApiClient.convertToType(data.from, 'String')
-            if (data.hasOwnProperty('value')) obj.value = ApiClient.convertToType(data.value, 'String')
-            if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
-            if (data.hasOwnProperty('input')) obj.input = ApiClient.convertToType(data.input, 'String')
-            if (data.hasOwnProperty('nonce')) obj.nonce = ApiClient.convertToType(data.nonce, 'Number')
-            if (data.hasOwnProperty('gas')) obj.gas = ApiClient.convertToType(data.gas, 'Number')
-            if (data.hasOwnProperty('submit')) obj.submit = ApiClient.convertToType(data.submit, 'Boolean')
-            if (data.hasOwnProperty('feePayer')) obj.feePayer = ApiClient.convertToType(data.feePayer, 'String')
-            if (data.hasOwnProperty('feeRatio')) obj.feeRatio = ApiClient.convertToType(data.feeRatio, 'Number')
+            obj = obj || new Failures()
+            if (data.hasOwnProperty('8.435581012198945e+47'))
+                obj._8435581012198945e47 = ApiClient.convertToType(data['8.435581012198945e+47'], 'String')
+            if (data.hasOwnProperty('9.431253395818326e+47'))
+                obj._9431253395818326e47 = ApiClient.convertToType(data['9.431253395818326e+47'], 'String')
         }
         return obj
     }
 
     /**
-     * Klaytn account address sending a transaction
      * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
+     * @memberof Failures
      */
-    FDUserContractExecutionTransactionRequest.prototype.from = undefined
+    Failures.prototype._8435581012198945e47 = undefined
 
     /**
-     * KLAY converted into PEB unit
      * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
+     * @memberof Failures
      */
-    FDUserContractExecutionTransactionRequest.prototype.value = undefined
+    Failures.prototype._9431253395818326e47 = undefined
 
-    /**
-     * Contract address
-     * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.to = undefined
-
-    /**
-     * Data attached to and used for executing the outgoing transaction
-     * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.input = undefined
-
-    /**
-     * Unique value of the outgoing transaction
-     * @type {Number}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.nonce = undefined
-
-    /**
-     * Max. transaction fee (gas) for sending the transaction
-     * @type {Number}
-     * @memberof FDUserContractExecutionTransactionRequest
-     * @default 100000
-     */
-    FDUserContractExecutionTransactionRequest.prototype.gas = 100000
-
-    /**
-     * Whether to send the transaction to Klaytn
-     * @type {Boolean}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.submit = undefined
-
-    /**
-     * Account address for fee delegation of transaction fee
-     * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.feePayer = undefined
-
-    /**
-     * Ratio to be paid by the Proxy fee payer for the entire transaction fee(1~99). If value is empty or 0, fee payer will pay all fees
-     * @type {Number}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.feeRatio = undefined
-
-    return FDUserContractExecutionTransactionRequest
+    return Failures
 })
