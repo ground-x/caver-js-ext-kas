@@ -1,6 +1,6 @@
 {
   "name": "caver-js-ext-kas",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "This is extenstion library of caver-js for connecting KAS",
   "main": "index.js",
   "scripts": {
