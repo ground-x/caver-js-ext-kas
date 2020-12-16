@@ -10,7 +10,7 @@ caver-js-ext-kas is [caver-js](https://github.com/klaytn/caver-js)'s extension l
 	  * [Use Token History API](#use-token-history-api)
 	  * [Use Wallet API](#use-wallet-api)
 	  * [Use Anchor API](#use-anchor-api)
-	  * [Use KIP7, KIP17 and Contract with KAS account](#use-kip7-kip17-and-contract-with-kas-account)
+	  * [Use KIP7, KIP17 and Contract with a Klaytn account in KAS Wallet API](#use-kip7-kip17-and-contract-with-a-klaytn-account-in-kas-wallet-api)
 
 ## Build/Install
 
@@ -170,7 +170,7 @@ const queryOptions = new caver.kas.anchor.queryOptions({ size, fromTimestamp, to
 console.log(queryOptions)
 ```
 
-### Use KIP7, KIP17 and Contract with KAS account
+### Use KIP7, KIP17 and Contract with a Klaytn account in KAS Wallet API
 
 You can use caver's [Contract](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.contract), [KIP7](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip7) and [KIP17](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.kct/kip17) as it is by using the account stored in KAS.
 
