@@ -25,119 +25,78 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.FDUserContractExecutionTransactionRequest = factory(root.WalletApi.ApiClient)
+        root.WalletApi.Key = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The FDUserContractExecutionTransactionRequest model module.
-     * @class FDUserContractExecutionTransactionRequest
+     * The Key model module.
+     * @class Key
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>FDUserContractExecutionTransactionRequest</code>.
-     * User Fee Delegation Contract Execution Transaction Request Scheme
-     * @alias FDUserContractExecutionTransactionRequest
+     * Constructs a new <code>Key</code>.
+     * Created key information
+     * @alias Key
      * @class
-     * @param from {String} Klaytn account address sending a transaction
-     * @param to {String} Contract address
-     * @param input {String} Data attached to and used for executing the outgoing transaction
-     * @param feePayer {String} Account address for fee delegation of transaction fee
+     * @param blob {String} Encrypted private key
+     * @param keyId {String} Key ID
+     * @param krn {String} Name of the resource
+     * @param publicKey {String} Public key
      */
-    const FDUserContractExecutionTransactionRequest = function(from, to, input, feePayer) {
-        this.from = from
-        this.to = to
-        this.input = input
-        this.feePayer = feePayer
+    const Key = function(blob, keyId, krn, publicKey) {
+        this.blob = blob
+        this.keyId = keyId
+        this.krn = krn
+        this.publicKey = publicKey
     }
 
     /**
-     * Constructs a <code>FDUserContractExecutionTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Key</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {FDUserContractExecutionTransactionRequest} obj Optional instance to populate.
-     * @return {FDUserContractExecutionTransactionRequest} The populated <code>FDUserContractExecutionTransactionRequest</code> instance.
-     * @memberof FDUserContractExecutionTransactionRequest
+     * @param {Key} obj Optional instance to populate.
+     * @return {Key} The populated <code>Key</code> instance.
+     * @memberof Key
      */
-    FDUserContractExecutionTransactionRequest.constructFromObject = function(data, obj) {
+    Key.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new FDUserContractExecutionTransactionRequest()
-            if (data.hasOwnProperty('from')) obj.from = ApiClient.convertToType(data.from, 'String')
-            if (data.hasOwnProperty('value')) obj.value = ApiClient.convertToType(data.value, 'String')
-            if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
-            if (data.hasOwnProperty('input')) obj.input = ApiClient.convertToType(data.input, 'String')
-            if (data.hasOwnProperty('nonce')) obj.nonce = ApiClient.convertToType(data.nonce, 'Number')
-            if (data.hasOwnProperty('gas')) obj.gas = ApiClient.convertToType(data.gas, 'Number')
-            if (data.hasOwnProperty('submit')) obj.submit = ApiClient.convertToType(data.submit, 'Boolean')
-            if (data.hasOwnProperty('feePayer')) obj.feePayer = ApiClient.convertToType(data.feePayer, 'String')
-            if (data.hasOwnProperty('feeRatio')) obj.feeRatio = ApiClient.convertToType(data.feeRatio, 'Number')
+            obj = obj || new Key()
+            if (data.hasOwnProperty('blob')) obj.blob = ApiClient.convertToType(data.blob, 'String')
+            if (data.hasOwnProperty('keyId')) obj.keyId = ApiClient.convertToType(data.keyId, 'String')
+            if (data.hasOwnProperty('krn')) obj.krn = ApiClient.convertToType(data.krn, 'String')
+            if (data.hasOwnProperty('publicKey')) obj.publicKey = ApiClient.convertToType(data.publicKey, 'String')
         }
         return obj
     }
 
     /**
-     * Klaytn account address sending a transaction
+     * Encrypted private key
      * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
+     * @memberof Key
      */
-    FDUserContractExecutionTransactionRequest.prototype.from = undefined
+    Key.prototype.blob = undefined
 
     /**
-     * KLAY converted into PEB unit
+     * Key ID
      * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
+     * @memberof Key
      */
-    FDUserContractExecutionTransactionRequest.prototype.value = undefined
+    Key.prototype.keyId = undefined
 
     /**
-     * Contract address
+     * Name of the resource
      * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
+     * @memberof Key
      */
-    FDUserContractExecutionTransactionRequest.prototype.to = undefined
+    Key.prototype.krn = undefined
 
     /**
-     * Data attached to and used for executing the outgoing transaction
+     * Public key
      * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
+     * @memberof Key
      */
-    FDUserContractExecutionTransactionRequest.prototype.input = undefined
+    Key.prototype.publicKey = undefined
 
-    /**
-     * Unique value of the outgoing transaction
-     * @type {Number}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.nonce = undefined
-
-    /**
-     * Max. transaction fee (gas) for sending the transaction
-     * @type {Number}
-     * @memberof FDUserContractExecutionTransactionRequest
-     * @default 100000
-     */
-    FDUserContractExecutionTransactionRequest.prototype.gas = 100000
-
-    /**
-     * Whether to send the transaction to Klaytn
-     * @type {Boolean}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.submit = undefined
-
-    /**
-     * Account address for fee delegation of transaction fee
-     * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.feePayer = undefined
-
-    /**
-     * Ratio to be paid by the Proxy fee payer for the entire transaction fee(1~99). If value is empty or 0, fee payer will pay all fees
-     * @type {Number}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.feeRatio = undefined
-
-    return FDUserContractExecutionTransactionRequest
+    return Key
 })

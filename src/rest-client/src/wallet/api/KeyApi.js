@@ -16,66 +16,87 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/AccountCountByAccountID', '../model/AccountCountByKRN'], factory)
+        define([
+            '../../ApiClient',
+            '../model/Key',
+            '../model/KeyCreationRequest',
+            '../model/KeyCreationResponse',
+            '../model/KeySignDataRequest',
+            '../model/KeySignDataResponse',
+        ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
         module.exports = factory(
             require('../../ApiClient'),
-            require('../model/AccountCountByAccountID'),
-            require('../model/AccountCountByKRN')
+            require('../model/Key'),
+            require('../model/KeyCreationRequest'),
+            require('../model/KeyCreationResponse'),
+            require('../model/KeySignDataRequest'),
+            require('../model/KeySignDataResponse')
         )
     } else {
         // Browser globals (root is window)
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.StatisticsApi = factory(
+        root.WalletApi.KeyApi = factory(
             root.WalletApi.ApiClient,
-            root.WalletApi.AccountCountByAccountID,
-            root.WalletApi.AccountCountByKRN
+            root.WalletApi.Key,
+            root.WalletApi.KeyCreationRequest,
+            root.WalletApi.KeyCreationResponse,
+            root.WalletApi.KeySignDataRequest,
+            root.WalletApi.KeySignDataResponse
         )
     }
-})(this, function(ApiClient, AccountCountByAccountID, AccountCountByKRN) {
+})(this, function(ApiClient, Key, KeyCreationRequest, KeyCreationResponse, KeySignDataRequest, KeySignDataResponse) {
     /**
-     * Statistics service.
-     * @class StatisticsApi
+     * Key service.
+     * @class KeyApi
      * @version 1.0
      */
 
     /**
-     * Constructs a new StatisticsApi.
-     * @alias StatisticsApi
+     * Constructs a new KeyApi.
+     * @alias KeyApi
      * @class
      * @param {ApiClient} [apiClient] Optional API client implementation to use,
      * default to {@link ApiClient#instance} if unspecified.
      */
-    const StatisticsApi = function(apiClient) {
+    const KeyApi = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
-         * Callback function to receive the result of the getAccountCountByAccountID operation.
-         * @callback StatisticsApi~getAccountCountByAccountIDCallback
+         * Callback function to receive the result of the getKey operation.
+         * @callback KeyApi~getKeyCallback
          * @param {String} error Error message, if any.
-         * @param {AccountCountByAccountID} data The data returned by the service call.
+         * @param {Key} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
         /**
-         * GetAccountCountByAccountID
-         * Show the number of Klaytn account which KAS account owned
+         * GetKey
+         * Find key info
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
-         * @param {StatisticsApi~getAccountCountByAccountIDCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link AccountCountByAccountID}
+         * @param {String} keyId
+         * @param {KeyApi~getKeyCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Key}
          */
-        this.getAccountCountByAccountID = function(xChainId, callback) {
+        this.getKey = function(xChainId, keyId, callback) {
             const postBody = null
 
             // verify the required parameter 'xChainId' is set
             if (xChainId === undefined || xChainId === null) {
-                throw new Error("Missing the required parameter 'xChainId' when calling getAccountCountByAccountID")
+                throw new Error("Missing the required parameter 'xChainId' when calling getKey")
             }
 
-            const pathParams = {}
+            // verify the required parameter 'keyId' is set
+            if (keyId === undefined || keyId === null) {
+                throw new Error("Missing the required parameter 'keyId' when calling getKey")
+            }
+
+            const pathParams = {
+                'key-id': keyId,
+            }
             const queryParams = {}
             const collectionQueryParams = {}
             const headerParams = {
@@ -86,10 +107,10 @@
             const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = AccountCountByAccountID
+            const returnType = Key
 
             return this.apiClient.callApi(
-                '/v2/stat/count',
+                '/v2/key/{key-id}',
                 'GET',
                 pathParams,
                 queryParams,
@@ -106,29 +127,86 @@
         }
 
         /**
-         * Callback function to receive the result of the getAccountCountByKRN operation.
-         * @callback StatisticsApi~getAccountCountByKRNCallback
+         * Callback function to receive the result of the keyCreation operation.
+         * @callback KeyApi~keyCreationCallback
          * @param {String} error Error message, if any.
-         * @param {AccountCountByKRN} data The data returned by the service call.
+         * @param {KeyCreationResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
         /**
-         * GetAccountCountByKRN
-         * Show the number of Klaytn account which KAS account owned from certain account pool
+         * KeyCreation
+         * You can create key up to 100
          * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {String} opts.xKrn account pool name
-         * @param {StatisticsApi~getAccountCountByKRNCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link AccountCountByKRN}
+         * @param {KeyCreationRequest} opts.body
+         * @param {KeyApi~keyCreationCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link KeyCreationResponse}
          */
-        this.getAccountCountByKRN = function(xChainId, opts, callback) {
+        this.keyCreation = function(xChainId, opts, callback) {
             opts = opts || {}
-            const postBody = null
+            const postBody = opts.body
 
             // verify the required parameter 'xChainId' is set
             if (xChainId === undefined || xChainId === null) {
-                throw new Error("Missing the required parameter 'xChainId' when calling getAccountCountByKRN")
+                throw new Error("Missing the required parameter 'xChainId' when calling keyCreation")
+            }
+
+            const pathParams = {}
+            const queryParams = {}
+            const collectionQueryParams = {}
+            const headerParams = {
+                'x-chain-id': xChainId,
+            }
+            const formParams = {}
+
+            const authNames = ['auth']
+            const contentTypes = ['application/json']
+            const accepts = ['application/json']
+            const returnType = KeyCreationResponse
+
+            return this.apiClient.callApi(
+                '/v2/key',
+                'POST',
+                pathParams,
+                queryParams,
+                collectionQueryParams,
+                headerParams,
+                formParams,
+                postBody,
+                authNames,
+                contentTypes,
+                accepts,
+                returnType,
+                callback
+            )
+        }
+
+        /**
+         * Callback function to receive the result of the keySignData operation.
+         * @callback KeyApi~keySignDataCallback
+         * @param {String} error Error message, if any.
+         * @param {KeySignDataResponse} data The data returned by the service call.
+         * @param {String} response The complete HTTP response.
+         */
+
+        /**
+         * KeySignData
+         * Sign the data using key
+         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * @param {Object} opts Optional parameters
+         * @param {String} opts.xKrn
+         * @param {KeySignDataRequest} opts.body
+         * @param {KeyApi~keySignDataCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link KeySignDataResponse}
+         */
+        this.keySignData = function(xChainId, opts, callback) {
+            opts = opts || {}
+            const postBody = opts.body
+
+            // verify the required parameter 'xChainId' is set
+            if (xChainId === undefined || xChainId === null) {
+                throw new Error("Missing the required parameter 'xChainId' when calling keySignData")
             }
 
             const pathParams = {}
@@ -143,11 +221,11 @@
             const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = AccountCountByKRN
+            const returnType = KeySignDataResponse
 
             return this.apiClient.callApi(
-                '/v2/stat/count/krn',
-                'GET',
+                '/v2/key/krn:1001:wallet:GC1:account:rp1::0xee962a47ebf9ccdad6d3d7da2d9cf9d203db4af0f53197dd3b8d8b71449c531b/sign',
+                'POST',
                 pathParams,
                 queryParams,
                 collectionQueryParams,
@@ -163,5 +241,5 @@
         }
     }
 
-    return StatisticsApi
+    return KeyApi
 })

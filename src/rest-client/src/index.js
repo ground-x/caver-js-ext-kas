@@ -61,6 +61,7 @@
             './wallet/model/AccountByPubkey',
             './wallet/model/AccountCountByAccountID',
             './wallet/model/AccountCountByKRN',
+            './wallet/model/AccountRegistration',
             './wallet/model/AccountStatus',
             './wallet/model/AccountSummary',
             './wallet/model/AccountUpdateTransactionRequest',
@@ -72,6 +73,7 @@
             './wallet/model/ContractExecutionTransactionRequest',
             './wallet/model/EmptyUpdateKeyType',
             './wallet/model/ErrorResponse',
+            './wallet/model/EventLog',
             './wallet/model/FDAccountUpdateTransactionRequest',
             './wallet/model/FDAnchorTransactionRequest',
             './wallet/model/FDCancelTransactionRequest',
@@ -87,7 +89,13 @@
             './wallet/model/FDUserProcessRLPRequest',
             './wallet/model/FDUserValueTransferTransactionRequest',
             './wallet/model/FDValueTransferTransactionRequest',
+            './wallet/model/Failures',
             './wallet/model/FeePayerSignaturesObj',
+            './wallet/model/Key',
+            './wallet/model/KeyCreationRequest',
+            './wallet/model/KeyCreationResponse',
+            './wallet/model/KeySignDataRequest',
+            './wallet/model/KeySignDataResponse',
             './wallet/model/LegacyTransactionRequest',
             './wallet/model/MultisigAccount',
             './wallet/model/MultisigAccountUpdateRequest',
@@ -103,6 +111,7 @@
             './wallet/model/RoleBasedUpdateKeyType',
             './wallet/model/SignPendingTransactionBySigRequest',
             './wallet/model/Signature',
+            './wallet/model/StatusResponse',
             './wallet/model/TransactionReceipt',
             './wallet/model/TransactionResult',
             './wallet/model/TxData',
@@ -111,7 +120,9 @@
             './wallet/api/BasicTransactionApi',
             './wallet/api/FeeDelegatedTransactionPaidByKASApi',
             './wallet/api/FeeDelegatedTransactionPaidByUserApi',
+            './wallet/api/KeyApi',
             './wallet/api/MultisigTransactionManagementApi',
+            './wallet/api/RegistrationApi',
             './wallet/api/StatisticsApi',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
@@ -161,6 +172,7 @@
             require('./wallet/model/AccountByPubkey'),
             require('./wallet/model/AccountCountByAccountID'),
             require('./wallet/model/AccountCountByKRN'),
+            require('./wallet/model/AccountRegistration'),
             require('./wallet/model/AccountStatus'),
             require('./wallet/model/AccountSummary'),
             require('./wallet/model/AccountUpdateTransactionRequest'),
@@ -172,6 +184,7 @@
             require('./wallet/model/ContractExecutionTransactionRequest'),
             require('./wallet/model/EmptyUpdateKeyType'),
             require('./wallet/model/ErrorResponse'),
+            require('./wallet/model/EventLog'),
             require('./wallet/model/FDAccountUpdateTransactionRequest'),
             require('./wallet/model/FDAnchorTransactionRequest'),
             require('./wallet/model/FDCancelTransactionRequest'),
@@ -187,7 +200,13 @@
             require('./wallet/model/FDUserProcessRLPRequest'),
             require('./wallet/model/FDUserValueTransferTransactionRequest'),
             require('./wallet/model/FDValueTransferTransactionRequest'),
+            require('./wallet/model/Failures'),
             require('./wallet/model/FeePayerSignaturesObj'),
+            require('./wallet/model/Key'),
+            require('./wallet/model/KeyCreationRequest'),
+            require('./wallet/model/KeyCreationResponse'),
+            require('./wallet/model/KeySignDataRequest'),
+            require('./wallet/model/KeySignDataResponse'),
             require('./wallet/model/LegacyTransactionRequest'),
             require('./wallet/model/MultisigAccount'),
             require('./wallet/model/MultisigAccountUpdateRequest'),
@@ -203,6 +222,7 @@
             require('./wallet/model/RoleBasedUpdateKeyType'),
             require('./wallet/model/SignPendingTransactionBySigRequest'),
             require('./wallet/model/Signature'),
+            require('./wallet/model/StatusResponse'),
             require('./wallet/model/TransactionReceipt'),
             require('./wallet/model/TransactionResult'),
             require('./wallet/model/TxData'),
@@ -211,7 +231,9 @@
             require('./wallet/api/BasicTransactionApi'),
             require('./wallet/api/FeeDelegatedTransactionPaidByKASApi'),
             require('./wallet/api/FeeDelegatedTransactionPaidByUserApi'),
+            require('./wallet/api/KeyApi'),
             require('./wallet/api/MultisigTransactionManagementApi'),
+            require('./wallet/api/RegistrationApi'),
             require('./wallet/api/StatisticsApi')
         )
     }
@@ -260,6 +282,7 @@
     AccountByPubkey,
     AccountCountByAccountID,
     AccountCountByKRN,
+    AccountRegistration,
     AccountStatus,
     AccountSummary,
     AccountUpdateTransactionRequest,
@@ -271,6 +294,7 @@
     ContractExecutionTransactionRequest,
     EmptyUpdateKeyType,
     ErrorResponse,
+    EventLog,
     FDAccountUpdateTransactionRequest,
     FDAnchorTransactionRequest,
     FDCancelTransactionRequest,
@@ -286,7 +310,13 @@
     FDUserProcessRLPRequest,
     FDUserValueTransferTransactionRequest,
     FDValueTransferTransactionRequest,
+    Failures,
     FeePayerSignaturesObj,
+    Key,
+    KeyCreationRequest,
+    KeyCreationResponse,
+    KeySignDataRequest,
+    KeySignDataResponse,
     LegacyTransactionRequest,
     MultisigAccount,
     MultisigAccountUpdateRequest,
@@ -302,6 +332,7 @@
     RoleBasedUpdateKeyType,
     SignPendingTransactionBySigRequest,
     Signature,
+    StatusResponse,
     TransactionReceipt,
     TransactionResult,
     TxData,
@@ -310,7 +341,9 @@
     BasicTransactionApi,
     FeeDelegatedTransactionPaidByKASApi,
     FeeDelegatedTransactionPaidByUserApi,
+    KeyApi,
     MultisigTransactionManagementApi,
+    RegistrationApi,
     StatisticsApi
 ) {
     /**
@@ -516,6 +549,11 @@
          */
         AccountCountByKRN: AccountCountByKRN,
         /**
+         * The AccountRegistration model constructor.
+         * @property {AccountRegistration}
+         */
+        AccountRegistration: AccountRegistration,
+        /**
          * The AccountStatus model constructor.
          * @property {AccountStatus}
          */
@@ -570,6 +608,11 @@
          * @property {ErrorResponse}
          */
         ErrorResponse: ErrorResponse,
+        /**
+         * The EventLog model constructor.
+         * @property {EventLog}
+         */
+        EventLog: EventLog,
         /**
          * The FDAccountUpdateTransactionRequest model constructor.
          * @property {FDAccountUpdateTransactionRequest}
@@ -646,10 +689,40 @@
          */
         FDValueTransferTransactionRequest: FDValueTransferTransactionRequest,
         /**
+         * The Failures model constructor.
+         * @property {Failures}
+         */
+        Failures: Failures,
+        /**
          * The FeePayerSignaturesObj model constructor.
          * @property {FeePayerSignaturesObj}
          */
         FeePayerSignaturesObj: FeePayerSignaturesObj,
+        /**
+         * The Key model constructor.
+         * @property {Key}
+         */
+        Key: Key,
+        /**
+         * The KeyCreationRequest model constructor.
+         * @property {KeyCreationRequest}
+         */
+        KeyCreationRequest: KeyCreationRequest,
+        /**
+         * The KeyCreationResponse model constructor.
+         * @property {KeyCreationResponse}
+         */
+        KeyCreationResponse: KeyCreationResponse,
+        /**
+         * The KeySignDataRequest model constructor.
+         * @property {KeySignDataRequest}
+         */
+        KeySignDataRequest: KeySignDataRequest,
+        /**
+         * The KeySignDataResponse model constructor.
+         * @property {KeySignDataResponse}
+         */
+        KeySignDataResponse: KeySignDataResponse,
         /**
          * The LegacyTransactionRequest model constructor.
          * @property {LegacyTransactionRequest}
@@ -726,6 +799,11 @@
          */
         Signature: Signature,
         /**
+         * The StatusResponse model constructor.
+         * @property {StatusResponse}
+         */
+        StatusResponse: StatusResponse,
+        /**
          * The TransactionReceipt model constructor.
          * @property {TransactionReceipt}
          */
@@ -766,10 +844,20 @@
          */
         FeeDelegatedTransactionPaidByUserApi: FeeDelegatedTransactionPaidByUserApi,
         /**
+         * The KeyApi service constructor.
+         * @property {KeyApi}
+         */
+        KeyApi: KeyApi,
+        /**
          * The MultisigTransactionManagementApi service constructor.
          * @property {MultisigTransactionManagementApi}
          */
         MultisigTransactionManagementApi: MultisigTransactionManagementApi,
+        /**
+         * The RegistrationApi service constructor.
+         * @property {RegistrationApi}
+         */
+        RegistrationApi: RegistrationApi,
         /**
          * The StatisticsApi service constructor.
          * @property {StatisticsApi}

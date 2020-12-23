@@ -39,6 +39,7 @@ const nftTokenId = '0x0'
 const receiver = '0x60498fEFBF1705A3Db8d7Bb5c80D5238956343e5'
 
 let nftTransfer
+let keyringContainer
 
 async function createTestTokenContracts(sender) {
     await timeout(3000)
@@ -49,23 +50,27 @@ async function createTestTokenContracts(sender) {
         gas: 25000,
     })
 
-    await caver.wallet.sign(sender.address, sendKLAY)
+    await keyringContainer.sign(sender.address, sendKLAY)
 
     await caver.rpc.klay.sendRawTransaction(sendKLAY)
 
     const kip7 = await caver.kct.kip7.deploy(
         { name: 'Jasmine', symbol: 'JAS', decimals: 18, initialSupply: '100000000000000000' },
-        sender.address
+        sender.address,
+        keyringContainer
     )
     ftContractAddress = kip7.options.address.toLowerCase()
 
     await kip7.transfer(receiver, 1, { from: sender.address })
 
-    const kip17 = await caver.kct.kip17.deploy({ name: 'Jasmine', symbol: 'JAS' }, sender.address)
+    const kip17 = await caver.kct.kip17.deploy({ name: 'Jasmine', symbol: 'JAS' }, sender.address, keyringContainer)
     nftContractAddress = kip17.options.address.toLowerCase()
 
     await kip17.mintWithTokenURI(sender.address, nftTokenId, 'test URI 1', { from: sender.address })
     await kip17.transferFrom(sender.address, receiver, nftTokenId, { from: sender.address })
+
+    // Wait until applying the transactions to KAS
+    await timeout(5000)
 }
 
 describe('TokenHistory API service', () => {
@@ -75,10 +80,11 @@ describe('TokenHistory API service', () => {
         this.timeout(100000)
 
         caver = new CaverExtKAS()
+        keyringContainer = new caver.keyringContainer()
         caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
         caver.initNodeAPI(nodeAPIEnv.chainId, nodeAPIEnv.accessKeyId, nodeAPIEnv.secretAccessKey, nodeAPIEnv.url)
 
-        sender = caver.wallet.add(caver.wallet.keyring.createFromPrivateKey(senderPrivateKey))
+        sender = keyringContainer.add(keyringContainer.keyring.createFromPrivateKey(senderPrivateKey))
 
         createTestTokenContracts(sender).then(() => done())
     })

@@ -16,128 +16,100 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient'], factory)
+        define(['../../ApiClient', '../model/AccountRegistration', '../model/ErrorResponse', '../model/StatusResponse'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'))
+        module.exports = factory(
+            require('../../ApiClient'),
+            require('../model/AccountRegistration'),
+            require('../model/ErrorResponse'),
+            require('../model/StatusResponse')
+        )
     } else {
         // Browser globals (root is window)
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.FDUserContractExecutionTransactionRequest = factory(root.WalletApi.ApiClient)
+        root.WalletApi.RegistrationApi = factory(
+            root.WalletApi.ApiClient,
+            root.WalletApi.AccountRegistration,
+            root.WalletApi.ErrorResponse,
+            root.WalletApi.StatusResponse
+        )
     }
-})(this, function(ApiClient) {
+})(this, function(ApiClient, AccountRegistration, ErrorResponse, StatusResponse) {
     /**
-     * The FDUserContractExecutionTransactionRequest model module.
-     * @class FDUserContractExecutionTransactionRequest
+     * Registration service.
+     * @class RegistrationApi
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>FDUserContractExecutionTransactionRequest</code>.
-     * User Fee Delegation Contract Execution Transaction Request Scheme
-     * @alias FDUserContractExecutionTransactionRequest
+     * Constructs a new RegistrationApi.
+     * @alias RegistrationApi
      * @class
-     * @param from {String} Klaytn account address sending a transaction
-     * @param to {String} Contract address
-     * @param input {String} Data attached to and used for executing the outgoing transaction
-     * @param feePayer {String} Account address for fee delegation of transaction fee
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
-    const FDUserContractExecutionTransactionRequest = function(from, to, input, feePayer) {
-        this.from = from
-        this.to = to
-        this.input = input
-        this.feePayer = feePayer
-    }
+    const RegistrationApi = function(apiClient) {
+        this.apiClient = apiClient || ApiClient.instance
 
-    /**
-     * Constructs a <code>FDUserContractExecutionTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {FDUserContractExecutionTransactionRequest} obj Optional instance to populate.
-     * @return {FDUserContractExecutionTransactionRequest} The populated <code>FDUserContractExecutionTransactionRequest</code> instance.
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.constructFromObject = function(data, obj) {
-        if (data) {
-            obj = obj || new FDUserContractExecutionTransactionRequest()
-            if (data.hasOwnProperty('from')) obj.from = ApiClient.convertToType(data.from, 'String')
-            if (data.hasOwnProperty('value')) obj.value = ApiClient.convertToType(data.value, 'String')
-            if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
-            if (data.hasOwnProperty('input')) obj.input = ApiClient.convertToType(data.input, 'String')
-            if (data.hasOwnProperty('nonce')) obj.nonce = ApiClient.convertToType(data.nonce, 'Number')
-            if (data.hasOwnProperty('gas')) obj.gas = ApiClient.convertToType(data.gas, 'Number')
-            if (data.hasOwnProperty('submit')) obj.submit = ApiClient.convertToType(data.submit, 'Boolean')
-            if (data.hasOwnProperty('feePayer')) obj.feePayer = ApiClient.convertToType(data.feePayer, 'String')
-            if (data.hasOwnProperty('feeRatio')) obj.feeRatio = ApiClient.convertToType(data.feeRatio, 'Number')
+        /**
+         * Callback function to receive the result of the registerAccount operation.
+         * @callback RegistrationApi~registerAccountCallback
+         * @param {String} error Error message, if any.
+         * @param {StatusResponse} data The data returned by the service call.
+         * @param {String} response The complete HTTP response.
+         */
+
+        /**
+         * RegisterAccount
+         * Register account which used before
+         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * @param {Object} opts Optional parameters
+         * @param {Array.<AccountRegistration>} opts.body
+         * @param {RegistrationApi~registerAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link StatusResponse}
+         */
+        this.registerAccount = function(xChainId, opts, callback) {
+            opts = opts || {}
+            const postBody = opts.body
+
+            // verify the required parameter 'xChainId' is set
+            if (xChainId === undefined || xChainId === null) {
+                throw new Error("Missing the required parameter 'xChainId' when calling registerAccount")
+            }
+
+            const pathParams = {}
+            const queryParams = {}
+            const collectionQueryParams = {}
+            const headerParams = {
+                'x-chain-id': xChainId,
+            }
+            const formParams = {}
+
+            const authNames = ['auth']
+            const contentTypes = ['application/json']
+            const accepts = ['application/json']
+            const returnType = StatusResponse
+
+            return this.apiClient.callApi(
+                '/v2/registration/account',
+                'POST',
+                pathParams,
+                queryParams,
+                collectionQueryParams,
+                headerParams,
+                formParams,
+                postBody,
+                authNames,
+                contentTypes,
+                accepts,
+                returnType,
+                callback
+            )
         }
-        return obj
     }
 
-    /**
-     * Klaytn account address sending a transaction
-     * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.from = undefined
-
-    /**
-     * KLAY converted into PEB unit
-     * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.value = undefined
-
-    /**
-     * Contract address
-     * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.to = undefined
-
-    /**
-     * Data attached to and used for executing the outgoing transaction
-     * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.input = undefined
-
-    /**
-     * Unique value of the outgoing transaction
-     * @type {Number}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.nonce = undefined
-
-    /**
-     * Max. transaction fee (gas) for sending the transaction
-     * @type {Number}
-     * @memberof FDUserContractExecutionTransactionRequest
-     * @default 100000
-     */
-    FDUserContractExecutionTransactionRequest.prototype.gas = 100000
-
-    /**
-     * Whether to send the transaction to Klaytn
-     * @type {Boolean}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.submit = undefined
-
-    /**
-     * Account address for fee delegation of transaction fee
-     * @type {String}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.feePayer = undefined
-
-    /**
-     * Ratio to be paid by the Proxy fee payer for the entire transaction fee(1~99). If value is empty or 0, fee payer will pay all fees
-     * @type {Number}
-     * @memberof FDUserContractExecutionTransactionRequest
-     */
-    FDUserContractExecutionTransactionRequest.prototype.feeRatio = undefined
-
-    return FDUserContractExecutionTransactionRequest
+    return RegistrationApi
 })
