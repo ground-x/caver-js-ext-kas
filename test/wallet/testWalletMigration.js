@@ -1,0 +1,191 @@
+/*
+ * Copyright 2020 The caver-js-ext-kas Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the “License”);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an “AS IS” BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+const _ = require('lodash')
+const chai = require('chai')
+const sinon = require('sinon')
+const sinonChai = require('sinon-chai')
+const chaiAsPromised = require('chai-as-promised')
+
+chai.use(chaiAsPromised)
+chai.use(sinonChai)
+
+const expect = chai.expect
+
+const CaverExtKAS = require('../../index.js')
+
+let caver
+const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.walletAPI
+
+const sandbox = sinon.createSandbox()
+
+describe('Wallet API - Basic transaction API', () => {
+    beforeEach(() => {
+        caver = new CaverExtKAS()
+    })
+
+    afterEach(() => {
+        sandbox.restore()
+    })
+
+    context('caver.kas.wallet.migrateAccounts', () => {
+        // Create a keyring which will be migrated.
+        const keyring = caver.keyringContainer.keyring.generate()
+        const address = keyring._address
+
+        const keyring2 = caver.keyringContainer.keyring.generate()
+        const address2 = keyring2._address
+
+        const kasKey = {
+            items: [
+                {
+                    blob: '0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61',
+                    keyId: 'krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221',
+                    krn: 'krn:1001:wallet:test:account-pool:default',
+                    publicKey:
+                        '0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d',
+                },
+            ],
+        }
+        const kasRegistration = {
+            status: 'ok',
+        }
+
+        // Configure fakes for key creation and account registration.
+        const setMigrateStubs = (tcName, kcResult, raResult) => {
+            sandbox.spy(caver.kas.wallet.keyApi, `${tcName}KeyCreation`)
+            const keyApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient)
+            keyApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    callback(null, kcResult, { body: kcResult })
+                }
+            )
+
+            sandbox.spy(caver.kas.wallet.registrationApi, `${tcName}Registration`)
+            const regApiStub = sandbox.stub(caver.kas.wallet.registrationApi.apiClient)
+            regApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    callback(null, kcResult, { body: raResult })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-WALLET-169: should return status with a single key account', async () => {
+            const key = keyring.getKlaytnWalletKey()
+
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+            setMigrateStubs('legacyAccountMigration', kasKey, kasRegistration)
+
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }])
+
+            expect(ret).not.to.be.undefined
+            expect(ret.status).not.to.be.undefined
+            expect(ret.status).to.be.equal('ok')
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-170: should return status for a role based key account', async () => {
+            const key = caver.wallet.keyring.generateRoleBasedKeys([2, 1, 3])
+
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+            setMigrateStubs('roleAccountMigration', kasKey, kasRegistration)
+
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }])
+
+            expect(ret).not.to.be.undefined
+            expect(ret.status).not.to.be.undefined
+            expect(ret.status).to.be.equal('ok')
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-171: should return status with a multisig key account', async () => {
+            const key = caver.wallet.keyring.generateMultipleKeys(3)
+
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+            setMigrateStubs('multisigAccountMigration', kasKey, kasRegistration)
+
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }])
+
+            expect(ret).not.to.be.undefined
+            expect(ret.status).not.to.be.undefined
+            expect(ret.status).to.be.equal('ok')
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-172: should return invalid key error', async () => {
+            const key = caver.wallet.keyring.generateMultipleKeys(3)
+
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+            setMigrateStubs('multisigAccountMigration', kasKey, {
+                code: 1061010,
+                message:
+                    "data don't exist; krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x9b2f4d85d7f7abb14db229b5a81f1bdca0aa24c8ff0c4c100b3f25098b7a6152",
+                requestId: 'POST-/v2/registration/account-1607566714428099800',
+            })
+
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }])
+
+            expect(ret).to.be.undefined
+        })
+        it('CAVERJS-EXT-KAS-WALLET-174: should return status with multiple accounts', async () => {
+            const key = keyring.getKlaytnWalletKey()
+            const key2 = keyring2.getKlaytnWalletKey()
+
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+            setMigrateStubs('multisigAccountMigration', kasKey, {
+                failures: {
+                    '0xa53333EFFd4F2c4889a23B8b0761b277b007Da4A':
+                        'failed to send a raw transaction to klaytn node; -32000::invalid transaction v, r, s values of the sender',
+                },
+                status: 'partially failed',
+            })
+
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }, { address: address2, key: key2 }])
+
+            expect(ret).not.to.be.undefined
+            expect(ret.status).not.to.be.undefined
+            expect(ret.status).to.be.equal('partially failed')
+            expect(ret.failures).not.to.be.undefined
+            expect(ret.failures.length).not.to.be.undefined
+            expect(ret.failures.length).to.be.equal(1)
+        })
+    })
+})

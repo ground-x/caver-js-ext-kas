@@ -302,7 +302,7 @@ class Wallet {
         // Call an account registration API with the request containing a set of transaction RLP for updating account.
         // This API will invoke transactions for RLPs if they are included.
         // Otherwise, you can update your Klaytn's account with your own Klaytn node in advance.
-        const result = await this.apiInstances.registration(chainId, { body: req })
+        const result = await this.registrationApi.registerAccount(chainId, { body: req })
 
         // After migration
         keyringContainer = null
