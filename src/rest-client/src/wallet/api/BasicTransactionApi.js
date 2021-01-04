@@ -21,6 +21,8 @@
             '../model/AccountUpdateTransactionRequest',
             '../model/AnchorTransactionRequest',
             '../model/CancelTransactionRequest',
+            '../model/ContractCallRequest',
+            '../model/ContractCallResponse',
             '../model/ContractDeployTransactionRequest',
             '../model/ContractExecutionTransactionRequest',
             '../model/ErrorResponse',
@@ -37,6 +39,8 @@
             require('../model/AccountUpdateTransactionRequest'),
             require('../model/AnchorTransactionRequest'),
             require('../model/CancelTransactionRequest'),
+            require('../model/ContractCallRequest'),
+            require('../model/ContractCallResponse'),
             require('../model/ContractDeployTransactionRequest'),
             require('../model/ContractExecutionTransactionRequest'),
             require('../model/ErrorResponse'),
@@ -56,6 +60,8 @@
             root.WalletApi.AccountUpdateTransactionRequest,
             root.WalletApi.AnchorTransactionRequest,
             root.WalletApi.CancelTransactionRequest,
+            root.WalletApi.ContractCallRequest,
+            root.WalletApi.ContractCallResponse,
             root.WalletApi.ContractDeployTransactionRequest,
             root.WalletApi.ContractExecutionTransactionRequest,
             root.WalletApi.ErrorResponse,
@@ -71,6 +77,8 @@
     AccountUpdateTransactionRequest,
     AnchorTransactionRequest,
     CancelTransactionRequest,
+    ContractCallRequest,
+    ContractCallResponse,
     ContractDeployTransactionRequest,
     ContractExecutionTransactionRequest,
     ErrorResponse,
@@ -250,6 +258,62 @@
             return this.apiClient.callApi(
                 '/v2/tx',
                 'DELETE',
+                pathParams,
+                queryParams,
+                collectionQueryParams,
+                headerParams,
+                formParams,
+                postBody,
+                authNames,
+                contentTypes,
+                accepts,
+                returnType,
+                callback
+            )
+        }
+
+        /**
+         * Callback function to receive the result of the contractCall operation.
+         * @callback BasicTransactionApi~contractCallCallback
+         * @param {String} error Error message, if any.
+         * @param {ContractCallResponse} data The data returned by the service call.
+         * @param {String} response The complete HTTP response.
+         */
+
+        /**
+         * ContractCall
+         * You can view certain value in the contract and validate that you can submit executable transaction.
+         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * @param {Object} opts Optional parameters
+         * @param {ContractCallRequest} opts.body
+         * @param {BasicTransactionApi~contractCallCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link ContractCallResponse}
+         */
+        this.contractCall = function(xChainId, opts, callback) {
+            opts = opts || {}
+            const postBody = opts.body
+
+            // verify the required parameter 'xChainId' is set
+            if (xChainId === undefined || xChainId === null) {
+                throw new Error("Missing the required parameter 'xChainId' when calling contractCall")
+            }
+
+            const pathParams = {}
+            const queryParams = {}
+            const collectionQueryParams = {}
+            const headerParams = {
+                'x-chain-id': xChainId,
+            }
+            const formParams = {}
+
+            const authNames = ['auth']
+            const contentTypes = ['application/json']
+            const accepts = ['application/json']
+            const returnType = ContractCallResponse
+
+            return this.apiClient.callApi(
+                '/v2/tx/contract/call',
+                'POST',
                 pathParams,
                 queryParams,
                 collectionQueryParams,

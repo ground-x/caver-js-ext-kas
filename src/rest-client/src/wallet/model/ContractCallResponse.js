@@ -25,66 +25,58 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.AccountRegistration = factory(root.WalletApi.ApiClient)
+        root.WalletApi.ContractCallResponse = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The AccountRegistration model module.
-     * @class AccountRegistration
+     * The ContractCallResponse model module.
+     * @class ContractCallResponse
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>AccountRegistration</code>.
-     * Account Registration Request Item
-     * @alias AccountRegistration
+     * Constructs a new <code>ContractCallResponse</code>.
+     * Contract call response schema
+     * @alias ContractCallResponse
      * @class
-     * @param keyId {String} Key ID which is create in KMS(Key Management System)
-     * @param address {String} Klaytn address
+     * @param data {String} Contract call data
+     * @param result {String}
      */
-    const AccountRegistration = function(keyId, address) {
-        this.keyId = keyId
-        this.address = address
+    const ContractCallResponse = function(data, result) {
+        this.data = data
+        this.result = result
     }
 
     /**
-     * Constructs a <code>AccountRegistration</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>ContractCallResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {AccountRegistration} obj Optional instance to populate.
-     * @return {AccountRegistration} The populated <code>AccountRegistration</code> instance.
-     * @memberof AccountRegistration
+     * @param {ContractCallResponse} obj Optional instance to populate.
+     * @return {ContractCallResponse} The populated <code>ContractCallResponse</code> instance.
+     * @memberof ContractCallResponse
      */
-    AccountRegistration.constructFromObject = function(data, obj) {
+    ContractCallResponse.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new AccountRegistration()
-            if (data.hasOwnProperty('keyId')) obj.keyId = ApiClient.convertToType(data.keyId, 'String')
-            if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
-            if (data.hasOwnProperty('rlp')) obj.rlp = ApiClient.convertToType(data.rlp, 'String')
+            obj = obj || new ContractCallResponse()
+            if (data.hasOwnProperty('data')) obj.data = ApiClient.convertToType(data.data, 'String')
+            if (data.hasOwnProperty('result')) obj.result = ApiClient.convertToType(data.result, 'String')
         }
         return obj
     }
 
     /**
-     * Key ID which is create in KMS(Key Management System)
+     * Contract call data
      * @type {String}
-     * @memberof AccountRegistration
+     * @memberof ContractCallResponse
      */
-    AccountRegistration.prototype.keyId = undefined
+    ContractCallResponse.prototype.data = undefined
 
     /**
-     * Klaytn address
+     * result
      * @type {String}
-     * @memberof AccountRegistration
+     * @memberof ContractCallResponse
      */
-    AccountRegistration.prototype.address = undefined
+    ContractCallResponse.prototype.result = undefined
 
-    /**
-     * RLP value. If RLP value is received, account update is executed using the value
-     * @type {String}
-     * @memberof AccountRegistration
-     */
-    AccountRegistration.prototype.rlp = undefined
-
-    return AccountRegistration
+    return ContractCallResponse
 })

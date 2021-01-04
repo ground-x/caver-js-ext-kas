@@ -25,66 +25,59 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.AccountRegistration = factory(root.WalletApi.ApiClient)
+        root.WalletApi.CallArgument = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The AccountRegistration model module.
-     * @class AccountRegistration
+     * The CallArgument model module.
+     * @class CallArgument
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>AccountRegistration</code>.
-     * Account Registration Request Item
-     * @alias AccountRegistration
+     * Constructs a new <code>CallArgument</code>.
+     * Method parameter
+     * @alias CallArgument
      * @class
-     * @param keyId {String} Key ID which is create in KMS(Key Management System)
-     * @param address {String} Klaytn address
+     * @param type {String} Parameter type
+     * @memberof CallArgument
+     * @param value {String} Parameter value
      */
-    const AccountRegistration = function(keyId, address) {
-        this.keyId = keyId
-        this.address = address
+    const CallArgument = function(type, value) {
+        this.type = type
+        this.value = value
     }
 
     /**
-     * Constructs a <code>AccountRegistration</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>CallArgument</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {AccountRegistration} obj Optional instance to populate.
-     * @return {AccountRegistration} The populated <code>AccountRegistration</code> instance.
-     * @memberof AccountRegistration
+     * @param {CallArgument} obj Optional instance to populate.
+     * @return {CallArgument} The populated <code>CallArgument</code> instance.
+     * @memberof CallArgument
      */
-    AccountRegistration.constructFromObject = function(data, obj) {
+    CallArgument.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new AccountRegistration()
-            if (data.hasOwnProperty('keyId')) obj.keyId = ApiClient.convertToType(data.keyId, 'String')
-            if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
-            if (data.hasOwnProperty('rlp')) obj.rlp = ApiClient.convertToType(data.rlp, 'String')
+            obj = obj || new CallArgument()
+            if (data.hasOwnProperty('type')) obj.type = ApiClient.convertToType(data.type, 'String')
+            if (data.hasOwnProperty('value')) obj.value = ApiClient.convertToType(data.value, 'String')
         }
         return obj
     }
 
     /**
-     * Key ID which is create in KMS(Key Management System)
+     * Parameter type
      * @type {String}
-     * @memberof AccountRegistration
+     * @memberof CallArgument
      */
-    AccountRegistration.prototype.keyId = undefined
+    CallArgument.prototype.type = undefined
 
     /**
-     * Klaytn address
+     * Parameter value
      * @type {String}
-     * @memberof AccountRegistration
+     * @memberof CallArgument
      */
-    AccountRegistration.prototype.address = undefined
+    CallArgument.prototype.value = undefined
 
-    /**
-     * RLP value. If RLP value is received, account update is executed using the value
-     * @type {String}
-     * @memberof AccountRegistration
-     */
-    AccountRegistration.prototype.rlp = undefined
-
-    return AccountRegistration
+    return CallArgument
 })

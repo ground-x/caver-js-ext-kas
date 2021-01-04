@@ -78,7 +78,11 @@
             './wallet/model/Accounts',
             './wallet/model/AccountsByPubkey',
             './wallet/model/AnchorTransactionRequest',
+            './wallet/model/CallArgument',
             './wallet/model/CancelTransactionRequest',
+            './wallet/model/ContractCallData',
+            './wallet/model/ContractCallRequest',
+            './wallet/model/ContractCallResponse',
             './wallet/model/ContractDeployTransactionRequest',
             './wallet/model/ContractExecutionTransactionRequest',
             './wallet/model/EmptyUpdateKeyType',
@@ -199,7 +203,11 @@
             require('./wallet/model/Accounts'),
             require('./wallet/model/AccountsByPubkey'),
             require('./wallet/model/AnchorTransactionRequest'),
+            require('./wallet/model/CallArgument'),
             require('./wallet/model/CancelTransactionRequest'),
+            require('./wallet/model/ContractCallData'),
+            require('./wallet/model/ContractCallRequest'),
+            require('./wallet/model/ContractCallResponse'),
             require('./wallet/model/ContractDeployTransactionRequest'),
             require('./wallet/model/ContractExecutionTransactionRequest'),
             require('./wallet/model/EmptyUpdateKeyType'),
@@ -319,7 +327,11 @@
     Accounts,
     AccountsByPubkey,
     AnchorTransactionRequest,
+    CallArgument,
     CancelTransactionRequest,
+    ContractCallData,
+    ContractCallRequest,
+    ContractCallResponse,
     ContractDeployTransactionRequest,
     ContractExecutionTransactionRequest,
     EmptyUpdateKeyType,
@@ -664,10 +676,30 @@
          */
         AnchorTransactionRequest: AnchorTransactionRequest,
         /**
+         * The CallArgument model constructor.
+         * @property {CallArgument}
+         */
+        CallArgument: CallArgument,
+        /**
          * The CancelTransactionRequest model constructor.
          * @property {CancelTransactionRequest}
          */
         CancelTransactionRequest: CancelTransactionRequest,
+        /**
+         * The ContractCallData model constructor.
+         * @property {ContractCallData}
+         */
+        ContractCallData: ContractCallData,
+        /**
+         * The ContractCallRequest model constructor.
+         * @property {ContractCallRequest}
+         */
+        ContractCallRequest: ContractCallRequest,
+        /**
+         * The ContractCallResponse model constructor.
+         * @property {ContractCallResponse}
+         */
+        ContractCallResponse: ContractCallResponse,
         /**
          * The ContractDeployTransactionRequest model constructor.
          * @property {ContractDeployTransactionRequest}

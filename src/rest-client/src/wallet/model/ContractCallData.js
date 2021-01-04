@@ -16,75 +16,64 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient'], factory)
+        define(['../../ApiClient', '../model/CallArgument'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'))
+        module.exports = factory(require('../../ApiClient'), require('./CallArgument'))
     } else {
         // Browser globals (root is window)
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.AccountRegistration = factory(root.WalletApi.ApiClient)
+        root.WalletApi.ContractCallData = factory(root.WalletApi.ApiClient, root.WalletApi.CallArgument)
     }
-})(this, function(ApiClient) {
+})(this, function(ApiClient, CallArgument) {
     /**
-     * The AccountRegistration model module.
-     * @class AccountRegistration
+     * The ContractCallData model module.
+     * @class ContractCallData
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>AccountRegistration</code>.
-     * Account Registration Request Item
-     * @alias AccountRegistration
+     * Constructs a new <code>ContractCallData</code>.
+     * Contract call data
+     * @alias ContractCallData
      * @class
-     * @param keyId {String} Key ID which is create in KMS(Key Management System)
-     * @param address {String} Klaytn address
+     * @param methodName {String} Method name
      */
-    const AccountRegistration = function(keyId, address) {
-        this.keyId = keyId
-        this.address = address
+    const ContractCallData = function(methodName) {
+        this.methodName = methodName
     }
 
     /**
-     * Constructs a <code>AccountRegistration</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>ContractCallData</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {AccountRegistration} obj Optional instance to populate.
-     * @return {AccountRegistration} The populated <code>AccountRegistration</code> instance.
-     * @memberof AccountRegistration
+     * @param {ContractCallData} obj Optional instance to populate.
+     * @return {ContractCallData} The populated <code>ContractCallData</code> instance.
+     * @memberof ContractCallData
      */
-    AccountRegistration.constructFromObject = function(data, obj) {
+    ContractCallData.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new AccountRegistration()
-            if (data.hasOwnProperty('keyId')) obj.keyId = ApiClient.convertToType(data.keyId, 'String')
-            if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
-            if (data.hasOwnProperty('rlp')) obj.rlp = ApiClient.convertToType(data.rlp, 'String')
+            obj = obj || new ContractCallData()
+            if (data.hasOwnProperty('methodName')) obj.methodName = ApiClient.convertToType(data.methodName, 'String')
+            if (data.hasOwnProperty('arguments')) obj._arguments = ApiClient.convertToType(data.arguments, [CallArgument])
         }
         return obj
     }
 
     /**
-     * Key ID which is create in KMS(Key Management System)
+     * Method name
      * @type {String}
-     * @memberof AccountRegistration
+     * @memberof ContractCallData
      */
-    AccountRegistration.prototype.keyId = undefined
+    ContractCallData.prototype.methodName = undefined
 
     /**
-     * Klaytn address
-     * @type {String}
-     * @memberof AccountRegistration
+     * @type {Array.<CallArgument>}
+     * @memberof ContractCallData
      */
-    AccountRegistration.prototype.address = undefined
+    ContractCallData.prototype._arguments = undefined
 
-    /**
-     * RLP value. If RLP value is received, account update is executed using the value
-     * @type {String}
-     * @memberof AccountRegistration
-     */
-    AccountRegistration.prototype.rlp = undefined
-
-    return AccountRegistration
+    return ContractCallData
 })

@@ -466,6 +466,7 @@
          * @param {String} opts.cursor Information on last searched cursor
          * @param {Number} opts.toTimestamp Timestamp of the end time to be searched (in seconds)
          * @param {Number} opts.fromTimestamp Timestamp of the start time to be searched (in seconds)
+         * @param {String} opts.status  (default to enabled)
          * @param {AccountApi~retrieveAccountsCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link Accounts}
          */
@@ -484,6 +485,7 @@
                 cursor: opts.cursor,
                 'to-timestamp': opts.toTimestamp,
                 'from-timestamp': opts.fromTimestamp,
+                status: opts.status,
             }
             const collectionQueryParams = {}
             const headerParams = {
