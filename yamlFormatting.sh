@@ -61,6 +61,9 @@ for i in ${DIRS};do
 				sed -i '' 's/} '"$item"'$/}/g' $j
 			done
 			sed -i '' "s/@member /@type /g" $j
+
+			# Format empty brace without newline
+			sed -i '' 'H;1h;$!d;x; s/{\n *}/{}/g' $j
 		done
 
       cd ../../;
