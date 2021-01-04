@@ -203,6 +203,12 @@ class Wallet {
     get statisticsApi() {
         return this.apiInstances.statistics
     }
+    /**
+     * @type {KeyApi}
+     */
+    get keyApi() {
+        return this.apiInstances.key
+    }
 
     /**
      * @type {KeyApi}
