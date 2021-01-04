@@ -25,57 +25,67 @@
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.FtLink = factory(root.TokenHistoryApi.ApiClient)
+        root.TokenHistoryApi.ErrorResponse = factory(root.TokenHistoryApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The FtLink model module.
-     * @class FtLink
+     * The ErrorResponse model module.
+     * @class ErrorResponse
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>FtLink</code>.
-     * @alias FtLink
+     * Constructs a new <code>ErrorResponse</code>.
+     * @alias ErrorResponse
      * @class
-     * @param website {String} URL of the contract's website
-     * @param icon {String} Token icon URL
+     * @param code {Number} KAS error code
+     * @param message {String} KAS error message
+     * @param requestId {String} ID of the request caused the error
      */
-    const FtLink = function(website, icon) {
-        this.website = website
-        this.icon = icon
+    const ErrorResponse = function(code, message, requestId) {
+        this.code = code
+        this.message = message
+        this.requestId = requestId
     }
 
     /**
-     * Constructs a <code>FtLink</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>ErrorResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {FtLink} obj Optional instance to populate.
-     * @return {FtLink} The populated <code>FtLink</code> instance.
-     * @memberof FtLink
+     * @param {ErrorResponse} obj Optional instance to populate.
+     * @return {ErrorResponse} The populated <code>ErrorResponse</code> instance.
+     * @memberof ErrorResponse
      */
-    FtLink.constructFromObject = function(data, obj) {
+    ErrorResponse.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new FtLink()
-            if (data.hasOwnProperty('website')) obj.website = ApiClient.convertToType(data.website, 'String')
-            if (data.hasOwnProperty('icon')) obj.icon = ApiClient.convertToType(data.icon, 'String')
+            obj = obj || new ErrorResponse()
+            if (data.hasOwnProperty('code')) obj.code = ApiClient.convertToType(data.code, 'Number')
+            if (data.hasOwnProperty('message')) obj.message = ApiClient.convertToType(data.message, 'String')
+            if (data.hasOwnProperty('requestId')) obj.requestId = ApiClient.convertToType(data.requestId, 'String')
         }
         return obj
     }
 
     /**
-     * URL of the contract's website
-     * @type {String}
-     * @memberof FtLink
+     * KAS error code
+     * @type {Number}
+     * @memberof ErrorResponse
      */
-    FtLink.prototype.website = undefined
+    ErrorResponse.prototype.code = undefined
 
     /**
-     * Token icon URL
+     * KAS error message
      * @type {String}
-     * @memberof FtLink
+     * @memberof ErrorResponse
      */
-    FtLink.prototype.icon = undefined
+    ErrorResponse.prototype.message = undefined
 
-    return FtLink
+    /**
+     * ID of the request caused the error
+     * @type {String}
+     * @memberof ErrorResponse
+     */
+    ErrorResponse.prototype.requestId = undefined
+
+    return ErrorResponse
 })

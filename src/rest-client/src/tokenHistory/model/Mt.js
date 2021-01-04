@@ -25,57 +25,67 @@
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.FtLink = factory(root.TokenHistoryApi.ApiClient)
+        root.TokenHistoryApi.Mt = factory(root.TokenHistoryApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The FtLink model module.
-     * @class FtLink
+     * The Mt model module.
+     * @class Mt
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>FtLink</code>.
-     * @alias FtLink
+     * Constructs a new <code>Mt</code>.
+     * @alias Mt
      * @class
-     * @param website {String} URL of the contract's website
-     * @param icon {String} Token icon URL
+     * @param tokenId {String} Token ID (hex)
+     * @param totalSupply {String} Total supply (hex)
+     * @param tokenUri {String} Token URI
      */
-    const FtLink = function(website, icon) {
-        this.website = website
-        this.icon = icon
+    const Mt = function(tokenId, totalSupply, tokenUri) {
+        this.tokenId = tokenId
+        this.totalSupply = totalSupply
+        this.tokenUri = tokenUri
     }
 
     /**
-     * Constructs a <code>FtLink</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Mt</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {FtLink} obj Optional instance to populate.
-     * @return {FtLink} The populated <code>FtLink</code> instance.
-     * @memberof FtLink
+     * @param {Mt} obj Optional instance to populate.
+     * @return {Mt} The populated <code>Mt</code> instance.
+     * @memberof Mt
      */
-    FtLink.constructFromObject = function(data, obj) {
+    Mt.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new FtLink()
-            if (data.hasOwnProperty('website')) obj.website = ApiClient.convertToType(data.website, 'String')
-            if (data.hasOwnProperty('icon')) obj.icon = ApiClient.convertToType(data.icon, 'String')
+            obj = obj || new Mt()
+            if (data.hasOwnProperty('tokenId')) obj.tokenId = ApiClient.convertToType(data.tokenId, 'String')
+            if (data.hasOwnProperty('totalSupply')) obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'String')
+            if (data.hasOwnProperty('tokenUri')) obj.tokenUri = ApiClient.convertToType(data.tokenUri, 'String')
         }
         return obj
     }
 
     /**
-     * URL of the contract's website
+     * Token ID (hex)
      * @type {String}
-     * @memberof FtLink
+     * @memberof Mt
      */
-    FtLink.prototype.website = undefined
+    Mt.prototype.tokenId = undefined
 
     /**
-     * Token icon URL
+     * Total supply (hex)
      * @type {String}
-     * @memberof FtLink
+     * @memberof Mt
      */
-    FtLink.prototype.icon = undefined
+    Mt.prototype.totalSupply = undefined
 
-    return FtLink
+    /**
+     * Token URI
+     * @type {String}
+     * @memberof Mt
+     */
+    Mt.prototype.tokenUri = undefined
+
+    return Mt
 })

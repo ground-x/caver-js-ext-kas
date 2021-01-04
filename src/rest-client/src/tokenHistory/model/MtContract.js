@@ -16,55 +16,56 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/TransferItem'], factory)
+        define(['../../ApiClient'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./TransferItem'))
+        module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.Transfers = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.TransferItem)
+        root.TokenHistoryApi.MtContract = factory(root.TokenHistoryApi.ApiClient)
     }
-})(this, function(ApiClient, TransferItem) {
+})(this, function(ApiClient) {
     /**
-     * The Transfers model module.
-     * @class Transfers
+     * The MtContract model module.
+     * @class MtContract
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>Transfers</code>.
-     * @alias Transfers
+     * Constructs a new <code>MtContract</code>.
+     * @alias MtContract
      * @class
-     * @param items {Array.<TransferItem>}
+     * @param address {String} Contract address (20-byte)
      */
-    const Transfers = function(items) {
-        this.items = items
+    const MtContract = function(address) {
+        this.address = address
     }
 
     /**
-     * Constructs a <code>Transfers</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>MtContract</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Transfers} obj Optional instance to populate.
-     * @return {Transfers} The populated <code>Transfers</code> instance.
-     * @memberof Transfers
+     * @param {MtContract} obj Optional instance to populate.
+     * @return {MtContract} The populated <code>MtContract</code> instance.
+     * @memberof MtContract
      */
-    Transfers.constructFromObject = function(data, obj) {
+    MtContract.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new Transfers()
-            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [TransferItem])
+            obj = obj || new MtContract()
+            if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
         }
         return obj
     }
 
     /**
-     * @type {Array.<TransferItem>}
-     * @memberof Transfers
+     * Contract address (20-byte)
+     * @type {String}
+     * @memberof MtContract
      */
-    Transfers.prototype.items = undefined
+    MtContract.prototype.address = undefined
 
-    return Transfers
+    return MtContract
 })

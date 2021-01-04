@@ -16,80 +16,79 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/PageableNftOwnershipChanges'], factory)
+        define(['../../ApiClient', '../model/ErrorResponse', '../model/PageableAccountFT'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('../model/PageableNftOwnershipChanges'))
+        module.exports = factory(require('../../ApiClient'), require('../model/ErrorResponse'), require('../model/PageableAccountFT'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.TokenOwnershipApi = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.PageableNftOwnershipChanges)
+        root.TokenHistoryApi.AccountApi = factory(
+            root.TokenHistoryApi.ApiClient,
+            root.TokenHistoryApi.ErrorResponse,
+            root.TokenHistoryApi.PageableAccountFT
+        )
     }
-})(this, function(ApiClient, PageableNftOwnershipChanges) {
+})(this, function(ApiClient, ErrorResponse, PageableAccountFT) {
     /**
-     * TokenOwnership service.
-     * @class TokenOwnershipApi
+     * Account service.
+     * @class AccountApi
      * @version 1.0
      */
 
     /**
-     * Constructs a new TokenOwnershipApi.
-     * @alias TokenOwnershipApi
+     * Constructs a new AccountApi.
+     * @alias AccountApi
      * @class
      * @param {ApiClient} [apiClient] Optional API client implementation to use,
      * default to {@link ApiClient#instance} if unspecified.
      */
-    const TokenOwnershipApi = function(apiClient) {
+    const AccountApi = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
-         * Callback function to receive the result of the getListOfNftOwnershipChanges operation.
-         * @callback TokenOwnershipApi~getListOfNftOwnershipChangesCallback
+         * Callback function to receive the result of the getFtSummaryByEoaAddress operation.
+         * @callback AccountApi~getFtSummaryByEoaAddressCallback
          * @param {String} error Error message, if any.
-         * @param {PageableNftOwnershipChanges} data The data returned by the service call.
+         * @param {PageableAccountFT} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
         /**
-         * getListOfNftOwnershipChanges
-         * Search for the ownership change history of a specific NFT.<p></p>  ## Size<p></p>  * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br> * Submitting negative values result in errors.<br> * Submitting zero results in a query with `size=100`, which is the default value.<br> * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+         * getFtSummaryByEoaAddress
+         * Lists all fungible tokens owned by the queried EOA address.<p></p>  ## Ca Filters<p></p>  * Filter contracts by specifying contract addresses to include in `ca-filters`.<br> * Separate addresses by comma e.g., `?ca-filters=0x...,0x...`.<p></p><br>  ## Size<p></p>  * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br> * Submitting negative values result in errors.<br> * Submitting zero results in a query with `size=100`, which is the default value.<br> * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
          * @param {String} xChainId Klaytn network chain ID (1001 or 8217)
-         * @param {String} nftAddress NFT contract address
-         * @param {String} tokenId NFT ID (HEX)
+         * @param {String} address
          * @param {Object} opts Optional parameters
-         * @param {Number} opts.size Maximum number of items to return (min=1, max=1000, default=100)
-         * @param {String} opts.cursor Response offset
-         * @param {TokenOwnershipApi~getListOfNftOwnershipChangesCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link PageableNftOwnershipChanges}
+         * @param {Number} opts.size Number of items to return (min=1, max=1000, default=100)
+         * @param {String} opts.cursor Offset for the next batch of items
+         * @param {String} opts.caFilters (csv) Contract addresses to filter, separated by comma (0x..,0xa...)
+         * @param {AccountApi~getFtSummaryByEoaAddressCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link PageableAccountFT}
          */
-        this.getListOfNftOwnershipChanges = function(xChainId, nftAddress, tokenId, opts, callback) {
+        this.getFtSummaryByEoaAddress = function(xChainId, address, opts, callback) {
             opts = opts || {}
             const postBody = null
 
             // verify the required parameter 'xChainId' is set
             if (xChainId === undefined || xChainId === null) {
-                throw new Error("Missing the required parameter 'xChainId' when calling getListOfNftOwnershipChanges")
+                throw new Error("Missing the required parameter 'xChainId' when calling getFtSummaryByEoaAddress")
             }
 
-            // verify the required parameter 'nftAddress' is set
-            if (nftAddress === undefined || nftAddress === null) {
-                throw new Error("Missing the required parameter 'nftAddress' when calling getListOfNftOwnershipChanges")
-            }
-
-            // verify the required parameter 'tokenId' is set
-            if (tokenId === undefined || tokenId === null) {
-                throw new Error("Missing the required parameter 'tokenId' when calling getListOfNftOwnershipChanges")
+            // verify the required parameter 'address' is set
+            if (address === undefined || address === null) {
+                throw new Error("Missing the required parameter 'address' when calling getFtSummaryByEoaAddress")
             }
 
             const pathParams = {
-                'nft-address': nftAddress,
-                'token-id': tokenId,
+                address: address,
             }
             const queryParams = {
                 size: opts.size,
                 cursor: opts.cursor,
+                'ca-filters': opts.caFilters,
             }
             const collectionQueryParams = {}
             const headerParams = {
@@ -100,10 +99,10 @@
             const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = PageableNftOwnershipChanges
+            const returnType = PageableAccountFT
 
             return this.apiClient.callApi(
-                '/v2/contract/nft/{nft-address}/token/{token-id}/history',
+                '/v2/account/token/{address}/ft',
                 'GET',
                 pathParams,
                 queryParams,
@@ -120,5 +119,5 @@
         }
     }
 
-    return TokenOwnershipApi
+    return AccountApi
 })
