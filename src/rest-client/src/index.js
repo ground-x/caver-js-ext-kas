@@ -103,7 +103,6 @@
             './wallet/model/FDUserProcessRLPRequest',
             './wallet/model/FDUserValueTransferTransactionRequest',
             './wallet/model/FDValueTransferTransactionRequest',
-            './wallet/model/Failures',
             './wallet/model/FeePayerSignaturesObj',
             './wallet/model/Key',
             './wallet/model/KeyCreationRequest',
@@ -228,7 +227,6 @@
             require('./wallet/model/FDUserProcessRLPRequest'),
             require('./wallet/model/FDUserValueTransferTransactionRequest'),
             require('./wallet/model/FDValueTransferTransactionRequest'),
-            require('./wallet/model/Failures'),
             require('./wallet/model/FeePayerSignaturesObj'),
             require('./wallet/model/Key'),
             require('./wallet/model/KeyCreationRequest'),
@@ -352,7 +350,6 @@
     FDUserProcessRLPRequest,
     FDUserValueTransferTransactionRequest,
     FDValueTransferTransactionRequest,
-    Failures,
     FeePayerSignaturesObj,
     Key,
     KeyCreationRequest,
@@ -800,11 +797,6 @@
          * @property {FDValueTransferTransactionRequest}
          */
         FDValueTransferTransactionRequest: FDValueTransferTransactionRequest,
-        /**
-         * The Failures model constructor.
-         * @property {Failures}
-         */
-        Failures: Failures,
         /**
          * The FeePayerSignaturesObj model constructor.
          * @property {FeePayerSignaturesObj}
