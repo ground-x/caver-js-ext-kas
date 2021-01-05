@@ -464,6 +464,155 @@ class TokenHistory {
             )
         })
     }
+
+    /**
+     * Lists all tokens of a MT contract that are owned by the queried EOA address. <br>
+     * GET /v2/contract/mt/{mt-address}/owner/{owner-address}
+     *
+     * @param {string} mtAddress Address of the NFT contract to be searched.
+     * @param {string} ownerAddress Address of the account.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {PageableMtTokensWithBalance}
+     */
+    getMTListByOwner(mtAddress, ownerAddress, queryOptions, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(mtAddress)) throw new Error(`Invalid mt contract address: ${mtAddress}`)
+        if (!utils.isAddress(ownerAddress)) throw new Error(`Invalid account address: ${ownerAddress}`)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenApi.getMtTokensByContractAddressAndOwnerAddress(
+                this.chainId,
+                mtAddress,
+                ownerAddress,
+                queryOptions,
+                (err, data, response) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    if (callback) callback(err, data, response)
+                    resolve(data)
+                }
+            )
+        })
+    }
+
+    /**
+     * Retrieves a specific MT information. <br>
+     * GET /v2/contract/mt/{mt-address}/owner/{owner-address}/token/{token-id}
+     *
+     * @param {string} mtAddress Address of the NFT contract to be searched.
+     * @param {string} ownerAddress Address of the account.
+     * @param {string} tokenId Token id to be searched.
+     * @param {Function} [callback] The callback function to call.
+     * @return {MtToken}
+     */
+    getMT(mtAddress, ownerAddress, tokenId, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(mtAddress)) throw new Error(`Invalid mt contract address: ${mtAddress}`)
+        if (!utils.isAddress(ownerAddress)) throw new Error(`Invalid account address: ${ownerAddress}`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenApi.getMtTokensByContractAddressAndOwnerAddressAndTokenId(
+                this.chainId,
+                mtAddress,
+                ownerAddress,
+                tokenId,
+                (err, data, response) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    if (callback) callback(err, data, response)
+                    resolve(data)
+                }
+            )
+        })
+    }
+
+    /**
+     * Lists all EOA addresses who own the queried MT. <br>
+     * GET /v2/contract/mt/{mt-address}/token/{token-id}
+     *
+     * @param {string} mtAddress Address of the NFT contract to be searched.
+     * @param {string} tokenId Token id to be searched.
+     * @param {Function} [callback] The callback function to call.
+     * @return {MtToken}
+     */
+    getMTOwnerByTokenId(mtAddress, tokenId, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(mtAddress)) throw new Error(`Invalid mt contract address: ${mtAddress}`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenApi.getMtTokensByContractAddressAndTokenId(this.chainId, mtAddress, tokenId, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Retrieve information of all labeled MT contracts. <br>
+     * GET /v2/contract/mt
+     *
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {PageableFtContractDetails}
+     */
+    getMTContractList(queryOptions, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['status', 'type', 'size', 'cursor']))
+            throw new Error(`Invalid query options: 'status', 'type', 'size', and 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenContractApi.getListOfMtContracts(this.chainId, queryOptions, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Retrieves a labeled MT contract information. <br>
+     * GET /v2/contract/mt/{mt-address}
+     *
+     * @param {string} mtAddress Address of the MT contract for which information is to be retrieved.
+     * @param {Function} [callback] The callback function to call.
+     * @return {NftContractDetail}
+     */
+    getMTContract(mtAddress, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.tokenContractApi.getMtContractDetail(this.chainId, mtAddress, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
 }
 
 module.exports = TokenHistory
