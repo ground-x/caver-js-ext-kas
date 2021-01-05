@@ -365,8 +365,8 @@ class Wallet {
         }
 
         queryOptions = WalletQueryOptions.constructFromObject(queryOptions || {})
-        if (!queryOptions.isValidOptions(['size', 'cursor', 'fromTimestamp', 'toTimestamp']))
-            throw new Error(`Invalid query options: 'size', 'cursor', 'fromTimestamp' or 'toTimestamp' can be used.`)
+        if (!queryOptions.isValidOptions(['size', 'cursor', 'fromTimestamp', 'toTimestamp', 'status']))
+            throw new Error(`Invalid query options: 'size', 'cursor', 'fromTimestamp', 'toTimestamp' or 'status' can be used.`)
 
         return new Promise((resolve, reject) => {
             this.accountApi.retrieveAccounts(this.chainId, queryOptions, (err, data, response) => {
