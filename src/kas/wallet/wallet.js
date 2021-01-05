@@ -248,7 +248,7 @@ class Wallet {
      *
      * @param {number} chainId Chain ID.
      * @param {MigrationAccount[]} accounts An array of account objects migrated into KAS.
-     * @return {}
+     * @return {StatusResponse}
      */
     async migrateAccounts(chainId, accounts) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
