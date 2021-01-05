@@ -157,6 +157,8 @@ class Wallet {
             fdTransactionPaidByUser: new FeeDelegatedTransactionPaidByUserApi(client),
             multisigTransactionManagement: new MultisigTransactionManagementApi(client),
             statistics: new StatisticsApi(client),
+            key: new KeyApi(client),
+            registration: new RegistrationApi(client),
         }
     }
 
@@ -200,6 +202,20 @@ class Wallet {
      */
     get statisticsApi() {
         return this.apiInstances.statistics
+    }
+
+    /**
+     * @type {KeyApi}
+     */
+    get keyApi() {
+        return this.apiInstances.key
+    }
+
+    /**
+     * @type {RegistrationApi}
+     */
+    get registrationApi() {
+        return this.apiInstances.registration
     }
 
     // TODO: description, define return type, implementation
