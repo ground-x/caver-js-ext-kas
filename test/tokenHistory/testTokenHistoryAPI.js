@@ -2515,4 +2515,240 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.message).to.equal(errorResult.message)
         })
     })
+
+    context('caver.kas.tokenHistory.getMTContractList', () => {
+        const getMTContractListResult = {
+            items: [
+                {
+                    address: '0xf4fe457f5a0f138372aaed7abc5dc13168ccdba9',
+                    status: 'completed',
+                    createdAt: 1608596381,
+                    updatedAt: 1608596382,
+                    deletedAt: 0,
+                    type: 'KIP-37',
+                },
+                {
+                    address: '0x479bc9d187b55c5b2dda47bed67c5c99224970ea',
+                    status: 'completed',
+                    createdAt: 1608256298,
+                    updatedAt: 1608256298,
+                    deletedAt: 0,
+                    type: 'KIP-37',
+                },
+            ],
+            cursor:
+                '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+        }
+
+        function setCallFakeForCallApi(callApiStub, queryOptions = {}) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v2/contract/mt`)
+                    expect(mtd).to.equal(`GET`)
+                    expect(Object.keys(pathParams).length).to.equal(0)
+                    expect(Object.keys(queryParams).length).to.equal(4)
+                    expect(queryParams.size).to.equal(queryOptions.size)
+                    expect(queryParams.cursor).to.equal(queryOptions.cursor)
+                    expect(queryParams.status).to.equal(queryOptions.status)
+                    expect(queryParams.type).to.equal(queryOptions.type)
+                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    expect(postBody).to.be.null
+                    expect(authNames[0]).to.equal('auth')
+                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+
+                    callback(null, getMTContractListResult, { body: getMTContractListResult })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-TH-099: should return mt contract list', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfMtContracts')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.tokenHistory.getMTContractList()
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTContractListResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-100: should return mt contract list with query options (status)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = { status: caver.kas.tokenHistory.queryOptions.status.COMPLETE }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfMtContracts')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getMTContractList(queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTContractListResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-101: should return mt contract list with query options (type)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = { type: caver.kas.tokenHistory.queryOptions.type.KIP37 }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfMtContracts')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getMTContractList(queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTContractListResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-102: should return mt contract list with query options (size)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = { size: 1 }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfMtContracts')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getMTContractList(queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTContractListResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-103: should return mt contract list with query options (cursor)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfMtContracts')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getMTContractList(queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTContractListResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-104: should return mt contract list with query options (all)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                status: caver.kas.tokenHistory.queryOptions.status.PROCESSING,
+                size: 1,
+                type: caver.kas.tokenHistory.queryOptions.type.KIP37,
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfMtContracts')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            const expectedQueryParams = caver.kas.tokenHistory.queryOptions.constructFromObject(queryOptions)
+            setCallFakeForCallApi(callApiStub, expectedQueryParams)
+
+            const ret = await caver.kas.tokenHistory.getMTContractList(queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTContractListResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-105: should call callback function with mt contract list', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfMtContracts')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getMTContractList(() => {
+                isCalled = true
+            })
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTContractListResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-106: should call callback function with mt contract list with query options', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                status: caver.kas.tokenHistory.queryOptions.status.PROCESSING,
+                size: 1,
+                type: caver.kas.tokenHistory.queryOptions.type.KIP37,
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getListOfMtContracts')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            const expectedQueryParams = caver.kas.tokenHistory.queryOptions.constructFromObject(queryOptions)
+            setCallFakeForCallApi(callApiStub, expectedQueryParams)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getMTContractList(queryOptions, () => {
+                isCalled = true
+            })
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTContractListResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-107: should resolve the promise when error is returned from KAS server', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const errorResult = {
+                _code: 1041000,
+                _message: '[InternalServerError]',
+            }
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenHistoryApi.apiClient, 'callApi')
+            callApiStub.callsFake((...args) => {
+                const callback = args[args.length - 1]
+                callback(null, errorResult, {})
+            })
+
+            const ret = await caver.kas.tokenHistory.getMTContractList()
+
+            expect(ret.code).to.equal(errorResult.code)
+            expect(ret.message).to.equal(errorResult.message)
+        })
+    })
 })
