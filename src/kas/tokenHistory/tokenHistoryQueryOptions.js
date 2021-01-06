@@ -164,10 +164,10 @@ class TokenHistoryQueryOptions {
     set type(type) {
         if (!lodash.isString(type)) throw new Error(`Invalid type of type: type should be string type.`)
 
-        const types = ['KIP-7', 'ERC-20', 'KIP-17', 'ERC-721']
+        const types = ['KIP-7', 'ERC-20', 'KIP-17', 'ERC-721', 'KIP-37', 'ERC-1155']
         if (!types.includes(type.toUpperCase()))
             throw new Error(
-                `Invalid type. The type can specify the token contact type to search among 'KIP-7', 'ERC-20', 'KIP-17' or 'ERC-721'.`
+                `Invalid type. The type can specify the token contact type to search among 'KIP-7', 'ERC-20', 'KIP-17', 'ERC-721', 'KIP-37' or 'ERC-1155'.`
             )
 
         this._type = type.toUpperCase()
@@ -193,6 +193,7 @@ TokenHistoryQueryOptions.kind = {
     KLAY: 'klay',
     FT: 'ft',
     NFT: 'nft',
+    MT: 'mt',
 }
 
 TokenHistoryQueryOptions.status = {
@@ -205,8 +206,10 @@ TokenHistoryQueryOptions.status = {
 TokenHistoryQueryOptions.type = {
     KIP7: 'KIP-7',
     KIP17: 'KIP-17',
+    KIP37: 'KIP-37',
     ERC20: 'ERC-20',
     ERC721: 'ERC-721',
+    ERC1155: 'ERC-1155',
 }
 
 module.exports = TokenHistoryQueryOptions
