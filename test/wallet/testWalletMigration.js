@@ -28,28 +28,16 @@ const expect = chai.expect
 const CaverExtKAS = require('../../index.js')
 
 let caver
+let kasKey, kasRegistration
+
 const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.walletAPI
 
-const sandbox = sinon.createSandbox()
+var sandbox = sinon.createSandbox()
 
-describe('Wallet API - Basic transaction API', () => {
+describe('Wallet API - Migration', () => {
     beforeEach(() => {
         caver = new CaverExtKAS()
-    })
-
-    afterEach(() => {
-        sandbox.restore()
-    })
-
-    context('caver.kas.wallet.migrateAccounts', () => {
-        // Create a keyring which will be migrated.
-        const keyring = caver.keyringContainer.keyring.generate()
-        const address = keyring._address
-
-        const keyring2 = caver.keyringContainer.keyring.generate()
-        const address2 = keyring2._address
-
-        const kasKey = {
+        kasKey = {
             items: [
                 {
                     blob: '0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61',
@@ -60,37 +48,25 @@ describe('Wallet API - Basic transaction API', () => {
                 },
             ],
         }
-        const kasRegistration = {
+        kasRegistration = {
             status: 'ok',
         }
+    })
+
+    afterEach(() => {
+        sandbox.restore()
+    })
+
+    context('caver.kas.wallet.migrateAccounts', () => {
+        const nonce = 0
 
         // Configure fakes for key creation and account registration.
-        const setMigrateStubs = (tcName, kcResult, raResult) => {
-            sandbox.spy(caver.kas.wallet.keyApi, `${tcName}KeyCreation`)
-            const keyApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient)
-            keyApiStub.callsFake(
-                (
-                    path,
-                    mtd,
-                    pathParams,
-                    queryParams,
-                    collectionQueryParams,
-                    headerParams,
-                    formParams,
-                    postBody,
-                    authNames,
-                    contentTypes,
-                    accepts,
-                    returnType,
-                    callback
-                ) => {
-                    callback(null, kcResult, { body: kcResult })
-                }
-            )
+        const setMigrateStubs = (kcResult, raResult) => {
+            sandbox.spy(caver.kas.wallet.keyApi, 'keyCreation')
+            sandbox.spy(caver.kas.wallet.registrationApi, 'registerAccount')
+            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
 
-            sandbox.spy(caver.kas.wallet.registrationApi, `${tcName}Registration`)
-            const regApiStub = sandbox.stub(caver.kas.wallet.registrationApi.apiClient)
-            regApiStub.callsFake(
+            callApiStub.callsFake(
                 (
                     path,
                     mtd,
@@ -106,18 +82,26 @@ describe('Wallet API - Basic transaction API', () => {
                     returnType,
                     callback
                 ) => {
-                    callback(null, kcResult, { body: raResult })
+                    if (path === '/v2/key') {
+                        callback(null, kcResult, { body: kcResult })
+                    } else {
+                        callback(null, raResult, { body: raResult })
+                    }
                 }
             )
+            // sandbox.replace(caver.kas.wallet.keyApi, 'keyCreation', (chainId, body) => kcResult)
+            // sandbox.replace(caver.kas.wallet.registrationApi, 'registerAccount', (chainId, body) => raResult)
         }
 
         it('CAVERJS-EXT-KAS-WALLET-169: should return status with a single key account', async () => {
-            const key = keyring.getKlaytnWalletKey()
+            const keyring = caver.keyringContainer.keyring.generate()
+            const address = keyring._address
+            const key = keyring._key._privateKey
 
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
-            setMigrateStubs('legacyAccountMigration', kasKey, kasRegistration)
+            setMigrateStubs(kasKey, kasRegistration)
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }])
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }])
 
             expect(ret).not.to.be.undefined
             expect(ret.status).not.to.be.undefined
@@ -125,12 +109,14 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-170: should return status for a role based key account', async () => {
+            const keyring = caver.keyringContainer.keyring.generate()
+            const address = keyring._address
             const key = caver.wallet.keyring.generateRoleBasedKeys([2, 1, 3])
 
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
-            setMigrateStubs('roleAccountMigration', kasKey, kasRegistration)
+            setMigrateStubs(kasKey, kasRegistration)
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }])
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }])
 
             expect(ret).not.to.be.undefined
             expect(ret.status).not.to.be.undefined
@@ -138,12 +124,14 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-171: should return status with a multisig key account', async () => {
+            const keyring = caver.keyringContainer.keyring.generate()
+            const address = keyring._address
             const key = caver.wallet.keyring.generateMultipleKeys(3)
 
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
-            setMigrateStubs('multisigAccountMigration', kasKey, kasRegistration)
+            setMigrateStubs(kasKey, kasRegistration)
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }])
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }])
 
             expect(ret).not.to.be.undefined
             expect(ret.status).not.to.be.undefined
@@ -151,26 +139,55 @@ describe('Wallet API - Basic transaction API', () => {
         })
 
         it('CAVERJS-EXT-KAS-WALLET-172: should return invalid key error', async () => {
+            const keyring = caver.keyringContainer.keyring.generate()
+            const address = keyring._address
             const key = caver.wallet.keyring.generateMultipleKeys(3)
 
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
-            setMigrateStubs('multisigAccountMigration', kasKey, {
+            setMigrateStubs(kasKey, {
                 code: 1061010,
                 message:
                     "data don't exist; krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x9b2f4d85d7f7abb14db229b5a81f1bdca0aa24c8ff0c4c100b3f25098b7a6152",
                 requestId: 'POST-/v2/registration/account-1607566714428099800',
             })
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }])
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }])
 
-            expect(ret).to.be.undefined
+            expect(ret).not.to.be.undefined
+            expect(ret.code).not.to.be.undefined
+            expect(ret.code).to.be.equal(1061010)
         })
-        it('CAVERJS-EXT-KAS-WALLET-174: should return status with multiple accounts', async () => {
-            const key = keyring.getKlaytnWalletKey()
-            const key2 = keyring2.getKlaytnWalletKey()
+        it('CAVERJS-EXT-KAS-WALLET-173: should return partially failed', async () => {
+            const keyring = caver.keyringContainer.keyring.generate()
+            const address = keyring._address
+            const key = keyring._key._privateKey
+
+            const keyring2 = caver.keyringContainer.keyring.generate()
+            const address2 = keyring2._address
+            const key2 = keyring2._key._privateKey
 
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
-            setMigrateStubs('multisigAccountMigration', kasKey, {
+            kasKey = {
+                items: [
+                    {
+                        blob: '0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61',
+                        keyId:
+                            'krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221',
+                        krn: 'krn:1001:wallet:test:account-pool:default',
+                        publicKey:
+                            '0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d',
+                    },
+                    {
+                        blob: '0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61',
+                        keyId:
+                            'krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221',
+                        krn: 'krn:1001:wallet:test:account-pool:default',
+                        publicKey:
+                            '0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d',
+                    },
+                ],
+            }
+            setMigrateStubs(kasKey, {
                 failures: {
                     '0xa53333EFFd4F2c4889a23B8b0761b277b007Da4A':
                         'failed to send a raw transaction to klaytn node; -32000::invalid transaction v, r, s values of the sender',
@@ -178,14 +195,15 @@ describe('Wallet API - Basic transaction API', () => {
                 status: 'partially failed',
             })
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key }, { address: address2, key: key2 }])
+            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }, { address: address2, key: key2, nonce }])
 
             expect(ret).not.to.be.undefined
             expect(ret.status).not.to.be.undefined
             expect(ret.status).to.be.equal('partially failed')
             expect(ret.failures).not.to.be.undefined
-            expect(ret.failures.length).not.to.be.undefined
-            expect(ret.failures.length).to.be.equal(1)
+            expect(ret.failures['0xa53333EFFd4F2c4889a23B8b0761b277b007Da4A']).to.be.equal(
+                'failed to send a raw transaction to klaytn node; -32000::invalid transaction v, r, s values of the sender'
+            )
         })
     })
 })

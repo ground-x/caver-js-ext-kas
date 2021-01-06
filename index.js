@@ -53,6 +53,7 @@ class CaverExtKAS extends Caver {
             feeDelegatedAccountUpdate: this.transaction.feeDelegatedAccountUpdate,
             createWithAccountKeyPublic: this.account.createWithAccountKeyPublic,
         }
+        this.kas.wallet.keyring = this.wallet.keyring
 
         // `caver.wallet` in CaverExtKAS is a KASWallet that internally connects the KAS Wallet API
         const kasWallet = new KASWallet(this.kas.wallet)

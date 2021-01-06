@@ -3625,4 +3625,32 @@ describe('Wallet API service', () => {
         expect(ret.count > 0).to.be.true
         expect(ret.krn).to.equal(accountToTest.krn)
     }).timeout(500000)
+
+    // it('CAVERJS-EXT-KAS-INT-115: caver.kas.wallet.migrateAccounts should return status with a single key', async () => {
+    //     const keyring = caver.keyringContainer.keyring.generate()
+    //     const address = keyring._address
+    //     const key = keyring._key._privateKey
+
+    //     const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce: 0 }])
+
+    //     expect(ret).not.to.be.undefined
+    //     expect(ret.status).not.to.be.undefined
+    //     expect(ret.status).to.be.equal('ok')
+    // }).timeout(500000)
+
+    // it('CAVERJS-EXT-KAS-INT-116: caver.kas.wallet.migrateAccounts should return status with multiple accounts', async () => {
+    //     const req = []
+
+    //     for (var i = 0; i < 5; i++) {
+    //         const keyring = caver.keyringContainer.keyring.generate()
+    //         const address = keyring._address
+    //         const key = keyring._key._privateKey
+    //         req.push({ address, key, nonce: 0 })
+    //     }
+    //     const ret = await caver.kas.wallet.migrateAccounts(chainId, req)
+
+    //     expect(ret).not.to.be.undefined
+    //     expect(ret.status).not.to.be.undefined
+    //     expect(ret.status).to.be.equal('ok')
+    // }).timeout(500000)
 })
