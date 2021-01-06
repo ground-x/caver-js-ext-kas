@@ -497,6 +497,28 @@ class TokenHistory {
     }
 
     /**
+     * Retrieves a labeled MT contract information. <br>
+     * GET /v2/contract/mt/{mt-address}
+     *
+     * @param {string} mtAddress Address of the MT contract for which information is to be retrieved.
+     * @param {Function} [callback] The callback function to call.
+     * @return {NftContractDetail}
+     */
+    getMTContract(mtAddress, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.tokenContractApi.getMtContractDetail(this.chainId, mtAddress, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
      * Lists all tokens of a MT contract that are owned by the queried EOA address. <br>
      * GET /v2/contract/mt/{mt-address}/owner/{owner-address}
      *
@@ -583,28 +605,6 @@ class TokenHistory {
 
         return new Promise((resolve, reject) => {
             this.tokenApi.getMtTokensByContractAddressAndTokenId(this.chainId, mtAddress, tokenId, (err, data, response) => {
-                if (err) {
-                    reject(err)
-                }
-                if (callback) callback(err, data, response)
-                resolve(data)
-            })
-        })
-    }
-
-    /**
-     * Retrieves a labeled MT contract information. <br>
-     * GET /v2/contract/mt/{mt-address}
-     *
-     * @param {string} mtAddress Address of the MT contract for which information is to be retrieved.
-     * @param {Function} [callback] The callback function to call.
-     * @return {NftContractDetail}
-     */
-    getMTContract(mtAddress, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
-
-        return new Promise((resolve, reject) => {
-            this.tokenContractApi.getMtContractDetail(this.chainId, mtAddress, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
