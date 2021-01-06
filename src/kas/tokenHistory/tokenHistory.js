@@ -613,6 +613,38 @@ class TokenHistory {
             })
         })
     }
+
+    /**
+     * Lists all fungible tokens owned by the queried EOA address. <br>
+     * GET /v2/account/token/{address}/ft
+     *
+     * @param {string} address The address of the account to search the owned FT.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `caFilter`, `size`, and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {PageableAccountFT}
+     */
+    getFTSummaryByAddress(address, queryOptions, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['caFilter', 'size', 'cursor']))
+            throw new Error(`Invalid query options: 'caFilter', 'size', and 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenContractApi.getMtContractDetail(this.chainId, address, queryOptions, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
 }
 
 module.exports = TokenHistory
