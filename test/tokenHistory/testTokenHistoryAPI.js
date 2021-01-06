@@ -149,7 +149,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-005: should return token trasnfer history with presets without query parameters', async () => {
@@ -165,7 +165,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-006: should return token trasnfer history with query parameters (size)', async () => {
@@ -182,7 +182,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-007: should return token trasnfer history with query parameters (single kind)', async () => {
@@ -201,7 +201,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-008: should return token trasnfer history with query parameters (multiple kind)', async () => {
@@ -220,7 +220,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-009: should return token trasnfer history with query parameters (cursor)', async () => {
@@ -240,7 +240,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-079: should return token trasnfer history with query parameters (range: from block number)', async () => {
@@ -259,7 +259,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-080: should return token trasnfer history with query parameters (range: from to block number without blank)', async () => {
@@ -278,7 +278,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-081: should return token trasnfer history with query parameters (range: from to block number with blank)', async () => {
@@ -297,7 +297,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-082: should return token trasnfer history with query parameters (range: from timestamp with milisecond string)', async () => {
@@ -316,7 +316,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-083: should return token trasnfer history with query parameters (range: from timestamp with second string)', async () => {
@@ -335,7 +335,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-084: should return token trasnfer history with query parameters (range: from to timestamp with milisecond string)', async () => {
@@ -354,7 +354,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-085: should return token trasnfer history with query parameters (range: from timestamp with second string)', async () => {
@@ -373,7 +373,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-086: should return token trasnfer history with query parameters (range: from to timestamp with milisecond string with blank)', async () => {
@@ -392,7 +392,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-087: should return token trasnfer history with query parameters (range: from timestamp with second string with blank)', async () => {
@@ -411,7 +411,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-097: should throw error when format of from and to are different', async () => {
@@ -450,7 +450,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-011: should call callback function with token trasnfer history', async () => {
@@ -471,7 +471,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-012: should call callback function with token trasnfer history with query parameters', async () => {
@@ -494,7 +494,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.deep.equal(getTransferHistoryResult.nextCursor)
+            expect(ret.cursor).to.deep.equal(getTransferHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-013: should resolve the promise when error is returned from KAS server', async () => {
@@ -712,7 +712,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-018: should return token trasnfer record with specific eoa address with query options (single kind)', async () => {
@@ -729,7 +729,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-019: should return token trasnfer record with specific eoa address with query options (multiple kind)', async () => {
@@ -746,7 +746,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-020: should return token trasnfer record with specific eoa address with query options (caFilter)', async () => {
@@ -762,7 +762,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-021: should return token trasnfer record with specific eoa address with query options (size)', async () => {
@@ -778,7 +778,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-022: should return token trasnfer record with specific eoa address with query options (cursor)', async () => {
@@ -797,7 +797,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-088: should return token trasnfer record with specific eoa address with query options (range: from block number)', async () => {
@@ -815,7 +815,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-089: should return token trasnfer record with specific eoa address with query options (range: from to block number without blank)', async () => {
@@ -833,7 +833,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-090: should return token trasnfer record with specific eoa address with query options (range: from to block number with blank)', async () => {
@@ -851,7 +851,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-091: should return token trasnfer record with specific eoa address with query options (range: from timestamp with milisecond string)', async () => {
@@ -869,7 +869,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-092: should return token trasnfer record with specific eoa address with query options (range: from timestamp with second string)', async () => {
@@ -887,7 +887,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-093: should return token trasnfer record with specific eoa address with query options (range: from to timestamp with milisecond string)', async () => {
@@ -905,7 +905,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-094: should return token trasnfer record with specific eoa address with query options (range: from timestamp with second string)', async () => {
@@ -923,7 +923,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-095: should return token trasnfer record with specific eoa address with query options (range: from to timestamp with milisecond string with blank)', async () => {
@@ -941,7 +941,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-096: should return token trasnfer record with specific eoa address with query options (range: from to timestamp with second string with blank)', async () => {
@@ -959,7 +959,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-098: should throw error when format of from and to are different', async () => {
@@ -996,7 +996,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-024: should call callback function with transaction record', async () => {
@@ -1016,7 +1016,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-025: should call callback function with transaction record with query options', async () => {
@@ -1044,7 +1044,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getTransferHistoryByAccountResult.nextCursor)
+            expect(ret.cursor).to.equal(getTransferHistoryByAccountResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-026: should resolve the promise when error is returned from KAS server', async () => {
@@ -1152,7 +1152,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-028: should return ft contract list with query options (status)', async () => {
@@ -1168,7 +1168,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-029: should return ft contract list with query options (type)', async () => {
@@ -1184,7 +1184,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-030: should return ft contract list with query options (size)', async () => {
@@ -1200,7 +1200,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-031: should return ft contract list with query options (cursor)', async () => {
@@ -1219,7 +1219,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-032: should return ft contract list with query options (all)', async () => {
@@ -1242,7 +1242,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-033: should call callback function with ft contract list', async () => {
@@ -1262,7 +1262,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-034: should call callback function with ft contract list with query options', async () => {
@@ -1290,7 +1290,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-035: should resolve the promise when error is returned from KAS server', async () => {
@@ -1499,7 +1499,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-040: should return nft contract list with query options (status)', async () => {
@@ -1515,7 +1515,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-041: should return nft contract list with query options (type)', async () => {
@@ -1531,7 +1531,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-042: should return nft contract list with query options (size)', async () => {
@@ -1547,7 +1547,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-043: should return nft contract list with query options (cursor)', async () => {
@@ -1566,7 +1566,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-044: should return nft contract list with query options (all)', async () => {
@@ -1589,7 +1589,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-045: should call callback function with nft contract list', async () => {
@@ -1609,7 +1609,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-046: should call callback function with nft contract list with query options', async () => {
@@ -1637,7 +1637,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTContractListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTContractListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-047: should resolve the promise when error is returned from KAS server', async () => {
@@ -1840,7 +1840,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-052: should return nft list with query options (status)', async () => {
@@ -1856,7 +1856,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-053: should return nft list with query options (size)', async () => {
@@ -1872,7 +1872,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-054: should return nft list with query options (cursor)', async () => {
@@ -1891,7 +1891,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-055: should return nft list with query options (all)', async () => {
@@ -1912,7 +1912,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-056: should call callback function with nft list', async () => {
@@ -1932,7 +1932,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-057: should call callback function with nft list with query options', async () => {
@@ -1958,7 +1958,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-058: should resolve the promise when error is returned from KAS server', async () => {
@@ -2051,7 +2051,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListByOwnerResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListByOwnerResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-060: should return nft list by owner with query options (status)', async () => {
@@ -2067,7 +2067,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListByOwnerResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListByOwnerResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-061: should return nft list by owner with query options (size)', async () => {
@@ -2083,7 +2083,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListByOwnerResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListByOwnerResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-062: should return nft list by owner with query options (cursor)', async () => {
@@ -2102,7 +2102,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListByOwnerResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListByOwnerResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-063: should return nft list by owner with query options (all)', async () => {
@@ -2123,7 +2123,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListByOwnerResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListByOwnerResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-064: should call callback function with nft list by owner', async () => {
@@ -2143,7 +2143,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListByOwnerResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListByOwnerResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-065: should call callback function with nft list by owner with query options', async () => {
@@ -2169,7 +2169,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTListByOwnerResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTListByOwnerResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-066: should resolve the promise when error is returned from KAS server', async () => {
@@ -2375,7 +2375,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTOwnershipHistoryResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTOwnershipHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-072: should return ownership history of nft token with query options (status)', async () => {
@@ -2391,7 +2391,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTOwnershipHistoryResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTOwnershipHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-073: should return ownership history of nft token with query options (size)', async () => {
@@ -2407,7 +2407,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTOwnershipHistoryResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTOwnershipHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-074: should return ownership history of nft token with query options (cursor)', async () => {
@@ -2426,7 +2426,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTOwnershipHistoryResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTOwnershipHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-075: should return ownership history of nft token with query options (all)', async () => {
@@ -2447,7 +2447,7 @@ describe('TokenHistory API service enabling', () => {
             expect(getTransfersSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTOwnershipHistoryResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTOwnershipHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-076: should call callback function with ownership history of nft token', async () => {
@@ -2467,7 +2467,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTOwnershipHistoryResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTOwnershipHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-077: should call callback function with ownership history of nft token with query options', async () => {
@@ -2493,7 +2493,7 @@ describe('TokenHistory API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.items).not.to.be.undefined
-            expect(ret.nextCursor).to.equal(getNFTOwnershipHistoryResult.nextCursor)
+            expect(ret.cursor).to.equal(getNFTOwnershipHistoryResult.cursor)
         })
 
         it('CAVERJS-EXT-KAS-TH-078: should resolve the promise when error is returned from KAS server', async () => {
