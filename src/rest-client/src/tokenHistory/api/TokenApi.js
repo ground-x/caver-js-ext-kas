@@ -245,7 +245,7 @@
          * @param {String} tokenId MT ID (hex)
          * @param {Object} opts Optional parameters
          * @param {String} opts.cursor Offset for the next batch of items
-         * @param {String} opts.size Number of items to return (min=1, max=1000, default=100)
+         * @param {Number} opts.size Number of items to return (min=1, max=1000, default=100)
          * @param {TokenApi~getMtTokensByContractAddressAndTokenIdCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link PageableMtTokens}
          */
