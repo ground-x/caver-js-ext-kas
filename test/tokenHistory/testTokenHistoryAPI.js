@@ -2802,7 +2802,7 @@ describe('TokenHistory API service enabling', () => {
         it('CAVERJS-EXT-KAS-TH-108: should return multi token contract with mt contract address', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getMTContractDetail')
+            const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getMtContractDetail')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub)
 
@@ -2816,7 +2816,7 @@ describe('TokenHistory API service enabling', () => {
         it('CAVERJS-EXT-KAS-TH-109: should call callback function with mt contract', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getMTContractDetail')
+            const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getMtContractDetail')
             const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub)
 
@@ -2846,6 +2846,746 @@ describe('TokenHistory API service enabling', () => {
             })
 
             const ret = await caver.kas.tokenHistory.getMTContract(mtContract)
+
+            expect(ret.code).to.equal(errorResult.code)
+            expect(ret.message).to.equal(errorResult.message)
+        })
+    })
+
+    context('caver.kas.tokenHistory.getMTListByOwner', () => {
+        const getMTListByOwnerResult = {
+            items: [
+                {
+                    tokenId: '0x1',
+                    owner: '0xb8bb4b109f18eb6f292757aaec623200f1a41369',
+                    tokenAddress: '0x2c2382bcca41295495973be1d5a997d21f77b50e',
+                    totalSupply: '0xaf298d050e4395d69670b12b7f41000000000000',
+                    tokenUri: 'http://evahello.com',
+                    balance: '0x1f',
+                    transactionHash: '0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7c9032ee',
+                    transferFrom: '0xb8bb4b109f18eb6f292757aaec623200f1a41369',
+                    transferTo: '0xae02aba56bae1624e2c4f029e3a79308e2a19e98',
+                    updatedAt: 1607319007,
+                },
+            ],
+            cursor: '',
+        }
+
+        const mtContract = '0x2c2382bcca41295495973be1d5a997d21f77b50e'
+        const owner = '0xb8bb4b109f18eb6f292757aaec623200f1a41369'
+
+        function setCallFakeForCallApi(callApiStub, queryOptions = {}) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v2/contract/mt/{mt-address}/owner/{owner-address}`)
+                    expect(mtd).to.equal(`GET`)
+                    expect(pathParams['mt-address']).to.equal(mtContract)
+                    expect(pathParams['owner-address']).to.equal(owner)
+                    expect(Object.keys(queryParams).length).to.equal(2)
+                    expect(queryParams.size).to.equal(queryOptions.size)
+                    expect(queryParams.cursor).to.equal(queryOptions.cursor)
+                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    expect(postBody).to.be.null
+                    expect(authNames[0]).to.equal('auth')
+                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+
+                    callback(null, getMTListByOwnerResult, { body: getMTListByOwnerResult })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-TH-111: should return mt list by owner', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndOwnerAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContract, owner)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTListByOwnerResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-112: should return mt list by owner with query options (size)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = { size: 1 }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndOwnerAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContract, owner, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTListByOwnerResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-113: should return mt list by owner with query options (cursor)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndOwnerAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContract, owner, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTListByOwnerResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-114: should return mt list by owner with query options (all)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                size: 1,
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndOwnerAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            const expectedQueryParams = caver.kas.tokenHistory.queryOptions.constructFromObject(queryOptions)
+            setCallFakeForCallApi(callApiStub, expectedQueryParams)
+
+            const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContract, owner, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTListByOwnerResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-115: should call callback function with mt list by owner', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndOwnerAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContract, owner, () => {
+                isCalled = true
+            })
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTListByOwnerResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-116: should call callback function with mt list by owner with query options', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                size: 1,
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndOwnerAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            const expectedQueryParams = caver.kas.tokenHistory.queryOptions.constructFromObject(queryOptions)
+            setCallFakeForCallApi(callApiStub, expectedQueryParams)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContract, owner, queryOptions, () => {
+                isCalled = true
+            })
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTListByOwnerResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-117: should resolve the promise when error is returned from KAS server', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const errorResult = {
+                _code: 1041000,
+                _message: '[InternalServerError]',
+            }
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            callApiStub.callsFake((...args) => {
+                const callback = args[args.length - 1]
+                callback(null, errorResult, {})
+            })
+
+            const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContract, owner)
+
+            expect(ret.code).to.equal(errorResult.code)
+            expect(ret.message).to.equal(errorResult.message)
+        })
+    })
+
+    context('caver.kas.tokenHistory.getMT', () => {
+        const getMTResult = {
+            tokenId: '0x1',
+            owner: '0xb8bb4b109f18eb6f292757aaec623200f1a41369',
+            tokenAddress: '0x2c2382bcca41295495973be1d5a997d21f77b50e',
+            totalSupply: '0xaf298d050e4395d69670b12b7f41000000000000',
+            tokenUri: 'http://evahello.com',
+            balance: '0x1f',
+            transactionHash: '0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7c9032ee',
+            transferFrom: '0x39262962d3889b02915f943d6f917edcf6c71f5a',
+            transferTo: '0xb8bb4b109f18eb6f292757aaec623200f1a41369',
+            updatedAt: 1607319007,
+        }
+
+        const mtContract = '0x2c2382bcca41295495973be1d5a997d21f77b50e'
+        const owner = '0xb8bb4b109f18eb6f292757aaec623200f1a41369'
+        const tokenId = '0x1'
+
+        function setCallFakeForCallApi(callApiStub) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v2/contract/mt/{mt-address}/owner/{owner-address}/token/{token-id}`)
+                    expect(mtd).to.equal(`GET`)
+                    expect(pathParams['mt-address']).to.equal(mtContract)
+                    expect(pathParams['owner-address']).to.equal(owner)
+                    expect(pathParams['token-id']).to.equal(tokenId)
+                    expect(Object.keys(queryParams).length).to.equal(0)
+                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    expect(postBody).to.be.null
+                    expect(authNames[0]).to.equal('auth')
+                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+
+                    callback(null, getMTResult, { body: getMTResult })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-TH-118: should return multi token with mt contract and owner address', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndOwnerAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.tokenHistory.getMT(mtContract, owner, tokenId)
+
+            expect(getTransfersSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.tokenAddress).to.equal(mtContract)
+            expect(ret.owner).to.equal(owner)
+            expect(ret.tokenId).to.equal(tokenId)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-119: should call callback function with mt', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndOwnerAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getMT(mtContract, owner, tokenId, () => {
+                isCalled = true
+            })
+
+            expect(getTransfersSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.tokenAddress).to.equal(mtContract)
+            expect(ret.owner).to.equal(owner)
+            expect(ret.tokenId).to.equal(tokenId)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-120: should resolve the promise when error is returned from KAS server', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const errorResult = {
+                _code: 1040400,
+                _message: '[ResourceNotFound]not found mt',
+            }
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            callApiStub.callsFake((...args) => {
+                const callback = args[args.length - 1]
+                callback(null, errorResult, {})
+            })
+
+            const ret = await caver.kas.tokenHistory.getMT(mtContract, owner, tokenId)
+
+            expect(ret.code).to.equal(errorResult.code)
+            expect(ret.message).to.equal(errorResult.message)
+        })
+    })
+
+    context('caver.kas.tokenHistory.getMTOwnerListByTokenId', () => {
+        const getMTOwnerListByTokenIdResult = {
+            items: [
+                {
+                    tokenId: '0x1',
+                    owner: '0xb8bb4b109f18eb6f292757aaec623200f1a41369',
+                    tokenAddress: '0x2c2382bcca41295495973be1d5a997d21f77b50e',
+                    totalSupply: '0xaf298d050e4395d69670b12b7f41000000000000',
+                    tokenUri: 'http://evahello.com',
+                    balance: '0x1f',
+                    transactionHash: '0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7c9032ee',
+                    transferFrom: '0xb8bb4b109f18eb6f292757aaec623200f1a41369',
+                    transferTo: '0xae02aba56bae1624e2c4f029e3a79308e2a19e98',
+                    updatedAt: 1607319007,
+                },
+            ],
+            cursor: '',
+        }
+
+        const mtContract = '0x2c2382bcca41295495973be1d5a997d21f77b50e'
+        const tokenId = '0x1'
+
+        function setCallFakeForCallApi(callApiStub, queryOptions = {}) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v2/contract/mt/{mt-address}/token/{token-id}`)
+                    expect(mtd).to.equal(`GET`)
+                    expect(pathParams['mt-address']).to.equal(mtContract)
+                    expect(pathParams['token-id']).to.equal(tokenId)
+                    expect(Object.keys(queryParams).length).to.equal(2)
+                    expect(queryParams.size).to.equal(queryOptions.size)
+                    expect(queryParams.cursor).to.equal(queryOptions.cursor)
+                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    expect(postBody).to.be.null
+                    expect(authNames[0]).to.equal('auth')
+                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+
+                    callback(null, getMTOwnerListByTokenIdResult, { body: getMTOwnerListByTokenIdResult })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-TH-121: should return owner list by token id', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContract, tokenId)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTOwnerListByTokenIdResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-122: should return owner list by token id with query options (size)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = { size: 1 }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContract, tokenId, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTOwnerListByTokenIdResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-123: should return owner list by token id with query options (cursor)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContract, tokenId, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTOwnerListByTokenIdResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-124: should return owner list by token id with query options (all)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                size: 1,
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            const expectedQueryParams = caver.kas.tokenHistory.queryOptions.constructFromObject(queryOptions)
+            setCallFakeForCallApi(callApiStub, expectedQueryParams)
+
+            const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContract, tokenId, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTOwnerListByTokenIdResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-125: should call callback function with owner list by token id', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContract, tokenId, () => {
+                isCalled = true
+            })
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTOwnerListByTokenIdResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-126: should call callback function with owner list by token id with query options', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                size: 1,
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            const expectedQueryParams = caver.kas.tokenHistory.queryOptions.constructFromObject(queryOptions)
+            setCallFakeForCallApi(callApiStub, expectedQueryParams)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContract, tokenId, queryOptions, () => {
+                isCalled = true
+            })
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTOwnerListByTokenIdResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-127: should resolve the promise when error is returned from KAS server', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const errorResult = {
+                _code: 1041000,
+                _message: '[InternalServerError]',
+            }
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            callApiStub.callsFake((...args) => {
+                const callback = args[args.length - 1]
+                callback(null, errorResult, {})
+            })
+
+            const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContract, tokenId)
+
+            expect(ret.code).to.equal(errorResult.code)
+            expect(ret.message).to.equal(errorResult.message)
+        })
+    })
+
+    context('caver.kas.tokenHistory.getFTSummaryByAddress', () => {
+        const getFTSummaryByAddressResult = {
+            items: [
+                {
+                    address: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb',
+                    owner: '0x00ebd049eff96861d9fb3843fd0de79b08a3cc17',
+                    balance: '0x15e',
+                    formattedValue: '0.00000000000000035',
+                    decimals: 8,
+                    name: 'KASFT',
+                    symbol: 'KFT',
+                    totalSupply: '0x174876e800',
+                    updatedAt: 1592180992,
+                },
+            ],
+            cursor:
+                'z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE',
+        }
+
+        const owner = '0x00ebd049eff96861d9fb3843fd0de79b08a3cc17'
+
+        function setCallFakeForCallApi(callApiStub, queryOptions = {}) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v2/account/token/{address}/ft`)
+                    expect(mtd).to.equal(`GET`)
+                    expect(pathParams.address).to.equal(owner)
+                    expect(Object.keys(queryParams).length).to.equal(3)
+                    expect(queryParams.size).to.equal(queryOptions.size)
+                    expect(queryParams.cursor).to.equal(queryOptions.cursor)
+                    if (queryOptions.caFilters) expect(queryParams['ca-filters'][0]).to.equal(queryOptions.caFilters[0])
+                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    expect(postBody).to.be.null
+                    expect(authNames[0]).to.equal('auth')
+                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+
+                    callback(null, getFTSummaryByAddressResult, { body: getFTSummaryByAddressResult })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-TH-128: should return owner list by token id', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(owner)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-129: should return owner list by token id with query options (size)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = { size: 1 }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(owner, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-130: should return owner list by token id with query options (cursor)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(owner, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-131: should return owner list by token id with query options (single caFilters)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                caFilters: '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
+            const expectedQueryParams = caver.kas.tokenHistory.queryOptions.constructFromObject(queryOptions)
+            setCallFakeForCallApi(callApiStub, expectedQueryParams)
+
+            const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(owner, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-132: should return owner list by token id with query options (single caFilters)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                caFilters: ['0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'],
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub, queryOptions)
+
+            const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(owner, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-133: should return owner list by token id with query options (all)', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                size: 1,
+                caFilters: ['0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'],
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
+            const expectedQueryParams = caver.kas.tokenHistory.queryOptions.constructFromObject(queryOptions)
+            setCallFakeForCallApi(callApiStub, expectedQueryParams)
+
+            const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(owner, queryOptions)
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-134: should call callback function with owner list by token id', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(owner, () => {
+                isCalled = true
+            })
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-135: should call callback function with owner list by token id with query options', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const queryOptions = {
+                size: 1,
+                cursor:
+                    '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
+            }
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
+            const expectedQueryParams = caver.kas.tokenHistory.queryOptions.constructFromObject(queryOptions)
+            setCallFakeForCallApi(callApiStub, expectedQueryParams)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(owner, queryOptions, () => {
+                isCalled = true
+            })
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-136: should resolve the promise when error is returned from KAS server', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const errorResult = {
+                _code: 1041000,
+                _message: '[InternalServerError]',
+            }
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenOwnershipApi.apiClient, 'callApi')
+            callApiStub.callsFake((...args) => {
+                const callback = args[args.length - 1]
+                callback(null, errorResult, {})
+            })
+
+            const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(owner)
 
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)
