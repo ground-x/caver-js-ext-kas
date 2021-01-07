@@ -123,7 +123,7 @@ describe('Wallet API - Migration', () => {
             expect(ret.status).to.be.equal('ok')
         })
 
-        it('CAVERJS-EXT-KAS-WALLET-171: should return status with a multisig key account', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-205: should return status with a multisig key account', async () => {
             const keyring = caver.keyringContainer.keyring.generate()
             const address = keyring._address
             const key = caver.wallet.keyring.generateMultipleKeys(3)
