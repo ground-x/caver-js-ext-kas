@@ -3626,7 +3626,7 @@ describe('Wallet API service', () => {
         expect(ret.krn).to.equal(accountToTest.krn)
     }).timeout(500000)
 
-    // it('CAVERJS-EXT-KAS-INT-115: caver.kas.wallet.migrateAccounts should return status with a single key', async () => {
+    // it('CAVERJS-EXT-KAS-INT-233: caver.kas.wallet.migrateAccounts should return status with a single key', async () => {
     //     const keyring = caver.keyringContainer.keyring.generate()
     //     const address = keyring._address
     //     const key = keyring._key._privateKey
