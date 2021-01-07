@@ -89,8 +89,6 @@ describe('Wallet API - Migration', () => {
                     }
                 }
             )
-            // sandbox.replace(caver.kas.wallet.keyApi, 'keyCreation', (chainId, body) => kcResult)
-            // sandbox.replace(caver.kas.wallet.registrationApi, 'registerAccount', (chainId, body) => raResult)
         }
 
         it('CAVERJS-EXT-KAS-WALLET-203: should return status with a single key account', async () => {
