@@ -101,7 +101,7 @@ describe('Wallet API - Migration', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
             setMigrateStubs(kasKey, kasRegistration)
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }])
+            const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce }])
 
             expect(ret).not.to.be.undefined
             expect(ret.status).not.to.be.undefined
@@ -116,7 +116,7 @@ describe('Wallet API - Migration', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
             setMigrateStubs(kasKey, kasRegistration)
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }])
+            const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce }])
 
             expect(ret).not.to.be.undefined
             expect(ret.status).not.to.be.undefined
@@ -131,7 +131,7 @@ describe('Wallet API - Migration', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
             setMigrateStubs(kasKey, kasRegistration)
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }])
+            const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce }])
 
             expect(ret).not.to.be.undefined
             expect(ret.status).not.to.be.undefined
@@ -151,7 +151,7 @@ describe('Wallet API - Migration', () => {
                 requestId: 'POST-/v2/registration/account-1607566714428099800',
             })
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }])
+            const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce }])
 
             expect(ret).not.to.be.undefined
             expect(ret.code).not.to.be.undefined
@@ -195,7 +195,7 @@ describe('Wallet API - Migration', () => {
                 status: 'partially failed',
             })
 
-            const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce }, { address: address2, key: key2, nonce }])
+            const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce }, { address: address2, key: key2, nonce }])
 
             expect(ret).not.to.be.undefined
             expect(ret.status).not.to.be.undefined

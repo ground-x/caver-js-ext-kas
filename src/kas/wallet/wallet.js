@@ -62,6 +62,7 @@ const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, format
 const KeyringContainer = require('caver-js/packages/caver-wallet')
 
 const NOT_INIT_API_ERR_MSG = `Wallet API is not initialized. Use 'caver.initWalletAPI' function to initialize Wallet API.`
+const INCORRECT_MIGRATE_ACCOUNTS = `You must pass a list of accounts as an argument.`
 
 /**
  * A warpping class that connects Wallet API.
@@ -248,14 +249,14 @@ class Wallet {
      * Migrates Klaytn accounts to KAS Wallet API. <br>
      * await caver.kas.wallet.migarateAccounts([{address:'{{address}}', key:'{{private_keys}}'}]) <br>
      *
-     * @param {number} chainId Chain ID.
      * @param {MigrationAccount[]} accounts An array of account objects migrated into KAS.
      * @return {StatusResponse}
      */
-    async migrateAccounts(chainId, accounts) {
+    async migrateAccounts(accounts) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!Array.isArray(accounts)) throw new Error(INCORRECT_MIGRATE_ACCOUNTS)
 
+        const chainId = this.chainId
         const keyringFactory = key => {
             const keyring = this.keyring
             let factory = keyring.createWithMultipleKey

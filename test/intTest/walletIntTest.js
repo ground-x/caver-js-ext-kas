@@ -3631,7 +3631,7 @@ describe('Wallet API service', () => {
     //     const address = keyring._address
     //     const key = keyring._key._privateKey
 
-    //     const ret = await caver.kas.wallet.migrateAccounts(chainId, [{ address, key, nonce: 0 }])
+    //     const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce: 0 }])
 
     //     expect(ret).not.to.be.undefined
     //     expect(ret.status).not.to.be.undefined
@@ -3647,7 +3647,7 @@ describe('Wallet API service', () => {
     //         const key = keyring._key._privateKey
     //         req.push({ address, key, nonce: 0 })
     //     }
-    //     const ret = await caver.kas.wallet.migrateAccounts(chainId, req)
+    //     const ret = await caver.kas.wallet.migrateAccounts(req)
 
     //     expect(ret).not.to.be.undefined
     //     expect(ret.status).not.to.be.undefined
