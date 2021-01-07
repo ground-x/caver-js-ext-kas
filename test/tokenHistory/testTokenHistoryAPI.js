@@ -1710,7 +1710,7 @@ describe('TokenHistory API service enabling', () => {
             )
         }
 
-        it('CAVERJS-EXT-KAS-TH-048: should return fungible token contract with ft contract address', async () => {
+        it('CAVERJS-EXT-KAS-TH-048: should return non fungible token contract with ft contract address', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getNftContractDetail')
@@ -2746,6 +2746,106 @@ describe('TokenHistory API service enabling', () => {
             })
 
             const ret = await caver.kas.tokenHistory.getMTContractList()
+
+            expect(ret.code).to.equal(errorResult.code)
+            expect(ret.message).to.equal(errorResult.message)
+        })
+    })
+
+    context('caver.kas.tokenHistory.getMTContract', () => {
+        const getMTContractResult = {
+            address: '0x3d23e62269f49d454ba085850a2c7e72fc38ec1f',
+            status: 'completed',
+            createdAt: 1606824469,
+            updatedAt: 1606824473,
+            deletedAt: 0,
+            type: 'KIP-37',
+        }
+
+        const mtContract = '0x3d23e62269f49d454ba085850a2c7e72fc38ec1f'
+
+        function setCallFakeForCallApi(callApiStub) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v2/contract/mt/{mt-address}`)
+                    expect(mtd).to.equal(`GET`)
+                    expect(pathParams['mt-address']).to.equal(mtContract)
+                    expect(Object.keys(queryParams).length).to.equal(0)
+                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    expect(postBody).to.be.null
+                    expect(authNames[0]).to.equal('auth')
+                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+
+                    callback(null, getMTContractResult, { body: getMTContractResult })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-TH-108: should return multi token contract with mt contract address', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getMTContractDetail')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.tokenHistory.getMTContract(mtContract)
+
+            expect(getTransfersSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.address).to.equal(mtContract)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-109: should call callback function with mt contract', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getMTContractDetail')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            let isCalled = false
+
+            const ret = await caver.kas.tokenHistory.getMTContract(mtContract, () => {
+                isCalled = true
+            })
+
+            expect(getTransfersSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.address).to.equal(mtContract)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-110: should resolve the promise when error is returned from KAS server', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const errorResult = {
+                _code: 1040400,
+                _message: '[ResourceNotFound]not found mt',
+            }
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenContractApi.apiClient, 'callApi')
+            callApiStub.callsFake((...args) => {
+                const callback = args[args.length - 1]
+                callback(null, errorResult, {})
+            })
+
+            const ret = await caver.kas.tokenHistory.getMTContract(mtContract)
 
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)
