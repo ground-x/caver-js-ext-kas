@@ -3638,7 +3638,7 @@ describe('Wallet API service', () => {
     //     expect(ret.status).to.be.equal('ok')
     // }).timeout(500000)
 
-    // it('CAVERJS-EXT-KAS-INT-116: caver.kas.wallet.migrateAccounts should return status with multiple accounts', async () => {
+    // it('CAVERJS-EXT-KAS-INT-234: caver.kas.wallet.migrateAccounts should return status with multiple accounts', async () => {
     //     const req = []
 
     //     for (var i = 0; i < 5; i++) {
