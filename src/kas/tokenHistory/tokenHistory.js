@@ -596,15 +596,24 @@ class TokenHistory {
      *
      * @param {string} mtAddress Address of the NFT contract to be searched.
      * @param {string} tokenId Token id to be searched.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {MtToken}
+     * @return {PageableMtTokens}
      */
-    getMTOwnerByTokenId(mtAddress, tokenId, callback) {
+    getMTOwnerListByTokenId(mtAddress, tokenId, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!utils.isAddress(mtAddress)) throw new Error(`Invalid mt contract address: ${mtAddress}`)
 
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
+
         return new Promise((resolve, reject) => {
-            this.tokenApi.getMtTokensByContractAddressAndTokenId(this.chainId, mtAddress, tokenId, (err, data, response) => {
+            this.tokenApi.getMtTokensByContractAddressAndTokenId(this.chainId, mtAddress, tokenId, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
