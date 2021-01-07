@@ -157,7 +157,7 @@ describe('Wallet API - Migration', () => {
             expect(ret.code).not.to.be.undefined
             expect(ret.code).to.be.equal(1061010)
         })
-        it('CAVERJS-EXT-KAS-WALLET-173: should return partially failed', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-207: should return partially failed', async () => {
             const keyring = caver.keyringContainer.keyring.generate()
             const address = keyring._address
             const key = keyring._key._privateKey
