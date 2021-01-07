@@ -108,7 +108,7 @@ describe('Wallet API - Migration', () => {
             expect(ret.status).to.be.equal('ok')
         })
 
-        it('CAVERJS-EXT-KAS-WALLET-170: should return status for a role based key account', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-204: should return status for a role based key account', async () => {
             const keyring = caver.keyringContainer.keyring.generate()
             const address = keyring._address
             const key = caver.wallet.keyring.generateRoleBasedKeys([2, 1, 3])
