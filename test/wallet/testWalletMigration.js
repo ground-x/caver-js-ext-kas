@@ -138,7 +138,7 @@ describe('Wallet API - Migration', () => {
             expect(ret.status).to.be.equal('ok')
         })
 
-        it('CAVERJS-EXT-KAS-WALLET-172: should return invalid key error', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-206: should return invalid key error', async () => {
             const keyring = caver.keyringContainer.keyring.generate()
             const address = keyring._address
             const key = caver.wallet.keyring.generateMultipleKeys(3)
