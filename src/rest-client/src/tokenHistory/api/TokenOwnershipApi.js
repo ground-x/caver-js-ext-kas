@@ -16,28 +16,18 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/ErrorResponse', '../model/PageableAccountFT', '../model/PageableNftOwnershipChanges'], factory)
+        define(['../../ApiClient', '../model/PageableNftOwnershipChanges'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(
-            require('../../ApiClient'),
-            require('../model/ErrorResponse'),
-            require('../model/PageableAccountFT'),
-            require('../model/PageableNftOwnershipChanges')
-        )
+        module.exports = factory(require('../../ApiClient'), require('../model/PageableNftOwnershipChanges'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.TokenOwnershipApi = factory(
-            root.TokenHistoryApi.ApiClient,
-            root.TokenHistoryApi.ErrorResponse,
-            root.TokenHistoryApi.PageableAccountFT,
-            root.TokenHistoryApi.PageableNftOwnershipChanges
-        )
+        root.TokenHistoryApi.TokenOwnershipApi = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.PageableNftOwnershipChanges)
     }
-})(this, function(ApiClient, ErrorResponse, PageableAccountFT, PageableNftOwnershipChanges) {
+})(this, function(ApiClient, PageableNftOwnershipChanges) {
     /**
      * TokenOwnership service.
      * @class TokenOwnershipApi
@@ -53,76 +43,6 @@
      */
     const TokenOwnershipApi = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
-
-        /**
-         * Callback function to receive the result of the getFtSummaryByEoaAddress operation.
-         * @callback TokenOwnershipApi~getFtSummaryByEoaAddressCallback
-         * @param {String} error Error message, if any.
-         * @param {PageableAccountFT} data The data returned by the service call.
-         * @param {String} response The complete HTTP response.
-         */
-
-        /**
-         * getFtSummaryByEoaAddress
-         * Lists all fungible tokens owned by the queried EOA address.<p></p>  ## Ca Filters<p></p>  * Filter contracts by specifying contract addresses to include in `ca-filters`.<br> * Separate addresses by comma e.g., `?ca-filters=0x...,0x...`.<p></p><br>  ## Size<p></p>  * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br> * Submitting negative values result in errors.<br> * Submitting zero results in a query with `size=100`, which is the default value.<br> * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
-         * @param {String} xChainId Klaytn network chain ID (1001 or 8217)
-         * @param {String} address
-         * @param {Object} opts Optional parameters
-         * @param {Number} opts.size Number of items to return (min=1, max=1000, default=100)
-         * @param {String} opts.cursor Offset for the next batch of items
-         * @param {String} opts.caFilters (csv) Contract addresses to filter, separated by comma (0x..,0xa...)
-         * @param {TokenOwnershipApi~getFtSummaryByEoaAddressCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link PageableAccountFT}
-         */
-        this.getFtSummaryByEoaAddress = function(xChainId, address, opts, callback) {
-            opts = opts || {}
-            const postBody = null
-
-            // verify the required parameter 'xChainId' is set
-            if (xChainId === undefined || xChainId === null) {
-                throw new Error("Missing the required parameter 'xChainId' when calling getFtSummaryByEoaAddress")
-            }
-
-            // verify the required parameter 'address' is set
-            if (address === undefined || address === null) {
-                throw new Error("Missing the required parameter 'address' when calling getFtSummaryByEoaAddress")
-            }
-
-            const pathParams = {
-                address: address,
-            }
-            const queryParams = {
-                size: opts.size,
-                cursor: opts.cursor,
-                'ca-filters': opts.caFilters,
-            }
-            const collectionQueryParams = {}
-            const headerParams = {
-                'x-chain-id': xChainId,
-            }
-            const formParams = {}
-
-            const authNames = ['auth']
-            const contentTypes = ['application/json']
-            const accepts = ['application/json']
-            const returnType = PageableAccountFT
-
-            return this.apiClient.callApi(
-                '/v2/account/token/{address}/ft',
-                'GET',
-                pathParams,
-                queryParams,
-                collectionQueryParams,
-                headerParams,
-                formParams,
-                postBody,
-                authNames,
-                contentTypes,
-                accepts,
-                returnType,
-                callback
-            )
-        }
 
         /**
          * Callback function to receive the result of the getListOfNftOwnershipChanges operation.
