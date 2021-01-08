@@ -15,7 +15,6 @@
  */
 
 const _ = require('lodash')
-const fs = require('fs')
 const utils = require('caver-js').utils
 
 const {
@@ -60,7 +59,6 @@ const {
 } = require('../../rest-client/src')
 const WalletQueryOptions = require('./walletQueryOptions')
 const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey } = require('../../utils/helper')
-const KeyringContainer = require('caver-js/packages/caver-wallet')
 
 const NOT_INIT_API_ERR_MSG = `Wallet API is not initialized. Use 'caver.initWalletAPI' function to initialize Wallet API.`
 const INCORRECT_MIGRATE_ACCOUNTS = `You must pass a list of accounts as an argument.`
