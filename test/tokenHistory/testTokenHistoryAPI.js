@@ -3417,7 +3417,7 @@ describe('TokenHistory API service enabling', () => {
             )
         }
 
-        it('CAVERJS-EXT-KAS-TH-128: should return owner list by token id', async () => {
+        it('CAVERJS-EXT-KAS-TH-128: should return ft list that account has', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
@@ -3432,7 +3432,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-129: should return owner list by token id with query options (size)', async () => {
+        it('CAVERJS-EXT-KAS-TH-129: should return ft list that account has with query options (size)', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = { size: 1 }
@@ -3448,7 +3448,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-130: should return owner list by token id with query options (cursor)', async () => {
+        it('CAVERJS-EXT-KAS-TH-130: should return ft list that account has with query options (cursor)', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = {
@@ -3467,7 +3467,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-131: should return owner list by token id with query options (single caFilters)', async () => {
+        it('CAVERJS-EXT-KAS-TH-131: should return ft list that account has with query options (single caFilters)', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = {
@@ -3486,7 +3486,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-132: should return owner list by token id with query options (single caFilters)', async () => {
+        it('CAVERJS-EXT-KAS-TH-132: should return ft list that account has with query options (multiple caFilters)', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = {
@@ -3504,7 +3504,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-133: should return owner list by token id with query options (all)', async () => {
+        it('CAVERJS-EXT-KAS-TH-133: should return ft list that account has with query options (all)', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = {
@@ -3526,7 +3526,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-134: should call callback function with owner list by token id', async () => {
+        it('CAVERJS-EXT-KAS-TH-134: should call callback function with ft list that account has', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenOwnershipApi, 'getFtSummaryByEoaAddress')
@@ -3546,7 +3546,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getFTSummaryByAddressResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-135: should call callback function with owner list by token id with query options', async () => {
+        it('CAVERJS-EXT-KAS-TH-135: should call callback function with ft list that account has with query options', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = {
