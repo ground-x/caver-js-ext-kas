@@ -562,7 +562,7 @@ class TokenHistory {
      * Retrieves a specific MT information. <br>
      * GET /v2/contract/mt/{mt-address}/owner/{owner-address}/token/{token-id}
      *
-     * @param {string} mtAddress Address of the NFT contract to be searched.
+     * @param {string} mtAddress Address of the MT contract to be searched.
      * @param {string} ownerAddress Address of the account.
      * @param {string} tokenId Token id to be searched.
      * @param {Function} [callback] The callback function to call.
