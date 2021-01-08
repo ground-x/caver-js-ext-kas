@@ -816,6 +816,62 @@ class Wallet {
         })
     }
 
+    /**
+     * Call the contract. You can view certain value in the contract and validate that you can submit executable transaction.<br>
+     * POST /v2/tx/contract/call
+     *
+     * @param {string} contractAddress The krn string to search.
+     * @param {string} methodName The method name to call.
+     * @param {Array.<object>} [callArguments] `type` and `value` are defined.
+     * @param {object} [sendOptions] `from`, `gas` and `value` can be defined.
+     * @param {Function} [callback] The callback function to call.
+     * @return {ContractCallResponse}
+     */
+    callContract(contractAddress, methodName, callArguments, sendOptions, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(sendOptions)) {
+            if (callback) {
+                if (_.isFunction(callback)) throw new Error(`Invalid sendOptions: ${sendOptions}`)
+                throw new Error(`Invalid callback: ${callback}`)
+            }
+            callback = sendOptions
+            sendOptions = undefined
+        }
+        if (!_.isArray(callArguments)) {
+            if (_.isObject(callArguments) && !sendOptions) {
+                sendOptions = callArguments
+                callArguments = []
+            } else {
+                throw new Error(`Invalid callArguments: ${callArguments}`)
+            }
+        }
+
+        if (!utils.isAddress(contractAddress)) throw new Error(`Invalid contract address: ${contractAddress}`)
+        if (!_.isString(methodName)) throw new Error(`Invalid method name: ${methodName}`)
+
+        callArguments = callArguments || []
+        sendOptions = sendOptions || {}
+
+        // Object.keys(sendOptions, k => {
+        //     if (!_.isString(sendOptions[k])) sendOptions[k] = utils.toHex(sendOptions[k])
+        // })
+
+        const obj = Object.assign({ ...sendOptions }, { to: contractAddress, data: { methodName, arguments: callArguments } })
+        const body = ContractCallRequest.constructFromObject(obj)
+
+        return new Promise((resolve, reject) => {
+            this.basicTransactionApi.contractCall(this.chainId, { body }, (err, data, response) => {
+                if (err) {
+                    console.log(err)
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
     // Fee Delegated Transaction Paid by KAS Api
 
     /**
@@ -1375,61 +1431,7 @@ class Wallet {
         })
     }
 
-    /**
-     * Call the contract. You can view certain value in the contract and validate that you can submit executable transaction.<br>
-     * POST /v2/tx/contract/call
-     *
-     * @param {string} contractAddress The krn string to search.
-     * @param {string} methodName The method name to call.
-     * @param {Array.<object>} [callArguments] `type` and `value` are defined.
-     * @param {object} [sendOptions] `from`, `gas` and `value` can be defined.
-     * @param {Function} [callback] The callback function to call.
-     * @return {ContractCallResponse}
-     */
-    callContract(contractAddress, methodName, callArguments, sendOptions, callback) {
-        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
-
-        if (_.isFunction(sendOptions)) {
-            if (callback) {
-                if (_.isFunction(callback)) throw new Error(`Invalid sendOptions: ${sendOptions}`)
-                throw new Error(`Invalid callback: ${callback}`)
-            }
-            callback = sendOptions
-            sendOptions = undefined
-        }
-        if (!_.isArray(callArguments)) {
-            if (_.isObject(callArguments) && !sendOptions) {
-                sendOptions = callArguments
-                callArguments = []
-            } else {
-                throw new Error(`Invalid callArguments: ${callArguments}`)
-            }
-        }
-
-        if (!utils.isAddress(contractAddress)) throw new Error(`Invalid contract address: ${contractAddress}`)
-        if (!_.isString(methodName)) throw new Error(`Invalid method name: ${methodName}`)
-
-        callArguments = callArguments || []
-        sendOptions = sendOptions || {}
-
-        // Object.keys(sendOptions, k => {
-        //     if (!_.isString(sendOptions[k])) sendOptions[k] = utils.toHex(sendOptions[k])
-        // })
-
-        const obj = Object.assign({ ...sendOptions }, { to: contractAddress, data: { methodName, arguments: callArguments } })
-        const body = ContractCallRequest.constructFromObject(obj)
-
-        return new Promise((resolve, reject) => {
-            this.basicTransactionApi.contractCall(this.chainId, { body }, (err, data, response) => {
-                if (err) {
-                    console.log(err)
-                    reject(err)
-                }
-                if (callback) callback(err, data, response)
-                resolve(data)
-            })
-        })
-    }
+    // Key Api
 
     /**
      * Create keys in KAS. <br>
@@ -1503,6 +1505,8 @@ class Wallet {
             })
         })
     }
+
+    // Registration Api
 
     /**
      * Register account which used before. <br>
