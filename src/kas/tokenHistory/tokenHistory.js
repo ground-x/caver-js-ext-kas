@@ -502,7 +502,7 @@ class TokenHistory {
      *
      * @param {string} mtAddress Address of the MT contract for which information is to be retrieved.
      * @param {Function} [callback] The callback function to call.
-     * @return {NftContractDetail}
+     * @return {MtContractDetail}
      */
     getMTContract(mtAddress, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
