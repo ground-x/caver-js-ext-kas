@@ -243,64 +243,64 @@ describe('TokenHistory API service', () => {
         expect(ret.cursor).not.to.be.undefined
     }).timeout(1000000)
 
-    it('CAVERJS-EXT-KAS-INT-235: caver.kas.tokenHistory.getMTContractList should return MT contract list', async () => {
-        const queryOptions = {
-            status: caver.kas.tokenHistory.queryOptions.status.COMPLETED,
-            size: 1,
-            type: caver.kas.tokenHistory.queryOptions.type.KIP37,
-        }
+    // it('CAVERJS-EXT-KAS-INT-235: caver.kas.tokenHistory.getMTContractList should return MT contract list', async () => {
+    //     const queryOptions = {
+    //         status: caver.kas.tokenHistory.queryOptions.status.COMPLETED,
+    //         size: 1,
+    //         type: caver.kas.tokenHistory.queryOptions.type.KIP37,
+    //     }
 
-        const ret = await caver.kas.tokenHistory.getMTContractList(queryOptions)
+    //     const ret = await caver.kas.tokenHistory.getMTContractList(queryOptions)
 
-        expect(ret.items).not.to.be.undefined
-        expect(ret.items.length).to.equal(1)
-        expect(ret.items[0].type).to.equal('KIP-37')
-        expect(ret.items[0].status).to.equal('completed')
-        expect(ret.cursor).not.to.be.undefined
-    }).timeout(1000000)
+    //     expect(ret.items).not.to.be.undefined
+    //     expect(ret.items.length).to.equal(1)
+    //     expect(ret.items[0].type).to.equal('KIP-37')
+    //     expect(ret.items[0].status).to.equal('completed')
+    //     expect(ret.cursor).not.to.be.undefined
+    // }).timeout(1000000)
 
-    it('CAVERJS-EXT-KAS-INT-236: caver.kas.tokenHistory.getMTContract should return MT contract', async () => {
-        const ret = await caver.kas.tokenHistory.getMTContract(mtContractAddress)
+    // it('CAVERJS-EXT-KAS-INT-236: caver.kas.tokenHistory.getMTContract should return MT contract', async () => {
+    //     const ret = await caver.kas.tokenHistory.getMTContract(mtContractAddress)
 
-        expect(ret.address.toLowerCase()).to.equal(mtContractAddress.toLowerCase())
-        expect(ret.status).to.equal(caver.kas.tokenHistory.queryOptions.status.COMPLETED)
-        expect(ret.type).to.equal(caver.kas.tokenHistory.queryOptions.type.KIP37)
-    }).timeout(1000000)
+    //     expect(ret.address.toLowerCase()).to.equal(mtContractAddress.toLowerCase())
+    //     expect(ret.status).to.equal(caver.kas.tokenHistory.queryOptions.status.COMPLETED)
+    //     expect(ret.type).to.equal(caver.kas.tokenHistory.queryOptions.type.KIP37)
+    // }).timeout(1000000)
 
-    it('CAVERJS-EXT-KAS-INT-237: caver.kas.tokenHistory.getMTListByOwner should return MT token list by owner', async () => {
-        const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContractAddress, sender.address)
+    // it('CAVERJS-EXT-KAS-INT-237: caver.kas.tokenHistory.getMTListByOwner should return MT token list by owner', async () => {
+    //     const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContractAddress, sender.address)
 
-        expect(ret.totalBalance).not.to.be.undefined
-        expect(ret.items).not.to.be.undefined
-        expect(ret.items.length).to.equal(1)
-        expect(ret.items[0].balance).to.equal(ret.items[0].totalSupply)
-        expect(ret.items[0].owner).to.equal(sender.address)
-        expect(ret.items[0].transferFrom).to.equal('0x0000000000000000000000000000000000000000')
-        expect(ret.items[0].transferTo).to.equal(sender.address)
-    }).timeout(1000000)
+    //     expect(ret.totalBalance).not.to.be.undefined
+    //     expect(ret.items).not.to.be.undefined
+    //     expect(ret.items.length).to.equal(1)
+    //     expect(ret.items[0].balance).to.equal(ret.items[0].totalSupply)
+    //     expect(ret.items[0].owner).to.equal(sender.address)
+    //     expect(ret.items[0].transferFrom).to.equal('0x0000000000000000000000000000000000000000')
+    //     expect(ret.items[0].transferTo).to.equal(sender.address)
+    // }).timeout(1000000)
 
-    it('CAVERJS-EXT-KAS-INT-238: caver.kas.tokenHistory.getMT should return MT', async () => {
-        const ret = await caver.kas.tokenHistory.getMT(mtContractAddress, sender.address, mtTokenId)
+    // it('CAVERJS-EXT-KAS-INT-238: caver.kas.tokenHistory.getMT should return MT', async () => {
+    //     const ret = await caver.kas.tokenHistory.getMT(mtContractAddress, sender.address, mtTokenId)
 
-        expect(ret.tokenId).to.equal(mtTokenId)
-        expect(ret.owner.toLowerCase()).to.equal(sender.address.toLowerCase())
-        expect(ret.tokenAddress.toLowerCase()).to.equal(mtContractAddress.toLowerCase())
-        expect(ret.totalSupply).not.to.be.undefined
-        expect(ret.transactionHash).not.to.be.undefined
-        expect(ret.transferFrom).to.equal('0x0000000000000000000000000000000000000000')
-        expect(ret.transferTo.toLowerCase()).to.equal(sender.address.toLowerCase())
-        expect(ret.updatedAt).not.to.be.undefined
-    }).timeout(1000000)
+    //     expect(ret.tokenId).to.equal(mtTokenId)
+    //     expect(ret.owner.toLowerCase()).to.equal(sender.address.toLowerCase())
+    //     expect(ret.tokenAddress.toLowerCase()).to.equal(mtContractAddress.toLowerCase())
+    //     expect(ret.totalSupply).not.to.be.undefined
+    //     expect(ret.transactionHash).not.to.be.undefined
+    //     expect(ret.transferFrom).to.equal('0x0000000000000000000000000000000000000000')
+    //     expect(ret.transferTo.toLowerCase()).to.equal(sender.address.toLowerCase())
+    //     expect(ret.updatedAt).not.to.be.undefined
+    // }).timeout(1000000)
 
-    it('CAVERJS-EXT-KAS-INT-239: caver.kas.tokenHistory.getMTOwnerListByTokenId should return MT token owner list', async () => {
-        const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContractAddress, mtTokenId)
+    // it('CAVERJS-EXT-KAS-INT-239: caver.kas.tokenHistory.getMTOwnerListByTokenId should return MT token owner list', async () => {
+    //     const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContractAddress, mtTokenId)
 
-        expect(ret.items).not.to.be.undefined
-        expect(ret.items.length).to.equal(1)
-        expect(ret.items[0].tokenId).to.equal(mtTokenId)
-        expect(ret.items[0].balance).to.equal(ret.items[0].totalSupply)
-        expect(ret.items[0].owner.toLowerCase()).to.equal(sender.address.toLowerCase())
-        expect(ret.items[0].transferFrom).to.equal('0x0000000000000000000000000000000000000000')
-        expect(ret.items[0].transferTo.toLowerCase()).to.equal(sender.address.toLowerCase())
-    }).timeout(1000000)
+    //     expect(ret.items).not.to.be.undefined
+    //     expect(ret.items.length).to.equal(1)
+    //     expect(ret.items[0].tokenId).to.equal(mtTokenId)
+    //     expect(ret.items[0].balance).to.equal(ret.items[0].totalSupply)
+    //     expect(ret.items[0].owner.toLowerCase()).to.equal(sender.address.toLowerCase())
+    //     expect(ret.items[0].transferFrom).to.equal('0x0000000000000000000000000000000000000000')
+    //     expect(ret.items[0].transferTo.toLowerCase()).to.equal(sender.address.toLowerCase())
+    // }).timeout(1000000)
 })
