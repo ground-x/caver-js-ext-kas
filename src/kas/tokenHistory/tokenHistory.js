@@ -522,7 +522,7 @@ class TokenHistory {
      * Lists all tokens of a MT contract that are owned by the queried EOA address. <br>
      * GET /v2/contract/mt/{mt-address}/owner/{owner-address}
      *
-     * @param {string} mtAddress Address of the NFT contract to be searched.
+     * @param {string} mtAddress Address of the MT contract to be searched.
      * @param {string} ownerAddress Address of the account.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
@@ -594,7 +594,7 @@ class TokenHistory {
      * Lists all EOA addresses who own the queried MT. <br>
      * GET /v2/contract/mt/{mt-address}/token/{token-id}
      *
-     * @param {string} mtAddress Address of the NFT contract to be searched.
+     * @param {string} mtAddress Address of the MT contract to be searched.
      * @param {string} tokenId Token id to be searched.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
