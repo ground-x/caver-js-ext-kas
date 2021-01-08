@@ -32,24 +32,34 @@
             './anchor/api/OperatorApi',
 
             // TH
+            './tokenHistory/model/FTSummary',
             './tokenHistory/model/FtContract',
             './tokenHistory/model/FtContractDetail',
             './tokenHistory/model/FtLink',
             './tokenHistory/model/FtTransfer',
-            './tokenHistory/model/InvalidQueryParameterValue',
-            './tokenHistory/model/TransferItem',
             './tokenHistory/model/KlayTransfer',
+            './tokenHistory/model/Mt',
+            './tokenHistory/model/MtContract',
+            './tokenHistory/model/MtContractDetail',
+            './tokenHistory/model/MtToken',
+            './tokenHistory/model/MtTransfer',
             './tokenHistory/model/Nft',
             './tokenHistory/model/NftContract',
             './tokenHistory/model/NftContractDetail',
             './tokenHistory/model/NftOwnershipChange',
             './tokenHistory/model/NftTransfer',
+            './tokenHistory/model/PageableAccountFT',
             './tokenHistory/model/PageableFtContractDetails',
+            './tokenHistory/model/PageableMtContractDetails',
+            './tokenHistory/model/PageableMtTokens',
+            './tokenHistory/model/PageableMtTokensWithBalance',
+            './tokenHistory/model/PageableMts',
             './tokenHistory/model/PageableNftContractDetails',
             './tokenHistory/model/PageableNftOwnershipChanges',
             './tokenHistory/model/PageableNfts',
             './tokenHistory/model/PageableTransfers',
             './tokenHistory/model/Transaction',
+            './tokenHistory/model/TransferItem',
             './tokenHistory/model/Transfers',
             './tokenHistory/api/TokenApi',
             './tokenHistory/api/TokenContractApi',
@@ -143,24 +153,34 @@
             require('./anchor/api/OperatorApi'),
 
             // TH
+            require('./tokenHistory/model/FTSummary'),
             require('./tokenHistory/model/FtContract'),
             require('./tokenHistory/model/FtContractDetail'),
             require('./tokenHistory/model/FtLink'),
             require('./tokenHistory/model/FtTransfer'),
-            require('./tokenHistory/model/InvalidQueryParameterValue'),
-            require('./tokenHistory/model/TransferItem'),
             require('./tokenHistory/model/KlayTransfer'),
+            require('./tokenHistory/model/Mt'),
+            require('./tokenHistory/model/MtContract'),
+            require('./tokenHistory/model/MtContractDetail'),
+            require('./tokenHistory/model/MtToken'),
+            require('./tokenHistory/model/MtTransfer'),
             require('./tokenHistory/model/Nft'),
             require('./tokenHistory/model/NftContract'),
             require('./tokenHistory/model/NftContractDetail'),
             require('./tokenHistory/model/NftOwnershipChange'),
             require('./tokenHistory/model/NftTransfer'),
+            require('./tokenHistory/model/PageableAccountFT'),
             require('./tokenHistory/model/PageableFtContractDetails'),
+            require('./tokenHistory/model/PageableMtContractDetails'),
+            require('./tokenHistory/model/PageableMtTokens'),
+            require('./tokenHistory/model/PageableMtTokensWithBalance'),
+            require('./tokenHistory/model/PageableMts'),
             require('./tokenHistory/model/PageableNftContractDetails'),
             require('./tokenHistory/model/PageableNftOwnershipChanges'),
             require('./tokenHistory/model/PageableNfts'),
             require('./tokenHistory/model/PageableTransfers'),
             require('./tokenHistory/model/Transaction'),
+            require('./tokenHistory/model/TransferItem'),
             require('./tokenHistory/model/Transfers'),
             require('./tokenHistory/api/TokenApi'),
             require('./tokenHistory/api/TokenContractApi'),
@@ -253,24 +273,34 @@
     OperatorApi,
 
     // TH
+    FTSummary,
     FtContract,
     FtContractDetail,
     FtLink,
     FtTransfer,
-    InvalidQueryParameterValue,
-    TransferItem,
     KlayTransfer,
+    Mt,
+    MtContract,
+    MtContractDetail,
+    MtToken,
+    MtTransfer,
     Nft,
     NftContract,
     NftContractDetail,
     NftOwnershipChange,
     NftTransfer,
+    PageableAccountFT,
     PageableFtContractDetails,
+    PageableMtContractDetails,
+    PageableMtTokens,
+    PageableMtTokensWithBalance,
+    PageableMts,
     PageableNftContractDetails,
     PageableNftOwnershipChanges,
     PageableNfts,
     PageableTransfers,
     Transaction,
+    TransferItem,
     Transfers,
     TokenApi,
     TokenContractApi,
@@ -411,6 +441,11 @@
 
         // TokenHistory
         /**
+         * The FTSummary model constructor.
+         * @property {FTSummary}
+         */
+        FTSummary: FTSummary,
+        /**
          * The FtContract model constructor.
          * @property {FtContract}
          */
@@ -431,20 +466,35 @@
          */
         FtTransfer: FtTransfer,
         /**
-         * The InvalidQueryParameterValue model constructor.
-         * @property {InvalidQueryParameterValue}
-         */
-        InvalidQueryParameterValue: InvalidQueryParameterValue,
-        /**
-         * The TransferItem model constructor.
-         * @property {TransferItem}
-         */
-        TransferItem: TransferItem,
-        /**
          * The KlayTransfer model constructor.
          * @property {KlayTransfer}
          */
         KlayTransfer: KlayTransfer,
+        /**
+         * The Mt model constructor.
+         * @property {Mt}
+         */
+        Mt: Mt,
+        /**
+         * The MtContract model constructor.
+         * @property {MtContract}
+         */
+        MtContract: MtContract,
+        /**
+         * The MtContractDetail model constructor.
+         * @property {MtContractDetail}
+         */
+        MtContractDetail: MtContractDetail,
+        /**
+         * The MtToken model constructor.
+         * @property {MtToken}
+         */
+        MtToken: MtToken,
+        /**
+         * The MtTransfer model constructor.
+         * @property {MtTransfer}
+         */
+        MtTransfer: MtTransfer,
         /**
          * The Nft model constructor.
          * @property {Nft}
@@ -471,10 +521,35 @@
          */
         NftTransfer: NftTransfer,
         /**
+         * The PageableAccountFT model constructor.
+         * @property {PageableAccountFT}
+         */
+        PageableAccountFT: PageableAccountFT,
+        /**
          * The PageableFtContractDetails model constructor.
          * @property {PageableFtContractDetails}
          */
         PageableFtContractDetails: PageableFtContractDetails,
+        /**
+         * The PageableMtContractDetails model constructor.
+         * @property {PageableMtContractDetails}
+         */
+        PageableMtContractDetails: PageableMtContractDetails,
+        /**
+         * The PageableMtTokens model constructor.
+         * @property {PageableMtTokens}
+         */
+        PageableMtTokens: PageableMtTokens,
+        /**
+         * The PageableMtTokensWithBalance model constructor.
+         * @property {PageableMtTokensWithBalance}
+         */
+        PageableMtTokensWithBalance: PageableMtTokensWithBalance,
+        /**
+         * The PageableMts model constructor.
+         * @property {PageableMts}
+         */
+        PageableMts: PageableMts,
         /**
          * The PageableNftContractDetails model constructor.
          * @property {PageableNftContractDetails}
@@ -500,6 +575,11 @@
          * @property {Transaction}
          */
         Transaction: Transaction,
+        /**
+         * The TransferItem model constructor.
+         * @property {TransferItem}
+         */
+        TransferItem: TransferItem,
         /**
          * The Transfers model constructor.
          * @property {Transfers}

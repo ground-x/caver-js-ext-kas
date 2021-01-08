@@ -16,65 +16,65 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/NftOwnershipChange'], factory)
+        define(['../../ApiClient', '../model/MtContractDetail'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./NftOwnershipChange'))
+        module.exports = factory(require('../../ApiClient'), require('./MtContractDetail'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.PageableNftOwnershipChanges = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.NftOwnershipChange)
+        root.TokenHistoryApi.PageableMtContractDetails = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.MtContractDetail)
     }
-})(this, function(ApiClient, NftOwnershipChange) {
+})(this, function(ApiClient, MtContractDetail) {
     /**
-     * The PageableNftOwnershipChanges model module.
-     * @class PageableNftOwnershipChanges
+     * The PageableMtContractDetails model module.
+     * @class PageableMtContractDetails
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>PageableNftOwnershipChanges</code>.
-     * @alias PageableNftOwnershipChanges
+     * Constructs a new <code>PageableMtContractDetails</code>.
+     * @alias PageableMtContractDetails
      * @class
-     * @param items {Array.<NftOwnershipChange>}
-     * @param cursor {String} Next page cursor
+     * @param items {Array.<MtContractDetail>}
+     * @param cursor {String} Offset for the next batch of items
      */
-    const PageableNftOwnershipChanges = function(items, cursor) {
+    const PageableMtContractDetails = function(items, cursor) {
         this.items = items
         this.cursor = cursor
     }
 
     /**
-     * Constructs a <code>PageableNftOwnershipChanges</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>PageableMtContractDetails</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {PageableNftOwnershipChanges} obj Optional instance to populate.
-     * @return {PageableNftOwnershipChanges} The populated <code>PageableNftOwnershipChanges</code> instance.
-     * @memberof PageableNftOwnershipChanges
+     * @param {PageableMtContractDetails} obj Optional instance to populate.
+     * @return {PageableMtContractDetails} The populated <code>PageableMtContractDetails</code> instance.
+     * @memberof PageableMtContractDetails
      */
-    PageableNftOwnershipChanges.constructFromObject = function(data, obj) {
+    PageableMtContractDetails.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new PageableNftOwnershipChanges()
-            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [NftOwnershipChange])
+            obj = obj || new PageableMtContractDetails()
+            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [MtContractDetail])
             if (data.hasOwnProperty('cursor')) obj.cursor = ApiClient.convertToType(data.cursor, 'String')
         }
         return obj
     }
 
     /**
-     * @type {Array.<NftOwnershipChange>}
-     * @memberof PageableNftOwnershipChanges
+     * @type {Array.<MtContractDetail>}
+     * @memberof PageableMtContractDetails
      */
-    PageableNftOwnershipChanges.prototype.items = undefined
+    PageableMtContractDetails.prototype.items = undefined
 
     /**
-     * Next page cursor
+     * Offset for the next batch of items
      * @type {String}
-     * @memberof PageableNftOwnershipChanges
+     * @memberof PageableMtContractDetails
      */
-    PageableNftOwnershipChanges.prototype.cursor = undefined
+    PageableMtContractDetails.prototype.cursor = undefined
 
-    return PageableNftOwnershipChanges
+    return PageableMtContractDetails
 })

@@ -16,55 +16,65 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/TransferItem'], factory)
+        define(['../../ApiClient', '../model/MtToken'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./TransferItem'))
+        module.exports = factory(require('../../ApiClient'), require('./MtToken'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.Transfers = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.TransferItem)
+        root.TokenHistoryApi.PageableMtTokens = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.MtToken)
     }
-})(this, function(ApiClient, TransferItem) {
+})(this, function(ApiClient, MtToken) {
     /**
-     * The Transfers model module.
-     * @class Transfers
+     * The PageableMtTokens model module.
+     * @class PageableMtTokens
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>Transfers</code>.
-     * @alias Transfers
+     * Constructs a new <code>PageableMtTokens</code>.
+     * @alias PageableMtTokens
      * @class
-     * @param items {Array.<TransferItem>}
+     * @param items {Array.<MtToken>}
+     * @param cursor {String} Next page cursor
      */
-    const Transfers = function(items) {
+    const PageableMtTokens = function(items, cursor) {
         this.items = items
+        this.cursor = cursor
     }
 
     /**
-     * Constructs a <code>Transfers</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>PageableMtTokens</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Transfers} obj Optional instance to populate.
-     * @return {Transfers} The populated <code>Transfers</code> instance.
-     * @memberof Transfers
+     * @param {PageableMtTokens} obj Optional instance to populate.
+     * @return {PageableMtTokens} The populated <code>PageableMtTokens</code> instance.
+     * @memberof PageableMtTokens
      */
-    Transfers.constructFromObject = function(data, obj) {
+    PageableMtTokens.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new Transfers()
-            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [TransferItem])
+            obj = obj || new PageableMtTokens()
+            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [MtToken])
+            if (data.hasOwnProperty('cursor')) obj.cursor = ApiClient.convertToType(data.cursor, 'String')
         }
         return obj
     }
 
     /**
-     * @type {Array.<TransferItem>}
-     * @memberof Transfers
+     * @type {Array.<MtToken>}
+     * @memberof PageableMtTokens
      */
-    Transfers.prototype.items = undefined
+    PageableMtTokens.prototype.items = undefined
 
-    return Transfers
+    /**
+     * Next page cursor
+     * @type {String}
+     * @memberof PageableMtTokens
+     */
+    PageableMtTokens.prototype.cursor = undefined
+
+    return PageableMtTokens
 })

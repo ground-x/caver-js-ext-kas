@@ -16,55 +16,65 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/TransferItem'], factory)
+        define(['../../ApiClient', '../model/FTSummary'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./TransferItem'))
+        module.exports = factory(require('../../ApiClient'), require('./FTSummary'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.Transfers = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.TransferItem)
+        root.TokenHistoryApi.PageableAccountFT = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.FTSummary)
     }
-})(this, function(ApiClient, TransferItem) {
+})(this, function(ApiClient, FTSummary) {
     /**
-     * The Transfers model module.
-     * @class Transfers
+     * The PageableAccountFT model module.
+     * @class PageableAccountFT
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>Transfers</code>.
-     * @alias Transfers
+     * Constructs a new <code>PageableAccountFT</code>.
+     * @alias PageableAccountFT
      * @class
-     * @param items {Array.<TransferItem>}
+     * @param items {Array.<FTSummary>}
+     * @param cursor {String} Next page cursor
      */
-    const Transfers = function(items) {
+    const PageableAccountFT = function(items, cursor) {
         this.items = items
+        this.cursor = cursor
     }
 
     /**
-     * Constructs a <code>Transfers</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>PageableAccountFT</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Transfers} obj Optional instance to populate.
-     * @return {Transfers} The populated <code>Transfers</code> instance.
-     * @memberof Transfers
+     * @param {PageableAccountFT} obj Optional instance to populate.
+     * @return {PageableAccountFT} The populated <code>PageableAccountFT</code> instance.
+     * @memberof PageableAccountFT
      */
-    Transfers.constructFromObject = function(data, obj) {
+    PageableAccountFT.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new Transfers()
-            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [TransferItem])
+            obj = obj || new PageableAccountFT()
+            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [FTSummary])
+            if (data.hasOwnProperty('cursor')) obj.cursor = ApiClient.convertToType(data.cursor, 'String')
         }
         return obj
     }
 
     /**
-     * @type {Array.<TransferItem>}
-     * @memberof Transfers
+     * @type {Array.<FTSummary>}
+     * @memberof PageableAccountFT
      */
-    Transfers.prototype.items = undefined
+    PageableAccountFT.prototype.items = undefined
 
-    return Transfers
+    /**
+     * Next page cursor
+     * @type {String}
+     * @memberof PageableAccountFT
+     */
+    PageableAccountFT.prototype.cursor = undefined
+
+    return PageableAccountFT
 })

@@ -15,6 +15,7 @@
  */
 
 const lodash = require('lodash')
+const utils = require('caver-js').utils
 const { formatDate } = require('../../utils/helper')
 
 class TokenHistoryQueryOptions {
@@ -25,19 +26,21 @@ class TokenHistoryQueryOptions {
         const cursor = obj.cursor
         const presets = obj.presets
         const caFilter = obj.caFilter || obj['ca-filter']
+        const caFilters = obj.caFilters || obj['ca-filters']
         const status = obj.status
         const type = obj.type
 
-        return new TokenHistoryQueryOptions(kind, range, size, cursor, presets, caFilter, status, type)
+        return new TokenHistoryQueryOptions(kind, range, size, cursor, presets, caFilter, caFilters, status, type)
     }
 
-    constructor(kind, range, size, cursor, presets, caFilter, status, type) {
+    constructor(kind, range, size, cursor, presets, caFilter, caFilters, status, type) {
         if (kind !== undefined) this.kind = kind
         if (range !== undefined) this.range = range
         if (size !== undefined) this.size = size
         if (cursor !== undefined) this.cursor = cursor
         if (presets !== undefined) this.presets = presets
         if (caFilter !== undefined) this.caFilter = caFilter
+        if (caFilters !== undefined) this.caFilters = caFilters
         if (status !== undefined) this.status = status
         if (type !== undefined) this.type = type
     }
@@ -136,6 +139,28 @@ class TokenHistoryQueryOptions {
     }
 
     /**
+     * @type {Array.<string>}
+     */
+    get caFilters() {
+        return this._caFilters
+    }
+
+    set caFilters(caFilters) {
+        if (!lodash.isArray(caFilters)) caFilters = [caFilters]
+
+        for (let cafilter of caFilters) {
+            if (!lodash.isString(cafilter)) throw new Error(`Invalid type of caFilters: caFilters should be string or string array type.`)
+            const lowerCaseCaFilter = cafilter.toLowerCase()
+            if (!utils.isAddress(lowerCaseCaFilter)) {
+                throw new Error(`Invalid caFilter in caFilters. The caFilter should be an address format.`)
+            }
+            cafilter = lowerCaseCaFilter
+        }
+
+        this._caFilters = Array.from(new Set(caFilters))
+    }
+
+    /**
      * @type {string}
      */
     get status() {
@@ -164,10 +189,10 @@ class TokenHistoryQueryOptions {
     set type(type) {
         if (!lodash.isString(type)) throw new Error(`Invalid type of type: type should be string type.`)
 
-        const types = ['KIP-7', 'ERC-20', 'KIP-17', 'ERC-721']
+        const types = ['KIP-7', 'ERC-20', 'KIP-17', 'ERC-721', 'KIP-37', 'ERC-1155']
         if (!types.includes(type.toUpperCase()))
             throw new Error(
-                `Invalid type. The type can specify the token contact type to search among 'KIP-7', 'ERC-20', 'KIP-17' or 'ERC-721'.`
+                `Invalid type. The type can specify the token contact type to search among 'KIP-7', 'ERC-20', 'KIP-17', 'ERC-721', 'KIP-37' or 'ERC-1155'.`
             )
 
         this._type = type.toUpperCase()
@@ -193,6 +218,7 @@ TokenHistoryQueryOptions.kind = {
     KLAY: 'klay',
     FT: 'ft',
     NFT: 'nft',
+    MT: 'mt',
 }
 
 TokenHistoryQueryOptions.status = {
@@ -205,8 +231,10 @@ TokenHistoryQueryOptions.status = {
 TokenHistoryQueryOptions.type = {
     KIP7: 'KIP-7',
     KIP17: 'KIP-17',
+    KIP37: 'KIP-37',
     ERC20: 'ERC-20',
     ERC721: 'ERC-721',
+    ERC1155: 'ERC-1155',
 }
 
 module.exports = TokenHistoryQueryOptions
