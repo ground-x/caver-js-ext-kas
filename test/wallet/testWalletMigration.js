@@ -28,11 +28,12 @@ const expect = chai.expect
 const CaverExtKAS = require('../../index.js')
 
 let caver
-let kasKey, kasRegistration
+let kasKey
+let kasRegistration
 
 const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.walletAPI
 
-var sandbox = sinon.createSandbox()
+const sandbox = sinon.createSandbox()
 
 describe('Wallet API - Migration', () => {
     beforeEach(() => {
