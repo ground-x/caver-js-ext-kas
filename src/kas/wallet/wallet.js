@@ -1486,16 +1486,22 @@ class Wallet {
      *
      * @param {string} keyId The key id to use for signing.
      * @param {string} dataToSign The data to sign.
+     * @param {string} [krn] The krn string.
      * @param {Function} [callback] The callback function to call.
      * @return {KeySignDataResponse}
      */
-    signMessage(keyId, dataToSign, callback) {
+    signMessage(keyId, dataToSign, krn, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(keyId)) throw new Error(`Invalid keyId. You should pass string type parameter.`)
         if (!_.isString(dataToSign)) throw new Error(`Invalid data. You should pass string type parameter.`)
 
+        if (_.isFunction(krn)) {
+            callback = krn
+            krn = undefined
+        }
+
         return new Promise((resolve, reject) => {
-            this.keyApi.keySignData(this.chainId, keyId, { body: { data: dataToSign } }, (err, data, response) => {
+            this.keyApi.keySignData(this.chainId, keyId, { body: { data: dataToSign }, xKrn: krn }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
