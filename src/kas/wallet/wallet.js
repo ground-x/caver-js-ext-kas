@@ -838,7 +838,7 @@ class Wallet {
             callback = sendOptions
             sendOptions = undefined
         }
-        if (!_.isArray(callArguments)) {
+        if (callArguments !== undefined && !_.isArray(callArguments)) {
             if (_.isObject(callArguments) && !sendOptions) {
                 sendOptions = callArguments
                 callArguments = []
@@ -852,13 +852,12 @@ class Wallet {
 
         callArguments = callArguments || []
         sendOptions = sendOptions || {}
-
-        // Object.keys(sendOptions, k => {
-        //     if (!_.isString(sendOptions[k])) sendOptions[k] = utils.toHex(sendOptions[k])
-        // })
+        if (sendOptions.value !== undefined) sendOptions.value = utils.toHex(sendOptions.value)
 
         const obj = Object.assign({ ...sendOptions }, { to: contractAddress, data: { methodName, arguments: callArguments } })
         const body = ContractCallRequest.constructFromObject(obj)
+        body.data.arguments = body.data._arguments
+        delete body.data._arguments
 
         return new Promise((resolve, reject) => {
             this.basicTransactionApi.contractCall(this.chainId, { body }, (err, data, response) => {
