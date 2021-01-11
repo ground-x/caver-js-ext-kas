@@ -43,20 +43,6 @@ describe('Wallet API service enabling', () => {
     context('caver.kas.wallet.registerAccounts', () => {
         const resultOfApi = { status: 'ok' }
 
-        // const accounts = [
-        //     {
-        //         keyId:
-        //             'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:key-pool:default:0xb08678c129afd4a5961e7f039f63720bedb6ff4ef94683cd7389c4a4b61fa4ca',
-        //         address: caver.keyringContainer.keyring.generate().address,
-        //     },
-        //     {
-        //         keyId:
-        //             'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:key-pool:default:0xb08678c129afd4a5961e7f039f63720bedb6ff4ef94683cd7389c4a4b61fa4ca',
-        //         address: caver.keyringContainer.keyring.generate().address,
-        //         rlp: '0x02a10327a5b5bb7cc744ce17e8a95672d206218c4aa4f49a637455d13608ef96d1b7b1',
-        //     },
-        // ]
-
         const keyId =
             'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:key-pool:default:0xb08678c129afd4a5961e7f039f63720bedb6ff4ef94683cd7389c4a4b61fa4ca'
         const rlp = '0x02a10327a5b5bb7cc744ce17e8a95672d206218c4aa4f49a637455d13608ef96d1b7b1'
