@@ -862,7 +862,6 @@ class Wallet {
         return new Promise((resolve, reject) => {
             this.basicTransactionApi.contractCall(this.chainId, { body }, (err, data, response) => {
                 if (err) {
-                    console.log(err)
                     reject(err)
                 }
                 if (callback) callback(err, data, response)
