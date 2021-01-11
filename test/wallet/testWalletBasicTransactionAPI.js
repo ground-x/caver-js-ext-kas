@@ -1518,7 +1518,7 @@ describe('Wallet API - Basic transaction API', () => {
                     type: 'address',
                     value: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
                 },
-                { type: 'uint256', value: '0x1' },
+                { type: 'uint256', value: 1 },
             ]
             const sendOptions = {
                 from: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
