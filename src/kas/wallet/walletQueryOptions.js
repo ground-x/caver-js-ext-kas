@@ -145,4 +145,11 @@ class WalletQueryOptions {
     }
 }
 
+WalletQueryOptions.status = {
+    ENABLED: 'enabled',
+    DISABLED: 'disabled',
+    ALL: 'all',
+    CORRUPTED: 'corrupted',
+}
+
 module.exports = WalletQueryOptions
