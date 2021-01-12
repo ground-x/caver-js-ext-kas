@@ -3780,14 +3780,14 @@ paths:
           content:
             application/json:
               examples:
-                사용자의 특정 계정저장소의 클레이튼 계정 보유 갯수:
-                  summary: 사용자의 특정 계정저장소의 클레이튼 계정 보유 갯수
+                200 - Success:
+                  summary: 200 - Success
                   description: ''
                   value:
                     accountId: 68ec0e4b-0f61-4e6f-ae35-be865ab23187
-                    count: 10
+                    count: 4
                     krn: >-
-                      krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:key-pool:default
+                      krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
               schema:
                 $ref: '#/components/schemas/AccountCountByKRN'
       summary: The number of Klaytn account from certain account pool
@@ -4368,7 +4368,7 @@ paths:
                         -32000::invalid transaction v, r, s values of the sender
                     status: partially failed
               schema:
-                $ref: '#/components/schemas/StatusResponse'
+                $ref: '#/components/schemas/RegistrationStausResponse'
         '400':
           description: ''
           content:
@@ -6241,12 +6241,12 @@ components:
         count:
           type: integer
           format: int64
-          example: 10
+          example: 4
           description: The number of Klaytn account from certain account pool
         krn:
           type: string
           example: >-
-            krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:key-pool:default
+            krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
           description: KAS KRN(acccount pool name)
       title: AccountCountByKRN
       required:
@@ -6327,7 +6327,7 @@ components:
       title: KeySignDataRequest
       required:
         - data
-    StatusResponse:
+    RegistrationStausResponse:
       type: object
       description: Status Response Schema
       properties:
@@ -6337,7 +6337,7 @@ components:
           type: string
           example: all failed
           description: status of request
-      title: StatusResponse
+      title: RegistrationStausResponse
       required:
         - status
   securitySchemes:
