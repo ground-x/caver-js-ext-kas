@@ -124,7 +124,7 @@
             './wallet/model/RoleBasedUpdateKeyType',
             './wallet/model/SignPendingTransactionBySigRequest',
             './wallet/model/Signature',
-            './wallet/model/RegistrationStausResponse',
+            './wallet/model/RegistrationStatusResponse',
             './wallet/model/TransactionReceipt',
             './wallet/model/TransactionResult',
             './wallet/model/TxData',
@@ -248,7 +248,7 @@
             require('./wallet/model/RoleBasedUpdateKeyType'),
             require('./wallet/model/SignPendingTransactionBySigRequest'),
             require('./wallet/model/Signature'),
-            require('./wallet/model/RegistrationStausResponse'),
+            require('./wallet/model/RegistrationStatusResponse'),
             require('./wallet/model/TransactionReceipt'),
             require('./wallet/model/TransactionResult'),
             require('./wallet/model/TxData'),
@@ -371,7 +371,7 @@
     RoleBasedUpdateKeyType,
     SignPendingTransactionBySigRequest,
     Signature,
-    RegistrationStausResponse,
+    RegistrationStatusResponse,
     TransactionReceipt,
     TransactionResult,
     TxData,
@@ -903,10 +903,10 @@
          */
         Signature: Signature,
         /**
-         * The RegistrationStausResponse model constructor.
-         * @property {RegistrationStausResponse}
+         * The RegistrationStatusResponse model constructor.
+         * @property {RegistrationStatusResponse}
          */
-        RegistrationStausResponse: RegistrationStausResponse,
+        RegistrationStatusResponse: RegistrationStatusResponse,
         /**
          * The TransactionReceipt model constructor.
          * @property {TransactionReceipt}
