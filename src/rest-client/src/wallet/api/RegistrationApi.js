@@ -16,14 +16,14 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/AccountRegistration', '../model/ErrorResponse', '../model/StatusResponse'], factory)
+        define(['../../ApiClient', '../model/AccountRegistration', '../model/ErrorResponse', '../model/RegistrationStausResponse'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
         module.exports = factory(
             require('../../ApiClient'),
             require('../model/AccountRegistration'),
             require('../model/ErrorResponse'),
-            require('../model/StatusResponse')
+            require('../model/RegistrationStausResponse')
         )
     } else {
         // Browser globals (root is window)
@@ -34,10 +34,10 @@
             root.WalletApi.ApiClient,
             root.WalletApi.AccountRegistration,
             root.WalletApi.ErrorResponse,
-            root.WalletApi.StatusResponse
+            root.WalletApi.RegistrationStausResponse
         )
     }
-})(this, function(ApiClient, AccountRegistration, ErrorResponse, StatusResponse) {
+})(this, function(ApiClient, AccountRegistration, ErrorResponse, RegistrationStausResponse) {
     /**
      * Registration service.
      * @class RegistrationApi
@@ -58,7 +58,7 @@
          * Callback function to receive the result of the registerAccount operation.
          * @callback RegistrationApi~registerAccountCallback
          * @param {String} error Error message, if any.
-         * @param {StatusResponse} data The data returned by the service call.
+         * @param {RegistrationStausResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -69,7 +69,7 @@
          * @param {Object} opts Optional parameters
          * @param {Array.<AccountRegistration>} opts.body
          * @param {RegistrationApi~registerAccountCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link StatusResponse}
+         * data is of type: {@link RegistrationStausResponse}
          */
         this.registerAccount = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -91,7 +91,7 @@
             const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = StatusResponse
+            const returnType = RegistrationStausResponse
 
             return this.apiClient.callApi(
                 '/v2/registration/account',

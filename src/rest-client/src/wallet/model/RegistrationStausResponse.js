@@ -25,37 +25,37 @@
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.StatusResponse = factory(root.WalletApi.ApiClient)
+        root.WalletApi.RegistrationStausResponse = factory(root.WalletApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The StatusResponse model module.
-     * @class StatusResponse
+     * The RegistrationStausResponse model module.
+     * @class RegistrationStausResponse
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>StatusResponse</code>.
+     * Constructs a new <code>RegistrationStausResponse</code>.
      * Status Response Schema
-     * @alias StatusResponse
+     * @alias RegistrationStausResponse
      * @class
      * @param status {String} status of request
      */
-    const StatusResponse = function(status) {
+    const RegistrationStausResponse = function(status) {
         this.status = status
     }
 
     /**
-     * Constructs a <code>StatusResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>RegistrationStausResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {StatusResponse} obj Optional instance to populate.
-     * @return {StatusResponse} The populated <code>StatusResponse</code> instance.
-     * @memberof StatusResponse
+     * @param {RegistrationStausResponse} obj Optional instance to populate.
+     * @return {RegistrationStausResponse} The populated <code>RegistrationStausResponse</code> instance.
+     * @memberof RegistrationStausResponse
      */
-    StatusResponse.constructFromObject = function(data, obj) {
+    RegistrationStausResponse.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new StatusResponse()
+            obj = obj || new RegistrationStausResponse()
             if (data.hasOwnProperty('failures')) obj.failures = ApiClient.convertToType(data.failures, { String: 'String' })
             if (data.hasOwnProperty('status')) obj.status = ApiClient.convertToType(data.status, 'String')
         }
@@ -65,16 +65,16 @@
     /**
      * failed addresses and causes to register accounts
      * @type {Object.<String, String>}
-     * @memberof StatusResponse
+     * @memberof RegistrationStausResponse
      */
-    StatusResponse.prototype.failures = undefined
+    RegistrationStausResponse.prototype.failures = undefined
 
     /**
      * status of request
      * @type {String}
-     * @memberof StatusResponse
+     * @memberof RegistrationStausResponse
      */
-    StatusResponse.prototype.status = undefined
+    RegistrationStausResponse.prototype.status = undefined
 
-    return StatusResponse
+    return RegistrationStausResponse
 })

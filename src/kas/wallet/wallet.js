@@ -249,7 +249,7 @@ class Wallet {
      * await caver.kas.wallet.migarateAccounts([{address:'{{address}}', key:'{{private_keys}}'}]) <br>
      *
      * @param {MigrationAccount[]} accounts An array of account objects migrated into KAS.
-     * @return {StatusResponse}
+     * @return {RegistrationStausResponse}
      */
     async migrateAccounts(accounts) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -1518,7 +1518,7 @@ class Wallet {
      *
      * @param {Array.<object>} accounts The key id to use for signing.
      * @param {Function} [callback] The callback function to call.
-     * @return {StatusResponse}
+     * @return {RegistrationStausResponse}
      */
     registerAccounts(accounts, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
