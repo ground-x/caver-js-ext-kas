@@ -36,7 +36,7 @@
 
     /**
      * Constructs a new <code>AccountCountByAccountID</code>.
-     * Total count of Klaytn account owned by an KAS account
+     * Total count of Klaytn account and key owned by an KAS account
      * @alias AccountCountByAccountID
      * @class
      * @param accountId {String} KAS account ID

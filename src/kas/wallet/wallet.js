@@ -822,7 +822,7 @@ class Wallet {
      *
      * @param {string} contractAddress The krn string to search.
      * @param {string} methodName The method name to call.
-     * @param {Array.<object>} [callArguments] `type` and `value` are defined.
+     * @param {Array.<object>} [callArguments] `type` and `value` are defined. The ABI type can be `uint256`, `uint32`, `string`, `bool`, `address`, `uint64[2]` and `address[]`. The value can be `number`, `string`, `array` and `boolean`.
      * @param {object} [sendOptions] `from`, `gas` and `value` can be defined.
      * @param {Function} [callback] The callback function to call.
      * @return {ContractCallResponse}
