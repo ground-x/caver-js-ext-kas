@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: Token History API
-  description: >-
+  description: >+
     # Introduction
 
 
@@ -14,11 +14,6 @@ info:
 
     For any questions regarding this document or KAS, visit [the developer forum](https://forum.klaytn.com/).
 
-
-    # Authentication
-
-
-    <!-- ReDoc-Inject: <security-definitions> -->
   contact: {}
 host: th-api.klaytnapi.com
 basePath: /
@@ -104,7 +99,7 @@ paths:
         in: query
         required: false
         type: string
-        description: (csv) Indicate the [“klay”, “ft”, or “nft”] type. All types will be searched if no type is specified.
+        description: (csv) Indicate the [“klay”, “ft”, “nft”, "mt"] type. All types will be searched if no type is specified.
       - name: range
         in: query
         required: false
@@ -133,9 +128,9 @@ paths:
             $ref: '#/definitions/PageableTransfers'
           headers: {}
         400:
-          description: Invalid request
+          description: Bad request
           schema:
-            $ref: '#/definitions/InvalidQueryParameterValue'
+            $ref: '#/definitions/ErrorResponse'
   /v2/transfer/tx/{transaction-hash}:
     get:
       description: Search for transfer details with a transaction hash. Transfer details include KLAY (`KlayTransfer`), FT (`FtTransfer`), and NFT (`NftTransfer`) transfers. For the FT and NFT transfers, the KlayTransfer transfer details for executing the token transfer are included. The `value` of the `KlayTransfer` for executing the FT and NFT transfers can be 0. For more details, refer to `GET /v2/transfer`.
@@ -219,7 +214,7 @@ paths:
         in: query
         required: false
         type: string
-        description: (csv) Indicate the [“klay”, “ft”, or “nft”] type. All types will be searched if no type is specified.
+        description: (csv) Indicate the [“klay”, “ft”, “nft”, "mt"] type. All types will be searched if no type is specified.
       - name: ca-filter
         in: query
         required: false
@@ -2149,6 +2144,140 @@ paths:
               updatedAt: 1597284956
               deletedAt: 0
           headers: {}
+  /v2/contract/mt:
+    get:
+      description: >
+        Lists all labeled MT contracts.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      summary: getListOfMtContracts
+      tags:
+      - Token Contract
+      operationId: getListOfMtContracts
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn network chain ID (1001 or 8217)
+      - name: status
+        in: query
+        required: false
+        type: string
+        description: Labelling status [completed, processing, failed, cancelled]
+      - name: type
+        in: query
+        required: false
+        type: string
+        description: Contract type  [KIP-37, ERC-1155]; return both if not specified
+      - name: size
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: Number of items to return (min=1, max=1000, default=100)
+      - name: cursor
+        in: query
+        required: false
+        type: string
+        description: Offset for the next batch of items (pagination)
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/PageableMtContractDetails'
+          examples:
+            application/json:
+              items:
+              - address: 0xda781766c4ca2d6f35dab8c5d26ad3d3021e69c8
+                status: completed
+                type: KIP-37
+                createdAt: 1607993824
+                updatedAt: 1607993826
+                deletedAt: 0
+              - address: 0x76457bce70262e6f7b642abb0684077eea604414
+                status: completed
+                type: ERC-1155
+                createdAt: 1607993804
+                updatedAt: 1607993806
+                deletedAt: 0
+              cursor: B9104rmYdAoabWP3Nlw7NvAWQP082aB13Xpqdx463kvX67eqw2gLdJWb0laZAQjvrj8ON194xzoVpmrGY5PDKMEBogJmVEYlkKMD5e9LrGbzOZvxMkEzGpXVg6728OZL
+          headers: {}
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040010
+              message: '[InvalidQueryParameterValue]invalid query value'
+              requestId: 9d1596d8-1228-9fca-a4ac-b03d403a6c02
+  /v2/contract/mt/{mt-address}:
+    get:
+      description: Retrieves a labeled MT contract information.
+      summary: getMtContractDetail
+      tags:
+      - Token Contract
+      operationId: getMtContractDetail
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn network chain ID (1001 or 8217)
+      - name: mt-address
+        in: path
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/MtContractDetail'
+          examples:
+            application/json:
+              address: 0xda781766c4ca2d6f35dab8c5d26ad3d3021e69c8
+              status: completed
+              type: KIP-37
+              createdAt: 1607993824
+              updatedAt: 1607993826
+              deletedAt: 0
+          headers: {}
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040020
+              message: '[InvalidUriValue]invalid mt address'
+              requestId: 3e288b01-1c93-97fa-8850-18c89ebc340a
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040400
+              message: '[ResourceNotFound]not found nft'
+              requestId: 0d5f6e9a-e1f6-94e3-a325-de540a33bb6d
   /v2/contract/nft/{nft-address}/token:
     get:
       description: >
@@ -2410,6 +2539,326 @@ paths:
               createdAt: 1597304701
               updatedAt: 1597304701
           headers: {}
+  /v2/contract/mt/{mt-address}/token:
+    get:
+      description: >
+        Lists all tokens minted from the queried MT contract.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      summary: getMtsByContractAddress
+      tags:
+      - Token
+      operationId: getMtsByContractAddress
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn network chain ID (1001 or 8217)
+      - name: size
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: Number of items to return (min=1, max=1000, default=100)
+      - name: cursor
+        in: query
+        required: false
+        type: string
+        description: Offset for the next batch of items
+      - name: mt-address
+        in: path
+        required: true
+        type: string
+        description: MT contract address to look up
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/PageableMts'
+          examples:
+            application/json:
+              items:
+              - tokenId: 0x1
+                totalSupply: 0xaf298d050e4395d69670b12b7f41000000000000
+                tokenUri: http://evahello.com
+              cursor: z53x014AdOQJGNl6V99k3wAap7M08oLKedg5DVqlLdZqWwPQzo3aM7v8A9J6V2nmqnpgDNOeGkblm1BKEX5x0Yr46bW2ZN4YGmQPJO1xBvrEzXrW2gbvDZ7EKMaYmkew
+          headers: {}
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040020
+              message: '[InvalidUriValue]invalid mt address'
+              requestId: 28a79540-89b3-9c4c-ab6c-00ef6fbb5004
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040400
+              message: '[ResourceNotFound]not found mt'
+              requestId: 8339f2bf-1b9e-9150-a563-60f731c33a4e
+  /v2/contract/mt/{mt-address}/token/{token-id}:
+    get:
+      description: >
+        Lists all EOA addresses who own the queried MT.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      summary: getMtTokensByContractAddressAndTokenId
+      tags:
+      - Token
+      operationId: getMtTokensByContractAddressAndTokenId
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn network chain ID (1001 or 8217)
+      - name: cursor
+        in: query
+        required: false
+        type: string
+        description: Offset for the next batch of items
+      - name: size
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: Number of items to return (min=1, max=1000, default=100)
+      - name: mt-address
+        in: path
+        required: true
+        type: string
+        description: MT contract address to look up
+      - name: token-id
+        in: path
+        required: true
+        type: string
+        description: MT ID (hex)
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/PageableMtTokens'
+          examples:
+            application/json:
+              items:
+              - tokenId: 0x1
+                owner: 0xb8bb4b109f18eb6f292757aaec623200f1a41369
+                tokenAddress: 0x2c2382bcca41295495973be1d5a997d21f77b50e
+                totalSupply: 0xaf298d050e4395d69670b12b7f41000000000000
+                tokenUri: http://evahello.com
+                balance: 0x1f
+                transactionHash: 0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7c9032ee
+                transferFrom: 0xb8bb4b109f18eb6f292757aaec623200f1a41369
+                transferTo: 0xae02aba56bae1624e2c4f029e3a79308e2a19e98
+                updatedAt: 1607319007
+              cursor: ''
+          headers: {}
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040020
+              message: '[InvalidUriValue]invalid token id'
+              requestId: aeca8406-9dda-9ece-bf9e-cf8569fccfbf
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040400
+              message: '[ResourceNotFound]not found mt'
+              requestId: 116aece2-f79f-9cc9-b1ba-f77467afe89d
+  /v2/contract/mt/{mt-address}/owner/{owner-address}:
+    get:
+      description: >
+        Lists all tokens of a MT contract that are owned by the queried EOA address.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br>
+
+        * Submitting negative values result in errors.<br>
+
+        * Submitting zero results in a query with `size=100`, which is the default value.<br>
+
+        * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
+      summary: getMtTokensByContractAddressAndOwnerAddress
+      tags:
+      - Token
+      operationId: getMtTokensByContractAddressAndOwnerAddress
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn network chain ID (1001 or 8217)
+      - name: cursor
+        in: query
+        required: false
+        type: string
+        description: Offset for the next batch of items
+      - name: size
+        in: query
+        required: false
+        type: integer
+        format: int64
+        description: Number of items to return (min=1, max=1000, default=100)
+      - name: mt-address
+        in: path
+        required: true
+        type: string
+        description: MT contract address to look up
+      - name: owner-address
+        in: path
+        required: true
+        type: string
+        description: EOA address
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/PageableMtTokensWithBalance'
+          examples:
+            application/json:
+              items:
+              - tokenId: 0x1
+                owner: 0xb8bb4b109f18eb6f292757aaec623200f1a41369
+                tokenAddress: 0x2c2382bcca41295495973be1d5a997d21f77b50e
+                totalSupply: 0xaf298d050e4395d69670b12b7f41000000000000
+                tokenUri: http://evahello.com
+                balance: 0x1f
+                transactionHash: 0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7c9032ee
+                transferFrom: 0x39262962d3889b02915f943d6f917edcf6c71f5a
+                transferTo: 0xb8bb4b109f18eb6f292757aaec623200f1a41369
+                updatedAt: 1607319007
+              totalBalance: 0xfa
+              cursor: PBOQ20pEXl389k1K6W1AEzp2VBJ80b5MgowlXZYlkao45O0WMgr73BpPD6d9Rb9ZPK13yKwbqezELvmN8Gx1Q2JVAXZGQqmxd9a7e4krKN3YLDPOvNY7Zvbom5MrDA4V
+          headers: {}
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040020
+              message: '[InvalidUriValue]invalid owner address'
+              requestId: 42132a53-17c8-9100-a857-9c42b48d5141
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040400
+              message: '[ResourceNotFound]not found mt'
+              requestId: 0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee
+  /v2/contract/mt/{mt-address}/owner/{owner-address}/token/{token-id}:
+    get:
+      description: Retrieves a specific MT information.
+      summary: getMtTokensByContractAddressAndOwnerAddressAndTokenId
+      tags:
+      - Token
+      operationId: getMtTokensByContractAddressAndOwnerAddressAndTokenId
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn network chain ID (1001 or 8217)
+      - name: mt-address
+        in: path
+        required: true
+        type: string
+        description: MT contract address to look up
+      - name: owner-address
+        in: path
+        required: true
+        type: string
+        description: Owner address
+      - name: token-id
+        in: path
+        required: true
+        type: string
+        description: MT ID (hex)
+      responses:
+        200:
+          description: Success
+          schema:
+            $ref: '#/definitions/MtToken'
+          examples:
+            application/json:
+              tokenId: 0x1
+              owner: 0xb8bb4b109f18eb6f292757aaec623200f1a41369
+              tokenAddress: 0x2c2382bcca41295495973be1d5a997d21f77b50e
+              totalSupply: 0xaf298d050e4395d69670b12b7f41000000000000
+              tokenUri: http://evahello.com
+              balance: 0x1f
+              transactionHash: 0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7c9032ee
+              transferFrom: 0x39262962d3889b02915f943d6f917edcf6c71f5a
+              transferTo: 0xb8bb4b109f18eb6f292757aaec623200f1a41369
+              updatedAt: 1607319007
+          headers: {}
+        400:
+          description: Bad request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040020
+              message: '[InvalidUriValue]invalid owner address'
+              requestId: 42132a53-17c8-9100-a857-9c42b48d5141
+        404:
+          description: Not found
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1040400
+              message: '[ResourceNotFound]not found mt'
+              requestId: 0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee
   /v2/contract/nft/{nft-address}/token/{token-id}/history:
     get:
       description: >
@@ -2474,6 +2923,91 @@ paths:
               cursor: ''
           headers: {}
 definitions:
+  FTSummary:
+    title: FTSummary
+    type: object
+    properties:
+      address:
+        description: Contract address (20-byte)
+        example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
+        type: string
+      owner:
+        description: EOA address (20-byte)
+        example: 0x00ebd049eff96861d9fb3843fd0de79b08a3cc17
+        type: string
+      balance:
+        description: Token balance (hex)
+        example: 0x15e
+        type: string
+      formattedValue:
+        description: Converted value using the decimals
+        example: 0.00000000000000035
+        type: string
+      decimals:
+        description: FT decimals
+        example: 8
+        type: integer
+        format: int64
+      name:
+        description: FT name
+        example: KASFT
+        type: string
+      symbol:
+        description: FT symbol
+        example: KFT
+        type: string
+      totalSupply:
+        description: FT total supply (hex)
+        example: 0x174876e800
+        type: string
+      updatedAt:
+        description: UNIX timestamp of when the token information last changed
+        example: 1592180992
+        type: integer
+        format: int64
+    required:
+    - address
+    - owner
+    - balance
+    - formattedValue
+    - decimals
+    - name
+    - symbol
+    - totalSupply
+    - updatedAt
+  PageableAccountFT:
+    title: PageableAccountFT
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/FTSummary'
+      cursor:
+        description: Next page cursor
+        example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+        type: string
+    required:
+    - items
+    - cursor
+  ErrorResponse:
+    title: ErrorResponse
+    type: object
+    properties:
+      code:
+        description: KAS error code
+        type: integer
+        format: int32
+      message:
+        description: KAS error message
+        type: string
+      requestId:
+        description: ID of the request caused the error
+        type: string
+    required:
+    - code
+    - message
+    - requestId
   FtContract:
     title: FtContract
     type: object
@@ -2581,6 +3115,169 @@ definitions:
     required:
     - website
     - icon
+  Mt:
+    title: Mt
+    type: object
+    properties:
+      tokenId:
+        description: Token ID (hex)
+        example: 0x1
+        type: string
+      totalSupply:
+        description: Total supply (hex)
+        example: 0xaf298d050e4395d69670b12b7f41
+        type: string
+      tokenUri:
+        description: Token URI
+        example: https://link.to/mt/1
+        type: string
+    required:
+    - tokenId
+    - totalSupply
+    - tokenUri
+  MtToken:
+    title: MtToken
+    type: object
+    properties:
+      tokenId:
+        description: Token ID (hex)
+        example: 0x1
+        type: string
+      owner:
+        description: Owner address (20-byte)
+        example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
+        type: string
+      tokenAddress:
+        description: CA (20-byte)
+        example: 0x2c2382bcca41295495973be1d5a997d21f77b50e
+        type: string
+      totalSupply:
+        description: Total supply (hex)
+        example: 0xaf298d050e4395d69670b12b7f41
+        type: string
+      tokenUri:
+        description: Token URI
+        example: https://link.to/mt/1
+        type: string
+      balance:
+        description: Owner balance
+        example: 0xaf298d050e4395d69670b12b7f4
+        type: string
+      transactionHash:
+        description: Last transaction hash (32-byte)
+        example: 0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8
+        type: string
+      transferFrom:
+        description: Sender address of last transfer (either TransferSingle or TransferBatch) (20-byte)
+        example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
+        type: string
+      transferTo:
+        description: Receiver address of last transfer (either TransferSingle or TransferBatch) (20-byte)
+        example: 0xbe02aba56bae1624e2c4f029e3a79308e2a19e98
+        type: string
+      updatedAt:
+        description: UNIX timestamp of when the token information last changed
+        example: 1592180992
+        type: integer
+        format: int64
+    required:
+    - tokenId
+    - owner
+    - tokenAddress
+    - totalSupply
+    - tokenUri
+    - balance
+    - transactionHash
+    - transferFrom
+    - transferTo
+    - updatedAt
+  PageableMts:
+    title: PageableMts
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Mt'
+      cursor:
+        description: Next page cursor
+        example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+        type: string
+    required:
+    - items
+    - cursor
+  PageableMtTokens:
+    title: PageableMtTokens
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/MtToken'
+      cursor:
+        description: Next page cursor
+        example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+        type: string
+    required:
+    - items
+    - cursor
+  PageableMtTokensWithBalance:
+    title: PageableMtTokensWithBalance
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/MtToken'
+      totalBalance:
+        description: Total balance sum of all tokens the EOA owns
+        example: 0xf1
+        type: string
+      cursor:
+        description: 다음 페이지 커서
+        example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+        type: string
+    required:
+    - items
+    - totalBalance
+    - cursor
+  MtContractDetail:
+    title: MtContractDetail
+    type: object
+    properties:
+      address:
+        description: Contract address (20-byte)
+        example: 0xaD15bCa7D0f1e077f43eC18ACBA7eE2a347ADE87
+        type: string
+      status:
+        description: Labeling status (completed, processing, failed, cancelled)
+        example: completed
+        type: string
+      createdAt:
+        description: Labeled (timestamp)
+        example: 1592180992
+        type: integer
+        format: int64
+      updatedAt:
+        description: Last time label information changed (timestamp)
+        example: 1592180992
+        type: integer
+        format: int64
+      deletedAt:
+        description: UNIX timestamp of when the label deleted; 0 if not deleted
+        example: 1592180992
+        type: integer
+        format: int64
+      type:
+        description: Contract type (KIP-7, ERC-20)
+        type: string
+    required:
+    - address
+    - status
+    - createdAt
+    - updatedAt
+    - deletedAt
+    - type
   Nft:
     title: Nft
     type: object
@@ -2866,6 +3563,65 @@ definitions:
     - transaction
     - transferType
     - value
+  MtContract:
+    title: MtContract
+    type: object
+    properties:
+      address:
+        description: Contract address (20-byte)
+        example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
+        type: string
+    required:
+    - address
+  MtTransfer:
+    title: MtTransfer
+    type: object
+    properties:
+      contract:
+        $ref: '#/definitions/MtContract'
+      operator:
+        description: Operator address (20-byte)
+        example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
+        type: string
+      from:
+        description: Owner address (20-byte)
+        example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
+        type: string
+      to:
+        description: Recipient address (20-byte)
+        example: 0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770
+        type: string
+      transaction:
+        $ref: '#/definitions/Transaction'
+      transferType:
+        description: Transfer type
+        example: mt
+        type: string
+      ids:
+        description: Array of token IDs (hex)
+        example:
+        - 1
+        - 2
+        type: array
+        items:
+          type: string
+      values:
+        description: Array of numbers of tranferring tokens (hex)
+        example:
+        - 10
+        - 11
+        type: array
+        items:
+          type: string
+    required:
+    - contract
+    - operator
+    - from
+    - to
+    - transaction
+    - transferType
+    - ids
+    - values
   KlayTransfer:
     title: KlayTransfer
     type: object
@@ -2954,6 +3710,21 @@ definitions:
     required:
     - items
     - cursor
+  PageableMtContractDetails:
+    title: PageableMtContractDetails
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/MtContractDetail'
+      cursor:
+        description: Offset for the next batch of items
+        example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
+        type: string
+    required:
+    - items
+    - cursor
   PageableTransfers:
     title: PageableTransfers
     type: object
@@ -2979,20 +3750,6 @@ definitions:
           $ref: '#/definitions/TransferItem'
     required:
     - items
-  InvalidQueryParameterValue:
-    title: InvalidQueryParameterValue
-    example:
-      code: 1040010
-      message: '[InvalidQueryParameterValue]required presets'
-    type: object
-    properties:
-      code:
-        example: 1040010
-        type: integer
-        format: int64
-      message:
-        example: '[InvalidQueryParameterValue]required presets'
-        type: string
   TransferItem:
     title: TransferItem
     type: object
@@ -3052,6 +3809,26 @@ definitions:
         description: Token identifier (in hexadecimal)
         example: 0x1
         type: string
+      operator:
+        description: Operator address (20-byte)
+        example: 0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb
+        type: string
+      ids:
+        description: Array of token IDs (hex)
+        example:
+        - 1
+        - 2
+        type: array
+        items:
+          type: string
+      values:
+        description: Array of numbers of tranferring tokens (hex)
+        example:
+        - 10
+        - 11
+        type: array
+        items:
+          type: string
 security:
 - auth: []
 tags:

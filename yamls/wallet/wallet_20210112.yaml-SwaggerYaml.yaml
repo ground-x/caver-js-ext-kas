@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: Wallet API
-  description: "# Introduction\nWallet API is used to create and manage Klaytn accounts and transfer transactions. If you create a Klaytn account with Wallet API, you do not need to manage private keys separately. Wallet API provides a secure wallet to keep your Klaytn account’s private keys for BApp. For more details on Wallet API, refer to our [tutorial](https://docs.klaytnapi.com/v/ko/tutorial).\n\nWallet API features an “Account” section for creating and managing Klaytn accounts and a “Transaction” section for transferring transactions.\nWallet API creates, deletes, and monitors Klaytn accounts; updates multisig accounts; and manages the privates keys of all accounts registered to KAS.\n\nIn addition, Wallet API creates transactions and transfers them to Klaytn. They include transactions that are sent through the multisig accounts. A transaction will be automatically transferred to Klaytn if the threshold is met for the number of signatures. For more details on multisignatures, refer to [the followings](https://docs.klaytnapi.com/v/ko/tutorial).\n\nTransactions include basic and fee delegation transactions. In particular, fee delegation transactions include global and user fee delegation transactions. In the global fee delegation transaction, Ground X’s KAS account first pays the transaction fee and charges the users later. Meanwhile, in the user fee delegation transaction, a user creates an account to pay for transaction fees when sending transactions.\n\nWallet API has the following functions and limitations.\n\n| Version | Item | Description |\n| :--- | :--- | :--- |\n| 2.0 | Limitations | Support for Cypress (mainnet) and Baobab (testnet) (Service Chain not supported) |\n|  |  | Account management for external management keys not supported |\n|  |  | Multisignatures of RLP-encoded transactions not supported |\n|  | Account management  | Account creation, search, and deletion |\n|  |  | Multisignature account updates |\n|  | Transaction management | [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic) Transaction Creation and Transfer |\n|  |  | [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) Transaction Creation and Transfer |\n|  |  | RLP-encoded transaction \\([Legacy](https://ko.docs.klaytn.com/klaytn/design/transactions/basic#txtypelegacytransaction), [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic), [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) Transaction Creation and Transfer \\) |\n|  |  | Multisignature transaction management and transfer |\n|  | Administrator | Resource pool management (creation, pool search, deletion, and account search) |\n\n\n\n# Error Codes\n\n## 400: Bad Request\n\n | Code | Messages | \n | --- | --- | \n | 1061010 | data don't exist\n1061510 | account has been already deleted or disabled\n1061511 | account has been already deleted or enabled\n1061512 | account is invalid to sign the transaction; 0xc9bFDDabf2c38396b097C8faBE9151955413995D</br>account is invalid to sign the transaction; 0x35Cc4921B17Dfa67a58B93c9F8918f823e58b77e\n1061515 | the requested account must be a legacy account; if the account is multisig account, use `PUT /v2/tx/{fd|fd-user}/account` API for multisig transaction and /v2/multisig/**/** APIs\n1061607 | it has to start with '0x' and allows [0-9a-fA-F]; input</br>it has to start with '0x' and allows [0-9a-fA-F]; tx_id\n1061608 | cannot be empty or zero value; to</br>cannot be empty or zero value; input\n1061609 | it just allow Klaytn address form; to\n1061615 | its value is out of range; size\n1061616 | feeration must be between 1 and 99; feeRatio\n1061903 | failed to decode account keys\n1061905 | failed to get feepayer\n1061912 | rlp value and request value are not same; feeRatio</br>rlp value and request value are not same; feePayer\n1061914 | already submitted transaction. Confirm transaction hash; 0xb9612ec6ec39bfd3f2841daa7ab062fc94cf33f23503606c979b2f81e50b2cb1\n1061917 | AccountKeyLegacy type is not supported in AccountKeyRoleBased type\n1061918 | it just allow (Partial)FeeDelegation transaction type\n1061919 | PartialFeeDelegation transaction must set fee ratio to non-zero value\n1061920 | FeeDelegation transaction cannot set fee ratio, use PartialFeeDelegation transaction type\n1061921 | it just allow Basic transaction type\n1065000 | failed to retrieve a transaction from klaytn node\n1065001 | failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value </br>failed to send a raw transaction to klaytn node; -32000::not a program account (e.g., an account having code and storage)</br>failed to send a raw transaction to klaytn node; -32000::nonce too low</br>failed to send a raw transaction to klaytn node; -32000::insufficient funds of the fee payer for gas * price\n1065100 | failed to get an account from AMS</br>failed to get an account from AMS; account key corrupted. can not use this account\n1065102 | account key corrupted. can not use this account | \n"
+  description: "# Introduction\nWallet API is used to create and manage Klaytn accounts and transfer transactions. If you create a Klaytn account with Wallet API, you do not need to manage private keys separately. Wallet API provides a secure wallet to keep your Klaytn account’s private keys for BApp. For more details on Wallet API, refer to our [tutorial](https://docs.klaytnapi.com/v/ko/tutorial).\n\nWallet API features an “Account” section for creating and managing Klaytn accounts and a “Transaction” section for transferring transactions.\nWallet API creates, deletes, and monitors Klaytn accounts; updates multisig accounts; and manages the privates keys of all accounts registered to KAS.\n\nIn addition, Wallet API creates transactions and transfers them to Klaytn. They include transactions that are sent through the multisig accounts. A transaction will be automatically transferred to Klaytn if the threshold is met for the number of signatures. For more details on multisignatures, refer to [the followings](https://docs.klaytnapi.com/v/ko/tutorial).\n\nTransactions include basic and fee delegation transactions. In particular, fee delegation transactions include global and user fee delegation transactions. In the global fee delegation transaction, Ground X’s KAS account first pays the transaction fee and charges the users later. Meanwhile, in the user fee delegation transaction, a user creates an account to pay for transaction fees when sending transactions.\n\nWallet API has the following functions and limitations.\n\n| Version | Item | Description |\n| :--- | :--- | :--- |\n| 2.0 | Limitations | Support for Cypress (mainnet) and Baobab (testnet) (Service Chain not supported) |\n|  |  | Account management for external management keys not supported |\n|  |  | Multisignatures of RLP-encoded transactions not supported |\n|  | Account management  | Account creation, search, and deletion |\n|  |  | Multisignature account updates |\n|  | Transaction management | [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic) Transaction Creation and Transfer |\n|  |  | [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) Transaction Creation and Transfer |\n|  |  | RLP-encoded transaction \\([Legacy](https://ko.docs.klaytn.com/klaytn/design/transactions/basic#txtypelegacytransaction), [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic), [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) Transaction Creation and Transfer \\) |\n|  |  | Multisignature transaction management and transfer |\n|  | Administrator | Resource pool management (creation, pool search, deletion, and account search) |\n\n\n\n# Error Codes\n\n## 400: Bad Request\n\n | Code | Messages | \n | --- | --- | \n | 1061010 | data don't exist</br>data don't exist; krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x9b2f4d85d7f7abb14db229b5a81f1bdca0aa24c8ff0c4c100b3f25098b7a6152\n1061510 | account has been already deleted or disabled\n1061511 | account has been already deleted or enabled\n1061512 | account is invalid to sign the transaction; 0xc9bFDDabf2c38396b097C8faBE9151955413995D</br>account is invalid to sign the transaction; 0x35Cc4921B17Dfa67a58B93c9F8918f823e58b77e\n1061515 | the requested account must be a legacy account; if the account is multisig account, use `PUT /v2/tx/{fd|fd-user}/account` API for multisig transaction and /v2/multisig/**/** APIs\n1061607 | it has to start with '0x' and allows [0-9a-fA-F]; input</br>it has to start with '0x' and allows [0-9a-fA-F]; tx_id\n1061608 | cannot be empty or zero value; to</br>cannot be empty or zero value; input</br>cannot be empty or zero value; address</br>cannot be empty or zero value; keyId\n1061609 | it just allow Klaytn address form; to\n1061615 | its value is out of range; size\n1061616 | feeration must be between 1 and 99; feeRatio\n1061903 | failed to decode account keys\n1061905 | failed to get feepayer\n1061912 | rlp value and request value are not same; feeRatio</br>rlp value and request value are not same; feePayer\n1061914 | already submitted transaction. Confirm transaction hash; 0xb9612ec6ec39bfd3f2841daa7ab062fc94cf33f23503606c979b2f81e50b2cb1\n1061917 | AccountKeyLegacy type is not supported in AccountKeyRoleBased type\n1061918 | it just allow (Partial)FeeDelegation transaction type\n1061919 | PartialFeeDelegation transaction must set fee ratio to non-zero value\n1061920 | FeeDelegation transaction cannot set fee ratio, use PartialFeeDelegation transaction type\n1061921 | it just allow Basic transaction type\n1065000 | failed to retrieve a transaction from klaytn node\n1065001 | failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value </br>failed to send a raw transaction to klaytn node; -32000::not a program account (e.g., an account having code and storage)</br>failed to send a raw transaction to klaytn node; -32000::nonce too low</br>failed to send a raw transaction to klaytn node; -32000::insufficient funds of the fee payer for gas * price\n1065100 | failed to get an account from AMS</br>failed to get an account from AMS; account key corrupted. can not use this account\n1065102 | account key corrupted. can not use this account | \n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->"
   contact: {}
 host: wallet-api.klaytnapi.com
 basePath: /
@@ -101,6 +101,12 @@ paths:
         type: integer
         format: int64
         description: Timestamp of the start time to be searched (in seconds)
+      - name: status
+        in: query
+        required: false
+        default: enabled
+        type: string
+        description: ''
       responses:
         200:
           description: ''
@@ -110,55 +116,13 @@ paths:
             application/json:
               cursor: ''
               items:
-              - address: 0xa809284C83b901eD106Aba4Ccda14628Af128e14
+              - address: 0x1aAB1dF401B091aF8cd2362391b3Dafcd1AD476a
                 chainId: 1001
-                createdAt: 1599187293
-                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x4cbbcb974e32a7960e1b356edf60087613101919ed83199f12e872cba068a50f
-                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
-                publicKey: 0x04cdccfb99b2905561e3dd886687b429a004718f11b04914f17ce68fd3a0db46c598a45da85caa61fe84cb78a0f2eaa9983ec7b8805a93ef9428eb1350a8558237
-                updatedAt: 1599187293
-              - address: 0x78B123CCCCd50f41E3192a60e6ED92B15E21b1B5
-                chainId: 1001
-                createdAt: 1599187194
-                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x6c4419647e7724853f9e50b0c54b5985d0870470ac37b3ef865e62c3ccfa4ea4
-                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
-                publicKey: 0x0463cc38f08dd15dfd416966e9d0da93942e26d2a9a9bcac08d614f487f94a7e46e4418d1acda9e21706f19c917486de40c974eb20c12a2eca2eea91895499d379
-                updatedAt: 1599187194
-              - address: 0x82C26253757f21E86c9243736505890364c17720
-                chainId: 1001
-                createdAt: 1599187193
-                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0xd62dab851821082f2696e15adbd6ada9f33adb64c3066e340e722ad8c0f1d5e4
-                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
-                publicKey: 0x04a7fd788942b9da8f522a4242c577633d5c5af119142ccd53cb4738bb6719f8af078151e9bfe467bc351864430ebbde75c29995bcb1b362268cdc196641b0a5db
-                updatedAt: 1599187193
-              - address: 0xe2546A7B93045CC06427326DAF988DA095B2D5A7
-                chainId: 1001
-                createdAt: 1599187192
-                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0xbf804d2f81f6f46361ec5a94cded9478afda6195127096f088a5d1d242143697
-                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
-                publicKey: 0x049cd3c69b956e343996d9ba4a3667acc2be471b3038c06c2925dc3d8970729f58f229a50d985526cd4dc7067ab9fab0b0681cd2c893cdf89719edd74da7e43476
-                updatedAt: 1599187192
-              - address: 0x6DD1ad874fE50518890ec79284bF5b30C43272C9
-                chainId: 1001
-                createdAt: 1599187191
-                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x184beb98801245fbfebc6f00866fb45072278f44774e818b2934a74738ce95f8
-                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
-                publicKey: 0x04138272347cf560b4af02f2faa3410cbb25f95a8e5dca200a983360d880ce02ff518b94f555674570d477a31c6ccb7d867c324f792fc6e25ca9c1f45e06dab2e2
-                updatedAt: 1599187191
-              - address: 0x7012B3916C3CffAC6D5002e20ba22ebAD23AB9e3
-                chainId: 1001
-                createdAt: 1599187189
-                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0xb567b552ae7a84e4f65d3f2e0cbf1691deb3fd4ce44e267eb135cb1d31647865
-                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
-                publicKey: 0x04ba526aa53b7fb0d60f70f9e0101fecab256ffcf6cb78104e0753835e0bde0d75dbcc63bab7cfd2cad75db00eacd77fbb84c60cf86a198989c1f5adfeed507955
-                updatedAt: 1599187189
-              - address: 0x7ec5169EA28B2e3fFEF143a3513D7eC1CeFF2cB4
-                chainId: 1001
-                createdAt: 1599187161
-                keyId: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0xd3ee56e2616c8d412918e7f0e9222c805aacf5bad6d84b70b83c2229d61f21c9
-                krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default
-                publicKey: 0x043ccf257d2ad3f8c3b2128969302efc6bf59d8cd8e578bcfdac8a4ac9cea6d4747350c98edaec5d23fafa9b3288a3b45816d2e9b3bb28443cc2486ad6bca652f1
-                updatedAt: 1599187161
+                createdAt: 1604737502
+                keyId: krn:1001:wallet:6698d79e-78ee-439a-815d-f293ec6ae736:account-pool:default:0xb1e3530cde9eef3e4646a1732d9cbaac13199064741f94bcc906aff6291d9b6c
+                krn: krn:1001:wallet:6698d79e-78ee-439a-815d-f293ec6ae736:account-pool:default
+                publicKey: 0x045f3f7078d61a403c336a778bde98fbb75da342af8afc751eb53bd7db116379a1f8d40f819da4330457a3684ac0fb40064e2b04c698995b5be09510b51e456122
+                updatedAt: 1604737502
           headers: {}
         400:
           description: ''
@@ -166,8 +130,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061010
-              message: data don't exist
+              code: 1061615
+              message: its value is out of range; size
   /v2/account/{address}:
     get:
       description: Search for a Klaytn account
@@ -216,8 +180,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1065102
-              message: account key corrupted. can not use this account
+              code: 1061010
+              message: data don't exist
     delete:
       description: Deletes Klaytn account.
       summary: DeleteAccount
@@ -433,8 +397,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061010
-              message: data don't exist
+              code: 1061515
+              message: the requested account must be a legacy account; if the account is multisig account, use `PUT /v2/tx/{fd|fd-user}/account` API for multisig transaction and /v2/multisig/**/** APIs
   /v2/pubkey/{public-key}/account:
     get:
       description: Search for a list of Klaytn accounts with a public key.
@@ -500,21 +464,20 @@ paths:
             $ref: '#/definitions/TransactionResult'
           examples:
             application/json:
-              from: 0x85b98485444c89880cd9c48807cef727c296f2da
+              from: 0xf7093ab1f23bc6d5cdf73b222692d0de2696bcab
               gas: 1000000
               gasPrice: 0x5d21dba00
-              input: 0x
-              nonce: 0
-              rlp: 0xf870808505d21dba00830f424094a311e7022a4db250689c89d99848f74ea5098f7d89121111111111111111808207f5a03e7173bf7a303b4e1bb6f8723b494bcaa196cf7b9d7af18a22ceda7f2e9c9226a057bf51a5f52d900d58470f5e28f25881eb6d3837502ba0bab13f022398ddbc26
+              input: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
+              nonce: 1
+              rlp: 0xf9018f018505d21dba00830f42408012b9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298207f6a02930c607ddb95575ef88b63a45caa0231da1f88fe99a0cad411a5a99bd4b6d5ba042adbae28a65c32220505e1c7a1509635b59143ddc65e6b7e266d5b3797370d4
               signatures:
-              - R: 0x3e7173bf7a303b4e1bb6f8723b494bcaa196cf7b9d7af18a22ceda7f2e9c9226
-                S: 0x57bf51a5f52d900d58470f5e28f25881eb6d3837502ba0bab13f022398ddbc26
-                V: 0x7f5
+              - R: 0x2930c607ddb95575ef88b63a45caa0231da1f88fe99a0cad411a5a99bd4b6d5b
+                S: 0x42adbae28a65c32220505e1c7a1509635b59143ddc65e6b7e266d5b3797370d4
+                V: 0x7f6
               status: Submitted
-              to: 0xa311e7022a4db250689c89d99848f74ea5098f7d
-              transactionHash: 0x433d70e6bdbce725ac9472e9fe1242fa0e5bdcd1b60fa21b3dcadf858055b47b
+              transactionHash: 0x49a92d67aafc1e503a345ee9c5b9a5c58df10706e054fdcc18447398d553cef7
               typeInt: 0
-              value: 0x121111111111111111
+              value: 0x12
           headers: {}
         400:
           description: ''
@@ -522,8 +485,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1065001
-              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+              code: 1061607
+              message: it has to start with '0x' and allows [0-9a-fA-F]; input
   /v2/tx/value:
     post:
       description: Create a transaction for transferring KLAYs with or without a memo.
@@ -787,8 +750,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1065001
-              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+              code: 1061607
+              message: it has to start with '0x' and allows [0-9a-fA-F]; input
   /v2/tx/rlp:
     post:
       description: >-
@@ -879,18 +842,18 @@ paths:
             $ref: '#/definitions/TransactionResult'
           examples:
             application/json:
-              accountKey: 0x03c0
-              from: 0x59661f066a880dec29f46044f83d38245a123e48
+              accountKey: 0x04f89303f890e301a1021c5c34cafdefddfd5d0c8baa9e9f75ff6aa6dc597776e5bf06e231c57926a2cbe301a1025552e73f34964eb04cad0d3c3dbd7cfeebbfb420ca83b1e7c640a9c76b42a4cae301a102ab9910325fd645a556fee3c6bbd8651be4fbff6688634d826474f3ef4baff7b1e301a103a1c4e3830f19d1fb2c78d00cd5b29f75cdcc706a8611cbf4192c2d20f4899cba
+              from: 0xb9fea3507a9675d5e420f39c59490057b0ef0ca4
               gas: 1000000
               gasPrice: 0x5d21dba00
               nonce: 0
-              rlp: 0x20f86c808505d21dba00830f42409459661f066a880dec29f46044f83d38245a123e488203c0f847f8458207f6a0eb66dab78c15670d755151d8c684ee5988a7e1fa79847bfb6ed365cbc3252319a04a96d7b939a8c366377d9ef4c371bd23e7d294d35e950b1655a5048e3fb563a3
+              rlp: 0x20f90101808505d21dba00830f424094b9fea3507a9675d5e420f39c59490057b0ef0ca4b89604f89303f890e301a1021c5c34cafdefddfd5d0c8baa9e9f75ff6aa6dc597776e5bf06e231c57926a2cbe301a1025552e73f34964eb04cad0d3c3dbd7cfeebbfb420ca83b1e7c640a9c76b42a4cae301a102ab9910325fd645a556fee3c6bbd8651be4fbff6688634d826474f3ef4baff7b1e301a103a1c4e3830f19d1fb2c78d00cd5b29f75cdcc706a8611cbf4192c2d20f4899cbaf847f8458207f6a0e81852cd76ba514906df93471a8edd6225cd43c9fcb4e79c650411eee0b25ee1a015233d743c075240b8fcadc5dffdb9ad9cc21ff05ff1519bb769a98e4d6008ee
               signatures:
-              - R: 0xeb66dab78c15670d755151d8c684ee5988a7e1fa79847bfb6ed365cbc3252319
-                S: 0x4a96d7b939a8c366377d9ef4c371bd23e7d294d35e950b1655a5048e3fb563a3
+              - R: 0xe81852cd76ba514906df93471a8edd6225cd43c9fcb4e79c650411eee0b25ee1
+                S: 0x15233d743c075240b8fcadc5dffdb9ad9cc21ff05ff1519bb769a98e4d6008ee
                 V: 0x7f6
               status: Submitted
-              transactionHash: 0xc8452ea74fefb693ca7cc409bc25291486f21d27d9c87c64bb2ba2b81c02475c
+              transactionHash: 0x2e82101f380409a92b0c0a384c4c1fb5f129d8cdd45a1ac5200ad52dd7d3899b
               typeInt: 32
           headers: {}
         400:
@@ -899,8 +862,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061917
-              message: AccountKeyLegacy type is not supported in AccountKeyRoleBased type
+              code: 1061903
+              message: failed to decode account keys
   /v2/tx/{transaction-hash}:
     get:
       description: Search for the transaction execution result using the transaction hash value. The status field of the response indicates if the execution is successful.
@@ -929,49 +892,46 @@ paths:
             $ref: '#/definitions/TransactionReceipt'
           examples:
             application/json:
-              blockHash: 0x276e6efcc01b27c992b0663cc843baebc9dbb167cf0cd7e74808c21c97a74182
-              blockNumber: 0x24bb088
+              blockHash: 0xb714b09a463d32cf309a6e9e0f4d1a1738be5373c584cefeeb781343c208e36d
+              blockNumber: 0x28aead8
               contractAddress: null
-              from: 0x3e3733b256c93f9d759e33c9939258068bd5957d
-              gas: 0xf4240
+              feePayer: 0x7be759b78f34389fa15f85f4144d8cd732c4c60d
+              feePayerSignatures:
+              - R: 0xdf19c4afc9901ef8065fa31b9750a8fb0641390d76cca96abd89324d13b73850
+                S: 0x2f9d16452dbd91e1da39077e4e750abd2dd21977fd779419195a825630d4b2de
+                V: 0x4056
+              from: 0xf366f718add52e0710e8e3c67365a6d4f51d43ec
+              gas: 0x419ce0
               gasPrice: 0x5d21dba00
-              gasUsed: 0x55478
-              hash: 0x6a3bb7c14981f04e54261a542f0acaf27433befa9619443139f288b3b07c6b05
-              input: 0x4867ba1500000000000000000000000000000000000000000000000000000000000000c000000000000000000000000001021e96a79de1b663753935ac856c2cfc51ce8c000000000000000000000000270f21fbf544e5f87b4988c521315a87ce24acf200000000000000000000000000000000000000000000000000000000000000009dbb36061e9a8cb752a9e8abd17e459d7577eaf614f351dfac0b3b3a2d4fca7400000000000000000000000000000000000000000000000000000000000001400000000000000000000000000000000000000000000000000000000000000041efc087a54f954b416b6d051775770336f26d65442306145f8148ee2d2181012d5d49e2d3bd51b22456bb69f5adda7e21c93750aa0c4bfd8a99e6bd17584d10a41b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a401db711901000000000000000000000000000000000000000000000000000000000000000000000000000000000000001c8c7395e3e64e69471ed11debbff2a0ffb89d5b00000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000020efefefefefefef0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+              gasUsed: 0xf2b8
+              hash: 0x8becaceca227568ef2afb94d85a4ee34c0b5b67a45517a6655c6eb5faee66d29
+              input: 0xeb795549000000000000000000000000f0084083aac643b88890fe0b325dc12eac2a6caa0000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000
               logs:
-              - address: 0x270f21fbf544e5f87b4988c521315a87ce24acf2
-                blockHash: 0x276e6efcc01b27c992b0663cc843baebc9dbb167cf0cd7e74808c21c97a74182
-                blockNumber: 0x24bb088
-                data: 0x010000000000000000000000000000000000000000000000000000000000000000000000000000000000000001021e96a79de1b663753935ac856c2cfc51ce8c0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000005f5f226d0000000000000000000000000000000000000000000000000000000000000020efefefefefefef00000000000000000000000000000000000000000000000000
-                logIndex: 0x0
+              - address: 0xdcd62c57182e780e23d2313c4782709da85b9d6c
+                blockHash: 0xb714b09a463d32cf309a6e9e0f4d1a1738be5373c584cefeeb781343c208e36d
+                blockNumber: 0x28aead8
+                data: 0x0000000000000000000000000000000000000000000000008ac7230489e80000
+                logIndex: 0x2
                 removed: false
                 topics:
-                - 0x834d96fe4fae8c45fce8c6cb6116dd1a578f5abefcf3c339a16106d8e038c17f
-                transactionHash: 0x6a3bb7c14981f04e54261a542f0acaf27433befa9619443139f288b3b07c6b05
-                transactionIndex: 0x0
-              - address: 0x01021e96a79de1b663753935ac856c2cfc51ce8c
-                blockHash: 0x276e6efcc01b27c992b0663cc843baebc9dbb167cf0cd7e74808c21c97a74182
-                blockNumber: 0x24bb088
-                data: 0x000000000000000000000000270f21fbf544e5f87b4988c521315a87ce24acf200000000000000000000000000000000000000000000000000000000000000009dbb36061e9a8cb752a9e8abd17e459d7577eaf614f351dfac0b3b3a2d4fca7400000000000000000000000000000000000000000000000000000000000000a0000000000000000000000000000000000000000000000000000000000000018000000000000000000000000000000000000000000000000000000000000000a401db711901000000000000000000000000000000000000000000000000000000000000000000000000000000000000001c8c7395e3e64e69471ed11debbff2a0ffb89d5b00000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000020efefefefefefef000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000001
-                logIndex: 0x1
-                removed: false
-                topics:
-                - 0x8ef33a9072a35d9b41d5c5c744ba88308c0fb19f45973df39146cdf54011675f
-                transactionHash: 0x6a3bb7c14981f04e54261a542f0acaf27433befa9619443139f288b3b07c6b05
-                transactionIndex: 0x0
-              logsBloom: 0x00000000000000000000000000000000000000000040000000000000200000000000000000000000000001000000000000000000000200000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000800000000000000000000000000000000000080000000000000000000000000000000000000000000800000000000800000000
-              nonce: 0x26dc3
-              senderTxHash: 0x6a3bb7c14981f04e54261a542f0acaf27433befa9619443139f288b3b07c6b05
+                - 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef
+                - 0x000000000000000000000000f366f718add52e0710e8e3c67365a6d4f51d43ec
+                - 0x000000000000000000000000f0084083aac643b88890fe0b325dc12eac2a6caa
+                transactionHash: 0x8becaceca227568ef2afb94d85a4ee34c0b5b67a45517a6655c6eb5faee66d29
+                transactionIndex: 0x3
+              logsBloom: 0x00000000000000000000000000000000000000020000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000010000000000000000000000000000000000000000001000000000000000000800080000000000000000000000000000000000000010000000000000000000000000000000000000002020000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000
+              nonce: 0xbb1db
+              senderTxHash: 0x436a9d6a62588509608d0bf7c750f39c9c857da771f546ed12c0d4ceceae5311
               signatures:
-              - R: 0xa20e26f472166e0852022322f4ff84ec5de8479346dba186fa081fafd3eaeadf
-                S: 0x19d02def433c0a07bb25e4de1804c0e3292903e336a3b25d89e81b08987d0508
-                V: 0x7f5
+              - R: 0xfe2089890873190de21db76ee87b448e45f6edb4a8d6be8a742cb57b9b98197f
+                S: 0x6433aa626c1d909b125f2b7fe4e984ff4eb8923a53a2396f28c6e1bc6315abbb
+                V: 0x4055
               status: Committed
-              to: 0x01021e96a79de1b663753935ac856c2cfc51ce8c
-              transactionHash: 0x6a3bb7c14981f04e54261a542f0acaf27433befa9619443139f288b3b07c6b05
-              transactionIndex: 0x0
-              type: TxTypeSmartContractExecution
-              typeInt: 48
+              to: 0xdcd62c57182e780e23d2313c4782709da85b9d6c
+              transactionHash: 0x8becaceca227568ef2afb94d85a4ee34c0b5b67a45517a6655c6eb5faee66d29
+              transactionIndex: 0x3
+              type: TxTypeFeeDelegatedSmartContractExecution
+              typeInt: 49
               value: 0x0
           headers: {}
         400:
@@ -982,6 +942,40 @@ paths:
             application/json:
               code: 1065000
               message: failed to retrieve a transaction from klaytn node
+  /v2/tx/contract/call:
+    post:
+      description: You can view certain value in the contract and validate that you can submit executable transaction.
+      summary: ContractCall
+      tags:
+      - Basic Transaction
+      operationId: ContractCall
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn chain network ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/ContractCallRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/ContractCallResponse'
+          examples:
+            application/json:
+              data: 0x70a0823100000000000000000000000085b98485444c89880cd9c48807cef727c296f2da
+              result: 0x00000000000000000000000000000000000000000000003635c9adc5dea00000
+          headers: {}
   /v2/tx/fd/value:
     post:
       description: Create a transaction for transferring KLAYs with and without a memo using the KAS global fee delegation account.
@@ -1014,21 +1008,20 @@ paths:
           examples:
             application/json:
               feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
-              feeRatio: 10
-              from: 0x0225b5a7683ac651931c1b6123b7d197d6c24d9d
+              from: 0x569a3da2e37b4c08e342820d580122e5283bafbc
               gas: 1000000
               gasPrice: 0x5d21dba00
               input: 0x6d656d6f
               nonce: 0
-              rlp: 0x12f8e3808505d21dba00830f4240942f87ba64de5526f7880f21481effbf950f70005c12940225b5a7683ac651931c1b6123b7d197d6c24d9d846d656d6f0af847f8458207f5a06edfb59009dd8d9e1ab0deb9632bd5557a1b701eaad1bccc06087772d7d10e0ea04b2032b6f7c4f716d30da650533499ff0d6e3451cb419bf19e5897678db8644a9485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a0915ef11a6411ce25ea1c0b5363c37d90eee5b131a03ddaeabf987b34a960894ea020b13b210c4ad961746d087682fc8c272adb9b5183a2d83ad74c0a9ea148d776
+              rlp: 0x11f8e2808505d21dba00830f4240942f87ba64de5526f7880f21481effbf950f70005c1294569a3da2e37b4c08e342820d580122e5283bafbc846d656d6ff847f8458207f5a048a6618e31293c2b05c093b6fe5c5f2513b844b793b3560934169f0fb7fa4fb5a02aaa4645c711bf0cc25dc3a3878462b13276143b30fed875455b62e14ab9a0a29485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a0307c6e2df0ba301a3a535c4cede427ce3d43a8a0ec2aaad17fcde9f753555a86a026e4d176ebd1e66b32b5bfa383edd60884e87fd5e788729116916c9313d30976
               signatures:
-              - R: 0x6edfb59009dd8d9e1ab0deb9632bd5557a1b701eaad1bccc06087772d7d10e0e
-                S: 0x4b2032b6f7c4f716d30da650533499ff0d6e3451cb419bf19e5897678db8644a
+              - R: 0x48a6618e31293c2b05c093b6fe5c5f2513b844b793b3560934169f0fb7fa4fb5
+                S: 0x2aaa4645c711bf0cc25dc3a3878462b13276143b30fed875455b62e14ab9a0a2
                 V: 0x7f5
               status: Submitted
               to: 0x2f87ba64de5526f7880f21481effbf950f70005c
-              transactionHash: 0xd4ebc769956b8471fb497d22f655895e675a907ca9db8a64f84998ee460e8d21
-              typeInt: 18
+              transactionHash: 0x0b3b7f02640692af371060c311576bc42c3c48122e4f68ca032e5076a3f983d0
+              typeInt: 17
               value: 0x12
           headers: {}
         400:
@@ -1037,8 +1030,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061608
-              message: cannot be empty or zero value; to
+              code: 1061616
+              message: feeration must be between 1 and 99; feeRatio
   /v2/tx/fd/contract/deploy:
     post:
       description: Create a transaction for deploying contracts using the KAS global fee delegation account.
@@ -1071,19 +1064,20 @@ paths:
           examples:
             application/json:
               feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
-              from: 0x0bb26552ee02bf4c39ea03ea2d827037ac48ce0e
+              feeRatio: 30
+              from: 0x0225b5a7683ac651931c1b6123b7d197d6c24d9d
               gas: 1000000
               gasPrice: 0x5d21dba00
               input: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
-              nonce: 0
-              rlp: 0x29f90208808505d21dba00830f42408080940bb26552ee02bf4c39ea03ea2d827037ac48ce0eb9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298080f847f8458207f5a0b5ca30208d33d3c9add7a32372d27a51c62456be1c625067abd3252ea64ac326a0082faebbc1f59a4a5c47d8b0de9499c4ec06cba6b83e6a89c3ba479d86314cc99485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a05850db72f0ac66af5eab558ffb41c3ccfd138f1af7e75ffa5230998d6947b80ca05f66467e6c0fd3e9b0061f78f5bc589c1bd2e8c7acd974aa506c56e6fc009585
+              nonce: 1
+              rlp: 0x2af90209018505d21dba00830f42408080940225b5a7683ac651931c1b6123b7d197d6c24d9db9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029801e80f847f8458207f6a0f0ca13a3ca23831689c6bc75f8b34f24f2c25f931c15a0e634a079e47120294ca01c8b771e97b3ee3cc9400cc681bea01297020a9241fcb0100e8fde7387fc6c419485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a0661833d896973f6a7d0ed73136d43337917ddff06275ed53c41d993438f689a9a0103541739d20a463be804d01dfcb442f6b5780b4cf7299a6cb0b0754e65e8529
               signatures:
-              - R: 0xb5ca30208d33d3c9add7a32372d27a51c62456be1c625067abd3252ea64ac326
-                S: 0x82faebbc1f59a4a5c47d8b0de9499c4ec06cba6b83e6a89c3ba479d86314cc9
-                V: 0x7f5
+              - R: 0xf0ca13a3ca23831689c6bc75f8b34f24f2c25f931c15a0e634a079e47120294c
+                S: 0x1c8b771e97b3ee3cc9400cc681bea01297020a9241fcb0100e8fde7387fc6c41
+                V: 0x7f6
               status: Submitted
-              transactionHash: 0xd906ce8bbd36ad3817a81835c697057f840db4636a9f690a464280bb66dbff3f
-              typeInt: 41
+              transactionHash: 0x13e652456a2973884105888b49265af3774b670b38636f2721dd1b4089a9f38c
+              typeInt: 42
               value: 0x0
           headers: {}
         400:
@@ -1201,8 +1195,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1065000
-              message: failed to retrieve a transaction from klaytn node
+              code: 1065001
+              message: failed to send a raw transaction to klaytn node; -32000::nonce too low
   /v2/tx/fd/anchor:
     post:
       description: Create a transaction for anchoring blockchain data using the KAS global fee delegation account.
@@ -1256,8 +1250,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061608
-              message: cannot be empty or zero value; input
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
   /v2/tx/fd/rlp:
     post:
       description: >-
@@ -1294,20 +1288,19 @@ paths:
           examples:
             application/json:
               feePayer: 0x85b98485444c89880cd9c48807cef727c296f2da
-              feeRatio: 5
-              from: 0x0225b5a7683ac651931c1b6123b7d197d6c24d9d
+              from: 0x0bb26552ee02bf4c39ea03ea2d827037ac48ce0e
               gas: 1000000
               gasPrice: 0x5d21dba00
               input: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
-              nonce: 5
-              rlp: 0x2af90208058505d21dba00830f42408080940225b5a7683ac651931c1b6123b7d197d6c24d9db9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029800580f847f8458207f6a08b882881c00bca486a8eb6670e428b8a00b42b6eb29c0d0e11a5a140ac16ee25a05fa420317f7bf433f72367ec73ff4bd8ca058ff6de98bef9830c2a73e3a1d6e29485b98485444c89880cd9c48807cef727c296f2daf846f8448207f59f1fc1777a2186a5e71b69dc244c9f66400a8fd0a918df68918192b82d076018a02ad18e0f04551e49c8f9bd758802dc5a1fe465fa31a0b2637980a6e1d2f4412d
+              nonce: 3
+              rlp: 0x29f90208038505d21dba00830f42408080940bb26552ee02bf4c39ea03ea2d827037ac48ce0eb9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298080f847f8458207f5a0362be8d5b05d0f9cb39a8ee11fa8d8a781016c235c557232e663acd6cf850bd4a0581a5e371ffdb867991dfddf21aa80713268c4d6d4195fb42a53885b4a6488ec9485b98485444c89880cd9c48807cef727c296f2daf847f8458207f5a0e3d59d25b00268c17a40b7d055c98795023fadf44197b117300820558fd2946da0135f8ca1ce0ea15bf247808122b8415a779e9b86bde862bf6050515a1b6b5cac
               signatures:
-              - R: 0x8b882881c00bca486a8eb6670e428b8a00b42b6eb29c0d0e11a5a140ac16ee25
-                S: 0x5fa420317f7bf433f72367ec73ff4bd8ca058ff6de98bef9830c2a73e3a1d6e2
-                V: 0x7f6
+              - R: 0x362be8d5b05d0f9cb39a8ee11fa8d8a781016c235c557232e663acd6cf850bd4
+                S: 0x581a5e371ffdb867991dfddf21aa80713268c4d6d4195fb42a53885b4a6488ec
+                V: 0x7f5
               status: Submitted
-              transactionHash: 0xce913f81cc05ad266873223cfa12c398b940339ff603701841f1785ce38a8958
-              typeInt: 42
+              transactionHash: 0x73cb651658a6084ae5eca9ed01ed328728d5181f07d5f71e9991d8825683baff
+              typeInt: 41
               value: 0x0
           headers: {}
         400:
@@ -1316,8 +1309,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061912
-              message: rlp value and request value are not same; feeRatio
+              code: 1061920
+              message: FeeDelegation transaction cannot set fee ratio, use PartialFeeDelegation transaction type
   /v2/tx/fd/account:
     put:
       description: Create a transaction for updating Klaytn account keys using the KAS global fee delegation account. For details about different Klaytn account keys, refer to Klaytn Docs.
@@ -1371,8 +1364,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061917
-              message: AccountKeyLegacy type is not supported in AccountKeyRoleBased type
+              code: 1061903
+              message: failed to decode account keys
   /v2/tx/fd-user/value:
     post:
       description: >-
@@ -1415,24 +1408,6 @@ paths:
           description: ''
           schema:
             $ref: '#/definitions/FDTransactionResult'
-          examples:
-            application/json:
-              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
-              from: 0x9c56b45b7443bc73f47234199982481c64807f78
-              gas: 1000000
-              gasPrice: 0x5d21dba00
-              input: 0x6d656d6f
-              nonce: 0
-              rlp: 0x11f8e2808505d21dba00830f4240942f87ba64de5526f7880f21481effbf950f70005c12949c56b45b7443bc73f47234199982481c64807f78846d656d6ff847f8458207f6a06335f41b59276bd1d1c2b276d65b633545fe624b4c6eb854ac85c2bc0bfcb869a004e7b8910e1ce4cf47739dfa7801dd9b6f3d23de7acc932ad38c6bcc51429f2e94e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f6a0e4d799e18080ab2d9c82f979256d27ef87f68d19a07a6e9a57b006c4a639da12a0088df123474ad3a7ad6ef772603abc2ec209d9148ad3de29b475793240f54b41
-              signatures:
-              - R: 0x6335f41b59276bd1d1c2b276d65b633545fe624b4c6eb854ac85c2bc0bfcb869
-                S: 0x4e7b8910e1ce4cf47739dfa7801dd9b6f3d23de7acc932ad38c6bcc51429f2e
-                V: 0x7f6
-              status: Submitted
-              to: 0x2f87ba64de5526f7880f21481effbf950f70005c
-              transactionHash: 0xbc35a85f694e27d88d9e65ddb005fff0abd5efa180862184ec466a6945e1fd55
-              typeInt: 17
-              value: 0x12
           headers: {}
         400:
           description: ''
@@ -1441,7 +1416,7 @@ paths:
           examples:
             application/json:
               code: 1065001
-              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+              message: failed to send a raw transaction to klaytn node; -32000::insufficient funds of the fee payer for gas * price
   /v2/tx/fd-user/contract/deploy:
     post:
       description: >-
@@ -1509,7 +1484,7 @@ paths:
           examples:
             application/json:
               code: 1065001
-              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
+              message: failed to send a raw transaction to klaytn node; -32000::insufficient funds of the fee payer for gas * price
   /v2/tx/fd-user/contract/execute:
     post:
       description: >-
@@ -1554,22 +1529,21 @@ paths:
             $ref: '#/definitions/FDTransactionResult'
           examples:
             application/json:
-              feePayer: 0xef1668a663d1377f957433caba61a3622c997b28
-              feeRatio: 38
-              from: 0x85621fa3d7e067ca5d2f5bc0098b3849ee15bca8
+              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
+              from: 0x9c56b45b7443bc73f47234199982481c64807f78
               gas: 1000000
               gasPrice: 0x5d21dba00
               input: 0xd14e62b80000000000000000000000000000000000000000000000000000000000000005
               nonce: 2
-              rlp: 0x32f90103028505d21dba00830f424094092f5c8846118f10eea077461dd595c4cdb2ac23809485621fa3d7e067ca5d2f5bc0098b3849ee15bca8a4d14e62b8000000000000000000000000000000000000000000000000000000000000000526f847f8458207f5a0758976e55e7dc8ccc0293b602b67ab829f4df9b7c3d66a9fdf62cc76a9b7bdd1a042f6745aeb77f754355af74400101c6c3a2cb661a42384371aac6bae8f00b5f494ef1668a663d1377f957433caba61a3622c997b28f847f8458207f5a0fd8f1b5036eab134187d9e2bf317dc51c2c0ace08f15436ae00e94064142dbd6a0433a51780521886b95ea5819cfd102103d87668adb4967ab727f8ff0c4284aed
+              rlp: 0x31f90102028505d21dba00830f424094182efef646797698059fb0e6cbb4823687d869d880949c56b45b7443bc73f47234199982481c64807f78a4d14e62b80000000000000000000000000000000000000000000000000000000000000005f847f8458207f5a03a5ff2dfb032a774d84af240a2aeacf4ac4bcf428de4f1f5adc6f4c003a96794a053e39aa65cd1006136be9ade19413e5bfd53c5575b40d5f32aa7e19037003df794e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f5a029cb2ac282e5880ef0ed8bf1bfca08f51ae151757ff50cdf08eccb23600c4ee4a048aedf8ef1415a3a7d32358f0d45d7223fd37532eafb8c4937828b2a284b80e3
               signatures:
-              - R: 0x758976e55e7dc8ccc0293b602b67ab829f4df9b7c3d66a9fdf62cc76a9b7bdd1
-                S: 0x42f6745aeb77f754355af74400101c6c3a2cb661a42384371aac6bae8f00b5f4
+              - R: 0x3a5ff2dfb032a774d84af240a2aeacf4ac4bcf428de4f1f5adc6f4c003a96794
+                S: 0x53e39aa65cd1006136be9ade19413e5bfd53c5575b40d5f32aa7e19037003df7
                 V: 0x7f5
               status: Submitted
-              to: 0x092f5c8846118f10eea077461dd595c4cdb2ac23
-              transactionHash: 0xab58b8aff73ff9b2982ddd2831adda96586b131999547ee2c5cc43864264c3d7
-              typeInt: 50
+              to: 0x182efef646797698059fb0e6cbb4823687d869d8
+              transactionHash: 0x4fcb4c06f81676d6b811f5b867f3ab5d166014e6c1dd982fec037eafdf89c88e
+              typeInt: 49
               value: 0x0
           headers: {}
         400:
@@ -1624,19 +1598,20 @@ paths:
             $ref: '#/definitions/FDTransactionResult'
           examples:
             application/json:
-              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
-              from: 0x9c56b45b7443bc73f47234199982481c64807f78
+              feePayer: 0xef1668a663d1377f957433caba61a3622c997b28
+              feeRatio: 88
+              from: 0x85621fa3d7e067ca5d2f5bc0098b3849ee15bca8
               gas: 1000000
               gasPrice: 0x5d21dba00
-              nonce: 330
-              rlp: 0x39f8c982014a8505d21dba00830f4240949c56b45b7443bc73f47234199982481c64807f78f847f8458207f5a061ffd0e76da83a4c4b05ca23d8cd66ac4b6c5a63183b6cc89ac3b12e9688aeb8a052edf81652ff174e3a0e3856a35ee71ea814c70fbc9fb18f8c66adeb15d0550394e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f5a05a5bf47cbc87b1091ebfa140c504b3d7ab1756cdc1e25ea168a277e478a5e01da00f8bfdbad9f94507e53c3abfa6d9e824170939b47731483bc629d3d58326bbb9
+              nonce: 500
+              rlp: 0x3af8ca8201f48505d21dba00830f42409485621fa3d7e067ca5d2f5bc0098b3849ee15bca858f847f8458207f5a0d5a0ea9345ec7de9128d7d7824daf9a45c0452b05bc6a6115da957e60915d556a01e396a7c8ecae720024f0432ffc7f5c3c671fdb11ff8b4662289622e2e1655a394ef1668a663d1377f957433caba61a3622c997b28f847f8458207f6a0c285f887e7bf32644dbecbe5f172940fdb113d6e8b180030853bd1f3fbe7cc0ca0690ca688140465d3834ab371f5d7c3d588efbc6b4c37bc2c7ccc4ada05e6380e
               signatures:
-              - R: 0x61ffd0e76da83a4c4b05ca23d8cd66ac4b6c5a63183b6cc89ac3b12e9688aeb8
-                S: 0x52edf81652ff174e3a0e3856a35ee71ea814c70fbc9fb18f8c66adeb15d05503
+              - R: 0xd5a0ea9345ec7de9128d7d7824daf9a45c0452b05bc6a6115da957e60915d556
+                S: 0x1e396a7c8ecae720024f0432ffc7f5c3c671fdb11ff8b4662289622e2e1655a3
                 V: 0x7f5
               status: Submitted
-              transactionHash: 0x176a40a522123e831107430e321adc34397f767ec9f75080ad0464ac0757be27
-              typeInt: 57
+              transactionHash: 0xc386b02a5b33770ba1771eba19de7f48d52bad7cbd25637fabbbc0f7fcbacf3e
+              typeInt: 58
           headers: {}
         400:
           description: ''
@@ -1644,8 +1619,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1065001
-              message: failed to send a raw transaction to klaytn node; -32000::nonce too low
+              code: 1065000
+              message: failed to retrieve a transaction from klaytn node
   /v2/tx/fd-user/anchor:
     post:
       description: >-
@@ -1760,20 +1735,23 @@ paths:
             $ref: '#/definitions/FDTransactionResult'
           examples:
             application/json:
-              feePayer: 0xe8ab1729ab614551021cf5cc22c0e037f5a82930
-              from: 0x9c56b45b7443bc73f47234199982481c64807f78
+              feePayer: 0xef1668a663d1377f957433caba61a3622c997b28
+              feeRatio: 76
+              from: 0x85621fa3d7e067ca5d2f5bc0098b3849ee15bca8
               gas: 1000000
               gasPrice: 0x5d21dba00
-              input: 0x
+              input: 0x6d656d6f
               nonce: 4
-              rlp: 0x49f8c8048505d21dba00830f4240949c56b45b7443bc73f47234199982481c64807f7880f847f8458207f5a0dd824552d22d8bbb55fa36c0717d1f69305fe26c483d161f30cec3d9fd9aad1da0708b3c3a3b0030ad281ae414ec73f1c05d5095043f13e8a53b396db48c98cd6594e8ab1729ab614551021cf5cc22c0e037f5a82930f847f8458207f6a0e23bcc4cf32afbc3c3b362bd8c774cd33d5d3cba7eb4dc45b25dde28543bfd59a061a52ef000023d9ba61ef9d17546e4d2d3f9bbdf893c5192add8be24a07182a2
+              rlp: 0x12f8e3048505d21dba00830f4240942f87ba64de5526f7880f21481effbf950f70005c129485621fa3d7e067ca5d2f5bc0098b3849ee15bca8846d656d6f4cf847f8458207f6a00f16b0be06701929acb1c8ae5accbbf1d312c943053c6391cc9ab3c3318d18a4a022952a3f8fe23cf9dad408e19e95e2efa10980a64b7507e2b548b28e7ba80ae894ef1668a663d1377f957433caba61a3622c997b28f847f8458207f6a0fa86634dd8cd737d621c3c3405ed2a8c40a055e6f658bf591bd659a698be197ca052b6d1ee11de4e72520d717dfe5a0e9ffca66159e7da4ba46cbef353b674513c
               signatures:
-              - R: 0xdd824552d22d8bbb55fa36c0717d1f69305fe26c483d161f30cec3d9fd9aad1d
-                S: 0x708b3c3a3b0030ad281ae414ec73f1c05d5095043f13e8a53b396db48c98cd65
-                V: 0x7f5
+              - R: 0xf16b0be06701929acb1c8ae5accbbf1d312c943053c6391cc9ab3c3318d18a4
+                S: 0x22952a3f8fe23cf9dad408e19e95e2efa10980a64b7507e2b548b28e7ba80ae8
+                V: 0x7f6
               status: Submitted
-              transactionHash: 0x366f4f11918ef23314e3d35b1d5bee1067a2d599359fd920f867aa0a3b31d2a2
-              typeInt: 73
+              to: 0x2f87ba64de5526f7880f21481effbf950f70005c
+              transactionHash: 0x6732c6541d47f57a1987c18b2f4f031d4bdf32d7ac5a1feb34125c99d812b4c6
+              typeInt: 18
+              value: 0x12
           headers: {}
         400:
           description: ''
@@ -1781,8 +1759,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061918
-              message: it just allow (Partial)FeeDelegation transaction type
+              code: 1065001
+              message: failed to send a raw transaction to klaytn node; -32000::insufficient funds of the fee payer for gas * price
   /v2/tx/fd-user/account:
     put:
       description: >-
@@ -1848,8 +1826,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061903
-              message: failed to decode account keys
+              code: 1065001
+              message: 'failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value '
   /v2/multisig/account/{address}/tx:
     get:
       description: >-
@@ -1968,8 +1946,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061010
-              message: data don't exist
+              code: 1061615
+              message: its value is out of range; size
   /v2/multisig/account/{address}/tx/{transaction-id}/sign:
     post:
       description: Sign to pending transaction from valid signer
@@ -2003,12 +1981,13 @@ paths:
             $ref: '#/definitions/MultisigTransactionStatus'
           examples:
             application/json:
-              signedWeight: 4
-              status: Submitted
+              reminders:
+              - 0xf24e881d3cFF241859203DB09a28421267B7F6E6
+              signedWeight: 1
+              status: Signed
               threshold: 4
-              transactionHash: 0x81f2ff422eae9b40d65b7a6f1e3c5ca598f83d1473ccc87e53d51b875fe75c82
               transactionId: 0xfa275dba88d197a85504ef70e0dd2640acc708817e9eb3933d7850acfb048649
-              weight: 3
+              weight: 1
           headers: {}
         400:
           description: ''
@@ -2016,8 +1995,8 @@ paths:
             $ref: '#/definitions/ErrorResponse'
           examples:
             application/json:
-              code: 1061914
-              message: already submitted transaction. Confirm transaction hash; 0xb9612ec6ec39bfd3f2841daa7ab062fc94cf33f23503606c979b2f81e50b2cb1
+              code: 1061010
+              message: data don't exist
   /v2/multisig/tx/{transaction-id}/sign:
     post:
       description: Add Sign to pending transaction using prepared signatures. This API can be used when signer is not your own account but you got from signature from signer.
@@ -2071,7 +2050,7 @@ paths:
               message: already submitted transaction. Confirm transaction hash; 0xb9612ec6ec39bfd3f2841daa7ab062fc94cf33f23503606c979b2f81e50b2cb1
   /v2/stat/count:
     get:
-      description: Show the number of Klaytn account which KAS account owned
+      description: Show the number of Klaytn account and key which KAS account owned
       summary: GetAccountCountByAccountID
       tags:
       - Statistics
@@ -2115,7 +2094,7 @@ paths:
         in: header
         required: false
         type: string
-        description: account pool name
+        description: Account pool name
       responses:
         200:
           description: ''
@@ -2123,10 +2102,405 @@ paths:
             $ref: '#/definitions/AccountCountByKRN'
           examples:
             application/json:
-              accountId: 5adddb69-20b5-4444-a205-8bd681c815cc
-              count: 8
-              krn: krn:1001:wallet:5adddb69-20b5-4444-a205-8bd681c815cc:account-pool:default
+              accountId: 68ec0e4b-0f61-4e6f-ae35-be865ab23187
+              count: 10
+              krn: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:key-pool:default
           headers: {}
+  /v2/key:
+    post:
+      description: You can create key up to 100
+      summary: KeyCreation
+      tags:
+      - Key
+      operationId: KeyCreation
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn chain network ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/KeyCreationRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/KeyCreationResponse'
+          examples:
+            application/json:
+              items:
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+              - blob: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+                keyId: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+                krn: krn:1001:wallet:test:account-pool:default
+                publicKey: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+          headers: {}
+  /v2/key/{key-id}:
+    get:
+      description: Find key info
+      summary: GetKey
+      tags:
+      - Key
+      operationId: GetKey
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn chain network ID (1001 or 8217)
+      - name: key-id
+        in: path
+        required: true
+        type: string
+        description: ''
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/Key'
+          examples:
+            application/json:
+              blob: 0x315cb751a48219e49459e68fac91625eb96be4657d09a124c1d94cf9e0eb2e74
+              keyId: krn:1001:wallet:6698d79e-78ee-439a-815d-f293ec6ae736:key-pool:migrate:0x410018c573fa890c38060722ecf0b67e2c5b21d332ec43f44e6e3d928d64079d
+              krn: krn:1001:wallet:6698d79e-78ee-439a-815d-f293ec6ae736:key-pool:migrate
+              publicKey: 0x04867355f0f5964d9bbee4d903a0a447b96048dd560864d550d545b8bc286e36886c96b5d386a416b4a52734b8e62b7aab0dfb9672a06dd5e0fcb823515bc8b9e5
+          headers: {}
+  /v2/key/{key-id}/sign:
+    post:
+      description: Sign the data using key
+      summary: KeySignData
+      tags:
+      - Key
+      operationId: KeySignData
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn chain network ID (1001 or 8217)
+      - name: x-krn
+        in: header
+        required: false
+        type: string
+        description: ''
+      - name: key-id
+        in: path
+        required: true
+        type: string
+        description: ''
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/KeySignDataRequest'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/KeySignDataResponse'
+          examples:
+            application/json:
+              signedData: 0xe22e5b356e93ff1c240c30ec81f6ee75c67ea579b1e951d73637abac1663dbd6552084487bafdab4663fcd4c41b19ff78d08c6d1c2e99cfb3756d13b85b8e3f400
+          headers: {}
+  /v2/registration/account:
+    post:
+      description: Register account which used before
+      summary: RegisterAccount
+      tags:
+      - Registration
+      operationId: RegisterAccount
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn chain network ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          type: array
+          items:
+            $ref: '#/definitions/AccountRegistration'
+      responses:
+        200:
+          description: ''
+          schema:
+            $ref: '#/definitions/StatusResponse'
+          examples:
+            application/json:
+              failures:
+                0x93c274186F9763d3761B8F60A105FB204BB9fa26: failed to send a raw transaction to klaytn node; -32000::invalid transaction v, r, s values of the sender
+                0xa53333EFFd4F2c4889a23B8b0761b277b007Da4A: failed to send a raw transaction to klaytn node; -32000::invalid transaction v, r, s values of the sender
+              status: all failed
+          headers: {}
+        400:
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1061608
+              message: cannot be empty or zero value; address
 definitions:
   EmptyUpdateKeyType:
     title: EmptyUpdateKeyType
@@ -2185,6 +2559,38 @@ definitions:
         type: array
         items:
           type: object
+  AccountRegistration:
+    title: AccountRegistration
+    description: Account Registration Request Item
+    type: object
+    properties:
+      keyId:
+        description: Key ID which is create in KMS(Key Management System)
+        type: string
+      address:
+        description: Klaytn address
+        type: string
+      rlp:
+        description: RLP value. If RLP value is received, account update is executed using the value
+        type: string
+    required:
+    - keyId
+    - address
+  CallArgument:
+    title: CallArgument
+    description: method parameter
+    type: object
+    properties:
+      type:
+        description: ABI types. For example `uint256`, `uint32`, `string`, `bool`, `address`, `uint64[2]` and `address[]` can be used
+        example: address
+        type: string
+      value:
+        description: parameter value. `number`, `string`, `array` and `boolean` value type can be used
+        type: object
+    required:
+    - type
+    - value
   Account:
     title: Account
     description: Account information
@@ -2243,11 +2649,14 @@ definitions:
     type: object
     properties:
       code:
-        example: 1061010
+        example: 1061615
         type: integer
         format: int64
       message:
-        example: data don't exist
+        example: its value is out of range; size
+        type: string
+      requestId:
+        example: POST-/v2/registration/account-1607566714428099800
         type: string
   Accounts:
     title: Accounts
@@ -2421,7 +2830,7 @@ definitions:
     properties:
       from:
         description: Klaytn account address sending a transaction
-        example: 0x85b98485444c89880cd9c48807cef727c296f2da
+        example: 0xf7093ab1f23bc6d5cdf73b222692d0de2696bcab
         type: string
       gas:
         description: Max. transaction fee (gas) for sending the transaction
@@ -2434,16 +2843,16 @@ definitions:
         type: string
       input:
         description: Data attached to and used for executing the outgoing transaction
-        example: 0x
+        example: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
         type: string
       nonce:
         description: No. of current user’s previous transactions
-        example: 0
+        example: 1
         type: integer
         format: int64
       rlp:
         description: RLP serialization value of the transaction
-        example: 0xf870808505d21dba00830f424094a311e7022a4db250689c89d99848f74ea5098f7d89121111111111111111808207f5a03e7173bf7a303b4e1bb6f8723b494bcaa196cf7b9d7af18a22ceda7f2e9c9226a057bf51a5f52d900d58470f5e28f25881eb6d3837502ba0bab13f022398ddbc26
+        example: 0xf9018f018505d21dba00830f42408012b9013a60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d100298207f6a02930c607ddb95575ef88b63a45caa0231da1f88fe99a0cad411a5a99bd4b6d5ba042adbae28a65c32220505e1c7a1509635b59143ddc65e6b7e266d5b3797370d4
         type: string
       signatures:
         type: array
@@ -2453,13 +2862,9 @@ definitions:
         description: Status of the transaction(“Submitted” or “Pending”)
         example: Submitted
         type: string
-      to:
-        description: Klaytn account address to receive KLAY
-        example: 0xa311e7022a4db250689c89d99848f74ea5098f7d
-        type: string
       transactionHash:
         description: Transaction hash value
-        example: 0x433d70e6bdbce725ac9472e9fe1242fa0e5bdcd1b60fa21b3dcadf858055b47b
+        example: 0x49a92d67aafc1e503a345ee9c5b9a5c58df10706e054fdcc18447398d553cef7
         type: string
       typeInt:
         description: Numeric value of transaction type
@@ -2468,7 +2873,11 @@ definitions:
         format: int64
       value:
         description: KLAY converted into PEB unit
-        example: 0x121111111111111111
+        example: 0x12
+        type: string
+      to:
+        description: Klaytn account address to receive KLAY
+        example: 0xa311e7022a4db250689c89d99848f74ea5098f7d
         type: string
       code:
         example: 1065001
@@ -2483,7 +2892,7 @@ definitions:
         type: string
       accountKey:
         description: Updated account key
-        example: 0x03c0
+        example: 0x04f89303f890e301a1021c5c34cafdefddfd5d0c8baa9e9f75ff6aa6dc597776e5bf06e231c57926a2cbe301a1025552e73f34964eb04cad0d3c3dbd7cfeebbfb420ca83b1e7c640a9c76b42a4cae301a102ab9910325fd645a556fee3c6bbd8651be4fbff6688634d826474f3ef4baff7b1e301a103a1c4e3830f19d1fb2c78d00cd5b29f75cdcc706a8611cbf4192c2d20f4899cba
         type: string
     required:
     - from
@@ -2499,14 +2908,19 @@ definitions:
     properties:
       from:
         description: Klaytn account address sending a transaction
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
         type: string
       value:
         description: KLAY converted into PEB unit
-        example: 0x121111111111111111
+        example: 0x12
         type: string
       to:
         description: Klaytn account address to receive KLAY
-        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
+        example: 0x2F87Ba64de5526F7880F21481Effbf950f70005c
+        type: string
+      input:
+        description: Data attached to and used for executing the outgoing transaction
+        example: '{{input}}'
         type: string
       nonce:
         description: Unique value of the outgoing transaction
@@ -2523,10 +2937,6 @@ definitions:
         description: Whether to send the transaction to Klaytn
         example: true
         type: boolean
-      input:
-        description: Data attached to and used for executing the outgoing transaction
-        example: 0x60806040526000805534801561001457600080fd5b50610116806100246000396000f3006080604052600436106053576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff16806306661abd14605857806342cbb15c146080578063d14e62b81460a8575b600080fd5b348015606357600080fd5b50606a60d2565b6040518082815260200191505060405180910390f35b348015608b57600080fd5b50609260d8565b6040518082815260200191505060405180910390f35b34801560b357600080fd5b5060d06004803603810190808035906020019092919050505060e0565b005b60005481565b600043905090565b80600081905550505600a165627a7a7230582064856de85a2706463526593b08dd790054536042ef66d3204018e6790a2208d10029
-        type: string
     required:
     - from
   ValueTransferTransactionRequest:
@@ -2755,19 +3165,27 @@ definitions:
     properties:
       blockHash:
         description: Hash value of the block where the transaction is located
-        example: 0x276e6efcc01b27c992b0663cc843baebc9dbb167cf0cd7e74808c21c97a74182
+        example: 0xb714b09a463d32cf309a6e9e0f4d1a1738be5373c584cefeeb781343c208e36d
         type: string
       blockNumber:
         description: No. of the block where the transaction is located
-        example: 0x24bb088
+        example: 0x28aead8
         type: string
+      feePayer:
+        description: Account address for fee delegation of transaction fee
+        example: 0x7be759b78f34389fa15f85f4144d8cd732c4c60d
+        type: string
+      feePayerSignatures:
+        type: array
+        items:
+          $ref: '#/definitions/feePayerSignaturesObj'
       from:
         description: Klaytn account address that sent a transaction
-        example: 0x3e3733b256c93f9d759e33c9939258068bd5957d
+        example: 0xf366f718add52e0710e8e3c67365a6d4f51d43ec
         type: string
       gas:
         description: Max. transaction fee (gas) for sending the transaction
-        example: 0xf4240
+        example: 0x419ce0
         type: string
       gasPrice:
         description: Transaction fee (gas) for sending the transaction
@@ -2775,15 +3193,15 @@ definitions:
         type: string
       gasUsed:
         description: Transaction fee (gas) for sending the transaction
-        example: 0x55478
+        example: 0xf2b8
         type: string
       hash:
         description: Transaction data hash
-        example: 0x6a3bb7c14981f04e54261a542f0acaf27433befa9619443139f288b3b07c6b05
+        example: 0x8becaceca227568ef2afb94d85a4ee34c0b5b67a45517a6655c6eb5faee66d29
         type: string
       input:
         description: Data attached to and used for executing the outgoing transaction
-        example: 0x4867ba1500000000000000000000000000000000000000000000000000000000000000c000000000000000000000000001021e96a79de1b663753935ac856c2cfc51ce8c000000000000000000000000270f21fbf544e5f87b4988c521315a87ce24acf200000000000000000000000000000000000000000000000000000000000000009dbb36061e9a8cb752a9e8abd17e459d7577eaf614f351dfac0b3b3a2d4fca7400000000000000000000000000000000000000000000000000000000000001400000000000000000000000000000000000000000000000000000000000000041efc087a54f954b416b6d051775770336f26d65442306145f8148ee2d2181012d5d49e2d3bd51b22456bb69f5adda7e21c93750aa0c4bfd8a99e6bd17584d10a41b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a401db711901000000000000000000000000000000000000000000000000000000000000000000000000000000000000001c8c7395e3e64e69471ed11debbff2a0ffb89d5b00000000000000000000000000000000000000000000000000000000000000600000000000000000000000000000000000000000000000000000000000000020efefefefefefef0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+        example: 0xeb795549000000000000000000000000f0084083aac643b88890fe0b325dc12eac2a6caa0000000000000000000000000000000000000000000000008ac7230489e80000000000000000000000000000000000000000000000000000000000000000006000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000
         type: string
       logs:
         type: array
@@ -2791,15 +3209,15 @@ definitions:
           $ref: '#/definitions/EventLog'
       logsBloom:
         description: Bloom filter for finding related logs quickly
-        example: 0x00000000000000000000000000000000000000000040000000000000200000000000000000000000000001000000000000000000000200000000000000000000000000000000000000000000000000000000000000000004000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000800000000000000000000000000000000000000800000000000000000000000000000000000080000000000000000000000000000000000000000000800000000000800000000
+        example: 0x00000000000000000000000000000000000000020000000000000800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000800000010000000000000000000000000000000000000000001000000000000000000800080000000000000000000000000000000000000010000000000000000000000000000000000000002020000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000
         type: string
       nonce:
         description: No. of current user’s previous transactions
-        example: 0x26dc3
+        example: 0xbb1db
         type: string
       senderTxHash:
         description: Hash value of a transaction with no fee delegation account and signature value
-        example: 0x6a3bb7c14981f04e54261a542f0acaf27433befa9619443139f288b3b07c6b05
+        example: 0x436a9d6a62588509608d0bf7c750f39c9c857da771f546ed12c0d4ceceae5311
         type: string
       signatures:
         type: array
@@ -2811,23 +3229,23 @@ definitions:
         type: string
       to:
         description: Klaytn account address to receive KLAY or contract address
-        example: 0x01021e96a79de1b663753935ac856c2cfc51ce8c
+        example: 0xdcd62c57182e780e23d2313c4782709da85b9d6c
         type: string
       transactionHash:
         description: Transaction hash value
-        example: 0x6a3bb7c14981f04e54261a542f0acaf27433befa9619443139f288b3b07c6b05
+        example: 0x8becaceca227568ef2afb94d85a4ee34c0b5b67a45517a6655c6eb5faee66d29
         type: string
       transactionIndex:
         description: Order of transactions in the block where they are located
-        example: 0x0
+        example: 0x3
         type: string
       type:
         description: Character value of transaction type
-        example: TxTypeSmartContractExecution
+        example: TxTypeFeeDelegatedSmartContractExecution
         type: string
       typeInt:
         description: Numeric value of transaction type
-        example: 48
+        example: 49
         type: integer
         format: int64
       value:
@@ -2841,20 +3259,25 @@ definitions:
         description: Code format of smart contract
         example: 0x0
         type: string
-      feePayer:
-        description: Account address for fee delegation of transaction fee
-        example: 0x85b98485444c89880cd9c48807cef727c296f2da
-        type: string
-      feePayerSignatures:
-        type: array
-        items:
-          $ref: '#/definitions/feePayerSignaturesObj'
       humanReadable:
         description: Wheter to be `humanReadable` of the account
         example: false
         type: boolean
     required:
     - contractAddress
+  feePayerSignaturesObj:
+    title: feePayerSignaturesObj
+    type: object
+    properties:
+      R:
+        example: 0xdf19c4afc9901ef8065fa31b9750a8fb0641390d76cca96abd89324d13b73850
+        type: string
+      S:
+        example: 0x2f9d16452dbd91e1da39077e4e750abd2dd21977fd779419195a825630d4b2de
+        type: string
+      V:
+        example: 0x4056
+        type: string
   EventLog:
     title: EventLog
     description: Logs emitted by the transaction
@@ -2862,23 +3285,23 @@ definitions:
     properties:
       address:
         description: Klaytn account address
-        example: 0x270f21fbf544e5f87b4988c521315a87ce24acf2
+        example: 0xdcd62c57182e780e23d2313c4782709da85b9d6c
         type: string
       blockHash:
         description: Block hash including the transaction
-        example: 0x276e6efcc01b27c992b0663cc843baebc9dbb167cf0cd7e74808c21c97a74182
+        example: 0xb714b09a463d32cf309a6e9e0f4d1a1738be5373c584cefeeb781343c208e36d
         type: string
       blockNumber:
         description: Block No. including the transaction
-        example: 0x24bb088
+        example: 0x28aead8
         type: string
       data:
         description: Transaction data
-        example: 0x010000000000000000000000000000000000000000000000000000000000000000000000000000000000000001021e96a79de1b663753935ac856c2cfc51ce8c0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000005f5f226d0000000000000000000000000000000000000000000000000000000000000020efefefefefefef00000000000000000000000000000000000000000000000000
+        example: 0x0000000000000000000000000000000000000000000000008ac7230489e80000
         type: string
       logIndex:
         description: Index of log
-        example: 0x0
+        example: 0x2
         type: string
       removed:
         description: Whether to remove log
@@ -2890,11 +3313,11 @@ definitions:
           type: string
       transactionHash:
         description: Transaction hash value
-        example: 0x6a3bb7c14981f04e54261a542f0acaf27433befa9619443139f288b3b07c6b05
+        example: 0x8becaceca227568ef2afb94d85a4ee34c0b5b67a45517a6655c6eb5faee66d29
         type: string
       transactionIndex:
         description: Index of the transaction
-        example: 0x0
+        example: 0x3
         type: string
     required:
     - address
@@ -2905,19 +3328,61 @@ definitions:
     - removed
     - transactionHash
     - transactionIndex
-  feePayerSignaturesObj:
-    title: feePayerSignaturesObj
+  ContractCallResponse:
+    title: ContractCallResponse
+    description: Contract call response schema
     type: object
     properties:
-      R:
-        example: 0xd94aa19287f89572f2f5660856d16e32bc2c0192d7443a55af614bcdec0e1e8
+      data:
+        description: Contract call data
+        example: 0x70a0823100000000000000000000000085b98485444c89880cd9c48807cef727c296f2da
         type: string
-      S:
-        example: 0x424324292dd04da3930679bd5774723d12ed9e553f3a18eaacb4b89d85a26537
+      result:
+        description: result
+        example: 0x00000000000000000000000000000000000000000000003635c9adc5dea00000
         type: string
-      V:
-        example: 0x7f5
+    required:
+    - data
+    - result
+  ContractCallRequest:
+    title: ContractCallRequest
+    description: Contract Call Request Scheme
+    type: object
+    properties:
+      from:
+        description: Klaytn account address sending a transaction
+        example: 0x5bb85d4032354E88020595AFAFC081C24098202e
         type: string
+      value:
+        description: KLAY converted into PEB unit
+        example: 0x0
+        type: string
+      to:
+        description: Contract address
+        example: 0x358b2381fcf00d2cb2daa7d89032b12e140b6058
+        type: string
+      data:
+        $ref: '#/definitions/ContractCallData'
+      gas:
+        description: Max. transaction fee (gas) for sending the transaction
+        example: 1000000
+        type: integer
+        format: int64
+  ContractCallData:
+    title: ContractCallData
+    description: Contract call data
+    type: object
+    properties:
+      methodName:
+        description: Method name
+        example: balanceOf
+        type: string
+      arguments:
+        type: array
+        items:
+          $ref: '#/definitions/CallArgument'
+    required:
+    - methodName
   FDTransactionResult:
     title: FDTransactionResult
     description: Fee delegation transaction information sent to Klaytn
@@ -2927,14 +3392,9 @@ definitions:
         description: Account address for fee delegation of transaction
         example: 0x85b98485444c89880cd9c48807cef727c296f2da
         type: string
-      feeRatio:
-        description: Ratio to be paid by the Proxy fee payer for the entire transaction fee
-        example: 10
-        type: integer
-        format: int64
       from:
         description: Klaytn account address sending a transaction
-        example: 0x0225b5a7683ac651931c1b6123b7d197d6c24d9d
+        example: 0x569a3da2e37b4c08e342820d580122e5283bafbc
         type: string
       gas:
         description: Max. transaction fee (gas) for sending the transaction
@@ -2956,7 +3416,7 @@ definitions:
         format: int64
       rlp:
         description: RLP serialization value of the transaction
-        example: 0x12f8e3808505d21dba00830f4240942f87ba64de5526f7880f21481effbf950f70005c12940225b5a7683ac651931c1b6123b7d197d6c24d9d846d656d6f0af847f8458207f5a06edfb59009dd8d9e1ab0deb9632bd5557a1b701eaad1bccc06087772d7d10e0ea04b2032b6f7c4f716d30da650533499ff0d6e3451cb419bf19e5897678db8644a9485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a0915ef11a6411ce25ea1c0b5363c37d90eee5b131a03ddaeabf987b34a960894ea020b13b210c4ad961746d087682fc8c272adb9b5183a2d83ad74c0a9ea148d776
+        example: 0x11f8e2808505d21dba00830f4240942f87ba64de5526f7880f21481effbf950f70005c1294569a3da2e37b4c08e342820d580122e5283bafbc846d656d6ff847f8458207f5a048a6618e31293c2b05c093b6fe5c5f2513b844b793b3560934169f0fb7fa4fb5a02aaa4645c711bf0cc25dc3a3878462b13276143b30fed875455b62e14ab9a0a29485b98485444c89880cd9c48807cef727c296f2daf847f8458207f6a0307c6e2df0ba301a3a535c4cede427ce3d43a8a0ec2aaad17fcde9f753555a86a026e4d176ebd1e66b32b5bfa383edd60884e87fd5e788729116916c9313d30976
         type: string
       signatures:
         type: array
@@ -2972,11 +3432,11 @@ definitions:
         type: string
       transactionHash:
         description: Transaction hash value
-        example: 0xd4ebc769956b8471fb497d22f655895e675a907ca9db8a64f84998ee460e8d21
+        example: 0x0b3b7f02640692af371060c311576bc42c3c48122e4f68ca032e5076a3f983d0
         type: string
       typeInt:
         description: Numeric value of transaction type
-        example: 18
+        example: 17
         type: integer
         format: int64
       value:
@@ -2987,6 +3447,11 @@ definitions:
         description: Multisig transaction ID
         example: 0x0416bf52b804211220aca957250d6bc2e2c6ab8688e68dc9096ae035d009c334
         type: string
+      feeRatio:
+        description: Ratio to be paid by the Proxy fee payer for the entire transaction fee
+        example: 10
+        type: integer
+        format: int64
       accountKey:
         description: Updated account key
         example: 0x04f84b04f848e303a102c7460ef57f8b648220667785dc6c87f132d57b8e5d8d3373e37c4c9798460eafe301a102ffb48935aa7460b0595e1fe6749c402eaa59d6fd78dd64217470191580f73211
@@ -3014,6 +3479,7 @@ definitions:
         type: string
       to:
         description: Klaytn account address to receive KLAY
+        example: 0x2F87Ba64de5526F7880F21481Effbf950f70005c
         type: string
       memo:
         description: Memo attached to the transaction
@@ -3100,7 +3566,6 @@ definitions:
         type: string
       to:
         description: Contract address
-        example: 0x71ca8095264fdf58f1a2007e0f91140d67292736
         type: string
       input:
         description: Data attached to and used for executing the outgoing transaction
@@ -3142,7 +3607,7 @@ definitions:
         type: string
       transactionHash:
         description: Transaction hash value
-        example: 0x7b0cccd1faf451086d73da2a08341827695ee716752b0069e7aede8713a0b2d9
+        example: 0x02e13becf638cac359381fa5dfc3ef8f598a90cceb9842eb714019bcd883fd59
         type: string
       nonce:
         description: Unique value of the outgoing transaction
@@ -3218,7 +3683,7 @@ definitions:
         type: boolean
       feeRatio:
         description: Ratio to be paid by the Proxy fee payer for the entire transaction fee(1~99). If value is empty or 0, fee payer will pay all fees
-        example: 22
+        example: 0
         type: integer
         maximum: 99
         format: int64
@@ -3252,7 +3717,7 @@ definitions:
         type: boolean
       feeRatio:
         description: Ratio to be paid by the Proxy fee payer for the entire transaction fee(1~99). If value is empty or 0, fee payer will pay all fees
-        example: 0
+        example: 70
         type: integer
         maximum: 99
         format: int64
@@ -3397,7 +3862,7 @@ definitions:
         type: string
       feeRatio:
         description: Ratio to be paid by the Proxy fee payer for the entire transaction fee(1~99). If value is empty or 0, fee payer will pay all fees
-        example: 38
+        example: 0
         type: integer
         maximum: 99
         format: int64
@@ -3421,7 +3886,7 @@ definitions:
         type: string
       nonce:
         description: Unique value of the outgoing transaction
-        example: 0
+        example: 500
         type: integer
         format: int64
       gas:
@@ -3440,7 +3905,7 @@ definitions:
         type: string
       feeRatio:
         description: Ratio to be paid by the Proxy fee payer for the entire transaction fee(1~99). If value is empty or 0, fee payer will pay all fees
-        example: 0
+        example: 88
         type: integer
         maximum: 99
         format: int64
@@ -3503,7 +3968,7 @@ definitions:
         type: string
       feeRatio:
         description: Ratio to be paid by the Proxy fee payer for the entire transaction fee(1~99). If value is empty or 0, fee payer will pay all fees
-        example: 0
+        example: 76
         type: integer
         maximum: 99
         format: int64
@@ -3686,37 +4151,37 @@ definitions:
     description: Current status of the multisig transaction
     type: object
     properties:
+      reminders:
+        type: array
+        items:
+          type: string
       signedWeight:
         description: Sum of weight after this signer signed
-        example: 4
+        example: 1
         type: integer
         format: int64
       status:
         description: Current transaction status
-        example: Submitted
+        example: Signed
         type: string
       threshold:
         description: Total weight required for sending the transaction
         example: 4
         type: integer
         format: int64
-      transactionHash:
-        description: Transaction hash value
-        example: 0x81f2ff422eae9b40d65b7a6f1e3c5ca598f83d1473ccc87e53d51b875fe75c82
-        type: string
       transactionId:
         description: ID for multisig transactions
         example: 0xfa275dba88d197a85504ef70e0dd2640acc708817e9eb3933d7850acfb048649
         type: string
       weight:
         description: Weight of this signer
-        example: 3
+        example: 1
         type: integer
         format: int64
-      reminders:
-        type: array
-        items:
-          type: string
+      transactionHash:
+        description: Transaction hash value
+        example: 0x81f2ff422eae9b40d65b7a6f1e3c5ca598f83d1473ccc87e53d51b875fe75c82
+        type: string
     required:
     - signedWeight
     - status
@@ -3734,7 +4199,7 @@ definitions:
           $ref: '#/definitions/Signature'
   AccountCountByAccountID:
     title: AccountCountByAccountID
-    description: Total count of Klaytn account owned by an KAS account
+    description: Total count of Klaytn account and key owned by an KAS account
     type: object
     properties:
       accountId:
@@ -3756,21 +4221,108 @@ definitions:
     properties:
       accountId:
         description: KAS account ID
-        example: 5adddb69-20b5-4444-a205-8bd681c815cc
+        example: 68ec0e4b-0f61-4e6f-ae35-be865ab23187
         type: string
       count:
         description: The number of Klaytn account from certain account pool
-        example: 8
+        example: 10
         type: integer
         format: int64
       krn:
         description: KAS KRN(acccount pool name)
-        example: krn:1001:wallet:5adddb69-20b5-4444-a205-8bd681c815cc:account-pool:default
+        example: krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:key-pool:default
         type: string
     required:
     - accountId
     - count
     - krn
+  KeyCreationResponse:
+    title: KeyCreationResponse
+    description: Key Creation Response
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Key'
+  Key:
+    title: Key
+    description: Created key information
+    type: object
+    properties:
+      blob:
+        description: Encrypted private key
+        example: 0x43bfd97caaeacc818cd6b62abccf21de569649f31f644142eb1fcfd5beb69e61
+        type: string
+      keyId:
+        description: Key ID
+        example: krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221
+        type: string
+      krn:
+        description: Name of the resource
+        example: krn:1001:wallet:test:account-pool:default
+        type: string
+      publicKey:
+        description: Public key
+        example: 0x04a081eaf8603b9be528b86da338ba8051bfc073876dbdf00f5161b393b5735f85a76634ea38c43fbbc5d7a630b76ca2a1d81d446debc937b24a77eb3b352a1b6d
+        type: string
+    required:
+    - blob
+    - keyId
+    - krn
+    - publicKey
+  KeyCreationRequest:
+    title: KeyCreationRequest
+    description: Batch Key Creation Request Schema
+    type: object
+    properties:
+      size:
+        description: Key count to create
+        example: 60
+        type: integer
+        default: 1
+        maximum: 100
+        format: int64
+    required:
+    - size
+  KeySignDataResponse:
+    title: KeySignDataResponse
+    description: Key Sign Data Response Schema
+    type: object
+    properties:
+      signedData:
+        description: Signed data
+        example: 0xe22e5b356e93ff1c240c30ec81f6ee75c67ea579b1e951d73637abac1663dbd6552084487bafdab4663fcd4c41b19ff78d08c6d1c2e99cfb3756d13b85b8e3f400
+        type: string
+    required:
+    - signedData
+  KeySignDataRequest:
+    title: KeySignDataRequest
+    description: Key Sign Data Request Schema
+    type: object
+    properties:
+      data:
+        description: data to sign. the size is limited to 32bytes
+        example: 0x88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589
+        type: string
+    required:
+    - data
+  StatusResponse:
+    title: StatusResponse
+    description: Status Response Schema
+    type: object
+    properties:
+      failures:
+        description: failed addresses and causes to register accounts
+        type: object
+        additionalProperties:
+          type: string
+      status:
+        description: status of request
+        example: all failed
+        type: string
+    required:
+    - status
 security:
 - auth: []
 tags:
@@ -3785,4 +4337,8 @@ tags:
 - name: Multisig Transaction Management
   description: ''
 - name: Statistics
+  description: ''
+- name: Key
+  description: ''
+- name: Registration
   description: ''
