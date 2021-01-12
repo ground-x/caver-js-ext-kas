@@ -199,7 +199,7 @@ describe('Wallet API service enabling', () => {
                     expect(path).to.equal(`/v2/account`)
                     expect(mtd).to.equal(`GET`)
                     expect(Object.keys(pathParams).length).to.equal(0)
-                    expect(Object.keys(queryParams).length).to.equal(4)
+                    expect(Object.keys(queryParams).length).to.equal(5)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
                     expect(queryParams['from-timestamp']).to.equal(queryOptions.fromTimestamp)
@@ -388,6 +388,7 @@ describe('Wallet API service enabling', () => {
                 toTimestamp: Date.now(),
                 cursor:
                     'eyJjcmVhdGVkX2F0IjoxNTk3OTA2Mjc0LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMDUiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ==',
+                status: caver.kas.wallet.queryOptions.status.ENABLED,
             }
             const expectedQueryParams = caver.kas.wallet.queryOptions.constructFromObject(queryParams)
             const retrieveAccountsSpy = sandbox.spy(caver.kas.wallet.accountApi, 'retrieveAccounts')

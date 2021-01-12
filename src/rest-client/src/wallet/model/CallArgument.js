@@ -16,184 +16,68 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/Signature'], factory)
+        define(['../../ApiClient'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./Signature'))
+        module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.TransactionResult = factory(root.WalletApi.ApiClient, root.WalletApi.Signature)
+        root.WalletApi.CallArgument = factory(root.WalletApi.ApiClient)
     }
-})(this, function(ApiClient, Signature) {
+})(this, function(ApiClient) {
     /**
-     * The TransactionResult model module.
-     * @class TransactionResult
+     * The CallArgument model module.
+     * @class CallArgument
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>TransactionResult</code>.
-     * Transaction information sent to Klaytn
-     * @alias TransactionResult
+     * Constructs a new <code>CallArgument</code>.
+     * method parameter
+     * @alias CallArgument
      * @class
-     * @param from {String} Klaytn account address sending a transaction
-     * @param gas {Number} Max. transaction fee (gas) for sending the transaction
-     * @param gasPrice {String} Gas price for sending the transaction
-     * @param nonce {Number} No. of current user’s previous transactions
-     * @param rlp {String} RLP serialization value of the transaction
-     * @param typeInt {Number} Numeric value of transaction type
+     * @param type {String} ABI types. For example `uint256`, `uint32`, `string`, `bool`, `address`, `uint64[2]` and `address[]` can be used
+     * @memberof CallArgument
+     * @param value {Object} parameter value. `number`, `string`, `array` and `boolean` value type can be used
      */
-    const TransactionResult = function(from, gas, gasPrice, nonce, rlp, typeInt) {
-        this.from = from
-        this.gas = gas
-        this.gasPrice = gasPrice
-        this.nonce = nonce
-        this.rlp = rlp
-        this.typeInt = typeInt
+    const CallArgument = function(type, value) {
+        this.type = type
+        this.value = value
     }
 
     /**
-     * Constructs a <code>TransactionResult</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>CallArgument</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {TransactionResult} obj Optional instance to populate.
-     * @return {TransactionResult} The populated <code>TransactionResult</code> instance.
-     * @memberof TransactionResult
+     * @param {CallArgument} obj Optional instance to populate.
+     * @return {CallArgument} The populated <code>CallArgument</code> instance.
+     * @memberof CallArgument
      */
-    TransactionResult.constructFromObject = function(data, obj) {
+    CallArgument.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new TransactionResult()
-            if (data.hasOwnProperty('from')) obj.from = ApiClient.convertToType(data.from, 'String')
-            if (data.hasOwnProperty('gas')) obj.gas = ApiClient.convertToType(data.gas, 'Number')
-            if (data.hasOwnProperty('gasPrice')) obj.gasPrice = ApiClient.convertToType(data.gasPrice, 'String')
-            if (data.hasOwnProperty('input')) obj.input = ApiClient.convertToType(data.input, 'String')
-            if (data.hasOwnProperty('nonce')) obj.nonce = ApiClient.convertToType(data.nonce, 'Number')
-            if (data.hasOwnProperty('rlp')) obj.rlp = ApiClient.convertToType(data.rlp, 'String')
-            if (data.hasOwnProperty('signatures')) obj.signatures = ApiClient.convertToType(data.signatures, [Signature])
-            if (data.hasOwnProperty('status')) obj.status = ApiClient.convertToType(data.status, 'String')
-            if (data.hasOwnProperty('transactionHash')) obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
-            if (data.hasOwnProperty('typeInt')) obj.typeInt = ApiClient.convertToType(data.typeInt, 'Number')
-            if (data.hasOwnProperty('value')) obj.value = ApiClient.convertToType(data.value, 'String')
-            if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
-            if (data.hasOwnProperty('code')) obj.code = ApiClient.convertToType(data.code, 'Number')
-            if (data.hasOwnProperty('message')) obj.message = ApiClient.convertToType(data.message, 'String')
-            if (data.hasOwnProperty('transactionId')) obj.transactionId = ApiClient.convertToType(data.transactionId, 'String')
-            if (data.hasOwnProperty('accountKey')) obj.accountKey = ApiClient.convertToType(data.accountKey, 'String')
+            obj = obj || new CallArgument()
+            if (data.hasOwnProperty('type')) obj.type = ApiClient.convertToType(data.type, 'String')
+            if (data.hasOwnProperty('value')) obj.value = ApiClient.convertToType(data.value, Object)
         }
         return obj
     }
 
     /**
-     * Klaytn account address sending a transaction
+     * ABI types. For example `uint256`, `uint32`, `string`, `bool`, `address`, `uint64[2]` and `address[]` can be used
      * @type {String}
-     * @memberof TransactionResult
+     * @memberof CallArgument
      */
-    TransactionResult.prototype.from = undefined
+    CallArgument.prototype.type = undefined
 
     /**
-     * Max. transaction fee (gas) for sending the transaction
-     * @type {Number}
-     * @memberof TransactionResult
+     * parameter value. `number`, `string`, `array` and `boolean` value type can be used
+     * @type {Object}
+     * @memberof CallArgument
      */
-    TransactionResult.prototype.gas = undefined
+    CallArgument.prototype.value = undefined
 
-    /**
-     * Gas price for sending the transaction
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.gasPrice = undefined
-
-    /**
-     * Data attached to and used for executing the outgoing transaction
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.input = undefined
-
-    /**
-     * No. of current user’s previous transactions
-     * @type {Number}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.nonce = undefined
-
-    /**
-     * RLP serialization value of the transaction
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.rlp = undefined
-
-    /**
-     * @type {Array.<Signature>}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.signatures = undefined
-
-    /**
-     * Status of the transaction(“Submitted” or “Pending”)
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.status = undefined
-
-    /**
-     * Transaction hash value
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.transactionHash = undefined
-
-    /**
-     * Numeric value of transaction type
-     * @type {Number}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.typeInt = undefined
-
-    /**
-     * KLAY converted into PEB unit
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.value = undefined
-
-    /**
-     * Klaytn account address to receive KLAY
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.to = undefined
-
-    /**
-     * @type {Number}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.code = undefined
-
-    /**
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.message = undefined
-
-    /**
-     * Multisig transaction ID
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.transactionId = undefined
-
-    /**
-     * Updated account key
-     * @type {String}
-     * @memberof TransactionResult
-     */
-    TransactionResult.prototype.accountKey = undefined
-
-    return TransactionResult
+    return CallArgument
 })

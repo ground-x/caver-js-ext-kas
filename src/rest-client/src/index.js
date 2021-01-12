@@ -78,7 +78,11 @@
             './wallet/model/Accounts',
             './wallet/model/AccountsByPubkey',
             './wallet/model/AnchorTransactionRequest',
+            './wallet/model/CallArgument',
             './wallet/model/CancelTransactionRequest',
+            './wallet/model/ContractCallData',
+            './wallet/model/ContractCallRequest',
+            './wallet/model/ContractCallResponse',
             './wallet/model/ContractDeployTransactionRequest',
             './wallet/model/ContractExecutionTransactionRequest',
             './wallet/model/EmptyUpdateKeyType',
@@ -99,7 +103,6 @@
             './wallet/model/FDUserProcessRLPRequest',
             './wallet/model/FDUserValueTransferTransactionRequest',
             './wallet/model/FDValueTransferTransactionRequest',
-            './wallet/model/Failures',
             './wallet/model/FeePayerSignaturesObj',
             './wallet/model/Key',
             './wallet/model/KeyCreationRequest',
@@ -121,7 +124,7 @@
             './wallet/model/RoleBasedUpdateKeyType',
             './wallet/model/SignPendingTransactionBySigRequest',
             './wallet/model/Signature',
-            './wallet/model/StatusResponse',
+            './wallet/model/RegistrationStatusResponse',
             './wallet/model/TransactionReceipt',
             './wallet/model/TransactionResult',
             './wallet/model/TxData',
@@ -199,7 +202,11 @@
             require('./wallet/model/Accounts'),
             require('./wallet/model/AccountsByPubkey'),
             require('./wallet/model/AnchorTransactionRequest'),
+            require('./wallet/model/CallArgument'),
             require('./wallet/model/CancelTransactionRequest'),
+            require('./wallet/model/ContractCallData'),
+            require('./wallet/model/ContractCallRequest'),
+            require('./wallet/model/ContractCallResponse'),
             require('./wallet/model/ContractDeployTransactionRequest'),
             require('./wallet/model/ContractExecutionTransactionRequest'),
             require('./wallet/model/EmptyUpdateKeyType'),
@@ -220,7 +227,6 @@
             require('./wallet/model/FDUserProcessRLPRequest'),
             require('./wallet/model/FDUserValueTransferTransactionRequest'),
             require('./wallet/model/FDValueTransferTransactionRequest'),
-            require('./wallet/model/Failures'),
             require('./wallet/model/FeePayerSignaturesObj'),
             require('./wallet/model/Key'),
             require('./wallet/model/KeyCreationRequest'),
@@ -242,7 +248,7 @@
             require('./wallet/model/RoleBasedUpdateKeyType'),
             require('./wallet/model/SignPendingTransactionBySigRequest'),
             require('./wallet/model/Signature'),
-            require('./wallet/model/StatusResponse'),
+            require('./wallet/model/RegistrationStatusResponse'),
             require('./wallet/model/TransactionReceipt'),
             require('./wallet/model/TransactionResult'),
             require('./wallet/model/TxData'),
@@ -319,7 +325,11 @@
     Accounts,
     AccountsByPubkey,
     AnchorTransactionRequest,
+    CallArgument,
     CancelTransactionRequest,
+    ContractCallData,
+    ContractCallRequest,
+    ContractCallResponse,
     ContractDeployTransactionRequest,
     ContractExecutionTransactionRequest,
     EmptyUpdateKeyType,
@@ -340,7 +350,6 @@
     FDUserProcessRLPRequest,
     FDUserValueTransferTransactionRequest,
     FDValueTransferTransactionRequest,
-    Failures,
     FeePayerSignaturesObj,
     Key,
     KeyCreationRequest,
@@ -362,7 +371,7 @@
     RoleBasedUpdateKeyType,
     SignPendingTransactionBySigRequest,
     Signature,
-    StatusResponse,
+    RegistrationStatusResponse,
     TransactionReceipt,
     TransactionResult,
     TxData,
@@ -664,10 +673,30 @@
          */
         AnchorTransactionRequest: AnchorTransactionRequest,
         /**
+         * The CallArgument model constructor.
+         * @property {CallArgument}
+         */
+        CallArgument: CallArgument,
+        /**
          * The CancelTransactionRequest model constructor.
          * @property {CancelTransactionRequest}
          */
         CancelTransactionRequest: CancelTransactionRequest,
+        /**
+         * The ContractCallData model constructor.
+         * @property {ContractCallData}
+         */
+        ContractCallData: ContractCallData,
+        /**
+         * The ContractCallRequest model constructor.
+         * @property {ContractCallRequest}
+         */
+        ContractCallRequest: ContractCallRequest,
+        /**
+         * The ContractCallResponse model constructor.
+         * @property {ContractCallResponse}
+         */
+        ContractCallResponse: ContractCallResponse,
         /**
          * The ContractDeployTransactionRequest model constructor.
          * @property {ContractDeployTransactionRequest}
@@ -768,11 +797,6 @@
          * @property {FDValueTransferTransactionRequest}
          */
         FDValueTransferTransactionRequest: FDValueTransferTransactionRequest,
-        /**
-         * The Failures model constructor.
-         * @property {Failures}
-         */
-        Failures: Failures,
         /**
          * The FeePayerSignaturesObj model constructor.
          * @property {FeePayerSignaturesObj}
@@ -879,10 +903,10 @@
          */
         Signature: Signature,
         /**
-         * The StatusResponse model constructor.
-         * @property {StatusResponse}
+         * The RegistrationStatusResponse model constructor.
+         * @property {RegistrationStatusResponse}
          */
-        StatusResponse: StatusResponse,
+        RegistrationStatusResponse: RegistrationStatusResponse,
         /**
          * The TransactionReceipt model constructor.
          * @property {TransactionReceipt}

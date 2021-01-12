@@ -40,8 +40,9 @@ class WalletQueryOptions {
         const toTimestamp = obj.toTimestamp || obj['to-timestamp']
 
         const cursor = obj.cursor
+        const status = obj.status
 
-        return new WalletQueryOptions(size, fromTimestamp, toTimestamp, cursor)
+        return new WalletQueryOptions(size, fromTimestamp, toTimestamp, cursor, status)
     }
 
     /**
@@ -51,12 +52,14 @@ class WalletQueryOptions {
      * @param {number|string|Date} fromTimestamp - The starting date of the data to be queried.
      * @param {number|string|Date} toTimestamp - The ending date of the data to be queried.
      * @param {string} cursor - Information of the last retrieved cursor.
+     * @param {string} status - The status of account.
      */
-    constructor(size, fromTimestamp, toTimestamp, cursor) {
+    constructor(size, fromTimestamp, toTimestamp, cursor, status) {
         if (size !== undefined) this.size = size
         if (fromTimestamp !== undefined) this.fromTimestamp = fromTimestamp
         if (toTimestamp !== undefined) this.toTimestamp = toTimestamp
         if (cursor !== undefined) this.cursor = cursor
+        if (status !== undefined) this.status = status
     }
 
     /**
@@ -103,8 +106,27 @@ class WalletQueryOptions {
     }
 
     set cursor(cursor) {
-        if (!lodash.isString(cursor)) throw new Error(`Invalid type of cursor: cursor should be number type.`)
+        if (!lodash.isString(cursor)) throw new Error(`Invalid type of cursor: cursor should be string type.`)
         this._cursor = cursor
+    }
+
+    /**
+     * @type {string}
+     */
+    get status() {
+        return this._status
+    }
+
+    set status(status) {
+        if (!lodash.isString(status)) throw new Error(`Invalid type of status: status should be string type.`)
+
+        const statusCandidates = ['enabled', 'disabled', 'all', 'corrupted']
+        if (!statusCandidates.includes(status.toLowerCase()))
+            throw new Error(
+                `Invalid status. The status can specify the token contact status to search among 'enabled', 'disabled', 'corrupted' or 'all'.`
+            )
+
+        this._status = status
     }
 
     /**
@@ -121,6 +143,13 @@ class WalletQueryOptions {
         }
         return true
     }
+}
+
+WalletQueryOptions.status = {
+    ENABLED: 'enabled',
+    DISABLED: 'disabled',
+    ALL: 'all',
+    CORRUPTED: 'corrupted',
 }
 
 module.exports = WalletQueryOptions

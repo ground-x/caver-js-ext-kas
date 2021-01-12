@@ -15,7 +15,6 @@
  */
 
 const _ = require('lodash')
-const fs = require('fs')
 const utils = require('caver-js').utils
 
 const {
@@ -24,6 +23,9 @@ const {
     FeeDelegatedTransactionPaidByKASApi,
     FeeDelegatedTransactionPaidByUserApi,
     MultisigTransactionManagementApi,
+    KeyApi,
+    RegistrationApi,
+    StatisticsApi,
     MultisigAccountUpdateRequest,
     LegacyTransactionRequest,
     ValueTransferTransactionRequest,
@@ -53,13 +55,10 @@ const {
     Key,
     KeyCreationRequest,
     KeyCreationResponse,
-    KeyApi,
-    RegistrationApi,
-    StatisticsApi,
+    ContractCallRequest,
 } = require('../../rest-client/src')
 const WalletQueryOptions = require('./walletQueryOptions')
 const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey } = require('../../utils/helper')
-const KeyringContainer = require('caver-js/packages/caver-wallet')
 
 const NOT_INIT_API_ERR_MSG = `Wallet API is not initialized. Use 'caver.initWalletAPI' function to initialize Wallet API.`
 const INCORRECT_MIGRATE_ACCOUNTS = `You must pass a list of accounts as an argument.`
@@ -250,7 +249,7 @@ class Wallet {
      * await caver.kas.wallet.migarateAccounts([{address:'{{address}}', key:'{{private_keys}}'}]) <br>
      *
      * @param {MigrationAccount[]} accounts An array of account objects migrated into KAS.
-     * @return {StatusResponse}
+     * @return {RegistrationStatusResponse}
      */
     async migrateAccounts(accounts) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -365,8 +364,8 @@ class Wallet {
         }
 
         queryOptions = WalletQueryOptions.constructFromObject(queryOptions || {})
-        if (!queryOptions.isValidOptions(['size', 'cursor', 'fromTimestamp', 'toTimestamp']))
-            throw new Error(`Invalid query options: 'size', 'cursor', 'fromTimestamp' or 'toTimestamp' can be used.`)
+        if (!queryOptions.isValidOptions(['size', 'cursor', 'fromTimestamp', 'toTimestamp', 'status']))
+            throw new Error(`Invalid query options: 'size', 'cursor', 'fromTimestamp', 'toTimestamp' or 'status' can be used.`)
 
         return new Promise((resolve, reject) => {
             this.accountApi.retrieveAccounts(this.chainId, queryOptions, (err, data, response) => {
@@ -808,6 +807,60 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.basicTransactionApi.transactionReceipt(this.chainId, transactionHash, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Call the contract. You can view certain value in the contract and validate that you can submit executable transaction.<br>
+     * POST /v2/tx/contract/call
+     *
+     * @param {string} contractAddress The krn string to search.
+     * @param {string} methodName The method name to call.
+     * @param {Array.<object>} [callArguments] `type` and `value` are defined. The ABI type can be `uint256`, `uint32`, `string`, `bool`, `address`, `uint64[2]` and `address[]`. The value can be `number`, `string`, `array` and `boolean`.
+     * @param {object} [sendOptions] `from`, `gas` and `value` can be defined.
+     * @param {Function} [callback] The callback function to call.
+     * @return {ContractCallResponse}
+     */
+    callContract(contractAddress, methodName, callArguments, sendOptions, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(sendOptions)) {
+            if (callback) {
+                if (_.isFunction(callback)) throw new Error(`Invalid sendOptions: ${sendOptions}`)
+                throw new Error(`Invalid callback: ${callback}`)
+            }
+            callback = sendOptions
+            sendOptions = undefined
+        }
+        if (callArguments !== undefined && !_.isArray(callArguments)) {
+            if (_.isObject(callArguments) && !sendOptions) {
+                sendOptions = callArguments
+                callArguments = []
+            } else {
+                throw new Error(`Invalid callArguments: ${callArguments}`)
+            }
+        }
+
+        if (!utils.isAddress(contractAddress)) throw new Error(`Invalid contract address: ${contractAddress}`)
+        if (!_.isString(methodName)) throw new Error(`Invalid method name: ${methodName}`)
+
+        callArguments = callArguments || []
+        sendOptions = sendOptions || {}
+        if (sendOptions.value !== undefined) sendOptions.value = utils.toHex(sendOptions.value)
+
+        const obj = Object.assign({ ...sendOptions }, { to: contractAddress, data: { methodName, arguments: callArguments } })
+        const body = ContractCallRequest.constructFromObject(obj)
+        body.data.arguments = body.data._arguments
+        delete body.data._arguments
+
+        return new Promise((resolve, reject) => {
+            this.basicTransactionApi.contractCall(this.chainId, { body }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1367,6 +1420,118 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.statisticsApi.getAccountCountByKRN(this.chainId, { xKrn: krn }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    // Key Api
+
+    /**
+     * Create keys in KAS. <br>
+     * POST /v2/key
+     *
+     * @param {number} numberOfKeys The number of keys to create.
+     * @param {Function} [callback] The callback function to call.
+     * @return {KeyCreationResponse}
+     */
+    createKeys(numberOfKeys, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isNumber(numberOfKeys)) throw new Error(`Invalid numberOfKeys. You should pass number type parameter.`)
+
+        const body = KeyCreationRequest.constructFromObject({ size: numberOfKeys })
+
+        return new Promise((resolve, reject) => {
+            this.keyApi.keyCreation(this.chainId, { body }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Find key information from KAS. <br>
+     * GET /v2/key/{key-id}
+     *
+     * @param {string} keyId The key id to find from KAS.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Key}
+     */
+    getKey(keyId, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(keyId)) throw new Error(`Invalid keyId. You should pass string type parameter.`)
+
+        return new Promise((resolve, reject) => {
+            this.keyApi.getKey(this.chainId, keyId, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Sign the data using key. <br>
+     * POST /v2/key/{key-id}/sign
+     *
+     * @param {string} keyId The key id to use for signing.
+     * @param {string} dataToSign The data to sign.
+     * @param {string} [krn] The krn string.
+     * @param {Function} [callback] The callback function to call.
+     * @return {KeySignDataResponse}
+     */
+    signMessage(keyId, dataToSign, krn, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(keyId)) throw new Error(`Invalid keyId. You should pass string type parameter.`)
+        if (!_.isString(dataToSign)) throw new Error(`Invalid data. You should pass string type parameter.`)
+
+        if (_.isFunction(krn)) {
+            callback = krn
+            krn = undefined
+        }
+
+        return new Promise((resolve, reject) => {
+            this.keyApi.keySignData(this.chainId, keyId, { body: { data: dataToSign }, xKrn: krn }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    // Registration Api
+
+    /**
+     * Register account which used before. <br>
+     * POST /v2/registration/account
+     *
+     * @param {Array.<object>} accounts The account information to be registered in KAS.
+     * @param {Function} [callback] The callback function to call.
+     * @return {RegistrationStatusResponse}
+     */
+    registerAccounts(accounts, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isArray(accounts)) throw new Error(`Invalid accounts. You should pass array type parameter.`)
+
+        for (const acct of accounts) {
+            if (!acct.keyId || !acct.address) throw new Error(`Invalid account information. The keyId and address should be defined.`)
+            if (!Object.keys(acct).every(key => ['keyId', 'address', 'rlp'].includes(key)))
+                throw new Error(`Invalid field is defined in ${JSON.stringify(acct)}`)
+        }
+
+        return new Promise((resolve, reject) => {
+            this.registrationApi.registerAccount(this.chainId, { body: accounts }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
