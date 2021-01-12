@@ -1516,7 +1516,7 @@ class Wallet {
      * Register account which used before. <br>
      * POST /v2/registration/account
      *
-     * @param {Array.<object>} accounts The key id to use for signing.
+     * @param {Array.<object>} accounts The account information to be registered in KAS.
      * @param {Function} [callback] The callback function to call.
      * @return {RegistrationStatusResponse}
      */
