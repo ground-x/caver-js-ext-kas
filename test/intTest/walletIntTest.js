@@ -3723,6 +3723,14 @@ describe('Wallet API service', () => {
 
     // it('CAVERJS-EXT-KAS-INT-246: caver.kas.wallet.registerAccounts should register accounts in KAS', async () => {
     //     const keyWithRLP = caver.keyringContainer.keyring.generate()
+    //     const account = keyWithRLP.toAccount()
+    //     const feeDelegatedAccountUpdate = new caver.transaction.feeDelegatedAccountUpdate({
+    //         from: keyWithRLP.address,
+    //         account,
+    //         gas: 100000,
+    //     })
+
+    //     await feeDelegatedAccountUpdate.sign(keyWithRLP)
     //     const accounts = [
     //         {
     //             keyId,
@@ -3731,13 +3739,12 @@ describe('Wallet API service', () => {
     //         {
     //             keyId,
     //             address: keyWithRLP.address,
-    //             rlp: keyWithRLP.toAccount().accountKey.getRLPEncoding(),
+    //             rlp: feeDelegatedAccountUpdate.getRLPEncoding(),
     //         },
     //     ]
     //     const ret = await caver.kas.wallet.registerAccounts(accounts)
 
-    //     expect(ret.status).not.equal('ok')
-    //     expect(ret.failures).not.to.be.undefined
-    //     expect(ret.failures[keyWithRLP.address]).not.to.be.undefined
+    //     expect(ret.status).to.equal('ok')
+    //     expect(ret.failures).to.be.undefined
     // }).timeout(500000)
 })
