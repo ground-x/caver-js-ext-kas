@@ -134,7 +134,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     deploy(name, symbol, alias, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(name) || !_.isString(symbol)) throw new Error(`The name and symbol of KIP-17 token contract should be string type.`)
 
         if (_.isFunction(alias)) {
@@ -168,7 +168,7 @@ class KIP17 {
      * @return {Kip17ContractListResponse}
      */
     getContractList(queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -198,7 +198,7 @@ class KIP17 {
      * @return {Kip17ContractInfoResponse}
      */
     getContract(addressOrAlias, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
 
         return new Promise((resolve, reject) => {
@@ -224,7 +224,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     mint(addressOrAlias, to, tokenId, tokenURI, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!utils.isAddress(to)) throw new Error(`Invalid address format: ${to}`)
         if (!_.isString(tokenURI)) throw new Error(`The token URI should be string type.`)
@@ -257,7 +257,7 @@ class KIP17 {
      * @return {ListKip17TokensResponse}
      */
     getTokenList(addressOrAlias, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
 
         if (_.isFunction(queryOptions)) {
@@ -289,7 +289,7 @@ class KIP17 {
      * @return {GetKip17TokenResponse}
      */
     getToken(addressOrAlias, tokenId, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
@@ -319,7 +319,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     transfer(addressOrAlias, tokenId, sender, owner, to, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
         if (!utils.isAddress(sender)) throw new Error(`Invalid address format: ${sender}`)
@@ -354,7 +354,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     burn(addressOrAlias, tokenId, from, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
         if (!utils.isAddress(from)) throw new Error(`Invalid address format: ${from}`)
@@ -389,7 +389,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     approve(addressOrAlias, tokenId, from, to, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
         if (!utils.isAddress(from)) throw new Error(`Invalid address format: ${from}`)
@@ -423,7 +423,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     approveAll(addressOrAlias, from, to, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!utils.isAddress(from)) throw new Error(`Invalid address format: ${from}`)
         if (!utils.isAddress(to)) throw new Error(`Invalid address format: ${to}`)
@@ -454,7 +454,7 @@ class KIP17 {
      * @return {GetOwnerKip17TokensResponse}
      */
     getTokenListByOwner(addressOrAlias, tokenId, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
@@ -490,7 +490,7 @@ class KIP17 {
      * @return {GetKip17TokenHistoryResponse}
      */
     getTransferHistory(addressOrAlias, tokenId, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
