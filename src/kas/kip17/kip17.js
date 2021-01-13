@@ -419,17 +419,18 @@ class KIP17 {
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string} from The address of owner.
      * @param {string} to The address of EOA to be approved.
+     * @param {boolean} approved A boolean value to set; true for approval, false for revocation.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip17TransactionStatusResponse}
      */
-    approveAll(addressOrAlias, from, to, callback) {
+    approveAll(addressOrAlias, from, to, approved, callback) {
         if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!utils.isAddress(from)) throw new Error(`Invalid address format: ${from}`)
         if (!utils.isAddress(to)) throw new Error(`Invalid address format: ${to}`)
 
         const opts = {
-            body: ApproveAllKip17Request.constructFromObject({ from, to }),
+            body: ApproveAllKip17Request.constructFromObject({ from, to, approved }),
         }
 
         return new Promise((resolve, reject) => {
