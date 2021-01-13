@@ -40,10 +40,12 @@
      * @class
      * @param from {String} Owner EOA address
      * @param to {String} EOA address receiving the approval
+     * @param approved {Boolean} Boolean value to set; true for approval, false for revocation
      */
-    const ApproveAllKip17Request = function(from, to) {
+    const ApproveAllKip17Request = function(from, to, approved) {
         this.from = from
         this.to = to
+        this.approved = approved
     }
 
     /**
@@ -59,6 +61,7 @@
             obj = obj || new ApproveAllKip17Request()
             if (data.hasOwnProperty('from')) obj.from = ApiClient.convertToType(data.from, 'String')
             if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
+            if (data.hasOwnProperty('approved')) obj.approved = ApiClient.convertToType(data.approved, 'Boolean')
         }
         return obj
     }
@@ -76,6 +79,13 @@
      * @memberof ApproveAllKip17Request
      */
     ApproveAllKip17Request.prototype.to = undefined
+
+    /**
+     * Boolean value to set; true for approval, false for revocation
+     * @type {Boolean}
+     * @memberof ApproveAllKip17Request
+     */
+    ApproveAllKip17Request.prototype.approved = undefined
 
     return ApproveAllKip17Request
 })

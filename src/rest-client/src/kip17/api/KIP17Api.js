@@ -150,7 +150,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = Kip17TransactionStatusResponse
@@ -221,7 +221,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = Kip17TransactionStatusResponse
@@ -292,7 +292,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = Kip17TransactionStatusResponse
@@ -348,7 +348,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = Kip17TransactionStatusResponse
@@ -409,7 +409,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = Kip17ContractInfoResponse
@@ -484,7 +484,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = GetOwnerKip17TokensResponse
@@ -552,7 +552,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = GetKip17TokenResponse
@@ -627,7 +627,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = GetKip17TokenHistoryResponse
@@ -687,7 +687,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = Kip17ContractListResponse
@@ -755,7 +755,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = Kip17TokenListResponse
@@ -819,7 +819,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = Kip17TransactionStatusResponse
@@ -890,7 +890,7 @@
             }
             const formParams = {}
 
-            const authNames = []
+            const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
             const returnType = Kip17TransactionStatusResponse
