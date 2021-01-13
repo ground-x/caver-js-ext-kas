@@ -63,7 +63,6 @@
             if (data.hasOwnProperty('alias')) obj.alias = ApiClient.convertToType(data.alias, 'String')
             if (data.hasOwnProperty('name')) obj.name = ApiClient.convertToType(data.name, 'String')
             if (data.hasOwnProperty('symbol')) obj.symbol = ApiClient.convertToType(data.symbol, 'String')
-            if (data.hasOwnProperty('totalSupply')) obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'Number')
         }
         return obj
     }
@@ -94,12 +93,6 @@
      * @memberof Kip17ContractInfoResponse
      */
     Kip17ContractInfoResponse.prototype.symbol = undefined
-
-    /**
-     * @type {Number}
-     * @memberof Kip17ContractInfoResponse
-     */
-    Kip17ContractInfoResponse.prototype.totalSupply = undefined
 
     return Kip17ContractInfoResponse
 })
