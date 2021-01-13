@@ -10,6 +10,7 @@ caver-js-ext-kas is [caver-js](https://github.com/klaytn/caver-js)'s extension l
 	  * [Use Token History API](#use-token-history-api)
 	  * [Use Wallet API](#use-wallet-api)
 	  * [Use Anchor API](#use-anchor-api)
+	  * [Use KIP17 API](#use-kip17-api)
 	  * [Use KIP7, KIP17 and Contract with a Klaytn account in KAS Wallet API](#use-kip7-kip17-and-contract-with-a-klaytn-account-in-kas-wallet-api)
 
 ## Build/Install
@@ -59,9 +60,9 @@ $ npm run test
 
 ### Set Auth
 
-You can use KAS' Node API, Token History API, Wallet API, and Anchor API through this library. To use KAS, you need your "access key id", "secret access key" and chain id of the Klaytn blochain network.
+You can use KAS' Node API, Token History API, Wallet API, Anchor API and KIP17 API through this library. To use KAS, you need your "access key id", "secret access key" and chain id of the Klaytn blochain network.
 
-Set your authorization using the `constructor` or the `caver.initKASAPI` function as shown below. Below code sets the authentication key used by the node api, token history api, wallet api and anchor api at once.
+Set your authorization using the `constructor` or the `caver.initKASAPI` function as shown below. Below code sets the authentication key used by the node api, token history api, wallet api, anchor api and kip17 api at once.
 
 ```javascript
 // Set an authorization through constructor
@@ -74,7 +75,7 @@ const caver = new CaverExtKAS()
 caver.initKASAPI(chainId, accessKeyId, secretAccessKey)
 ```
 
-The following describes how to set auth key for each node, tokenHistory, wallet, and anchor api.
+The following describes how to set auth key for each node, tokenHistory, wallet, anchor and kip17 api.
 
 Each initialization function is provided so that you can pass an optional endpoint url as the last parameter. If the endpoint url is not passed as the last parameter, the KAS production url is set by default.
 
@@ -83,6 +84,7 @@ caver.initNodeAPI(chainId, accessKeyId, secretAccessKey [, url])
 caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey [, url])
 caver.initWalletAPI(chainId, accessKeyId, secretAccessKey [, url])
 caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey [, url])
+caver.initKIP17API(chainId, accessKeyId, secretAccessKey [, url])
 ```
 
 `caver.wallet` in [CaverExtKAS](https://refs.klaytnapi.com/en/sdk/js/latest/CaverExtKAS.html) is a [KASWallet](https://refs.klaytnapi.com/en/sdk/js/latest/KASWallet.html) that internally connects the [KAS Wallet API](https://refs.klaytnapi.com/en/sdk/js/latest/Wallet.html) since [caver-js-ext-kas v1.0.2](https://www.npmjs.com/package/caver-js-ext-kas/v/1.0.2).
@@ -167,6 +169,20 @@ The query options used in the anchor api can be used as follows.
 
 ```javascript
 const queryOptions = new caver.kas.anchor.queryOptions({ size, fromTimestamp, toTimestamp, ... })
+console.log(queryOptions)
+```
+
+### Use KIP17 API
+
+You can now use KAS's KIP17 API through caver-js-ext-kas. You can send a KIP17 API request to the KAS as shown below and check the results.
+
+```javascript
+```
+
+The query options used in the kip17 api can be used as follows.
+
+```javascript
+const queryOptions = new caver.kas.kip17.queryOptions({ size, cursor })
 console.log(queryOptions)
 ```
 
