@@ -23,6 +23,7 @@ const productionEndpoints = {
     wallet: 'https://wallet-api.klaytnapi.com',
     anchor: 'https://anchor-api.klaytnapi.com',
     tokenHistory: 'https://th-api.klaytnapi.com',
+    kip17: 'https://kip17-api.klaytnapi.com',
 }
 
 /**
@@ -196,7 +197,7 @@ class CaverExtKAS extends Caver {
      * @param {string} [url] The end point url.
      * @return {void}
      */
-    initKIP17API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.anchor) {
+    initKIP17API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip17) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
     }
