@@ -112,6 +112,7 @@ class CaverExtKAS extends Caver {
         this.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey)
         this.initWalletAPI(chainId, accessKeyId, secretAccessKey)
         this.initAnchorAPI(chainId, accessKeyId, secretAccessKey)
+        this.initKIP17API(chainId, accessKeyId, secretAccessKey)
     }
 
     /**
@@ -184,6 +185,20 @@ class CaverExtKAS extends Caver {
     initAnchorAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.anchor) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initAnchorAPI(chainId, accessKeyId, secretAccessKey, url)
+    }
+
+    /**
+     * Sets chain id and authentication key for KIP17 API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initKIP17API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.anchor) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+        this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
     }
 }
 
