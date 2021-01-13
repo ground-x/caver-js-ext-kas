@@ -40,12 +40,10 @@
      * @class
      * @param cursor {String} Offset for the next batch
      * @param items {Array.<Kip17TokenListResponseItem>}
-     * @param totalSize {Number} Total number of tokens minted from this contract
      */
-    const Kip17TokenListResponse = function(cursor, items, totalSize) {
+    const Kip17TokenListResponse = function(cursor, items) {
         this.cursor = cursor
         this.items = items
-        this.totalSize = totalSize
     }
 
     /**
@@ -61,7 +59,6 @@
             obj = obj || new Kip17TokenListResponse()
             if (data.hasOwnProperty('cursor')) obj.cursor = ApiClient.convertToType(data.cursor, 'String')
             if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [Kip17TokenListResponseItem])
-            if (data.hasOwnProperty('totalSize')) obj.totalSize = ApiClient.convertToType(data.totalSize, 'Number')
         }
         return obj
     }
@@ -78,13 +75,6 @@
      * @memberof Kip17TokenListResponse
      */
     Kip17TokenListResponse.prototype.items = undefined
-
-    /**
-     * Total number of tokens minted from this contract
-     * @type {Number}
-     * @memberof Kip17TokenListResponse
-     */
-    Kip17TokenListResponse.prototype.totalSize = undefined
 
     return Kip17TokenListResponse
 })
