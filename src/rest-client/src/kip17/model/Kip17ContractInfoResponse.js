@@ -1,5 +1,5 @@
 /*
- * KIP-17 API Docs-EN
+ * KIP-17 API
  *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
@@ -22,80 +22,84 @@
         module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
-        if (!root.Kip17ApiDocsEn) {
-            root.Kip17ApiDocsEn = {}
+        if (!root.Kip17Api) {
+            root.Kip17Api = {}
         }
-        root.Kip17ApiDocsEn.ContractInfoResponse = factory(root.Kip17ApiDocsEn.ApiClient)
+        root.Kip17Api.Kip17ContractInfoResponse = factory(root.Kip17Api.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The ContractInfoResponse model module.
-     * @class ContractInfoResponse
+     * The Kip17ContractInfoResponse model module.
+     * @class Kip17ContractInfoResponse
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>ContractInfoResponse</code>.
-     * @alias ContractInfoResponse
+     * Constructs a new <code>Kip17ContractInfoResponse</code>.
+     * @alias Kip17ContractInfoResponse
      * @class
-     * @param address {String} Contract address
      * @param alias {String} Contract alias
      * @param name {String} Token name
      * @param symbol {String} Token symbol
      */
-    const ContractInfoResponse = function(address, alias, name, symbol) {
-        this.address = address
+    const Kip17ContractInfoResponse = function(alias, name, symbol) {
         this.alias = alias
         this.name = name
         this.symbol = symbol
     }
 
     /**
-     * Constructs a <code>ContractInfoResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip17ContractInfoResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {ContractInfoResponse} obj Optional instance to populate.
-     * @return {ContractInfoResponse} The populated <code>ContractInfoResponse</code> instance.
-     * @memberof ContractInfoResponse
+     * @param {Kip17ContractInfoResponse} obj Optional instance to populate.
+     * @return {Kip17ContractInfoResponse} The populated <code>Kip17ContractInfoResponse</code> instance.
+     * @memberof Kip17ContractInfoResponse
      */
-    ContractInfoResponse.constructFromObject = function(data, obj) {
+    Kip17ContractInfoResponse.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new ContractInfoResponse()
+            obj = obj || new Kip17ContractInfoResponse()
             if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
             if (data.hasOwnProperty('alias')) obj.alias = ApiClient.convertToType(data.alias, 'String')
             if (data.hasOwnProperty('name')) obj.name = ApiClient.convertToType(data.name, 'String')
             if (data.hasOwnProperty('symbol')) obj.symbol = ApiClient.convertToType(data.symbol, 'String')
+            if (data.hasOwnProperty('totalSupply')) obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'Number')
         }
         return obj
     }
 
     /**
-     * Contract address
      * @type {String}
-     * @memberof ContractInfoResponse
+     * @memberof Kip17ContractInfoResponse
      */
-    ContractInfoResponse.prototype.address = undefined
+    Kip17ContractInfoResponse.prototype.address = undefined
 
     /**
      * Contract alias
      * @type {String}
-     * @memberof ContractInfoResponse
+     * @memberof Kip17ContractInfoResponse
      */
-    ContractInfoResponse.prototype.alias = undefined
+    Kip17ContractInfoResponse.prototype.alias = undefined
 
     /**
      * Token name
      * @type {String}
-     * @memberof ContractInfoResponse
+     * @memberof Kip17ContractInfoResponse
      */
-    ContractInfoResponse.prototype.name = undefined
+    Kip17ContractInfoResponse.prototype.name = undefined
 
     /**
      * Token symbol
      * @type {String}
-     * @memberof ContractInfoResponse
+     * @memberof Kip17ContractInfoResponse
      */
-    ContractInfoResponse.prototype.symbol = undefined
+    Kip17ContractInfoResponse.prototype.symbol = undefined
 
-    return ContractInfoResponse
+    /**
+     * @type {Number}
+     * @memberof Kip17ContractInfoResponse
+     */
+    Kip17ContractInfoResponse.prototype.totalSupply = undefined
+
+    return Kip17ContractInfoResponse
 })

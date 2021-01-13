@@ -139,20 +139,23 @@
             './wallet/api/StatisticsApi',
 
             // KIP17
-            './kip17/model/ApproveAllRequest',
-            './kip17/model/ApproveTokenRequest',
-            './kip17/model/BurnTokenRequest',
-            './kip17/model/ContractInfoResponse',
-            './kip17/model/DeployContractRequest',
-            './kip17/model/GetOwnerTokensResponse',
-            './kip17/model/GetTokenHistoryResponse',
-            './kip17/model/GetTokenResponse',
-            './kip17/model/ListContractsResponse',
-            './kip17/model/ListTokensResponse',
-            './kip17/model/MintTokenRequest',
-            './kip17/model/TokenHistoryResponse',
-            './kip17/model/TransactionStatusResponse',
-            './kip17/model/TransferTokenRequest',
+            './kip17/model/ApproveAllKip17Request',
+            './kip17/model/ApproveKip17TokenRequest',
+            './kip17/model/BurnKip17TokenRequest',
+            './kip17/model/DeployKip17ContractRequest',
+            './kip17/model/GetKip17TokenHistoryResponse',
+            './kip17/model/GetKip17TokenHistoryResponseItem',
+            './kip17/model/GetKip17TokenResponse',
+            './kip17/model/GetOwnerKip17TokensResponse',
+            './kip17/model/GetOwnerKip17TokensResponseItem',
+            './kip17/model/Kip17ContractInfoResponse',
+            './kip17/model/Kip17ContractListResponse',
+            './kip17/model/Kip17ContractListResponseItem',
+            './kip17/model/Kip17TokenListResponse',
+            './kip17/model/Kip17TokenListResponseItem',
+            './kip17/model/Kip17TransactionStatusResponse',
+            './kip17/model/MintKip17TokenRequest',
+            './kip17/model/TransferKip17TokenRequest',
             './kip17/api/KIP17Api',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
@@ -280,20 +283,23 @@
             require('./wallet/api/StatisticsApi'),
 
             // KIP17
-            require('./kip17/model/ApproveAllRequest'),
-            require('./kip17/model/ApproveTokenRequest'),
-            require('./kip17/model/BurnTokenRequest'),
-            require('./kip17/model/ContractInfoResponse'),
-            require('./kip17/model/DeployContractRequest'),
-            require('./kip17/model/GetOwnerTokensResponse'),
-            require('./kip17/model/GetTokenHistoryResponse'),
-            require('./kip17/model/GetTokenResponse'),
-            require('./kip17/model/ListContractsResponse'),
-            require('./kip17/model/ListTokensResponse'),
-            require('./kip17/model/MintTokenRequest'),
-            require('./kip17/model/TokenHistoryResponse'),
-            require('./kip17/model/TransactionStatusResponse'),
-            require('./kip17/model/TransferTokenRequest'),
+            require('./kip17/model/ApproveAllKip17Request'),
+            require('./kip17/model/ApproveKip17TokenRequest'),
+            require('./kip17/model/BurnKip17TokenRequest'),
+            require('./kip17/model/DeployKip17ContractRequest'),
+            require('./kip17/model/GetKip17TokenHistoryResponse'),
+            require('./kip17/model/GetKip17TokenHistoryResponseItem'),
+            require('./kip17/model/GetKip17TokenResponse'),
+            require('./kip17/model/GetOwnerKip17TokensResponse'),
+            require('./kip17/model/GetOwnerKip17TokensResponseItem'),
+            require('./kip17/model/Kip17ContractInfoResponse'),
+            require('./kip17/model/Kip17ContractListResponse'),
+            require('./kip17/model/Kip17ContractListResponseItem'),
+            require('./kip17/model/Kip17TokenListResponse'),
+            require('./kip17/model/Kip17TokenListResponseItem'),
+            require('./kip17/model/Kip17TransactionStatusResponse'),
+            require('./kip17/model/MintKip17TokenRequest'),
+            require('./kip17/model/TransferKip17TokenRequest'),
             require('./kip17/api/KIP17Api')
         )
     }
@@ -418,20 +424,23 @@
     MultisigTransactionManagementApi,
     RegistrationApi,
     StatisticsApi,
-    ApproveAllRequest,
-    ApproveTokenRequest,
-    BurnTokenRequest,
-    ContractInfoResponse,
-    DeployContractRequest,
-    GetOwnerTokensResponse,
-    GetTokenHistoryResponse,
-    GetTokenResponse,
-    ListContractsResponse,
-    ListTokensResponse,
-    MintTokenRequest,
-    TokenHistoryResponse,
-    TransactionStatusResponse,
-    TransferTokenRequest,
+    ApproveAllKip17Request,
+    ApproveKip17TokenRequest,
+    BurnKip17TokenRequest,
+    DeployKip17ContractRequest,
+    GetKip17TokenHistoryResponse,
+    GetKip17TokenHistoryResponseItem,
+    GetKip17TokenResponse,
+    GetOwnerKip17TokensResponse,
+    GetOwnerKip17TokensResponseItem,
+    Kip17ContractInfoResponse,
+    Kip17ContractListResponse,
+    Kip17ContractListResponseItem,
+    Kip17TokenListResponse,
+    Kip17TokenListResponseItem,
+    Kip17TransactionStatusResponse,
+    MintKip17TokenRequest,
+    TransferKip17TokenRequest,
     KIP17Api
 ) {
     /**
@@ -1019,75 +1028,90 @@
 
         // KIP17
         /**
-         * The ApproveAllRequest model constructor.
-         * @property {ApproveAllRequest}
+         * The ApproveAllKip17Request model constructor.
+         * @property {ApproveAllKip17Request}
          */
-        ApproveAllRequest: ApproveAllRequest,
+        ApproveAllKip17Request: ApproveAllKip17Request,
         /**
-         * The ApproveTokenRequest model constructor.
-         * @property {ApproveTokenRequest}
+         * The ApproveKip17TokenRequest model constructor.
+         * @property {ApproveKip17TokenRequest}
          */
-        ApproveTokenRequest: ApproveTokenRequest,
+        ApproveKip17TokenRequest: ApproveKip17TokenRequest,
         /**
-         * The BurnTokenRequest model constructor.
-         * @property {BurnTokenRequest}
+         * The BurnKip17TokenRequest model constructor.
+         * @property {BurnKip17TokenRequest}
          */
-        BurnTokenRequest: BurnTokenRequest,
+        BurnKip17TokenRequest: BurnKip17TokenRequest,
         /**
-         * The ContractInfoResponse model constructor.
-         * @property {ContractInfoResponse}
+         * The DeployKip17ContractRequest model constructor.
+         * @property {DeployKip17ContractRequest}
          */
-        ContractInfoResponse: ContractInfoResponse,
+        DeployKip17ContractRequest: DeployKip17ContractRequest,
         /**
-         * The DeployContractRequest model constructor.
-         * @property {DeployContractRequest}
+         * The GetKip17TokenHistoryResponse model constructor.
+         * @property {GetKip17TokenHistoryResponse}
          */
-        DeployContractRequest: DeployContractRequest,
+        GetKip17TokenHistoryResponse: GetKip17TokenHistoryResponse,
         /**
-         * The GetOwnerTokensResponse model constructor.
-         * @property {GetOwnerTokensResponse}
+         * The GetKip17TokenHistoryResponseItem model constructor.
+         * @property {GetKip17TokenHistoryResponseItem}
          */
-        GetOwnerTokensResponse: GetOwnerTokensResponse,
+        GetKip17TokenHistoryResponseItem: GetKip17TokenHistoryResponseItem,
         /**
-         * The GetTokenHistoryResponse model constructor.
-         * @property {GetTokenHistoryResponse}
+         * The GetKip17TokenResponse model constructor.
+         * @property {GetKip17TokenResponse}
          */
-        GetTokenHistoryResponse: GetTokenHistoryResponse,
+        GetKip17TokenResponse: GetKip17TokenResponse,
         /**
-         * The GetTokenResponse model constructor.
-         * @property {GetTokenResponse}
+         * The GetOwnerKip17TokensResponse model constructor.
+         * @property {GetOwnerKip17TokensResponse}
          */
-        GetTokenResponse: GetTokenResponse,
+        GetOwnerKip17TokensResponse: GetOwnerKip17TokensResponse,
         /**
-         * The ListContractsResponse model constructor.
-         * @property {ListContractsResponse}
+         * The GetOwnerKip17TokensResponseItem model constructor.
+         * @property {GetOwnerKip17TokensResponseItem}
          */
-        ListContractsResponse: ListContractsResponse,
+        GetOwnerKip17TokensResponseItem: GetOwnerKip17TokensResponseItem,
         /**
-         * The ListTokensResponse model constructor.
-         * @property {ListTokensResponse}
+         * The Kip17ContractInfoResponse model constructor.
+         * @property {Kip17ContractInfoResponse}
          */
-        ListTokensResponse: ListTokensResponse,
+        Kip17ContractInfoResponse: Kip17ContractInfoResponse,
         /**
-         * The MintTokenRequest model constructor.
-         * @property {MintTokenRequest}
+         * The Kip17ContractListResponse model constructor.
+         * @property {Kip17ContractListResponse}
          */
-        MintTokenRequest: MintTokenRequest,
+        Kip17ContractListResponse: Kip17ContractListResponse,
         /**
-         * The TokenHistoryResponse model constructor.
-         * @property {TokenHistoryResponse}
+         * The Kip17ContractListResponseItem model constructor.
+         * @property {Kip17ContractListResponseItem}
          */
-        TokenHistoryResponse: TokenHistoryResponse,
+        Kip17ContractListResponseItem: Kip17ContractListResponseItem,
         /**
-         * The TransactionStatusResponse model constructor.
-         * @property {TransactionStatusResponse}
+         * The Kip17TokenListResponse model constructor.
+         * @property {Kip17TokenListResponse}
          */
-        TransactionStatusResponse: TransactionStatusResponse,
+        Kip17TokenListResponse: Kip17TokenListResponse,
         /**
-         * The TransferTokenRequest model constructor.
-         * @property {TransferTokenRequest}
+         * The Kip17TokenListResponseItem model constructor.
+         * @property {Kip17TokenListResponseItem}
          */
-        TransferTokenRequest: TransferTokenRequest,
+        Kip17TokenListResponseItem: Kip17TokenListResponseItem,
+        /**
+         * The Kip17TransactionStatusResponse model constructor.
+         * @property {Kip17TransactionStatusResponse}
+         */
+        Kip17TransactionStatusResponse: Kip17TransactionStatusResponse,
+        /**
+         * The MintKip17TokenRequest model constructor.
+         * @property {MintKip17TokenRequest}
+         */
+        MintKip17TokenRequest: MintKip17TokenRequest,
+        /**
+         * The TransferKip17TokenRequest model constructor.
+         * @property {TransferKip17TokenRequest}
+         */
+        TransferKip17TokenRequest: TransferKip17TokenRequest,
         /**
          * The KIP17Api service constructor.
          * @property {KIP17Api}

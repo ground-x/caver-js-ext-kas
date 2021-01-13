@@ -1,5 +1,5 @@
 /*
- * KIP-17 API Docs-EN
+ * KIP-17 API
  *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
@@ -22,46 +22,42 @@
         module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
-        if (!root.Kip17ApiDocsEn) {
-            root.Kip17ApiDocsEn = {}
+        if (!root.Kip17Api) {
+            root.Kip17Api = {}
         }
-        root.Kip17ApiDocsEn.MintTokenRequest = factory(root.Kip17ApiDocsEn.ApiClient)
+        root.Kip17Api.MintKip17TokenRequest = factory(root.Kip17Api.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The MintTokenRequest model module.
-     * @class MintTokenRequest
+     * The MintKip17TokenRequest model module.
+     * @class MintKip17TokenRequest
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>MintTokenRequest</code>.
-     * @alias MintTokenRequest
+     * Constructs a new <code>MintKip17TokenRequest</code>.
+     * @alias MintKip17TokenRequest
      * @class
-     * @param to {String} Recipient EOA address for the newly minted token
      * @param id {String} Token ID for the newly minted token; cannot be overlapped with an existing ID
-     * @param uri {String} Token URI for the newly minted token
      */
-    const MintTokenRequest = function(to, id, uri) {
-        this.to = to
+    const MintKip17TokenRequest = function(id) {
         this.id = id
-        this.uri = uri
     }
 
     /**
-     * Constructs a <code>MintTokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>MintKip17TokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {MintTokenRequest} obj Optional instance to populate.
-     * @return {MintTokenRequest} The populated <code>MintTokenRequest</code> instance.
-     * @memberof MintTokenRequest
+     * @param {MintKip17TokenRequest} obj Optional instance to populate.
+     * @return {MintKip17TokenRequest} The populated <code>MintKip17TokenRequest</code> instance.
+     * @memberof MintKip17TokenRequest
      */
-    MintTokenRequest.constructFromObject = function(data, obj) {
+    MintKip17TokenRequest.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new MintTokenRequest()
+            obj = obj || new MintKip17TokenRequest()
             if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
-            if (data.hasOwnProperty('id')) obj.id = ApiClient.convertToType(data.id, 'String')
             if (data.hasOwnProperty('uri')) obj.uri = ApiClient.convertToType(data.uri, 'String')
+            if (data.hasOwnProperty('id')) obj.id = ApiClient.convertToType(data.id, 'String')
         }
         return obj
     }
@@ -69,23 +65,23 @@
     /**
      * Recipient EOA address for the newly minted token
      * @type {String}
-     * @memberof MintTokenRequest
+     * @memberof MintKip17TokenRequest
      */
-    MintTokenRequest.prototype.to = undefined
-
-    /**
-     * Token ID for the newly minted token; cannot be overlapped with an existing ID
-     * @type {String}
-     * @memberof MintTokenRequest
-     */
-    MintTokenRequest.prototype.id = undefined
+    MintKip17TokenRequest.prototype.to = undefined
 
     /**
      * Token URI for the newly minted token
      * @type {String}
-     * @memberof MintTokenRequest
+     * @memberof MintKip17TokenRequest
      */
-    MintTokenRequest.prototype.uri = undefined
+    MintKip17TokenRequest.prototype.uri = undefined
 
-    return MintTokenRequest
+    /**
+     * Token ID for the newly minted token; cannot be overlapped with an existing ID
+     * @type {String}
+     * @memberof MintKip17TokenRequest
+     */
+    MintKip17TokenRequest.prototype.id = undefined
+
+    return MintKip17TokenRequest
 })

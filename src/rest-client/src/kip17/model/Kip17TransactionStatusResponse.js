@@ -1,5 +1,5 @@
 /*
- * KIP-17 API Docs-EN
+ * KIP-17 API
  *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
@@ -22,41 +22,41 @@
         module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
-        if (!root.Kip17ApiDocsEn) {
-            root.Kip17ApiDocsEn = {}
+        if (!root.Kip17Api) {
+            root.Kip17Api = {}
         }
-        root.Kip17ApiDocsEn.TransactionStatusResponse = factory(root.Kip17ApiDocsEn.ApiClient)
+        root.Kip17Api.Kip17TransactionStatusResponse = factory(root.Kip17Api.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The TransactionStatusResponse model module.
-     * @class TransactionStatusResponse
+     * The Kip17TransactionStatusResponse model module.
+     * @class Kip17TransactionStatusResponse
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>TransactionStatusResponse</code>.
-     * @alias TransactionStatusResponse
+     * Constructs a new <code>Kip17TransactionStatusResponse</code>.
+     * @alias Kip17TransactionStatusResponse
      * @class
      * @param status {String} Transaction status
      * @param transactionHash {String} Hash of the transaction
      */
-    const TransactionStatusResponse = function(status, transactionHash) {
+    const Kip17TransactionStatusResponse = function(status, transactionHash) {
         this.status = status
         this.transactionHash = transactionHash
     }
 
     /**
-     * Constructs a <code>TransactionStatusResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip17TransactionStatusResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {TransactionStatusResponse} obj Optional instance to populate.
-     * @return {TransactionStatusResponse} The populated <code>TransactionStatusResponse</code> instance.
-     * @memberof TransactionStatusResponse
+     * @param {Kip17TransactionStatusResponse} obj Optional instance to populate.
+     * @return {Kip17TransactionStatusResponse} The populated <code>Kip17TransactionStatusResponse</code> instance.
+     * @memberof Kip17TransactionStatusResponse
      */
-    TransactionStatusResponse.constructFromObject = function(data, obj) {
+    Kip17TransactionStatusResponse.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new TransactionStatusResponse()
+            obj = obj || new Kip17TransactionStatusResponse()
             if (data.hasOwnProperty('status')) obj.status = ApiClient.convertToType(data.status, 'String')
             if (data.hasOwnProperty('transactionHash')) obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
         }
@@ -66,16 +66,16 @@
     /**
      * Transaction status
      * @type {String}
-     * @memberof TransactionStatusResponse
+     * @memberof Kip17TransactionStatusResponse
      */
-    TransactionStatusResponse.prototype.status = undefined
+    Kip17TransactionStatusResponse.prototype.status = undefined
 
     /**
      * Hash of the transaction
      * @type {String}
-     * @memberof TransactionStatusResponse
+     * @memberof Kip17TransactionStatusResponse
      */
-    TransactionStatusResponse.prototype.transactionHash = undefined
+    Kip17TransactionStatusResponse.prototype.transactionHash = undefined
 
-    return TransactionStatusResponse
+    return Kip17TransactionStatusResponse
 })

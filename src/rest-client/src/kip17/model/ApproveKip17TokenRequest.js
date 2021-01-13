@@ -1,5 +1,5 @@
 /*
- * KIP-17 API Docs-EN
+ * KIP-17 API
  *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
@@ -22,70 +22,60 @@
         module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
-        if (!root.Kip17ApiDocsEn) {
-            root.Kip17ApiDocsEn = {}
+        if (!root.Kip17Api) {
+            root.Kip17Api = {}
         }
-        root.Kip17ApiDocsEn.TokenHistoryResponse = factory(root.Kip17ApiDocsEn.ApiClient)
+        root.Kip17Api.ApproveKip17TokenRequest = factory(root.Kip17Api.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The TokenHistoryResponse model module.
-     * @class TokenHistoryResponse
+     * The ApproveKip17TokenRequest model module.
+     * @class ApproveKip17TokenRequest
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>TokenHistoryResponse</code>.
-     * @alias TokenHistoryResponse
+     * Constructs a new <code>ApproveKip17TokenRequest</code>.
+     * @alias ApproveKip17TokenRequest
      * @class
-     * @param from {String} EOA of sender (previous owner)
-     * @param timestamp {Number} Time of ownership change (timestamp)
-     * @param to {String} EOA of receiver (current owner)
+     * @param from {String} Owner EOA address
+     * @param to {String} EOA address receiving the approval
      */
-    const TokenHistoryResponse = function(from, timestamp, to) {
+    const ApproveKip17TokenRequest = function(from, to) {
         this.from = from
-        this.timestamp = timestamp
         this.to = to
     }
 
     /**
-     * Constructs a <code>TokenHistoryResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>ApproveKip17TokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {TokenHistoryResponse} obj Optional instance to populate.
-     * @return {TokenHistoryResponse} The populated <code>TokenHistoryResponse</code> instance.
-     * @memberof TokenHistoryResponse
+     * @param {ApproveKip17TokenRequest} obj Optional instance to populate.
+     * @return {ApproveKip17TokenRequest} The populated <code>ApproveKip17TokenRequest</code> instance.
+     * @memberof ApproveKip17TokenRequest
      */
-    TokenHistoryResponse.constructFromObject = function(data, obj) {
+    ApproveKip17TokenRequest.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new TokenHistoryResponse()
+            obj = obj || new ApproveKip17TokenRequest()
             if (data.hasOwnProperty('from')) obj.from = ApiClient.convertToType(data.from, 'String')
-            if (data.hasOwnProperty('timestamp')) obj.timestamp = ApiClient.convertToType(data.timestamp, 'Number')
             if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
         }
         return obj
     }
 
     /**
-     * EOA of sender (previous owner)
+     * Owner EOA address
      * @type {String}
-     * @memberof TokenHistoryResponse
+     * @memberof ApproveKip17TokenRequest
      */
-    TokenHistoryResponse.prototype.from = undefined
+    ApproveKip17TokenRequest.prototype.from = undefined
 
     /**
-     * Time of ownership change (timestamp)
-     * @type {Number}
-     * @memberof TokenHistoryResponse
-     */
-    TokenHistoryResponse.prototype.timestamp = undefined
-
-    /**
-     * EOA of receiver (current owner)
+     * EOA address receiving the approval
      * @type {String}
-     * @memberof TokenHistoryResponse
+     * @memberof ApproveKip17TokenRequest
      */
-    TokenHistoryResponse.prototype.to = undefined
+    ApproveKip17TokenRequest.prototype.to = undefined
 
-    return TokenHistoryResponse
+    return ApproveKip17TokenRequest
 })

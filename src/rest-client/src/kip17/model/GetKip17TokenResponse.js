@@ -1,5 +1,5 @@
 /*
- * KIP-17 API Docs-EN
+ * KIP-17 API
  *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
@@ -22,21 +22,21 @@
         module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
-        if (!root.Kip17ApiDocsEn) {
-            root.Kip17ApiDocsEn = {}
+        if (!root.Kip17Api) {
+            root.Kip17Api = {}
         }
-        root.Kip17ApiDocsEn.GetTokenResponse = factory(root.Kip17ApiDocsEn.ApiClient)
+        root.Kip17Api.GetKip17TokenResponse = factory(root.Kip17Api.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The GetTokenResponse model module.
-     * @class GetTokenResponse
+     * The GetKip17TokenResponse model module.
+     * @class GetKip17TokenResponse
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>GetTokenResponse</code>.
-     * @alias GetTokenResponse
+     * Constructs a new <code>GetKip17TokenResponse</code>.
+     * @alias GetKip17TokenResponse
      * @class
      * @param createdAt {Number} UNIX timestamp of the time when this token was minted
      * @param owner {String} Current token owner EOA address
@@ -46,7 +46,7 @@
      * @param transactionHash {String} The last transaction hash mutated this token state
      * @param updatedAt {Number} UNIX timestamp of the time when this token was last mutated
      */
-    const GetTokenResponse = function(createdAt, owner, previousOwner, tokenId, tokenUri, transactionHash, updatedAt) {
+    const GetKip17TokenResponse = function(createdAt, owner, previousOwner, tokenId, tokenUri, transactionHash, updatedAt) {
         this.createdAt = createdAt
         this.owner = owner
         this.previousOwner = previousOwner
@@ -57,16 +57,16 @@
     }
 
     /**
-     * Constructs a <code>GetTokenResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>GetKip17TokenResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {GetTokenResponse} obj Optional instance to populate.
-     * @return {GetTokenResponse} The populated <code>GetTokenResponse</code> instance.
-     * @memberof GetTokenResponse
+     * @param {GetKip17TokenResponse} obj Optional instance to populate.
+     * @return {GetKip17TokenResponse} The populated <code>GetKip17TokenResponse</code> instance.
+     * @memberof GetKip17TokenResponse
      */
-    GetTokenResponse.constructFromObject = function(data, obj) {
+    GetKip17TokenResponse.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new GetTokenResponse()
+            obj = obj || new GetKip17TokenResponse()
             if (data.hasOwnProperty('createdAt')) obj.createdAt = ApiClient.convertToType(data.createdAt, 'Number')
             if (data.hasOwnProperty('owner')) obj.owner = ApiClient.convertToType(data.owner, 'String')
             if (data.hasOwnProperty('previousOwner')) obj.previousOwner = ApiClient.convertToType(data.previousOwner, 'String')
@@ -81,51 +81,51 @@
     /**
      * UNIX timestamp of the time when this token was minted
      * @type {Number}
-     * @memberof GetTokenResponse
+     * @memberof GetKip17TokenResponse
      */
-    GetTokenResponse.prototype.createdAt = undefined
+    GetKip17TokenResponse.prototype.createdAt = undefined
 
     /**
      * Current token owner EOA address
      * @type {String}
-     * @memberof GetTokenResponse
+     * @memberof GetKip17TokenResponse
      */
-    GetTokenResponse.prototype.owner = undefined
+    GetKip17TokenResponse.prototype.owner = undefined
 
     /**
      * Previous owner who transferred this token to the current owner
      * @type {String}
-     * @memberof GetTokenResponse
+     * @memberof GetKip17TokenResponse
      */
-    GetTokenResponse.prototype.previousOwner = undefined
+    GetKip17TokenResponse.prototype.previousOwner = undefined
 
     /**
      * ID assigned to this token
      * @type {String}
-     * @memberof GetTokenResponse
+     * @memberof GetKip17TokenResponse
      */
-    GetTokenResponse.prototype.tokenId = undefined
+    GetKip17TokenResponse.prototype.tokenId = undefined
 
     /**
      * URI identifying the doc containing metadata of this token
      * @type {String}
-     * @memberof GetTokenResponse
+     * @memberof GetKip17TokenResponse
      */
-    GetTokenResponse.prototype.tokenUri = undefined
+    GetKip17TokenResponse.prototype.tokenUri = undefined
 
     /**
      * The last transaction hash mutated this token state
      * @type {String}
-     * @memberof GetTokenResponse
+     * @memberof GetKip17TokenResponse
      */
-    GetTokenResponse.prototype.transactionHash = undefined
+    GetKip17TokenResponse.prototype.transactionHash = undefined
 
     /**
      * UNIX timestamp of the time when this token was last mutated
      * @type {Number}
-     * @memberof GetTokenResponse
+     * @memberof GetKip17TokenResponse
      */
-    GetTokenResponse.prototype.updatedAt = undefined
+    GetKip17TokenResponse.prototype.updatedAt = undefined
 
-    return GetTokenResponse
+    return GetKip17TokenResponse
 })

@@ -1,5 +1,5 @@
 /*
- * KIP-17 API Docs-EN
+ * KIP-17 API
  *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
@@ -22,43 +22,43 @@
         module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
-        if (!root.Kip17ApiDocsEn) {
-            root.Kip17ApiDocsEn = {}
+        if (!root.Kip17Api) {
+            root.Kip17Api = {}
         }
-        root.Kip17ApiDocsEn.DeployContractRequest = factory(root.Kip17ApiDocsEn.ApiClient)
+        root.Kip17Api.DeployKip17ContractRequest = factory(root.Kip17Api.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The DeployContractRequest model module.
-     * @class DeployContractRequest
+     * The DeployKip17ContractRequest model module.
+     * @class DeployKip17ContractRequest
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>DeployContractRequest</code>.
-     * @alias DeployContractRequest
+     * Constructs a new <code>DeployKip17ContractRequest</code>.
+     * @alias DeployKip17ContractRequest
      * @class
      * @param alias {String} Contract alias; KIP-17 APIs can be called with aliases instead of contract addresses
      * @param symbol {String} Token symbol
      * @param name {String} Contract name
      */
-    const DeployContractRequest = function(alias, symbol, name) {
+    const DeployKip17ContractRequest = function(alias, symbol, name) {
         this.alias = alias
         this.symbol = symbol
         this.name = name
     }
 
     /**
-     * Constructs a <code>DeployContractRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>DeployKip17ContractRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {DeployContractRequest} obj Optional instance to populate.
-     * @return {DeployContractRequest} The populated <code>DeployContractRequest</code> instance.
-     * @memberof DeployContractRequest
+     * @param {DeployKip17ContractRequest} obj Optional instance to populate.
+     * @return {DeployKip17ContractRequest} The populated <code>DeployKip17ContractRequest</code> instance.
+     * @memberof DeployKip17ContractRequest
      */
-    DeployContractRequest.constructFromObject = function(data, obj) {
+    DeployKip17ContractRequest.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new DeployContractRequest()
+            obj = obj || new DeployKip17ContractRequest()
             if (data.hasOwnProperty('alias')) obj.alias = ApiClient.convertToType(data.alias, 'String')
             if (data.hasOwnProperty('symbol')) obj.symbol = ApiClient.convertToType(data.symbol, 'String')
             if (data.hasOwnProperty('name')) obj.name = ApiClient.convertToType(data.name, 'String')
@@ -69,23 +69,23 @@
     /**
      * Contract alias; KIP-17 APIs can be called with aliases instead of contract addresses
      * @type {String}
-     * @memberof DeployContractRequest
+     * @memberof DeployKip17ContractRequest
      */
-    DeployContractRequest.prototype.alias = undefined
+    DeployKip17ContractRequest.prototype.alias = undefined
 
     /**
      * Token symbol
      * @type {String}
-     * @memberof DeployContractRequest
+     * @memberof DeployKip17ContractRequest
      */
-    DeployContractRequest.prototype.symbol = undefined
+    DeployKip17ContractRequest.prototype.symbol = undefined
 
     /**
      * Contract name
      * @type {String}
-     * @memberof DeployContractRequest
+     * @memberof DeployKip17ContractRequest
      */
-    DeployContractRequest.prototype.name = undefined
+    DeployKip17ContractRequest.prototype.name = undefined
 
-    return DeployContractRequest
+    return DeployKip17ContractRequest
 })

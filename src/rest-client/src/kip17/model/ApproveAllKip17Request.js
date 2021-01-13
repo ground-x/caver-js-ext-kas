@@ -1,5 +1,5 @@
 /*
- * KIP-17 API Docs-EN
+ * KIP-17 API
  *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
@@ -22,41 +22,41 @@
         module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
-        if (!root.Kip17ApiDocsEn) {
-            root.Kip17ApiDocsEn = {}
+        if (!root.Kip17Api) {
+            root.Kip17Api = {}
         }
-        root.Kip17ApiDocsEn.ApproveTokenRequest = factory(root.Kip17ApiDocsEn.ApiClient)
+        root.Kip17Api.ApproveAllKip17Request = factory(root.Kip17Api.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The ApproveTokenRequest model module.
-     * @class ApproveTokenRequest
+     * The ApproveAllKip17Request model module.
+     * @class ApproveAllKip17Request
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>ApproveTokenRequest</code>.
-     * @alias ApproveTokenRequest
+     * Constructs a new <code>ApproveAllKip17Request</code>.
+     * @alias ApproveAllKip17Request
      * @class
      * @param from {String} Owner EOA address
      * @param to {String} EOA address receiving the approval
      */
-    const ApproveTokenRequest = function(from, to) {
+    const ApproveAllKip17Request = function(from, to) {
         this.from = from
         this.to = to
     }
 
     /**
-     * Constructs a <code>ApproveTokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>ApproveAllKip17Request</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {ApproveTokenRequest} obj Optional instance to populate.
-     * @return {ApproveTokenRequest} The populated <code>ApproveTokenRequest</code> instance.
-     * @memberof ApproveTokenRequest
+     * @param {ApproveAllKip17Request} obj Optional instance to populate.
+     * @return {ApproveAllKip17Request} The populated <code>ApproveAllKip17Request</code> instance.
+     * @memberof ApproveAllKip17Request
      */
-    ApproveTokenRequest.constructFromObject = function(data, obj) {
+    ApproveAllKip17Request.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new ApproveTokenRequest()
+            obj = obj || new ApproveAllKip17Request()
             if (data.hasOwnProperty('from')) obj.from = ApiClient.convertToType(data.from, 'String')
             if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
         }
@@ -66,16 +66,16 @@
     /**
      * Owner EOA address
      * @type {String}
-     * @memberof ApproveTokenRequest
+     * @memberof ApproveAllKip17Request
      */
-    ApproveTokenRequest.prototype.from = undefined
+    ApproveAllKip17Request.prototype.from = undefined
 
     /**
      * EOA address receiving the approval
      * @type {String}
-     * @memberof ApproveTokenRequest
+     * @memberof ApproveAllKip17Request
      */
-    ApproveTokenRequest.prototype.to = undefined
+    ApproveAllKip17Request.prototype.to = undefined
 
-    return ApproveTokenRequest
+    return ApproveAllKip17Request
 })

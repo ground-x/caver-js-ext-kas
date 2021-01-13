@@ -1,5 +1,5 @@
 /*
- * KIP-17 API Docs-EN
+ * KIP-17 API
  *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
@@ -22,43 +22,43 @@
         module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
-        if (!root.Kip17ApiDocsEn) {
-            root.Kip17ApiDocsEn = {}
+        if (!root.Kip17Api) {
+            root.Kip17Api = {}
         }
-        root.Kip17ApiDocsEn.TransferTokenRequest = factory(root.Kip17ApiDocsEn.ApiClient)
+        root.Kip17Api.TransferKip17TokenRequest = factory(root.Kip17Api.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The TransferTokenRequest model module.
-     * @class TransferTokenRequest
+     * The TransferKip17TokenRequest model module.
+     * @class TransferKip17TokenRequest
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>TransferTokenRequest</code>.
-     * @alias TransferTokenRequest
+     * Constructs a new <code>TransferKip17TokenRequest</code>.
+     * @alias TransferKip17TokenRequest
      * @class
      * @param sender {String} Sender EOA address
      * @param owner {String} Owner EOA address
      * @param to {String} Recipient EOA address
      */
-    const TransferTokenRequest = function(sender, owner, to) {
+    const TransferKip17TokenRequest = function(sender, owner, to) {
         this.sender = sender
         this.owner = owner
         this.to = to
     }
 
     /**
-     * Constructs a <code>TransferTokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>TransferKip17TokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {TransferTokenRequest} obj Optional instance to populate.
-     * @return {TransferTokenRequest} The populated <code>TransferTokenRequest</code> instance.
-     * @memberof TransferTokenRequest
+     * @param {TransferKip17TokenRequest} obj Optional instance to populate.
+     * @return {TransferKip17TokenRequest} The populated <code>TransferKip17TokenRequest</code> instance.
+     * @memberof TransferKip17TokenRequest
      */
-    TransferTokenRequest.constructFromObject = function(data, obj) {
+    TransferKip17TokenRequest.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new TransferTokenRequest()
+            obj = obj || new TransferKip17TokenRequest()
             if (data.hasOwnProperty('sender')) obj.sender = ApiClient.convertToType(data.sender, 'String')
             if (data.hasOwnProperty('owner')) obj.owner = ApiClient.convertToType(data.owner, 'String')
             if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
@@ -69,23 +69,23 @@
     /**
      * Sender EOA address
      * @type {String}
-     * @memberof TransferTokenRequest
+     * @memberof TransferKip17TokenRequest
      */
-    TransferTokenRequest.prototype.sender = undefined
+    TransferKip17TokenRequest.prototype.sender = undefined
 
     /**
      * Owner EOA address
      * @type {String}
-     * @memberof TransferTokenRequest
+     * @memberof TransferKip17TokenRequest
      */
-    TransferTokenRequest.prototype.owner = undefined
+    TransferKip17TokenRequest.prototype.owner = undefined
 
     /**
      * Recipient EOA address
      * @type {String}
-     * @memberof TransferTokenRequest
+     * @memberof TransferKip17TokenRequest
      */
-    TransferTokenRequest.prototype.to = undefined
+    TransferKip17TokenRequest.prototype.to = undefined
 
-    return TransferTokenRequest
+    return TransferKip17TokenRequest
 })

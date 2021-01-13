@@ -1,5 +1,5 @@
 /*
- * KIP-17 API Docs-EN
+ * KIP-17 API
  *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
@@ -18,79 +18,79 @@
         // AMD. Register as an anonymous module.
         define([
             '../../ApiClient',
-            '../model/ApproveAllRequest',
-            '../model/ApproveTokenRequest',
-            '../model/BurnTokenRequest',
-            '../model/ContractInfoResponse',
-            '../model/DeployContractRequest',
+            '../model/ApproveAllKip17Request',
+            '../model/ApproveKip17TokenRequest',
+            '../model/BurnKip17TokenRequest',
+            '../model/DeployKip17ContractRequest',
             '../model/ErrorResponse',
-            '../model/GetOwnerTokensResponse',
-            '../model/GetTokenHistoryResponse',
-            '../model/GetTokenResponse',
-            '../model/ListContractsResponse',
-            '../model/ListTokensResponse',
-            '../model/MintTokenRequest',
-            '../model/TransactionStatusResponse',
-            '../model/TransferTokenRequest',
+            '../model/GetKip17TokenHistoryResponse',
+            '../model/GetKip17TokenResponse',
+            '../model/GetOwnerKip17TokensResponse',
+            '../model/Kip17ContractInfoResponse',
+            '../model/Kip17ContractListResponse',
+            '../model/Kip17TokenListResponse',
+            '../model/Kip17TransactionStatusResponse',
+            '../model/MintKip17TokenRequest',
+            '../model/TransferKip17TokenRequest',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
         module.exports = factory(
             require('../../ApiClient'),
-            require('../model/ApproveAllRequest'),
-            require('../model/ApproveTokenRequest'),
-            require('../model/BurnTokenRequest'),
-            require('../model/ContractInfoResponse'),
-            require('../model/DeployContractRequest'),
+            require('../model/ApproveAllKip17Request'),
+            require('../model/ApproveKip17TokenRequest'),
+            require('../model/BurnKip17TokenRequest'),
+            require('../model/DeployKip17ContractRequest'),
             require('../model/ErrorResponse'),
-            require('../model/GetOwnerTokensResponse'),
-            require('../model/GetTokenHistoryResponse'),
-            require('../model/GetTokenResponse'),
-            require('../model/ListContractsResponse'),
-            require('../model/ListTokensResponse'),
-            require('../model/MintTokenRequest'),
-            require('../model/TransactionStatusResponse'),
-            require('../model/TransferTokenRequest')
+            require('../model/GetKip17TokenHistoryResponse'),
+            require('../model/GetKip17TokenResponse'),
+            require('../model/GetOwnerKip17TokensResponse'),
+            require('../model/Kip17ContractInfoResponse'),
+            require('../model/Kip17ContractListResponse'),
+            require('../model/Kip17TokenListResponse'),
+            require('../model/Kip17TransactionStatusResponse'),
+            require('../model/MintKip17TokenRequest'),
+            require('../model/TransferKip17TokenRequest')
         )
     } else {
         // Browser globals (root is window)
-        if (!root.Kip17ApiDocsEn) {
-            root.Kip17ApiDocsEn = {}
+        if (!root.Kip17Api) {
+            root.Kip17Api = {}
         }
-        root.Kip17ApiDocsEn.KIP17Api = factory(
-            root.Kip17ApiDocsEn.ApiClient,
-            root.Kip17ApiDocsEn.ApproveAllRequest,
-            root.Kip17ApiDocsEn.ApproveTokenRequest,
-            root.Kip17ApiDocsEn.BurnTokenRequest,
-            root.Kip17ApiDocsEn.ContractInfoResponse,
-            root.Kip17ApiDocsEn.DeployContractRequest,
-            root.Kip17ApiDocsEn.ErrorResponse,
-            root.Kip17ApiDocsEn.GetOwnerTokensResponse,
-            root.Kip17ApiDocsEn.GetTokenHistoryResponse,
-            root.Kip17ApiDocsEn.GetTokenResponse,
-            root.Kip17ApiDocsEn.ListContractsResponse,
-            root.Kip17ApiDocsEn.ListTokensResponse,
-            root.Kip17ApiDocsEn.MintTokenRequest,
-            root.Kip17ApiDocsEn.TransactionStatusResponse,
-            root.Kip17ApiDocsEn.TransferTokenRequest
+        root.Kip17Api.KIP17Api = factory(
+            root.Kip17Api.ApiClient,
+            root.Kip17Api.ApproveAllKip17Request,
+            root.Kip17Api.ApproveKip17TokenRequest,
+            root.Kip17Api.BurnKip17TokenRequest,
+            root.Kip17Api.DeployKip17ContractRequest,
+            root.Kip17Api.ErrorResponse,
+            root.Kip17Api.GetKip17TokenHistoryResponse,
+            root.Kip17Api.GetKip17TokenResponse,
+            root.Kip17Api.GetOwnerKip17TokensResponse,
+            root.Kip17Api.Kip17ContractInfoResponse,
+            root.Kip17Api.Kip17ContractListResponse,
+            root.Kip17Api.Kip17TokenListResponse,
+            root.Kip17Api.Kip17TransactionStatusResponse,
+            root.Kip17Api.MintKip17TokenRequest,
+            root.Kip17Api.TransferKip17TokenRequest
         )
     }
 })(this, function(
     ApiClient,
-    ApproveAllRequest,
-    ApproveTokenRequest,
-    BurnTokenRequest,
-    ContractInfoResponse,
-    DeployContractRequest,
+    ApproveAllKip17Request,
+    ApproveKip17TokenRequest,
+    BurnKip17TokenRequest,
+    DeployKip17ContractRequest,
     ErrorResponse,
-    GetOwnerTokensResponse,
-    GetTokenHistoryResponse,
-    GetTokenResponse,
-    ListContractsResponse,
-    ListTokensResponse,
-    MintTokenRequest,
-    TransactionStatusResponse,
-    TransferTokenRequest
+    GetKip17TokenHistoryResponse,
+    GetKip17TokenResponse,
+    GetOwnerKip17TokensResponse,
+    Kip17ContractInfoResponse,
+    Kip17ContractListResponse,
+    Kip17TokenListResponse,
+    Kip17TransactionStatusResponse,
+    MintKip17TokenRequest,
+    TransferKip17TokenRequest
 ) {
     /**
      * KIP17 service.
@@ -112,7 +112,7 @@
          * Callback function to receive the result of the approveAll operation.
          * @callback KIP17Api~approveAllCallback
          * @param {String} error Error message, if any.
-         * @param {TransactionStatusResponse} data The data returned by the service call.
+         * @param {Kip17TransactionStatusResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -122,9 +122,9 @@
          * @param {String} xChainId Klaytn network chain ID, one of [1001, 8217]
          * @param {String} contractAddressOrAlias Contract address (hexadecimal, starting with 0x) or alias
          * @param {Object} opts Optional parameters
-         * @param {ApproveAllRequest} opts.body
+         * @param {ApproveAllKip17Request} opts.body
          * @param {KIP17Api~approveAllCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link TransactionStatusResponse}
+         * data is of type: {@link Kip17TransactionStatusResponse}
          */
         this.approveAll = function(xChainId, contractAddressOrAlias, opts, callback) {
             opts = opts || {}
@@ -153,7 +153,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = TransactionStatusResponse
+            const returnType = Kip17TransactionStatusResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}/approveall',
@@ -176,7 +176,7 @@
          * Callback function to receive the result of the approveToken operation.
          * @callback KIP17Api~approveTokenCallback
          * @param {String} error Error message, if any.
-         * @param {TransactionStatusResponse} data The data returned by the service call.
+         * @param {Kip17TransactionStatusResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -187,9 +187,9 @@
          * @param {String} contractAddressOrAlias Contract address (hexadecimal, starting with 0x) or alias
          * @param {String} tokenId Token ID to approve the 3rd party to transfer
          * @param {Object} opts Optional parameters
-         * @param {ApproveTokenRequest} opts.body
+         * @param {ApproveKip17TokenRequest} opts.body
          * @param {KIP17Api~approveTokenCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link TransactionStatusResponse}
+         * data is of type: {@link Kip17TransactionStatusResponse}
          */
         this.approveToken = function(xChainId, contractAddressOrAlias, tokenId, opts, callback) {
             opts = opts || {}
@@ -224,7 +224,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = TransactionStatusResponse
+            const returnType = Kip17TransactionStatusResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}/approve/{token-id}',
@@ -247,7 +247,7 @@
          * Callback function to receive the result of the burnToken operation.
          * @callback KIP17Api~burnTokenCallback
          * @param {String} error Error message, if any.
-         * @param {TransactionStatusResponse} data The data returned by the service call.
+         * @param {Kip17TransactionStatusResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -258,9 +258,9 @@
          * @param {String} contractAddressOrAlias Contract address or unique alias
          * @param {String} tokenId Token ID to burn
          * @param {Object} opts Optional parameters
-         * @param {BurnTokenRequest} opts.body
+         * @param {BurnKip17TokenRequest} opts.body
          * @param {KIP17Api~burnTokenCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link TransactionStatusResponse}
+         * data is of type: {@link Kip17TransactionStatusResponse}
          */
         this.burnToken = function(xChainId, contractAddressOrAlias, tokenId, opts, callback) {
             opts = opts || {}
@@ -295,7 +295,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = TransactionStatusResponse
+            const returnType = Kip17TransactionStatusResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}/token/{token-id}',
@@ -318,7 +318,7 @@
          * Callback function to receive the result of the deployContract operation.
          * @callback KIP17Api~deployContractCallback
          * @param {String} error Error message, if any.
-         * @param {TransactionStatusResponse} data The data returned by the service call.
+         * @param {Kip17TransactionStatusResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -327,9 +327,9 @@
          * Deploys a new KIP-17 contract with user submitted parameters.<p></p>
          * @param {String} xChainId Klaytn network chain ID; one of [1001, 8217]
          * @param {Object} opts Optional parameters
-         * @param {DeployContractRequest} opts.body
+         * @param {DeployKip17ContractRequest} opts.body
          * @param {KIP17Api~deployContractCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link TransactionStatusResponse}
+         * data is of type: {@link Kip17TransactionStatusResponse}
          */
         this.deployContract = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -351,7 +351,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = TransactionStatusResponse
+            const returnType = Kip17TransactionStatusResponse
 
             return this.apiClient.callApi(
                 '/v1/contract',
@@ -374,7 +374,7 @@
          * Callback function to receive the result of the getContract operation.
          * @callback KIP17Api~getContractCallback
          * @param {String} error Error message, if any.
-         * @param {ContractInfoResponse} data The data returned by the service call.
+         * @param {Kip17ContractInfoResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -384,7 +384,7 @@
          * @param {String} xChainId Klaytn network chain ID; one of [1001, 8217]
          * @param {String} contractAddressOrAlias Contract address (hexadecimal, starting with 0x) or alias
          * @param {KIP17Api~getContractCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link ContractInfoResponse}
+         * data is of type: {@link Kip17ContractInfoResponse}
          */
         this.getContract = function(xChainId, contractAddressOrAlias, callback) {
             const postBody = null
@@ -412,7 +412,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = ContractInfoResponse
+            const returnType = Kip17ContractInfoResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}',
@@ -435,7 +435,7 @@
          * Callback function to receive the result of the getOwnerTokens operation.
          * @callback KIP17Api~getOwnerTokensCallback
          * @param {String} error Error message, if any.
-         * @param {GetOwnerTokensResponse} data The data returned by the service call.
+         * @param {GetOwnerKip17TokensResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -449,7 +449,7 @@
          * @param {Number} opts.size Number of items to return
          * @param {String} opts.cursor Items offset
          * @param {KIP17Api~getOwnerTokensCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link GetOwnerTokensResponse}
+         * data is of type: {@link GetOwnerKip17TokensResponse}
          */
         this.getOwnerTokens = function(xChainId, contractAddressOrAlias, ownerAddress, opts, callback) {
             opts = opts || {}
@@ -487,7 +487,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = GetOwnerTokensResponse
+            const returnType = GetOwnerKip17TokensResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}/owner/{owner-address}',
@@ -510,7 +510,7 @@
          * Callback function to receive the result of the getToken operation.
          * @callback KIP17Api~getTokenCallback
          * @param {String} error Error message, if any.
-         * @param {GetTokenResponse} data The data returned by the service call.
+         * @param {GetKip17TokenResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -521,7 +521,7 @@
          * @param {String} contractAddressOrAlias Contract address or unique alias
          * @param {String} tokenId Token ID to retreive
          * @param {KIP17Api~getTokenCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link GetTokenResponse}
+         * data is of type: {@link GetKip17TokenResponse}
          */
         this.getToken = function(xChainId, contractAddressOrAlias, tokenId, callback) {
             const postBody = null
@@ -555,7 +555,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = GetTokenResponse
+            const returnType = GetKip17TokenResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}/token/{token-id}',
@@ -578,7 +578,7 @@
          * Callback function to receive the result of the getTokenHistory operation.
          * @callback KIP17Api~getTokenHistoryCallback
          * @param {String} error Error message, if any.
-         * @param {GetTokenHistoryResponse} data The data returned by the service call.
+         * @param {GetKip17TokenHistoryResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -592,7 +592,7 @@
          * @param {Number} opts.size Number of items to return
          * @param {String} opts.cursor Items offset
          * @param {KIP17Api~getTokenHistoryCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link GetTokenHistoryResponse}
+         * data is of type: {@link GetKip17TokenHistoryResponse}
          */
         this.getTokenHistory = function(xChainId, contractAddressOrAlias, tokenId, opts, callback) {
             opts = opts || {}
@@ -630,7 +630,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = GetTokenHistoryResponse
+            const returnType = GetKip17TokenHistoryResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}/token/{token-id}/history',
@@ -653,7 +653,7 @@
          * Callback function to receive the result of the listContractsInDeployerPool operation.
          * @callback KIP17Api~listContractsInDeployerPoolCallback
          * @param {String} error Error message, if any.
-         * @param {ListContractsResponse} data The data returned by the service call.
+         * @param {Kip17ContractListResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -662,10 +662,10 @@
          * Lists all contracts deployed in the requested deployer pool. If the pool is not specified, the default pool will be queried.<p></p>
          * @param {String} xChainId Klaytn network chain ID; one of [1001, 8217]
          * @param {Object} opts Optional parameters
-         * @param {String} opts.size Number of items to return
+         * @param {Number} opts.size Number of items to return
          * @param {String} opts.cursor Items offset
          * @param {KIP17Api~listContractsInDeployerPoolCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link ListContractsResponse}
+         * data is of type: {@link Kip17ContractListResponse}
          */
         this.listContractsInDeployerPool = function(xChainId, opts, callback) {
             opts = opts || {}
@@ -690,7 +690,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = ListContractsResponse
+            const returnType = Kip17ContractListResponse
 
             return this.apiClient.callApi(
                 '/v1/contract',
@@ -713,7 +713,7 @@
          * Callback function to receive the result of the listTokens operation.
          * @callback KIP17Api~listTokensCallback
          * @param {String} error Error message, if any.
-         * @param {ListTokensResponse} data The data returned by the service call.
+         * @param {Kip17TokenListResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -726,7 +726,7 @@
          * @param {Number} opts.size Number of items to return
          * @param {String} opts.cursor Items offset
          * @param {KIP17Api~listTokensCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link ListTokensResponse}
+         * data is of type: {@link Kip17TokenListResponse}
          */
         this.listTokens = function(xChainId, contractAddressOrAlias, opts, callback) {
             opts = opts || {}
@@ -758,7 +758,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = ListTokensResponse
+            const returnType = Kip17TokenListResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}/token',
@@ -781,7 +781,7 @@
          * Callback function to receive the result of the mintToken operation.
          * @callback KIP17Api~mintTokenCallback
          * @param {String} error Error message, if any.
-         * @param {TransactionStatusResponse} data The data returned by the service call.
+         * @param {Kip17TransactionStatusResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -791,9 +791,9 @@
          * @param {String} xChainId Klaytn network chain ID; one of [1001, 8217]
          * @param {String} contractAddressOrAlias Contract address (hexadecimal, starting with 0x) or alias
          * @param {Object} opts Optional parameters
-         * @param {MintTokenRequest} opts.body
+         * @param {MintKip17TokenRequest} opts.body
          * @param {KIP17Api~mintTokenCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link TransactionStatusResponse}
+         * data is of type: {@link Kip17TransactionStatusResponse}
          */
         this.mintToken = function(xChainId, contractAddressOrAlias, opts, callback) {
             opts = opts || {}
@@ -822,7 +822,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = TransactionStatusResponse
+            const returnType = Kip17TransactionStatusResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}/token',
@@ -845,7 +845,7 @@
          * Callback function to receive the result of the transferToken operation.
          * @callback KIP17Api~transferTokenCallback
          * @param {String} error Error message, if any.
-         * @param {TransactionStatusResponse} data The data returned by the service call.
+         * @param {Kip17TransactionStatusResponse} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
@@ -856,9 +856,9 @@
          * @param {String} contractAddressOrAlias Contract address (hexadecimal, starting with 0x) or alias
          * @param {String} tokenId Token ID
          * @param {Object} opts Optional parameters
-         * @param {TransferTokenRequest} opts.body
+         * @param {TransferKip17TokenRequest} opts.body
          * @param {KIP17Api~transferTokenCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link TransactionStatusResponse}
+         * data is of type: {@link Kip17TransactionStatusResponse}
          */
         this.transferToken = function(xChainId, contractAddressOrAlias, tokenId, opts, callback) {
             opts = opts || {}
@@ -893,7 +893,7 @@
             const authNames = []
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = TransactionStatusResponse
+            const returnType = Kip17TransactionStatusResponse
 
             return this.apiClient.callApi(
                 '/v1/contract/{contract-address-or-alias}/token/{token-id}',
