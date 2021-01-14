@@ -311,14 +311,14 @@ class KIP17 {
      * POST /v1/contract/{contract-address-or-alias}/token/{token-id}
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
-     * @param {string|number} tokenId The token ID to transfer.
      * @param {string} sender The address of the account sending the transaction to transfer the token. The sender must be the owner of the token or have been approved by the owner for the token to be transfered.
      * @param {string} owner The address of the account that owns the token.
      * @param {string} to The address of account to receive tokens.
+     * @param {string|number} tokenId The token ID to transfer.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip17TransactionStatusResponse}
      */
-    transfer(addressOrAlias, tokenId, sender, owner, to, callback) {
+    transfer(addressOrAlias, sender, owner, to, tokenId, callback) {
         if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
@@ -348,12 +348,12 @@ class KIP17 {
      * DELETE /v1/contract/{contract-address-or-alias}/token/{token-id}
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
-     * @param {string|number} tokenId The token ID to burn.
      * @param {string} from The address of sender or owner. If the from that burns the token is not the owner, the sender that sends the transaction to burn the token must have been approved by the owner.
+     * @param {string|number} tokenId The token ID to burn.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip17TransactionStatusResponse}
      */
-    burn(addressOrAlias, tokenId, from, callback) {
+    burn(addressOrAlias, from, tokenId, callback) {
         if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
@@ -382,13 +382,13 @@ class KIP17 {
      * POST /v1/contract/{contract-address-or-alias}/approve/{token-id}
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
-     * @param {string|number} tokenId The token ID to approve.
      * @param {string} from The address of owner.
      * @param {string} to The address of EOA to be approved.
+     * @param {string|number} tokenId The token ID to approve.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip17TransactionStatusResponse}
      */
-    approve(addressOrAlias, tokenId, from, to, callback) {
+    approve(addressOrAlias, from, to, tokenId, callback) {
         if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
@@ -454,12 +454,9 @@ class KIP17 {
      * @param {Function} [callback] The callback function to call.
      * @return {GetOwnerKip17TokensResponse}
      */
-    getTokenListByOwner(addressOrAlias, tokenId, queryOptions, callback) {
+    getTokenListByOwner(addressOrAlias, owner, queryOptions, callback) {
         if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
-        if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
-
-        if (_.isNumber(tokenId)) tokenId = utils.toHex(tokenId)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -470,7 +467,7 @@ class KIP17 {
         if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.getOwnerTokens(this.chainId, addressOrAlias, tokenId, queryOptions, (err, data, response) => {
+            this.kip17Api.getOwnerTokens(this.chainId, addressOrAlias, owner, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
