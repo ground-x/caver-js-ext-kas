@@ -177,6 +177,8 @@ console.log(queryOptions)
 You can now use KAS's KIP17 API through caver-js-ext-kas. You can send a KIP17 API request to the KAS as shown below and check the results.
 
 ```javascript
+const contracts = await caver.kas.kip17.getContractList()
+console.log(contracts)
 ```
 
 The query options used in the kip17 api can be used as follows.
