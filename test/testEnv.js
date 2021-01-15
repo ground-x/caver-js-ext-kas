@@ -48,6 +48,13 @@ const auths = {
         secretAccessKey: '',
         operator: '',
     },
+    kip17API: {
+        url: 'https://kip17-api.klaytnapi.com',
+        chainId: 1001,
+        accessKeyId: '',
+        secretAccessKey: '',
+        operator: '',
+    },
 }
 
 if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm_config_testEnv === 'dev') {
@@ -71,6 +78,10 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.anchorAPI.accessKeyId = process.env.ACCESS_KEY_DEV
     auths.anchorAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
     auths.anchorAPI.operator = process.env.OPERATOR_DEV
+
+    auths.kip17API.url = process.env.KIP17_API_DEV
+    auths.kip17API.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.kip17API.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
 } else {
     senderPrivateKey = process.env.SENDER_PRV_KEY
 
@@ -88,6 +99,9 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.anchorAPI.accessKeyId = process.env.ACCESS_KEY
     auths.anchorAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
     auths.anchorAPI.operator = process.env.OPERATOR
+
+    auths.kip17API.accessKeyId = process.env.ACCESS_KEY
+    auths.kip17API.secretAccessKey = process.env.SECRET_ACCESS_KEY
 }
 
 // console.log(auths)
