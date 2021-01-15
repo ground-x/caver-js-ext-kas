@@ -36,7 +36,7 @@ const NOT_INIT_API_ERR_MSG = `KIP17 API is not initialized. Use 'caver.initKIP17
  */
 class KIP17 {
     /**
-     * Creates an instance of token history api.
+     * Creates an instance of KIP17 api.
      * @constructor
      * @param {ApiClient} client - The Api client to use to connect with KAS.
      * @param {AccessOptions} accessOptions - An instance of AccessOptions including `chainId`, `accessKeyId` and `secretAccessKey`.
