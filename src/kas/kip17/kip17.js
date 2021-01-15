@@ -129,20 +129,14 @@ class KIP17 {
      *
      * @param {string} name The name of KIP-17 token.
      * @param {string} symbol The symbol of KIP-17 token.
-     * @param {string} [alias] The alias of KIP-17 token.
+     * @param {string} alias The alias of KIP-17 token.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip17TransactionStatusResponse}
      */
     deploy(name, symbol, alias, callback) {
         if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(name) || !_.isString(symbol)) throw new Error(`The name and symbol of KIP-17 token contract should be string type.`)
-
-        if (_.isFunction(alias)) {
-            callback = alias
-            alias = undefined
-        }
-
-        if (alias && !_.isString(alias)) throw new Error(`The alias of KIP-17 token contract should be string type.`)
+        if (!_.isString(alias)) throw new Error(`The alias of KIP-17 token contract should be string type.`)
 
         const opts = {
             body: DeployKip17ContractRequest.constructFromObject({ name, symbol, alias }),

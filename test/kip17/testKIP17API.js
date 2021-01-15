@@ -67,8 +67,9 @@ describe('KIP17 API service enabling', () => {
 
         const name = 'Jasmine'
         const symbol = 'JAS'
+        const alias = 'jasmine'
 
-        function setCallFakeForCallApi(callApiStub, alias) {
+        function setCallFakeForCallApi(callApiStub) {
             callApiStub.callsFake(
                 (
                     path,
@@ -106,51 +107,17 @@ describe('KIP17 API service enabling', () => {
             )
         }
 
-        it('CAVERJS-EXT-KAS-KIP17-003: should deploy KIP-17 token contract without alias', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
-
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17Api, 'deployContract')
-            const callApiStub = sandbox.stub(caver.kas.kip17.kip17Api.apiClient, 'callApi')
-            setCallFakeForCallApi(callApiStub)
-
-            const ret = await caver.kas.kip17.deploy(name, symbol)
-
-            expect(clientFunctionSpy.calledWith(chainId)).to.be.true
-            expect(callApiStub.calledOnce).to.be.true
-            expect(ret.status).to.equal('Submitted')
-        })
-
         it('CAVERJS-EXT-KAS-KIP17-004: should deploy KIP-17 token contract with alias', async () => {
             caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17Api, 'deployContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17Api.apiClient, 'callApi')
 
-            const alias = 'jasmine'
             setCallFakeForCallApi(callApiStub, alias)
             const ret = await caver.kas.kip17.deploy(name, symbol, alias)
 
             expect(clientFunctionSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
-            expect(ret.status).to.equal('Submitted')
-        })
-
-        it('CAVERJS-EXT-KAS-KIP17-005: should call callback function with deployment response', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
-
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17Api, 'deployContract')
-            const callApiStub = sandbox.stub(caver.kas.kip17.kip17Api.apiClient, 'callApi')
-
-            let isCalled = false
-
-            setCallFakeForCallApi(callApiStub)
-            const ret = await caver.kas.kip17.deploy(name, symbol, () => {
-                isCalled = true
-            })
-
-            expect(clientFunctionSpy.calledWith(chainId)).to.be.true
-            expect(callApiStub.calledOnce).to.be.true
-            expect(isCalled).to.be.true
             expect(ret.status).to.equal('Submitted')
         })
 
@@ -162,7 +129,6 @@ describe('KIP17 API service enabling', () => {
 
             let isCalled = false
 
-            const alias = 'jasmine'
             setCallFakeForCallApi(callApiStub, alias)
             const ret = await caver.kas.kip17.deploy(name, symbol, alias, () => {
                 isCalled = true
