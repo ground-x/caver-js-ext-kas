@@ -13,11 +13,7 @@ for i in ${DIRS};do
 	  FILES=`ls`
 
 		for j in ${FILES};do
-			model=$(grep -F '@module model/' $j | cut -d "/" -f2)
-
-			if [ -z "$model" ]; then
-				model=$(grep -F '@alias ' $j | cut -d " " -f6)
-			fi
+			model=${j%".js"}
 
 			# echo $model
 
@@ -74,11 +70,7 @@ for i in ${DIRS};do
 	  FILES=`ls`
 
 		for j in ${FILES};do
-			api=$(grep -F '@module api/' $j | cut -d "/" -f2)
-
-			if [ -z "$api" ]; then
-				api=$(grep -F '@alias ' $j | cut -d " " -f8)
-			fi
+			api=${j%".js"}
 
 			# echo $api
 
