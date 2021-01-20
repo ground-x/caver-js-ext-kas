@@ -3152,6 +3152,22 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)
         })
+
+        it('CAVERJS-EXT-KAS-TH-137: should return multi token with mt contract and owner address via token id in number', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndOwnerAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.tokenHistory.getMT(mtContract, owner, caver.utils.hexToNumber(tokenId))
+
+            expect(getTransfersSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.tokenAddress).to.equal(mtContract)
+            expect(ret.owner).to.equal(owner)
+            expect(ret.tokenId).to.equal(tokenId)
+        })
     })
 
     context('caver.kas.tokenHistory.getMTOwnerListByTokenId', () => {
@@ -3348,6 +3364,21 @@ describe('TokenHistory API service enabling', () => {
 
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)
+        })
+
+        it('CAVERJS-EXT-KAS-TH-138: should return owner list by token id in number type', async () => {
+            caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const getListOfMtContractsSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtTokensByContractAddressAndTokenId')
+            const callApiStub = sandbox.stub(caver.kas.tokenHistory.tokenApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContract, caver.utils.hexToNumber(tokenId))
+
+            expect(getListOfMtContractsSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).to.equal(getMTOwnerListByTokenIdResult.cursor)
         })
     })
 

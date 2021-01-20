@@ -409,7 +409,7 @@ class TokenHistory {
      * GET /v2/contract/nft/{nft-address}/token/{token-id}
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
-     * @param {string} tokenId Token id to be searched.
+     * @param {string|number} tokenId Token id to be searched.
      * @param {Function} [callback] The callback function to call.
      * @return {Nft}
      */
@@ -432,7 +432,7 @@ class TokenHistory {
      * GET /v2/contract/nft/{nft-address}/token/{token-id}/history
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
-     * @param {string} tokenId Token id to be searched.
+     * @param {string|number} tokenId Token id to be searched.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
      * @return {PageableNftOwnershipChanges}
@@ -564,7 +564,7 @@ class TokenHistory {
      *
      * @param {string} mtAddress Address of the MT contract to be searched.
      * @param {string} ownerAddress Address of the account.
-     * @param {string} tokenId Token id to be searched.
+     * @param {string|number} tokenId Token id to be searched.
      * @param {Function} [callback] The callback function to call.
      * @return {MtToken}
      */
@@ -578,7 +578,7 @@ class TokenHistory {
                 this.chainId,
                 mtAddress,
                 ownerAddress,
-                tokenId,
+                utils.toHex(tokenId),
                 (err, data, response) => {
                     if (err) {
                         reject(err)
@@ -595,7 +595,7 @@ class TokenHistory {
      * GET /v2/contract/mt/{mt-address}/token/{token-id}
      *
      * @param {string} mtAddress Address of the MT contract to be searched.
-     * @param {string} tokenId Token id to be searched.
+     * @param {string|number} tokenId Token id to be searched.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
      * @return {PageableMtTokens}
@@ -613,13 +613,19 @@ class TokenHistory {
         if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.tokenApi.getMtTokensByContractAddressAndTokenId(this.chainId, mtAddress, tokenId, queryOptions, (err, data, response) => {
-                if (err) {
-                    reject(err)
+            this.tokenApi.getMtTokensByContractAddressAndTokenId(
+                this.chainId,
+                mtAddress,
+                utils.toHex(tokenId),
+                queryOptions,
+                (err, data, response) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    if (callback) callback(err, data, response)
+                    resolve(data)
                 }
-                if (callback) callback(err, data, response)
-                resolve(data)
-            })
+            )
         })
     }
 
