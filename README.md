@@ -42,7 +42,7 @@ The result of the build is located in "dist/" and is named "caver-js-ext-kas.min
 This library contains tests. Create `.env` file to define environment variables before performing the test like below.
 
 ```
-SENDER_PRV_KEY=''
+SENDER_PRV_KEY_JS=''
 ACCESS_KEY=''
 SECRET_ACCESS_KEY=''
 PRESET=
