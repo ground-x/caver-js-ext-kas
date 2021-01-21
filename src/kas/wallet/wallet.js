@@ -248,7 +248,40 @@ class Wallet {
      * Migrates Klaytn accounts to KAS Wallet API. <br>
      * This function needs Node API. Therefore, it is essential to have initialized to use Node API. <br>
      * Node API initialization is possible through [caver.initKASAPI]{@link CaverExtKAS#initKASAPI} or [caver.initNodeAPI]{@link CaverExtKAS#initNodeAPI}. <br>
-     * await caver.kas.wallet.migarateAccounts([{address:'{{address}}', key:'{{private_keys}}'}]) <br>
+     *
+     * @example
+     * const accounts = [
+     *      {
+     *          address: '0xc756f6809bc34c2458fcb82fb16d5add3dbad9e3',
+     *          key: '0x{private key1}',
+     *          nonce: 0,
+     *      },
+     *      {
+     *          address: '0x5bae5e458ad1a9b210bf0a10434c39be1a5b7983',
+     *          key: [
+     *              '0x{private key2}',
+     *              '0x{private key3}',
+     *          ],
+     *      },
+     *      {
+     *          address: '0x5bae5e458ad1a9b210bf0a10434c39be1a5b7983',
+     *          key: [
+     *              [
+     *                  '0x{private key4}',
+     *                  '0x{private key5}',
+     *              ],
+     *              [
+     *                  '0x{private key6}',
+     *              ],
+     *              [
+     *                  '0x{private key7}',
+     *                  '0x{private key8}',
+     *              ],
+     *          ],
+     *          nonce: 4,
+     *      }
+     * ]
+     * const ret = await caver.kas.wallet.migarateAccounts(accounts)
      *
      * @param {Array.<MigrationAccount>} accounts An array of account objects migrated into KAS.
      * @return {RegistrationStatusResponse}
@@ -809,6 +842,40 @@ class Wallet {
     /**
      * Call the contract. You can view certain value in the contract and validate that you can submit executable transaction.<br>
      * POST /v2/tx/contract/call
+     * @example
+     * const contractAddress = '0x7278841B4300639A8827dc9f8345CC49ef876804'
+     *
+     * // with send options
+     * const sendOptions = {
+     *      from: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+     *      gas: 300000,
+     *      value: 0,
+     * }
+     * const ret = await caver.kas.wallet.callContract(contractAddress, 'increase', callArguments)
+     *
+     * // with call arguments
+     * const callArguments = [
+     *      {
+     *          type: 'address',
+     *          value: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+     *      },
+     * ]
+     * const ret = await caver.kas.wallet.callContract(contractAddress, 'isMinter', callArguments)
+     *
+     * // with call arguments and send options
+     * const callArguments = [
+     *      {
+     *          type: 'address',
+     *          value: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+     *      },
+     *      { type: 'uint256', value: 1 }
+     * ]
+     * const sendOptions = {
+     *      from: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+     *      gas: 300000,
+     *      value: 0,
+     * }
+     * const ret = await caver.kas.wallet.callContract(contractAddress, 'transfer', callArguments, sendOptions)
      *
      * @param {string} contractAddress The krn string to search.
      * @param {string} methodName The method name to call.
