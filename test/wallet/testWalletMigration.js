@@ -32,12 +32,16 @@ let kasKey
 let kasRegistration
 
 const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.walletAPI
+const nodeAPI = require('../testEnv').auths.nodeAPI
 
 const sandbox = sinon.createSandbox()
 
 describe('Wallet API - Migration', () => {
     beforeEach(() => {
         caver = new CaverExtKAS()
+        caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+        caver.initNodeAPI(nodeAPI.chainId, nodeAPI.accessKeyId, nodeAPI.secretAccessKey, nodeAPI.url)
+
         kasKey = {
             items: [
                 {
@@ -97,7 +101,6 @@ describe('Wallet API - Migration', () => {
             const address = keyring._address
             const key = keyring._key._privateKey
 
-            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
             setMigrateStubs(kasKey, kasRegistration)
 
             const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce }])
@@ -112,7 +115,6 @@ describe('Wallet API - Migration', () => {
             const address = keyring._address
             const key = caver.wallet.keyring.generateRoleBasedKeys([2, 1, 3])
 
-            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
             setMigrateStubs(kasKey, kasRegistration)
 
             const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce }])
@@ -127,7 +129,6 @@ describe('Wallet API - Migration', () => {
             const address = keyring._address
             const key = caver.wallet.keyring.generateMultipleKeys(3)
 
-            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
             setMigrateStubs(kasKey, kasRegistration)
 
             const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce }])
@@ -141,8 +142,6 @@ describe('Wallet API - Migration', () => {
             const keyring = caver.keyringContainer.keyring.generate()
             const address = keyring._address
             const key = caver.wallet.keyring.generateMultipleKeys(3)
-
-            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
             setMigrateStubs(kasKey, {
                 code: 1061010,
                 message:
@@ -165,7 +164,6 @@ describe('Wallet API - Migration', () => {
             const address2 = keyring2._address
             const key2 = keyring2._key._privateKey
 
-            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
             kasKey = {
                 items: [
                     {
