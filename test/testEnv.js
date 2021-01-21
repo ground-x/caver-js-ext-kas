@@ -58,7 +58,7 @@ const auths = {
 }
 
 if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm_config_testEnv === 'dev') {
-    senderPrivateKey = process.env.SENDER_PRV_KEY_DEV
+    senderPrivateKey = process.env.SENDER_PRV_KEY_JS_DEV
 
     auths.nodeAPI.url = process.env.NODE_API_DEV
     auths.nodeAPI.accessKeyId = process.env.ACCESS_KEY_DEV
@@ -83,7 +83,7 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.kip17API.accessKeyId = process.env.ACCESS_KEY_DEV
     auths.kip17API.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
 } else {
-    senderPrivateKey = process.env.SENDER_PRV_KEY
+    senderPrivateKey = process.env.SENDER_PRV_KEY_JS
 
     auths.nodeAPI.accessKeyId = process.env.ACCESS_KEY
     auths.nodeAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
