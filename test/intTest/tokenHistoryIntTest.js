@@ -93,7 +93,7 @@ describe('TokenHistory API service', () => {
     let sender
 
     before(function(done) {
-        this.timeout(100000)
+        this.timeout(200000)
 
         caver = new CaverExtKAS()
         keyringContainer = new caver.keyringContainer()
