@@ -32,24 +32,34 @@
             './anchor/api/OperatorApi',
 
             // TH
+            './tokenHistory/model/FTSummary',
             './tokenHistory/model/FtContract',
             './tokenHistory/model/FtContractDetail',
             './tokenHistory/model/FtLink',
             './tokenHistory/model/FtTransfer',
-            './tokenHistory/model/InvalidQueryParameterValue',
-            './tokenHistory/model/TransferItem',
             './tokenHistory/model/KlayTransfer',
+            './tokenHistory/model/Mt',
+            './tokenHistory/model/MtContract',
+            './tokenHistory/model/MtContractDetail',
+            './tokenHistory/model/MtToken',
+            './tokenHistory/model/MtTransfer',
             './tokenHistory/model/Nft',
             './tokenHistory/model/NftContract',
             './tokenHistory/model/NftContractDetail',
             './tokenHistory/model/NftOwnershipChange',
             './tokenHistory/model/NftTransfer',
+            './tokenHistory/model/PageableAccountFT',
             './tokenHistory/model/PageableFtContractDetails',
+            './tokenHistory/model/PageableMtContractDetails',
+            './tokenHistory/model/PageableMtTokens',
+            './tokenHistory/model/PageableMtTokensWithBalance',
+            './tokenHistory/model/PageableMts',
             './tokenHistory/model/PageableNftContractDetails',
             './tokenHistory/model/PageableNftOwnershipChanges',
             './tokenHistory/model/PageableNfts',
             './tokenHistory/model/PageableTransfers',
             './tokenHistory/model/Transaction',
+            './tokenHistory/model/TransferItem',
             './tokenHistory/model/Transfers',
             './tokenHistory/api/TokenApi',
             './tokenHistory/api/TokenContractApi',
@@ -68,7 +78,11 @@
             './wallet/model/Accounts',
             './wallet/model/AccountsByPubkey',
             './wallet/model/AnchorTransactionRequest',
+            './wallet/model/CallArgument',
             './wallet/model/CancelTransactionRequest',
+            './wallet/model/ContractCallData',
+            './wallet/model/ContractCallRequest',
+            './wallet/model/ContractCallResponse',
             './wallet/model/ContractDeployTransactionRequest',
             './wallet/model/ContractExecutionTransactionRequest',
             './wallet/model/EmptyUpdateKeyType',
@@ -89,7 +103,6 @@
             './wallet/model/FDUserProcessRLPRequest',
             './wallet/model/FDUserValueTransferTransactionRequest',
             './wallet/model/FDValueTransferTransactionRequest',
-            './wallet/model/Failures',
             './wallet/model/FeePayerSignaturesObj',
             './wallet/model/Key',
             './wallet/model/KeyCreationRequest',
@@ -111,7 +124,7 @@
             './wallet/model/RoleBasedUpdateKeyType',
             './wallet/model/SignPendingTransactionBySigRequest',
             './wallet/model/Signature',
-            './wallet/model/StatusResponse',
+            './wallet/model/RegistrationStatusResponse',
             './wallet/model/TransactionReceipt',
             './wallet/model/TransactionResult',
             './wallet/model/TxData',
@@ -124,6 +137,26 @@
             './wallet/api/MultisigTransactionManagementApi',
             './wallet/api/RegistrationApi',
             './wallet/api/StatisticsApi',
+
+            // KIP17
+            './kip17/model/ApproveAllKip17Request',
+            './kip17/model/ApproveKip17TokenRequest',
+            './kip17/model/BurnKip17TokenRequest',
+            './kip17/model/DeployKip17ContractRequest',
+            './kip17/model/GetKip17TokenHistoryResponse',
+            './kip17/model/GetKip17TokenHistoryResponseItem',
+            './kip17/model/GetKip17TokenResponse',
+            './kip17/model/GetOwnerKip17TokensResponse',
+            './kip17/model/GetOwnerKip17TokensResponseItem',
+            './kip17/model/Kip17ContractInfoResponse',
+            './kip17/model/Kip17ContractListResponse',
+            './kip17/model/Kip17ContractListResponseItem',
+            './kip17/model/Kip17TokenListResponse',
+            './kip17/model/Kip17TokenListResponseItem',
+            './kip17/model/Kip17TransactionStatusResponse',
+            './kip17/model/MintKip17TokenRequest',
+            './kip17/model/TransferKip17TokenRequest',
+            './kip17/api/KIP17Api',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
@@ -143,24 +176,34 @@
             require('./anchor/api/OperatorApi'),
 
             // TH
+            require('./tokenHistory/model/FTSummary'),
             require('./tokenHistory/model/FtContract'),
             require('./tokenHistory/model/FtContractDetail'),
             require('./tokenHistory/model/FtLink'),
             require('./tokenHistory/model/FtTransfer'),
-            require('./tokenHistory/model/InvalidQueryParameterValue'),
-            require('./tokenHistory/model/TransferItem'),
             require('./tokenHistory/model/KlayTransfer'),
+            require('./tokenHistory/model/Mt'),
+            require('./tokenHistory/model/MtContract'),
+            require('./tokenHistory/model/MtContractDetail'),
+            require('./tokenHistory/model/MtToken'),
+            require('./tokenHistory/model/MtTransfer'),
             require('./tokenHistory/model/Nft'),
             require('./tokenHistory/model/NftContract'),
             require('./tokenHistory/model/NftContractDetail'),
             require('./tokenHistory/model/NftOwnershipChange'),
             require('./tokenHistory/model/NftTransfer'),
+            require('./tokenHistory/model/PageableAccountFT'),
             require('./tokenHistory/model/PageableFtContractDetails'),
+            require('./tokenHistory/model/PageableMtContractDetails'),
+            require('./tokenHistory/model/PageableMtTokens'),
+            require('./tokenHistory/model/PageableMtTokensWithBalance'),
+            require('./tokenHistory/model/PageableMts'),
             require('./tokenHistory/model/PageableNftContractDetails'),
             require('./tokenHistory/model/PageableNftOwnershipChanges'),
             require('./tokenHistory/model/PageableNfts'),
             require('./tokenHistory/model/PageableTransfers'),
             require('./tokenHistory/model/Transaction'),
+            require('./tokenHistory/model/TransferItem'),
             require('./tokenHistory/model/Transfers'),
             require('./tokenHistory/api/TokenApi'),
             require('./tokenHistory/api/TokenContractApi'),
@@ -179,7 +222,11 @@
             require('./wallet/model/Accounts'),
             require('./wallet/model/AccountsByPubkey'),
             require('./wallet/model/AnchorTransactionRequest'),
+            require('./wallet/model/CallArgument'),
             require('./wallet/model/CancelTransactionRequest'),
+            require('./wallet/model/ContractCallData'),
+            require('./wallet/model/ContractCallRequest'),
+            require('./wallet/model/ContractCallResponse'),
             require('./wallet/model/ContractDeployTransactionRequest'),
             require('./wallet/model/ContractExecutionTransactionRequest'),
             require('./wallet/model/EmptyUpdateKeyType'),
@@ -200,7 +247,6 @@
             require('./wallet/model/FDUserProcessRLPRequest'),
             require('./wallet/model/FDUserValueTransferTransactionRequest'),
             require('./wallet/model/FDValueTransferTransactionRequest'),
-            require('./wallet/model/Failures'),
             require('./wallet/model/FeePayerSignaturesObj'),
             require('./wallet/model/Key'),
             require('./wallet/model/KeyCreationRequest'),
@@ -222,7 +268,7 @@
             require('./wallet/model/RoleBasedUpdateKeyType'),
             require('./wallet/model/SignPendingTransactionBySigRequest'),
             require('./wallet/model/Signature'),
-            require('./wallet/model/StatusResponse'),
+            require('./wallet/model/RegistrationStatusResponse'),
             require('./wallet/model/TransactionReceipt'),
             require('./wallet/model/TransactionResult'),
             require('./wallet/model/TxData'),
@@ -234,7 +280,27 @@
             require('./wallet/api/KeyApi'),
             require('./wallet/api/MultisigTransactionManagementApi'),
             require('./wallet/api/RegistrationApi'),
-            require('./wallet/api/StatisticsApi')
+            require('./wallet/api/StatisticsApi'),
+
+            // KIP17
+            require('./kip17/model/ApproveAllKip17Request'),
+            require('./kip17/model/ApproveKip17TokenRequest'),
+            require('./kip17/model/BurnKip17TokenRequest'),
+            require('./kip17/model/DeployKip17ContractRequest'),
+            require('./kip17/model/GetKip17TokenHistoryResponse'),
+            require('./kip17/model/GetKip17TokenHistoryResponseItem'),
+            require('./kip17/model/GetKip17TokenResponse'),
+            require('./kip17/model/GetOwnerKip17TokensResponse'),
+            require('./kip17/model/GetOwnerKip17TokensResponseItem'),
+            require('./kip17/model/Kip17ContractInfoResponse'),
+            require('./kip17/model/Kip17ContractListResponse'),
+            require('./kip17/model/Kip17ContractListResponseItem'),
+            require('./kip17/model/Kip17TokenListResponse'),
+            require('./kip17/model/Kip17TokenListResponseItem'),
+            require('./kip17/model/Kip17TransactionStatusResponse'),
+            require('./kip17/model/MintKip17TokenRequest'),
+            require('./kip17/model/TransferKip17TokenRequest'),
+            require('./kip17/api/KIP17Api')
         )
     }
 })(function(
@@ -253,24 +319,34 @@
     OperatorApi,
 
     // TH
+    FTSummary,
     FtContract,
     FtContractDetail,
     FtLink,
     FtTransfer,
-    InvalidQueryParameterValue,
-    TransferItem,
     KlayTransfer,
+    Mt,
+    MtContract,
+    MtContractDetail,
+    MtToken,
+    MtTransfer,
     Nft,
     NftContract,
     NftContractDetail,
     NftOwnershipChange,
     NftTransfer,
+    PageableAccountFT,
     PageableFtContractDetails,
+    PageableMtContractDetails,
+    PageableMtTokens,
+    PageableMtTokensWithBalance,
+    PageableMts,
     PageableNftContractDetails,
     PageableNftOwnershipChanges,
     PageableNfts,
     PageableTransfers,
     Transaction,
+    TransferItem,
     Transfers,
     TokenApi,
     TokenContractApi,
@@ -289,7 +365,11 @@
     Accounts,
     AccountsByPubkey,
     AnchorTransactionRequest,
+    CallArgument,
     CancelTransactionRequest,
+    ContractCallData,
+    ContractCallRequest,
+    ContractCallResponse,
     ContractDeployTransactionRequest,
     ContractExecutionTransactionRequest,
     EmptyUpdateKeyType,
@@ -310,7 +390,6 @@
     FDUserProcessRLPRequest,
     FDUserValueTransferTransactionRequest,
     FDValueTransferTransactionRequest,
-    Failures,
     FeePayerSignaturesObj,
     Key,
     KeyCreationRequest,
@@ -332,7 +411,7 @@
     RoleBasedUpdateKeyType,
     SignPendingTransactionBySigRequest,
     Signature,
-    StatusResponse,
+    RegistrationStatusResponse,
     TransactionReceipt,
     TransactionResult,
     TxData,
@@ -344,7 +423,25 @@
     KeyApi,
     MultisigTransactionManagementApi,
     RegistrationApi,
-    StatisticsApi
+    StatisticsApi,
+    ApproveAllKip17Request,
+    ApproveKip17TokenRequest,
+    BurnKip17TokenRequest,
+    DeployKip17ContractRequest,
+    GetKip17TokenHistoryResponse,
+    GetKip17TokenHistoryResponseItem,
+    GetKip17TokenResponse,
+    GetOwnerKip17TokensResponse,
+    GetOwnerKip17TokensResponseItem,
+    Kip17ContractInfoResponse,
+    Kip17ContractListResponse,
+    Kip17ContractListResponseItem,
+    Kip17TokenListResponse,
+    Kip17TokenListResponseItem,
+    Kip17TransactionStatusResponse,
+    MintKip17TokenRequest,
+    TransferKip17TokenRequest,
+    KIP17Api
 ) {
     /**
      * @module RestClient
@@ -411,6 +508,11 @@
 
         // TokenHistory
         /**
+         * The FTSummary model constructor.
+         * @property {FTSummary}
+         */
+        FTSummary: FTSummary,
+        /**
          * The FtContract model constructor.
          * @property {FtContract}
          */
@@ -431,20 +533,35 @@
          */
         FtTransfer: FtTransfer,
         /**
-         * The InvalidQueryParameterValue model constructor.
-         * @property {InvalidQueryParameterValue}
-         */
-        InvalidQueryParameterValue: InvalidQueryParameterValue,
-        /**
-         * The TransferItem model constructor.
-         * @property {TransferItem}
-         */
-        TransferItem: TransferItem,
-        /**
          * The KlayTransfer model constructor.
          * @property {KlayTransfer}
          */
         KlayTransfer: KlayTransfer,
+        /**
+         * The Mt model constructor.
+         * @property {Mt}
+         */
+        Mt: Mt,
+        /**
+         * The MtContract model constructor.
+         * @property {MtContract}
+         */
+        MtContract: MtContract,
+        /**
+         * The MtContractDetail model constructor.
+         * @property {MtContractDetail}
+         */
+        MtContractDetail: MtContractDetail,
+        /**
+         * The MtToken model constructor.
+         * @property {MtToken}
+         */
+        MtToken: MtToken,
+        /**
+         * The MtTransfer model constructor.
+         * @property {MtTransfer}
+         */
+        MtTransfer: MtTransfer,
         /**
          * The Nft model constructor.
          * @property {Nft}
@@ -471,10 +588,35 @@
          */
         NftTransfer: NftTransfer,
         /**
+         * The PageableAccountFT model constructor.
+         * @property {PageableAccountFT}
+         */
+        PageableAccountFT: PageableAccountFT,
+        /**
          * The PageableFtContractDetails model constructor.
          * @property {PageableFtContractDetails}
          */
         PageableFtContractDetails: PageableFtContractDetails,
+        /**
+         * The PageableMtContractDetails model constructor.
+         * @property {PageableMtContractDetails}
+         */
+        PageableMtContractDetails: PageableMtContractDetails,
+        /**
+         * The PageableMtTokens model constructor.
+         * @property {PageableMtTokens}
+         */
+        PageableMtTokens: PageableMtTokens,
+        /**
+         * The PageableMtTokensWithBalance model constructor.
+         * @property {PageableMtTokensWithBalance}
+         */
+        PageableMtTokensWithBalance: PageableMtTokensWithBalance,
+        /**
+         * The PageableMts model constructor.
+         * @property {PageableMts}
+         */
+        PageableMts: PageableMts,
         /**
          * The PageableNftContractDetails model constructor.
          * @property {PageableNftContractDetails}
@@ -500,6 +642,11 @@
          * @property {Transaction}
          */
         Transaction: Transaction,
+        /**
+         * The TransferItem model constructor.
+         * @property {TransferItem}
+         */
+        TransferItem: TransferItem,
         /**
          * The Transfers model constructor.
          * @property {Transfers}
@@ -584,10 +731,30 @@
          */
         AnchorTransactionRequest: AnchorTransactionRequest,
         /**
+         * The CallArgument model constructor.
+         * @property {CallArgument}
+         */
+        CallArgument: CallArgument,
+        /**
          * The CancelTransactionRequest model constructor.
          * @property {CancelTransactionRequest}
          */
         CancelTransactionRequest: CancelTransactionRequest,
+        /**
+         * The ContractCallData model constructor.
+         * @property {ContractCallData}
+         */
+        ContractCallData: ContractCallData,
+        /**
+         * The ContractCallRequest model constructor.
+         * @property {ContractCallRequest}
+         */
+        ContractCallRequest: ContractCallRequest,
+        /**
+         * The ContractCallResponse model constructor.
+         * @property {ContractCallResponse}
+         */
+        ContractCallResponse: ContractCallResponse,
         /**
          * The ContractDeployTransactionRequest model constructor.
          * @property {ContractDeployTransactionRequest}
@@ -688,11 +855,6 @@
          * @property {FDValueTransferTransactionRequest}
          */
         FDValueTransferTransactionRequest: FDValueTransferTransactionRequest,
-        /**
-         * The Failures model constructor.
-         * @property {Failures}
-         */
-        Failures: Failures,
         /**
          * The FeePayerSignaturesObj model constructor.
          * @property {FeePayerSignaturesObj}
@@ -799,10 +961,10 @@
          */
         Signature: Signature,
         /**
-         * The StatusResponse model constructor.
-         * @property {StatusResponse}
+         * The RegistrationStatusResponse model constructor.
+         * @property {RegistrationStatusResponse}
          */
-        StatusResponse: StatusResponse,
+        RegistrationStatusResponse: RegistrationStatusResponse,
         /**
          * The TransactionReceipt model constructor.
          * @property {TransactionReceipt}
@@ -863,6 +1025,98 @@
          * @property {StatisticsApi}
          */
         StatisticsApi: StatisticsApi,
+
+        // KIP17
+        /**
+         * The ApproveAllKip17Request model constructor.
+         * @property {ApproveAllKip17Request}
+         */
+        ApproveAllKip17Request: ApproveAllKip17Request,
+        /**
+         * The ApproveKip17TokenRequest model constructor.
+         * @property {ApproveKip17TokenRequest}
+         */
+        ApproveKip17TokenRequest: ApproveKip17TokenRequest,
+        /**
+         * The BurnKip17TokenRequest model constructor.
+         * @property {BurnKip17TokenRequest}
+         */
+        BurnKip17TokenRequest: BurnKip17TokenRequest,
+        /**
+         * The DeployKip17ContractRequest model constructor.
+         * @property {DeployKip17ContractRequest}
+         */
+        DeployKip17ContractRequest: DeployKip17ContractRequest,
+        /**
+         * The GetKip17TokenHistoryResponse model constructor.
+         * @property {GetKip17TokenHistoryResponse}
+         */
+        GetKip17TokenHistoryResponse: GetKip17TokenHistoryResponse,
+        /**
+         * The GetKip17TokenHistoryResponseItem model constructor.
+         * @property {GetKip17TokenHistoryResponseItem}
+         */
+        GetKip17TokenHistoryResponseItem: GetKip17TokenHistoryResponseItem,
+        /**
+         * The GetKip17TokenResponse model constructor.
+         * @property {GetKip17TokenResponse}
+         */
+        GetKip17TokenResponse: GetKip17TokenResponse,
+        /**
+         * The GetOwnerKip17TokensResponse model constructor.
+         * @property {GetOwnerKip17TokensResponse}
+         */
+        GetOwnerKip17TokensResponse: GetOwnerKip17TokensResponse,
+        /**
+         * The GetOwnerKip17TokensResponseItem model constructor.
+         * @property {GetOwnerKip17TokensResponseItem}
+         */
+        GetOwnerKip17TokensResponseItem: GetOwnerKip17TokensResponseItem,
+        /**
+         * The Kip17ContractInfoResponse model constructor.
+         * @property {Kip17ContractInfoResponse}
+         */
+        Kip17ContractInfoResponse: Kip17ContractInfoResponse,
+        /**
+         * The Kip17ContractListResponse model constructor.
+         * @property {Kip17ContractListResponse}
+         */
+        Kip17ContractListResponse: Kip17ContractListResponse,
+        /**
+         * The Kip17ContractListResponseItem model constructor.
+         * @property {Kip17ContractListResponseItem}
+         */
+        Kip17ContractListResponseItem: Kip17ContractListResponseItem,
+        /**
+         * The Kip17TokenListResponse model constructor.
+         * @property {Kip17TokenListResponse}
+         */
+        Kip17TokenListResponse: Kip17TokenListResponse,
+        /**
+         * The Kip17TokenListResponseItem model constructor.
+         * @property {Kip17TokenListResponseItem}
+         */
+        Kip17TokenListResponseItem: Kip17TokenListResponseItem,
+        /**
+         * The Kip17TransactionStatusResponse model constructor.
+         * @property {Kip17TransactionStatusResponse}
+         */
+        Kip17TransactionStatusResponse: Kip17TransactionStatusResponse,
+        /**
+         * The MintKip17TokenRequest model constructor.
+         * @property {MintKip17TokenRequest}
+         */
+        MintKip17TokenRequest: MintKip17TokenRequest,
+        /**
+         * The TransferKip17TokenRequest model constructor.
+         * @property {TransferKip17TokenRequest}
+         */
+        TransferKip17TokenRequest: TransferKip17TokenRequest,
+        /**
+         * The KIP17Api service constructor.
+         * @property {KIP17Api}
+         */
+        KIP17Api: KIP17Api,
     }
 
     return exports

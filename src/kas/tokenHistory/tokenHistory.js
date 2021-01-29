@@ -409,7 +409,7 @@ class TokenHistory {
      * GET /v2/contract/nft/{nft-address}/token/{token-id}
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
-     * @param {string} tokenId Token id to be searched.
+     * @param {string|number} tokenId Token id to be searched.
      * @param {Function} [callback] The callback function to call.
      * @return {Nft}
      */
@@ -432,7 +432,7 @@ class TokenHistory {
      * GET /v2/contract/nft/{nft-address}/token/{token-id}/history
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
-     * @param {string} tokenId Token id to be searched.
+     * @param {string|number} tokenId Token id to be searched.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
      * @return {PageableNftOwnershipChanges}
@@ -464,6 +464,252 @@ class TokenHistory {
             )
         })
     }
+
+    /**
+     * Retrieve information of all labeled MT contracts. <br>
+     * GET /v2/contract/mt
+     * @example
+     * // without query parameter
+     * const ret = await caver.kas.tokenHistory.getMTContractList()
+     *
+     * // with query parameter
+     * const ret = await caver.kas.tokenHistory.getMTContractList({
+     *      status: caver.kas.tokenHistory.queryOptions.status.COMPLETED,
+     *      size: 1,
+     *      type: caver.kas.tokenHistory.queryOptions.type.KIP37,
+     *      cursor: 'eyJjc...',
+     *  })
+     *
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {PageableFtContractDetails}
+     */
+    getMTContractList(queryOptions, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['status', 'type', 'size', 'cursor']))
+            throw new Error(`Invalid query options: 'status', 'type', 'size', and 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenContractApi.getListOfMtContracts(this.chainId, queryOptions, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Retrieves a labeled MT contract information. <br>
+     * GET /v2/contract/mt/{mt-address}
+     * @example
+     * const ret = await caver.kas.tokenHistory.getMTContract('0x219f6f9a47ced24c0451dd80ff97d6feca4533c0')
+     *
+     * @param {string} mtAddress Address of the MT contract for which information is to be retrieved.
+     * @param {Function} [callback] The callback function to call.
+     * @return {MtContractDetail}
+     */
+    getMTContract(mtAddress, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.tokenContractApi.getMtContractDetail(this.chainId, mtAddress, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Lists all tokens of a MT contract that are owned by the queried EOA address. <br>
+     * GET /v2/contract/mt/{mt-address}/owner/{owner-address}
+     * @example
+     * const mtContractAddress = '0x219f6f9a47ced24c0451dd80ff97d6feca4533c0'
+     * const owner = '0xb8bb4b109f18eb6f292757aaec623200f1a41369'
+     *
+     * // without query parameter
+     * const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContractAddress, owner)
+     *
+     * // with query parameter
+     * const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContractAddress, owner, { size: 1, cursor: 'eyJjc...' })
+     *
+     * @param {string} mtAddress Address of the MT contract to be searched.
+     * @param {string} ownerAddress Address of the account.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {PageableMtTokensWithBalance}
+     */
+    getMTListByOwner(mtAddress, ownerAddress, queryOptions, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(mtAddress)) throw new Error(`Invalid mt contract address: ${mtAddress}`)
+        if (!utils.isAddress(ownerAddress)) throw new Error(`Invalid account address: ${ownerAddress}`)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenApi.getMtTokensByContractAddressAndOwnerAddress(
+                this.chainId,
+                mtAddress,
+                ownerAddress,
+                queryOptions,
+                (err, data, response) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    if (callback) callback(err, data, response)
+                    resolve(data)
+                }
+            )
+        })
+    }
+
+    /**
+     * Retrieves a specific MT information. <br>
+     * GET /v2/contract/mt/{mt-address}/owner/{owner-address}/token/{token-id}
+     * @example
+     * const mtContractAddress = '0x219f6f9a47ced24c0451dd80ff97d6feca4533c0'
+     * const owner = '0xb8bb4b109f18eb6f292757aaec623200f1a41369'
+     *
+     * // with token id in hex
+     * const ret = await caver.kas.tokenHistory.getMT(mtContractAddress, owner, '0x0')
+     *
+     * // with token id in number
+     * const ret = await caver.kas.tokenHistory.getMT(mtContractAddress, owner, 0)
+     *
+     * @param {string} mtAddress Address of the MT contract to be searched.
+     * @param {string} ownerAddress Address of the account.
+     * @param {string|number} tokenId Token id to be searched.
+     * @param {Function} [callback] The callback function to call.
+     * @return {MtToken}
+     */
+    getMT(mtAddress, ownerAddress, tokenId, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(mtAddress)) throw new Error(`Invalid mt contract address: ${mtAddress}`)
+        if (!utils.isAddress(ownerAddress)) throw new Error(`Invalid account address: ${ownerAddress}`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenApi.getMtTokensByContractAddressAndOwnerAddressAndTokenId(
+                this.chainId,
+                mtAddress,
+                ownerAddress,
+                utils.toHex(tokenId),
+                (err, data, response) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    if (callback) callback(err, data, response)
+                    resolve(data)
+                }
+            )
+        })
+    }
+
+    /**
+     * Lists all EOA addresses who own the queried MT. <br>
+     * GET /v2/contract/mt/{mt-address}/token/{token-id}
+     * @example
+     * const mtContractAddress = '0x219f6f9a47ced24c0451dd80ff97d6feca4533c0'
+     *
+     * // with query parameter and token id in hex
+     * const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContractAddress, '0x0')
+     *
+     * // without query parameter and with token id in number
+     * const ret = await caver.kas.tokenHistory.getMTOwnerListByTokenId(mtContractAddress, 0, { size: 1, cursor: 'eyJjc...' })
+     *
+     * @param {string} mtAddress Address of the MT contract to be searched.
+     * @param {string|number} tokenId Token id to be searched.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {PageableMtTokens}
+     */
+    getMTOwnerListByTokenId(mtAddress, tokenId, queryOptions, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(mtAddress)) throw new Error(`Invalid mt contract address: ${mtAddress}`)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenApi.getMtTokensByContractAddressAndTokenId(
+                this.chainId,
+                mtAddress,
+                utils.toHex(tokenId),
+                queryOptions,
+                (err, data, response) => {
+                    if (err) {
+                        reject(err)
+                    }
+                    if (callback) callback(err, data, response)
+                    resolve(data)
+                }
+            )
+        })
+    }
+
+    // /**
+    //  * Lists all fungible tokens owned by the queried EOA address. <br>
+    //  * GET /v2/account/token/{address}/ft
+    //  * @example
+    //  * const address = '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
+    //  *
+    //  * // with query parameter
+    //  * const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(address)
+    //  *
+    //  * // without query parameter
+    //  * const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(address, {
+    //  *      size: 1,
+    //  *      cursor: 'eyJjc...',
+    //  *      caFilters: [ '0x639bb15d5c012820bef8dd038254271e8597b3cf', '0x54b3fde37c5604007f0e50913e990a039d19b6af' ],
+    //  * })
+    //  *
+    //  * @param {string} address The address of the account to search the owned FT.
+    //  * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `caFilters`, `size`, and `cursor`.
+    //  * @param {Function} [callback] The callback function to call.
+    //  * @return {PageableAccountFT}
+    //  */
+    // getFTSummaryByAddress(address, queryOptions, callback) {
+    //     if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+    //     if (_.isFunction(queryOptions)) {
+    //         callback = queryOptions
+    //         queryOptions = {}
+    //     }
+
+    //     queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+    //     if (!queryOptions.isValidOptions(['caFilters', 'size', 'cursor']))
+    //         throw new Error(`Invalid query options: 'caFilters', 'size', and 'cursor' can be used.`)
+
+    //     return new Promise((resolve, reject) => {
+    //         this.tokenOwnershipApi.getFtSummaryByEoaAddress(this.chainId, address, queryOptions, (err, data, response) => {
+    //             if (err) {
+    //                 reject(err)
+    //             }
+    //             if (callback) callback(err, data, response)
+    //             resolve(data)
+    //         })
+    //     })
+    // }
 }
 
 module.exports = TokenHistory

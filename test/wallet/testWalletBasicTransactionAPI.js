@@ -1448,4 +1448,153 @@ describe('Wallet API - Basic transaction API', () => {
             expect(ret.message).to.equal(errorResult.message)
         })
     })
+
+    context('caver.kas.wallet.callContract', () => {
+        const resultOfApi = {
+            data:
+                '0xa9059cbb0000000000000000000000000afa15f32d1f1283c09d5d2034957a7e79b7ae210000000000000000000000000000000000000000000000000000000000000001',
+            result: '0x0000000000000000000000000000000000000000000000000000000000000001',
+        }
+        const contractAddress = '0x7278841B4300639A8827dc9f8345CC49ef876804'
+
+        function setCallFakeForCallApi(callApiStub, methodName, callArguments, sendOptions) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v2/tx/contract/call`)
+                    expect(mtd).to.equal(`POST`)
+                    expect(Object.keys(pathParams).length).to.equal(0)
+                    expect(Object.keys(queryParams).length).to.equal(0)
+                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    if (sendOptions !== undefined) {
+                        expect(postBody.from).to.equal(sendOptions.from)
+                        expect(postBody.value).to.equal(caver.utils.toHex(sendOptions.value))
+                        expect(postBody.gas).to.equal(sendOptions.gas)
+                    }
+                    expect(postBody.to).to.equal(contractAddress)
+                    expect(postBody.data).not.to.be.undefined
+                    expect(postBody.data.methodName).to.equal(methodName)
+                    if (callArguments !== undefined) {
+                        expect(postBody.data.arguments.length).to.equal(callArguments.length)
+                        for (let i = 0; i < postBody.data.arguments.length; i++) {
+                            const arg = postBody.data.arguments[i]
+                            expect(arg.type).to.equal(callArguments[i].type)
+                            expect(arg.value).to.equal(callArguments[i].value)
+                        }
+                    }
+                    expect(authNames[0]).to.equal('auth')
+                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+                    callback(null, resultOfApi, { body: resultOfApi })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-WALLET-208: should call contract with callArgumetns and sendOptions', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractCall')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+
+            const methodName = 'transfer'
+            const callArguments = [
+                {
+                    type: 'address',
+                    value: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+                },
+                { type: 'uint256', value: 1 },
+            ]
+            const sendOptions = {
+                from: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+                gas: 300000,
+                value: 0,
+            }
+
+            setCallFakeForCallApi(callApiStub, methodName, callArguments, sendOptions)
+            const ret = await caver.kas.wallet.callContract(contractAddress, methodName, callArguments, sendOptions)
+
+            expect(apiFunctionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.result).not.to.be.undefined
+            expect(ret.data).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-209: should call contract with sendOptions', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractCall')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+
+            const methodName = 'increase'
+            const sendOptions = {
+                from: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+                gas: 300000,
+                value: 0,
+            }
+
+            setCallFakeForCallApi(callApiStub, methodName, undefined, sendOptions)
+            const ret = await caver.kas.wallet.callContract(contractAddress, methodName, sendOptions)
+
+            expect(apiFunctionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.result).not.to.be.undefined
+            expect(ret.data).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-210: should call contract with callArguments', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractCall')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+
+            const methodName = 'isMinter'
+            const callArguments = [
+                {
+                    type: 'address',
+                    value: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+                },
+            ]
+
+            setCallFakeForCallApi(callApiStub, methodName, callArguments, undefined)
+            const ret = await caver.kas.wallet.callContract(contractAddress, methodName, callArguments)
+
+            expect(apiFunctionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.result).not.to.be.undefined
+            expect(ret.data).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-211: should call contract without callArguments and sendOptions', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractCall')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+
+            const methodName = 'name'
+
+            setCallFakeForCallApi(callApiStub, methodName, undefined, undefined)
+            const ret = await caver.kas.wallet.callContract(contractAddress, methodName)
+
+            expect(apiFunctionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.result).not.to.be.undefined
+            expect(ret.data).not.to.be.undefined
+        })
+    })
 })

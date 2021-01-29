@@ -143,7 +143,6 @@ describe('Wallet API service', () => {
         expect(ret.createdAt).to.equal(ret.updatedAt)
         expect(ret.keyId).not.to.be.undefined
         expect(ret.krn).not.to.be.undefined
-        expect(ret.keyId.includes(ret.krn)).to.be.true
         expect(ret.publicKey).not.to.be.undefined
 
         await sendTestKLAY(accountToTest.address)
@@ -3624,5 +3623,128 @@ describe('Wallet API service', () => {
 
         expect(ret.count > 0).to.be.true
         expect(ret.krn).to.equal(accountToTest.krn)
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-233: caver.kas.wallet.migrateAccounts should return status with a single key', async () => {
+        const keyring = caver.keyringContainer.keyring.generate()
+        const address = keyring._address
+        const key = keyring._key._privateKey
+
+        const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce: 0 }])
+
+        expect(ret).not.to.be.undefined
+        expect(ret.status).not.to.be.undefined
+        expect(ret.status).to.be.equal('ok')
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-234: caver.kas.wallet.migrateAccounts should return status with multiple accounts', async () => {
+        const req = []
+
+        for (let i = 0; i < 5; i++) {
+            const keyring = caver.keyringContainer.keyring.generate()
+            const address = keyring._address
+            const key = keyring._key._privateKey
+            req.push({ address, key, nonce: 0 })
+        }
+        const ret = await caver.kas.wallet.migrateAccounts(req)
+
+        expect(ret).not.to.be.undefined
+        expect(ret.status).not.to.be.undefined
+        expect(ret.status).to.be.equal('ok')
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-240: caver.kas.wallet.callContract should call contract with a Klaytn account in KAS', async () => {
+        const ret = await caver.kas.wallet.callContract(
+            contractAddress,
+            'set',
+            [{ type: 'string', value: 'jasmineKey' }, { type: 'string', value: 'jasmineValue' }],
+            { from: accountToTest.address, gas: 150000, value: 0 }
+        )
+
+        expect(ret.data).to.equal(
+            caver.abi.encodeFunctionCall(
+                {
+                    inputs: [{ name: 'key', type: 'string' }, { name: 'value', type: 'string' }],
+                    name: 'set',
+                    type: 'function',
+                },
+                ['jasmineKey', 'jasmineValue']
+            )
+        )
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-241: caver.kas.wallet.callContract should call contract via KAS', async () => {
+        const ret = await caver.kas.wallet.callContract(contractAddress, 'get', [{ type: 'string', value: 'key' }])
+
+        expect(ret.data).to.equal(
+            caver.abi.encodeFunctionCall(
+                {
+                    inputs: [{ name: 'key', type: 'string' }],
+                    name: 'get',
+                    type: 'function',
+                },
+                ['key']
+            )
+        )
+        expect(ret.result).to.equal(caver.abi.encodeParameter('string', 'value'))
+    }).timeout(500000)
+
+    let keyId
+    let krn
+
+    it('CAVERJS-EXT-KAS-INT-242: caver.kas.wallet.createKeys should create keys in KAS', async () => {
+        const ret = await caver.kas.wallet.createKeys(2)
+
+        expect(ret.items.length).to.equal(2)
+
+        keyId = ret.items[0].keyId
+        krn = ret.items[0].krn
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-243: caver.kas.wallet.getKey should return key from KAS', async () => {
+        const ret = await caver.kas.wallet.getKey(keyId)
+
+        expect(ret.keyId).to.equal(keyId)
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-244: caver.kas.wallet.signMessage should sign data with key in KAS', async () => {
+        const dataToSign = '0x88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589'
+        const ret = await caver.kas.wallet.signMessage(keyId, dataToSign)
+
+        expect(ret.signedData).not.to.be.undefined
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-245: caver.kas.wallet.signMessage should sign data with key in KAS (with krn)', async () => {
+        const dataToSign = '0x88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589'
+        const ret = await caver.kas.wallet.signMessage(keyId, dataToSign, krn)
+
+        expect(ret.signedData).not.to.be.undefined
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-246: caver.kas.wallet.registerAccounts should register accounts in KAS', async () => {
+        const keyWithRLP = caver.keyringContainer.keyring.generate()
+        const account = keyWithRLP.toAccount()
+        const feeDelegatedAccountUpdate = new caver.transaction.feeDelegatedAccountUpdate({
+            from: keyWithRLP.address,
+            account,
+            gas: 100000,
+        })
+
+        await feeDelegatedAccountUpdate.sign(keyWithRLP)
+        const accounts = [
+            {
+                keyId,
+                address: caver.keyringContainer.keyring.generate().address,
+            },
+            {
+                keyId,
+                address: keyWithRLP.address,
+                rlp: feeDelegatedAccountUpdate.getRLPEncoding(),
+            },
+        ]
+        const ret = await caver.kas.wallet.registerAccounts(accounts)
+
+        expect(ret.status).to.equal('ok')
+        expect(ret.failures).to.be.undefined
     }).timeout(500000)
 })

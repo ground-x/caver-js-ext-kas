@@ -17,11 +17,13 @@
 const TokenHistory = require('./tokenHistory/tokenHistory')
 const Anchor = require('./anchor/anchor')
 const Wallet = require('./wallet/wallet')
+const KIP17 = require('./kip17/kip17')
 const { createClient } = require('../utils/helper')
 
 const AnchorQueryOptions = require('./anchor/anchorQueryOptions')
 const TokenHistoryQueryOptions = require('./tokenHistory/tokenHistoryQueryOptions')
 const WalletQueryOptions = require('./wallet/walletQueryOptions')
+const KIP17QueryOptions = require('./kip17/kip17QueryOptions')
 
 /**
  * The class that manages KAS API services.
@@ -36,10 +38,12 @@ class KAS {
         this.tokenHistory = new TokenHistory()
         this.wallet = new Wallet()
         this.anchor = new Anchor()
+        this.kip17 = new KIP17()
 
         this.tokenHistory.queryOptions = TokenHistoryQueryOptions
         this.anchor.queryOptions = AnchorQueryOptions
         this.wallet.queryOptions = WalletQueryOptions
+        this.kip17.queryOptions = KIP17QueryOptions
     }
 
     /**
@@ -73,6 +77,17 @@ class KAS {
 
     set anchor(anchor) {
         this._anchor = anchor
+    }
+
+    /**
+     * @type {KIP17}
+     */
+    get kip17() {
+        return this._kip17
+    }
+
+    set kip17(kip17) {
+        this._kip17 = kip17
     }
 
     /**
@@ -118,6 +133,21 @@ class KAS {
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.anchor.accessOptions = accessOptions
         this.anchor.client = client
+    }
+
+    /**
+     * Sets chain id and authentication key for KIP17 API.
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initKIP17API(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
+        this.kip17.accessOptions = accessOptions
+        this.kip17.client = client
     }
 }
 

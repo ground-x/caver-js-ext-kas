@@ -1,0 +1,1384 @@
+"openapi": "3.0.0"
+"info":
+  "title": "KIP-17 API"
+  "description": "
+
+
+    # Error Codes
+
+
+    ## 400: Bad Request
+
+
+    \ | Code | Messages |\ 
+
+    \ | --- | --- |\ 
+
+    \ | 1100050 | incorrect request
+
+    1100101 | data don't exist
+
+    1100251 | its value is out of range; size
+
+    1104401 | failed to get an account |\ 
+
+
+    ## 404: Not Found
+
+
+    \ | Code | Messages |\ 
+
+    \ | --- | --- |\ 
+
+    \ | 1104404 | Token not found |\ 
+
+
+    ## 409: Conflict
+
+
+    \ | Code | Messages |\ 
+
+    \ | --- | --- |\ 
+
+    \ | 1104400 | Duplicate alias - test |\ \n"
+"paths":
+  "/v1/contract":
+    "post":
+      "description": "Deploys a new KIP-17 contract with user submitted
+        parameters.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID; one of [1001, 8217]"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "status": "Submitted"
+                    "transactionHash": "0xa996fd0808410d71b8c07d7007340b9d683d5554de8afd9906b3c4a78\
+                      9330451"
+              "schema":
+                "$ref": "#/components/schemas/Kip17TransactionStatusResponse"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Incorrect request":
+                  "summary": "Incorrect request"
+                  "description": ""
+                  "value":
+                    "code": 1100050
+                    "message": "incorrect request"
+                    "requestId": "7a36bd83-8dc9-95cb-9906-6ae2af8935b8"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+        "409":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Duplicate alias":
+                  "summary": "Duplicate alias"
+                  "description": ""
+                  "value":
+                    "code": 1104400
+                    "message": "Duplicate alias - test"
+                    "requestId": "1b370cb5-590d-90c2-bf4f-afb89c0b6a5a"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Deploy New KIP-17 Contract"
+      "operationId": "DeployContract"
+      "tags":
+        - "KIP17"
+      "requestBody":
+        "$ref": "#/components/requestBodies/DeployKip17ContractRequest"
+    "get":
+      "description": "Lists all contracts deployed in the requested deployer pool. If
+        the pool is not specified, the default pool will be queried.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID; one of [1001, 8217]"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Number of items to return"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Items offset"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "cursor": ""
+                    "items":
+                      - "address": "0x34132f491fea7aa622cca594e4bd2ccd6fc02bf7"
+                        "alias": "reference"
+                        "name": "Referece NFT"
+                        "symbol": "TEST"
+                      - "address": "0x3b684eab265803a359eb47fcd3fde7f57cdcfc36"
+                        "alias": "no4"
+                        "name": "Test NFT"
+                        "symbol": "TEST"
+                      - "address": "0x9f614e93080e0463a74941230d0b9a293fdf0fe8"
+                        "alias": "third"
+                        "name": "Test NFT"
+                        "symbol": "TEST"
+                      - "address": "0xe527180cc7c84cab2d5438ba309d59b9a5483790"
+                        "alias": "another"
+                        "name": "Test NFT"
+                        "symbol": "TEST"
+                      - "address": "0x7766a3af39e4fffbaccf6efa6a37ed195f9179b4"
+                        "alias": "test"
+                        "name": "Test NFT"
+                        "symbol": "TEST"
+              "schema":
+                "$ref": "#/components/schemas/Kip17ContractListResponse"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Bad request - invalid query parameter (size)":
+                  "summary": "Bad request - invalid query parameter (size)"
+                  "description": ""
+                  "value":
+                    "code": 1100251
+                    "message": "its value is out of range; size"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Get List of KIP-17 Contracts"
+      "operationId": "ListContractsInDeployerPool"
+      "tags":
+        - "KIP17"
+  "/v1/contract/{contract-address-or-alias}":
+    "get":
+      "description": "Retrieves KIP-17 contract information by either contract address
+        or alias.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID; one of [1001, 8217]"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Contract address (hexadecimal, starting with 0x) or alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "address": "0x7766a3af39e4fffbaccf6efa6a37ed195f9179b4"
+                    "alias": "test"
+                    "name": "Test NFT"
+                    "symbol": "TEST"
+              "schema":
+                "$ref": "#/components/schemas/Kip17ContractInfoResponse"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Bad request - contract does not exist":
+                  "summary": "Bad request - contract does not exist"
+                  "description": ""
+                  "value":
+                    "code": 1100101
+                    "message": "data don't exist"
+                    "requestId": "564d53ce-0e45-9db6-9e8f-ac15a1c9b140"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Get KIP-17 Contract Information"
+      "operationId": "GetContract"
+      "tags":
+        - "KIP17"
+  "/v1/contract/{contract-address-or-alias}/token":
+    "post":
+      "description": "Mints a new token on the requested KIP-17 contract. The target
+        contract can be requested by either contract address or alias.<p></p>
+
+
+        Do not mint a token to an address outside of account pools you
+        control. KIP-17 APIs only allow actions among accounts populated within
+        the KAS account pools that you own.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID; one of [1001, 8217]"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Contract address (hexadecimal, starting with 0x) or alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "status": "Submitted"
+                    "transactionHash": "0x57d94989611cf0351fdea04dd5193398980642aaed82c8c34bdef12f4\
+                      ecf356e"
+              "schema":
+                "$ref": "#/components/schemas/Kip17TransactionStatusResponse"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Bad request - missing field":
+                  "summary": "Bad request - missing field"
+                  "description": ""
+                  "value":
+                    "code": 1100050
+                    "message": "incorrect request"
+                    "requestId": "0fbb2970-41ae-978c-9edb-d759ed6e7c87"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Mint a New KIP-17 Token"
+      "operationId": "MintToken"
+      "tags":
+        - "KIP17"
+      "requestBody":
+        "$ref": "#/components/requestBodies/MintKip17TokenRequest"
+    "get":
+      "description": "Lists all tokens minted from a particular KIP-17 contract. Use
+        contract address or alias to query the contract.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Number of items to return"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Items offset"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Contract address (hexadecimal, starting with 0x) or alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "cursor": ""
+                    "items":
+                      - "createdAt": 1608640582
+                        "owner": "0xdc277e2d89b92336a4ee80be3c7142443fdade47"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenId": "0x9"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0xb5fcf5f9bb28e6584104b743630371cef234c176a5c42b65e5a01299c\
+                          0c2e6ff"
+                        "updatedAt": 1608640582
+                      - "createdAt": 1607396973
+                        "owner": "0xdc277e2d89b92336a4ee80be3c7142443fdade47"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenId": "0x8"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0xd2b5d09aa13e6306ef65507c324c92d3f91aa03003ed480fe8a11e4ad\
+                          ca713d4"
+                        "updatedAt": 1607396973
+                      - "createdAt": 1607396965
+                        "owner": "0xdc277e2d89b92336a4ee80be3c7142443fdade47"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenId": "0x6"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0xfeb7e841850e615f79a2dc7b59263e180338645fe16dc80ca2d81afcd\
+                          8b9bd7a"
+                        "updatedAt": 1607396965
+                      - "createdAt": 1607396657
+                        "owner": "0x1239656159cfc4f193e0b7e19cd36b63903c2468"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenId": "0x5"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0x4bec3789e89e2c4f5f819360b3cd4fd6a79065e96b25055d644d37214\
+                          95d0a23"
+                        "updatedAt": 1607396657
+                      - "createdAt": 1607396600
+                        "owner": "0x1239656159cfc4f193e0b7e19cd36b63903c2468"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenId": "0x4"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0x9254e2b3cd67cd8f444ffd35239d44d5c7cac7a7140cd60b8856dad17\
+                          1094ec8"
+                        "updatedAt": 1607396600
+                      - "createdAt": 1607330287
+                        "owner": "0xae7bb7efff289c163a95303795c4d59293f6ba92"
+                        "previousOwner": "0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4"
+                        "tokenId": "0x1"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0xf5f5d97ce5e6339fc767bd2f4df57d9ab39ca71e423d9f3b36a5f58ac\
+                          894f578"
+                        "updatedAt": 1607391306
+                      - "createdAt": 1607384978
+                        "owner": "0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenId": "0x3"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0xcc2e93ee787bf3f9970f7a39290bf55c4aa0fe4bb2c0d4f77afb374c6\
+                          d2e2aa8"
+                        "updatedAt": 1607384978
+                      - "createdAt": 1607331796
+                        "owner": "0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenId": "0x2"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0xc6b9551a4b6626844a6f1ccfd80ad47e55174e9a5690b4e10b1e10221\
+                          bd02b1b"
+                        "updatedAt": 1607331796
+              "schema":
+                "$ref": "#/components/schemas/Kip17TokenListResponse"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Bad request - inexisting contract":
+                  "summary": "Bad request - inexisting contract"
+                  "description": ""
+                  "value":
+                    "code": 1100101
+                    "message": "data don't exist"
+                    "requestId": "bb3b9e86-6a6f-9f1a-96bd-c9664df2dcbc"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Get List of Tokens Minted by a KIP-17 Contract"
+      "operationId": "ListTokens"
+      "tags":
+        - "KIP17"
+  "/v1/contract/{contract-address-or-alias}/token/{token-id}":
+    "get":
+      "description": "Retrieves the requested token information of a parcitular KIP-17
+        contract.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Contract address or unique alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Token ID to retreive"
+          "in": "path"
+          "name": "token-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "createdAt": 1607330287
+                    "owner": "0xae7bb7efff289c163a95303795c4d59293f6ba92"
+                    "previousOwner": "0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4"
+                    "tokenId": "0x1"
+                    "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                    "transactionHash": "0xf5f5d97ce5e6339fc767bd2f4df57d9ab39ca71e423d9f3b36a5f58ac\
+                      894f578"
+                    "updatedAt": 1607391306
+              "schema":
+                "$ref": "#/components/schemas/GetKip17TokenResponse"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Bad request - inexisting contract":
+                  "summary": "Bad request - inexisting contract"
+                  "description": ""
+                  "value":
+                    "code": 1100101
+                    "message": "data don't exist"
+                    "requestId": "ef8177de-7b42-9c2a-ab3f-46ffd45b8767"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+        "404":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Not found - inexisting token":
+                  "summary": "Not found - inexisting token"
+                  "description": ""
+                  "value":
+                    "code": 1104404
+                    "message": "Token not found"
+                    "requestId": "1b99498f-4f37-98cc-a1d4-6246a7a5be79"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Get Particular Token Info of a KIP-17 Contract"
+      "operationId": "GetToken"
+      "tags":
+        - "KIP17"
+    "post":
+      "description": "Transfers a token. If `sender` and `owner` are not the same,
+        then `sender` must have been approved for this token transfer.<p></p>
+
+
+        Note that this API requires two KRNs, one for the deployer pool
+        and one for the sender. <p></p>
+
+
+        - The first KRN for the deployer pool, which must be formatted
+        as `krn:*:kip17:*:account-pool:*` makes sure the API caller has the
+        right to invoke transfer method on the requested contract. Although
+        contracts in Klaytn are publicly available and anyone who knows the
+        address can invoke the contract functions, if the contract owner does
+        not reveal the address, it would be difficult to even find out the
+        address as it requires indirect measures such as observing network
+        communication. To this end, as we do not know whether the address has
+        been publicly advertised or not, KIP-17 API assumes that only the
+        contract owner invokes contract functions.\ 
+
+        - The second KRN is for the `sender`, and must be formatted as
+        `krn:*:wallet:*:account-pool:*`. Currently, KIP-17 API only allows
+        transferring tokens among accounts populated in KAS Wallet account
+        pools.
+
+        - As all other APIs, leavning `x-krn` empty automatically fills
+        the field with default values.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID; one of [1001, 8217]"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Contract address (hexadecimal, starting with 0x) or alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Token ID"
+          "in": "path"
+          "name": "token-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "status": "Submitted"
+                    "transactionHash": "0x72b05d3b27e17a132e60681f4a2ad487868181b0623fbaa841875ecb3\
+                      6f62b8f"
+              "schema":
+                "$ref": "#/components/schemas/Kip17TransactionStatusResponse"
+      "summary": "Transfer a KIP-17 Token"
+      "operationId": "TransferToken"
+      "tags":
+        - "KIP17"
+      "requestBody":
+        "$ref": "#/components/requestBodies/TransferKip17TokenRequest"
+    "delete":
+      "description": "Burns a token. If `from` is not the owner or has been approved
+        for this operation, then the transaction submitted from this API will be
+        reverted.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID; one of [1001, 8217]"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Contract address or unique alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Token ID to burn"
+          "in": "path"
+          "name": "token-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "status": "Submitted"
+                    "transactionHash": "0xbf6de339cf435447e58da05384bbf83a16fea40044bb49b84e11d3b00\
+                      ea0325f"
+              "schema":
+                "$ref": "#/components/schemas/Kip17TransactionStatusResponse"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Bad request - failed to get an account":
+                  "summary": "Bad request - failed to get an account"
+                  "description": ""
+                  "value":
+                    "code": 1104401
+                    "message": "failed to get an account"
+                    "requestId": "10cfc941-22e3-919a-bc61-ff949bd79442"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Burn a KIP-17 Token"
+      "operationId": "BurnToken"
+      "tags":
+        - "KIP17"
+      "requestBody":
+        "$ref": "#/components/requestBodies/BurnKip17TokenRequest"
+  "/v1/contract/{contract-address-or-alias}/approve/{token-id}":
+    "post":
+      "description": "Approves an EOA, `to`, to perform token operations on a
+        particular token of a contract which `from` owns. If `from` is not the
+        owner, then the transaction submitted from this API will be
+        reverted.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID; one of [1001, 8217]"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Contract address (hexadecimal, starting with 0x) or alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Token ID to approve the 3rd party to transfer"
+          "in": "path"
+          "name": "token-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "status": "Submitted"
+                    "transactionHash": "0x0a56e8dba1afc0cc1b96c1dec0eccc611863c5c3a181101b73f7471f2\
+                      a4e550b"
+              "schema":
+                "$ref": "#/components/schemas/Kip17TransactionStatusResponse"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Bad request - incorrect address":
+                  "summary": "Bad request - incorrect address"
+                  "description": ""
+                  "value":
+                    "code": 1100050
+                    "message": "incorrect request"
+                    "requestId": "d2529337-b6e4-90c0-bb73-d50c74d207d1"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Approve Token Transfer"
+      "operationId": "ApproveToken"
+      "tags":
+        - "KIP17"
+      "requestBody":
+        "$ref": "#/components/requestBodies/ApproveKip17TokenRequest"
+  "/v1/contract/{contract-address-or-alias}/approveall":
+    "post":
+      "description": "Approves an EOA, `to`, to perform token operations on all token
+        of a contract which `from` owns.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID, one of [1001, 8217]"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Contract address (hexadecimal, starting with 0x) or alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "status": "Submitted"
+                    "transactionHash": "0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726\
+                      cc30f7b"
+              "schema":
+                "$ref": "#/components/schemas/Kip17TransactionStatusResponse"
+      "summary": "Approve All Token Transfers"
+      "operationId": "ApproveAll"
+      "tags":
+        - "KIP17"
+      "requestBody":
+        "$ref": "#/components/requestBodies/ApproveAllKip17Request"
+  "/v1/contract/{contract-address-or-alias}/owner/{owner-address}":
+    "get":
+      "description": "Lists all tokens of the same owner (`owner-address`) of a
+        contract.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Number of items to return"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Items offset"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Contract address (hexadecimal, starting with 0x) or alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Token owner address"
+          "in": "path"
+          "name": "owner-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "cursor": ""
+                    "items":
+                      - "createdAt": 1608691873
+                        "owner": "0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenId": "0x13"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0x3bf8107f39158abf0f2b0dc1ee8ccce9320fbce14899f0021dc4d6ad9\
+                          70c9150"
+                        "updatedAt": 1608691873
+                      - "createdAt": 1608690798
+                        "owner": "0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenId": "0x12"
+                        "tokenUri": "https://metastore.kip17.com/0xbe02aba/0x1"
+                        "transactionHash": "0x3857bd481b4a993b4346e1b6c18862bb39ee19401fd3b04101993ce8e\
+                          ed05743"
+                        "updatedAt": 1608690798
+              "schema":
+                "$ref": "#/components/schemas/GetOwnerKip17TokensResponse"
+      "summary": "Get List of Tokens Belonging to a Particular Token Owner"
+      "operationId": "GetOwnerTokens"
+      "tags":
+        - "KIP17"
+  "/v1/contract/{contract-address-or-alias}/token/{token-id}/history":
+    "get":
+      "description": "Lists token transfer histories starting from the time the
+        requested token was minted, where each entry of the response items shows
+        a transfer record.<p></p>
+
+        \n"
+      "parameters":
+        - "description": "Klaytn network chain ID"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Number of items to return"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Items offset"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Contract address (hexadecimal, starting with 0x) or alias"
+          "in": "path"
+          "name": "contract-address-or-alias"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Token ID"
+          "in": "path"
+          "name": "token-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "cursor": ""
+                    "items":
+                      - "from": "0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4"
+                        "timestamp": 1607391306
+                        "to": "0xae7bb7efff289c163a95303795c4d59293f6ba92"
+                      - "from": "0x0000000000000000000000000000000000000000"
+                        "timestamp": 1607330287
+                        "to": "0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4"
+              "schema":
+                "$ref": "#/components/schemas/GetKip17TokenHistoryResponse"
+      "summary": "Get Token History"
+      "operationId": "GetTokenHistory"
+      "tags":
+        - "KIP17"
+"tags": []
+"servers":
+  - "url": "https://kip17-api.dev.klaytn.com"
+"components":
+  "schemas":
+    "ErrorResponse":
+      "type": "object"
+      "description": ""
+      "properties":
+        "code":
+          "type": "integer"
+          "format": "int64"
+          "example": 1104400
+          "description": "Error code"
+        "message":
+          "type": "string"
+          "example": "Duplicate alias - test"
+          "description": "Error message"
+        "requestId":
+          "type": "string"
+          "example": "1b370cb5-590d-90c2-bf4f-afb89c0b6a5a"
+          "description": "ID of the request which caused the error"
+      "title": "ErrorResponse"
+      "required":
+        - "code"
+        - "message"
+        - "requestId"
+    "Kip17TransactionStatusResponse":
+      "type": "object"
+      "description": ""
+      "properties":
+        "status":
+          "type": "string"
+          "example": "Submitted"
+          "description": "Transaction status"
+        "transactionHash":
+          "type": "string"
+          "example": "0xa996fd0808410d71b8c07d7007340b9d683d5554de8afd9906b3c4a789330451"
+          "description": "Hash of the transaction"
+      "title": "Kip17TransactionStatusResponse"
+      "required":
+        - "status"
+        - "transactionHash"
+    "DeployKip17ContractRequest":
+      "type": "object"
+      "description": ""
+      "properties":
+        "alias":
+          "type": "string"
+          "example": "this-alias-is-duplicate"
+          "description": "Contract alias; KIP-17 APIs can be called with aliases instead
+            of contract addresses"
+        "symbol":
+          "type": "string"
+          "example": "DUP"
+          "description": "Token symbol"
+        "name":
+          "type": "string"
+          "example": "Duplicated Alias NFT"
+          "description": "Contract name"
+      "title": "DeployKip17ContractRequest"
+      "required":
+        - "alias"
+        - "symbol"
+        - "name"
+    "Kip17ContractListResponse":
+      "type": "object"
+      "description": ""
+      "properties":
+        "cursor":
+          "type": "string"
+          "example": ""
+          "description": "Offset for the next batch"
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/Kip17ContractListResponseItem"
+      "title": "Kip17ContractListResponse"
+      "required":
+        - "cursor"
+        - "items"
+    "Kip17ContractListResponseItem":
+      "type": "object"
+      "description": ""
+      "properties":
+        "address":
+          "type": "string"
+          "example": "0x34132f491fea7aa622cca594e4bd2ccd6fc02bf7"
+          "description": ""
+        "alias":
+          "type": "string"
+          "example": "reference"
+          "description": ""
+        "name":
+          "type": "string"
+          "example": "Referece NFT"
+          "description": ""
+        "symbol":
+          "type": "string"
+          "example": "TEST"
+          "description": ""
+      "title": "Kip17ContractListResponseItem"
+    "Kip17ContractInfoResponse":
+      "type": "object"
+      "description": ""
+      "properties":
+        "address":
+          "type": "string"
+          "example": "0x7766a3af39e4fffbaccf6efa6a37ed195f9179b4"
+          "description": ""
+        "alias":
+          "type": "string"
+          "example": "test"
+          "description": "Contract alias"
+        "name":
+          "type": "string"
+          "example": "Test NFT"
+          "description": "Token name"
+        "symbol":
+          "type": "string"
+          "example": "TEST"
+          "description": "Token symbol"
+      "title": "Kip17ContractInfoResponse"
+      "required":
+        - "alias"
+        - "name"
+        - "symbol"
+    "MintKip17TokenRequest":
+      "type": "object"
+      "description": ""
+      "properties":
+        "to":
+          "type": "string"
+          "example": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+          "description": "Recipient EOA address for the newly minted token"
+        "uri":
+          "type": "string"
+          "example": "https://metastore.kip17.com/0xbe02aba/0x1"
+          "description": "Token URI for the newly minted token"
+        "id":
+          "type": "string"
+          "example": "0x13"
+          "description": "Token ID for the newly minted token; cannot be overlapped with
+            an existing ID"
+      "title": "MintKip17TokenRequest"
+      "required":
+        - "id"
+    "Kip17TokenListResponse":
+      "type": "object"
+      "description": ""
+      "properties":
+        "cursor":
+          "type": "string"
+          "example": ""
+          "description": "Offset for the next batch"
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/Kip17TokenListResponseItem"
+      "title": "Kip17TokenListResponse"
+      "required":
+        - "cursor"
+        - "items"
+    "Kip17TokenListResponseItem":
+      "type": "object"
+      "description": ""
+      "properties":
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1608640582
+          "description": ""
+        "owner":
+          "type": "string"
+          "example": "0xdc277e2d89b92336a4ee80be3c7142443fdade47"
+          "description": ""
+        "previousOwner":
+          "type": "string"
+          "example": "0x0000000000000000000000000000000000000000"
+          "description": ""
+        "tokenId":
+          "type": "string"
+          "example": "0x9"
+          "description": ""
+        "tokenUri":
+          "type": "string"
+          "example": "https://metastore.kip17.com/0xbe02aba/0x1"
+          "description": ""
+        "transactionHash":
+          "type": "string"
+          "example": "0xb5fcf5f9bb28e6584104b743630371cef234c176a5c42b65e5a01299c0c2e6ff"
+          "description": ""
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1608640582
+          "description": ""
+      "title": "Kip17TokenListResponseItem"
+    "GetKip17TokenResponse":
+      "type": "object"
+      "description": ""
+      "properties":
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1607330287
+          "description": "UNIX timestamp of the time when this token was minted"
+        "owner":
+          "type": "string"
+          "example": "0xae7bb7efff289c163a95303795c4d59293f6ba92"
+          "description": "Current token owner EOA address"
+        "previousOwner":
+          "type": "string"
+          "example": "0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4"
+          "description": "Previous owner who transferred this token to the current owner"
+        "tokenId":
+          "type": "string"
+          "example": "0x1"
+          "description": "ID assigned to this token"
+        "tokenUri":
+          "type": "string"
+          "example": "https://metastore.kip17.com/0xbe02aba/0x1"
+          "description": "URI identifying the doc containing metadata of this token"
+        "transactionHash":
+          "type": "string"
+          "example": "0xf5f5d97ce5e6339fc767bd2f4df57d9ab39ca71e423d9f3b36a5f58ac894f578"
+          "description": "The last transaction hash mutated this token state"
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1607391306
+          "description": "UNIX timestamp of the time when this token was last mutated"
+      "title": "GetKip17TokenResponse"
+      "required":
+        - "createdAt"
+        - "owner"
+        - "previousOwner"
+        - "tokenId"
+        - "tokenUri"
+        - "transactionHash"
+        - "updatedAt"
+    "TransferKip17TokenRequest":
+      "type": "object"
+      "description": ""
+      "properties":
+        "sender":
+          "type": "string"
+          "example": "0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4"
+          "description": "Sender EOA address"
+        "owner":
+          "type": "string"
+          "example": "0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4"
+          "description": "Owner EOA address"
+        "to":
+          "type": "string"
+          "example": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+          "description": "Recipient EOA address"
+      "title": "TransferKip17TokenRequest"
+      "required":
+        - "sender"
+        - "owner"
+        - "to"
+    "BurnKip17TokenRequest":
+      "type": "object"
+      "description": ""
+      "properties":
+        "from":
+          "type": "string"
+          "example": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+          "description": "Sender/Owner EOA address"
+      "title": "BurnKip17TokenRequest"
+      "required":
+        - "from"
+    "ApproveKip17TokenRequest":
+      "type": "object"
+      "description": ""
+      "properties":
+        "from":
+          "type": "string"
+          "example": "0x9EaF20b40E0f1ced5dbba6f5Cfb0D3E12B0534f4"
+          "description": "Owner EOA address"
+        "to":
+          "type": "string"
+          "example": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+          "description": "EOA address receiving the approval"
+      "title": "ApproveKip17TokenRequest"
+      "required":
+        - "from"
+        - "to"
+    "ApproveAllKip17Request":
+      "type": "object"
+      "description": ""
+      "properties":
+        "from":
+          "type": "string"
+          "example": "0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4"
+          "description": "Owner EOA address"
+        "to":
+          "type": "string"
+          "example": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+          "description": "EOA address receiving the approval"
+        "approved":
+          "type": "boolean"
+          "example": true
+          "description": "Boolean value to set; true for approval, false for revocation"
+      "title": "ApproveAllKip17Request"
+      "required":
+        - "from"
+        - "to"
+        - "approved"
+    "GetOwnerKip17TokensResponse":
+      "type": "object"
+      "description": ""
+      "properties":
+        "cursor":
+          "type": "string"
+          "example": ""
+          "description": "Offset for the next batch"
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/GetOwnerKip17TokensResponseItem"
+      "title": "GetOwnerKip17TokensResponse"
+      "required":
+        - "cursor"
+        - "items"
+    "GetOwnerKip17TokensResponseItem":
+      "type": "object"
+      "description": ""
+      "properties":
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1608691873
+          "description": ""
+        "owner":
+          "type": "string"
+          "example": "0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4"
+          "description": ""
+        "previousOwner":
+          "type": "string"
+          "example": "0x0000000000000000000000000000000000000000"
+          "description": ""
+        "tokenId":
+          "type": "string"
+          "example": "0x13"
+          "description": ""
+        "tokenUri":
+          "type": "string"
+          "example": "https://metastore.kip17.com/0xbe02aba/0x1"
+          "description": ""
+        "transactionHash":
+          "type": "string"
+          "example": "0x3bf8107f39158abf0f2b0dc1ee8ccce9320fbce14899f0021dc4d6ad970c9150"
+          "description": ""
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1608691873
+          "description": ""
+      "title": "GetOwnerKip17TokensResponseItem"
+    "GetKip17TokenHistoryResponse":
+      "type": "object"
+      "description": ""
+      "properties":
+        "cursor":
+          "type": "string"
+          "example": ""
+          "description": "Offset for the next batch"
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/GetKip17TokenHistoryResponseItem"
+      "title": "GetKip17TokenHistoryResponse"
+      "required":
+        - "cursor"
+        - "items"
+    "GetKip17TokenHistoryResponseItem":
+      "type": "object"
+      "description": ""
+      "properties":
+        "from":
+          "type": "string"
+          "example": "0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4"
+          "description": ""
+        "timestamp":
+          "type": "integer"
+          "format": "int64"
+          "example": 1607391306
+          "description": ""
+        "to":
+          "type": "string"
+          "example": "0xae7bb7efff289c163a95303795c4d59293f6ba92"
+          "description": ""
+      "title": "GetKip17TokenHistoryResponseItem"
+  "securitySchemes":
+    "basic":
+      "description": "KAS uses Basic HTTP Auth. All requests MUST have a valid
+        Authorization header where its value is derived from KAS account's
+        access key ID (as `username`) and secret access key (as `password`).
+
+
+        Please note that it is your responsibility to keep your KAS API
+        access keys safe. Do not share your KAS credentials with others as they
+        provide full access to all KAS services and APIs including executing
+        transactions and transferring your KLAY and KCT funds deposited in
+        accounts managed by KAS Wallet API.
+
+        ### cURL
+
+        ```
+
+        \  curl --location --request GET
+        'https://kip17-api.klaytnapi.com/v1/contract' \\
+
+        \  -u ${your_accessKeyId}:${your_secretAccessKey} \\
+
+        \  --header 'x-chain-id: 1001' \\
+
+        \  --header 'Content-Type: application/json'
+
+        ```     \ 
+
+        \n"
+      "type": "http"
+      "scheme": "basic"
+  "requestBodies":
+    "DeployKip17ContractRequest":
+      "content":
+        "application/json":
+          "examples":
+            "Duplicate alias":
+              "value":
+                "alias": "this-alias-is-duplicate"
+                "symbol": "DUP"
+                "name": "Duplicated Alias NFT"
+            "Success":
+              "value":
+                "alias": "reference"
+                "symbol": "TEST"
+                "name": "Referece NFT"
+            "Incorrect request":
+              "value":
+                "alias": "missing-symbol"
+                "name": "Missing NFT"
+          "schema":
+            "$ref": "#/components/schemas/DeployKip17ContractRequest"
+    "MintKip17TokenRequest":
+      "content":
+        "application/json":
+          "examples":
+            "Bad request - missing field":
+              "value":
+                "to": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+                "uri": "https://metastore.kip17.com/0xbe02aba/0x1"
+            "Success":
+              "value":
+                "to": "0x9EaF20b40E0f1ced5dbba6f5Cfb0D3E12B0534f4"
+                "id": "0x13"
+                "uri": "https://metastore.kip17.com/0xbe02aba/0x1"
+          "schema":
+            "$ref": "#/components/schemas/MintKip17TokenRequest"
+    "TransferKip17TokenRequest":
+      "content":
+        "application/json":
+          "examples":
+            "Success":
+              "value":
+                "sender": "0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4"
+                "owner": "0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4"
+                "to": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+          "schema":
+            "$ref": "#/components/schemas/TransferKip17TokenRequest"
+    "BurnKip17TokenRequest":
+      "content":
+        "application/json":
+          "examples":
+            "Bad request - failed to get an account":
+              "value":
+                "from": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+            "Success":
+              "value":
+                "from": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+          "schema":
+            "$ref": "#/components/schemas/BurnKip17TokenRequest"
+    "ApproveKip17TokenRequest":
+      "content":
+        "application/json":
+          "examples":
+            "Success":
+              "value":
+                "from": "0x9EaF20b40E0f1ced5dbba6f5Cfb0D3E12B0534f4"
+                "to": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+            "Bad request - incorrect address":
+              "value":
+                "from": "0x9EaF20b40E0f1ced5dbba6f5Cfb0D3E12B0534f4"
+                "to": "0xINCORRECT"
+          "schema":
+            "$ref": "#/components/schemas/ApproveKip17TokenRequest"
+    "ApproveAllKip17Request":
+      "content":
+        "application/json":
+          "examples":
+            "Success":
+              "value":
+                "from": "0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4"
+                "to": "0xDc277E2D89b92336A4ee80be3c7142443FDaDE47"
+                "approved": true
+          "schema":
+            "$ref": "#/components/schemas/ApproveAllKip17Request"
+"security":
+  - "basic": []

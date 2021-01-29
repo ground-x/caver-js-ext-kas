@@ -15,7 +15,6 @@
  */
 
 const _ = require('lodash')
-const fs = require('fs')
 const utils = require('caver-js').utils
 
 const {
@@ -24,6 +23,9 @@ const {
     FeeDelegatedTransactionPaidByKASApi,
     FeeDelegatedTransactionPaidByUserApi,
     MultisigTransactionManagementApi,
+    KeyApi,
+    RegistrationApi,
+    StatisticsApi,
     MultisigAccountUpdateRequest,
     LegacyTransactionRequest,
     ValueTransferTransactionRequest,
@@ -53,14 +55,13 @@ const {
     Key,
     KeyCreationRequest,
     KeyCreationResponse,
-    KeyApi,
-    RegistrationApi,
-    StatisticsApi,
+    ContractCallRequest,
 } = require('../../rest-client/src')
 const WalletQueryOptions = require('./walletQueryOptions')
 const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey } = require('../../utils/helper')
 
 const NOT_INIT_API_ERR_MSG = `Wallet API is not initialized. Use 'caver.initWalletAPI' function to initialize Wallet API.`
+const INCORRECT_MIGRATE_ACCOUNTS = `You must pass a list of accounts as an argument.`
 
 /**
  * A warpping class that connects Wallet API.
@@ -157,6 +158,8 @@ class Wallet {
             fdTransactionPaidByUser: new FeeDelegatedTransactionPaidByUserApi(client),
             multisigTransactionManagement: new MultisigTransactionManagementApi(client),
             statistics: new StatisticsApi(client),
+            key: new KeyApi(client),
+            registration: new RegistrationApi(client),
         }
     }
 
@@ -202,57 +205,148 @@ class Wallet {
         return this.apiInstances.statistics
     }
 
-    // TODO: description, define return type, implementation
+    /**
+     * @type {KeyApi}
+     */
+    get keyApi() {
+        return this.apiInstances.key
+    }
+
+    /**
+     * @type {RegistrationApi}
+     */
+    get registrationApi() {
+        return this.apiInstances.registration
+    }
+
+    /**
+     * SinglePrivateKey presents a single private key such as account types of a legacy key or public key.
+     * @typedef {string} SinglePrivateKey
+     */
+
+    /**
+     * MutisigPrivateKeys presents a set of private keys of weighted multisig key account type.
+     * @typedef {string[]} MultisigPrivateKeys
+     */
+
+    /**
+     * RoleBasedPrivateKeys presents a set of private keys of role based account type. Additionally, each private key can contains multiple private keys
+     * for multisig account type.
+     * @typedef {MultisigPrivateKeys[]} RoleBasedPrivateKeys
+     */
+
+    /**
+     * MigrationAccount presents an account to be migrated. Each account can have one of three types of keys.
+     *
+     * @typedef {Object} MigrationAccount
+     * @property {string} address - Indicates Klaytn's address of an account.
+     * @property {number} [nonce] - Indicates nonce for a transaction. If the nonce is not defined, the nonce is automatically filled using the KAS Node API.
+     * @property {(SinglePrivateKey|MultisigPrivateKeys|RoleBasedPrivateKeys)} key - Indicates a set of private keys of an account.
+     */
+
     /**
      * Migrates Klaytn accounts to KAS Wallet API. <br>
-     * await caver.kas.wallet.migarateAccounts('./keystores', ['passphrase1', 'passphrase2', 'passphrase3']) <br>
-     * @param {string} dir The directory path to migrate accounts to KAS.
-     * @param {Array.<string>} passphrases The directory path to migrate accounts to KAS.
-     * @return {}
+     * This function needs Node API. Therefore, it is essential to have initialized to use Node API. <br>
+     * Node API initialization is possible through [caver.initKASAPI]{@link CaverExtKAS#initKASAPI} or [caver.initNodeAPI]{@link CaverExtKAS#initNodeAPI}. <br>
+     *
+     * @example
+     * const accounts = [
+     *      {
+     *          address: '0xc756f6809bc34c2458fcb82fb16d5add3dbad9e3',
+     *          key: '0x{private key1}',
+     *          nonce: 0,
+     *      },
+     *      {
+     *          address: '0x5bae5e458ad1a9b210bf0a10434c39be1a5b7983',
+     *          key: [
+     *              '0x{private key2}',
+     *              '0x{private key3}',
+     *          ],
+     *      },
+     *      {
+     *          address: '0x5bae5e458ad1a9b210bf0a10434c39be1a5b7983',
+     *          key: [
+     *              [
+     *                  '0x{private key4}',
+     *                  '0x{private key5}',
+     *              ],
+     *              [
+     *                  '0x{private key6}',
+     *              ],
+     *              [
+     *                  '0x{private key7}',
+     *                  '0x{private key8}',
+     *              ],
+     *          ],
+     *          nonce: 4,
+     *      }
+     * ]
+     * const ret = await caver.kas.wallet.migarateAccounts(accounts)
+     *
+     * @param {Array.<MigrationAccount>} accounts An array of account objects migrated into KAS.
+     * @return {RegistrationStatusResponse}
      */
-    async migrateAccounts(dir, passphrases) {
+    async migrateAccounts(accounts) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!Array.isArray(accounts)) throw new Error(INCORRECT_MIGRATE_ACCOUNTS)
 
-        let keyringContainer = new this.accountsMigration.keyringContainer()
-        const files = fs.readdirSync(dir)
-        const addresses = []
+        const keyringFactory = key => {
+            const keyring = this.keyring
+            let factory = keyring.createWithMultipleKey
 
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i]
-            const passphrase = passphrases[i]
+            if (typeof key === 'string') {
+                factory = keyring.createWithSingleKey
+            } else if (Array.isArray(key) && Array.isArray(key[0])) {
+                factory = keyring.createWithRoleBasedKey
+            }
 
-            const encrypted = fs.readFileSync(`${dir}/${file}`)
-            const decrypted = this.accountsMigration.decrypt(encrypted.toString(), passphrase)
-            keyringContainer.add(decrypted)
-            addresses.push(decrypted.address)
+            return factory
         }
 
-        // const publicKeys = await this.accountApi.xxx(addresses.length)
-        const publicKeys = [
-            '0xa581cdbe9c6bd52618bfcad4dcde74875c0cd6a4171fa2b84f9caeb2e2b100c39436adb6c7605b70f35ce49b4c256ab86d108b3345c41fbb893021fa840bad19',
-        ]
+        // Request a set of public keys generated by KAS wallet service.
+        const keys = await this.createKeys(accounts.length)
 
-        if (addresses.length !== publicKeys.length) {
-            // TODO: throw error
-        }
+        // Define an empty request for account migration.
+        const req = []
 
-        const rawTransactions = []
-        for (let i = 0; i < addresses.length; i++) {
+        for (let i = 0; i < accounts.length; i++) {
+            const el = accounts[i]
+            const key = keys.items.pop()
+
+            // Add an address and a private key mapped to the address into caver keyring container.
+            const factory = keyringFactory(el.key)
+            const keyring = factory(el.address, el.key)
+            // Compose a transaction for fee delegated account update with a public key generated by KAS.
             const updateTx = new this.accountsMigration.feeDelegatedAccountUpdate({
-                from: addresses[i],
-                account: this.accountsMigration.createWithAccountKeyPublic(addresses[i], publicKeys[i]),
-                gas: 40000,
+                from: el.address,
+                account: this.accountsMigration.createWithAccountKeyPublic(el.address, key.publicKey),
+                gas: 1000000,
+                chainId: this.chainId,
             })
+            if (el.nonce !== undefined) updateTx.nonce = el.nonce
 
-            await keyringContainer.sign(addresses[i], updateTx)
-            // keyringContainer.remove(addresses[i])
+            // Sign the transaction by using caver keyring container not caver-ext.
+            await updateTx.sign(keyring)
 
-            rawTransactions.push(updateTx.getRLPEncoding())
+            // Append an item for updating the account into the request.
+            req.push({
+                keyId: key.keyId,
+                address: el.address,
+                rlp: updateTx.getRLPEncoding(),
+            })
         }
-        console.log(rawTransactions)
 
-        // After migration
-        keyringContainer = null
+        // Call an account registration API with the request containing a set of transaction RLP for updating account.
+        // This API will invoke transactions for RLPs if they are included.
+        // Otherwise, you can update your Klaytn's account with your own Klaytn node in advance.
+        return new Promise((resolve, reject) => {
+            this.registrationApi.registerAccount(this.chainId, { body: req }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                resolve(data)
+            })
+        })
     }
 
     /**
@@ -293,8 +387,8 @@ class Wallet {
         }
 
         queryOptions = WalletQueryOptions.constructFromObject(queryOptions || {})
-        if (!queryOptions.isValidOptions(['size', 'cursor', 'fromTimestamp', 'toTimestamp']))
-            throw new Error(`Invalid query options: 'size', 'cursor', 'fromTimestamp' or 'toTimestamp' can be used.`)
+        if (!queryOptions.isValidOptions(['size', 'cursor', 'fromTimestamp', 'toTimestamp', 'status']))
+            throw new Error(`Invalid query options: 'size', 'cursor', 'fromTimestamp', 'toTimestamp' or 'status' can be used.`)
 
         return new Promise((resolve, reject) => {
             this.accountApi.retrieveAccounts(this.chainId, queryOptions, (err, data, response) => {
@@ -736,6 +830,94 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.basicTransactionApi.transactionReceipt(this.chainId, transactionHash, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Call the contract. You can view certain value in the contract and validate that you can submit executable transaction.<br>
+     * POST /v2/tx/contract/call
+     * @example
+     * const contractAddress = '0x7278841B4300639A8827dc9f8345CC49ef876804'
+     *
+     * // with send options
+     * const sendOptions = {
+     *      from: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+     *      gas: 300000,
+     *      value: 0,
+     * }
+     * const ret = await caver.kas.wallet.callContract(contractAddress, 'increase', callArguments)
+     *
+     * // with call arguments
+     * const callArguments = [
+     *      {
+     *          type: 'address',
+     *          value: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+     *      },
+     * ]
+     * const ret = await caver.kas.wallet.callContract(contractAddress, 'isMinter', callArguments)
+     *
+     * // with call arguments and send options
+     * const callArguments = [
+     *      {
+     *          type: 'address',
+     *          value: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+     *      },
+     *      { type: 'uint256', value: 1 }
+     * ]
+     * const sendOptions = {
+     *      from: '0x0aFA15F32D1F1283c09d5d2034957A7E79b7ae21',
+     *      gas: 300000,
+     *      value: 0,
+     * }
+     * const ret = await caver.kas.wallet.callContract(contractAddress, 'transfer', callArguments, sendOptions)
+     *
+     * @param {string} contractAddress The krn string to search.
+     * @param {string} methodName The method name to call.
+     * @param {Array.<object>} [callArguments] `type` and `value` are defined. The ABI type can be `uint256`, `uint32`, `string`, `bool`, `address`, `uint64[2]` and `address[]`. The value can be `number`, `string`, `array` and `boolean`.
+     * @param {object} [sendOptions] `from`, `gas` and `value` can be defined.
+     * @param {Function} [callback] The callback function to call.
+     * @return {ContractCallResponse}
+     */
+    callContract(contractAddress, methodName, callArguments, sendOptions, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(sendOptions)) {
+            if (callback) {
+                if (_.isFunction(callback)) throw new Error(`Invalid sendOptions: ${sendOptions}`)
+                throw new Error(`Invalid callback: ${callback}`)
+            }
+            callback = sendOptions
+            sendOptions = undefined
+        }
+        if (callArguments !== undefined && !_.isArray(callArguments)) {
+            if (_.isObject(callArguments) && !sendOptions) {
+                sendOptions = callArguments
+                callArguments = []
+            } else {
+                throw new Error(`Invalid callArguments: ${callArguments}`)
+            }
+        }
+
+        if (!utils.isAddress(contractAddress)) throw new Error(`Invalid contract address: ${contractAddress}`)
+        if (!_.isString(methodName)) throw new Error(`Invalid method name: ${methodName}`)
+
+        callArguments = callArguments || []
+        sendOptions = sendOptions || {}
+        if (sendOptions.value !== undefined) sendOptions.value = utils.toHex(sendOptions.value)
+
+        const obj = Object.assign({ ...sendOptions }, { to: contractAddress, data: { methodName, arguments: callArguments } })
+        const body = ContractCallRequest.constructFromObject(obj)
+        body.data.arguments = body.data._arguments
+        delete body.data._arguments
+
+        return new Promise((resolve, reject) => {
+            this.basicTransactionApi.contractCall(this.chainId, { body }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1295,6 +1477,118 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.statisticsApi.getAccountCountByKRN(this.chainId, { xKrn: krn }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    // Key Api
+
+    /**
+     * Create keys in KAS. <br>
+     * POST /v2/key
+     *
+     * @param {number} numberOfKeys The number of keys to create.
+     * @param {Function} [callback] The callback function to call.
+     * @return {KeyCreationResponse}
+     */
+    createKeys(numberOfKeys, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isNumber(numberOfKeys)) throw new Error(`Invalid numberOfKeys. You should pass number type parameter.`)
+
+        const body = KeyCreationRequest.constructFromObject({ size: numberOfKeys })
+
+        return new Promise((resolve, reject) => {
+            this.keyApi.keyCreation(this.chainId, { body }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Find key information from KAS. <br>
+     * GET /v2/key/{key-id}
+     *
+     * @param {string} keyId The key id to find from KAS.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Key}
+     */
+    getKey(keyId, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(keyId)) throw new Error(`Invalid keyId. You should pass string type parameter.`)
+
+        return new Promise((resolve, reject) => {
+            this.keyApi.getKey(this.chainId, keyId, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Sign the data using key. <br>
+     * POST /v2/key/{key-id}/sign
+     *
+     * @param {string} keyId The key id to use for signing.
+     * @param {string} dataToSign The data to sign.
+     * @param {string} [krn] The krn string.
+     * @param {Function} [callback] The callback function to call.
+     * @return {KeySignDataResponse}
+     */
+    signMessage(keyId, dataToSign, krn, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(keyId)) throw new Error(`Invalid keyId. You should pass string type parameter.`)
+        if (!_.isString(dataToSign)) throw new Error(`Invalid data. You should pass string type parameter.`)
+
+        if (_.isFunction(krn)) {
+            callback = krn
+            krn = undefined
+        }
+
+        return new Promise((resolve, reject) => {
+            this.keyApi.keySignData(this.chainId, keyId, { body: { data: dataToSign }, xKrn: krn }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    // Registration Api
+
+    /**
+     * Register account which used before. <br>
+     * POST /v2/registration/account
+     *
+     * @param {Array.<object>} accounts The account information to be registered in KAS.
+     * @param {Function} [callback] The callback function to call.
+     * @return {RegistrationStatusResponse}
+     */
+    registerAccounts(accounts, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isArray(accounts)) throw new Error(`Invalid accounts. You should pass array type parameter.`)
+
+        for (const acct of accounts) {
+            if (!acct.keyId || !acct.address) throw new Error(`Invalid account information. The keyId and address should be defined.`)
+            if (!Object.keys(acct).every(key => ['keyId', 'address', 'rlp'].includes(key)))
+                throw new Error(`Invalid field is defined in ${JSON.stringify(acct)}`)
+        }
+
+        return new Promise((resolve, reject) => {
+            this.registrationApi.registerAccount(this.chainId, { body: accounts }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
