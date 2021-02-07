@@ -15,9 +15,9 @@
  */
 
 const lodash = require('lodash')
-const { ACCOUNT_KEY_TAG } = require('../../node_modules/caver-js/packages/caver-account/src/accountKey/accountKeyHelper')
-const { KEY_ROLE } = require('../../node_modules/caver-js/packages/caver-wallet/src/keyring/keyringHelper')
-const utils = require('../../node_modules/caver-js/packages/caver-utils')
+const { ACCOUNT_KEY_TAG } = require('caver-js/packages/caver-account/src/accountKey/accountKeyHelper')
+const { KEY_ROLE } = require('caver-js/packages/caver-wallet/src/keyring/keyringHelper')
+const utils = require('caver-js').utils
 
 /**
  * The wallet class that uses the KAS Wallet API.
