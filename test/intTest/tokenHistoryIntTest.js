@@ -30,79 +30,97 @@ const { url, chainId, accessKeyId, secretAccessKey, presets } = require('../test
 const nodeAPIEnv = require('../testEnv').auths.nodeAPI
 const { senderPrivateKey } = require('../testEnv')
 const { timeout } = require('../testUtils')
-const { kip37ByteCode, kip37ABI } = require('./multiTokenContract')
-
-let ftContractAddress
-let nftContractAddress
-let mtContractAddress
-
-const nftTokenId = '0x0'
-const mtTokenId = '0x0'
 
 const receiver = '0x60498fEFBF1705A3Db8d7Bb5c80D5238956343e5'
 
-let nftTransfer
 let keyringContainer
 
-async function createTestTokenContracts(sender) {
-    await timeout(3000)
-    const sendKLAY = new caver.transaction.valueTransfer({
-        from: sender.address,
-        to: receiver,
-        value: 1,
-        gas: 25000,
-    })
-
-    await keyringContainer.sign(sender.address, sendKLAY)
-
-    await caver.rpc.klay.sendRawTransaction(sendKLAY)
-
-    const kip7 = await caver.kct.kip7.deploy(
-        { name: 'Jasmine', symbol: 'JAS', decimals: 18, initialSupply: '100000000000000000' },
-        sender.address,
-        keyringContainer
-    )
-    ftContractAddress = kip7.options.address.toLowerCase()
-
-    await kip7.transfer(receiver, 1, { from: sender.address })
-
-    const kip17 = await caver.kct.kip17.deploy({ name: 'Jasmine', symbol: 'JAS' }, sender.address, keyringContainer)
-    nftContractAddress = kip17.options.address.toLowerCase()
-
-    await kip17.mintWithTokenURI(sender.address, nftTokenId, 'test URI 1', { from: sender.address })
-    await kip17.transferFrom(sender.address, receiver, nftTokenId, { from: sender.address })
-
-    // Wait until applying the transactions to KAS
-    await timeout(5000)
-
-    const contract = new caver.contract(kip37ABI)
-    contract.setWallet(keyringContainer)
-    const kip37 = await contract
-        .deploy({
-            data: kip37ByteCode,
-            arguments: ['uri string'],
-        })
-        .send({ from: sender.address, gas: 8000000 })
-    mtContractAddress = kip37.options.address
-
-    await kip37.methods.create(mtTokenId, '1000', 'test uri string').send({ from: sender.address, gas: 500000 })
-    await timeout(5000)
+const testVariables = {
+    dev: {
+        ftContractAddress: '0xa904b57f567e07348186a3687cafc3b9d05d8608',
+        nftContractAddress: '0x8386ea0a21dcf47d489bf1505a84942babadb3b0',
+        nftTokenId: '0x0',
+        mtContractAddress: '0xDbE9c814B10882bBEE42cbc75CE16A1620F5F042',
+        mtTokenId: '0x0',
+        transactionHash: '0xd7ca606d531ee9afc5aed7b43d9476be3776ca06e03e0db8f21c121436962fbb',
+        range: '1611804103,1611904103',
+    },
+    qa: {},
+    prod: {
+        ftContractAddress: '0x4792f1e64d0f656e61516805b7d2cd99f9359043',
+        nftContractAddress: '0x18d9add7bf4097cc57dd6962ece441e391146682',
+        nftTokenId: '0x0',
+        mtContractAddress: '0x6679A0006575989065832e17FE4F1e4eD4923390',
+        mtTokenId: '0x0',
+        transactionHash: '0x8b86a549dd73895fd72ea5b3430bc043f6d410d74a67004c673c0fc1b9a56534',
+        range: '1611803332,1611903332',
+    },
 }
+
+const { ftContractAddress, nftContractAddress, mtContractAddress, nftTokenId, mtTokenId, transactionHash, range } = url.includes('dev')
+    ? testVariables.dev
+    : url.includes('qa')
+    ? testVariables.qa
+    : testVariables.prod
+
+// // A function to configure the environment to test the TokenHistory API.
+// // Currently, the test works not by directly deploying and using it, but by performing a test that searches by using a specific value. (in testVariables)
+// // Therefore, this function will be used later when testing a scenario that directly deploys and retrieves contracts.
+// async function createTestTokenContracts(sender) {
+//     await timeout(3000)
+//     const sendKLAY = new caver.transaction.valueTransfer({
+//         from: sender.address,
+//         to: receiver,
+//         value: 1,
+//         gas: 25000,
+//     })
+
+//     await keyringContainer.sign(sender.address, sendKLAY)
+
+//     await caver.rpc.klay.sendRawTransaction(sendKLAY)
+
+//     const kip7 = await caver.kct.kip7.deploy(
+//         { name: 'Jasmine', symbol: 'JAS', decimals: 18, initialSupply: '100000000000000000' },
+//         sender.address,
+//         keyringContainer
+//     )
+//     ftContractAddress = kip7.options.address.toLowerCase()
+
+//     await kip7.transfer(receiver, 1, { from: sender.address })
+
+//     const kip17 = await caver.kct.kip17.deploy({ name: 'Jasmine', symbol: 'JAS' }, sender.address, keyringContainer)
+//     nftContractAddress = kip17.options.address.toLowerCase()
+
+//     await kip17.mintWithTokenURI(sender.address, nftTokenId, 'test URI 1', { from: sender.address })
+//     await kip17.transferFrom(sender.address, receiver, nftTokenId, { from: sender.address })
+
+//     // Wait until applying the transactions to KAS
+//     await timeout(5000)
+
+//     const contract = new caver.contract(kip37ABI)
+//     contract.setWallet(keyringContainer)
+//     const kip37 = await contract
+//         .deploy({
+//             data: kip37ByteCode,
+//             arguments: ['uri string'],
+//         })
+//         .send({ from: sender.address, gas: 8000000 })
+//     mtContractAddress = kip37.options.address
+
+//     await kip37.methods.create(mtTokenId, '1000', 'test uri string').send({ from: sender.address, gas: 500000 })
+//     await timeout(5000)
+// }
 
 describe('TokenHistory API service', () => {
     let sender
 
-    before(function(done) {
-        this.timeout(100000)
-
+    before(() => {
         caver = new CaverExtKAS()
         keyringContainer = new caver.keyringContainer()
         caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
         caver.initNodeAPI(nodeAPIEnv.chainId, nodeAPIEnv.accessKeyId, nodeAPIEnv.secretAccessKey, nodeAPIEnv.url)
 
         sender = keyringContainer.add(keyringContainer.keyring.createFromPrivateKey(senderPrivateKey))
-
-        createTestTokenContracts(sender).then(() => done())
     })
 
     it('CAVERJS-EXT-KAS-INT-007: caver.kas.tokenHistory.getTransferHistory should query transfer history', async () => {
@@ -110,7 +128,7 @@ describe('TokenHistory API service', () => {
         const queryOptions = {
             kind: [caver.kas.tokenHistory.queryOptions.kind.NFT],
             size: 1,
-            range: `${parseInt(Date.now() / 1000) - 100000},${parseInt(Date.now() / 1000)}`,
+            range,
         }
 
         const ret = await caver.kas.tokenHistory.getTransferHistory(presets, queryOptions)
@@ -120,13 +138,9 @@ describe('TokenHistory API service', () => {
         expect(ret.cursor).not.to.be.undefined
         expect(ret.items[0].contract).not.to.be.undefined
         expect(ret.items[0].contract.constructor.name).to.equal('NftContract')
-
-        nftTransfer = ret.items[0]
     }).timeout(10000)
 
     it('CAVERJS-EXT-KAS-INT-008: caver.kas.tokenHistory.getTransferHistoryByTxHash should query transaction', async () => {
-        const transactionHash = nftTransfer.transaction.transactionHash
-
         const ret = await caver.kas.tokenHistory.getTransferHistoryByTxHash(transactionHash)
 
         let nftTransferItem
@@ -144,7 +158,7 @@ describe('TokenHistory API service', () => {
         const queryOptions = {
             kind: [caver.kas.tokenHistory.queryOptions.kind.NFT],
             size: 1,
-            range: `${parseInt(Date.now() / 1000) - 100000},${parseInt(Date.now() / 1000)}`,
+            range,
             caFilter: nftContractAddress,
         }
 

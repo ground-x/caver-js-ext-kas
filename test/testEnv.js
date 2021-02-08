@@ -53,7 +53,6 @@ const auths = {
         chainId: 1001,
         accessKeyId: '',
         secretAccessKey: '',
-        operator: '',
     },
 }
 
