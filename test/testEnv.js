@@ -81,6 +81,31 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.kip17API.url = process.env.KIP17_API_DEV
     auths.kip17API.accessKeyId = process.env.ACCESS_KEY_DEV
     auths.kip17API.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+} else if (process.argv[process.argv.length - 1] === '--testEnv=qa' || process.env.npm_config_testEnv === 'qa') {
+    senderPrivateKey = process.env.SENDER_PRV_KEY_JS_QA
+
+    auths.nodeAPI.url = process.env.NODE_API_QA
+    auths.nodeAPI.accessKeyId = process.env.ACCESS_KEY_QA
+    auths.nodeAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_QA
+
+    auths.tokenHistoryAPI.url = process.env.TH_API_QA
+    auths.tokenHistoryAPI.accessKeyId = process.env.ACCESS_KEY_QA
+    auths.tokenHistoryAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_QA
+    auths.tokenHistoryAPI.presets.push(Number(process.env.PRESET_QA))
+
+    auths.walletAPI.url = process.env.WALLET_API_QA
+    auths.walletAPI.accessKeyId = process.env.ACCESS_KEY_QA
+    auths.walletAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_QA
+    auths.walletAPI.feePayerAddress = process.env.FEE_PAYER_ADDR_QA
+
+    auths.anchorAPI.url = process.env.ANCHOR_API_QA
+    auths.anchorAPI.accessKeyId = process.env.ACCESS_KEY_QA
+    auths.anchorAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_QA
+    auths.anchorAPI.operator = process.env.OPERATOR_QA
+
+    auths.kip17API.url = process.env.KIP17_API_QA
+    auths.kip17API.accessKeyId = process.env.ACCESS_KEY_QA
+    auths.kip17API.secretAccessKey = process.env.SECRET_ACCESS_KEY_QA
 } else {
     senderPrivateKey = process.env.SENDER_PRV_KEY_JS
 

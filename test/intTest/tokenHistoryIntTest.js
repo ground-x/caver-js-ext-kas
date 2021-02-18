@@ -45,7 +45,15 @@ const testVariables = {
         transactionHash: '0xd7ca606d531ee9afc5aed7b43d9476be3776ca06e03e0db8f21c121436962fbb',
         range: '1611804103,1611904103',
     },
-    qa: {},
+    qa: {
+        ftContractAddress: '0x854363D6E06E24809d867515e2bA7A82E0EF3aB2',
+        nftContractAddress: '0x6B152ee52fA2CF29D60389C5a0DC1a4932868CC3',
+        nftTokenId: '0x0',
+        mtContractAddress: '0x9AE6E0807359869b1f5b3c73130C146017d562ce',
+        mtTokenId: '0x0',
+        transactionHash: '0xf257aab67d3b562217d2ebd87391091cbb4f710ac680201be29dc06af98c7965',
+        range: '1613004103,1613616169',
+    },
     prod: {
         ftContractAddress: '0x4792f1e64d0f656e61516805b7d2cd99f9359043',
         nftContractAddress: '0x18d9add7bf4097cc57dd6962ece441e391146682',
@@ -167,7 +175,7 @@ describe('TokenHistory API service', () => {
         expect(ret.items).not.to.be.undefined
         expect(ret.items.length > 0).to.be.true
         expect(ret.items[0].from === sender.address || ret.items[0].to === sender.address).to.be.true
-        expect(ret.items[0].contract.address).to.equal(queryOptions.caFilter)
+        expect(ret.items[0].contract.address.toLowerCase()).to.equal(queryOptions.caFilter.toLowerCase())
         expect(ret.cursor).not.to.be.undefined
     }).timeout(1000000)
 
@@ -190,7 +198,7 @@ describe('TokenHistory API service', () => {
     it('CAVERJS-EXT-KAS-INT-011: caver.kas.tokenHistory.getFTContract should query FT contract', async () => {
         const ret = await caver.kas.tokenHistory.getFTContract(ftContractAddress)
 
-        expect(ret.address).to.equal(ftContractAddress)
+        expect(ret.address.toLowerCase()).to.equal(ftContractAddress.toLowerCase())
     }).timeout(1000000)
 
     it('CAVERJS-EXT-KAS-INT-012: caver.kas.tokenHistory.getNFTContractList should query NFT contract list', async () => {
@@ -214,7 +222,7 @@ describe('TokenHistory API service', () => {
 
         const ret = await caver.kas.tokenHistory.getNFTContract(contractAddress)
 
-        expect(ret.address).to.equal(contractAddress)
+        expect(ret.address.toLowerCase()).to.equal(contractAddress.toLowerCase())
     }).timeout(1000000)
 
     it('CAVERJS-EXT-KAS-INT-014: caver.kas.tokenHistory.getNFTList should query NFT list issued in specific NFT contract', async () => {
