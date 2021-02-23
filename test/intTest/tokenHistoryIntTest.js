@@ -28,7 +28,6 @@ const CaverExtKAS = require('../../index.js')
 let caver
 const { url, chainId, accessKeyId, secretAccessKey, presets } = require('../testEnv').auths.tokenHistoryAPI
 const nodeAPIEnv = require('../testEnv').auths.nodeAPI
-const { senderPrivateKey } = require('../testEnv')
 const { timeout } = require('../testUtils')
 
 const receiver = '0x60498fEFBF1705A3Db8d7Bb5c80D5238956343e5'
@@ -44,6 +43,7 @@ const testVariables = {
         mtTokenId: '0x0',
         transactionHash: '0xd7ca606d531ee9afc5aed7b43d9476be3776ca06e03e0db8f21c121436962fbb',
         range: '1611804103,1611904103',
+        tokenOwnerAddress: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
     },
     qa: {
         ftContractAddress: '0x854363D6E06E24809d867515e2bA7A82E0EF3aB2',
@@ -53,6 +53,7 @@ const testVariables = {
         mtTokenId: '0x0',
         transactionHash: '0xf257aab67d3b562217d2ebd87391091cbb4f710ac680201be29dc06af98c7965',
         range: '1613004103,1613616169',
+        tokenOwnerAddress: '0x89a8e75d92ce84076d33f68e4909c4156847dc69',
     },
     prod: {
         ftContractAddress: '0x4792f1e64d0f656e61516805b7d2cd99f9359043',
@@ -62,73 +63,27 @@ const testVariables = {
         mtTokenId: '0x0',
         transactionHash: '0x8b86a549dd73895fd72ea5b3430bc043f6d410d74a67004c673c0fc1b9a56534',
         range: '1611803332,1611903332',
+        tokenOwnerAddress: '0x89a8e75d92ce84076d33f68e4909c4156847dc69',
     },
 }
 
-const { ftContractAddress, nftContractAddress, mtContractAddress, nftTokenId, mtTokenId, transactionHash, range } = url.includes('dev')
-    ? testVariables.dev
-    : url.includes('qa')
-    ? testVariables.qa
-    : testVariables.prod
-
-// // A function to configure the environment to test the TokenHistory API.
-// // Currently, the test works not by directly deploying and using it, but by performing a test that searches by using a specific value. (in testVariables)
-// // Therefore, this function will be used later when testing a scenario that directly deploys and retrieves contracts.
-// async function createTestTokenContracts(sender) {
-//     await timeout(3000)
-//     const sendKLAY = new caver.transaction.valueTransfer({
-//         from: sender.address,
-//         to: receiver,
-//         value: 1,
-//         gas: 25000,
-//     })
-
-//     await keyringContainer.sign(sender.address, sendKLAY)
-
-//     await caver.rpc.klay.sendRawTransaction(sendKLAY)
-
-//     const kip7 = await caver.kct.kip7.deploy(
-//         { name: 'Jasmine', symbol: 'JAS', decimals: 18, initialSupply: '100000000000000000' },
-//         sender.address,
-//         keyringContainer
-//     )
-//     ftContractAddress = kip7.options.address.toLowerCase()
-
-//     await kip7.transfer(receiver, 1, { from: sender.address })
-
-//     const kip17 = await caver.kct.kip17.deploy({ name: 'Jasmine', symbol: 'JAS' }, sender.address, keyringContainer)
-//     nftContractAddress = kip17.options.address.toLowerCase()
-
-//     await kip17.mintWithTokenURI(sender.address, nftTokenId, 'test URI 1', { from: sender.address })
-//     await kip17.transferFrom(sender.address, receiver, nftTokenId, { from: sender.address })
-
-//     // Wait until applying the transactions to KAS
-//     await timeout(5000)
-
-//     const contract = new caver.contract(kip37ABI)
-//     contract.setWallet(keyringContainer)
-//     const kip37 = await contract
-//         .deploy({
-//             data: kip37ByteCode,
-//             arguments: ['uri string'],
-//         })
-//         .send({ from: sender.address, gas: 8000000 })
-//     mtContractAddress = kip37.options.address
-
-//     await kip37.methods.create(mtTokenId, '1000', 'test uri string').send({ from: sender.address, gas: 500000 })
-//     await timeout(5000)
-// }
+const {
+    ftContractAddress,
+    nftContractAddress,
+    mtContractAddress,
+    nftTokenId,
+    mtTokenId,
+    transactionHash,
+    range,
+    tokenOwnerAddress,
+} = url.includes('dev') ? testVariables.dev : url.includes('qa') ? testVariables.qa : testVariables.prod
 
 describe('TokenHistory API service', () => {
-    let sender
-
     before(() => {
         caver = new CaverExtKAS()
         keyringContainer = new caver.keyringContainer()
         caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
         caver.initNodeAPI(nodeAPIEnv.chainId, nodeAPIEnv.accessKeyId, nodeAPIEnv.secretAccessKey, nodeAPIEnv.url)
-
-        sender = keyringContainer.add(keyringContainer.keyring.createFromPrivateKey(senderPrivateKey))
     })
 
     it('CAVERJS-EXT-KAS-INT-007: caver.kas.tokenHistory.getTransferHistory should query transfer history', async () => {
@@ -170,11 +125,11 @@ describe('TokenHistory API service', () => {
             caFilter: nftContractAddress,
         }
 
-        const ret = await caver.kas.tokenHistory.getTransferHistoryByAccount(sender.address, queryOptions)
+        const ret = await caver.kas.tokenHistory.getTransferHistoryByAccount(tokenOwnerAddress, queryOptions)
 
         expect(ret.items).not.to.be.undefined
         expect(ret.items.length > 0).to.be.true
-        expect(ret.items[0].from === sender.address || ret.items[0].to === sender.address).to.be.true
+        expect(ret.items[0].from === tokenOwnerAddress || ret.items[0].to === tokenOwnerAddress).to.be.true
         expect(ret.items[0].contract.address.toLowerCase()).to.equal(queryOptions.caFilter.toLowerCase())
         expect(ret.cursor).not.to.be.undefined
     }).timeout(1000000)
@@ -290,27 +245,27 @@ describe('TokenHistory API service', () => {
     }).timeout(1000000)
 
     it('CAVERJS-EXT-KAS-INT-237: caver.kas.tokenHistory.getMTListByOwner should return MT token list by owner', async () => {
-        const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContractAddress, sender.address)
+        const ret = await caver.kas.tokenHistory.getMTListByOwner(mtContractAddress, tokenOwnerAddress)
 
         expect(ret.totalBalance).not.to.be.undefined
         expect(ret.items).not.to.be.undefined
         expect(ret.items.length).to.equal(1)
         expect(ret.items[0].balance).to.equal(ret.items[0].totalSupply)
-        expect(ret.items[0].owner).to.equal(sender.address)
+        expect(ret.items[0].owner).to.equal(tokenOwnerAddress)
         expect(ret.items[0].transferFrom).to.equal('0x0000000000000000000000000000000000000000')
-        expect(ret.items[0].transferTo).to.equal(sender.address)
+        expect(ret.items[0].transferTo).to.equal(tokenOwnerAddress)
     }).timeout(1000000)
 
     it('CAVERJS-EXT-KAS-INT-238: caver.kas.tokenHistory.getMT should return MT', async () => {
-        const ret = await caver.kas.tokenHistory.getMT(mtContractAddress, sender.address, mtTokenId)
+        const ret = await caver.kas.tokenHistory.getMT(mtContractAddress, tokenOwnerAddress, mtTokenId)
 
         expect(ret.tokenId).to.equal(mtTokenId)
-        expect(ret.owner.toLowerCase()).to.equal(sender.address.toLowerCase())
+        expect(ret.owner.toLowerCase()).to.equal(tokenOwnerAddress.toLowerCase())
         expect(ret.tokenAddress.toLowerCase()).to.equal(mtContractAddress.toLowerCase())
         expect(ret.totalSupply).not.to.be.undefined
         expect(ret.transactionHash).not.to.be.undefined
         expect(ret.transferFrom).to.equal('0x0000000000000000000000000000000000000000')
-        expect(ret.transferTo.toLowerCase()).to.equal(sender.address.toLowerCase())
+        expect(ret.transferTo.toLowerCase()).to.equal(tokenOwnerAddress.toLowerCase())
         expect(ret.updatedAt).not.to.be.undefined
     }).timeout(1000000)
 
@@ -321,8 +276,8 @@ describe('TokenHistory API service', () => {
         expect(ret.items.length).to.equal(1)
         expect(ret.items[0].tokenId).to.equal(mtTokenId)
         expect(ret.items[0].balance).to.equal(ret.items[0].totalSupply)
-        expect(ret.items[0].owner.toLowerCase()).to.equal(sender.address.toLowerCase())
+        expect(ret.items[0].owner.toLowerCase()).to.equal(tokenOwnerAddress.toLowerCase())
         expect(ret.items[0].transferFrom).to.equal('0x0000000000000000000000000000000000000000')
-        expect(ret.items[0].transferTo.toLowerCase()).to.equal(sender.address.toLowerCase())
+        expect(ret.items[0].transferTo.toLowerCase()).to.equal(tokenOwnerAddress.toLowerCase())
     }).timeout(1000000)
 })
