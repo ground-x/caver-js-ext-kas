@@ -29,6 +29,7 @@ let caver
 let from
 
 const { senderPrivateKey, auths } = require('../testEnv')
+const { assert } = require('../extendedChai')
 
 const { url, chainId, accessKeyId, secretAccessKey, feePayerAddress: feePayer } = auths.walletAPI
 
@@ -168,7 +169,12 @@ describe('KAS Wallet', () => {
             gas: 25000,
         })
 
-        await expect(caver.wallet.sign(from, tx)).to.be.rejectedWith("failed to get an account from AMS; data don't exist")
+        try {
+            await caver.wallet.sign(from, tx)
+            assert(false)
+        } catch (e) {
+            expect(e._code).to.equal(1065100)
+        }
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-124: caver.wallet.disableAccount rejects if use tried to deactivate an account which is not existed in KAS Wallet API Service', async () => {
