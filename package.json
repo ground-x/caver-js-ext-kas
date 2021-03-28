@@ -35,7 +35,7 @@
   "author": "Ground X Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "caver-js": "^1.5.7-rc.3",
+    "caver-js": "^1.6.1-rc.1",
     "dotenv": "^8.2.0",
     "lodash": "^4.17.19",
     "querystring": "0.2.0",
