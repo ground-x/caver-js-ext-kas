@@ -70,8 +70,8 @@ describe('Node API service enabling', () => {
             const headers = caver._requestManager.provider.headers
             expect(headers[0].name).to.equal('Authorization')
             expect(headers[0].value).to.equal(`Basic ${Buffer.from(`${accessKeyId}:${secretAccessKey}`).toString('base64')}`)
-            expect(headers[1].name).to.equal('x-krn')
-            expect(headers[1].value).to.equal(`krn:${chainId}:node`)
+            expect(headers[1].name).to.equal('x-chain-id')
+            expect(headers[1].value).to.equal(chainId)
         })
     })
 })

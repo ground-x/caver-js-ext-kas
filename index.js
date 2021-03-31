@@ -138,7 +138,7 @@ class CaverExtKAS extends Caver {
         this._requestManager.provider.headers = this._requestManager.provider.headers || []
         const auth = [
             { name: 'Authorization', value: `Basic ${Buffer.from(`${accessKeyId}:${secretAccessKey}`).toString('base64')}` },
-            { name: 'x-krn', value: `krn:${chainId}:node` },
+            { name: 'x-chain-id', value: chainId },
         ]
         this._requestManager.provider.headers = this._requestManager.provider.headers.concat(auth)
     }
