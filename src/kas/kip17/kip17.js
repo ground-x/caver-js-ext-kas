@@ -244,7 +244,7 @@ class KIP17 {
         if (!_.isString(tokenURI)) throw new Error(`The token URI should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
-        if (_.isNumber(tokenId)) tokenId = utils.toHex(tokenId)
+        tokenId = utils.toHex(tokenId)
 
         const opts = {
             body: MintKip17TokenRequest.constructFromObject({ to, uri: tokenURI, id: tokenId }),
@@ -319,7 +319,7 @@ class KIP17 {
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
-        if (_.isNumber(tokenId)) tokenId = utils.toHex(tokenId)
+        tokenId = utils.toHex(tokenId)
 
         return new Promise((resolve, reject) => {
             this.kip17Api.getToken(this.chainId, addressOrAlias, tokenId, (err, data, response) => {
@@ -362,7 +362,7 @@ class KIP17 {
         if (!utils.isAddress(owner)) throw new Error(`Invalid address format: ${owner}`)
         if (!utils.isAddress(to)) throw new Error(`Invalid address format: ${to}`)
 
-        if (_.isNumber(tokenId)) tokenId = utils.toHex(tokenId)
+        tokenId = utils.toHex(tokenId)
 
         const opts = {
             body: TransferKip17TokenRequest.constructFromObject({ sender, owner, to }),
@@ -403,7 +403,7 @@ class KIP17 {
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
         if (!utils.isAddress(from)) throw new Error(`Invalid address format: ${from}`)
 
-        if (_.isNumber(tokenId)) tokenId = utils.toHex(tokenId)
+        tokenId = utils.toHex(tokenId)
 
         const opts = {
             body: BurnKip17TokenRequest.constructFromObject({ from }),
@@ -448,7 +448,7 @@ class KIP17 {
         if (!utils.isAddress(from)) throw new Error(`Invalid address format: ${from}`)
         if (!utils.isAddress(to)) throw new Error(`Invalid address format: ${to}`)
 
-        if (_.isNumber(tokenId)) tokenId = utils.toHex(tokenId)
+        tokenId = utils.toHex(tokenId)
 
         const opts = {
             body: ApproveKip17TokenRequest.constructFromObject({ from, to }),
@@ -568,7 +568,7 @@ class KIP17 {
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
-        if (_.isNumber(tokenId)) tokenId = utils.toHex(tokenId)
+        tokenId = utils.toHex(tokenId)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
