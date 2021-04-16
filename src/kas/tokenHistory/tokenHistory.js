@@ -146,6 +146,14 @@ class TokenHistory {
      * Gets token transfer history list. <br>
      * GET /v2/transfer
      *
+     * @example
+     * const query = {
+     *    kind: [caver.kas.tokenHistory.queryOptions.kind.KLAY],
+     *    size: 1,
+     *    range: '1593529200,1599145200',
+     * }
+     * const result = await caver.kas.tokenHistory.getTransferHistory([80], query)
+     *
      * @param {Array.<number>} presets Preset IDs to be used for search, Preset ID can be checked in KAS Console.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `range`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
@@ -183,6 +191,9 @@ class TokenHistory {
      * Token transaction history inquiry with transaction hash. <br>
      * GET /v2/transfer/tx/{transaction-hash}
      *
+     * @example
+     * const result = await caver.kas.tokenHistory.getTransferHistoryByTxHash('0x063b947b7bc70356ace9644a30188541e345b28e532810d1b80c132882c742ad')
+     *
      * @param {string} transactionHash Transaction hash to search transfer history.
      * @param {Function} [callback] The callback function to call.
      * @return {Transfers}
@@ -204,6 +215,15 @@ class TokenHistory {
     /**
      * Search token transfer history of a specific EOA. <br>
      * GET /v2/transfer/account/{address}
+     *
+     * @example
+     * const query = {
+     *    kind: [caver.kas.tokenHistory.queryOptions.kind.NFT],
+     *    size: 1,
+     *    range: '1593529200,1599145200',
+     *    caFilter: '0xbbe63781168c9e67e7a8b112425aa84c479f39aa',
+     * }
+     * const result = await caver.kas.tokenHistory.getTransferHistoryByAccount('0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1', query)
      *
      * @param {string} address The EOA address used to search for token transfer history.
      *                         The from or to in the search result matches the suggested address value.
@@ -238,6 +258,14 @@ class TokenHistory {
      * Retrieve information of all labeled FT contracts. <br>
      * GET /v2/contract/ft
      *
+     * @example
+     * const query = {
+     *    status: caver.kas.tokenHistory.queryOptions.status.COMPLETED,
+     *    size: 1,
+     *    type: caver.kas.tokenHistory.queryOptions.type.KIP7,
+     * }
+     * const result = await caver.kas.tokenHistory.getFTContractList(query)
+     *
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
      * @return {PageableFtContractDetails}
@@ -269,6 +297,9 @@ class TokenHistory {
      * Retrieves the information of the FT contract labeled with the address of the FT contract. <br>
      * GET /v2/contract/ft/{ft-address}
      *
+     * @example
+     * const result = await caver.kas.tokenHistory.getFTContract('0x4a29e5f60090a75de0f62c6224e04e0f610ca4af')
+     *
      * @param {string} ftAddress Address of the FT contract for which information is to be retrieved.
      * @param {Function} [callback] The callback function to call.
      * @return {FtContractDetail}
@@ -290,6 +321,14 @@ class TokenHistory {
     /**
      * Retrieve information of all labeled NFT contracts. <br>
      * GET /v2/contract/nft
+     *
+     * @example
+     * const query = {
+     *    status: caver.kas.tokenHistory.queryOptions.status.COMPLETED,
+     *    size: 1,
+     *    type: caver.kas.tokenHistory.queryOptions.type.KIP17,
+     * }
+     * const result = await caver.kas.tokenHistory.getNFTContractList(query)
      *
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
@@ -322,6 +361,9 @@ class TokenHistory {
      * Retrieves the information of the NFT contract labeled with the address of the NFT contract. <br>
      * GET /v2/contract/nft/{nftAddress}
      *
+     * @example
+     * const result = await caver.kas.tokenHistory.getNFTContract('0xbbe63781168c9e67e7a8b112425aa84c479f39aa')
+     *
      * @param {string} nftAddress Address of the NFT contract for which information is to be retrieved.
      * @param {Function} [callback] The callback function to call.
      * @return {NftContractDetail}
@@ -343,6 +385,10 @@ class TokenHistory {
     /**
      * Retrieves information of all NFTs issued by a specific NFT contract. <br>
      * GET /v2/contract/nft/{nft-address}/token
+     *
+     * @example
+     * const query = { size: 1 }
+     * const result = await caver.kas.tokenHistory.getNFTList('0xbbe63781168c9e67e7a8b112425aa84c479f39aa', query)
      *
      * @param {string} nftAddress NFT contract address for which you want to search all issued NFTs.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
@@ -376,6 +422,15 @@ class TokenHistory {
      * the information of the NFT owned by the EOA address received as a parameter is retrieved. <br>
      * GET /v2/contract/nft/{nft-address}/owner/{owner-address}
      *
+     * @example
+     * const contractAddress = '0xbbe63781168c9e67e7a8b112425aa84c479f39aa'
+     * const ownerAddress = '0xa1c56175bbafaeaac2da534bed2c50079c63344a'
+     * const query = {
+     *    size: 1,
+     *    cursor: 'PdOALgqNme5a9vJ6KDBAZ4gzwx6alLo1Q5mX7q2Oz2d7e8PrK1Jpwbm9LZ6D0lRxNnvx4BMAVXNE5Qao3kqgWGYOp9rW8Y3GEDM0deNPbKvkJVEz4oXVrY0Wxk1lbp7B'
+     * }
+     * const result = await caver.kas.tokenHistory.getNFTListByOwner(contractAddress, ownerAddress, query)
+     *
      * @param {string} nftAddress Address of the NFT contract to be searched.
      * @param {string} ownerAddress Address of the EOA to be searched.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
@@ -408,6 +463,11 @@ class TokenHistory {
      * Retrieve information of a specific NFT. <br>
      * GET /v2/contract/nft/{nft-address}/token/{token-id}
      *
+     * @example
+     * const contractAddress = '0xbbe63781168c9e67e7a8b112425aa84c479f39aa'
+     * const tokenId = '0x7b'
+     * const result = await caver.kas.tokenHistory.getNFT(contractAddress, tokenId)
+     *
      * @param {string} nftAddress Address of the NFT contract to be searched.
      * @param {string|number} tokenId Token id to be searched.
      * @param {Function} [callback] The callback function to call.
@@ -430,6 +490,9 @@ class TokenHistory {
     /**
      * Retrieve the record of ownership changes for a specific NFT. <br>
      * GET /v2/contract/nft/{nft-address}/token/{token-id}/history
+     *
+     * @example
+     * const result = await caver.kas.tokenHistory.getNFTOwnershipHistory('0xbbe63781168c9e67e7a8b112425aa84c479f39aa', '0x7b')
      *
      * @param {string} nftAddress Address of the NFT contract to be searched.
      * @param {string|number} tokenId Token id to be searched.
@@ -667,49 +730,6 @@ class TokenHistory {
             )
         })
     }
-
-    // /**
-    //  * Lists all fungible tokens owned by the queried EOA address. <br>
-    //  * GET /v2/account/token/{address}/ft
-    //  * @example
-    //  * const address = '0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb'
-    //  *
-    //  * // with query parameter
-    //  * const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(address)
-    //  *
-    //  * // without query parameter
-    //  * const ret = await caver.kas.tokenHistory.getFTSummaryByAddress(address, {
-    //  *      size: 1,
-    //  *      cursor: 'eyJjc...',
-    //  *      caFilters: [ '0x639bb15d5c012820bef8dd038254271e8597b3cf', '0x54b3fde37c5604007f0e50913e990a039d19b6af' ],
-    //  * })
-    //  *
-    //  * @param {string} address The address of the account to search the owned FT.
-    //  * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `caFilters`, `size`, and `cursor`.
-    //  * @param {Function} [callback] The callback function to call.
-    //  * @return {PageableAccountFT}
-    //  */
-    // getFTSummaryByAddress(address, queryOptions, callback) {
-    //     if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
-    //     if (_.isFunction(queryOptions)) {
-    //         callback = queryOptions
-    //         queryOptions = {}
-    //     }
-
-    //     queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
-    //     if (!queryOptions.isValidOptions(['caFilters', 'size', 'cursor']))
-    //         throw new Error(`Invalid query options: 'caFilters', 'size', and 'cursor' can be used.`)
-
-    //     return new Promise((resolve, reject) => {
-    //         this.tokenOwnershipApi.getFtSummaryByEoaAddress(this.chainId, address, queryOptions, (err, data, response) => {
-    //             if (err) {
-    //                 reject(err)
-    //             }
-    //             if (callback) callback(err, data, response)
-    //             resolve(data)
-    //         })
-    //     })
-    // }
 }
 
 module.exports = TokenHistory
