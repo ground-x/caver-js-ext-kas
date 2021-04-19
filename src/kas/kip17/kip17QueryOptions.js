@@ -15,10 +15,20 @@
  */
 
 const lodash = require('lodash')
-const utils = require('caver-js').utils
-const { formatDate } = require('../../utils/helper')
 
 class KIP17QueryOptions {
+    /**
+     * Create an instance of KIP17QueryOptions from object. <br>
+     * You can use object instead of KIP17QueryOptions instance when using `caver.kas.kip17`. <br>
+     * Because the function of `caver.kas.kip17` internally converts object to KIP17QueryOptions instance,
+     * and when converting, validation of the field defined inside Object is performed. <br>
+     *
+     * @example
+     * const options = caver.kas.kip17.queryOptions.constructFromObject({ size, cursor })
+     *
+     * @param {object} obj An object where query parameters are defined.
+     * @return {KIP17QueryOptions}
+     */
     static constructFromObject(obj) {
         const size = obj.size
         const cursor = obj.cursor
@@ -26,6 +36,16 @@ class KIP17QueryOptions {
         return new KIP17QueryOptions(size, cursor)
     }
 
+    /**
+     * Creates an instance of KIP17QueryOptions.
+     *
+     * @example
+     * const options = new caver.kas.kip17.queryOptions(size, cursor)
+     *
+     * @constructor
+     * @param {number} size - Maximum number of data to query.
+     * @param {string} cursor - Information of the last retrieved cursor.
+     */
     constructor(size, cursor) {
         if (size !== undefined) this.size = size
         if (cursor !== undefined) this.cursor = cursor
@@ -58,6 +78,10 @@ class KIP17QueryOptions {
 
     /**
      * Make sure that only essential ones are defined for the option values defined in KIP17QueryOptions.
+     *
+     * @example
+     * const options = caver.kas.kip17.queryOptions.constructFromObject({ ... })
+     * const isValid = options.isValidOptions(['size', 'cursor'])
      *
      * @param {Array.<string>} options An array containing the names of options used in the function.
      * @return {boolean}

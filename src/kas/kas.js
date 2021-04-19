@@ -32,6 +32,10 @@ const KIP17QueryOptions = require('./kip17/kip17QueryOptions')
 class KAS {
     /**
      * Creates an instance of KAS.
+     *
+     * @example
+     * caver.kas // `caver.kas` is the KAS instance.
+     *
      * @constructor
      */
     constructor() {
@@ -91,12 +95,16 @@ class KAS {
     }
 
     /**
-     * Sets chain id and authentication key for Token History API.
+     * Sets chain id and authentication key for Token History API. <br>
+     * Since `caver.initTokenHistoryAPI` calls this function internally, it is recommended to use `caver.initTokenHistoryAPI`.
+     *
+     * @example
+     * caver.kas.initTokenHistoryAPI(1001, 'accessKeyId', 'secretAccessKey', 'https://th-api.klaytnapi.com')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
-     * @param {string} [url] The end point url.
+     * @param {string} url The end point url.
      * @return {void}
      */
     initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url) {
@@ -106,12 +114,16 @@ class KAS {
     }
 
     /**
-     * Sets chain id and authentication key for Wallet API.
+     * Sets chain id and authentication key for Wallet API. <br>
+     * Since `caver.initWalletAPI` calls this function internally, it is recommended to use `caver.initWalletAPI`.
+     *
+     * @example
+     * caver.kas.initWalletAPI(1001, 'accessKeyId', 'secretAccessKey', 'https://wallet-api.klaytnapi.com')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
-     * @param {string} [url] The end point url.
+     * @param {string} url The end point url.
      * @return {void}
      */
     initWalletAPI(chainId, accessKeyId, secretAccessKey, url) {
@@ -121,12 +133,16 @@ class KAS {
     }
 
     /**
-     * Sets chain id and authentication key for Anchor API.
+     * Sets chain id and authentication key for Anchor API. <br>
+     * Since `caver.initAnchorAPI` calls this function internally, it is recommended to use `caver.initAnchorAPI`.
+     *
+     * @example
+     * caver.kas.initAnchorAPI(1001, 'accessKeyId', 'secretAccessKey', 'https://anchor-api.klaytnapi.com')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
-     * @param {string} [url] The end point url.
+     * @param {string} url The end point url.
      * @return {void}
      */
     initAnchorAPI(chainId, accessKeyId, secretAccessKey, url) {
@@ -136,12 +152,16 @@ class KAS {
     }
 
     /**
-     * Sets chain id and authentication key for KIP17 API.
+     * Sets chain id and authentication key for KIP17 API. <br>
+     * Since `caver.initKIP17API` calls this function internally, it is recommended to use `caver.initKIP17API`.
+     *
+     * @example
+     * caver.kas.initKIP17API(1001, 'accessKeyId', 'secretAccessKey', 'https://kip17-api.klaytnapi.com')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
-     * @param {string} [url] The end point url.
+     * @param {string} url The end point url.
      * @return {void}
      */
     initKIP17API(chainId, accessKeyId, secretAccessKey, url) {

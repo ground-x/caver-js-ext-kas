@@ -23,7 +23,13 @@ const { formatDate } = require('../../utils/helper')
  */
 class AnchorQueryOptions {
     /**
-     * Create an instance of AnchorQueryOptions from object.
+     * Create an instance of AnchorQueryOptions from object. <br>
+     * You can use object instead of AnchorQueryOptions instance when using `caver.kas.anchor`. <br>
+     * Because the function of `caver.kas.anchor` internally converts object to AnchorQueryOptions instance,
+     * and when converting, validation of the field defined inside Object is performed. <br>
+     *
+     * @example
+     * const options = caver.kas.anchor.queryOptions.constructFromObject({ size, cursor, ... })
      *
      * @param {object} obj An object where query parameters are defined.
      * @return {AnchorQueryOptions}
@@ -46,6 +52,10 @@ class AnchorQueryOptions {
 
     /**
      * Creates an instance of AnchorQueryOptions.
+     *
+     * @example
+     * const options = new caver.kas.anchor.queryOptions(size, fromTimestamp, toTimestamp, cursor)
+     *
      * @constructor
      * @param {number} size - Maximum number of data to query.
      * @param {number|string|Date} fromTimestamp - The starting date of the data to be queried.
@@ -109,6 +119,10 @@ class AnchorQueryOptions {
 
     /**
      * Make sure that only essential ones are defined for the option values defined in AnchorQueryOptions.
+     *
+     * @example
+     * const options = caver.kas.anchor.queryOptions.constructFromObject({ ... })
+     * const isValid = options.isValidOptions(['size', 'cursor'])
      *
      * @param {Array.<string>} options An array containing the names of options used in the function.
      * @return {boolean}

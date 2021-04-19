@@ -19,28 +19,51 @@ const utils = require('caver-js').utils
 const { formatDate } = require('../../utils/helper')
 
 class TokenHistoryQueryOptions {
+    /**
+     * Create an instance of TokenHistoryQueryOptions from object. <br>
+     * You can use object instead of TokenHistoryQueryOptions instance when using `caver.kas.tokenHistory`. <br>
+     * Because the function of `caver.kas.tokenHistory` internally converts object to TokenHistoryQueryOptions instance,
+     * and when converting, validation of the field defined inside Object is performed. <br>
+     *
+     * @example
+     * const options = caver.kas.tokenHistory.queryOptions.constructFromObject({ kind, range, size, cursor, ... })
+     *
+     * @param {object} obj An object where query parameters are defined.
+     * @return {TokenHistoryQueryOptions}
+     */
     static constructFromObject(obj) {
         const kind = obj.kind
         const range = obj.range
         const size = obj.size
         const cursor = obj.cursor
-        const presets = obj.presets
         const caFilter = obj.caFilter || obj['ca-filter']
-        const caFilters = obj.caFilters || obj['ca-filters']
         const status = obj.status
         const type = obj.type
 
-        return new TokenHistoryQueryOptions(kind, range, size, cursor, presets, caFilter, caFilters, status, type)
+        return new TokenHistoryQueryOptions(kind, range, size, cursor, caFilter, status, type)
     }
 
-    constructor(kind, range, size, cursor, presets, caFilter, caFilters, status, type) {
+    /**
+     * Creates an instance of TokenHistoryQueryOptions.
+     *
+     * @example
+     * const options = new caver.kas.tokenHistory.queryOptions(kind, range, size, cursor, caFilter, status, type)
+     *
+     * @constructor
+     * @param {Array.<string>} kind - Indicate the [“klay”, “ft”, “nft”, "mt"] type. All types will be searched if no type is specified. You can use `caver.tokenHistory.queryOptions.kind`.
+     * @param {string} range - Search range (block number of Unix time).
+     * @param {number} size - Maximum number of items to retrieve (min=1, max=1000, default=100).
+     * @param {string} cursor - Information of the last retrieved cursor.
+     * @param {string} caFilter - The token contract address to filter from the result.
+     * @param {string} status - Labeling status [completed, processing, failed, cancelled]. You can use `caver.tokenHistory.queryOptions.status`.
+     * @param {string} type - Contract type. If not set, return all types. You can use `caver.tokenHistory.queryOptions.type`.
+     */
+    constructor(kind, range, size, cursor, caFilter, status, type) {
         if (kind !== undefined) this.kind = kind
         if (range !== undefined) this.range = range
         if (size !== undefined) this.size = size
         if (cursor !== undefined) this.cursor = cursor
-        if (presets !== undefined) this.presets = presets
         if (caFilter !== undefined) this.caFilter = caFilter
-        if (caFilters !== undefined) this.caFilters = caFilters
         if (status !== undefined) this.status = status
         if (type !== undefined) this.type = type
     }
@@ -139,28 +162,6 @@ class TokenHistoryQueryOptions {
     }
 
     /**
-     * @type {Array.<string>}
-     */
-    get caFilters() {
-        return this._caFilters
-    }
-
-    set caFilters(caFilters) {
-        if (!lodash.isArray(caFilters)) caFilters = [caFilters]
-
-        for (let cafilter of caFilters) {
-            if (!lodash.isString(cafilter)) throw new Error(`Invalid type of caFilters: caFilters should be string or string array type.`)
-            const lowerCaseCaFilter = cafilter.toLowerCase()
-            if (!utils.isAddress(lowerCaseCaFilter)) {
-                throw new Error(`Invalid caFilter in caFilters. The caFilter should be an address format.`)
-            }
-            cafilter = lowerCaseCaFilter
-        }
-
-        this._caFilters = Array.from(new Set(caFilters))
-    }
-
-    /**
      * @type {string}
      */
     get status() {
@@ -200,6 +201,10 @@ class TokenHistoryQueryOptions {
 
     /**
      * Make sure that only essential ones are defined for the option values defined in TokenHistoryQueryOptions.
+     *
+     * @example
+     * const options = caver.kas.tokenHistory.queryOptions.constructFromObject({ ... })
+     * const isValid = options.isValidOptions(['kind', 'range'])
      *
      * @param {Array.<string>} options An array containing the names of options used in the function.
      * @return {boolean}

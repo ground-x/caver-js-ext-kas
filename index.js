@@ -37,6 +37,11 @@ class CaverExtKAS extends Caver {
      * When initializing the KAS API in the constructor, initialize the authentication key used in the Node API, Wallet API, Token History API, and Anchor API at once with KAS Production URL as default. <br>
      * If you want to initialize each service or use an endpoint URL other than the production URL set as default,<br>
      * you need to initialize it for each service using [initNodeAPI]{@link CaverExtKAS#initNodeAPI}, [initTokenHistoryAPI]{@link CaverExtKAS#initTokenHistoryAPI}, [initWalletAPI]{@link CaverExtKAS#initWalletAPI}, and [initAnchorAPI]{@link CaverExtKAS#initAnchorAPI}. <br>
+     *
+     * @example
+     * const CaverExtKAS = require('caver-js-ext-kas')
+     * const caver = new CaverExtKAS(1001, 'accessKeyId', 'secretAccessKey')
+     *
      * @constructor
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
@@ -103,6 +108,9 @@ class CaverExtKAS extends Caver {
      * Sets chain id and authentication key.
      * This function sets the configurations used by each KAS API services.
      *
+     * @example
+     * caver.initKASAPI(1001, 'accessKeyId', 'secretAccessKey')
+     *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
@@ -118,6 +126,10 @@ class CaverExtKAS extends Caver {
 
     /**
      * Sets chain id and authentication key for Node API.
+     *
+     * @example
+     * caver.initNodeAPI(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initNodeAPI(1001, 'accessKeyId', 'secretAccessKey', 'Node API url to use')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
@@ -138,13 +150,17 @@ class CaverExtKAS extends Caver {
         this._requestManager.provider.headers = this._requestManager.provider.headers || []
         const auth = [
             { name: 'Authorization', value: `Basic ${Buffer.from(`${accessKeyId}:${secretAccessKey}`).toString('base64')}` },
-            { name: 'x-krn', value: `krn:${chainId}:node` },
+            { name: 'x-chain-id', value: chainId },
         ]
         this._requestManager.provider.headers = this._requestManager.provider.headers.concat(auth)
     }
 
     /**
      * Sets chain id and authentication key for Token History API.
+     *
+     * @example
+     * caver.initTokenHistoryAPI(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initTokenHistoryAPI(1001, 'accessKeyId', 'secretAccessKey', 'Token History API url to use')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
@@ -159,6 +175,10 @@ class CaverExtKAS extends Caver {
 
     /**
      * Sets chain id and authentication key for Wallet API.
+     *
+     * @example
+     * caver.initWalletAPI(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initWalletAPI(1001, 'accessKeyId', 'secretAccessKey', 'Wallet API url to use')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
@@ -177,6 +197,10 @@ class CaverExtKAS extends Caver {
     /**
      * Sets chain id and authentication key for Anchor API.
      *
+     * @example
+     * caver.initAnchorAPI(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initAnchorAPI(1001, 'accessKeyId', 'secretAccessKey', 'Anchor API url to use')
+     *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
@@ -190,6 +214,10 @@ class CaverExtKAS extends Caver {
 
     /**
      * Sets chain id and authentication key for KIP17 API.
+     *
+     * @example
+     * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-17 API url to use')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.

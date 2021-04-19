@@ -70,8 +70,8 @@ describe('Node API service enabling', () => {
             const headers = caver._requestManager.provider.headers
             expect(headers[0].name).to.equal('Authorization')
             expect(headers[0].value).to.equal(`Basic ${Buffer.from(`${accessKeyId}:${secretAccessKey}`).toString('base64')}`)
-            expect(headers[1].name).to.equal('x-krn')
-            expect(headers[1].value).to.equal(`krn:${chainId}:node`)
+            expect(headers[1].name).to.equal('x-chain-id')
+            expect(headers[1].value).to.equal(chainId)
         })
     })
 })
@@ -204,17 +204,17 @@ describe('Node API service', () => {
                 { name: 'getGasPrice', params: [], returnType: 'string' },
                 { name: 'getGasPriceAt', params: [1], returnType: 'string' },
                 { name: 'getProtocolVersion', params: [], returnType: 'string' },
-                { name: 'newBlockFilter', params: [], returnType: 'string' },
-                { name: 'getFilterChanges', params: [], returnType: 'array' },
-                { name: 'newFilter', params: [{}], returnType: 'string' },
-                { name: 'getFilterLogs', params: [], returnType: 'array' },
+                // { name: 'newBlockFilter', params: [], returnType: 'string' },
+                // { name: 'getFilterChanges', params: [], returnType: 'array' },
+                // { name: 'newFilter', params: [{}], returnType: 'string' },
+                // { name: 'getFilterLogs', params: [], returnType: 'array' },
                 {
                     name: 'getLogs',
                     params: [{ fromBlock: 'latest', toBlock: 'latest', address: '0xc254738899cc347b0d94c2861c9a1aa558825f3a' }],
                     returnType: 'array',
                 },
-                { name: 'newPendingTransactionFilter', params: [], returnType: 'string' },
-                { name: 'uninstallFilter', params: [], returnType: 'boolean' },
+                // { name: 'newPendingTransactionFilter', params: [], returnType: 'string' },
+                // { name: 'uninstallFilter', params: [], returnType: 'boolean' },
                 { name: 'sha3', params: ['0xea'], returnType: 'string' },
             ]
 
