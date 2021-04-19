@@ -23,7 +23,13 @@ const { formatDate } = require('../../utils/helper')
  */
 class WalletQueryOptions {
     /**
-     * Create an instance of WalletQueryOptions from object.
+     * Create an instance of WalletQueryOptions from object. <br>
+     * You can use object instead of WalletQueryOptions instance when using `caver.kas.wallet`. <br>
+     * Because the function of `caver.kas.wallet` internally converts object to WalletQueryOptions instance,
+     * and when converting, validation of the field defined inside Object is performed. <br>
+     *
+     * @example
+     * const options = caver.kas.wallet.queryOptions.constructFromObject({ kind, range, size, cursor, ... })
      *
      * @param {object} obj An object where query parameters are defined.
      * @return {WalletQueryOptions}
@@ -131,6 +137,10 @@ class WalletQueryOptions {
 
     /**
      * Make sure that only essential ones are defined for the option values defined in WalletQueryOptions.
+     *
+     * @example
+     * const options = caver.kas.wallet.queryOptions.constructFromObject({ ... })
+     * const isValid = options.isValidOptions(['status'])
      *
      * @param {Array.<string>} options An array containing the names of options used in the function.
      * @return {boolean}

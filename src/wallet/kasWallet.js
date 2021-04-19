@@ -28,6 +28,9 @@ class KASWallet {
      * Creates a wallet instance that uses the KAS Wallet API. <br>
      * This will be used in `caver.wallet` with CaverExtKAS.
      *
+     * @example
+     * caver.wallet // `caver.wallet` is the KASWallet instance.
+     *
      * @constructor
      * @param {Wallet} walletAPI - An instance of KAS Wallet api to use.
      */
@@ -37,6 +40,10 @@ class KASWallet {
 
     /**
      * Generates accounts in the KAS wallet api service with randomly generated key pairs.
+     *
+     * @example
+     * const result = await caver.wallet.generate() // Create one account
+     * const result = await caver.wallet.generate(3)
      *
      * @param {number} numberOfAccounts The number of accounts to create.
      * @return {Array.<string>}
@@ -53,6 +60,9 @@ class KASWallet {
     /**
      * Get the account in KAS Wallet API Service corresponding to the address
      *
+     * @example
+     * const result = await caver.wallet.getAccount('0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549')
+     *
      * @param {string} address The address of account to query.
      * @return {AccountCountByAccountID}
      */
@@ -64,6 +74,9 @@ class KASWallet {
 
     /**
      * Returns whether the account corresponding to the address exists
+     *
+     * @example
+     * const result = await caver.wallet.isExisted('0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549')
      *
      * @param {string} address The address of account to check existence.
      * @return {boolean}
@@ -81,6 +94,9 @@ class KASWallet {
     /**
      * Deletes the account that associates with the given address from KAS Wallet API service.
      *
+     * @example
+     * const result = await caver.wallet.remove('0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549')
+     *
      * @param {string} address An address of the account to be deleted in KAS Wallet API service.
      * @return {boolean}
      */
@@ -92,6 +108,9 @@ class KASWallet {
     /**
      * Deactivates account in KAS Wallet API Service
      *
+     * @example
+     * const result = await caver.wallet.disableAccount('0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549')
+     *
      * @param {string} address The address of Klaytn account to disable from KAS Wallet API service.
      * @return {AccountSummary}
      */
@@ -102,6 +121,9 @@ class KASWallet {
     /**
      * Activates account in KAS Wallet API Service
      *
+     * @example
+     * const result = await caver.wallet.enableAccount('0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549')
+     *
      * @param {string} address The address of Klaytn account to enable from KAS Wallet API service.
      * @return {AccountSummary}
      */
@@ -111,6 +133,16 @@ class KASWallet {
 
     /**
      * Signs the transaction using one key and return the signed transaction
+     *
+     * @example
+     * const from = '0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549'
+     * const tx = new caver.transaction.valueTransfer({
+     *     from,
+     *     to: '0x5ad2ee923fb1bf71b570d8be15b86b1ae0a7e7f3',
+     *     value: 1,
+     *     gas: 25000,
+     * })
+     * const result = await caver.wallet.sign(from, tx)
      *
      * @param {string} address An address of account in KAS Wallet API Service.
      * @param {AbstractTransaction} transaction A transaction object of caver-js. See [Klaytn Docs - Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction) for details.
@@ -163,6 +195,16 @@ class KASWallet {
     /**
      * Signs the transaction as a fee payer using one key and return the signed transaction
      *
+     * @example
+     * const tx = new caver.transaction.feeDelegatedValueTransfer({
+     *     from: '0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549',
+     *     to: '0x5ad2ee923fb1bf71b570d8be15b86b1ae0a7e7f3',
+     *     value: 1,
+     *     gas: 25000,
+     * })
+     * const feePayer = '0x3b1522890efa7322591baa3ff126de79b9c6d009'
+     * const result = await caver.wallet.signAsFeePayer(feePayer, tx)
+     *
      * @param {string} address An address of account in KAS Wallet API Service.
      * @param {AbstractFeeDelegatedTransaction} transaction A fee delegated transaction object of caver-js. See [Klaytn Docs - Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/fee-delegation) and https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/partial-fee-delegation for details.
      * @return {AbstractFeeDelegatedTransaction}
@@ -206,6 +248,15 @@ class KASWallet {
 
     /**
      * Signs the transaction with the global fee payer using one key and return the signed transactionHash
+     *
+     * @example
+     * const tx = new caver.transaction.feeDelegatedValueTransfer({
+     *     from: '0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549',
+     *     to: '0x5ad2ee923fb1bf71b570d8be15b86b1ae0a7e7f3',
+     *     value: 1,
+     *     gas: 25000,
+     * })
+     * const result = await caver.wallet.signAsGlobalFeePayer(tx)
      *
      * @param {AbstractFeeDelegatedTransaction} transaction A fee delegated transaction object of caver-js. See [Klaytn Docs - Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/fee-delegation) and [Klaytn Docs - Partial Fee Delegation Transaction](https://docs.klaytn.com/bapp/sdk/caver-js/api-references/caver.transaction/partial-fee-delegation) for details.
      * @return {AbstractFeeDelegatedTransaction}
