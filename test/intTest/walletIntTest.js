@@ -243,11 +243,11 @@ describe('Wallet API service', () => {
             expect(ret.multiSigKeys[i]).to.deep.equal(weightedMultisig.weightedKeys[i])
         }
 
-        let status = ret.status
         await timeout(5000)
+        let status = (await caver.kas.wallet.getTransaction(ret.transactionHash)).status
 
         while (status === 'Submitted') {
-            await timeout(1000)
+            await timeout(3000)
             const tx = await caver.kas.wallet.getTransaction(ret.transactionHash)
             status = tx.status
         }
@@ -255,7 +255,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-026: caver.kas.wallet.signTransaction should request sign transaction', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(10000)
 
         const tx = {
             from: multiSigAccount.address,
@@ -288,7 +288,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-027: caver.kas.wallet.requestLegacyTransaction should request value transfer transaction (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const tx = {
             from: accountToTest.address,
@@ -355,7 +355,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-029: caver.kas.wallet.requestValueTransfer should request value transfer transaction (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const tx = {
             from: accountToTest.address,
@@ -420,7 +420,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-031: caver.kas.wallet.requestValueTransfer should request value transfer memo transaction (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         await sendTestKLAY(accountToTest.address)
 
@@ -491,7 +491,7 @@ describe('Wallet API service', () => {
         expect(decoded.type).to.equal('TxTypeValueTransferMemo')
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-033: caver.kas.wallet.requestSmartContractDeploy should request smart contract deploy transaction (submit true)', done => {
+    it('CAVERJS-EXT-KAS-INT-033: caver.kas.wallet.requestSmartContractDeploy should request smart contract deploy transaction (submit true)', async () => {
         const tx = {
             from: accountToTest.address,
             value: 0,
@@ -501,35 +501,32 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        timeout(1000).then(() => {
-            caver.kas.wallet.requestSmartContractDeploy(tx).then(ret => {
-                Object.keys(tx).map(k => {
-                    if (k === 'submit') {
-                    } else if (typeof tx[k] === 'string') {
-                        expect(tx[k].toLowerCase()).to.equal(ret[k].toLowerCase())
-                    } else {
-                        expect(tx[k]).to.equal(ret[k])
-                    }
-                })
-                expect(ret.gasPrice).not.to.be.undefined
-                expect(ret.nonce).not.to.be.undefined
-                expect(ret.rlp).not.to.be.undefined
-                expect(ret.typeInt).to.equal(40)
-                expect(ret.signatures.length).to.equal(1)
-                expect(ret.status).to.equal('Submitted')
-                expect(ret.transactionHash).not.to.be.undefined
+        await timeout(3000)
+        const ret = await caver.kas.wallet.requestSmartContractDeploy(tx)
 
-                const decoded = caver.transaction.decode(ret.rlp)
-                expect(decoded.type).to.equal('TxTypeSmartContractDeploy')
-
-                setTimeout(() => {
-                    caver.kas.wallet.getTransaction(ret.transactionHash).then(transaction => {
-                        contractAddress = transaction.contractAddress
-                        done()
-                    })
-                }, 3000)
-            })
+        Object.keys(tx).map(k => {
+            if (k === 'submit') {
+            } else if (typeof tx[k] === 'string') {
+                expect(tx[k].toLowerCase()).to.equal(ret[k].toLowerCase())
+            } else {
+                expect(tx[k]).to.equal(ret[k])
+            }
         })
+        expect(ret.gasPrice).not.to.be.undefined
+        expect(ret.nonce).not.to.be.undefined
+        expect(ret.rlp).not.to.be.undefined
+        expect(ret.typeInt).to.equal(40)
+        expect(ret.signatures.length).to.equal(1)
+        expect(ret.status).to.equal('Submitted')
+        expect(ret.transactionHash).not.to.be.undefined
+
+        const decoded = caver.transaction.decode(ret.rlp)
+        expect(decoded.type).to.equal('TxTypeSmartContractDeploy')
+
+        await timeout(5000)
+
+        const transaction = await caver.kas.wallet.getTransaction(ret.transactionHash)
+        contractAddress = transaction.contractAddress
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-034: caver.kas.wallet.requestSmartContractDeploy should return signed smart contract deploy transaction (submit false)', async () => {
@@ -565,7 +562,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-035: caver.kas.wallet.requestSmartContractExecution should request smart contract execution transaction (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const tx = {
             from: accountToTest.address,
@@ -699,7 +696,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-039: caver.kas.wallet.requestChainDataAnchoring should request chain data anchoring transaction (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const tx = {
             from: accountToTest.address,
@@ -844,7 +841,7 @@ describe('Wallet API service', () => {
             await sendTestKLAY(accountToUpdate.address, 2)
 
             // Wait to process transaction
-            await timeout(1000)
+            await timeout(3000)
 
             const tx = {
                 from: accountToUpdate.address,
@@ -960,7 +957,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-046: caver.kas.wallet.requestFDValueTransferPaidByGlobalFeePayer should request fee delegated value transfer transaction paid by KAS global fee payer (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const tx = {
             from: accountToTest.address,
@@ -1029,7 +1026,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-048: caver.kas.wallet.requestFDValueTransferPaidByGlobalFeePayer should request fee delegated value transfer transaction paid by KAS global fee payer (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const tx = {
             from: accountToTest.address,
@@ -1102,7 +1099,7 @@ describe('Wallet API service', () => {
         await sendTestKLAY(accountToTest.address)
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const tx = {
             from: accountToTest.address,
@@ -1179,7 +1176,7 @@ describe('Wallet API service', () => {
         await sendTestKLAY(accountToTest.address)
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const tx = {
             from: accountToTest.address,
@@ -1254,7 +1251,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-054: caver.kas.wallet.requestFDSmartContractDeployPaidByGlobalFeePayer should request fee delegated smart contract deploy transaction paid by KAS global fee payer (submit true)', done => {
+    it('CAVERJS-EXT-KAS-INT-054: caver.kas.wallet.requestFDSmartContractDeployPaidByGlobalFeePayer should request fee delegated smart contract deploy transaction paid by KAS global fee payer (submit true)', async () => {
         const tx = {
             from: accountToTest.address,
             value: 0,
@@ -1264,37 +1261,34 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        timeout(1000).then(() => {
-            caver.kas.wallet.requestFDSmartContractDeployPaidByGlobalFeePayer(tx).then(ret => {
-                Object.keys(tx).map(k => {
-                    if (k === 'submit') {
-                    } else if (typeof tx[k] === 'string') {
-                        expect(tx[k].toLowerCase()).to.equal(ret[k].toLowerCase())
-                    } else {
-                        expect(tx[k]).to.equal(ret[k])
-                    }
-                })
-                expect(ret.gasPrice).not.to.be.undefined
-                expect(ret.nonce).not.to.be.undefined
-                expect(ret.rlp).not.to.be.undefined
-                expect(ret.typeInt).to.equal(41)
-                expect(ret.signatures.length).to.equal(1)
-                expect(ret.status).to.equal('Submitted')
-                expect(ret.transactionHash).not.to.be.undefined
-                expect(ret.feePayer).not.to.be.undefined
+        await timeout(3000)
 
-                const decoded = caver.transaction.decode(ret.rlp)
-                expect(decoded.type).to.equal('TxTypeFeeDelegatedSmartContractDeploy')
-                expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
-
-                setTimeout(() => {
-                    caver.kas.wallet.getTransaction(ret.transactionHash).then(transaction => {
-                        contractAddress = transaction.contractAddress
-                        done()
-                    })
-                }, 3000)
-            })
+        const ret = await caver.kas.wallet.requestFDSmartContractDeployPaidByGlobalFeePayer(tx)
+        Object.keys(tx).map(k => {
+            if (k === 'submit') {
+            } else if (typeof tx[k] === 'string') {
+                expect(tx[k].toLowerCase()).to.equal(ret[k].toLowerCase())
+            } else {
+                expect(tx[k]).to.equal(ret[k])
+            }
         })
+        expect(ret.gasPrice).not.to.be.undefined
+        expect(ret.nonce).not.to.be.undefined
+        expect(ret.rlp).not.to.be.undefined
+        expect(ret.typeInt).to.equal(41)
+        expect(ret.signatures.length).to.equal(1)
+        expect(ret.status).to.equal('Submitted')
+        expect(ret.transactionHash).not.to.be.undefined
+        expect(ret.feePayer).not.to.be.undefined
+
+        const decoded = caver.transaction.decode(ret.rlp)
+        expect(decoded.type).to.equal('TxTypeFeeDelegatedSmartContractDeploy')
+        expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
+
+        await timeout(5000)
+
+        const transaction = await caver.kas.wallet.getTransaction(ret.transactionHash)
+        contractAddress = transaction.contractAddress
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-055: caver.kas.wallet.requestFDSmartContractDeployPaidByGlobalFeePayer should return signed fee delegated smart contract deploy transaction paid by KAS global fee payer (submit false)', async () => {
@@ -1341,7 +1335,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDSmartContractDeployPaidByGlobalFeePayer(tx)
 
@@ -1412,7 +1406,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDSmartContractExecutionPaidByGlobalFeePayer(tx)
 
@@ -1484,7 +1478,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDSmartContractExecutionPaidByGlobalFeePayer(tx)
 
@@ -1557,7 +1551,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDCancelPaidByGlobalFeePayer(tx)
 
@@ -1701,7 +1695,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDChainDataAnchoringPaidByGlobalFeePayer(tx)
 
@@ -1772,7 +1766,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDChainDataAnchoringPaidByGlobalFeePayer(tx)
 
@@ -1836,7 +1830,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-070: caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer should request fee delegated transaction via RLP-encoded string paid by KAS global fee payer (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByGlobalFeePayer({
             from: accountToTest.address,
@@ -1924,7 +1918,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-072: caver.kas.wallet.requestFDRawTransactionPaidByGlobalFeePayer should request fee delegated with ratio transaction via RLP-encoded string paid by KAS global fee payer (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByGlobalFeePayer({
             from: accountToTest.address,
@@ -2022,7 +2016,7 @@ describe('Wallet API service', () => {
             await sendTestKLAY(accountToUpdate.address, 2)
 
             // Wait to process transaction
-            await timeout(1000)
+            await timeout(3000)
 
             const tx = {
                 from: accountToUpdate.address,
@@ -2140,7 +2134,7 @@ describe('Wallet API service', () => {
             await sendTestKLAY(accountToUpdate.address, 2)
 
             // Wait to process transaction
-            await timeout(1000)
+            await timeout(3000)
 
             const tx = {
                 from: accountToUpdate.address,
@@ -2265,7 +2259,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDValueTransferPaidByUser(tx)
 
@@ -2337,7 +2331,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDValueTransferPaidByUser(tx)
 
@@ -2412,7 +2406,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDValueTransferPaidByUser(tx)
 
@@ -2492,7 +2486,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDValueTransferPaidByUser(tx)
 
@@ -2558,7 +2552,7 @@ describe('Wallet API service', () => {
         expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-086: caver.kas.wallet.requestFDSmartContractDeployPaidByUser should request fee delegated smart contract deploy transaction paid by user (submit true)', done => {
+    it('CAVERJS-EXT-KAS-INT-086: caver.kas.wallet.requestFDSmartContractDeployPaidByUser should request fee delegated smart contract deploy transaction paid by user (submit true)', async () => {
         const tx = {
             from: accountToTest.address,
             value: 0,
@@ -2569,37 +2563,32 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        timeout(1000).then(() => {
-            caver.kas.wallet.requestFDSmartContractDeployPaidByUser(tx).then(ret => {
-                Object.keys(tx).map(k => {
-                    if (k === 'submit') {
-                    } else if (typeof tx[k] === 'string') {
-                        expect(tx[k].toLowerCase()).to.equal(ret[k].toLowerCase())
-                    } else {
-                        expect(tx[k]).to.equal(ret[k])
-                    }
-                })
-                expect(ret.gasPrice).not.to.be.undefined
-                expect(ret.nonce).not.to.be.undefined
-                expect(ret.rlp).not.to.be.undefined
-                expect(ret.typeInt).to.equal(41)
-                expect(ret.signatures.length).to.equal(1)
-                expect(ret.status).to.equal('Submitted')
-                expect(ret.transactionHash).not.to.be.undefined
-                expect(ret.feePayer).not.to.be.undefined
-
-                const decoded = caver.transaction.decode(ret.rlp)
-                expect(decoded.type).to.equal('TxTypeFeeDelegatedSmartContractDeploy')
-                expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
-
-                setTimeout(() => {
-                    caver.kas.wallet.getTransaction(ret.transactionHash).then(transaction => {
-                        contractAddress = transaction.contractAddress
-                        done()
-                    })
-                }, 3000)
-            })
+        await timeout(3000)
+        const ret = await caver.kas.wallet.requestFDSmartContractDeployPaidByUser(tx)
+        Object.keys(tx).map(k => {
+            if (k === 'submit') {
+            } else if (typeof tx[k] === 'string') {
+                expect(tx[k].toLowerCase()).to.equal(ret[k].toLowerCase())
+            } else {
+                expect(tx[k]).to.equal(ret[k])
+            }
         })
+        expect(ret.gasPrice).not.to.be.undefined
+        expect(ret.nonce).not.to.be.undefined
+        expect(ret.rlp).not.to.be.undefined
+        expect(ret.typeInt).to.equal(41)
+        expect(ret.signatures.length).to.equal(1)
+        expect(ret.status).to.equal('Submitted')
+        expect(ret.transactionHash).not.to.be.undefined
+        expect(ret.feePayer).not.to.be.undefined
+
+        const decoded = caver.transaction.decode(ret.rlp)
+        expect(decoded.type).to.equal('TxTypeFeeDelegatedSmartContractDeploy')
+        expect(caver.utils.isEmptySig(decoded.feePayerSignatures)).to.be.false
+
+        await timeout(5000)
+        const transaction = await caver.kas.wallet.getTransaction(ret.transactionHash)
+        contractAddress = transaction.contractAddress
     }).timeout(500000)
 
     it('CAVERJS-EXT-KAS-INT-087: caver.kas.wallet.requestFDSmartContractDeployPaidByUser should return signed fee delegated smart contract deploy transaction paid by user (submit false)', async () => {
@@ -2648,7 +2637,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDSmartContractDeployPaidByUser(tx)
 
@@ -2721,7 +2710,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDSmartContractExecutionPaidByUser(tx)
 
@@ -2795,7 +2784,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDSmartContractExecutionPaidByUser(tx)
 
@@ -3015,7 +3004,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDChainDataAnchoringPaidByUser(tx)
 
@@ -3088,7 +3077,7 @@ describe('Wallet API service', () => {
         }
 
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const ret = await caver.kas.wallet.requestFDChainDataAnchoringPaidByUser(tx)
 
@@ -3153,7 +3142,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-102: caver.kas.wallet.requestFDRawTransactionPaidByUser should request fee delegated transaction via RLP-encoded string paid by user (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const result = await caver.kas.wallet.requestFDValueTransferPaidByUser({
             from: accountToTest.address,
@@ -3246,7 +3235,7 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-104: caver.kas.wallet.requestFDRawTransactionPaidByUser should request fee delegated with ratio transaction via RLP-encoded string paid by user (submit true)', async () => {
         // Wait to process transaction
-        await timeout(1000)
+        await timeout(3000)
 
         const { rlp } = await caver.kas.wallet.requestFDValueTransferPaidByUser({
             from: accountToTest.address,
@@ -3356,7 +3345,7 @@ describe('Wallet API service', () => {
             }
 
             // Wait to process transaction
-            await timeout(1000)
+            await timeout(3000)
 
             const ret = await caver.kas.wallet.requestFDAccountUpdatePaidByUser(tx)
 
@@ -3477,7 +3466,7 @@ describe('Wallet API service', () => {
             }
 
             // Wait to process transaction
-            await timeout(1000)
+            await timeout(3000)
 
             const ret = await caver.kas.wallet.requestFDAccountUpdatePaidByUser(tx)
 
