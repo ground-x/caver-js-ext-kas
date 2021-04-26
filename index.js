@@ -158,6 +158,29 @@ class CaverExtKAS extends Caver {
     }
 
     /**
+     * Sets chain id and authentication key for Node API with web socket.
+     *
+     * @example
+     * caver.initNodeAPIWithWebSocket(1001, 'accessKeyId', 'secretAccessKey', 'accountId')
+     * caver.initNodeAPIWithWebSocket(1001, 'accessKeyId', 'secretAccessKey', 'accountId', 'Node API url to use')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} accountId The account id of the KAS account.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initNodeAPIWithWebSocket(chainId, accessKeyId, secretAccessKey, accountId, url = productionEndpoints.node) {
+        const endpoint = `wss://${accessKeyId}:${secretAccessKey}@${url
+            .slice(url.indexOf('//') + 2)
+            .replace('/v1/klaytn', '')}/v1/ws/open/${accountId}?chain-id=${chainId}`
+
+        const ws = new this.providers.WebsocketProvider(endpoint)
+        this.setProvider(ws)
+    }
+
+    /**
      * Sets chain id and authentication key for Token History API.
      *
      * @example
