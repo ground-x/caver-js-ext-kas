@@ -35,7 +35,7 @@ before(() => {
 })
 
 describe('caver.contract with websocket provider', () => {
-    it('CAVERJS-EXT-KAS-NODE-004: when event fires, data should be retrived through contract.once', async () => {
+    it('when event fires, data should be retrived through contract.once', async () => {
         const byteCode =
             '0x6080604052348015600f57600080fd5b5060e98061001e6000396000f300608060405260043610603f576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063954ab4b2146044575b600080fd5b348015604f57600080fd5b5060566058565b005b7f90a042becc42ba1b13a5d545701bf5ceff20b24d9e5cc63b67f96ef814d80f0933604051808273ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200191505060405180910390a15600a165627a7a723058200ebb53e9d575350ceb2d92263b7d4920888706b5221f024e7bbc10e3dbb8e18d0029'
         const helloContractABI = [
