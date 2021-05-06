@@ -203,19 +203,18 @@ class CaverExtKAS extends Caver {
      * This function will set caver's provider with WebsocketProvider.
      *
      * @example
-     * caver.initNodeAPIWithWebSocket(1001, 'accessKeyId', 'secretAccessKey', 'accountId', 'Node API url to use')
+     * caver.initNodeAPIWithWebSocket(1001, 'accessKeyId', 'secretAccessKey', 'Node API url to use')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
-     * @param {string} accountId The account id of the KAS account.
      * @param {string} url The end point url.
      * @return {void}
      */
-    initNodeAPIWithWebSocket(chainId, accessKeyId, secretAccessKey, accountId, url) {
+    initNodeAPIWithWebSocket(chainId, accessKeyId, secretAccessKey, url) {
         const endpoint = `wss://${accessKeyId}:${secretAccessKey}@${url
             .slice(url.indexOf('//') + 2)
-            .replace('/v1/klaytn', '')}/v1/ws/open/${accountId}?chain-id=${chainId}`
+            .replace('/v1/klaytn', '')}/v1/ws/open?chain-id=${chainId}`
 
         const ws = new this.providers.WebsocketProvider(endpoint)
         this.setProvider(ws)

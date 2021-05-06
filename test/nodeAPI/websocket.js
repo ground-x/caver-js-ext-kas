@@ -28,7 +28,7 @@ const chainId = 1001
 
 before(() => {
     caver = new CaverExtKAS()
-    caver.initNodeAPIWithWebSocket(chainId, accessKeyId, secretAccessKey, '8e76d003-d6dd-4278-8d05-5172d8f010ca', url)
+    caver.initNodeAPI(chainId, accessKeyId, secretAccessKey, false, url) // Use websocket
 
     keyringContainer = new caver.keyringContainer()
     keyring = keyringContainer.add(keyringContainer.keyring.createFromPrivateKey(senderPrivateKey))
