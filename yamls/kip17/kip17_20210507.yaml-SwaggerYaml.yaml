@@ -2,9 +2,9 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: KIP-17 API
-  description: "\n\n# Error Codes\n\n## 400: Bad Request\n\n | Code | Messages | \n | --- | --- | \n | 1100050 | incorrect request\n1100101 | data don't exist\n1100251 | its value is out of range; size\n1104401 | failed to get an account | \n\n## 404: Not Found\n\n | Code | Messages | \n | --- | --- | \n | 1104404 | Token not found | \n\n## 409: Conflict\n\n | Code | Messages | \n | --- | --- | \n | 1104400 | Duplicate alias - test | \n"
+  description: "undefined # Error Codes ## 400: Bad Request  | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |  ## 404: Not Found  | Code | Messages |   | --- | --- |   | 1104404 | Token not found |  ## 409: Conflict  | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test | \n"
   contact: {}
-host: kip17-api.dev.klaytn.com
+host: kip17-api.dev.klaytnapi.com
 basePath: /
 securityDefinitions:
   auth:
@@ -18,9 +18,7 @@ produces:
 paths:
   /v1/contract:
     post:
-      description: >+
-        Deploys a new KIP-17 contract with user submitted parameters.<p></p>
-
+      description: "Deploys a new KIP-17 contract with the submitted parameter.<p></p> \n"
       summary: DeployContract
       tags:
       - KIP17
@@ -35,7 +33,7 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID; one of [1001, 8217]
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: body
         in: body
         required: false
@@ -43,25 +41,16 @@ paths:
         schema:
           $ref: '#/definitions/DeployKip17ContractRequest'
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/Kip17TransactionStatusResponse'
           examples:
             application/json:
               status: Submitted
-              transactionHash: 0xa996fd0808410d71b8c07d7007340b9d683d5554de8afd9906b3c4a789330451
+              transactionHash: 0x0a4f4f97d8a5904721514d60abd3f9ad7938862e415a6c043553a94ab68a5edb
           headers: {}
-        400:
-          description: ''
-          schema:
-            $ref: '#/definitions/ErrorResponse'
-          examples:
-            application/json:
-              code: 1100050
-              message: incorrect request
-              requestId: 7a36bd83-8dc9-95cb-9906-6ae2af8935b8
-        409:
+        '409':
           description: ''
           schema:
             $ref: '#/definitions/ErrorResponse'
@@ -70,10 +59,9 @@ paths:
               code: 1104400
               message: Duplicate alias - test
               requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+          headers: {}
     get:
-      description: >+
-        Lists all contracts deployed in the requested deployer pool. If the pool is not specified, the default pool will be queried.<p></p>
-
+      description: "Gets the list of KIP-17 contracts deployed in the requested deployer pool. Unless specified the pool type, the default pool is queried.<p></p> \n"
       summary: ListContractsInDeployerPool
       tags:
       - KIP17
@@ -86,20 +74,19 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID; one of [1001, 8217]
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: size
         in: query
         required: false
-        type: integer
-        format: int64
-        description: Number of items to return
+        type: string
+        description: Number of maximum response items (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: Items offset
+        description: Response offset
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/Kip17ContractListResponse'
@@ -111,32 +98,15 @@ paths:
                 alias: reference
                 name: Referece NFT
                 symbol: TEST
-              - address: 0x3b684eab265803a359eb47fcd3fde7f57cdcfc36
-                alias: no4
-                name: Test NFT
-                symbol: TEST
-              - address: 0x9f614e93080e0463a74941230d0b9a293fdf0fe8
-                alias: third
-                name: Test NFT
-                symbol: TEST
-              - address: 0xe527180cc7c84cab2d5438ba309d59b9a5483790
-                alias: another
-                name: Test NFT
-                symbol: TEST
-              - address: 0x7766a3af39e4fffbaccf6efa6a37ed195f9179b4
-                alias: test
-                name: Test NFT
-                symbol: TEST
           headers: {}
-        400:
+        '400':
           description: ''
           schema:
             $ref: '#/definitions/ErrorResponse'
+          headers: {}
   /v1/contract/{contract-address-or-alias}:
     get:
-      description: >+
-        Retrieves KIP-17 contract information by either contract address or alias.<p></p>
-
+      description: "Queries KIP-17 contract information with contract address or alias.<p></p> \n"
       summary: GetContract
       tags:
       - KIP17
@@ -149,14 +119,14 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID; one of [1001, 8217]
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address (hexadecimal, starting with 0x) or alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/Kip17ContractInfoResponse'
@@ -167,7 +137,7 @@ paths:
               name: Test NFT
               symbol: TEST
           headers: {}
-        400:
+        '400':
           description: ''
           schema:
             $ref: '#/definitions/ErrorResponse'
@@ -176,14 +146,10 @@ paths:
               code: 1100101
               message: data don't exist
               requestId: 564d53ce-0e45-9db6-9e8f-ac15a1c9b140
+          headers: {}
   /v1/contract/{contract-address-or-alias}/token:
     post:
-      description: >+
-        Mints a new token on the requested KIP-17 contract. The target contract can be requested by either contract address or alias.<p></p>
-
-
-        Do not mint a token to an address outside of account pools you control. KIP-17 APIs only allow actions among accounts populated within the KAS account pools that you own.<p></p>
-
+      description: "Mints a new token on the given KIP-17 contract. Contract address or alias are available to target the contract. Do not mint tokens to accounts out of the KAS account pool. All APIs of KIP-17 allow processes only with accounts in the KAS account pool.<p></p> \n"
       summary: MintToken
       tags:
       - KIP17
@@ -198,12 +164,12 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID; one of [1001, 8217]
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address (hexadecimal, starting with 0x) or alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       - name: body
         in: body
         required: false
@@ -211,7 +177,7 @@ paths:
         schema:
           $ref: '#/definitions/MintKip17TokenRequest'
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/Kip17TransactionStatusResponse'
@@ -220,7 +186,7 @@ paths:
               status: Submitted
               transactionHash: 0x57d94989611cf0351fdea04dd5193398980642aaed82c8c34bdef12f4ecf356e
           headers: {}
-        400:
+        '400':
           description: ''
           schema:
             $ref: '#/definitions/ErrorResponse'
@@ -229,10 +195,9 @@ paths:
               code: 1100050
               message: incorrect request
               requestId: 0fbb2970-41ae-978c-9edb-d759ed6e7c87
+          headers: {}
     get:
-      description: >+
-        Lists all tokens minted from a particular KIP-17 contract. Use contract address or alias to query the contract.<p></p>
-
+      description: "Queries the list of all tokens minted with a specific KIP-17 contract. Select the contract address or alias to query.<p></p> \n"
       summary: ListTokens
       tags:
       - KIP17
@@ -245,25 +210,25 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: Number of items to return
+        description: Number of maximum response items (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: Items offset
+        description: Response offset
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address (hexadecimal, starting with 0x) or alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/Kip17TokenListResponse'
@@ -285,50 +250,8 @@ paths:
                 tokenUri: https://metastore.kip17.com/0xbe02aba/0x1
                 transactionHash: 0xd2b5d09aa13e6306ef65507c324c92d3f91aa03003ed480fe8a11e4adca713d4
                 updatedAt: 1607396973
-              - createdAt: 1607396965
-                owner: 0xdc277e2d89b92336a4ee80be3c7142443fdade47
-                previousOwner: 0x0000000000000000000000000000000000000000
-                tokenId: 0x6
-                tokenUri: https://metastore.kip17.com/0xbe02aba/0x1
-                transactionHash: 0xfeb7e841850e615f79a2dc7b59263e180338645fe16dc80ca2d81afcd8b9bd7a
-                updatedAt: 1607396965
-              - createdAt: 1607396657
-                owner: 0x1239656159cfc4f193e0b7e19cd36b63903c2468
-                previousOwner: 0x0000000000000000000000000000000000000000
-                tokenId: 0x5
-                tokenUri: https://metastore.kip17.com/0xbe02aba/0x1
-                transactionHash: 0x4bec3789e89e2c4f5f819360b3cd4fd6a79065e96b25055d644d3721495d0a23
-                updatedAt: 1607396657
-              - createdAt: 1607396600
-                owner: 0x1239656159cfc4f193e0b7e19cd36b63903c2468
-                previousOwner: 0x0000000000000000000000000000000000000000
-                tokenId: 0x4
-                tokenUri: https://metastore.kip17.com/0xbe02aba/0x1
-                transactionHash: 0x9254e2b3cd67cd8f444ffd35239d44d5c7cac7a7140cd60b8856dad171094ec8
-                updatedAt: 1607396600
-              - createdAt: 1607330287
-                owner: 0xae7bb7efff289c163a95303795c4d59293f6ba92
-                previousOwner: 0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4
-                tokenId: 0x1
-                tokenUri: https://metastore.kip17.com/0xbe02aba/0x1
-                transactionHash: 0xf5f5d97ce5e6339fc767bd2f4df57d9ab39ca71e423d9f3b36a5f58ac894f578
-                updatedAt: 1607391306
-              - createdAt: 1607384978
-                owner: 0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4
-                previousOwner: 0x0000000000000000000000000000000000000000
-                tokenId: 0x3
-                tokenUri: https://metastore.kip17.com/0xbe02aba/0x1
-                transactionHash: 0xcc2e93ee787bf3f9970f7a39290bf55c4aa0fe4bb2c0d4f77afb374c6d2e2aa8
-                updatedAt: 1607384978
-              - createdAt: 1607331796
-                owner: 0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4
-                previousOwner: 0x0000000000000000000000000000000000000000
-                tokenId: 0x2
-                tokenUri: https://metastore.kip17.com/0xbe02aba/0x1
-                transactionHash: 0xc6b9551a4b6626844a6f1ccfd80ad47e55174e9a5690b4e10b1e10221bd02b1b
-                updatedAt: 1607331796
           headers: {}
-        400:
+        '400':
           description: ''
           schema:
             $ref: '#/definitions/ErrorResponse'
@@ -337,11 +260,10 @@ paths:
               code: 1100101
               message: data don't exist
               requestId: bb3b9e86-6a6f-9f1a-96bd-c9664df2dcbc
+          headers: {}
   /v1/contract/{contract-address-or-alias}/token/{token-id}:
     get:
-      description: >+
-        Retrieves the requested token information of a parcitular KIP-17 contract.<p></p>
-
+      description: "Sets a token ID with contract address or alias to query the token information of a specific contract.<p></p> \n"
       summary: GetToken
       tags:
       - KIP17
@@ -354,19 +276,19 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address or unique alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       - name: token-id
         in: path
         required: true
         type: string
-        description: Token ID to retreive
+        description: Token ID to query
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/GetKip17TokenResponse'
@@ -380,7 +302,7 @@ paths:
               transactionHash: 0xf5f5d97ce5e6339fc767bd2f4df57d9ab39ca71e423d9f3b36a5f58ac894f578
               updatedAt: 1607391306
           headers: {}
-        400:
+        '400':
           description: ''
           schema:
             $ref: '#/definitions/ErrorResponse'
@@ -389,7 +311,8 @@ paths:
               code: 1100101
               message: data don't exist
               requestId: ef8177de-7b42-9c2a-ab3f-46ffd45b8767
-        404:
+          headers: {}
+        '404':
           description: ''
           schema:
             $ref: '#/definitions/ErrorResponse'
@@ -398,8 +321,9 @@ paths:
               code: 1104404
               message: Token not found
               requestId: 1b99498f-4f37-98cc-a1d4-6246a7a5be79
+          headers: {}
     post:
-      description: "Transfers a token. If `sender` and `owner` are not the same, then `sender` must have been approved for this token transfer.<p></p>\n\nNote that this API requires two KRNs, one for the deployer pool and one for the sender. <p></p>\n\n- The first KRN for the deployer pool, which must be formatted as `krn:*:kip17:*:account-pool:*` makes sure the API caller has the right to invoke transfer method on the requested contract. Although contracts in Klaytn are publicly available and anyone who knows the address can invoke the contract functions, if the contract owner does not reveal the address, it would be difficult to even find out the address as it requires indirect measures such as observing network communication. To this end, as we do not know whether the address has been publicly advertised or not, KIP-17 API assumes that only the contract owner invokes contract functions. \n- The second KRN is for the `sender`, and must be formatted as `krn:*:wallet:*:account-pool:*`. Currently, KIP-17 API only allows transferring tokens among accounts populated in KAS Wallet account pools.\n- As all other APIs, leavning `x-krn` empty automatically fills the field with default values.<p></p>\n\n"
+      description: "Transfers a token. If `sender` and `owner` mismatched, `sender` should have the authority to transfer the token.<p></p> Note: This API requires two KRNs; for deployer pool and sender.<p></p> - The first KRN for the `deployer pool` should have `krn:*:kip17:*:account-pool:*` format and confirm whether API caller has authority to call a contract. Klaytn contract is publicly available and anyone who knows the address can call the contract function, however, it requires indirect measures such as observing network communication unless contract owner reveals the address. Therefore, KIP-17 API assumes that the contract owner calls the contract function only with veiled address. - The second KRN for the `sender` should have `krn:*:wallet:*:account-pool:*` format. KIP-17 API is currently available to transfer tokens with the accounts created from the account pool. - As all other APIs, `x-krn` has default value if excluded.<p></p> \n"
       summary: TransferToken
       tags:
       - KIP17
@@ -414,12 +338,12 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID; one of [1001, 8217]
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address (hexadecimal, starting with 0x) or alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       - name: token-id
         in: path
         required: true
@@ -432,7 +356,7 @@ paths:
         schema:
           $ref: '#/definitions/TransferKip17TokenRequest'
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/Kip17TransactionStatusResponse'
@@ -442,9 +366,7 @@ paths:
               transactionHash: 0x72b05d3b27e17a132e60681f4a2ad487868181b0623fbaa841875ecb36f62b8f
           headers: {}
     delete:
-      description: >+
-        Burns a token. If `from` is not the owner or has been approved for this operation, then the transaction submitted from this API will be reverted.<p></p>
-
+      description: "Burns a token. Unless the requested `from` address is the owner, or have authority to burn, the transaction through this API becomes `reverted`.<p></p> \n"
       summary: BurnToken
       tags:
       - KIP17
@@ -459,12 +381,12 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID; one of [1001, 8217]
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address or unique alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       - name: token-id
         in: path
         required: true
@@ -477,7 +399,7 @@ paths:
         schema:
           $ref: '#/definitions/BurnKip17TokenRequest'
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/Kip17TransactionStatusResponse'
@@ -486,7 +408,7 @@ paths:
               status: Submitted
               transactionHash: 0xbf6de339cf435447e58da05384bbf83a16fea40044bb49b84e11d3b00ea0325f
           headers: {}
-        400:
+        '400':
           description: ''
           schema:
             $ref: '#/definitions/ErrorResponse'
@@ -495,11 +417,10 @@ paths:
               code: 1104401
               message: failed to get an account
               requestId: 10cfc941-22e3-919a-bc61-ff949bd79442
+          headers: {}
   /v1/contract/{contract-address-or-alias}/approve/{token-id}:
     post:
-      description: >+
-        Approves an EOA, `to`, to perform token operations on a particular token of a contract which `from` owns. If `from` is not the owner, then the transaction submitted from this API will be reverted.<p></p>
-
+      description: "Approves a third party `to` to transfer contract tokens by the contract token owner `from`. Unless `from` adderss is owner, the status of the transaction through this API becomes `reverted`.<p></p> \n"
       summary: ApproveToken
       tags:
       - KIP17
@@ -514,17 +435,17 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID; one of [1001, 8217]
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address (hexadecimal, starting with 0x) or alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       - name: token-id
         in: path
         required: true
         type: string
-        description: Token ID to approve the 3rd party to transfer
+        description: Token ID for a third party to have token transfer authority
       - name: body
         in: body
         required: false
@@ -532,7 +453,7 @@ paths:
         schema:
           $ref: '#/definitions/ApproveKip17TokenRequest'
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/Kip17TransactionStatusResponse'
@@ -541,7 +462,7 @@ paths:
               status: Submitted
               transactionHash: 0x0a56e8dba1afc0cc1b96c1dec0eccc611863c5c3a181101b73f7471f2a4e550b
           headers: {}
-        400:
+        '400':
           description: ''
           schema:
             $ref: '#/definitions/ErrorResponse'
@@ -550,11 +471,10 @@ paths:
               code: 1100050
               message: incorrect request
               requestId: d2529337-b6e4-90c0-bb73-d50c74d207d1
+          headers: {}
   /v1/contract/{contract-address-or-alias}/approveall:
     post:
-      description: >+
-        Approves an EOA, `to`, to perform token operations on all token of a contract which `from` owns.<p></p>
-
+      description: "Turns on/off transfer approval from the third party, `to`, for all tokens in a contract.<p></p> \n"
       summary: ApproveAll
       tags:
       - KIP17
@@ -569,12 +489,12 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID, one of [1001, 8217]
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address (hexadecimal, starting with 0x) or alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       - name: body
         in: body
         required: false
@@ -582,7 +502,7 @@ paths:
         schema:
           $ref: '#/definitions/ApproveAllKip17Request'
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/Kip17TransactionStatusResponse'
@@ -593,9 +513,7 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/owner/{owner-address}:
     get:
-      description: >+
-        Lists all tokens of the same owner (`owner-address`) of a contract.<p></p>
-
+      description: "Queries the token list of the contract which a particular EOA owns.<p></p> \n"
       summary: GetOwnerTokens
       tags:
       - KIP17
@@ -608,30 +526,30 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: Number of items to return
+        description: Number of maximum response items (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: Items offset
+        description: Response offset
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address (hexadecimal, starting with 0x) or alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       - name: owner-address
         in: path
         required: true
         type: string
         description: Token owner address
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/GetOwnerKip17TokensResponse'
@@ -656,9 +574,7 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/token/{token-id}/history:
     get:
-      description: >+
-        Lists token transfer histories starting from the time the requested token was minted, where each entry of the response items shows a transfer record.<p></p>
-
+      description: "Queries the list of token transfer history starting from the minting. Each response item refers the transfer history. <p></p> \n"
       summary: GetTokenHistory
       tags:
       - KIP17
@@ -671,30 +587,30 @@ paths:
         in: header
         required: true
         type: string
-        description: Klaytn network chain ID
+        description: Klaytn Network Chain ID (1001 or 8217)
       - name: size
         in: query
         required: false
         type: integer
         format: int64
-        description: Number of items to return
+        description: Number of maximum response items (min=1, max=1000, default=100)
       - name: cursor
         in: query
         required: false
         type: string
-        description: Items offset
+        description: Response offset
       - name: contract-address-or-alias
         in: path
         required: true
         type: string
-        description: Contract address (hexadecimal, starting with 0x) or alias
+        description: Contract address (Starting with 0x in hexadecimal) or alias
       - name: token-id
         in: path
         required: true
         type: string
         description: Token ID
       responses:
-        200:
+        '200':
           description: ''
           schema:
             $ref: '#/definitions/GetKip17TokenHistoryResponse'
@@ -710,6 +626,21 @@ paths:
                 to: 0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4
           headers: {}
 definitions:
+  Kip17TransactionStatusResponse:
+    title: Kip17TransactionStatusResponse
+    type: object
+    properties:
+      status:
+        description: Transaction status
+        example: Submitted
+        type: string
+      transactionHash:
+        description: Transaction hash
+        example: 0x0a4f4f97d8a5904721514d60abd3f9ad7938862e415a6c043553a94ab68a5edb
+        type: string
+    required:
+    - status
+    - transactionHash
   ErrorResponse:
     title: ErrorResponse
     type: object
@@ -724,43 +655,28 @@ definitions:
         example: Duplicate alias - test
         type: string
       requestId:
-        description: ID of the request which caused the error
+        description: Request ID
         example: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
         type: string
     required:
     - code
     - message
     - requestId
-  Kip17TransactionStatusResponse:
-    title: Kip17TransactionStatusResponse
-    type: object
-    properties:
-      status:
-        description: Transaction status
-        example: Submitted
-        type: string
-      transactionHash:
-        description: Hash of the transaction
-        example: 0xa996fd0808410d71b8c07d7007340b9d683d5554de8afd9906b3c4a789330451
-        type: string
-    required:
-    - status
-    - transactionHash
   DeployKip17ContractRequest:
     title: DeployKip17ContractRequest
     type: object
     properties:
       alias:
-        description: Contract alias; KIP-17 APIs can be called with aliases instead of contract addresses
-        example: this-alias-is-duplicate
+        description: Contract alias; Contract address as well as alias are available for KIP-17 API.
+        example: reference
         type: string
       symbol:
         description: Token symbol
-        example: DUP
+        example: TEST
         type: string
       name:
         description: Contract name
-        example: Duplicated Alias NFT
+        example: Referece NFT
         type: string
     required:
     - alias
@@ -771,7 +687,7 @@ definitions:
     type: object
     properties:
       cursor:
-        description: Offset for the next batch
+        description: Cursor on the next page
         type: string
       items:
         type: array
@@ -785,37 +701,48 @@ definitions:
     type: object
     properties:
       address:
+        description: Contract address
         example: 0x34132f491fea7aa622cca594e4bd2ccd6fc02bf7
         type: string
       alias:
+        description: Contract alias
         example: reference
         type: string
       name:
-        example: Referece NFT
-        type: string
-      symbol:
-        example: TEST
-        type: string
-  Kip17ContractInfoResponse:
-    title: Kip17ContractInfoResponse
-    type: object
-    properties:
-      address:
-        example: 0x7766a3af39e4fffbaccf6efa6a37ed195f9179b4
-        type: string
-      alias:
-        description: Contract alias
-        example: test
-        type: string
-      name:
         description: Token name
-        example: Test NFT
+        example: Reference NFT
         type: string
       symbol:
         description: Token symbol
         example: TEST
         type: string
     required:
+    - address
+    - alias
+    - name
+    - symbol
+  Kip17ContractInfoResponse:
+    title: Kip17ContractInfoResponse
+    type: object
+    properties:
+      address:
+        description: Contract address
+        example: 0x34132f491fea7aa622cca594e4bd2ccd6fc02bf7
+        type: string
+      alias:
+        description: Contract alias
+        example: reference
+        type: string
+      name:
+        description: Token name
+        example: Reference NFT
+        type: string
+      symbol:
+        description: Token symbol
+        example: TEST
+        type: string
+    required:
+    - address
     - alias
     - name
     - symbol
@@ -824,92 +751,67 @@ definitions:
     type: object
     properties:
       to:
-        description: Recipient EOA address for the newly minted token
-        example: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
-        type: string
-      uri:
-        description: Token URI for the newly minted token
-        example: https://metastore.kip17.com/0xbe02aba/0x1
+        description: Recipient EOA for newly minted token
+        example: 0x9EaF20b40E0f1ced5dbba6f5Cfb0D3E12B0534f4
         type: string
       id:
-        description: Token ID for the newly minted token; cannot be overlapped with an existing ID
+        description: Token ID for newly minted token; cannot be duplicated with exiting IDs
         example: 0x13
         type: string
+      uri:
+        description: Token URI for newly minted token
+        example: https://metastore.kip17.com/0xbe02aba/0x1
+        type: string
     required:
+    - to
     - id
+    - uri
   Kip17TokenListResponse:
     title: Kip17TokenListResponse
     type: object
     properties:
       cursor:
-        description: Offset for the next batch
+        description: Cursor on the next page
         type: string
       items:
         type: array
         items:
-          $ref: '#/definitions/Kip17TokenListResponseItem'
+          $ref: '#/definitions/GetKip17TokenResponse'
     required:
     - cursor
     - items
-  Kip17TokenListResponseItem:
-    title: Kip17TokenListResponseItem
-    type: object
-    properties:
-      createdAt:
-        example: 1608640582
-        type: integer
-        format: int64
-      owner:
-        example: 0xdc277e2d89b92336a4ee80be3c7142443fdade47
-        type: string
-      previousOwner:
-        example: 0x0000000000000000000000000000000000000000
-        type: string
-      tokenId:
-        example: 0x9
-        type: string
-      tokenUri:
-        example: https://metastore.kip17.com/0xbe02aba/0x1
-        type: string
-      transactionHash:
-        example: 0xb5fcf5f9bb28e6584104b743630371cef234c176a5c42b65e5a01299c0c2e6ff
-        type: string
-      updatedAt:
-        example: 1608640582
-        type: integer
-        format: int64
   GetKip17TokenResponse:
     title: GetKip17TokenResponse
     type: object
     properties:
       createdAt:
-        description: UNIX timestamp of the time when this token was minted
-        example: 1607330287
+        description: Token-minting time with Unix timestamp
+        example: 1608640582
         type: integer
         format: int64
       owner:
-        description: Current token owner EOA address
-        example: 0xae7bb7efff289c163a95303795c4d59293f6ba92
+        description: Token owner EOA at present
+        example: 0xdc277e2d89b92336a4ee80be3c7142443fdade47
         type: string
       previousOwner:
-        description: Previous owner who transferred this token to the current owner
-        example: 0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4
+        description: Previous owner who transfered the token to the current owner
+        example: 0x0000000000000000000000000000000000000000
         type: string
       tokenId:
-        description: ID assigned to this token
-        example: 0x1
+        description: Token ID
+        example: 0x9
         type: string
       tokenUri:
-        description: URI identifying the doc containing metadata of this token
+        description: URI identifying documentation with token metadata
         example: https://metastore.kip17.com/0xbe02aba/0x1
         type: string
       transactionHash:
-        description: The last transaction hash mutated this token state
-        example: 0xf5f5d97ce5e6339fc767bd2f4df57d9ab39ca71e423d9f3b36a5f58ac894f578
+        description: The latest transaction hash with ownership change
+        example: 0xb5fcf5f9bb28e6584104b743630371cef234c176a5c42b65e5a01299c0c2e6ff
         type: string
       updatedAt:
-        description: UNIX timestamp of the time when this token was last mutated
-        example: 1607391306
+        description: The last update of token ownership with Unix timestamp
+        example: 1608640582
         type: integer
         format: int64
     required:
@@ -929,11 +831,11 @@ definitions:
         example: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
         type: string
       owner:
-        description: Owner EOA address
+        description: Current owner EOA address
         example: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
         type: string
       to:
-        description: Recipient EOA address
+        description: Receiver EOA address
         example: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
         type: string
     required:
@@ -945,7 +847,7 @@ definitions:
     type: object
     properties:
       from:
-        description: Sender/Owner EOA address
+        description: The relevant token owner or EOA address having authority to burn
         example: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
         type: string
     required:
@@ -959,7 +861,7 @@ definitions:
         example: 0x9EaF20b40E0f1ced5dbba6f5Cfb0D3E12B0534f4
         type: string
       to:
-        description: EOA address receiving the approval
+        description: EOA address to be permitted transfer authority
         example: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
         type: string
     required:
@@ -974,23 +876,22 @@ definitions:
         example: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
         type: string
       to:
-        description: EOA address receiving the approval
+        description: EOA address to be permitted transfer authority
         example: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
         type: string
       approved:
-        description: Boolean value to set; true for approval, false for revocation
+        description: 'Whether to turn on/off transfer approval (Default: true)'
         example: true
         type: boolean
     required:
     - from
     - to
-    - approved
   GetOwnerKip17TokensResponse:
     title: GetOwnerKip17TokensResponse
     type: object
     properties:
       cursor:
-        description: Offset for the next batch
+        description: Cursor on the next page
         type: string
       items:
         type: array
@@ -1004,28 +905,43 @@ definitions:
     type: object
     properties:
       createdAt:
+        description: Token-minting time with Unix timestamp
         example: 1608691873
         type: integer
         format: int64
       owner:
+        description: Token owner EOA at present
         example: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
         type: string
       previousOwner:
+        description: Previous owner who transfered the token to the current owner
         example: 0x0000000000000000000000000000000000000000
         type: string
       tokenId:
+        description: Token ID
         example: 0x13
         type: string
       tokenUri:
+        description: URI identifying documentation with token metadata
         example: https://metastore.kip17.com/0xbe02aba/0x1
         type: string
       transactionHash:
+        description: The latest transaction hash with ownership change
         example: 0x3bf8107f39158abf0f2b0dc1ee8ccce9320fbce14899f0021dc4d6ad970c9150
         type: string
       updatedAt:
+        description: The last update of token ownership with Unix timestamp
         example: 1608691873
         type: integer
         format: int64
+    required:
+    - createdAt
+    - owner
+    - previousOwner
+    - tokenId
+    - tokenUri
+    - transactionHash
+    - updatedAt
   GetKip17TokenHistoryResponse:
     title: GetKip17TokenHistoryResponse
     type: object
@@ -1045,15 +961,22 @@ definitions:
     type: object
     properties:
       from:
+        description: Sender (Owner right before this moment) EOA
         example: 0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4
         type: string
       timestamp:
+        description: At the time of changing ownsership (UNIX TIMESTAMP)
         example: 1607391306
         type: integer
         format: int64
       to:
+        description: Recipient (Owner at this moment) EOA
         example: 0xae7bb7efff289c163a95303795c4d59293f6ba92
         type: string
+    required:
+    - from
+    - timestamp
+    - to
 security:
 - auth: []
 tags:
