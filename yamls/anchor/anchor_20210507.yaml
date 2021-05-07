@@ -1,0 +1,1208 @@
+"openapi": "3.0.0"
+"info":
+  "title": "Anchor API"
+  "description": "# Introduction
+
+    This document describes KAS (Klaytn API Service) Anchor API. Anchor API provides
+    features sending metadata available to verify data reliability to ensure the reliability of service chain data
+    to Klaytn main chain.
+
+
+    For more details on using the Anchor API, please refer to [Tutorial](https://docs.klaytnapi.com/tutorial/anchor-api).
+
+
+
+
+    # Error Codes
+
+
+    ## 400: Bad Request
+
+
+    \ | Code | Messages |\ 
+
+    \ | --- | --- |\ 
+
+    \ | 1071010 | data don't exist
+
+    1071615 | its value is out of range; size
+
+    1072100 | same payload ID or payload was already anchored
+
+    1072101 | all configured accounts have insufficient funds |\ \n"
+"paths":
+  "/v1/anchor":
+    "post":
+      "description": "Use for anchoring blockchain data. It creates and manages anchoring transactions by the operator set on the KAS console.
+
+        For successful anchoring through operator or user's feepayer, a balance of 10 times more than the fee needed 
+         is required."
+      "parameters":
+        - "description": "Klaytn Chain Network ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "200 - Success":
+                  "summary": "200 - Success"
+                  "description": ""
+                  "value":
+                    "status": "succeed"
+              "schema":
+                "$ref": "#/components/schemas/AnchorBlockStatus"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "400 - Insufficient funds":
+                  "summary": "400 - Insufficient funds"
+                  "description": ""
+                  "value":
+                    "code": 1072101
+                    "message": "all configured accounts have insufficient funds"
+                    "requestId": "b3a660fa-6227-9a08-ad61-1b10d2bb71f9"
+                "400 - Duplicated payload":
+                  "summary": "400 - Duplicated payload"
+                  "description": ""
+                  "value":
+                    "code": 1072100
+                    "message": "same payload ID or payload was already anchored"
+                    "requestId": "1bc00132-b58c-9e02-9e3d-3f6aea9ad941"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Create an anchoring transaction"
+      "operationId": "AnchorBlock"
+      "tags":
+        - "Data Anchoring Transaction"
+      "requestBody":
+        "$ref": "#/components/requestBodies/AnchorBlockRequest"
+  "/v1/operator/{operator-id}/tx":
+    "get":
+      "description": "Specify an operator ID to retrieve a list of transactions created by the operator.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default value (`size=100`) when `size=0`<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than the maximum value<br>"
+      "parameters":
+        - "description": "Klaytn Chain Network ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Maximum size to be queried"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "string"
+            "maximum": 1000
+            "default": 100
+          "example": ""
+        - "description": "Information on the last cursor"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Starting point of the time range to be queried (timestamp in seconds)"
+          "in": "query"
+          "name": "from-timestamp"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Limit of the time range to be queried (timestamp in seconds)"
+          "in": "query"
+          "name": "to-timestamp"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Operator account address"
+          "in": "path"
+          "name": "operator-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "200 - Success":
+                  "summary": "200 - Success"
+                  "description": ""
+                  "value":
+                    "cursor": "eyJjcmVhdGVkX2F0IjoxNjE1MjY4NzY5LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6\
+                      Njc2ZGU5NGEtOWNhOS00NWUyLWE2N2ItZWQ3MjE3OGNkYmNjOm9wZXJhd\
+                      G9yLXBvb2w6ZGVmYXVsdDoweDZEQzY2ZkIzMmVjYzgzYjIzNGU4OWRmYj\
+                      c5MmIyN2U2RTg2OEYzYTQ6M2RmZTcyOWYtMzk3Ny00ZDVhLWFhMDAtZTU\
+                      1MDRmMTc5ZGM5IiwicXVlcnlfaWQiOiJrcm46MTAwMTphbmNob3I6Njc2\
+                      ZGU5NGEtOWNhOS00NWUyLWE2N2ItZWQ3MjE3OGNkYmNjOm9wZXJhdG9yL\
+                      XBvb2w6ZGVmYXVsdDpBTkNIX1RYOjB4NkRDNjZmQjMyZWNjODNiMjM0ZT\
+                      g5ZGZiNzkyYjI3ZTZFODY4RjNhNCIsInR5cGUiOiJBTkNIX1RYIn0="
+                    "items":
+                      - "createdAt": 1616141940
+                        "payloadId": "abc-abc-abc"
+                        "transactionHash": "0x9cfb36bda81d84d4b508a0f591835c2e2f0adc9b461ad49e27a32f607\
+                          8726c41"
+                      - "createdAt": 1616141893
+                        "payloadId": "aab4f82e-a0b2-46f8-b74f-f69f853fe5da"
+                        "transactionHash": "0x70f61910e0219340d51f280f56748193c105f2d130932ab9f8b1f3aa7\
+                          1369b94"
+                      - "createdAt": 1616141833
+                        "payloadId": "2fb2d49d-477f-4af0-92b8-e4fdcde64c04"
+                        "transactionHash": "0x61738646203ffa10a1c01d2b3027dcf7dc926711dfc6833b1f6346b8a\
+                          c5fcd5a"
+                      - "createdAt": 1616141663
+                        "payloadId": "860f5ed8-4e4a-41b1-ac34-94a5f321c851"
+                        "transactionHash": "0x14854390ffc5c921b44a7b9be44cc8749779ba5552f71caad72c06c6f\
+                          102f821"
+                      - "createdAt": 1615970595
+                        "payloadId": "88cff5e2-af55-4256-bb53-22fa7517a258"
+                        "transactionHash": "0x1ff73ff18a7b3d197a4410c4d12581e80fc73b6de7b58caff78b3492f\
+                          47fbe09"
+                      - "createdAt": 1615970594
+                        "payloadId": "242c8633-a72d-428f-a60c-31cc2ca95158"
+                        "transactionHash": "0x8cc7961c76756b50caf762d8a139e054d098e4506a9a8d680270f2187\
+                          894e953"
+                      - "createdAt": 1615970556
+                        "payloadId": "18ea6fa1-de53-4bc6-a901-e83db6c8147f"
+                        "transactionHash": "0x10b68ad1c1b1996bfbfb4af4923913556b1ce89dff970875d87958fd3\
+                          6a62303"
+                      - "createdAt": 1615272230
+                        "payloadId": "52035c4b-b462-4315-a415-28fb54d891fb"
+                        "transactionHash": "0xfa06e7a66be7dc38d96ce1ca6e4b2e154ba5a5f5df3999525ecd309c1\
+                          e7c3bba"
+                      - "createdAt": 1615272224
+                        "payloadId": "b8d308cb-ee13-4c95-95bf-65ba719711de"
+                        "transactionHash": "0xd40f33cf880403e3e04ee91928803ea3e281a95120c44f2fdb50cb598\
+                          7ba3ce6"
+                      - "createdAt": 1615272218
+                        "payloadId": "036fa048-9829-4b59-9dbc-43a87f0f3ad1"
+                        "transactionHash": "0x1bcc131ef4bfcc06886ef69136dbfa68c342bf53fdade1ebde1e12f17\
+                          312e1eb"
+                      - "createdAt": 1615272212
+                        "payloadId": "00ae2347-4aca-4c3a-914b-fe7ec6ace906"
+                        "transactionHash": "0x30c8bb7c79ca66d4c7a6f935fa4aa861230dcb56575908565fb158620\
+                          5c3f05f"
+                      - "createdAt": 1615272206
+                        "payloadId": "91180642-67a7-4180-980f-a7f504d160c0"
+                        "transactionHash": "0x81dcda85d8ccb45ea49de4c9dcad0da9f2da00bd4ef503b3cd1cab808\
+                          e253cf7"
+                      - "createdAt": 1615272205
+                        "payloadId": "c369dec9-d29b-4e76-95fc-1cfc58eebfd2"
+                        "transactionHash": "0x45e26afffb098bb481c0e95de361f905041c0df2189f7c94cb0a9cd7b\
+                          6b6dc64"
+                      - "createdAt": 1615272205
+                        "payloadId": "3f27e7cc-c26b-488c-8169-9ec9b3c4b1d0"
+                        "transactionHash": "0xe09b5662b49dad26b8c7c1dd6e561c4c0f7eaf2c48488244537b242fa\
+                          b03a7fd"
+                      - "createdAt": 1615272205
+                        "payloadId": "c4bd5867-27f9-46e5-a8ea-79d3f3deb967"
+                        "transactionHash": "0x7f11e93c15aa27cf41405c1069a4ca481a6ba68c83a763c4716e46f0a\
+                          c2b6fb4"
+                      - "createdAt": 1615272197
+                        "payloadId": "2ac5a023-b20a-4ec5-a5ac-2c5f38d7eea1"
+                        "transactionHash": "0x660d0b9c80495a4fa5dc636ca71856d8912929c4d9c6f0880b9ac6fab\
+                          48c634e"
+                      - "createdAt": 1615272197
+                        "payloadId": "7046b9d2-25e2-415d-9ad7-55dae24ef61c"
+                        "transactionHash": "0x277b100c805252063f9e6bf95438a951ce7317dfa0ee9bf35a9030ecc\
+                          64e43f8"
+                      - "createdAt": 1615272197
+                        "payloadId": "fe71db08-913a-4806-9edd-8fad08d0c036"
+                        "transactionHash": "0x832fbd3bfc76a35e7d7020f6d6638ec21c1be6cfc2f5ef85f6b9509fe\
+                          285c678"
+                      - "createdAt": 1615272197
+                        "payloadId": "43108727-1627-4a09-9e9c-d481bf4e249e"
+                        "transactionHash": "0xa08ec669cb37e49bdd5c92c8a88c8eaf036d8d440c9092b4f61a41a1d\
+                          8fa8422"
+                      - "createdAt": 1615272191
+                        "payloadId": "e8fff06c-e335-4305-8bb3-8f08a1b90bdb"
+                        "transactionHash": "0x523051cabf886b75f86b2d5156700ec536381e51313cbb1269937b1bf\
+                          0506635"
+                      - "createdAt": 1615272191
+                        "payloadId": "571e1bc1-a3f8-4d15-8d82-753e34566754"
+                        "transactionHash": "0x16a0dd62f6d5e00337d987c5dab76df7374deb9994b9083140599e441\
+                          1741e83"
+                      - "createdAt": 1615272190
+                        "payloadId": "8fb11cd2-4672-4bc0-805f-87bb07e576a9"
+                        "transactionHash": "0x893ba18653938420addc1d4bb03fe34d685aa4120040cb90957973e19\
+                          ebc174c"
+                      - "createdAt": 1615272190
+                        "payloadId": "465d80d7-150b-4a83-bd25-46ce723d7d7c"
+                        "transactionHash": "0x2d0ab50d2b2d04005ce92264fefcff546c636331d73850f7a52d0abe0\
+                          a2ddd91"
+                      - "createdAt": 1615272184
+                        "payloadId": "71f9c9c9-6cc7-4056-8316-88aac7319dfc"
+                        "transactionHash": "0x1dd76f270ee0ce4ba75e884a0076915cdc889283ae08023e315a07f15\
+                          4c1975d"
+                      - "createdAt": 1615272184
+                        "payloadId": "d1e1f582-87ea-4882-b168-ca74bcb3e71f"
+                        "transactionHash": "0x93fd7a052298141dd6e07b6bcee4a60231a5f86c2cf277002f6568bfc\
+                          b3a29f9"
+                      - "createdAt": 1615272184
+                        "payloadId": "6416e9e0-07c6-498c-8cfa-2acf589bb22c"
+                        "transactionHash": "0x3f867d4800410319088a6d2bebb4301a1c7551ee7411c8421a667ece7\
+                          6d6c1ce"
+                      - "createdAt": 1615272184
+                        "payloadId": "9e569c37-99c9-4c19-b21c-95bd761b0c74"
+                        "transactionHash": "0x32af25bc0e324d143495596814d8e78e4666d17a2feb11ee454dcdd27\
+                          f42dd88"
+                      - "createdAt": 1615272183
+                        "payloadId": "f749833f-1844-4fba-90e3-a75d6188a88a"
+                        "transactionHash": "0xbb062ba16f613a853a3ccb0efaf49f1e16dbc250ee53ab00aabee5571\
+                          f619128"
+                      - "createdAt": 1615272183
+                        "payloadId": "0f5759a5-a19e-40f1-bdff-7f75174fe56d"
+                        "transactionHash": "0x1ce5d3ec5b6d491dc596af716fb7017e6b819793f9f43d1cc991ae3d6\
+                          904b312"
+                      - "createdAt": 1615272174
+                        "payloadId": "0878fa37-7c27-4e37-a88f-19bc1fe03450"
+                        "transactionHash": "0xf0e0b511860d7e780008569896ed5c9bd01d6fb84733eb5b164ddf4bf\
+                          1334bc8"
+                      - "createdAt": 1615272174
+                        "payloadId": "55ad2973-07a4-409e-b3bf-43aa0ab8091f"
+                        "transactionHash": "0x4c31fe35451edd1b8735f29838e047bed794610a0842ea876344a4fdf\
+                          a54b06e"
+                      - "createdAt": 1615272174
+                        "payloadId": "968201e3-2a19-4ad5-8312-1803ad53472c"
+                        "transactionHash": "0x9b1c54750d24b5cd7d934e081ecd5d19bafe2760116467bf4d20fbce6\
+                          4c7feb6"
+                      - "createdAt": 1615272174
+                        "payloadId": "b976959f-ae58-4133-b666-e6788de773cb"
+                        "transactionHash": "0xea796d72dbd8b1caea2bdbe99fe7e240cbb0bba15cbdc21cd39ca4f8b\
+                          9038e47"
+                      - "createdAt": 1615272174
+                        "payloadId": "a9e6082f-30ef-4027-9633-68ada2c506a8"
+                        "transactionHash": "0xdcb8987481df8df944ea378105591a5006f1fffd88d6342b777f3f60b\
+                          4714acc"
+                      - "createdAt": 1615272172
+                        "payloadId": "74de71cc-cae1-4cb9-ade3-c772bf92d28b"
+                        "transactionHash": "0x392dabc6eebb12c7f0409e1cde7542d6761fe0d13049e3b2b16a84034\
+                          41428df"
+                      - "createdAt": 1615272171
+                        "payloadId": "938808c5-7211-4638-af91-5da797caf8c1"
+                        "transactionHash": "0x9379c3e79531089f35d9942ccae3cc8780860c37389ece5e62b7283d1\
+                          97d37f9"
+                      - "createdAt": 1615272171
+                        "payloadId": "33b11460-4843-4a95-8f5f-3cc739fd7ef2"
+                        "transactionHash": "0xb21830874e220a57683635cba86a3e7ee2a0cea0ac50f599c662bc2de\
+                          da3ba34"
+                      - "createdAt": 1615272064
+                        "payloadId": "055984db-e6f5-4cc5-b602-c34739b4b58f"
+                        "transactionHash": "0x6beda5b87e3fef28bf83300d8dcd0176a8ad49a6cc1024b3a723cc3e5\
+                          9479c07"
+                      - "createdAt": 1615272063
+                        "payloadId": "11894dba-753f-46c7-a91c-de2f4404f37c"
+                        "transactionHash": "0x97afaffd99266393b2c6418da51d10e4db5c6cf672caac0059118f8cb\
+                          040e6e6"
+                      - "createdAt": 1615272063
+                        "payloadId": "13f74aba-eac6-4c02-b2ff-a88ab70af833"
+                        "transactionHash": "0xd9166fa7f68dade042a3cbee0797be2ebf009e8d50d46f16713774ccf\
+                          b6f3579"
+                      - "createdAt": 1615271957
+                        "payloadId": "1b172e54-5c44-4a93-8755-99300ab422d3"
+                        "transactionHash": "0xc05eb1c98e4bae3e39a888eeb28ccfed4c0345246781882e11b1293e2\
+                          e20f065"
+                      - "createdAt": 1615271956
+                        "payloadId": "cb44d4e4-d432-4023-afe0-f469a17453a6"
+                        "transactionHash": "0x83b241d8b6c6b455198207f4cd2baecd7aedc8923d77eec158e55e2eb\
+                          a533b91"
+                      - "createdAt": 1615271956
+                        "payloadId": "fd234893-7b72-4fc1-b1f0-a26465a68d2a"
+                        "transactionHash": "0x429aa60dc3d1d3d3a936f515d8d6651f8dfdeb877cc1f121a3f993f7a\
+                          527a6da"
+                      - "createdAt": 1615271923
+                        "payloadId": "d74f74fa-933e-4328-82ee-bb7a3beb91d8"
+                        "transactionHash": "0x1965be0e4bba205a79b05f67a1922b67be7d2e419ec6859e718a3f51e\
+                          75af3d5"
+                      - "createdAt": 1615271923
+                        "payloadId": "6743d6d1-5e11-4816-b933-51a12012c7ef"
+                        "transactionHash": "0x7d8bc6e40a7d0201ec9908d58c898c59d2d49c7467677c979f0af09ac\
+                          e8a802c"
+                      - "createdAt": 1615271923
+                        "payloadId": "f80129f2-804c-4a76-af03-9bdeeaf60535"
+                        "transactionHash": "0x5f480f727f13650432c75b8d8fd9a443cdd32f19e7e924ef77668beef\
+                          5a0b888"
+                      - "createdAt": 1615271875
+                        "payloadId": "f25e2f1c-d9dd-47d0-869d-95628fcdcec5"
+                        "transactionHash": "0xd9c32ba085da97dd763680f7ac76fef4a49bdfcdf16cc4936200a3f29\
+                          ef74b3f"
+                      - "createdAt": 1615271874
+                        "payloadId": "5069bd70-9814-4484-9162-b9ea47c3c0dd"
+                        "transactionHash": "0x1bc8b0a06fb9f299123ff09ad2b949d1f87d1bb8a80303fcd22658c35\
+                          726d4f8"
+                      - "createdAt": 1615271874
+                        "payloadId": "adb286da-2c52-4c6a-9297-6bc9d4ef1a92"
+                        "transactionHash": "0x235edccf5681e04430ea9f2d4200f36c1329fd44004f64308db1c27ac\
+                          2469307"
+                      - "createdAt": 1615271873
+                        "payloadId": "befebd69-0ff8-4998-a7ca-4f0bdcdfd049"
+                        "transactionHash": "0xb117feb09337a84c045f27b998f6b81751cf2e221f3e00d05111215f8\
+                          82abbda"
+                      - "createdAt": 1615271873
+                        "payloadId": "b6af0c6b-7268-4d4e-9ce8-41a103ee0350"
+                        "transactionHash": "0xe145feb008ae1dd67c50af2dde8810e9a8a886a72ff3a559fb83669e5\
+                          dd1d6c4"
+                      - "createdAt": 1615271872
+                        "payloadId": "60370f57-b0d8-4f2b-b8f3-4b143e61c9da"
+                        "transactionHash": "0xdf775e06871dad55f9e3877bdb79c4249b6bafa388b3536a5cc1575af\
+                          1d6f393"
+                      - "createdAt": 1615271749
+                        "payloadId": "4bcf73e2-301a-4d7a-b48e-81c873b1abb1"
+                        "transactionHash": "0xe4dc71f50ccc5344196664231aecab4bd0e7f369bb9edf3a3a6c0d04d\
+                          2a106af"
+                      - "createdAt": 1615271749
+                        "payloadId": "61aad4da-3754-4527-8c65-f19ce274b974"
+                        "transactionHash": "0x4d49ab9cfd1c10bb989688334340ed34c3b916a1b19644fec6cf76b60\
+                          0061f26"
+                      - "createdAt": 1615271749
+                        "payloadId": "086e3a26-41cb-40b4-9f65-36adba857766"
+                        "transactionHash": "0x4f5a76f13972f045ecebd3c396f23e8edeb05139e89052f4ef74104eb\
+                          4eb1945"
+                      - "createdAt": 1615271617
+                        "payloadId": "c9585865-edad-4938-a7f2-c6459e45755f"
+                        "transactionHash": "0x33ea3e62b3d4e278d4fcd367f68529d419d03169827ac38e7fd8caa8c\
+                          e8d892b"
+                      - "createdAt": 1615271617
+                        "payloadId": "b5b0ed06-94e0-4bc9-8ab4-04fa710b2419"
+                        "transactionHash": "0x07af895f5e6deed9047a0c1864a93ebed039080bec3188693dece8e79\
+                          cd79034"
+                      - "createdAt": 1615271616
+                        "payloadId": "81733e76-01a2-4bc9-b2e4-aede74dffa28"
+                        "transactionHash": "0x941ab60b40a5dbb8a6c58b6fe95cc230748ee98dad324af2490fec38a\
+                          72a343f"
+                      - "createdAt": 1615270591
+                        "payloadId": "53956b43-9825-4db9-9138-364a44f66b19"
+                        "transactionHash": "0xc4f404a906e9363e249910970bc126ff59d73b2e4ac659551fad02840\
+                          9a1e513"
+                      - "createdAt": 1615270591
+                        "payloadId": "33f62d3a-3d28-42a2-8f28-69a402ae65bd"
+                        "transactionHash": "0x781cad0f52a9c6cc59d3fad2e137edc0beb8ebebcb0cab64fe19b8c15\
+                          55ed97c"
+                      - "createdAt": 1615270591
+                        "payloadId": "20271710-88f0-44f6-b2e5-1db3d9920f2a"
+                        "transactionHash": "0x8e81d01e897787c31a453f96386b679c39462b0fdb1f043b3ffebd610\
+                          ea6a2f4"
+                      - "createdAt": 1615270591
+                        "payloadId": "a854c77e-b86c-458b-84f1-5237c4483074"
+                        "transactionHash": "0x1ed77da9077b1989d2e674b4b8d9df14f6571ce34d15cd3e92d984a4f\
+                          eb47298"
+                      - "createdAt": 1615270590
+                        "payloadId": "7aa3499e-bc09-46b0-91f7-b29c22fe8b82"
+                        "transactionHash": "0xfd3c964d62764ec53c0d22b369143bee05d8ad7f87f8c3350f494c3ff\
+                          f083f52"
+                      - "createdAt": 1615270589
+                        "payloadId": "463a6166-b73b-474e-8a7c-1e4f4e8fc7ae"
+                        "transactionHash": "0x8038f5e914928df8ee5b476d988abd6ecdb92f678d5dc2248176dbe4f\
+                          035b584"
+                      - "createdAt": 1615270589
+                        "payloadId": "b7b38634-8a3d-4d52-a77c-8c0871ae2b0b"
+                        "transactionHash": "0x128cde3a4659aaca9e24a162c796c2ccbca25644c0fe28bd7b0fe7afe\
+                          31b4b6b"
+                      - "createdAt": 1615270589
+                        "payloadId": "68ef1d20-de93-4792-87b0-9f773102abd1"
+                        "transactionHash": "0x32eb61e3691ef328fee6d35d43025cbf35094e998265d16b614f36768\
+                          a842db8"
+                      - "createdAt": 1615269221
+                        "payloadId": "3cabd57b-6a8b-4831-bd9c-70a180dd2d40"
+                        "transactionHash": "0x09a95681a1942c6772f1dd74cd80a42fde3d5a0e6dfd22cb6f622cd87\
+                          3924661"
+                      - "createdAt": 1615269220
+                        "payloadId": "afc8e4d3-8fb5-4761-a4b6-93d24a264274"
+                        "transactionHash": "0x9ce892399399dfb624e4a7f873cdb231cb6f5d60f91fffd2ea2977dde\
+                          1a34379"
+                      - "createdAt": 1615269220
+                        "payloadId": "0e7320e7-0c5d-43c3-9d59-148eef061910"
+                        "transactionHash": "0xbfa59209f7251f45c0aa2a50322db29c9ff879e4bf6850832212549d2\
+                          9ba7835"
+                      - "createdAt": 1615269220
+                        "payloadId": "3243ed65-efbe-458d-b2ca-bac176c82d79"
+                        "transactionHash": "0x86f958c1e62d0f6cda9851aea144b800b157ecb4f3aa7cee9d315c42f\
+                          4a0f2c6"
+                      - "createdAt": 1615269214
+                        "payloadId": "e39bb132-e298-4ebd-8081-701e67db4aad"
+                        "transactionHash": "0x68471c613ca4a77235bf21ce7c1d88d61184fe4120fa4696c87100a3c\
+                          a98304a"
+                      - "createdAt": 1615269214
+                        "payloadId": "3f6cd6d5-657c-43f2-8698-ffaffa291cc0"
+                        "transactionHash": "0xe1ab0afbabd6fa000ce21ee7b01aa66e816ab986af82e93211459e682\
+                          c0f5318"
+                      - "createdAt": 1615269214
+                        "payloadId": "b34b2274-d9ca-4f1e-a321-e4903f906c2e"
+                        "transactionHash": "0x5a1b3775e0a96e1be25a5ee863b28b27546041a9d456030b9ec1ddfa6\
+                          ae10390"
+                      - "createdAt": 1615269214
+                        "payloadId": "73bf0898-62ed-4484-b88c-cf7b99d3e7da"
+                        "transactionHash": "0xb1ccae3f53c45ea98bc3b197f0fddb9ee98f0015079dda91caacb56f6\
+                          7874d63"
+                      - "createdAt": 1615269214
+                        "payloadId": "f8cf0b10-f9e4-4ee2-ba75-7bee61e90dcc"
+                        "transactionHash": "0xe29dd68854cc065ea26abe352313dbf421f75226b1f2c53a3a7000033\
+                          f88ab75"
+                      - "createdAt": 1615269214
+                        "payloadId": "1db8b08f-ad9a-411d-97f2-c0894f8b5153"
+                        "transactionHash": "0x1da1192cb27bee6c9bd9ae2e2f8b37952e86372b1d37783d5deaf9a91\
+                          bb3fac3"
+                      - "createdAt": 1615269208
+                        "payloadId": "b5c72ea5-9343-4938-9402-9f3bff8f0c19"
+                        "transactionHash": "0xcf12c34044206ed5bc4a54a63c69fec04fe3697b93c0d9dabd45c2ab4\
+                          f5074a0"
+                      - "createdAt": 1615269208
+                        "payloadId": "c8b74baa-d446-44d7-8848-6d519e8e2d60"
+                        "transactionHash": "0xf17df530c39d7d49af4dcf7917aa6392419aea5cc2e9bc876553b963b\
+                          0d4bbd6"
+                      - "createdAt": 1615269207
+                        "payloadId": "764fb82e-689f-4d49-ac73-d7358297268e"
+                        "transactionHash": "0x37bcecce5f80f5f19da387884cc02725910e5bcf6c5ba51e19d1b4f0b\
+                          aebc41a"
+                      - "createdAt": 1615269207
+                        "payloadId": "eb5ed4a1-72d1-45d8-b6e0-f7e24b54eeab"
+                        "transactionHash": "0x63629b39aa62357007afaf418762461115c0103b2639b5a9cc49a72cf\
+                          db4f579"
+                      - "createdAt": 1615269207
+                        "payloadId": "10b2bfcb-70af-427e-a637-75503ff25b35"
+                        "transactionHash": "0xbeacac60abfba56a63843d3ee67fc3f8605f716e24b37b4d680a58892\
+                          489b9ca"
+                      - "createdAt": 1615269206
+                        "payloadId": "94b33724-9255-40b1-9e4d-2828a41c46e2"
+                        "transactionHash": "0x636598cd54d9147ca53e30218dcc40e9d063b89492745c410fb9803ec\
+                          3f06aa8"
+                      - "createdAt": 1615269206
+                        "payloadId": "97984507-55b3-4737-b73d-3bef65d4d719"
+                        "transactionHash": "0x7746bebeef3c3de44c273c47cbb1a4a2923a00d2055c5b30b36ad4b03\
+                          c70cdc2"
+                      - "createdAt": 1615269205
+                        "payloadId": "8af66a99-6c35-464d-9a21-734b2acf9765"
+                        "transactionHash": "0x8dff81cecdfa0fd3463e22bb73c5c398030dde6da74a6963155df768f\
+                          3147f54"
+                      - "createdAt": 1615269199
+                        "payloadId": "6386aeea-c151-4326-a8de-679b417d96ba"
+                        "transactionHash": "0x542276ebeeb6c253a7cd2a922522c9ec32b08a60161ff9b7ddc19a56f\
+                          6476161"
+                      - "createdAt": 1615269193
+                        "payloadId": "769bd696-9dec-4e97-8c62-36742e3fd318"
+                        "transactionHash": "0xb0f90aad805641cbf60fd8739f163f03510be5fb9fa37bd0edc0dd56c\
+                          a9301e5"
+                      - "createdAt": 1615268782
+                        "payloadId": "c85d3521-7483-4b50-b33f-5e1b0642d7cc"
+                        "transactionHash": "0x42001bf3cd2a3d5ea74db891d62556221137ba49334cc8fd5f1b9a005\
+                          3baa402"
+                      - "createdAt": 1615268782
+                        "payloadId": "24a35a62-18f8-4609-b5ac-ea98c2d6e039"
+                        "transactionHash": "0x319d13f334da409ca35b45c98a03bc7e69bd50baaf7abd688e7d9a875\
+                          87ae3bd"
+                      - "createdAt": 1615268782
+                        "payloadId": "9bb3876f-ce4d-4c73-9d92-6520321c012f"
+                        "transactionHash": "0x9768435714b4aa0b3a03dc6a0c851ecaa8c0caff0f85308e7a721f39f\
+                          a0d38a7"
+                      - "createdAt": 1615268782
+                        "payloadId": "487222b5-c1ad-4441-ad3a-c5361f32093e"
+                        "transactionHash": "0x7fed719238c6fe53b217dafc7b345ddd49ee95bf660794752a7ec4b47\
+                          d321bbd"
+                      - "createdAt": 1615268776
+                        "payloadId": "72b91aa4-5718-4d2d-8ce6-e459efab85f4"
+                        "transactionHash": "0xa3031137f2a22a980f7a8d081f6dbc7491824a7166cad3c8568f038a8\
+                          0f97358"
+                      - "createdAt": 1615268776
+                        "payloadId": "91cccbd6-0f1c-46c7-9aea-8cc49c942f5f"
+                        "transactionHash": "0x82c8423478b63eecd3cbdd9260859213405de985167cd5049a3031330\
+                          a661546"
+                      - "createdAt": 1615268776
+                        "payloadId": "c840a644-fb33-4878-a9bc-0df735f73471"
+                        "transactionHash": "0x60131d6411416694fcda3b81f38faf196462e637634e4e2613b0fabcf\
+                          231210a"
+                      - "createdAt": 1615268776
+                        "payloadId": "9f287a7a-3482-47ae-9e01-1b4d8c0282a7"
+                        "transactionHash": "0x01e4445fcb6e130f9306a69b9c28c5d15861b6212f3bae8f878efde2f\
+                          09c5ff4"
+                      - "createdAt": 1615268776
+                        "payloadId": "be308a33-c961-443f-906d-87ca2a78b9b8"
+                        "transactionHash": "0x08dbc0be8fd7f727ad288c412f4a281e47f40e4843c569493fab64e67\
+                          dc12949"
+                      - "createdAt": 1615268776
+                        "payloadId": "5b8eaf61-7ebc-4267-880f-84f11adadd2e"
+                        "transactionHash": "0xa259d99cdf78300a6f54383dc64ac577efcf3c66cb42332a8775b3ef1\
+                          b7443b7"
+                      - "createdAt": 1615268770
+                        "payloadId": "a5a1e834-9255-4059-ae26-59605220a411"
+                        "transactionHash": "0xe3cc0f83c54d5d06cb10d7db4da61b49cbced3fcd207470696cf49cfb\
+                          8ae5be1"
+                      - "createdAt": 1615268769
+                        "payloadId": "e5ceb7ba-a0a7-462e-8e9b-830cd3126271"
+                        "transactionHash": "0x989c707201987fa446048146ac1b3d737aa755191272128fb6802e8b6\
+                          7113e86"
+                      - "createdAt": 1615268769
+                        "payloadId": "ae4ed2dc-4b93-49db-8c9f-a1bb0c34d066"
+                        "transactionHash": "0xac509f71e1e4cdd774ba7c1037a2ba39a78c0a37c65c66b7341989680\
+                          16db54d"
+                      - "createdAt": 1615268769
+                        "payloadId": "3dfe729f-3977-4d5a-aa00-e5504f179dc9"
+                        "transactionHash": "0xfe51136fc9e840f08d605e72598cff148b95aab9a8dd98564b14e96a8\
+                          3850757"
+              "schema":
+                "$ref": "#/components/schemas/AnchorTransactions"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "400 - Out of Range":
+                  "summary": "400 - Out of Range"
+                  "description": ""
+                  "value":
+                    "code": 1071615
+                    "message": "its value is out of range; size"
+                "400 - No content":
+                  "summary": "400 - No content"
+                  "description": ""
+                  "value":
+                    "code": 1071010
+                    "message": "data don't exist"
+                    "requestId": "4cd72e27-0dbc-94f7-bcd1-8b888f94ddaa"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Retrieve a list of transactions by the operator"
+      "operationId": "RetrieveAnchorBlock"
+      "tags":
+        - "Data Anchoring Transaction"
+  "/v1/operator/{operator-id}/tx/{transaction-hash}":
+    "get":
+      "description": "Specify a transaction hash value and an operator ID to retrieve a list of transactions created by the operator. When creating a transaction,
+        you may check the payload added to the transaction."
+      "parameters":
+        - "description": "Klaytn Chain Network ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Operator account address"
+          "in": "path"
+          "name": "operator-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Transaction hash"
+          "in": "path"
+          "name": "transaction-hash"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "200 - Success":
+                  "summary": "200 - Success"
+                  "description": ""
+                  "value":
+                    "payload":
+                      "field1": "field1 value"
+                      "field2": "field2 value"
+                      "id": "this-is-test-unique-id"
+                    "transactionHash": "0x4b8ab38728123ead97e4e8a304cb99f6dc1c78470e86020207ffa9490\
+                      05eb831"
+              "schema":
+                "$ref": "#/components/schemas/AnchorTransactionDetail"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "400 - No content":
+                  "summary": "400 - No content"
+                  "description": ""
+                  "value":
+                    "code": 1071010
+                    "message": "data don't exist"
+                    "requestId": "23991fc2-a628-9be8-b6d7-4f091b2edb0b"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Retrieve anchoring transactions with transaction hash value"
+      "operationId": "GetAnchorBlockByTx"
+      "tags":
+        - "Data Anchoring Transaction"
+  "/v1/operator/{operator-id}/payload/{payload-id}":
+    "get":
+      "description": "Specify a Payload ID and an operator ID to retrieve a list of transactions created by the operator. When creating a transaction,
+        you may check the payload added to the transaction."
+      "parameters":
+        - "description": "Klaytn Chain Network ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Operator account address"
+          "in": "path"
+          "name": "operator-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Payload ID"
+          "in": "path"
+          "name": "payload-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "200 - Success":
+                  "summary": "200 - Success"
+                  "description": ""
+                  "value":
+                    "payload":
+                      "field1": "field1 value"
+                      "field2": "field2 value"
+                      "id": "this-is-test-unique-id"
+                    "transactionHash": "0x4b8ab38728123ead97e4e8a304cb99f6dc1c78470e86020207ffa9490\
+                      05eb831"
+              "schema":
+                "$ref": "#/components/schemas/AnchorTransactionDetail"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "400 - No content":
+                  "summary": "400 - No content"
+                  "description": ""
+                  "value":
+                    "code": 1071010
+                    "message": "data don't exist"
+                    "requestId": "968a19f1-e9a4-92d5-b888-2fe098a36cf1"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Retrieve anchoring transactions with payload"
+      "operationId": "GetAnchorBlockByPayloadID"
+      "tags":
+        - "Data Anchoring Transaction"
+  "/v1/operator":
+    "get":
+      "description": "Retrieve the list of operators created and the setting values of each operator.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default value (`size=100`) when `size=0`<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than the maximum value<br>"
+      "parameters":
+        - "description": "Klaytn Chain Network ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Maximum size to be queried"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "string"
+            "maximum": 1000
+            "default": 100
+          "example": ""
+        - "description": "Information on the last cursor"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Starting point of the time range to be queried (timestamp in seconds)"
+          "in": "query"
+          "name": "from-timestamp"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Limit of the time range to be queried (timestamp in seconds)"
+          "in": "query"
+          "name": "to-timestamp"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "200 - Success":
+                  "summary": "200 - Success"
+                  "description": ""
+                  "value":
+                    "cursor": ""
+                    "items":
+                      - "createdAt": 1614841807
+                        "operator": "0xB7Bb4f516B34B70A37A983F7162372989ed55F9c"
+                        "setting":
+                          "feePayer": "0x75C5884230e93B81c9320eC56a00369a27dEd4Db"
+                          "useGlobalFeePayer": false
+                          "useOperator": true
+                      - "createdAt": 1614841562
+                        "operator": "0x170a096Ac244D131Affdc0077fe60FcC4e622230"
+                        "setting":
+                          "feePayer": "0x75C5884230e93B81c9320eC56a00369a27dEd4Db"
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1614841370
+                        "operator": "0xe8449A7F1b9f26f3a9e28C2903aCf13b16bFa491"
+                        "setting":
+                          "feePayer": "0x75C5884230e93B81c9320eC56a00369a27dEd4Db"
+                          "useGlobalFeePayer": false
+                          "useOperator": false
+                      - "createdAt": 1614841113
+                        "operator": "0x95b87CD5329490523C35B4b7634b4Acee0ecEBDe"
+                        "setting":
+                          "useGlobalFeePayer": false
+                          "useOperator": true
+                      - "createdAt": 1614840676
+                        "operator": "0x286425b264F7E9B246432D66328682aF608B9B9A"
+                        "setting":
+                          "useGlobalFeePayer": false
+                          "useOperator": true
+                      - "createdAt": 1614839632
+                        "operator": "0x6DC66fB32ecc83b234e89dfb792b27e6E868F3a4"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1602473910
+                        "operator": "0x123aba394B18F4879c22c10ec395183F6C4cb2B9"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1602473909
+                        "operator": "0x6bb8468912eae0c3C217b642e8a242770eFCfC1e"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1602473876
+                        "operator": "0x0Ce5e29AD2dfCBbd09170a282C7D0c941cc15f91"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1602473875
+                        "operator": "0xCcD330aeA7014a4797D6d6F307b28f282F9b4e75"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1602473874
+                        "operator": "0xdA8a9049150ca4E14DA862f74Cf443E71cDF066f"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1602473656
+                        "operator": "0x6da51E2b979bA069b0fC6c6DA41C7AE42EC22c6E"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1602473655
+                        "operator": "0x3593028102b224A15A01a3f7F31644FcE5b0950a"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1602473483
+                        "operator": "0xDb58c587F14D13ABDd8c6cF20172F7064Ea966cA"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1600337765
+                        "operator": "0xc2017957D55F6F2225B59f7d3e5e17745E0D97ba"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1600337309
+                        "operator": "0x3163b209523fF6462FDd078A069FAF6069E69C5a"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1600336977
+                        "operator": "0x605dB8b38c3ba674bCab2752014d9453f1F7e036"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1600336955
+                        "operator": "0x3C59991e3A81210a478C6585DD600cfa8Bd55751"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1600336587
+                        "operator": "0xA51B6Dc9b206A2c42c3343766c2c9377625dDFeA"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1600336237
+                        "operator": "0x5aE8D055b3c068C4eF757C2d2edD294B70E7f73C"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1599565562
+                        "operator": "0xeF116AED4Bd34738fEe8f066541dba3b5ebc069a"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1599565556
+                        "operator": "0xeea929e6e6E8Ebd4067c943A53031346BFEe6290"
+                        "setting":
+                          "feePayer": "0x3Ac6e34027854630749e6a722638ACaA41f33579"
+                          "useGlobalFeePayer": false
+                          "useOperator": false
+                      - "createdAt": 1599206632
+                        "operator": "0x3355190eB8eF7e27ED1cd514Dd11FBF42F29A94e"
+                        "setting":
+                          "feePayer": "0x8448B35af0E53B4BD22942e9127fa88b40E7ab37"
+                          "useGlobalFeePayer": false
+                          "useOperator": false
+                      - "createdAt": 1599206473
+                        "operator": "0x39773A7A3260A09FfbA8547ca77F7eEDd5cc8542"
+                        "setting":
+                          "feePayer": "0x8448B35af0E53B4BD22942e9127fa88b40E7ab37"
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1599206460
+                        "operator": "0xeaCF8f4384d2fbEF789E3930a7220b8e3De003bC"
+                        "setting":
+                          "feePayer": "0x8448B35af0E53B4BD22942e9127fa88b40E7ab37"
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1599206359
+                        "operator": "0xC5e4bbC6a039264877BAcE12c468e2C309176cC5"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": true
+                      - "createdAt": 1599204811
+                        "operator": "0xB540b7Ef9ef3Dabe3D68cD786291663A49F22875"
+                        "setting":
+                          "useGlobalFeePayer": false
+                          "useOperator": true
+                      - "createdAt": 1598770684
+                        "operator": "0xB6EeE614A4a341A69dC6fCbA701A2FB3D8920b54"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+                      - "createdAt": 1598506350
+                        "operator": "0x426Cd8fF0672225c7e96E0bD2f9175B05790653d"
+                        "setting":
+                          "useGlobalFeePayer": true
+                          "useOperator": false
+              "schema":
+                "$ref": "#/components/schemas/Operators"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "400 - No content":
+                  "summary": "400 - No content"
+                  "description": ""
+                  "value":
+                    "code": 1071010
+                    "message": "data don't exist"
+                    "requestId": "23991fc2-a328-9ge8-c6d7-4f092b2adb0b"
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+      "summary": "Retrieve a list of all operators"
+      "operationId": "RetrieveOperators"
+      "tags":
+        - "Operator"
+  "/v1/operator/{operator-id}":
+    "get":
+      "description": "Retrieve the operator settings and a balance of the operator account."
+      "parameters":
+        - "description": "Klaytn Chain Network ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Operator account address"
+          "in": "path"
+          "name": "operator-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "examples":
+                "200 - Success":
+                  "summary": "200 - Success"
+                  "description": ""
+                  "value":
+                    "createdAt": 1614841807
+                    "operator": "0xB7Bb4f516B34B70A37A983F7162372989ed55F9c"
+                    "setting":
+                      "feePayer": "0x75C5884230e93B81c9320eC56a00369a27dEd4Db"
+                      "useGlobalFeePayer": false
+                      "useOperator": true
+              "schema":
+                "$ref": "#/components/schemas/Operator"
+      "summary": "Retrieve the specific operator"
+      "operationId": "GetOperator"
+      "tags":
+        - "Operator"
+"tags": []
+"servers":
+  - "url": "https://anchor-api.klaytnapi.com"
+"components":
+  "schemas":
+    "ErrorResponse":
+      "type": "object"
+      "description": "Response with the error description"
+      "properties":
+        "code":
+          "type": "integer"
+          "format": "int64"
+          "example": 1072101
+          "description": "Service code (First 3 digits) and error code (Last 4 digits)"
+        "message":
+          "type": "string"
+          "example": "all configured accounts have insufficient funds"
+          "description": "Error message"
+        "requestId":
+          "type": "string"
+          "example": "b3a660fa-6227-9a08-ad61-1b10d2bb71f9"
+          "description": ""
+      "title": "ErrorResponse"
+      "required":
+        - "code"
+        - "message"
+    "AnchorBlockStatus":
+      "type": "object"
+      "description": "Response with the anchoring state"
+      "properties":
+        "status":
+          "type": "string"
+          "example": "succeed"
+          "description": "Whether anchoring succeeded or not"
+      "title": "AnchorBlockStatus"
+      "required":
+        - "status"
+    "AnchorBlockRequest":
+      "type": "object"
+      "description": "Anchor block request schema"
+      "properties":
+        "operator":
+          "type": "string"
+          "example": "0x95b87CD5329490523C35B4b7634b4Acee0ecEBDe"
+          "description": "Operator account address"
+        "payload":
+          "$ref": "#/components/schemas/AnchorBlockPayload"
+      "title": "AnchorBlockRequest"
+      "required":
+        - "operator"
+        - "payload"
+    "AnchorBlockPayload":
+      "type": "object"
+      "description": "Anchoring data. Default settings for ID is `id = SHA256(payload)` unless ID is provided.
+        It receives a string-type ID; unless it regards as an unset ID."
+      "title": "AnchorBlockPayload"
+      "additionalProperties": {}
+    "AnchorTransactions":
+      "type": "object"
+      "description": "List of anchoring transactions"
+      "properties":
+        "cursor":
+          "type": "string"
+          "example": "eyJjcmVhdGVkX2F0IjoxNjE1MjY4NzY5LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I\
+            6Njc2ZGU5NGEtOWNhOS00NWUyLWE2N2ItZWQ3MjE3OGNkYmNjOm9wZXJhdG9yLXBvb2\
+            w6ZGVmYXVsdDoweDZEQzY2ZkIzMmVjYzgzYjIzNGU4OWRmYjc5MmIyN2U2RTg2OEYzY\
+            TQ6M2RmZTcyOWYtMzk3Ny00ZDVhLWFhMDAtZTU1MDRmMTc5ZGM5IiwicXVlcnlfaWQi\
+            OiJrcm46MTAwMTphbmNob3I6Njc2ZGU5NGEtOWNhOS00NWUyLWE2N2ItZWQ3MjE3OGN\
+            kYmNjOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDpBTkNIX1RYOjB4NkRDNjZmQjMyZWNjOD\
+            NiMjM0ZTg5ZGZiNzkyYjI3ZTZFODY4RjNhNCIsInR5cGUiOiJBTkNIX1RYIn0="
+          "description": "Cursor information that represents its last location"
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/AnchorTransaction"
+      "title": "AnchorTransactions"
+      "required":
+        - "cursor"
+    "AnchorTransaction":
+      "type": "object"
+      "description": "Anchoring transaction information"
+      "properties":
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1616141940
+          "description": "The time at which anchoring transaction was created"
+        "payloadId":
+          "type": "string"
+          "example": "abc-abc-abc"
+          "description": "Payload ID"
+        "transactionHash":
+          "type": "string"
+          "example": "0x9cfb36bda81d84d4b508a0f591835c2e2f0adc9b461ad49e27a32f6078726c41"
+          "description": "Transaction hash of anchoring transactions"
+      "title": "AnchorTransaction"
+      "required":
+        - "createdAt"
+        - "payloadId"
+        - "transactionHash"
+    "AnchorTransactionDetail":
+      "type": "object"
+      "description": "Anchoring transaction information"
+      "properties":
+        "payload":
+          "$ref": "#/components/schemas/AnchorBlockPayload"
+        "transactionHash":
+          "type": "string"
+          "example": "0x4b8ab38728123ead97e4e8a304cb99f6dc1c78470e86020207ffa949005eb831"
+          "description": "Transaction hash of anchoring transactions"
+      "title": "AnchorTransactionDetail"
+      "required":
+        - "payload"
+        - "transactionHash"
+    "Operators":
+      "type": "object"
+      "description": "List of operators"
+      "properties":
+        "cursor":
+          "type": "string"
+          "example": ""
+          "description": "Cursor information that represents its last location"
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/Operator"
+      "title": "Operators"
+      "required":
+        - "cursor"
+    "Operator":
+      "type": "object"
+      "description": "Operator information"
+      "properties":
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "example": 1614841807
+          "description": "The time at which operator was created"
+        "operator":
+          "type": "string"
+          "example": "0xB7Bb4f516B34B70A37A983F7162372989ed55F9c"
+          "description": "Operator's Klaytn account address"
+        "setting":
+          "$ref": "#/components/schemas/OperatorSetting"
+      "title": "Operator"
+      "required":
+        - "createdAt"
+        - "operator"
+    "OperatorSetting":
+      "type": "object"
+      "description": "Operator pay information"
+      "properties":
+        "feePayer":
+          "type": "string"
+          "example": "0x75C5884230e93B81c9320eC56a00369a27dEd4Db"
+          "description": ""
+        "useGlobalFeePayer":
+          "type": "boolean"
+          "example": false
+          "description": "Whether to use global fee delegation account"
+        "useOperator":
+          "type": "boolean"
+          "example": true
+          "description": "Whether to pay by operator"
+      "title": "OperatorSetting"
+      "required":
+        - "useGlobalFeePayer"
+        - "useOperator"
+  "securitySchemes":
+    "basic":
+      "description": "KAS uses Basic HTTP Auth. All requests must contain a valid Authorization header.
+        KAS users must use access key ID as `username`, and secret access key as `password`
+        to create credentials for Basic Auth.
+
+        The KAS account credentials grant access to all services of KAS and own all rights to the Klaytn account
+        created by Wallet API, which means they can execute value transfer of assets on the Klaytn account (like KLAY) or a
+        [Transaction execution](https://docs.klaytnapi.com/tutorial/wallet-transaction-api).
+        To keep your KAS/Klaytn account secure, do not share your KAS API Secret Access Key with others and
+        manage it safely.
+
+
+        ### cURL
+
+        ```
+
+        \  curl --location --request GET
+        'https://https://anchor-api.klaytnapi.com/v1/operator/:operator-id/tx' \\
+
+        \  -u ${your_accessKeyId}:${your_secretAccessKey} \\
+
+        \  --header 'x-chain-id: {{chain-id}}' \\
+
+        \  --header 'Content-Type: application/json'
+
+        ```     \ 
+
+        \n"
+      "type": "http"
+      "scheme": "basic"
+  "requestBodies":
+    "AnchorBlockRequest":
+      "content":
+        "application/json":
+          "examples":
+            "400 - Insufficient funds":
+              "value":
+                "operator": "0x95b87CD5329490523C35B4b7634b4Acee0ecEBDe"
+                "payload":
+                  "id": "abc-abc-abd"
+            "400 - Duplicated payload":
+              "value":
+                "operator": "0x6DC66fB32ecc83b234e89dfb792b27e6E868F3a4"
+                "payload":
+                  "id": "abc-abc-abc"
+            "200 - Success":
+              "value":
+                "operator": "0x6DC66fB32ecc83b234e89dfb792b27e6E868F3a4"
+                "payload":
+                  "id": "this-is-test-unique-id"
+                  "field1": "field1 value"
+                  "field2": "field2 value"
+          "schema":
+            "$ref": "#/components/schemas/AnchorBlockRequest"
+"security":
+  - "basic": []
