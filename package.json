@@ -37,7 +37,7 @@
   "dependencies": {
     "caver-js": "1.6.2-rc.1",
     "dotenv": "8.2.0",
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "querystring": "0.2.0",
     "superagent": "3.7.0",
     "webpack": "4.43.0",
