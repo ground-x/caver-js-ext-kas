@@ -152,7 +152,6 @@
             './kip17/model/Kip17ContractListResponse',
             './kip17/model/Kip17ContractListResponseItem',
             './kip17/model/Kip17TokenListResponse',
-            './kip17/model/Kip17TokenListResponseItem',
             './kip17/model/Kip17TransactionStatusResponse',
             './kip17/model/MintKip17TokenRequest',
             './kip17/model/TransferKip17TokenRequest',
@@ -296,7 +295,6 @@
             require('./kip17/model/Kip17ContractListResponse'),
             require('./kip17/model/Kip17ContractListResponseItem'),
             require('./kip17/model/Kip17TokenListResponse'),
-            require('./kip17/model/Kip17TokenListResponseItem'),
             require('./kip17/model/Kip17TransactionStatusResponse'),
             require('./kip17/model/MintKip17TokenRequest'),
             require('./kip17/model/TransferKip17TokenRequest'),
@@ -437,7 +435,6 @@
     Kip17ContractListResponse,
     Kip17ContractListResponseItem,
     Kip17TokenListResponse,
-    Kip17TokenListResponseItem,
     Kip17TransactionStatusResponse,
     MintKip17TokenRequest,
     TransferKip17TokenRequest,
@@ -1092,11 +1089,6 @@
          * @property {Kip17TokenListResponse}
          */
         Kip17TokenListResponse: Kip17TokenListResponse,
-        /**
-         * The Kip17TokenListResponseItem model constructor.
-         * @property {Kip17TokenListResponseItem}
-         */
-        Kip17TokenListResponseItem: Kip17TokenListResponseItem,
         /**
          * The Kip17TransactionStatusResponse model constructor.
          * @property {Kip17TransactionStatusResponse}
