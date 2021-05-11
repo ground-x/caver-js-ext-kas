@@ -1,6 +1,6 @@
 /*
  * KIP-17 API
- * undefined # Error Codes ## 400: Bad Request  | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |  ## 404: Not Found  | Code | Messages |   | --- | --- |   | 1104404 | Token not found |  ## 409: Conflict  | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
+ *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
  *

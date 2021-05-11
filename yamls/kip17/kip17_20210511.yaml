@@ -1,27 +1,51 @@
 "openapi": "3.0.0"
 "info":
   "title": "KIP-17 API"
-  "description": "undefined
+  "description": "
+
+
     # Error Codes
+
+
     ## 400: Bad Request
+
+
     \ | Code | Messages |\ 
+
     \ | --- | --- |\ 
+
     \ | 1100050 | incorrect request
+
     1100101 | data don't exist
+
     1100251 | its value is out of range; size
+
     1104401 | failed to get an account |\ 
+
+
     ## 404: Not Found
+
+
     \ | Code | Messages |\ 
+
     \ | --- | --- |\ 
+
     \ | 1104404 | Token not found |\ 
+
+
     ## 409: Conflict
+
+
     \ | Code | Messages |\ 
+
     \ | --- | --- |\ 
+
     \ | 1104400 | Duplicate alias - test |\ \n"
 "paths":
   "/v1/contract":
     "post":
       "description": "Deploys a new KIP-17 contract with the submitted parameter.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -68,6 +92,7 @@
     "get":
       "description": "Gets the list of KIP-17 contracts deployed in the requested deployer pool. Unless specified the pool type,
         the default pool is queried.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -128,6 +153,7 @@
   "/v1/contract/{contract-address-or-alias}":
     "get":
       "description": "Queries KIP-17 contract information with contract address or alias.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -180,8 +206,10 @@
     "post":
       "description": "Mints a new token on the given KIP-17 contract. Contract address or alias are available 
         to target the contract.
+
         Do not mint tokens to accounts out of the KAS account pool. All APIs of KIP-17 allow processes only with accounts 
         in the KAS account pool.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -234,6 +262,7 @@
     "get":
       "description": "Queries the list of all tokens minted with a specific KIP-17 contract. Select the contract address or alias
          to query.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -314,6 +343,7 @@
   "/v1/contract/{contract-address-or-alias}/token/{token-id}":
     "get":
       "description": "Sets a token ID with contract address or alias to query the token information of a specific contract.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -389,15 +419,22 @@
     "post":
       "description": "Transfers a token. If `sender` and `owner` mismatched, `sender` should have the authority 
         to transfer the token.<p></p>
+
+
         Note: This API requires two KRNs; for deployer pool and sender.<p></p>
+
+
         - The first KRN for the `deployer pool` should have `krn:*:kip17:*:account-pool:*` format and confirm whether API caller has authority to call a contract.
         Klaytn contract is publicly available and anyone who knows the address can call
         the contract function, however, it requires indirect measures such as observing network communication 
         unless contract owner reveals the address. Therefore, KIP-17 API assumes that the contract owner calls the contract function only
         with veiled address.
+
         - The second KRN for the `sender` should have `krn:*:wallet:*:account-pool:*` format.
         KIP-17 API is currently available to transfer tokens with the accounts created from the account pool.
+
         - As all other APIs, `x-krn` has default value if excluded.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -442,6 +479,7 @@
     "delete":
       "description": "Burns a token. Unless the requested `from` address is the owner, or have authority to burn,
         the transaction through this API becomes `reverted`.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -501,6 +539,7 @@
     "post":
       "description": "Approves a third party `to` to transfer contract tokens by the contract token owner `from`. Unless
         `from` adderss is owner, the status of the transaction through this API becomes `reverted`.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -559,6 +598,7 @@
   "/v1/contract/{contract-address-or-alias}/approveall":
     "post":
       "description": "Turns on/off transfer approval from the third party, `to`, for all tokens in a contract.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -597,6 +637,7 @@
   "/v1/contract/{contract-address-or-alias}/owner/{owner-address}":
     "get":
       "description": "Queries the token list of the contract which a particular EOA owns.<p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -669,6 +710,7 @@
   "/v1/contract/{contract-address-or-alias}/token/{token-id}/history":
     "get":
       "description": "Queries the list of token transfer history starting from the minting. Each response item refers the transfer history. <p></p>
+
         \n"
       "parameters":
         - "description": "Klaytn Network Chain ID (1001 or 8217)"
@@ -1110,19 +1152,29 @@
       "description": "KAS uses Basic HTTP Auth. All requests must contain a valid Authorization header.
         KAS users must use access key ID as `username`, and secret access key as `password`
         to create credentials for Basic Auth.
+
+
         The KAS account credentials grant access to all services of KAS and own all rights to the Klaytn account
         created by Wallet API, which means they can execute value transfer of assets on the Klaytn account (like KLAY) or a
         [Transaction execution](https://docs.klaytnapi.com/tutorial/wallet-transaction-api).
         To keep your KAS/Klaytn account secure, do not share your KAS API Secret Access Key with others and
         manage it safely.
+
         ### cURL
+
         ```
+
         \  curl --location --request GET
         'https://kip17-api.klaytnapi.com/v1/contract' \\
+
         \  -u ${your_accessKeyId}:${your_secretAccessKey} \\
+
         \  --header 'x-chain-id: 1001' \\
+
         \  --header 'Content-Type: application/json'
+
         ```     \ 
+
         \n"
       "type": "http"
       "scheme": "basic"
