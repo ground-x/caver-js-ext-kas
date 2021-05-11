@@ -50,13 +50,13 @@ class TokenHistoryQueryOptions {
      * const options = new caver.kas.tokenHistory.queryOptions(kind, range, size, cursor, caFilter, status, type)
      *
      * @constructor
-     * @param {Array.<string>} kind - Indicate the [“klay”, “ft”, “nft”, "mt"] type. All types will be searched if no type is specified. You can use `caver.tokenHistory.queryOptions.kind`.
+     * @param {Array.<string>} kind - Indicate the [“klay”, “ft”, “nft”, "mt"] type. All types will be searched if no type is specified. You can use `caver.kas.tokenHistory.queryOptions.kind`.
      * @param {string} range - Search range (block number of Unix time).
      * @param {number} size - Maximum number of items to retrieve (min=1, max=1000, default=100).
      * @param {string} cursor - Information of the last retrieved cursor.
      * @param {string} caFilter - The token contract address to filter from the result.
-     * @param {string} status - Labeling status [completed, processing, failed, cancelled]. You can use `caver.tokenHistory.queryOptions.status`.
-     * @param {string} type - Contract type. If not set, return all types. You can use `caver.tokenHistory.queryOptions.type`.
+     * @param {string} status - Labeling status [completed, processing, failed, cancelled]. You can use `caver.kas.tokenHistory.queryOptions.status`.
+     * @param {string} type - Contract type. If not set, return all types. You can use `caver.kas.tokenHistory.queryOptions.type`.
      */
     constructor(kind, range, size, cursor, caFilter, status, type) {
         if (kind !== undefined) this.kind = kind
