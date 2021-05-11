@@ -109,6 +109,7 @@
             './wallet/model/KeyCreationResponse',
             './wallet/model/KeySignDataRequest',
             './wallet/model/KeySignDataResponse',
+            './wallet/model/KeyStatus',
             './wallet/model/LegacyTransactionRequest',
             './wallet/model/MultisigAccount',
             './wallet/model/MultisigAccountUpdateRequest',
@@ -133,6 +134,7 @@
             './wallet/api/BasicTransactionApi',
             './wallet/api/FeeDelegatedTransactionPaidByKASApi',
             './wallet/api/FeeDelegatedTransactionPaidByUserApi',
+            './wallet/api/FeepayerApi',
             './wallet/api/KeyApi',
             './wallet/api/MultisigTransactionManagementApi',
             './wallet/api/RegistrationApi',
@@ -252,6 +254,7 @@
             require('./wallet/model/KeyCreationResponse'),
             require('./wallet/model/KeySignDataRequest'),
             require('./wallet/model/KeySignDataResponse'),
+            require('./wallet/model/KeyStatus'),
             require('./wallet/model/LegacyTransactionRequest'),
             require('./wallet/model/MultisigAccount'),
             require('./wallet/model/MultisigAccountUpdateRequest'),
@@ -276,6 +279,7 @@
             require('./wallet/api/BasicTransactionApi'),
             require('./wallet/api/FeeDelegatedTransactionPaidByKASApi'),
             require('./wallet/api/FeeDelegatedTransactionPaidByUserApi'),
+            require('./wallet/api/FeepayerApi'),
             require('./wallet/api/KeyApi'),
             require('./wallet/api/MultisigTransactionManagementApi'),
             require('./wallet/api/RegistrationApi'),
@@ -394,6 +398,7 @@
     KeyCreationResponse,
     KeySignDataRequest,
     KeySignDataResponse,
+    KeyStatus,
     LegacyTransactionRequest,
     MultisigAccount,
     MultisigAccountUpdateRequest,
@@ -418,6 +423,7 @@
     BasicTransactionApi,
     FeeDelegatedTransactionPaidByKASApi,
     FeeDelegatedTransactionPaidByUserApi,
+    FeepayerApi,
     KeyApi,
     MultisigTransactionManagementApi,
     RegistrationApi,
@@ -883,6 +889,11 @@
          */
         KeySignDataResponse: KeySignDataResponse,
         /**
+         * The KeyStatus model constructor.
+         * @property {KeyStatus}
+         */
+        KeyStatus: KeyStatus,
+        /**
          * The LegacyTransactionRequest model constructor.
          * @property {LegacyTransactionRequest}
          */
@@ -1002,6 +1013,11 @@
          * @property {FeeDelegatedTransactionPaidByUserApi}
          */
         FeeDelegatedTransactionPaidByUserApi: FeeDelegatedTransactionPaidByUserApi,
+        /**
+         * The FeepayerApi service constructor.
+         * @property {FeepayerApi}
+         */
+        FeepayerApi: FeepayerApi,
         /**
          * The KeyApi service constructor.
          * @property {KeyApi}

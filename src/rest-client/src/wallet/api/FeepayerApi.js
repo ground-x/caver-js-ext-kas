@@ -16,143 +16,65 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define([
-            '../../ApiClient',
-            '../model/Key',
-            '../model/KeyCreationRequest',
-            '../model/KeyCreationResponse',
-            '../model/KeySignDataRequest',
-            '../model/KeySignDataResponse',
-            '../model/KeyStatus',
-        ], factory)
+        define(['../../ApiClient', '../model/Account', '../model/AccountStatus', '../model/Accounts'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
         module.exports = factory(
             require('../../ApiClient'),
-            require('../model/Key'),
-            require('../model/KeyCreationRequest'),
-            require('../model/KeyCreationResponse'),
-            require('../model/KeySignDataRequest'),
-            require('../model/KeySignDataResponse'),
-            require('../model/KeyStatus')
+            require('../model/Account'),
+            require('../model/AccountStatus'),
+            require('../model/Accounts')
         )
     } else {
         // Browser globals (root is window)
         if (!root.WalletApi) {
             root.WalletApi = {}
         }
-        root.WalletApi.KeyApi = factory(
+        root.WalletApi.FeepayerApi = factory(
             root.WalletApi.ApiClient,
-            root.WalletApi.Key,
-            root.WalletApi.KeyCreationRequest,
-            root.WalletApi.KeyCreationResponse,
-            root.WalletApi.KeySignDataRequest,
-            root.WalletApi.KeySignDataResponse,
-            root.WalletApi.KeyStatus
+            root.WalletApi.Account,
+            root.WalletApi.AccountStatus,
+            root.WalletApi.Accounts
         )
     }
-})(this, function(ApiClient, Key, KeyCreationRequest, KeyCreationResponse, KeySignDataRequest, KeySignDataResponse, KeyStatus) {
+})(this, function(ApiClient, Account, AccountStatus, Accounts) {
     /**
-     * Key service.
-     * @class KeyApi
+     * Feepayer service.
+     * @class FeepayerApi
      * @version 1.0
      */
 
     /**
-     * Constructs a new KeyApi.
-     * @alias KeyApi
+     * Constructs a new FeepayerApi.
+     * @alias FeepayerApi
      * @class
      * @param {ApiClient} [apiClient] Optional API client implementation to use,
      * default to {@link ApiClient#instance} if unspecified.
      */
-    const KeyApi = function(apiClient) {
+    const FeepayerApi = function(apiClient) {
         this.apiClient = apiClient || ApiClient.instance
 
         /**
-         * Callback function to receive the result of the getKey operation.
-         * @callback KeyApi~getKeyCallback
+         * Callback function to receive the result of the creatFeePayerAccount operation.
+         * @callback FeepayerApi~creatFeePayerAccountCallback
          * @param {String} error Error message, if any.
-         * @param {Key} data The data returned by the service call.
+         * @param {Account} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
         /**
-         * GetKey
-         * Retrieve the created keys.
+         * CreatFeePayerAccount
+         * Create a Klaytn fee payer account. Generate a Klaytn account address and random private/public key pair and get ID of public key and private key returned. Klaytn fee payer account should be updated to [AccountKeyRoleBased](https://docs.klaytn.com/klaytn/design/accounts#accountkeyrolebased) and can only be used for fee delegation.
          * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
-         * @param {String} keyId key ID
-         * @param {KeyApi~getKeyCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link Key}
+         * @param {FeepayerApi~creatFeePayerAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Account}
          */
-        this.getKey = function(xChainId, keyId, callback) {
+        this.creatFeePayerAccount = function(xChainId, callback) {
             const postBody = null
 
             // verify the required parameter 'xChainId' is set
             if (xChainId === undefined || xChainId === null) {
-                throw new Error("Missing the required parameter 'xChainId' when calling getKey")
-            }
-
-            // verify the required parameter 'keyId' is set
-            if (keyId === undefined || keyId === null) {
-                throw new Error("Missing the required parameter 'keyId' when calling getKey")
-            }
-
-            const pathParams = {
-                'key-id': keyId,
-            }
-            const queryParams = {}
-            const collectionQueryParams = {}
-            const headerParams = {
-                'x-chain-id': xChainId,
-            }
-            const formParams = {}
-
-            const authNames = ['auth']
-            const contentTypes = ['application/json']
-            const accepts = ['application/json']
-            const returnType = Key
-
-            return this.apiClient.callApi(
-                '/v2/key/{key-id}',
-                'GET',
-                pathParams,
-                queryParams,
-                collectionQueryParams,
-                headerParams,
-                formParams,
-                postBody,
-                authNames,
-                contentTypes,
-                accepts,
-                returnType,
-                callback
-            )
-        }
-
-        /**
-         * Callback function to receive the result of the keyCreation operation.
-         * @callback KeyApi~keyCreationCallback
-         * @param {String} error Error message, if any.
-         * @param {KeyCreationResponse} data The data returned by the service call.
-         * @param {String} response The complete HTTP response.
-         */
-
-        /**
-         * KeyCreation
-         * Creates up to 100 keys in batches.
-         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
-         * @param {Object} opts Optional parameters
-         * @param {KeyCreationRequest} opts.body
-         * @param {KeyApi~keyCreationCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link KeyCreationResponse}
-         */
-        this.keyCreation = function(xChainId, opts, callback) {
-            opts = opts || {}
-            const postBody = opts.body
-
-            // verify the required parameter 'xChainId' is set
-            if (xChainId === undefined || xChainId === null) {
-                throw new Error("Missing the required parameter 'xChainId' when calling keyCreation")
+                throw new Error("Missing the required parameter 'xChainId' when calling creatFeePayerAccount")
             }
 
             const pathParams = {}
@@ -166,10 +88,10 @@
             const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = KeyCreationResponse
+            const returnType = Account
 
             return this.apiClient.callApi(
-                '/v2/key',
+                '/v2/feepayer',
                 'POST',
                 pathParams,
                 queryParams,
@@ -186,36 +108,36 @@
         }
 
         /**
-         * Callback function to receive the result of the keyDeletion operation.
-         * @callback KeyApi~keyDeletionCallback
+         * Callback function to receive the result of the deleteFeePayerAccount operation.
+         * @callback FeepayerApi~deleteFeePayerAccountCallback
          * @param {String} error Error message, if any.
-         * @param {KeyStatus} data The data returned by the service call.
+         * @param {AccountStatus} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
         /**
-         * KeyDeletion
-         * Delete a key.
+         * DeleteFeePayerAccount
+         * Delete a certain Klaytn fee payer account.
          * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
-         * @param {String} keyId key ID
-         * @param {KeyApi~keyDeletionCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link KeyStatus}
+         * @param {String} address Klaytn account address
+         * @param {FeepayerApi~deleteFeePayerAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link AccountStatus}
          */
-        this.keyDeletion = function(xChainId, keyId, callback) {
+        this.deleteFeePayerAccount = function(xChainId, address, callback) {
             const postBody = null
 
             // verify the required parameter 'xChainId' is set
             if (xChainId === undefined || xChainId === null) {
-                throw new Error("Missing the required parameter 'xChainId' when calling keyDeletion")
+                throw new Error("Missing the required parameter 'xChainId' when calling deleteFeePayerAccount")
             }
 
-            // verify the required parameter 'keyId' is set
-            if (keyId === undefined || keyId === null) {
-                throw new Error("Missing the required parameter 'keyId' when calling keyDeletion")
+            // verify the required parameter 'address' is set
+            if (address === undefined || address === null) {
+                throw new Error("Missing the required parameter 'address' when calling deleteFeePayerAccount")
             }
 
             const pathParams = {
-                'key-id': keyId,
+                address: address,
             }
             const queryParams = {}
             const collectionQueryParams = {}
@@ -227,10 +149,10 @@
             const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = KeyStatus
+            const returnType = AccountStatus
 
             return this.apiClient.callApi(
-                '/v2/key/{key-id}',
+                '/v2/feepayer/{address}',
                 'DELETE',
                 pathParams,
                 queryParams,
@@ -247,57 +169,116 @@
         }
 
         /**
-         * Callback function to receive the result of the keySignData operation.
-         * @callback KeyApi~keySignDataCallback
+         * Callback function to receive the result of the retrieveFeePayerAccount operation.
+         * @callback FeepayerApi~retrieveFeePayerAccountCallback
          * @param {String} error Error message, if any.
-         * @param {KeySignDataResponse} data The data returned by the service call.
+         * @param {Account} data The data returned by the service call.
          * @param {String} response The complete HTTP response.
          */
 
         /**
-         * KeySignData
-         * Sign the data using keys.
+         * RetrieveFeePayerAccount
+         * Retrieve a certain Klaytn fee payer account.
          * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
-         * @param {String} keyId key ID
-         * @param {Object} opts Optional parameters
-         * @param {String} opts.xKrn
-         * @param {KeySignDataRequest} opts.body
-         * @param {KeyApi~keySignDataCallback} callback The callback function, accepting three arguments: error, data, response
-         * data is of type: {@link KeySignDataResponse}
+         * @param {String} address Klaytn account address
+         * @param {FeepayerApi~retrieveFeePayerAccountCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Account}
          */
-        this.keySignData = function(xChainId, keyId, opts, callback) {
-            opts = opts || {}
-            const postBody = opts.body
+        this.retrieveFeePayerAccount = function(xChainId, address, callback) {
+            const postBody = null
 
             // verify the required parameter 'xChainId' is set
             if (xChainId === undefined || xChainId === null) {
-                throw new Error("Missing the required parameter 'xChainId' when calling keySignData")
+                throw new Error("Missing the required parameter 'xChainId' when calling retrieveFeePayerAccount")
             }
 
-            // verify the required parameter 'keyId' is set
-            if (keyId === undefined || keyId === null) {
-                throw new Error("Missing the required parameter 'keyId' when calling keySignData")
+            // verify the required parameter 'address' is set
+            if (address === undefined || address === null) {
+                throw new Error("Missing the required parameter 'address' when calling retrieveFeePayerAccount")
             }
 
             const pathParams = {
-                'key-id': keyId,
+                address: address,
             }
             const queryParams = {}
             const collectionQueryParams = {}
             const headerParams = {
                 'x-chain-id': xChainId,
-                'x-krn': opts.xKrn,
             }
             const formParams = {}
 
             const authNames = ['auth']
             const contentTypes = ['application/json']
             const accepts = ['application/json']
-            const returnType = KeySignDataResponse
+            const returnType = Account
 
             return this.apiClient.callApi(
-                '/v2/key/{key-id}/sign',
-                'POST',
+                '/v2/feepayer/{address}',
+                'GET',
+                pathParams,
+                queryParams,
+                collectionQueryParams,
+                headerParams,
+                formParams,
+                postBody,
+                authNames,
+                contentTypes,
+                accepts,
+                returnType,
+                callback
+            )
+        }
+
+        /**
+         * Callback function to receive the result of the retrieveFeePayerAccounts operation.
+         * @callback FeepayerApi~retrieveFeePayerAccountsCallback
+         * @param {String} error Error message, if any.
+         * @param {Accounts} data The data returned by the service call.
+         * @param {String} response The complete HTTP response.
+         */
+
+        /**
+         * RetrieveFeePayerAccounts
+         * Retrieve a list of all Klaytn fee payer accounts.<p></p>  ## Size<p></p>  * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default value (`size=100`) when `size=0`<br> * Uses the maximum value (`size=1000`) when given a value higher than the maximum value.<br>
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
+         * @param {Object} opts Optional parameters
+         * @param {Number} opts.size Maximum size to be queried (default to 100)
+         * @param {String} opts.cursor Information on the last cursor
+         * @param {String} opts.toTimestamp Limit of the time range to be queried (timestamp in seconds)
+         * @param {String} opts.fromTimestamp Starting point of the time range to be queried (timestamp in seconds)
+         * @param {FeepayerApi~retrieveFeePayerAccountsCallback} callback The callback function, accepting three arguments: error, data, response
+         * data is of type: {@link Accounts}
+         */
+        this.retrieveFeePayerAccounts = function(xChainId, opts, callback) {
+            opts = opts || {}
+            const postBody = null
+
+            // verify the required parameter 'xChainId' is set
+            if (xChainId === undefined || xChainId === null) {
+                throw new Error("Missing the required parameter 'xChainId' when calling retrieveFeePayerAccounts")
+            }
+
+            const pathParams = {}
+            const queryParams = {
+                size: opts.size,
+                cursor: opts.cursor,
+                'to-timestamp': opts.toTimestamp,
+                'from-timestamp': opts.fromTimestamp,
+            }
+            const collectionQueryParams = {}
+            const headerParams = {
+                'x-chain-id': xChainId,
+            }
+            const formParams = {}
+
+            const authNames = ['auth']
+            const contentTypes = ['application/json']
+            const accepts = ['application/json']
+            const returnType = Accounts
+
+            return this.apiClient.callApi(
+                '/v2/feepayer',
+                'GET',
                 pathParams,
                 queryParams,
                 collectionQueryParams,
@@ -313,5 +294,5 @@
         }
     }
 
-    return KeyApi
+    return FeepayerApi
 })
