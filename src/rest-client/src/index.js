@@ -158,6 +158,23 @@
             './kip17/model/MintKip17TokenRequest',
             './kip17/model/TransferKip17TokenRequest',
             './kip17/api/KIP17Api',
+
+            // KIP7
+            './kip7/model/ApproveKip7TokenRequest',
+            './kip7/model/BurnFromKip7TokenRequest',
+            './kip7/model/BurnKip7TokenRequest',
+            './kip7/model/DeployKip7ContractRequest',
+            './kip7/model/Kip7ContractListResponse',
+            './kip7/model/Kip7ContractListResponseItem',
+            './kip7/model/Kip7ContractMetadataResponse',
+            './kip7/model/Kip7DeployerResponse',
+            './kip7/model/Kip7TokenBalanceResponse',
+            './kip7/model/Kip7TransactionStatusResponse',
+            './kip7/model/MintKip7TokenRequest',
+            './kip7/model/TransferKip7TokenFromRequest',
+            './kip7/model/TransferKip7TokenRequest',
+            './kip7/api/KIP7Api',
+            './kip7/api/Kip7DeployerApi',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
@@ -302,7 +319,24 @@
             require('./kip17/model/Kip17TransactionStatusResponse'),
             require('./kip17/model/MintKip17TokenRequest'),
             require('./kip17/model/TransferKip17TokenRequest'),
-            require('./kip17/api/KIP17Api')
+            require('./kip17/api/KIP17Api'),
+
+            // KIP7
+            require('./kip7/model/ApproveKip7TokenRequest'),
+            require('./kip7/model/BurnFromKip7TokenRequest'),
+            require('./kip7/model/BurnKip7TokenRequest'),
+            require('./kip7/model/DeployKip7ContractRequest'),
+            require('./kip7/model/Kip7ContractListResponse'),
+            require('./kip7/model/Kip7ContractListResponseItem'),
+            require('./kip7/model/Kip7ContractMetadataResponse'),
+            require('./kip7/model/Kip7DeployerResponse'),
+            require('./kip7/model/Kip7TokenBalanceResponse'),
+            require('./kip7/model/Kip7TransactionStatusResponse'),
+            require('./kip7/model/MintKip7TokenRequest'),
+            require('./kip7/model/TransferKip7TokenFromRequest'),
+            require('./kip7/model/TransferKip7TokenRequest'),
+            require('./kip7/api/KIP7Api'),
+            require('./kip7/api/Kip7DeployerApi')
         )
     }
 })(function(
@@ -444,7 +478,24 @@
     Kip17TransactionStatusResponse,
     MintKip17TokenRequest,
     TransferKip17TokenRequest,
-    KIP17Api
+    KIP17Api,
+
+    // KIP7
+    ApproveKip7TokenRequest,
+    BurnFromKip7TokenRequest,
+    BurnKip7TokenRequest,
+    DeployKip7ContractRequest,
+    Kip7ContractListResponse,
+    Kip7ContractListResponseItem,
+    Kip7ContractMetadataResponse,
+    Kip7DeployerResponse,
+    Kip7TokenBalanceResponse,
+    Kip7TransactionStatusResponse,
+    MintKip7TokenRequest,
+    TransferKip7TokenFromRequest,
+    TransferKip7TokenRequest,
+    KIP7Api,
+    Kip7DeployerApi
 ) {
     /**
      * @module RestClient
@@ -1125,6 +1176,83 @@
          * @property {KIP17Api}
          */
         KIP17Api: KIP17Api,
+
+        // KIP7
+        /**
+         * The ApproveKip7TokenRequest model constructor.
+         * @property {ApproveKip7TokenRequest}
+         */
+        ApproveKip7TokenRequest: ApproveKip7TokenRequest,
+        /**
+         * The BurnFromKip7TokenRequest model constructor.
+         * @property {BurnFromKip7TokenRequest}
+         */
+        BurnFromKip7TokenRequest: BurnFromKip7TokenRequest,
+        /**
+         * The BurnKip7TokenRequest model constructor.
+         * @property {BurnKip7TokenRequest}
+         */
+        BurnKip7TokenRequest: BurnKip7TokenRequest,
+        /**
+         * The DeployKip7ContractRequest model constructor.
+         * @property {DeployKip7ContractRequest}
+         */
+        DeployKip7ContractRequest: DeployKip7ContractRequest,
+        /**
+         * The Kip7ContractListResponse model constructor.
+         * @property {Kip7ContractListResponse}
+         */
+        Kip7ContractListResponse: Kip7ContractListResponse,
+        /**
+         * The Kip7ContractListResponseItem model constructor.
+         * @property {Kip7ContractListResponseItem}
+         */
+        Kip7ContractListResponseItem: Kip7ContractListResponseItem,
+        /**
+         * The Kip7ContractMetadataResponse model constructor.
+         * @property {Kip7ContractMetadataResponse}
+         */
+        Kip7ContractMetadataResponse: Kip7ContractMetadataResponse,
+        /**
+         * The Kip7DeployerResponse model constructor.
+         * @property {Kip7DeployerResponse}
+         */
+        Kip7DeployerResponse: Kip7DeployerResponse,
+        /**
+         * The Kip7TokenBalanceResponse model constructor.
+         * @property {Kip7TokenBalanceResponse}
+         */
+        Kip7TokenBalanceResponse: Kip7TokenBalanceResponse,
+        /**
+         * The Kip7TransactionStatusResponse model constructor.
+         * @property {Kip7TransactionStatusResponse}
+         */
+        Kip7TransactionStatusResponse: Kip7TransactionStatusResponse,
+        /**
+         * The MintKip7TokenRequest model constructor.
+         * @property {MintKip7TokenRequest}
+         */
+        MintKip7TokenRequest: MintKip7TokenRequest,
+        /**
+         * The TransferKip7TokenFromRequest model constructor.
+         * @property {TransferKip7TokenFromRequest}
+         */
+        TransferKip7TokenFromRequest: TransferKip7TokenFromRequest,
+        /**
+         * The TransferKip7TokenRequest model constructor.
+         * @property {TransferKip7TokenRequest}
+         */
+        TransferKip7TokenRequest: TransferKip7TokenRequest,
+        /**
+         * The KIP7Api service constructor.
+         * @property {KIP7Api}
+         */
+        KIP7Api: KIP7Api,
+        /**
+         * The Kip7DeployerApi service constructor.
+         * @property {Kip7DeployerApi}
+         */
+        Kip7DeployerApi: Kip7DeployerApi,
     }
 
     return exports
