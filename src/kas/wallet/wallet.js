@@ -2115,7 +2115,7 @@ class Wallet {
      *
      * @param {string} address The fee payer address to retrieve.
      * @param {Function} [callback] The callback function to call.
-     * @return {AccountStatus}
+     * @return {Account}
      */
     getFeePayer(address, callback) {
         if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -2132,12 +2132,14 @@ class Wallet {
     }
 
     /**
-     * Retrieve a certain Klaytn fee payer account. <br>
-     * GET /v2/feepayer/{address}
+     * Retrieve the Klaytn fee payer accounts. <br>
+     * GET /v2/feepayer
      *
      * @example
-     * const feePayer = '0x{address in hex}'
-     * const ret = await caver.kas.wallet.getFeePayer(feePayer)
+     * const ret = await caver.kas.wallet.getFeePayerList()
+     *
+     * const queryOptions = { size: 1, cursor: '...' }
+     * const ret = await caver.kas.wallet.getFeePayerList(queryOptions)
      *
      * @param {WalletQueryOptions} [queryOptions] Filters required when retrieving data. `size`, `cursor`, `fromTimestamp` or `toTimestamp`.
      * @param {Function} [callback] The callback function to call.
