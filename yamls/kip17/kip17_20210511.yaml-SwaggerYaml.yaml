@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: KIP-17 API
-  description: "undefined # Error Codes ## 400: Bad Request  | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |  ## 404: Not Found  | Code | Messages |   | --- | --- |   | 1104404 | Token not found |  ## 409: Conflict  | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test | \n"
+  description: "\n\n# Error Codes\n\n## 400: Bad Request\n\n | Code | Messages | \n | --- | --- | \n | 1100050 | incorrect request\n1100101 | data don't exist\n1100251 | its value is out of range; size\n1104401 | failed to get an account | \n\n## 404: Not Found\n\n | Code | Messages | \n | --- | --- | \n | 1104404 | Token not found | \n\n## 409: Conflict\n\n | Code | Messages | \n | --- | --- | \n | 1104400 | Duplicate alias - test | \n"
   contact: {}
 host: kip17-api.dev.klaytnapi.com
 basePath: /
@@ -18,7 +18,9 @@ produces:
 paths:
   /v1/contract:
     post:
-      description: "Deploys a new KIP-17 contract with the submitted parameter.<p></p> \n"
+      description: >+
+        Deploys a new KIP-17 contract with the submitted parameter.<p></p>
+
       summary: DeployContract
       tags:
       - KIP17
@@ -61,7 +63,9 @@ paths:
               requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
           headers: {}
     get:
-      description: "Gets the list of KIP-17 contracts deployed in the requested deployer pool. Unless specified the pool type, the default pool is queried.<p></p> \n"
+      description: >+
+        Gets the list of KIP-17 contracts deployed in the requested deployer pool. Unless specified the pool type, the default pool is queried.<p></p>
+
       summary: ListContractsInDeployerPool
       tags:
       - KIP17
@@ -106,7 +110,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}:
     get:
-      description: "Queries KIP-17 contract information with contract address or alias.<p></p> \n"
+      description: >+
+        Queries KIP-17 contract information with contract address or alias.<p></p>
+
       summary: GetContract
       tags:
       - KIP17
@@ -149,7 +155,11 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/token:
     post:
-      description: "Mints a new token on the given KIP-17 contract. Contract address or alias are available to target the contract. Do not mint tokens to accounts out of the KAS account pool. All APIs of KIP-17 allow processes only with accounts in the KAS account pool.<p></p> \n"
+      description: >+
+        Mints a new token on the given KIP-17 contract. Contract address or alias are available to target the contract.
+
+        Do not mint tokens to accounts out of the KAS account pool. All APIs of KIP-17 allow processes only with accounts in the KAS account pool.<p></p>
+
       summary: MintToken
       tags:
       - KIP17
@@ -197,7 +207,9 @@ paths:
               requestId: 0fbb2970-41ae-978c-9edb-d759ed6e7c87
           headers: {}
     get:
-      description: "Queries the list of all tokens minted with a specific KIP-17 contract. Select the contract address or alias to query.<p></p> \n"
+      description: >+
+        Queries the list of all tokens minted with a specific KIP-17 contract. Select the contract address or alias to query.<p></p>
+
       summary: ListTokens
       tags:
       - KIP17
@@ -263,7 +275,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/token/{token-id}:
     get:
-      description: "Sets a token ID with contract address or alias to query the token information of a specific contract.<p></p> \n"
+      description: >+
+        Sets a token ID with contract address or alias to query the token information of a specific contract.<p></p>
+
       summary: GetToken
       tags:
       - KIP17
@@ -323,7 +337,19 @@ paths:
               requestId: 1b99498f-4f37-98cc-a1d4-6246a7a5be79
           headers: {}
     post:
-      description: "Transfers a token. If `sender` and `owner` mismatched, `sender` should have the authority to transfer the token.<p></p> Note: This API requires two KRNs; for deployer pool and sender.<p></p> - The first KRN for the `deployer pool` should have `krn:*:kip17:*:account-pool:*` format and confirm whether API caller has authority to call a contract. Klaytn contract is publicly available and anyone who knows the address can call the contract function, however, it requires indirect measures such as observing network communication unless contract owner reveals the address. Therefore, KIP-17 API assumes that the contract owner calls the contract function only with veiled address. - The second KRN for the `sender` should have `krn:*:wallet:*:account-pool:*` format. KIP-17 API is currently available to transfer tokens with the accounts created from the account pool. - As all other APIs, `x-krn` has default value if excluded.<p></p> \n"
+      description: >+
+        Transfers a token. If `sender` and `owner` mismatched, `sender` should have the authority to transfer the token.<p></p>
+
+
+        Note: This API requires two KRNs; for deployer pool and sender.<p></p>
+
+
+        - The first KRN for the `deployer pool` should have `krn:*:kip17:*:account-pool:*` format and confirm whether API caller has authority to call a contract. Klaytn contract is publicly available and anyone who knows the address can call the contract function, however, it requires indirect measures such as observing network communication unless contract owner reveals the address. Therefore, KIP-17 API assumes that the contract owner calls the contract function only with veiled address.
+
+        - The second KRN for the `sender` should have `krn:*:wallet:*:account-pool:*` format. KIP-17 API is currently available to transfer tokens with the accounts created from the account pool.
+
+        - As all other APIs, `x-krn` has default value if excluded.<p></p>
+
       summary: TransferToken
       tags:
       - KIP17
@@ -366,7 +392,9 @@ paths:
               transactionHash: 0x72b05d3b27e17a132e60681f4a2ad487868181b0623fbaa841875ecb36f62b8f
           headers: {}
     delete:
-      description: "Burns a token. Unless the requested `from` address is the owner, or have authority to burn, the transaction through this API becomes `reverted`.<p></p> \n"
+      description: >+
+        Burns a token. Unless the requested `from` address is the owner, or have authority to burn, the transaction through this API becomes `reverted`.<p></p>
+
       summary: BurnToken
       tags:
       - KIP17
@@ -420,7 +448,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/approve/{token-id}:
     post:
-      description: "Approves a third party `to` to transfer contract tokens by the contract token owner `from`. Unless `from` adderss is owner, the status of the transaction through this API becomes `reverted`.<p></p> \n"
+      description: >+
+        Approves a third party `to` to transfer contract tokens by the contract token owner `from`. Unless `from` adderss is owner, the status of the transaction through this API becomes `reverted`.<p></p>
+
       summary: ApproveToken
       tags:
       - KIP17
@@ -474,7 +504,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/approveall:
     post:
-      description: "Turns on/off transfer approval from the third party, `to`, for all tokens in a contract.<p></p> \n"
+      description: >+
+        Turns on/off transfer approval from the third party, `to`, for all tokens in a contract.<p></p>
+
       summary: ApproveAll
       tags:
       - KIP17
@@ -513,7 +545,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/owner/{owner-address}:
     get:
-      description: "Queries the token list of the contract which a particular EOA owns.<p></p> \n"
+      description: >+
+        Queries the token list of the contract which a particular EOA owns.<p></p>
+
       summary: GetOwnerTokens
       tags:
       - KIP17
@@ -574,7 +608,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/token/{token-id}/history:
     get:
-      description: "Queries the list of token transfer history starting from the minting. Each response item refers the transfer history. <p></p> \n"
+      description: >+
+        Queries the list of token transfer history starting from the minting. Each response item refers the transfer history. <p></p>
+
       summary: GetTokenHistory
       tags:
       - KIP17

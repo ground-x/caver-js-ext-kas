@@ -1,6 +1,6 @@
 /*
  * KIP-17 API
- * undefined # Error Codes ## 400: Bad Request  | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |  ## 404: Not Found  | Code | Messages |   | --- | --- |   | 1104404 | Token not found |  ## 409: Conflict  | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
+ *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
  *
  * OpenAPI spec version: 1.0
  *
@@ -851,7 +851,7 @@
 
         /**
          * TransferToken
-         * Transfers a token. If `sender` and `owner` mismatched, `sender` should have the authority to transfer the token.<p></p> Note: This API requires two KRNs; for deployer pool and sender.<p></p> - The first KRN for the `deployer pool` should have `krn:*:kip17:*:account-pool:*` format and confirm whether API caller has authority to call a contract. Klaytn contract is publicly available and anyone who knows the address can call the contract function, however, it requires indirect measures such as observing network communication unless contract owner reveals the address. Therefore, KIP-17 API assumes that the contract owner calls the contract function only with veiled address. - The second KRN for the `sender` should have `krn:*:wallet:*:account-pool:*` format. KIP-17 API is currently available to transfer tokens with the accounts created from the account pool. - As all other APIs, `x-krn` has default value if excluded.<p></p>
+         * Transfers a token. If `sender` and `owner` mismatched, `sender` should have the authority to transfer the token.<p></p>  Note: This API requires two KRNs; for deployer pool and sender.<p></p>  - The first KRN for the `deployer pool` should have `krn:*:kip17:*:account-pool:*` format and confirm whether API caller has authority to call a contract. Klaytn contract is publicly available and anyone who knows the address can call the contract function, however, it requires indirect measures such as observing network communication unless contract owner reveals the address. Therefore, KIP-17 API assumes that the contract owner calls the contract function only with veiled address. - The second KRN for the `sender` should have `krn:*:wallet:*:account-pool:*` format. KIP-17 API is currently available to transfer tokens with the accounts created from the account pool. - As all other APIs, `x-krn` has default value if excluded.<p></p>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} contractAddressOrAlias Contract address (Starting with 0x in hexadecimal) or alias
          * @param {String} tokenId Token ID
