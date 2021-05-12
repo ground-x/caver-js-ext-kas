@@ -16,65 +16,65 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/FtContractDetail'], factory)
+        define(['../../ApiClient', '../model/TokenSummaryItem'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./FtContractDetail'))
+        module.exports = factory(require('../../ApiClient'), require('./TokenSummaryItem'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.PageableFtContractDetails = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.FtContractDetail)
+        root.TokenHistoryApi.PageableTokenSummary = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.TokenSummaryItem)
     }
-})(this, function(ApiClient, FtContractDetail) {
+})(this, function(ApiClient, TokenSummaryItem) {
     /**
-     * The PageableFtContractDetails model module.
-     * @class PageableFtContractDetails
+     * The PageableTokenSummary model module.
+     * @class PageableTokenSummary
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>PageableFtContractDetails</code>.
-     * @alias PageableFtContractDetails
+     * Constructs a new <code>PageableTokenSummary</code>.
+     * @alias PageableTokenSummary
      * @class
-     * @param items {Array.<FtContractDetail>}
+     * @param items {TokenSummaryItem}
      * @param cursor {String} Next page cursor
      */
-    const PageableFtContractDetails = function(items, cursor) {
+    const PageableTokenSummary = function(items, cursor) {
         this.items = items
         this.cursor = cursor
     }
 
     /**
-     * Constructs a <code>PageableFtContractDetails</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>PageableTokenSummary</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {PageableFtContractDetails} obj Optional instance to populate.
-     * @return {PageableFtContractDetails} The populated <code>PageableFtContractDetails</code> instance.
-     * @memberof PageableFtContractDetails
+     * @param {PageableTokenSummary} obj Optional instance to populate.
+     * @return {PageableTokenSummary} The populated <code>PageableTokenSummary</code> instance.
+     * @memberof PageableTokenSummary
      */
-    PageableFtContractDetails.constructFromObject = function(data, obj) {
+    PageableTokenSummary.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new PageableFtContractDetails()
-            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [FtContractDetail])
+            obj = obj || new PageableTokenSummary()
+            if (data.hasOwnProperty('items')) obj.items = TokenSummaryItem.constructFromObject(data.items)
             if (data.hasOwnProperty('cursor')) obj.cursor = ApiClient.convertToType(data.cursor, 'String')
         }
         return obj
     }
 
     /**
-     * @type {Array.<FtContractDetail>}
-     * @memberof PageableFtContractDetails
+     * @type {TokenSummaryItem}
+     * @memberof PageableTokenSummary
      */
-    PageableFtContractDetails.prototype.items = undefined
+    PageableTokenSummary.prototype.items = undefined
 
     /**
      * Next page cursor
      * @type {String}
-     * @memberof PageableFtContractDetails
+     * @memberof PageableTokenSummary
      */
-    PageableFtContractDetails.prototype.cursor = undefined
+    PageableTokenSummary.prototype.cursor = undefined
 
-    return PageableFtContractDetails
+    return PageableTokenSummary
 })

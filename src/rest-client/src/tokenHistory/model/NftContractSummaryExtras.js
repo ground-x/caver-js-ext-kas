@@ -25,67 +25,60 @@
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.ErrorResponse = factory(root.TokenHistoryApi.ApiClient)
+        root.TokenHistoryApi.NftContractSummaryExtras = factory(root.TokenHistoryApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The ErrorResponse model module.
-     * @class ErrorResponse
+     * The NftContractSummaryExtras model module.
+     * @class NftContractSummaryExtras
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>ErrorResponse</code>.
-     * @alias ErrorResponse
+     * Constructs a new <code>NftContractSummaryExtras</code>.
+     * @alias NftContractSummaryExtras
      * @class
-     * @param code {Number} KAS error code
-     * @param message {String} KAS error message
-     * @param requestId {String} Request ID
      */
-    const ErrorResponse = function(code, message, requestId) {
-        this.code = code
-        this.message = message
-        this.requestId = requestId
-    }
+    const NftContractSummaryExtras = function() {}
 
     /**
-     * Constructs a <code>ErrorResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>NftContractSummaryExtras</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {ErrorResponse} obj Optional instance to populate.
-     * @return {ErrorResponse} The populated <code>ErrorResponse</code> instance.
-     * @memberof ErrorResponse
+     * @param {NftContractSummaryExtras} obj Optional instance to populate.
+     * @return {NftContractSummaryExtras} The populated <code>NftContractSummaryExtras</code> instance.
+     * @memberof NftContractSummaryExtras
      */
-    ErrorResponse.constructFromObject = function(data, obj) {
+    NftContractSummaryExtras.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new ErrorResponse()
-            if (data.hasOwnProperty('code')) obj.code = ApiClient.convertToType(data.code, 'Number')
-            if (data.hasOwnProperty('message')) obj.message = ApiClient.convertToType(data.message, 'String')
-            if (data.hasOwnProperty('requestId')) obj.requestId = ApiClient.convertToType(data.requestId, 'String')
+            obj = obj || new NftContractSummaryExtras()
+            if (data.hasOwnProperty('name')) obj.name = ApiClient.convertToType(data.name, 'String')
+            if (data.hasOwnProperty('symbol')) obj.symbol = ApiClient.convertToType(data.symbol, 'String')
+            if (data.hasOwnProperty('totalSupply')) obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'String')
         }
         return obj
     }
 
     /**
-     * KAS error code
-     * @type {Number}
-     * @memberof ErrorResponse
+     * Token name
+     * @type {String}
+     * @memberof NftContractSummaryExtras
      */
-    ErrorResponse.prototype.code = undefined
+    NftContractSummaryExtras.prototype.name = undefined
 
     /**
-     * KAS error message
+     * Token symbol
      * @type {String}
-     * @memberof ErrorResponse
+     * @memberof NftContractSummaryExtras
      */
-    ErrorResponse.prototype.message = undefined
+    NftContractSummaryExtras.prototype.symbol = undefined
 
     /**
-     * Request ID
+     * Total issued tokens (in hexadecimal)
      * @type {String}
-     * @memberof ErrorResponse
+     * @memberof NftContractSummaryExtras
      */
-    ErrorResponse.prototype.requestId = undefined
+    NftContractSummaryExtras.prototype.totalSupply = undefined
 
-    return ErrorResponse
+    return NftContractSummaryExtras
 })

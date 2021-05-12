@@ -25,75 +25,76 @@
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.NftContract = factory(root.TokenHistoryApi.ApiClient)
+        root.TokenHistoryApi.FtTokenSummaryExtras = factory(root.TokenHistoryApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The NftContract model module.
-     * @class NftContract
+     * The FtTokenSummaryExtras model module.
+     * @class FtTokenSummaryExtras
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>NftContract</code>.
-     * @alias NftContract
+     * Constructs a new <code>FtTokenSummaryExtras</code>.
+     * @alias FtTokenSummaryExtras
      * @class
-     * @param address {String} Contract address (20-byte)
-     * @param name {String} Token name
-     * @param symbol {String} Token symbol
      */
-    const NftContract = function(address, name, symbol) {
-        this.address = address
-        this.name = name
-        this.symbol = symbol
-    }
+    const FtTokenSummaryExtras = function() {}
 
     /**
-     * Constructs a <code>NftContract</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>FtTokenSummaryExtras</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {NftContract} obj Optional instance to populate.
-     * @return {NftContract} The populated <code>NftContract</code> instance.
-     * @memberof NftContract
+     * @param {FtTokenSummaryExtras} obj Optional instance to populate.
+     * @return {FtTokenSummaryExtras} The populated <code>FtTokenSummaryExtras</code> instance.
+     * @memberof FtTokenSummaryExtras
      */
-    NftContract.constructFromObject = function(data, obj) {
+    FtTokenSummaryExtras.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new NftContract()
-            if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
+            obj = obj || new FtTokenSummaryExtras()
             if (data.hasOwnProperty('name')) obj.name = ApiClient.convertToType(data.name, 'String')
+            if (data.hasOwnProperty('decimals')) obj.decimals = ApiClient.convertToType(data.decimals, 'Number')
             if (data.hasOwnProperty('symbol')) obj.symbol = ApiClient.convertToType(data.symbol, 'String')
-            if (data.hasOwnProperty('status')) obj.status = ApiClient.convertToType(data.status, 'String')
+            if (data.hasOwnProperty('totalSupply')) obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'String')
+            if (data.hasOwnProperty('formattedValue')) obj.formattedValue = ApiClient.convertToType(data.formattedValue, 'String')
         }
         return obj
     }
 
     /**
-     * Contract address (20-byte)
-     * @type {String}
-     * @memberof NftContract
-     */
-    NftContract.prototype.address = undefined
-
-    /**
      * Token name
      * @type {String}
-     * @memberof NftContract
+     * @memberof FtTokenSummaryExtras
      */
-    NftContract.prototype.name = undefined
+    FtTokenSummaryExtras.prototype.name = undefined
+
+    /**
+     * Token digits
+     * @type {Number}
+     * @memberof FtTokenSummaryExtras
+     */
+    FtTokenSummaryExtras.prototype.decimals = undefined
 
     /**
      * Token symbol
      * @type {String}
-     * @memberof NftContract
+     * @memberof FtTokenSummaryExtras
      */
-    NftContract.prototype.symbol = undefined
+    FtTokenSummaryExtras.prototype.symbol = undefined
 
     /**
-     * Contract labelling status (completed, processing, failed, cancelled)
+     * Total issued amount (in hexadecimal)
      * @type {String}
-     * @memberof NftContract
+     * @memberof FtTokenSummaryExtras
      */
-    NftContract.prototype.status = undefined
+    FtTokenSummaryExtras.prototype.totalSupply = undefined
 
-    return NftContract
+    /**
+     * Formatted value with contracts `decimals`
+     * @type {String}
+     * @memberof FtTokenSummaryExtras
+     */
+    FtTokenSummaryExtras.prototype.formattedValue = undefined
+
+    return FtTokenSummaryExtras
 })

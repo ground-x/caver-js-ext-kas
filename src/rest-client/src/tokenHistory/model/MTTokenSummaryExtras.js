@@ -25,67 +25,60 @@
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.ErrorResponse = factory(root.TokenHistoryApi.ApiClient)
+        root.TokenHistoryApi.MTTokenSummaryExtras = factory(root.TokenHistoryApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The ErrorResponse model module.
-     * @class ErrorResponse
+     * The MTTokenSummaryExtras model module.
+     * @class MTTokenSummaryExtras
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>ErrorResponse</code>.
-     * @alias ErrorResponse
+     * Constructs a new <code>MTTokenSummaryExtras</code>.
+     * @alias MTTokenSummaryExtras
      * @class
-     * @param code {Number} KAS error code
-     * @param message {String} KAS error message
-     * @param requestId {String} Request ID
      */
-    const ErrorResponse = function(code, message, requestId) {
-        this.code = code
-        this.message = message
-        this.requestId = requestId
-    }
+    const MTTokenSummaryExtras = function() {}
 
     /**
-     * Constructs a <code>ErrorResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>MTTokenSummaryExtras</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {ErrorResponse} obj Optional instance to populate.
-     * @return {ErrorResponse} The populated <code>ErrorResponse</code> instance.
-     * @memberof ErrorResponse
+     * @param {MTTokenSummaryExtras} obj Optional instance to populate.
+     * @return {MTTokenSummaryExtras} The populated <code>MTTokenSummaryExtras</code> instance.
+     * @memberof MTTokenSummaryExtras
      */
-    ErrorResponse.constructFromObject = function(data, obj) {
+    MTTokenSummaryExtras.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new ErrorResponse()
-            if (data.hasOwnProperty('code')) obj.code = ApiClient.convertToType(data.code, 'Number')
-            if (data.hasOwnProperty('message')) obj.message = ApiClient.convertToType(data.message, 'String')
-            if (data.hasOwnProperty('requestId')) obj.requestId = ApiClient.convertToType(data.requestId, 'String')
+            obj = obj || new MTTokenSummaryExtras()
+            if (data.hasOwnProperty('tokenId')) obj.tokenId = ApiClient.convertToType(data.tokenId, 'String')
+            if (data.hasOwnProperty('tokenUri')) obj.tokenUri = ApiClient.convertToType(data.tokenUri, 'String')
+            if (data.hasOwnProperty('totalSupply')) obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'String')
         }
         return obj
     }
 
     /**
-     * KAS error code
-     * @type {Number}
-     * @memberof ErrorResponse
+     * Token ID (in hexadecimal)
+     * @type {String}
+     * @memberof MTTokenSummaryExtras
      */
-    ErrorResponse.prototype.code = undefined
+    MTTokenSummaryExtras.prototype.tokenId = undefined
 
     /**
-     * KAS error message
+     * Token URL
      * @type {String}
-     * @memberof ErrorResponse
+     * @memberof MTTokenSummaryExtras
      */
-    ErrorResponse.prototype.message = undefined
+    MTTokenSummaryExtras.prototype.tokenUri = undefined
 
     /**
-     * Request ID
+     * Total issued amount (in hexadecimal)
      * @type {String}
-     * @memberof ErrorResponse
+     * @memberof MTTokenSummaryExtras
      */
-    ErrorResponse.prototype.requestId = undefined
+    MTTokenSummaryExtras.prototype.totalSupply = undefined
 
-    return ErrorResponse
+    return MTTokenSummaryExtras
 })

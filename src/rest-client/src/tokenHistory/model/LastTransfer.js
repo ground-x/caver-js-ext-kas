@@ -25,67 +25,67 @@
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.NftOwnershipChange = factory(root.TokenHistoryApi.ApiClient)
+        root.TokenHistoryApi.LastTransfer = factory(root.TokenHistoryApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The NftOwnershipChange model module.
-     * @class NftOwnershipChange
+     * The LastTransfer model module.
+     * @class LastTransfer
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>NftOwnershipChange</code>.
-     * @alias NftOwnershipChange
+     * Constructs a new <code>LastTransfer</code>.
+     * @alias LastTransfer
      * @class
-     * @param from {String} Sender (previous owner) EOA (20-byte)
-     * @param to {String} Receiver (current owner) EOA (20-byte)
-     * @param timestamp {Number} Change of NFT ownership (timestamp)
+     * @param transactionHash {String} Transaction hash
+     * @param transferFrom {String} Sender EOA (20-byte)
+     * @param transferTo {String} Receiver EOA (20-byte)
      */
-    const NftOwnershipChange = function(from, to, timestamp) {
-        this.from = from
-        this.to = to
-        this.timestamp = timestamp
+    const LastTransfer = function(transactionHash, transferFrom, transferTo) {
+        this.transactionHash = transactionHash
+        this.transferFrom = transferFrom
+        this.transferTo = transferTo
     }
 
     /**
-     * Constructs a <code>NftOwnershipChange</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>LastTransfer</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {NftOwnershipChange} obj Optional instance to populate.
-     * @return {NftOwnershipChange} The populated <code>NftOwnershipChange</code> instance.
-     * @memberof NftOwnershipChange
+     * @param {LastTransfer} obj Optional instance to populate.
+     * @return {LastTransfer} The populated <code>LastTransfer</code> instance.
+     * @memberof LastTransfer
      */
-    NftOwnershipChange.constructFromObject = function(data, obj) {
+    LastTransfer.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new NftOwnershipChange()
-            if (data.hasOwnProperty('from')) obj.from = ApiClient.convertToType(data.from, 'String')
-            if (data.hasOwnProperty('to')) obj.to = ApiClient.convertToType(data.to, 'String')
-            if (data.hasOwnProperty('timestamp')) obj.timestamp = ApiClient.convertToType(data.timestamp, 'Number')
+            obj = obj || new LastTransfer()
+            if (data.hasOwnProperty('transactionHash')) obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
+            if (data.hasOwnProperty('transferFrom')) obj.transferFrom = ApiClient.convertToType(data.transferFrom, 'String')
+            if (data.hasOwnProperty('transferTo')) obj.transferTo = ApiClient.convertToType(data.transferTo, 'String')
         }
         return obj
     }
 
     /**
-     * Sender (previous owner) EOA (20-byte)
+     * Transaction hash
      * @type {String}
-     * @memberof NftOwnershipChange
+     * @memberof LastTransfer
      */
-    NftOwnershipChange.prototype.from = undefined
+    LastTransfer.prototype.transactionHash = undefined
 
     /**
-     * Receiver (current owner) EOA (20-byte)
+     * Sender EOA (20-byte)
      * @type {String}
-     * @memberof NftOwnershipChange
+     * @memberof LastTransfer
      */
-    NftOwnershipChange.prototype.to = undefined
+    LastTransfer.prototype.transferFrom = undefined
 
     /**
-     * Change of NFT ownership (timestamp)
-     * @type {Number}
-     * @memberof NftOwnershipChange
+     * Receiver EOA (20-byte)
+     * @type {String}
+     * @memberof LastTransfer
      */
-    NftOwnershipChange.prototype.timestamp = undefined
+    LastTransfer.prototype.transferTo = undefined
 
-    return NftOwnershipChange
+    return LastTransfer
 })
