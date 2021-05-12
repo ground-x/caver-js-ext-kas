@@ -51,6 +51,8 @@ const input =
 let pendingTx
 let transactionHashToGet
 
+let feePayer
+
 async function sendTestKLAY(to, klay = 1) {
     const vt = new caver.transaction.valueTransfer({
         from: senderKeyring.address,
@@ -3735,5 +3737,50 @@ describe('Wallet API service', () => {
 
         expect(ret.status).to.equal('ok')
         expect(ret.failures).to.be.undefined
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-273: caver.kas.wallet.deleteKey should delete the key in KAS', async () => {
+        const ret = await caver.kas.wallet.deleteKey(keyId)
+
+        expect(ret.status).to.equal('deleted')
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-274: caver.kas.wallet.createFeePayer should create a fee payer in KAS', async () => {
+        const ret = await caver.kas.wallet.createFeePayer()
+
+        expect(ret.address).not.to.be.undefined
+        expect(ret.chainId).not.to.be.undefined
+        expect(ret.createdAt).not.to.be.undefined
+        expect(ret.keyId).not.to.be.undefined
+        expect(ret.krn).not.to.be.undefined
+        expect(ret.publicKey).not.to.be.undefined
+        expect(ret.updatedAt).not.to.be.undefined
+
+        feePayer = ret.address
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-275: caver.kas.wallet.getFeePayer should return the fee payer from KAS', async () => {
+        const ret = await caver.kas.wallet.getFeePayer(feePayer)
+
+        expect(ret.address).not.to.be.undefined
+        expect(ret.chainId).not.to.be.undefined
+        expect(ret.createdAt).not.to.be.undefined
+        expect(ret.keyId).not.to.be.undefined
+        expect(ret.krn).not.to.be.undefined
+        expect(ret.publicKey).not.to.be.undefined
+        expect(ret.updatedAt).not.to.be.undefined
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-276: caver.kas.wallet.getFeePayerList should return the fee payer list from KAS', async () => {
+        const ret = await caver.kas.wallet.getFeePayerList({ size: 1 })
+
+        expect(ret.items).not.to.be.undefined
+        expect(ret.items.length).to.equal(1)
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-277: caver.kas.wallet.deleteFeePayer should delete the fee payer from KAS', async () => {
+        const ret = await caver.kas.wallet.deleteFeePayer(feePayer)
+
+        expect(ret.status).to.equal('deleted')
     }).timeout(500000)
 })

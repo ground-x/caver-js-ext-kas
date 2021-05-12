@@ -336,4 +336,79 @@ describe('Wallet API service enabling', () => {
             expect(ret.signedData).not.to.be.undefined
         })
     })
+
+    context('caver.kas.wallet.deleteKey', () => {
+        const resultOfApi = { status: 'deleted' }
+
+        const keyId =
+            'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:key-pool:default:0xb08678c129afd4a5961e7f039f63720bedb6ff4ef94683cd7389c4a4b61fa4ca'
+
+        function setCallFakeForCallApi(callApiStub) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+                    collectionQueryParams,
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v2/key/{key-id}`)
+                    expect(mtd).to.equal(`DELETE`)
+                    expect(pathParams['key-id']).to.equal(keyId)
+                    expect(Object.keys(queryParams).length).to.equal(0)
+                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    expect(postBody).to.be.null
+                    expect(authNames[0]).to.equal('auth')
+                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+
+                    callback(null, resultOfApi, { body: resultOfApi })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-WALLET-239: should delete key from KAS', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const keyDeletionSpy = sandbox.spy(caver.kas.wallet.keyApi, 'keyDeletion')
+            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.wallet.deleteKey(keyId)
+
+            expect(keyDeletionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.status).to.equal('deleted')
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-240: should call callback function with api result', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const keyDeletionSpy = sandbox.spy(caver.kas.wallet.keyApi, 'keyDeletion')
+            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            let isCalled = false
+
+            const ret = await caver.kas.wallet.deleteKey(keyId, () => {
+                isCalled = true
+            })
+
+            expect(keyDeletionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.status).to.equal('deleted')
+        })
+    })
 })
