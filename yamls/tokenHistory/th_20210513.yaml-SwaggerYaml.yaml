@@ -1548,7 +1548,7 @@ definitions:
       items:
         type: array
         items:
-          type: object
+          $ref: '#/definitions/ContractSummaryItem'
       cursor:
         description: Next page cursor
         example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
@@ -2113,7 +2113,7 @@ definitions:
       items:
         type: array
         items:
-          type: object
+          $ref: '#/definitions/TokenSummaryItem'
       cursor:
         description: Next page cursor
         example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
@@ -2659,6 +2659,87 @@ definitions:
     required:
     - items
     - cursor
+  ContractSummaryItem:
+    title: ContractSummaryItem
+    type: object
+    properties:
+      kind:
+        description: Contract type
+        example: ft
+        type: string
+      contractAddress:
+        description: Contract address (20-byte)
+        example: 0x66ac22b457006c3f519e4a5c49ff19eb531bba4e
+        type: string
+      updatedAt:
+        description: Last change in token balances (timestamp)
+        example: 1607993770
+        type: integer
+        format: int64
+      totalBalance:
+        description: Balances (in hexadecimal)
+        example: 0x15e
+        type: string
+      extras:
+        $ref: '#/definitions/ftContractSummaryExtras'
+  ftTokenSummaryExtras1:
+    title: ftTokenSummaryExtras1
+    type: object
+    properties:
+      name:
+        description: Token name
+        example: KAS FCoin
+        type: string
+      decimals:
+        description: Token digits
+        example: 8
+        type: integer
+        format: int64
+      symbol:
+        description: Token symbol
+        example: KFC
+        type: string
+      totalSupply:
+        description: Total issued amount (in hexadecimal)
+        example: 0xde0b6b3a7640000
+        type: string
+      formattedValue:
+        description: Formatted value with contracts `decimals`
+        example: '0.00000000000000035'
+        type: string
+      tokenId:
+        description: Token ID (in hexadecimal)
+        example: 0x1
+        type: string
+      tokenUri:
+        description: Token URL
+        example: https://link.to/nft/1
+        type: string
+  TokenSummaryItem:
+    title: TokenSummaryItem
+    type: object
+    properties:
+      kind:
+        description: Token type
+        example: ft
+        type: string
+      contractAddress:
+        description: Contract address (20-byte)
+        example: 0x66ac22b457006c3f519e4a5c49ff19eb531bba4e
+        type: string
+      updatedAt:
+        description: Last change in token balances  (timestamp)
+        example: 1607993770
+        type: integer
+        format: int64
+      balance:
+        description: Balances (in hexadecimal)
+        example: 0x15e
+        type: string
+      lastTransfer:
+        $ref: '#/definitions/lastTransfer'
+      extras:
+        $ref: '#/definitions/ftTokenSummaryExtras1'
   TransferItem:
     title: TransferItem
     type: object
