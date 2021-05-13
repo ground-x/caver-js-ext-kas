@@ -177,13 +177,14 @@ class TokenHistoryQueryOptions {
      * @type {Array.<string>}
      */
     get caFilters() {
-        return this._caFilters
+        if (this._caFilters === undefined) return undefined
+        return this._caFilters.toString()
     }
 
     set caFilters(caFilters) {
         if (lodash.isString(caFilters)) caFilters = [caFilters]
         if (!lodash.isArray(caFilters)) throw new Error(`Invalid type of caFilters: caFilters should be string or array type.`)
-        this._caFilters = caFilters
+        this._caFilters = Array.from(new Set(caFilters))
     }
 
     /**
