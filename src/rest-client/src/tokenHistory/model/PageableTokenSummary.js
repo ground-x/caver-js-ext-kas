@@ -16,18 +16,18 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient'], factory)
+        define(['../../ApiClient', '../model/TokenSummaryItem'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'))
+        module.exports = factory(require('../../ApiClient'), require('./TokenSummaryItem'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.PageableTokenSummary = factory(root.TokenHistoryApi.ApiClient)
+        root.TokenHistoryApi.PageableTokenSummary = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.TokenSummaryItem)
     }
-})(this, function(ApiClient) {
+})(this, function(ApiClient, TokenSummaryItem) {
     /**
      * The PageableTokenSummary model module.
      * @class PageableTokenSummary
@@ -38,7 +38,7 @@
      * Constructs a new <code>PageableTokenSummary</code>.
      * @alias PageableTokenSummary
      * @class
-     * @param items {Array.<Object>}
+     * @param items {Array.<TokenSummaryItem>}
      * @param cursor {String} Next page cursor
      */
     const PageableTokenSummary = function(items, cursor) {
@@ -57,14 +57,14 @@
     PageableTokenSummary.constructFromObject = function(data, obj) {
         if (data) {
             obj = obj || new PageableTokenSummary()
-            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [Object])
+            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [TokenSummaryItem])
             if (data.hasOwnProperty('cursor')) obj.cursor = ApiClient.convertToType(data.cursor, 'String')
         }
         return obj
     }
 
     /**
-     * @type {Array.<Object>}
+     * @type {Array.<TokenSummaryItem>}
      * @memberof PageableTokenSummary
      */
     PageableTokenSummary.prototype.items = undefined
