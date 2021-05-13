@@ -35,7 +35,6 @@
             './tokenHistory/model/FTSummary',
             './tokenHistory/model/FtContract',
             './tokenHistory/model/FtContractDetail',
-            './tokenHistory/model/FtLink',
             './tokenHistory/model/FtTransfer',
             './tokenHistory/model/KlayTransfer',
             './tokenHistory/model/Mt',
@@ -197,7 +196,6 @@
             require('./tokenHistory/model/FTSummary'),
             require('./tokenHistory/model/FtContract'),
             require('./tokenHistory/model/FtContractDetail'),
-            require('./tokenHistory/model/FtLink'),
             require('./tokenHistory/model/FtTransfer'),
             require('./tokenHistory/model/KlayTransfer'),
             require('./tokenHistory/model/Mt'),
@@ -358,7 +356,6 @@
     FTSummary,
     FtContract,
     FtContractDetail,
-    FtLink,
     FtTransfer,
     KlayTransfer,
     Mt,
@@ -576,11 +573,6 @@
          * @property {FtContractDetail}
          */
         FtContractDetail: FtContractDetail,
-        /**
-         * The FtLink model constructor.
-         * @property {FtLink}
-         */
-        FtLink: FtLink,
         /**
          * The FtTransfer model constructor.
          * @property {FtTransfer}
