@@ -16,65 +16,61 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/TransferItem'], factory)
+        define(['../../ApiClient'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./TransferItem'))
+        module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.PageableTransfers = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.TransferItem)
+        root.TokenHistoryApi.NftTokenSummaryExtras = factory(root.TokenHistoryApi.ApiClient)
     }
-})(this, function(ApiClient, TransferItem) {
+})(this, function(ApiClient) {
     /**
-     * The PageableTransfers model module.
-     * @class PageableTransfers
+     * The NftTokenSummaryExtras model module.
+     * @class NftTokenSummaryExtras
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>PageableTransfers</code>.
-     * @alias PageableTransfers
+     * Constructs a new <code>NftTokenSummaryExtras</code>.
+     * @alias NftTokenSummaryExtras
      * @class
-     * @param items {Array.<TransferItem>}
-     * @param cursor {String} Next page cursor
      */
-    const PageableTransfers = function(items, cursor) {
-        this.items = items
-        this.cursor = cursor
-    }
+    const NftTokenSummaryExtras = function() {}
 
     /**
-     * Constructs a <code>PageableTransfers</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>NftTokenSummaryExtras</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {PageableTransfers} obj Optional instance to populate.
-     * @return {PageableTransfers} The populated <code>PageableTransfers</code> instance.
-     * @memberof PageableTransfers
+     * @param {NftTokenSummaryExtras} obj Optional instance to populate.
+     * @return {NftTokenSummaryExtras} The populated <code>NftTokenSummaryExtras</code> instance.
+     * @memberof NftTokenSummaryExtras
      */
-    PageableTransfers.constructFromObject = function(data, obj) {
+    NftTokenSummaryExtras.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new PageableTransfers()
-            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [TransferItem])
-            if (data.hasOwnProperty('cursor')) obj.cursor = ApiClient.convertToType(data.cursor, 'String')
+            obj = obj || new NftTokenSummaryExtras()
+            if (data.hasOwnProperty('tokenId')) obj.tokenId = ApiClient.convertToType(data.tokenId, 'String')
+            if (data.hasOwnProperty('tokenUri')) obj.tokenUri = ApiClient.convertToType(data.tokenUri, 'String')
         }
         return obj
     }
 
     /**
-     * @type {Array.<TransferItem>}
-     * @memberof PageableTransfers
+     * Token ID (in hexadecimal)
+     * @type {String}
+     * @memberof NftTokenSummaryExtras
      */
-    PageableTransfers.prototype.items = undefined
+    NftTokenSummaryExtras.prototype.tokenId = undefined
 
     /**
-     * Next page cursor
+     * Token URL
      * @type {String}
-     * @memberof PageableTransfers
+     * @memberof NftTokenSummaryExtras
      */
-    PageableTransfers.prototype.cursor = undefined
+    NftTokenSummaryExtras.prototype.tokenUri = undefined
 
-    return PageableTransfers
+    return NftTokenSummaryExtras
 })

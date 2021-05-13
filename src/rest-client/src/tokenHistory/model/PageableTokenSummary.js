@@ -16,65 +16,65 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/MtContractDetail'], factory)
+        define(['../../ApiClient'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./MtContractDetail'))
+        module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.PageableMtContractDetails = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.MtContractDetail)
+        root.TokenHistoryApi.PageableTokenSummary = factory(root.TokenHistoryApi.ApiClient)
     }
-})(this, function(ApiClient, MtContractDetail) {
+})(this, function(ApiClient) {
     /**
-     * The PageableMtContractDetails model module.
-     * @class PageableMtContractDetails
+     * The PageableTokenSummary model module.
+     * @class PageableTokenSummary
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>PageableMtContractDetails</code>.
-     * @alias PageableMtContractDetails
+     * Constructs a new <code>PageableTokenSummary</code>.
+     * @alias PageableTokenSummary
      * @class
-     * @param items {Array.<MtContractDetail>}
+     * @param items {Array.<Object>}
      * @param cursor {String} Next page cursor
      */
-    const PageableMtContractDetails = function(items, cursor) {
+    const PageableTokenSummary = function(items, cursor) {
         this.items = items
         this.cursor = cursor
     }
 
     /**
-     * Constructs a <code>PageableMtContractDetails</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>PageableTokenSummary</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {PageableMtContractDetails} obj Optional instance to populate.
-     * @return {PageableMtContractDetails} The populated <code>PageableMtContractDetails</code> instance.
-     * @memberof PageableMtContractDetails
+     * @param {PageableTokenSummary} obj Optional instance to populate.
+     * @return {PageableTokenSummary} The populated <code>PageableTokenSummary</code> instance.
+     * @memberof PageableTokenSummary
      */
-    PageableMtContractDetails.constructFromObject = function(data, obj) {
+    PageableTokenSummary.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new PageableMtContractDetails()
-            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [MtContractDetail])
+            obj = obj || new PageableTokenSummary()
+            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [Object])
             if (data.hasOwnProperty('cursor')) obj.cursor = ApiClient.convertToType(data.cursor, 'String')
         }
         return obj
     }
 
     /**
-     * @type {Array.<MtContractDetail>}
-     * @memberof PageableMtContractDetails
+     * @type {Array.<Object>}
+     * @memberof PageableTokenSummary
      */
-    PageableMtContractDetails.prototype.items = undefined
+    PageableTokenSummary.prototype.items = undefined
 
     /**
      * Next page cursor
      * @type {String}
-     * @memberof PageableMtContractDetails
+     * @memberof PageableTokenSummary
      */
-    PageableMtContractDetails.prototype.cursor = undefined
+    PageableTokenSummary.prototype.cursor = undefined
 
-    return PageableMtContractDetails
+    return PageableTokenSummary
 })

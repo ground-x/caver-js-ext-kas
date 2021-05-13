@@ -1976,11 +1976,13 @@
       "type": "object"
       "properties":
         "items":
-          "title": "ContractSummaryItem"
-          "anyOf":
-            - "$ref": "#/components/schemas/FTContractSummary"
-            - "$ref": "#/components/schemas/NFTContractSummary"
-            - "$ref": "#/components/schemas/MTContractSummary"
+          "type": "array"
+          "itmes":
+            "title": "TransferItem"
+            "anyOf":
+              - "$ref": "#/components/schemas/FTContractSummary"
+              - "$ref": "#/components/schemas/NFTContractSummary"
+              - "$ref": "#/components/schemas/MTContractSummary"
         "cursor":
           "type": "string"
           "description": "Next page cursor"
@@ -2553,11 +2555,13 @@
       "type": "object"
       "properties":
         "items":
-          "title": "TokenSummaryItem"
-          "anyOf":
-            - "$ref": "#/components/schemas/FTTokenSummary"
-            - "$ref": "#/components/schemas/NFTTokenSummary"
-            - "$ref": "#/components/schemas/MTTokenSummary"
+          "type": "array"
+          "itmes":
+            "title": "TokenSummaryItem"
+            "anyOf":
+              - "$ref": "#/components/schemas/FTTokenSummary"
+              - "$ref": "#/components/schemas/NFTTokenSummary"
+              - "$ref": "#/components/schemas/MTTokenSummary"
         "cursor":
           "type": "string"
           "description": "Next page cursor"

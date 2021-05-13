@@ -25,87 +25,76 @@
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.FtContract = factory(root.TokenHistoryApi.ApiClient)
+        root.TokenHistoryApi.FtContractSummaryExtras = factory(root.TokenHistoryApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The FtContract model module.
-     * @class FtContract
+     * The FtContractSummaryExtras model module.
+     * @class FtContractSummaryExtras
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>FtContract</code>.
-     * @alias FtContract
+     * Constructs a new <code>FtContractSummaryExtras</code>.
+     * @alias FtContractSummaryExtras
      * @class
-     * @param address {String} Contract address (20-byte)
-     * @param decimals {Number} Token digits
-     * @param name {String} Token name
-     * @param symbol {String} Token symbol
-     * @param status {String} Contract labelling status (completed, processing, failed, cancelled)
      */
-    const FtContract = function(address, decimals, name, symbol, status) {
-        this.address = address
-        this.decimals = decimals
-        this.name = name
-        this.symbol = symbol
-        this.status = status
-    }
+    const FtContractSummaryExtras = function() {}
 
     /**
-     * Constructs a <code>FtContract</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>FtContractSummaryExtras</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {FtContract} obj Optional instance to populate.
-     * @return {FtContract} The populated <code>FtContract</code> instance.
-     * @memberof FtContract
+     * @param {FtContractSummaryExtras} obj Optional instance to populate.
+     * @return {FtContractSummaryExtras} The populated <code>FtContractSummaryExtras</code> instance.
+     * @memberof FtContractSummaryExtras
      */
-    FtContract.constructFromObject = function(data, obj) {
+    FtContractSummaryExtras.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new FtContract()
-            if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
-            if (data.hasOwnProperty('decimals')) obj.decimals = ApiClient.convertToType(data.decimals, 'Number')
+            obj = obj || new FtContractSummaryExtras()
             if (data.hasOwnProperty('name')) obj.name = ApiClient.convertToType(data.name, 'String')
+            if (data.hasOwnProperty('decimals')) obj.decimals = ApiClient.convertToType(data.decimals, 'Number')
             if (data.hasOwnProperty('symbol')) obj.symbol = ApiClient.convertToType(data.symbol, 'String')
-            if (data.hasOwnProperty('status')) obj.status = ApiClient.convertToType(data.status, 'String')
+            if (data.hasOwnProperty('totalSupply')) obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'String')
+            if (data.hasOwnProperty('formattedValue')) obj.formattedValue = ApiClient.convertToType(data.formattedValue, 'String')
         }
         return obj
     }
 
     /**
-     * Contract address (20-byte)
+     * Token name
      * @type {String}
-     * @memberof FtContract
+     * @memberof FtContractSummaryExtras
      */
-    FtContract.prototype.address = undefined
+    FtContractSummaryExtras.prototype.name = undefined
 
     /**
      * Token digits
      * @type {Number}
-     * @memberof FtContract
+     * @memberof FtContractSummaryExtras
      */
-    FtContract.prototype.decimals = undefined
+    FtContractSummaryExtras.prototype.decimals = undefined
 
     /**
-     * Token name
+     * Token symbols
      * @type {String}
-     * @memberof FtContract
+     * @memberof FtContractSummaryExtras
      */
-    FtContract.prototype.name = undefined
+    FtContractSummaryExtras.prototype.symbol = undefined
 
     /**
-     * Token symbol
+     * Total issued amount (in hexadecimal)
      * @type {String}
-     * @memberof FtContract
+     * @memberof FtContractSummaryExtras
      */
-    FtContract.prototype.symbol = undefined
+    FtContractSummaryExtras.prototype.totalSupply = undefined
 
     /**
-     * Contract labelling status (completed, processing, failed, cancelled)
+     * Formatted value with contracts `decimals`
      * @type {String}
-     * @memberof FtContract
+     * @memberof FtContractSummaryExtras
      */
-    FtContract.prototype.status = undefined
+    FtContractSummaryExtras.prototype.formattedValue = undefined
 
-    return FtContract
+    return FtContractSummaryExtras
 })

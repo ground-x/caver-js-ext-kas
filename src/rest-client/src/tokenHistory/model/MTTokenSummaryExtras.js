@@ -25,47 +25,60 @@
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.MtContract = factory(root.TokenHistoryApi.ApiClient)
+        root.TokenHistoryApi.MTTokenSummaryExtras = factory(root.TokenHistoryApi.ApiClient)
     }
 })(this, function(ApiClient) {
     /**
-     * The MtContract model module.
-     * @class MtContract
+     * The MTTokenSummaryExtras model module.
+     * @class MTTokenSummaryExtras
      * @version 1.0
      */
 
     /**
-     * Constructs a new <code>MtContract</code>.
-     * @alias MtContract
+     * Constructs a new <code>MTTokenSummaryExtras</code>.
+     * @alias MTTokenSummaryExtras
      * @class
-     * @param address {String} Contract address (20-byte)
      */
-    const MtContract = function(address) {
-        this.address = address
-    }
+    const MTTokenSummaryExtras = function() {}
 
     /**
-     * Constructs a <code>MtContract</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>MTTokenSummaryExtras</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {MtContract} obj Optional instance to populate.
-     * @return {MtContract} The populated <code>MtContract</code> instance.
-     * @memberof MtContract
+     * @param {MTTokenSummaryExtras} obj Optional instance to populate.
+     * @return {MTTokenSummaryExtras} The populated <code>MTTokenSummaryExtras</code> instance.
+     * @memberof MTTokenSummaryExtras
      */
-    MtContract.constructFromObject = function(data, obj) {
+    MTTokenSummaryExtras.constructFromObject = function(data, obj) {
         if (data) {
-            obj = obj || new MtContract()
-            if (data.hasOwnProperty('address')) obj.address = ApiClient.convertToType(data.address, 'String')
+            obj = obj || new MTTokenSummaryExtras()
+            if (data.hasOwnProperty('tokenId')) obj.tokenId = ApiClient.convertToType(data.tokenId, 'String')
+            if (data.hasOwnProperty('tokenUri')) obj.tokenUri = ApiClient.convertToType(data.tokenUri, 'String')
+            if (data.hasOwnProperty('totalSupply')) obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'String')
         }
         return obj
     }
 
     /**
-     * Contract address (20-byte)
+     * Token ID (in hexadecimal)
      * @type {String}
-     * @memberof MtContract
+     * @memberof MTTokenSummaryExtras
      */
-    MtContract.prototype.address = undefined
+    MTTokenSummaryExtras.prototype.tokenId = undefined
 
-    return MtContract
+    /**
+     * Token URL
+     * @type {String}
+     * @memberof MTTokenSummaryExtras
+     */
+    MTTokenSummaryExtras.prototype.tokenUri = undefined
+
+    /**
+     * Total issued amount (in hexadecimal)
+     * @type {String}
+     * @memberof MTTokenSummaryExtras
+     */
+    MTTokenSummaryExtras.prototype.totalSupply = undefined
+
+    return MTTokenSummaryExtras
 })

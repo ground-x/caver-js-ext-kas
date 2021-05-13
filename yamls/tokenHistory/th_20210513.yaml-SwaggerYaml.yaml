@@ -2,7 +2,20 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: Token History API
-  description: "# Introduction Token History API allows you to query the transaction history of KLAY, FTs (KIP-7 and Labelled ERC-20), NFTs (KIP-17 and Labelled ERC-721), and MTs (KIP-37 and Labelled ERC-1155). You can track KLAY's transaction history or retrieve NFT-related data of a certain EOA. For more details on using Token History API, please refer to the [Tutorial](https://docs.klaytnapi.com/tutorial). For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/). \n"
+  description: >+
+    # Introduction
+
+
+    Token History API allows you to query the transaction history of KLAY, FTs (KIP-7 and Labelled ERC-20), NFTs (KIP-17 and Labelled ERC-721), and MTs (KIP-37 and Labelled ERC-1155). You can track KLAY's transaction history or retrieve NFT-related data of a certain EOA.
+
+
+
+    For more details on using Token History API, please refer to the [Tutorial](https://docs.klaytnapi.com/tutorial).
+
+
+
+    For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/).
+
   contact: {}
 host: th-api.klaytnapi.com
 basePath: /
@@ -18,7 +31,61 @@ produces:
 paths:
   /v2/transfer:
     get:
-      description: "Query all transaction history. Transaction history is divided into KLAY Transfer (`KlayTransfer`), FT Transfer (`FtTransfer`), NFT Transfer (`NftTransfer`), and MT Transfer (`MtTransfer`). <p></p> ## KlayTransfer in FT/NFT/MT transactions <p></p> For transfers of FTs, NFTs, or MTs, `KlayTransfer` history will also be included in the query result. This is because FT/NFT/MT transfers are essentially execution of a corresponding contract function, and the response for the transfer includes `KlayTransfer`, which is equivalent to the transaction for sending KLAY. Since most transactions that execute contract functions do not usually send KLAY, the `value` of `KlayTransfer` that transfered NT, NFT, and MT may be zero. By using the `exclude-zero-klay=true` query, `KlayTransfer` can be excluded. <p></p> ## Transaction type<p></p> * You can choose KLAY, FT, NFT or MT by setting `kind` parameter to get transaction history of a certain type or a combination of types.<br> * If you don't set the `kind` parameter, all transaction types will be returned.<p></p><br> ## Date range<p></p> * `range` is queried in the form of `range={from},{to}`<br> * `{from}` and `{to}` will be considered Unix time in the case of a decimal number, and block number in the case of a hexadecimal number<br> * When there is no value for `{to}`, current time or the latest block number will be used.<br> * You can retrieve the transaction history from the past 6 months maximum. (for both Unix time and block number)<p></p><br> ## Preset<p></p> Preset is a collection of EOA and FT, NFT and MT contracts. You can use it to repetitively retrieve transaction history for certain accounts quickly and easily.<p></p> * The parameter `presets` is a required parameter.<br> * [Preset](https://console.klaytnapi.com/en/service/th/preset/list) needs to be created on KAS Console in advance.<br> * You can check your Preset ID on KAS Console. For more information please visit [Preset](https://docs.klaytnapi.com/v/en/tutorial/th-api/th-api-token-history#preset).<p></p><br> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default value (`size=100`) when `size=0`<br> * Uses the maximum value (`size=1000`) when given a value higher than the maximum value.<br>"
+      description: >-
+        Query all transaction history. Transaction history is divided into KLAY Transfer (`KlayTransfer`), FT Transfer (`FtTransfer`), NFT Transfer (`NftTransfer`), and MT Transfer (`MtTransfer`). <p></p>
+
+
+        ## KlayTransfer in FT/NFT/MT transactions <p></p>
+
+
+        For transfers of FTs, NFTs, or MTs, `KlayTransfer` history will also be included in the query result. This is because FT/NFT/MT transfers are essentially execution of a corresponding contract function, and the response for the transfer includes `KlayTransfer`, which is equivalent to the transaction for sending KLAY. Since most transactions that execute contract functions do not usually send KLAY, the `value` of `KlayTransfer` that transfered NT, NFT, and MT may be zero. By using the `exclude-zero-klay=true` query, `KlayTransfer` can be excluded.
+
+        <p></p>
+
+
+        ## Transaction type<p></p>
+
+
+        * You can choose KLAY, FT, NFT or MT by setting `kind` parameter to get transaction history of a certain type or a combination of types.<br>
+
+        * If you don't set the `kind` parameter, all transaction types will be returned.<p></p><br>
+
+
+        ## Date range<p></p>
+
+
+        * `range` is queried in the form of `range={from},{to}`<br>
+
+        * `{from}` and `{to}` will be considered Unix time in the case of a decimal number, and block number in the case of a hexadecimal number<br>
+
+        * When there is no value for `{to}`, current time or the latest block number will be used.<br>
+
+        * You can retrieve the transaction history from the past 6 months maximum. (for both Unix time and block number)<p></p><br>
+
+
+        ## Preset<p></p>
+
+
+        Preset is a collection of EOA and FT, NFT and MT contracts. You can use it to repetitively retrieve transaction history for certain accounts quickly and easily.<p></p>
+
+
+        * The parameter `presets` is a required parameter.<br>
+
+        * [Preset](https://console.klaytnapi.com/en/service/th/preset/list) needs to be created on KAS Console in advance.<br>
+
+        * You can check your Preset ID on KAS Console. For more information please visit [Preset](https://docs.klaytnapi.com/v/en/tutorial/th-api/th-api-token-history#preset).<p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default value (`size=100`) when `size=0`<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than the maximum value.<br>
       summary: getTransfers
       tags:
       - Token History
@@ -114,7 +181,7 @@ paths:
           headers: {}
   /v2/transfer/account/{address}:
     get:
-      description: 'Query token transaction history for a certain EOA. Functionally, it is same as `GET /v2/transfer`. If the EOA received the token, `to` is same as the EOA, and if the EOA sent the token, `from` is the same as the EOA in the returned transfer object.     Transaction history is divided into KLAY transfer (`KlayTransfer`), FT transfer (`FtTransfer`), NFT transfer (`NftTransfer`), MT transfer (`MtTransfer`). For FT, NFT, MT transfers, history of `KlayTransfer` will be included in the result. `KlayTransfer` included in FT, NFT, MT transfers may have a `value` of 0. For more details, please refer to `GET /v2/transfer`.<p></p> ## Transaction type<p></p> * You can set the `kind` parameter to query different types of transactions.<br> * Not setting the `kind` parameter will query all types of transactions.<p></p><br> ## Date range<p></p> * `range` is queried in the form of `range={from},{to}`<br> * `{from}` and `{to}` will be considered Unix time in the case of a decimal number, and block number in the case of a hexadecimal number<br> * When there is no value for `{to}`, current time or the latest block number will be used.<br> * You can retrieve the transaction history from the past 6 months maximum. (for both unix time and block number)<p></p><br> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number.<br> * Uses default value (`size=100`) when given a 0.<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000.<br>'
+      description: "Query token transaction history for a certain EOA. Functionally, it is same as `GET /v2/transfer`. If the EOA received the token, `to` is same as the EOA, and if the EOA sent the token, `from` is the same as the EOA in the returned transfer object.\n   \nTransaction history is divided into KLAY transfer (`KlayTransfer`), FT transfer (`FtTransfer`), NFT transfer (`NftTransfer`), MT transfer (`MtTransfer`). For FT, NFT, MT transfers, history of `KlayTransfer` will be included in the result. `KlayTransfer` included in FT, NFT, MT transfers may have a `value` of 0. For more details, please refer to `GET /v2/transfer`.<p></p>\n\n## Transaction type<p></p>\n\n* You can set the `kind` parameter to query different types of transactions.<br>\n* Not setting the `kind` parameter will query all types of transactions.<p></p><br>\n\n## Date range<p></p>\n\n* `range` is queried in the form of `range={from},{to}`<br>\n* `{from}` and `{to}` will be considered Unix time in the case of a decimal number, and block number in the case of a hexadecimal number<br>\n* When there is no value for `{to}`, current time or the latest block number will be used.<br>\n* You can retrieve the transaction history from the past 6 months maximum. (for both unix time and block number)<p></p><br>\n\n## Size<p></p>\n\n* The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>\n* Returns an error when given a negative number.<br>\n* Uses default value (`size=100`) when given a 0.<br>\n* Uses the maximum value (`size=1000`) when given a value higher than 1000.<br>"
       summary: getTransfersByEoa
       tags:
       - Token History
@@ -182,7 +249,20 @@ paths:
           headers: {}
   /v2/contract/ft:
     get:
-      description: 'Fetch data of all labelled FT contracts.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Fetch data of all labelled FT contracts.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getListofFtContracts
       tags:
       - Token Contract
@@ -319,7 +399,20 @@ paths:
           headers: {}
   /v2/contract/nft:
     get:
-      description: 'Fetch data of all labelled NFT contracts.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Fetch data of all labelled NFT contracts.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getListOfNftContracts
       tags:
       - Token Contract
@@ -443,7 +536,20 @@ paths:
           headers: {}
   /v2/contract/mt:
     get:
-      description: 'Fetch data of labelled MTs for all contracts.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Fetch data of labelled MTs for all contracts.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getListOfMtContracts
       tags:
       - Token Contract
@@ -571,7 +677,20 @@ paths:
           headers: {}
   /v2/contract/nft/{nft-address}/token:
     get:
-      description: 'Selecting an NFT contract will fetch data of all NFTs created by this NFT contract.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Selecting an NFT contract will fetch data of all NFTs created by this NFT contract.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getNftsByContractAddress
       tags:
       - Token
@@ -640,7 +759,20 @@ paths:
           headers: {}
   /v2/contract/nft/{nft-address}/owner/{owner-address}:
     get:
-      description: 'Selecting an NFT contract and an EOA will fetch data of the NFTs by EOA created by the NFT contract.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Selecting an NFT contract and an EOA will fetch data of the NFTs by EOA created by the NFT contract.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getNftsByOwnerAddress
       tags:
       - Token
@@ -776,7 +908,26 @@ paths:
           headers: {}
   /v2/contract/mt/{mt-address}/token:
     get:
-      description: 'Selecting an MT contract will fetch all data of tokens issued by the contract.<p></p> ## Sort<p></p> * The items in the response will be listed in lexicographical order of the token IDs. <p></p><br> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Selecting an MT contract will fetch all data of tokens issued by the contract.<p></p>
+
+
+        ## Sort<p></p>
+
+
+        * The items in the response will be listed in lexicographical order of the token IDs. <p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getMtsByContractAddress
       tags:
       - Token
@@ -841,7 +992,20 @@ paths:
           headers: {}
   /v2/contract/mt/{mt-address}/token/{token-id}:
     get:
-      description: 'Selecting an MT contract and a token ID will  data of the EOA that owns the tokens.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Selecting an MT contract and a token ID will  data of the EOA that owns the tokens.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getMtTokensByContractAddressAndTokenId
       tags:
       - Token
@@ -918,7 +1082,20 @@ paths:
           headers: {}
   /v2/contract/mt/{mt-address}/owner/{owner-address}:
     get:
-      description: 'Selecting an MT contract and an EOA will fetch data of MTs by EOA created by MT contract.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Selecting an MT contract and an EOA will fetch data of MTs by EOA created by MT contract.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getMtTokensByContractAddressAndOwnerAddress
       tags:
       - Token
@@ -1065,7 +1242,20 @@ paths:
           headers: {}
   /v2/contract/nft/{nft-address}/token/{token-id}/history:
     get:
-      description: 'Get ownership change history of certain NFTs.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Get ownership change history of certain NFTs.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getListOfNftOwnershipChanges
       tags:
       - Token Ownership
@@ -1115,7 +1305,27 @@ paths:
           headers: {}
   /v2/account/{address}/contract:
     get:
-      description: 'Selecting an EOA will fetch data of all contracts of tokens by EOA.<p></p> * `ft`: `ft` balances existing in the contract will be included in the response<br> * `nft`: Tokens existing in the contract will be included in the response<br> * `mt`: Token balances existing in the contract will be included in the response<p></p><br> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>'
+      description: >-
+        Selecting an EOA will fetch data of all contracts of tokens by EOA.<p></p>
+
+
+        * `ft`: `ft` balances existing in the contract will be included in the response<br>
+
+        * `nft`: Tokens existing in the contract will be included in the response<br>
+
+        * `mt`: Token balances existing in the contract will be included in the response<p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getListOfContractByOwnerAddress
       tags:
       - Token Ownership
@@ -1155,6 +1365,33 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/PageableContractSummary'
+          examples:
+            application/json:
+              items:
+              - kind: nft
+                contractAddress: 0xfa9a1b66b970dc713ae71d56a7cc44b573d4c8f7
+                updatedAt: 1607993770
+                totalBalance: 0x1
+                extras:
+                  name: KASNFT
+                  symbol: KNFT
+                  totalSupply: 0x1
+              - kind: ft
+                contractAddress: 0x66ac22b457006c3f519e4a5c49ff19eb531bba4e
+                updatedAt: 1607993770
+                totalBalance: 0x15e
+                extras:
+                  name: KASFT
+                  symbol: KFT
+                  decimals: 18
+                  totalSupply: 0xde0b6b3a7640000
+                  formattedValue: '0.00000000000000035'
+              - kind: mt
+                contractAddress: 0x2b2e50e8c8e0d097f22ac9389af2f354d18d2882
+                updatedAt: 1607993770
+                totalBalance: 0x1c2
+                extras: {}
+              cursor: ''
           headers: {}
         '400':
           description: Invalid request
@@ -1171,7 +1408,24 @@ paths:
       description: >-
         Selecting an EOA will get all token data by EOA.<p></p>
 
-        * `ft`: `ft` balances existing in the contract will be included in the response<br> * `nft`: Tokens existing in the contract will be included in the response<br> * `mt`: Token balances existing in the contract will be included in the response<p></p><br> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+
+        * `ft`: `ft` balances existing in the contract will be included in the response<br>
+
+        * `nft`: Tokens existing in the contract will be included in the response<br>
+
+        * `mt`: Token balances existing in the contract will be included in the response<p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
       summary: getListOfTokenByOwnerAddress
       tags:
       - Token Ownership
@@ -1216,6 +1470,47 @@ paths:
           description: Success
           schema:
             $ref: '#/definitions/PageableTokenSummary'
+          examples:
+            application/json:
+              items:
+              - kind: nft
+                contractAddress: 0xfa9a1b66b970dc713ae71d56a7cc44b573d4c8f7
+                updatedAt: 1607993770
+                balance: 0x1
+                lastTransfer:
+                  transactionHash: 0xc724efc8bd9e62d6149cfcb6ae08b6eb7b47fff16dfe0c1f169160ed1b4870e5
+                  transferFrom: 0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708
+                  transferTo: 0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21
+                extras:
+                  tokenId: 0x1
+                  tokenUri: https://www.klaytnapi.com/nft/0x1.json
+              - kind: ft
+                contractAddress: 0x66ac22b457006c3f519e4a5c49ff19eb531bba4e
+                updatedAt: 1607993770
+                balance: 0x15e
+                lastTransfer:
+                  transactionHash: 0xcd23a37616840f997298a6ae62effb8d28303b1a22ee0acc73f8e486714837ff
+                  transferFrom: 0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708
+                  transferTo: 0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21
+                extras:
+                  name: KASFT
+                  symbol: KFT
+                  decimals: 18
+                  totalSupply: 0xde0b6b3a7640000
+                  formattedValue: '0.00000000000000035'
+              - kind: mt
+                contractAddress: 0x2b2e50e8c8e0d097f22ac9389af2f354d18d2882
+                updatedAt: 1607993770
+                balance: 0x1c2
+                lastTransfer:
+                  transactionHash: 0x85263b3d17fe92edd4a665bb65211c5b8a08e88ebeb0474f477bc4484eb26096
+                  transferFrom: 0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708
+                  transferTo: 0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21
+                extras:
+                  tokenId: 0x1
+                  tokenUri: https://www.klaytnapi.com/mt
+                  totalSupply: 0xde0b6b3a7640000
+              cursor: ''
           headers: {}
         '400':
           description: Invalid request
@@ -1251,7 +1546,9 @@ definitions:
     type: object
     properties:
       items:
-        $ref: '#/definitions/ContractSummaryItem'
+        type: array
+        items:
+          type: object
       cursor:
         description: Next page cursor
         example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
@@ -1814,7 +2111,9 @@ definitions:
     type: object
     properties:
       items:
-        $ref: '#/definitions/TokenSummaryItem'
+        type: array
+        items:
+          type: object
       cursor:
         description: Next page cursor
         example: z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE
@@ -2360,87 +2659,6 @@ definitions:
     required:
     - items
     - cursor
-  ContractSummaryItem:
-    title: ContractSummaryItem
-    type: object
-    properties:
-      kind:
-        description: Contract type
-        example: ft
-        type: string
-      contractAddress:
-        description: Contract address (20-byte)
-        example: 0x66ac22b457006c3f519e4a5c49ff19eb531bba4e
-        type: string
-      updatedAt:
-        description: Last change in token balances (timestamp)
-        example: 1607993770
-        type: integer
-        format: int64
-      totalBalance:
-        description: Balances (in hexadecimal)
-        example: 0x15e
-        type: string
-      extras:
-        $ref: '#/definitions/ftContractSummaryExtras'
-  ftTokenSummaryExtras1:
-    title: ftTokenSummaryExtras1
-    type: object
-    properties:
-      name:
-        description: Token name
-        example: KAS FCoin
-        type: string
-      decimals:
-        description: Token digits
-        example: 8
-        type: integer
-        format: int64
-      symbol:
-        description: Token symbol
-        example: KFC
-        type: string
-      totalSupply:
-        description: Total issued amount (in hexadecimal)
-        example: 0xde0b6b3a7640000
-        type: string
-      formattedValue:
-        description: Formatted value with contracts `decimals`
-        example: '0.00000000000000035'
-        type: string
-      tokenId:
-        description: Token ID (in hexadecimal)
-        example: 0x1
-        type: string
-      tokenUri:
-        description: Token URL
-        example: https://link.to/nft/1
-        type: string
-  TokenSummaryItem:
-    title: TokenSummaryItem
-    type: object
-    properties:
-      kind:
-        description: Token type
-        example: ft
-        type: string
-      contractAddress:
-        description: Contract address (20-byte)
-        example: 0x66ac22b457006c3f519e4a5c49ff19eb531bba4e
-        type: string
-      updatedAt:
-        description: Last change in token balances  (timestamp)
-        example: 1607993770
-        type: integer
-        format: int64
-      balance:
-        description: Balances (in hexadecimal)
-        example: 0x15e
-        type: string
-      lastTransfer:
-        $ref: '#/definitions/lastTransfer'
-      extras:
-        $ref: '#/definitions/ftTokenSummaryExtras1'
   TransferItem:
     title: TransferItem
     type: object
