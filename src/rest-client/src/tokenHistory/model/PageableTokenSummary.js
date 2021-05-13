@@ -1,6 +1,6 @@
 /*
  * Token History API
- * # Introduction Token History API allows you to query the transaction history of KLAY, FTs (KIP-7 and Labelled ERC-20), NFTs (KIP-17 and Labelled ERC-721), and MTs (KIP-37 and Labelled ERC-1155). You can track KLAY's transaction history or retrieve NFT-related data of a certain EOA. For more details on using Token History API, please refer to the [Tutorial](https://docs.klaytnapi.com/tutorial). For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/).
+ * # Introduction  Token History API allows you to query the transaction history of KLAY, FTs (KIP-7 and Labelled ERC-20), NFTs (KIP-17 and Labelled ERC-721), and MTs (KIP-37 and Labelled ERC-1155). You can track KLAY's transaction history or retrieve NFT-related data of a certain EOA.   For more details on using Token History API, please refer to the [Tutorial](https://docs.klaytnapi.com/tutorial).   For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/).
  *
  * OpenAPI spec version: 1.0
  *
@@ -16,18 +16,18 @@
 ;(function(root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['../../ApiClient', '../model/TokenSummaryItem'], factory)
+        define(['../../ApiClient'], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
-        module.exports = factory(require('../../ApiClient'), require('./TokenSummaryItem'))
+        module.exports = factory(require('../../ApiClient'))
     } else {
         // Browser globals (root is window)
         if (!root.TokenHistoryApi) {
             root.TokenHistoryApi = {}
         }
-        root.TokenHistoryApi.PageableTokenSummary = factory(root.TokenHistoryApi.ApiClient, root.TokenHistoryApi.TokenSummaryItem)
+        root.TokenHistoryApi.PageableTokenSummary = factory(root.TokenHistoryApi.ApiClient)
     }
-})(this, function(ApiClient, TokenSummaryItem) {
+})(this, function(ApiClient) {
     /**
      * The PageableTokenSummary model module.
      * @class PageableTokenSummary
@@ -38,7 +38,7 @@
      * Constructs a new <code>PageableTokenSummary</code>.
      * @alias PageableTokenSummary
      * @class
-     * @param items {TokenSummaryItem}
+     * @param items {Array.<Object>}
      * @param cursor {String} Next page cursor
      */
     const PageableTokenSummary = function(items, cursor) {
@@ -57,14 +57,14 @@
     PageableTokenSummary.constructFromObject = function(data, obj) {
         if (data) {
             obj = obj || new PageableTokenSummary()
-            if (data.hasOwnProperty('items')) obj.items = TokenSummaryItem.constructFromObject(data.items)
+            if (data.hasOwnProperty('items')) obj.items = ApiClient.convertToType(data.items, [Object])
             if (data.hasOwnProperty('cursor')) obj.cursor = ApiClient.convertToType(data.cursor, 'String')
         }
         return obj
     }
 
     /**
-     * @type {TokenSummaryItem}
+     * @type {Array.<Object>}
      * @memberof PageableTokenSummary
      */
     PageableTokenSummary.prototype.items = undefined

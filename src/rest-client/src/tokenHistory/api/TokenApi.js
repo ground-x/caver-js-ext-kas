@@ -1,6 +1,6 @@
 /*
  * Token History API
- * # Introduction Token History API allows you to query the transaction history of KLAY, FTs (KIP-7 and Labelled ERC-20), NFTs (KIP-17 and Labelled ERC-721), and MTs (KIP-37 and Labelled ERC-1155). You can track KLAY's transaction history or retrieve NFT-related data of a certain EOA. For more details on using Token History API, please refer to the [Tutorial](https://docs.klaytnapi.com/tutorial). For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/).
+ * # Introduction  Token History API allows you to query the transaction history of KLAY, FTs (KIP-7 and Labelled ERC-20), NFTs (KIP-17 and Labelled ERC-721), and MTs (KIP-37 and Labelled ERC-1155). You can track KLAY's transaction history or retrieve NFT-related data of a certain EOA.   For more details on using Token History API, please refer to the [Tutorial](https://docs.klaytnapi.com/tutorial).   For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/).
  *
  * OpenAPI spec version: 1.0
  *
@@ -81,7 +81,7 @@
 
         /**
          * getMtTokensByContractAddressAndOwnerAddress
-         * Selecting an MT contract and an EOA will fetch data of MTs by EOA created by MT contract.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+         * Selecting an MT contract and an EOA will fetch data of MTs by EOA created by MT contract.<p></p>  ## Size<p></p>  * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} mtAddress NFT Contract address to query
          * @param {String} ownerAddress EOA to query
@@ -239,7 +239,7 @@
 
         /**
          * getMtTokensByContractAddressAndTokenId
-         * Selecting an MT contract and a token ID will  data of the EOA that owns the tokens.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+         * Selecting an MT contract and a token ID will  data of the EOA that owns the tokens.<p></p>  ## Size<p></p>  * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} mtAddress NFT Contract address to query
          * @param {String} tokenId MT ID to query (in hexadecimal)
@@ -314,7 +314,7 @@
 
         /**
          * getMtsByContractAddress
-         * Selecting an MT contract will fetch all data of tokens issued by the contract.<p></p> ## Sort<p></p> * The items in the response will be listed in lexicographical order of the token IDs. <p></p><br> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+         * Selecting an MT contract will fetch all data of tokens issued by the contract.<p></p>  ## Sort<p></p>  * The items in the response will be listed in lexicographical order of the token IDs. <p></p><br>  ## Size<p></p>  * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} mtAddress NFT Contract address to query
          * @param {Object} opts Optional parameters
@@ -450,7 +450,7 @@
 
         /**
          * getNftsByContractAddress
-         * Selecting an NFT contract will fetch data of all NFTs created by this NFT contract.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+         * Selecting an NFT contract will fetch data of all NFTs created by this NFT contract.<p></p>  ## Size<p></p>  * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} nftAddress
          * @param {Object} opts Optional parameters
@@ -518,7 +518,7 @@
 
         /**
          * getNftsByOwnerAddress
-         * Selecting an NFT contract and an EOA will fetch data of the NFTs by EOA created by the NFT contract.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+         * Selecting an NFT contract and an EOA will fetch data of the NFTs by EOA created by the NFT contract.<p></p>  ## Size<p></p>  * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} nftAddress Contract address to query
          * @param {String} ownerAddress EOA to query

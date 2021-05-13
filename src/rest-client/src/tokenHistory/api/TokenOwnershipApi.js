@@ -1,6 +1,6 @@
 /*
  * Token History API
- * # Introduction Token History API allows you to query the transaction history of KLAY, FTs (KIP-7 and Labelled ERC-20), NFTs (KIP-17 and Labelled ERC-721), and MTs (KIP-37 and Labelled ERC-1155). You can track KLAY's transaction history or retrieve NFT-related data of a certain EOA. For more details on using Token History API, please refer to the [Tutorial](https://docs.klaytnapi.com/tutorial). For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/).
+ * # Introduction  Token History API allows you to query the transaction history of KLAY, FTs (KIP-7 and Labelled ERC-20), NFTs (KIP-17 and Labelled ERC-721), and MTs (KIP-37 and Labelled ERC-1155). You can track KLAY's transaction history or retrieve NFT-related data of a certain EOA.   For more details on using Token History API, please refer to the [Tutorial](https://docs.klaytnapi.com/tutorial).   For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/).
  *
  * OpenAPI spec version: 1.0
  *
@@ -72,7 +72,7 @@
 
         /**
          * getListOfContractByOwnerAddress
-         * Selecting an EOA will fetch data of all contracts of tokens by EOA.<p></p> * `ft`: `ft` balances existing in the contract will be included in the response<br> * `nft`: Tokens existing in the contract will be included in the response<br> * `mt`: Token balances existing in the contract will be included in the response<p></p><br> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+         * Selecting an EOA will fetch data of all contracts of tokens by EOA.<p></p>  * `ft`: `ft` balances existing in the contract will be included in the response<br> * `nft`: Tokens existing in the contract will be included in the response<br> * `mt`: Token balances existing in the contract will be included in the response<p></p><br>  ## Size<p></p>  * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} address EOA to query
          * @param {Object} opts Optional parameters
@@ -142,7 +142,7 @@
 
         /**
          * getListOfNftOwnershipChanges
-         * Get ownership change history of certain NFTs.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+         * Get ownership change history of certain NFTs.<p></p>  ## Size<p></p>  * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} nftAddress NFT Contract address to query
          * @param {String} tokenId NFT ID to query (in hexadecimal)
@@ -217,7 +217,7 @@
 
         /**
          * getListOfTokenByOwnerAddress
-         * Selecting an EOA will get all token data by EOA.<p></p> * `ft`: `ft` balances existing in the contract will be included in the response<br> * `nft`: Tokens existing in the contract will be included in the response<br> * `mt`: Token balances existing in the contract will be included in the response<p></p><br> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+         * Selecting an EOA will get all token data by EOA.<p></p>  * `ft`: `ft` balances existing in the contract will be included in the response<br> * `nft`: Tokens existing in the contract will be included in the response<br> * `mt`: Token balances existing in the contract will be included in the response<p></p><br>  ## Size<p></p>  * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default (`size=100`) when given a 0<br> * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} address EOA to query
          * @param {Object} opts Optional parameters
