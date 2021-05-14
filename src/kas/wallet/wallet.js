@@ -1858,17 +1858,25 @@ class Wallet {
      * GET /v2/stat/count/krn
      *
      * @example
-     * const result = await caver.kas.wallet.getAccountCountByKRN('krn:1001:wallet:test:account-pool:default')
+     * const result = await caver.kas.wallet.getAccountCountByKRN()
      *
-     * @param {string} krn The krn string to search.
+     * @param {string} [krn] The krn string to search.
      * @param {Function} [callback] The callback function to call.
      * @return {AccountCountByKRN}
      */
     getAccountCountByKRN(krn, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
+        if (_.isFunction(krn)) {
+            callback = krn
+            krn = undefined
+        }
+
+        if (krn !== undefined)
+            throw new Error(`Defining krn to get account count is not supported yet. You can search only with the default krn.`)
+
         return new Promise((resolve, reject) => {
-            this.statisticsApi.getAccountCountByKRN(this.chainId, { xKrn: krn }, (err, data, response) => {
+            this.statisticsApi.getAccountCountByKRN(this.chainId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1946,22 +1954,19 @@ class Wallet {
      *
      * @param {string} keyId The key id to use for signing.
      * @param {string} dataToSign The data to sign.
-     * @param {string} [krn] The krn string.
      * @param {Function} [callback] The callback function to call.
      * @return {KeySignDataResponse}
      */
-    signMessage(keyId, dataToSign, krn, callback) {
+    signMessage(keyId, dataToSign, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(keyId)) throw new Error(`Invalid keyId. You should pass string type parameter.`)
         if (!_.isString(dataToSign)) throw new Error(`Invalid data. You should pass string type parameter.`)
 
-        if (_.isFunction(krn)) {
-            callback = krn
-            krn = undefined
-        }
+        if (callback && !_.isFunction(callback))
+            throw new Error(`Invalid parameter: Please check your parameter ("signMessage(keyId, dataToSign [, callback])")`)
 
         return new Promise((resolve, reject) => {
-            this.keyApi.keySignData(this.chainId, keyId, { body: { data: dataToSign }, xKrn: krn }, (err, data, response) => {
+            this.keyApi.keySignData(this.chainId, keyId, { body: { data: dataToSign } }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

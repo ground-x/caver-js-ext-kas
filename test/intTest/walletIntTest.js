@@ -3609,8 +3609,8 @@ describe('Wallet API service', () => {
         expect(ret.count > 0).to.be.true
     }).timeout(500000)
 
-    it('CAVERJS-EXT-KAS-INT-114: caver.kas.wallet.getAccountCountByKRN should return the number of accounts in KAS by KRN', async () => {
-        const ret = await caver.kas.wallet.getAccountCountByKRN(accountToTest.krn)
+    it('CAVERJS-EXT-KAS-INT-114: caver.kas.wallet.getAccountCountByKRN should return the number of accounts in KAS by default KRN', async () => {
+        const ret = await caver.kas.wallet.getAccountCountByKRN()
 
         expect(ret.count > 0).to.be.true
         expect(ret.krn).to.equal(accountToTest.krn)
@@ -3701,13 +3701,6 @@ describe('Wallet API service', () => {
     it('CAVERJS-EXT-KAS-INT-244: caver.kas.wallet.signMessage should sign data with key in KAS', async () => {
         const dataToSign = '0x88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589'
         const ret = await caver.kas.wallet.signMessage(keyId, dataToSign)
-
-        expect(ret.signedData).not.to.be.undefined
-    }).timeout(500000)
-
-    it('CAVERJS-EXT-KAS-INT-245: caver.kas.wallet.signMessage should sign data with key in KAS (with krn)', async () => {
-        const dataToSign = '0x88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589'
-        const ret = await caver.kas.wallet.signMessage(keyId, dataToSign, krn)
 
         expect(ret.signedData).not.to.be.undefined
     }).timeout(500000)

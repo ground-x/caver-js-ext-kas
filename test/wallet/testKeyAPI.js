@@ -282,21 +282,6 @@ describe('Wallet API service enabling', () => {
             expect(ret.signedData).not.to.be.undefined
         })
 
-        it('CAVERJS-EXT-KAS-WALLET-217: should sign message with krn in KAS', async () => {
-            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
-
-            const keySignDataSpy = sandbox.spy(caver.kas.wallet.keyApi, 'keySignData')
-            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
-            const krn = 'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:key-pool:default'
-            setCallFakeForCallApi(callApiStub, krn)
-
-            const ret = await caver.kas.wallet.signMessage(keyId, dataToSign, krn)
-
-            expect(keySignDataSpy.calledWith(chainId)).to.be.true
-            expect(callApiStub.calledOnce).to.be.true
-            expect(ret.signedData).not.to.be.undefined
-        })
-
         it('CAVERJS-EXT-KAS-WALLET-218: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
@@ -307,26 +292,6 @@ describe('Wallet API service enabling', () => {
             let isCalled = false
 
             const ret = await caver.kas.wallet.signMessage(keyId, dataToSign, () => {
-                isCalled = true
-            })
-
-            expect(keySignDataSpy.calledWith(chainId)).to.be.true
-            expect(callApiStub.calledOnce).to.be.true
-            expect(isCalled).to.be.true
-            expect(ret.signedData).not.to.be.undefined
-        })
-
-        it('CAVERJS-EXT-KAS-WALLET-219: should call callback function with api result (with krn)', async () => {
-            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
-
-            const keySignDataSpy = sandbox.spy(caver.kas.wallet.keyApi, 'keySignData')
-            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
-            const krn = 'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:key-pool:default'
-            setCallFakeForCallApi(callApiStub, krn)
-
-            let isCalled = false
-
-            const ret = await caver.kas.wallet.signMessage(keyId, dataToSign, krn, () => {
                 isCalled = true
             })
 
