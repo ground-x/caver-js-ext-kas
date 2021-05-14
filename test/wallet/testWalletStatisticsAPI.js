@@ -187,14 +187,14 @@ describe('Wallet Statistics API', () => {
             )
         }
 
-        it('CAVERJS-EXT-KAS-WALLET-166: should return count of accounts in KAS by KRN', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-166: should return count of accounts in KAS by KRN (default krn)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getCreateAccountSpy = sandbox.spy(caver.kas.wallet.statisticsApi, 'getAccountCountByKRN')
             const callApiStub = sandbox.stub(caver.kas.wallet.statisticsApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub)
 
-            const ret = await caver.kas.wallet.getAccountCountByKRN(krn)
+            const ret = await caver.kas.wallet.getAccountCountByKRN()
 
             expect(getCreateAccountSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
@@ -202,7 +202,7 @@ describe('Wallet Statistics API', () => {
             expect(ret).not.to.be.undefined
         })
 
-        it('CAVERJS-EXT-KAS-WALLET-167: should call callback function with count of accounts in KAS by KRN', async () => {
+        it('CAVERJS-EXT-KAS-WALLET-167: should call callback function with count of accounts in KAS by KRN (default krn)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getCreateAccountSpy = sandbox.spy(caver.kas.wallet.statisticsApi, 'getAccountCountByKRN')
@@ -210,7 +210,7 @@ describe('Wallet Statistics API', () => {
             setCallFakeForCallApi(callApiStub)
 
             let isCalled = false
-            const ret = await caver.kas.wallet.getAccountCountByKRN(krn, () => {
+            const ret = await caver.kas.wallet.getAccountCountByKRN(() => {
                 isCalled = true
             })
 
@@ -231,7 +231,7 @@ describe('Wallet Statistics API', () => {
                 callback(null, errorResult, {})
             })
 
-            const ret = await caver.kas.wallet.getAccountCountByKRN(krn)
+            const ret = await caver.kas.wallet.getAccountCountByKRN()
 
             expect(ret.code).to.equal(errorResult.code)
             expect(ret.message).to.equal(errorResult.message)
