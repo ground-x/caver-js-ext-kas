@@ -155,7 +155,7 @@ class TokenHistory {
      * const result = await caver.kas.tokenHistory.getTransferHistory([80], query)
      *
      * @param {Array.<number>} presets Preset IDs to be used for search, Preset ID can be checked in KAS Console.
-     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `range`, `size`, and `cursor`.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `range`, `size`, `cursor` and `excludeZeroKlay`.
      * @param {Function} [callback] The callback function to call.
      * @return {PageableTransfers}
      */
@@ -173,8 +173,8 @@ class TokenHistory {
         }
 
         queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
-        if (!queryOptions.isValidOptions(['kind', 'range', 'size', 'cursor']))
-            throw new Error(`Invalid query options: 'kind', 'range', 'size', and 'cursor' can be used.`)
+        if (!queryOptions.isValidOptions(['kind', 'range', 'size', 'cursor', 'excludeZeroKlay']))
+            throw new Error(`Invalid query options: 'kind', 'range', 'size', 'cursor' and 'excludeZeroKlay' can be used.`)
 
         return new Promise((resolve, reject) => {
             this.tokenHistoryApi.getTransfers(this.chainId, presets.toString(), queryOptions, (err, data, response) => {
@@ -227,7 +227,7 @@ class TokenHistory {
      *
      * @param {string} address The EOA address used to search for token transfer history.
      *                         The from or to in the search result matches the suggested address value.
-     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `caFilter`, `range`, `size`, and `cursor`.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `caFilter`, `range`, `size`, `cursor`, `excludeZeroKlay`, `fromOnly` and `toOnly`.
      * @param {Function} [callback] The callback function to call.
      * @return {PageableTransfers}
      */
@@ -240,8 +240,10 @@ class TokenHistory {
         }
 
         queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
-        if (!queryOptions.isValidOptions(['kind', 'caFilter', 'range', 'size', 'cursor']))
-            throw new Error(`Invalid query options: 'kind', 'caFilter', 'range', 'size', and 'cursor' can be used.`)
+        if (!queryOptions.isValidOptions(['kind', 'caFilter', 'range', 'size', 'cursor', 'excludeZeroKlay', 'fromOnly', 'toOnly']))
+            throw new Error(
+                `Invalid query options: 'kind', 'caFilter', 'range', 'size', 'cursor', 'excludeZeroKlay', 'fromOnly' and 'toOnly' can be used.`
+            )
 
         return new Promise((resolve, reject) => {
             this.tokenHistoryApi.getTransfersByEoa(this.chainId, address, queryOptions, (err, data, response) => {
@@ -501,7 +503,7 @@ class TokenHistory {
      * @return {PageableNftOwnershipChanges}
      */
     getNFTOwnershipHistory(nftAddress, tokenId, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.tokenOwnershipApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -525,6 +527,99 @@ class TokenHistory {
                     resolve(data)
                 }
             )
+        })
+    }
+
+    /**
+     * Selecting an EOA will fetch data of all contracts of tokens by EOA.<p></p>
+     *
+     * * `ft`: `ft` balances existing in the contract will be included in the response<br>
+     * * `nft`: Tokens existing in the contract will be included in the response<br>
+     * * `mt`: Token balances existing in the contract will be included in the response<p></p>
+     *
+     * <br>
+     *
+     * ## Size<p></p>
+     * * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+     * * Returns an error when given a negative number<br>
+     * * Uses default (`size=100`) when given a 0<br>
+     * * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+     * GET /v2/account/{address}/contract
+     *
+     * @example
+     * const queryOptions = { size: 1, kind: caver.kas.tokenHistory.queryOptions.kind.FT }
+     * const result = await caver.kas.tokenHistory.getContractListByOwner('0xbbe63781168c9e67e7a8b112425aa84c479f39aa', queryOptions)
+     *
+     * @param {string} address The EOA to query.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `size`, and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {PageableContractSummary}
+     */
+    getContractListByOwner(address, queryOptions, callback) {
+        if (!this.accessOptions || !this.tokenOwnershipApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['kind', 'size', 'cursor']))
+            throw new Error(`Invalid query options: 'kind', 'size', and 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenOwnershipApi.getListOfContractByOwnerAddress(this.chainId, address, queryOptions, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Selecting an EOA will get all token data by EOA.<p></p>
+     * * `ft`: `ft` balances existing in the contract will be included in the response<br>
+     * * `nft`: Tokens existing in the contract will be included in the response<br>
+     * * `mt`: Token balances existing in the contract will be included in the response<p></p>
+     * <br>
+     * ## Size<p></p>
+     * * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br>
+     * * Returns an error when given a negative number<br>
+     * * Uses default (`size=100`) when given a 0<br>
+     * * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>
+     * GET /v2/account/{address}/token
+     *
+     * @example
+     * const queryOptions = { size: 1, kind: caver.kas.tokenHistory.queryOptions.kind.FT }
+     * const result = await caver.kas.tokenHistory.getContractListByOwner('0xbbe63781168c9e67e7a8b112425aa84c479f39aa', queryOptions)
+     *
+     * @param {string} address The EOA to query.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `size`, `cursor` and `caFilters`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {PageableContractSummary}
+     */
+    getTokenListByOwner(address, queryOptions, callback) {
+        if (!this.accessOptions || !this.tokenOwnershipApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['kind', 'size', 'cursor', 'caFilters']))
+            throw new Error(`Invalid query options: 'kind', 'size', 'cursor' and 'caFilters' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenOwnershipApi.getListOfTokenByOwnerAddress(this.chainId, address, queryOptions, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
         })
     }
 
