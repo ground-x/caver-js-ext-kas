@@ -11,6 +11,7 @@ caver-js-ext-kas is [caver-js](https://github.com/klaytn/caver-js)'s extension l
 	  * [Use Wallet API](#use-wallet-api)
 	  * [Use Anchor API](#use-anchor-api)
 	  * [Use KIP17 API](#use-kip17-api)
+	  * [Use KIP7 API](#use-kip7-api)
 	  * [Use KIP7, KIP17 and Contract with a Klaytn account in KAS Wallet API](#use-kip7-kip17-and-contract-with-a-klaytn-account-in-kas-wallet-api)
 
 ## Build/Install
@@ -60,9 +61,9 @@ $ npm run test
 
 ### Set Auth
 
-You can use KAS' Node API, Token History API, Wallet API, Anchor API and KIP17 API through this library. To use KAS, you need your "access key id", "secret access key" and chain id of the Klaytn blochain network.
+You can use KAS' Node API, Token History API, Wallet API, Anchor API, KIP17 API and KIP7 API through this library. To use KAS, you need your "access key id", "secret access key" and chain id of the Klaytn blochain network.
 
-Set your authorization using the `constructor` or the `caver.initKASAPI` function as shown below. Below code sets the authentication key used by the node api, token history api, wallet api, anchor api and kip17 api at once.
+Set your authorization using the `constructor` or the `caver.initKASAPI` function as shown below. Below code sets the authentication key used by the node api, token history api, wallet api, anchor api, kip17 api and kip7 api at once.
 
 ```javascript
 // Set an authorization through constructor
@@ -75,7 +76,7 @@ const caver = new CaverExtKAS()
 caver.initKASAPI(chainId, accessKeyId, secretAccessKey)
 ```
 
-The following describes how to set auth key for each node, tokenHistory, wallet, anchor and kip17 api.
+The following describes how to set auth key for each node, tokenHistory, wallet, anchor, kip17 and kip7 api.
 
 Each initialization function is provided so that you can pass an optional endpoint url as the last parameter. If the endpoint url is not passed as the last parameter, the KAS production url is set by default.
 
@@ -185,6 +186,22 @@ The query options used in the kip17 api can be used as follows.
 
 ```javascript
 const queryOptions = new caver.kas.kip17.queryOptions({ size, cursor })
+console.log(queryOptions)
+```
+
+### Use KIP7 API
+
+You can now use KAS's KIP7 API through caver-js-ext-kas. You can send a KIP7 API request to the KAS as shown below and check the results.
+
+```javascript
+const contracts = await caver.kas.kip7.getContractList('0x{address in hex}')
+console.log(contracts)
+```
+
+The query options used in the kip7 api can be used as follows.
+
+```javascript
+const queryOptions = new caver.kas.kip7.queryOptions({ size, cursor })
 console.log(queryOptions)
 ```
 

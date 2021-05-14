@@ -9,7 +9,7 @@
     "test": "npm run build && npm run unitTest && npm run intTest",
     "testQA": "npm run build && npm run unitTestQA && npm run intTestQA",
     "testDev": "npm run build && npm run unitTestDev && npm run intTestDev",
-    "unitTest": "./node_modules/mocha/bin/mocha ./test/anchor/testAnchorAPI.js && ./node_modules/mocha/bin/mocha ./test/tokenHistory/testTokenHistoryAPI.js && ./node_modules/mocha/bin/mocha ./test/wallet/*.js && ./node_modules/mocha/bin/mocha ./test/helperTest.js",
+    "unitTest": "./node_modules/mocha/bin/mocha ./test/anchor/testAnchorAPI.js && ./node_modules/mocha/bin/mocha ./test/tokenHistory/testTokenHistoryAPI.js && ./node_modules/mocha/bin/mocha ./test/wallet/*.js && ./node_modules/mocha/bin/mocha ./test/helperTest.js && ./node_modules/mocha/bin/mocha ./test/kip7/testKIP7API.js",
     "unitTestQA": "npm run unitTest --testEnv=qa",
     "unitTestDev": "npm run unitTest --testEnv=dev",
     "intNodeAPITest": "./node_modules/mocha/bin/mocha ./test/nodeAPI/testNodeAPI.js",

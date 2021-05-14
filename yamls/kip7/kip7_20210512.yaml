@@ -1,6 +1,6 @@
 "openapi": "3.0.0"
 "info":
-  "title": "KIP-7 API Docs"
+  "title": "KIP-7 API"
   "description": "# Introduction
 
     KIP-7 API is a RESTful API for 
@@ -127,7 +127,7 @@
                         "totalSupply": "0x500"
                     "cursor": ""
               "schema":
-                "$ref": "#/components/schemas/ListContractsResponse"
+                "$ref": "#/components/schemas/Kip7ContractListResponse"
         "400":
           "description": ""
           "content":
@@ -176,7 +176,7 @@
                     "transactionHash": "0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a\
                       86328a8"
               "schema":
-                "$ref": "#/components/schemas/TransactionStatusResponse"
+                "$ref": "#/components/schemas/Kip7TransactionStatusResponse"
         "409":
           "description": ""
           "content":
@@ -195,7 +195,7 @@
       "tags":
         - "KIP7"
       "requestBody":
-        "$ref": "#/components/requestBodies/DeployContractRequest"
+        "$ref": "#/components/requestBodies/DeployKip7ContractRequest"
   "/v1/contract/{contract-address-or-alias}":
     "get":
       "description": "Returns contract data of the given alias or contract address. <p></p>
@@ -230,7 +230,7 @@
                     "symbol": "MSK7"
                     "totalSupply": "0x500"
               "schema":
-                "$ref": "#/components/schemas/ContractMetadataResponse"
+                "$ref": "#/components/schemas/Kip7ContractMetadataResponse"
         "404":
           "description": ""
           "content":
@@ -283,7 +283,7 @@
                     "transactionHash": "0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a\
                       86328a8"
               "schema":
-                "$ref": "#/components/schemas/TransactionStatusResponse"
+                "$ref": "#/components/schemas/Kip7TransactionStatusResponse"
         "404":
           "description": ""
           "content":
@@ -346,7 +346,7 @@
                     "transactionHash": "0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a\
                       86328a8"
               "schema":
-                "$ref": "#/components/schemas/TransactionStatusResponse"
+                "$ref": "#/components/schemas/Kip7TransactionStatusResponse"
         "404":
           "description": ""
           "content":
@@ -411,7 +411,7 @@
                     "transactionHash": "0x31dd75c39e569b3fa5336186a6a464c0a84c487f481e80009a4d238fb\
                       e0d2357"
               "schema":
-                "$ref": "#/components/schemas/TransactionStatusResponse"
+                "$ref": "#/components/schemas/Kip7TransactionStatusResponse"
         "400":
           "description": ""
           "content":
@@ -443,7 +443,7 @@
       "tags":
         - "KIP7"
       "requestBody":
-        "$ref": "#/components/requestBodies/MintTokenRequest"
+        "$ref": "#/components/requestBodies/MintKip7TokenRequest"
   "/v1/contract/{contract-address-or-alias}/transfer":
     "post":
       "description": "Sends tokens of the contract. \
@@ -492,7 +492,7 @@
                     "transactionHash": "0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e\
                       416a862"
               "schema":
-                "$ref": "#/components/schemas/TransactionStatusResponse"
+                "$ref": "#/components/schemas/Kip7TransactionStatusResponse"
         "400":
           "description": ""
           "content":
@@ -524,7 +524,7 @@
       "tags":
         - "KIP7"
       "requestBody":
-        "$ref": "#/components/requestBodies/TransferTokenRequest"
+        "$ref": "#/components/requestBodies/TransferKip7TokenRequest"
   "/v1/contract/{contract-address-or-alias}/transfer-from":
     "post":
       "description": "Sends tokens on behalf of the owner. \
@@ -534,7 +534,7 @@
         ([/v1/{contract-address-or-alias}/approve](#operation/ApproveToken)).  <p></p>
 
 
-         **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>
+          **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>
 
         krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chai\
         n-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>
@@ -574,7 +574,7 @@
                     "transactionHash": "0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e\
                       416a862"
               "schema":
-                "$ref": "#/components/schemas/TransactionStatusResponse"
+                "$ref": "#/components/schemas/Kip7TransactionStatusResponse"
         "400":
           "description": ""
           "content":
@@ -606,7 +606,7 @@
       "tags":
         - "KIP7"
       "requestBody":
-        "$ref": "#/components/requestBodies/TransferTokenFromRequest"
+        "$ref": "#/components/requestBodies/TransferKip7TokenFromRequest"
   "/v1/contract/{contract-address-or-alias}/account/{owner}/balance":
     "get":
       "description": "Shows the`{owner}`'s balance for the given KIP-7 contract.  <p></p>
@@ -644,7 +644,7 @@
                     "balance": "0x10"
                     "decimals": 8
               "schema":
-                "$ref": "#/components/schemas/TokenBalanceResponse"
+                "$ref": "#/components/schemas/Kip7TokenBalanceResponse"
         "400":
           "description": ""
           "content":
@@ -726,7 +726,7 @@
                     "transactionHash": "0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e\
                       416a862"
               "schema":
-                "$ref": "#/components/schemas/TransactionStatusResponse"
+                "$ref": "#/components/schemas/Kip7TransactionStatusResponse"
         "400":
           "description": ""
           "content":
@@ -758,7 +758,7 @@
       "tags":
         - "KIP7"
       "requestBody":
-        "$ref": "#/components/requestBodies/ApproveTokenRequest"
+        "$ref": "#/components/requestBodies/ApproveKip7TokenRequest"
   "/v1/contract/{contract-address-or-alias}/account/{owner}/allowance/{spender}":
     "get":
       "description": "Shows the amount of tokens approved to the `spender` by the `owner`.<p></p>
@@ -802,7 +802,7 @@
                     "balance": "0x10"
                     "decimals": 8
               "schema":
-                "$ref": "#/components/schemas/TokenBalanceResponse"
+                "$ref": "#/components/schemas/Kip7TokenBalanceResponse"
         "400":
           "description": ""
           "content":
@@ -879,7 +879,7 @@
                     "transactionHash": "0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e\
                       416a862"
               "schema":
-                "$ref": "#/components/schemas/TransactionStatusResponse"
+                "$ref": "#/components/schemas/Kip7TransactionStatusResponse"
         "400":
           "description": ""
           "content":
@@ -911,7 +911,7 @@
       "tags":
         - "KIP7"
       "requestBody":
-        "$ref": "#/components/requestBodies/BurnTokenRequest"
+        "$ref": "#/components/requestBodies/BurnKip7TokenRequest"
   "/v1/contract/{contract-address-or-alias}/burn-from":
     "delete":
       "description": " `spender` burns `owner`'s tokens on the`owner`'s behalf.
@@ -959,7 +959,7 @@
                     "transactionHash": "0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e\
                       416a862"
               "schema":
-                "$ref": "#/components/schemas/TransactionStatusResponse"
+                "$ref": "#/components/schemas/Kip7TransactionStatusResponse"
         "400":
           "description": ""
           "content":
@@ -991,7 +991,7 @@
       "tags":
         - "KIP7"
       "requestBody":
-        "$ref": "#/components/requestBodies/BurnFromTokenRequest"
+        "$ref": "#/components/requestBodies/BurnFromKip7TokenRequest"
   "/v1/deployer/default":
     "get":
       "description": "Queries the account that deploys and manages the KIP-7 contracts. \
@@ -1019,7 +1019,7 @@
                     "address": "0xA490cbCB43a64cc4671F436dB9D33eD7A73Da675"
                     "krn": "krn:1001:kip7:88c1223c-66af-4122-9818-069b2e3c6b30:account-pool:default"
               "schema":
-                "$ref": "#/components/schemas/DeployerResponse"
+                "$ref": "#/components/schemas/Kip7DeployerResponse"
         "404":
           "description": ""
           "content":
@@ -1036,29 +1036,29 @@
       "summary": "Retrieves the default contract deployer account"
       "operationId": "GetDefaultDeployer"
       "tags":
-        - "Deployer"
+        - "KIP7Deployer"
 "tags": []
 "servers":
   - "url": "https://kip7-api.klaytn.com"
 "components":
   "schemas":
-    "ListContractsResponse":
+    "Kip7ContractListResponse":
       "type": "object"
       "description": ""
       "properties":
         "items":
           "type": "array"
           "items":
-            "$ref": "#/components/schemas/ContractResponse"
+            "$ref": "#/components/schemas/Kip7ContractListResponseItem"
         "cursor":
           "type": "string"
           "example": ""
           "description": "Next page cursor"
-      "title": "ListContractsResponse"
+      "title": "Kip7ContractListResponse"
       "required":
         - "items"
         - "cursor"
-    "ContractResponse":
+    "Kip7ContractListResponseItem":
       "type": "object"
       "description": ""
       "properties":
@@ -1091,7 +1091,7 @@
           "type": "string"
           "example": "0x500"
           "description": "Total supply (in hexadecimal)"
-      "title": "ContractResponse"
+      "title": "Kip7ContractListResponseItem"
       "required":
         - "address"
         - "alias"
@@ -1117,7 +1117,7 @@
       "required":
         - "code"
         - "message"
-    "TransactionStatusResponse":
+    "Kip7TransactionStatusResponse":
       "type": "object"
       "description": ""
       "properties":
@@ -1129,11 +1129,11 @@
           "type": "string"
           "example": "0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8"
           "description": "Transaction hash"
-      "title": "TransactionStatusResponse"
+      "title": "Kip7TransactionStatusResponse"
       "required":
         - "status"
         - "transactionHash"
-    "DeployContractRequest":
+    "DeployKip7ContractRequest":
       "type": "object"
       "description": ""
       "properties":
@@ -1158,14 +1158,14 @@
           "type": "string"
           "example": "0x100"
           "description": "Initial supply (in hexadecimal)"
-      "title": "DeployContractRequest"
+      "title": "DeployKip7ContractRequest"
       "required":
         - "alias"
         - "name"
         - "symbol"
         - "decimals"
         - "initialSupply"
-    "ContractMetadataResponse":
+    "Kip7ContractMetadataResponse":
       "type": "object"
       "description": ""
       "properties":
@@ -1190,14 +1190,14 @@
           "type": "string"
           "example": "0x500"
           "description": "Total supply (in hexadecimal)"
-      "title": "ContractMetadataResponse"
+      "title": "Kip7ContractMetadataResponse"
       "required":
         - "address"
         - "decimals"
         - "name"
         - "symbol"
         - "totalSupply"
-    "MintTokenRequest":
+    "MintKip7TokenRequest":
       "type": "object"
       "description": ""
       "properties":
@@ -1209,11 +1209,11 @@
           "type": "string"
           "example": "0x10"
           "description": "The amount of tokens to create (in hexadecimal)"
-      "title": "MintTokenRequest"
+      "title": "MintKip7TokenRequest"
       "required":
         - "to"
         - "amount"
-    "TransferTokenRequest":
+    "TransferKip7TokenRequest":
       "type": "object"
       "description": ""
       "properties":
@@ -1229,11 +1229,11 @@
           "type": "string"
           "example": "0x50"
           "description": "The amount of tokens to transfer (in hexadecimal)"
-      "title": "TransferTokenRequest"
+      "title": "TransferKip7TokenRequest"
       "required":
         - "to"
         - "amount"
-    "TransferTokenFromRequest":
+    "TransferKip7TokenFromRequest":
       "type": "object"
       "description": ""
       "properties":
@@ -1253,13 +1253,13 @@
           "type": "string"
           "example": "0x50"
           "description": "Transfer amount (in hexadecimal)"
-      "title": "TransferTokenFromRequest"
+      "title": "TransferKip7TokenFromRequest"
       "required":
         - "spender"
         - "owner"
         - "to"
         - "amount"
-    "TokenBalanceResponse":
+    "Kip7TokenBalanceResponse":
       "type": "object"
       "description": ""
       "properties":
@@ -1272,11 +1272,11 @@
           "format": "int64"
           "example": 8
           "description": "Contract decimal place"
-      "title": "TokenBalanceResponse"
+      "title": "Kip7TokenBalanceResponse"
       "required":
         - "balance"
         - "decimals"
-    "ApproveTokenRequest":
+    "ApproveKip7TokenRequest":
       "type": "object"
       "description": ""
       "properties":
@@ -1292,11 +1292,11 @@
           "type": "string"
           "example": "0x5c2"
           "description": "Approved token amount (in hexadecimal)"
-      "title": "ApproveTokenRequest"
+      "title": "ApproveKip7TokenRequest"
       "required":
         - "spender"
         - "amount"
-    "BurnTokenRequest":
+    "BurnKip7TokenRequest":
       "type": "object"
       "description": ""
       "properties":
@@ -1308,10 +1308,10 @@
           "type": "string"
           "example": "not hex string"
           "description": "The amount of tokens to burn (in hexadecimal)"
-      "title": "BurnTokenRequest"
+      "title": "BurnKip7TokenRequest"
       "required":
         - "amount"
-    "BurnFromTokenRequest":
+    "BurnFromKip7TokenRequest":
       "type": "object"
       "description": ""
       "properties":
@@ -1327,12 +1327,12 @@
           "type": "string"
           "example": "0x100"
           "description": "The amount of tokens to burn (in hexadecimal)"
-      "title": "BurnFromTokenRequest"
+      "title": "BurnFromKip7TokenRequest"
       "required":
         - "owner"
         - "spender"
         - "amount"
-    "DeployerResponse":
+    "Kip7DeployerResponse":
       "type": "object"
       "description": ""
       "properties":
@@ -1345,7 +1345,7 @@
           "example": "krn:1001:kip7:88c1223c-66af-4122-9818-069b2e3c6b30:account-pool:def\
             ault"
           "description": "KRN of the account"
-      "title": "DeployerResponse"
+      "title": "Kip7DeployerResponse"
       "required":
         - "address"
         - "krn"
@@ -1381,7 +1381,7 @@
       "type": "http"
       "scheme": "basic"
   "requestBodies":
-    "DeployContractRequest":
+    "DeployKip7ContractRequest":
       "content":
         "application/json":
           "examples":
@@ -1400,8 +1400,8 @@
                 "decimals": 8
                 "initialSupply": "0x100"
           "schema":
-            "$ref": "#/components/schemas/DeployContractRequest"
-    "MintTokenRequest":
+            "$ref": "#/components/schemas/DeployKip7ContractRequest"
+    "MintKip7TokenRequest":
       "content":
         "application/json":
           "examples":
@@ -1418,8 +1418,8 @@
                 "to": "0xd6905b98E4Ba43a24E842d2b66c1410173791cab"
                 "amount": "0x10"
           "schema":
-            "$ref": "#/components/schemas/MintTokenRequest"
-    "TransferTokenRequest":
+            "$ref": "#/components/schemas/MintKip7TokenRequest"
+    "TransferKip7TokenRequest":
       "content":
         "application/json":
           "examples":
@@ -1439,8 +1439,8 @@
                 "to": "0xd6905b98E4Ba43a24E842d2b66c1410173791cab"
                 "amount": "0x10"
           "schema":
-            "$ref": "#/components/schemas/TransferTokenRequest"
-    "TransferTokenFromRequest":
+            "$ref": "#/components/schemas/TransferKip7TokenRequest"
+    "TransferKip7TokenFromRequest":
       "content":
         "application/json":
           "examples":
@@ -1463,8 +1463,8 @@
                 "to": "0xaddbf9cbfd30768202b70b5504c012fbdf00b8d8"
                 "amount": "0x50"
           "schema":
-            "$ref": "#/components/schemas/TransferTokenFromRequest"
-    "ApproveTokenRequest":
+            "$ref": "#/components/schemas/TransferKip7TokenFromRequest"
+    "ApproveKip7TokenRequest":
       "content":
         "application/json":
           "examples":
@@ -1484,8 +1484,8 @@
                 "spender": "not-eoa"
                 "amount": "0x5c2"
           "schema":
-            "$ref": "#/components/schemas/ApproveTokenRequest"
-    "BurnTokenRequest":
+            "$ref": "#/components/schemas/ApproveKip7TokenRequest"
+    "BurnKip7TokenRequest":
       "content":
         "application/json":
           "examples":
@@ -1502,8 +1502,8 @@
                 "from": "0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d"
                 "amount": "0x100"
           "schema":
-            "$ref": "#/components/schemas/BurnTokenRequest"
-    "BurnFromTokenRequest":
+            "$ref": "#/components/schemas/BurnKip7TokenRequest"
+    "BurnFromKip7TokenRequest":
       "content":
         "application/json":
           "examples":
@@ -1523,6 +1523,6 @@
                 "spender": "0x08c7a5d79f37f658f2dd30da0af02fdfd0cb773e"
                 "amount": "0x100"
           "schema":
-            "$ref": "#/components/schemas/BurnFromTokenRequest"
+            "$ref": "#/components/schemas/BurnFromKip7TokenRequest"
 "security":
   - "basic": []

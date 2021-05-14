@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   version: '1.0'
   title: KIP-7 API
-  description: "# Introduction KIP-7 API is a RESTful API for managing KIP-7 contracts and tokens that follow the [KIP-7 Fungible Token Standard](https://kips.klaytn.com/KIPs/kip-7).   You can deploy contracts and send tokens using the default contract managing account (`deployer`) and an `alias`. And by using SDK like caver,  you can manage your contracts and tokens using [Wallet API](https://refs.klaytnapi.com/en/wallet/latest) for contracts created on the Klaytn Network. # Error Codes ## 400: Bad Request  | Code | Messages |   | --- | --- | | 1130050 | incorrect request; spender 1130107 | incorrect bookmark 1134410 | invalid address; to</br>invalid address; owner</br>invalid address; address 1134411 | invalid amount; amount |## 404: Not Found  | Code | Messages | | --- | --- | | 1134504 | contract not found 1134506 | deployer not found |  ## 409: Conflict  | Code | Messages |   | --- | --- |   | 1134900 | duplicate alias 1134902 | contract already paused 1134903 | contract already unpaused | \n"
+  description: "# Introduction\nKIP-7 API is a RESTful API for managing KIP-7 contracts and tokens that follow the [KIP-7 Fungible Token Standard](https://kips.klaytn.com/KIPs/kip-7).  \nYou can deploy contracts and send tokens using the default contract managing account (`deployer`) and an `alias`. And by using SDK like caver, \nyou can manage your contracts and tokens using [Wallet API](https://refs.klaytnapi.com/en/wallet/latest) for contracts created on the Klaytn Network. \n\n\n\n# Error Codes\n\n## 400: Bad Request\n\n | Code | Messages | \n | --- | --- |\n | 1130050 | incorrect request; spender\n1130107 | incorrect bookmark\n1134410 | invalid address; to</br>invalid address; owner</br>invalid address; address\n1134411 | invalid amount; amount |\n\n## 404: Not Found\n\n | Code | Messages |\n | --- | --- |\n | 1134504 | contract not found\n1134506 | deployer not found | \n\n## 409: Conflict\n\n | Code | Messages | \n | --- | --- | \n | 1134900 | duplicate alias\n1134902 | contract already paused\n1134903 | contract already unpaused | \n"
   contact: {}
 host: kip7-api.klaytn.com
 basePath: /
@@ -19,7 +19,17 @@ paths:
   /v1/contract:
     get:
       description: >+
-        Retrieves a list of all KIP-7 contracts deployed by the user. The contracts will be listed in descending order of transactions requested for creation.<p></p> The `status` field in the response has one of the following values.<p></p> - `init`: The initial status before sending the transaction - `submitted`: The status of having submitted the contract deploy transaction - `deployed`: The status of having deployed the contract<p></p>
+        Retrieves a list of all KIP-7 contracts deployed by the user. The contracts will be listed in descending order of transactions requested for creation.<p></p>
+
+
+        The `status` field in the response has one of the following values.<p></p>
+
+
+        - `init`: The initial status before sending the transaction
+
+        - `submitted`: The status of having submitted the contract deploy transaction
+
+        - `deployed`: The status of having deployed the contract<p></p>
 
       summary: ListContractsInDeployerPool
       tags:
@@ -76,7 +86,7 @@ paths:
               message: incorrect bookmark
           headers: {}
     post:
-      description: "Deploys a standard KIP-7 contract based on the data provided. The contract will be deployed via the default contract management account. You cannot change the deployer.   You can retrieve the default contract management accounts via [/v1/deployer/default](#operation/GetDefaultDeployer).   Your `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet. <p></p> \n"
+      description: "Deploys a standard KIP-7 contract based on the data provided. The contract will be deployed via the default contract management account. You cannot change the deployer.  \nYou can retrieve the default contract management accounts via [/v1/deployer/default](#operation/GetDefaultDeployer).  \nYour `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet. <p></p>\n\n"
       summary: DeployContract
       tags:
       - KIP7
@@ -119,7 +129,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}:
     get:
-      description: "Returns contract data of the given alias or contract address. <p></p> \n"
+      description: >+
+        Returns contract data of the given alias or contract address. <p></p>
+
       summary: GetContract
       tags:
       - KIP7
@@ -162,7 +174,7 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/pause:
     post:
-      description: "Pauses all token transfers and validations for a given contract. You can resume token transfers by using [/v1/{contract-address-or-alias}/unpause](#operation/UnpauseContract).<p></p> \n"
+      description: "Pauses all token transfers and validations for a given contract. \nYou can resume token transfers by using [/v1/{contract-address-or-alias}/unpause](#operation/UnpauseContract).<p></p>\n\n"
       summary: PauseContract
       tags:
       - KIP7
@@ -211,7 +223,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/unpause:
     post:
-      description: "Resumes token transfers and validations for a given contract.<p></p> \n"
+      description: >+
+        Resumes token transfers and validations for a given contract.<p></p>
+
       summary: UnpauseContract
       tags:
       - KIP7
@@ -260,7 +274,7 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/mint:
     post:
-      description: "Mints a new token for a given user.   The total supply in the contract (`totalSupply`) will increase as requested.<p></p> \n"
+      description: "Mints a new token for a given user.  \nThe total supply in the contract (`totalSupply`) will increase as requested.<p></p>\n\n"
       summary: MintToken
       tags:
       - KIP7
@@ -317,7 +331,7 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/transfer:
     post:
-      description: "Sends tokens of the contract. If `from` is not specified in the request, the sender will be the `deployer` of the contract.  <p></p> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: Wallet API `account-pool`, which has the `from` account - Just as in other APIs, omitting the x-krn will give it the default value.<p></p> \n"
+      description: "Sends tokens of the contract. \nIf `from` is not specified in the request, the sender will be the `deployer` of the contract.  <p></p>\n\n**Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>\nkrn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>\n\n- The first KRN: Default KIP-7 `account-pool`\n- The second KRN: Wallet API `account-pool`, which has the `from` account\n- Just as in other APIs, omitting the x-krn will give it the default value.<p></p>\n\n"
       summary: TransferToken
       tags:
       - KIP7
@@ -374,7 +388,7 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/transfer-from:
     post:
-      description: "Sends tokens on behalf of the owner. You need to approve token transfers in advance ([/v1/{contract-address-or-alias}/approve](#operation/ApproveToken)).  <p></p> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: Wallet API `account-pool`, which has the `spender` account - Just as in other APIs, omitting the x-krn will give it the default value.<p></p> \n"
+      description: "Sends tokens on behalf of the owner. \nYou need to approve token transfers in advance ([/v1/{contract-address-or-alias}/approve](#operation/ApproveToken)).  <p></p>\n\n**Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>\nkrn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>\n\n- The first KRN: Default KIP-7 `account-pool`\n- The second KRN: Wallet API `account-pool`, which has the `spender` account\n- Just as in other APIs, omitting the x-krn will give it the default value.<p></p>\n\n"
       summary: TransferFromToken
       tags:
       - KIP7
@@ -431,7 +445,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/account/{owner}/balance:
     get:
-      description: "Shows the`{owner}`'s balance for the given KIP-7 contract.  <p></p> \n"
+      description: >+
+        Shows the`{owner}`'s balance for the given KIP-7 contract.  <p></p>
+
       summary: GetTokenBalance
       tags:
       - KIP7
@@ -485,7 +501,7 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/approve:
     post:
-      description: "Authorizes the `spender` to send a certain amount of tokens on behalf of the `owner`. You can execute a delegated token transfer by calling [/v1/contract/{contract-address-or-alias}/transfer-from](#opera	ion/TransferFromToken) API.<p></p>\n\n**Note**: Only a `spender` account address managed by Wallet API can execute delegated token transfers.  <br> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: `account-pool` Wallet API, which has the `owner` account - Just as in other APIs, not including the x-krn will give it the default value.<p></p> \n"
+      description: "Authorizes the `spender` to send a certain amount of tokens on behalf of the `owner`. \nYou can execute a delegated token transfer by calling [/v1/contract/{contract-address-or-alias}/transfer-from](#opera	ion/TransferFromToken) API.<p></p>\n\n**Note**: Only a `spender` account address managed by Wallet API can execute delegated token transfers.  <br>\n**Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>\nkrn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>\n\n- The first KRN: Default KIP-7 `account-pool`\n- The second KRN: `account-pool` Wallet API, which has the `owner` account\n- Just as in other APIs, not including the x-krn will give it the default value.<p></p>\n\n"
       summary: ApproveToken
       tags:
       - KIP7
@@ -542,7 +558,9 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/account/{owner}/allowance/{spender}:
     get:
-      description: "Shows the amount of tokens approved to the `spender` by the `owner`.<p></p> \n"
+      description: >+
+        Shows the amount of tokens approved to the `spender` by the `owner`.<p></p>
+
       summary: GetTokenAllowance
       tags:
       - KIP7
@@ -601,7 +619,21 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/burn:
     delete:
-      description: "Burns tokens. The `totalSupply` on the contract will be deducted accordingly.  <p></p> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: Wallet API `account-pool`, which has the `from` account - Just as in other APIs, omitting the x-krn will give it the default value.<p></p> \n"
+      description: >+
+        Burns tokens. The `totalSupply` on the contract will be deducted accordingly.  <p></p>
+
+
+        **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>
+
+        krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>
+
+
+        - The first KRN: Default KIP-7 `account-pool`
+
+        - The second KRN: Wallet API `account-pool`, which has the `from` account
+
+        - Just as in other APIs, omitting the x-krn will give it the default value.<p></p>
+
       summary: BurnToken
       tags:
       - KIP7
@@ -658,7 +690,7 @@ paths:
           headers: {}
   /v1/contract/{contract-address-or-alias}/burn-from:
     delete:
-      description: " `spender` burns `owner`'s tokens on the`owner`'s behalf. The `totalSupply` on the contract will be deducted accordingly.  <p></p> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: `account-pool` Wallet API, which has the `spender` account   - Just as in other APIs, not including the x-krn will give it the default value.<p></p> \n"
+      description: " `spender` burns `owner`'s tokens on the`owner`'s behalf. The `totalSupply` on the contract will be deducted accordingly.  <p></p>\n\n**Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>\nkrn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>\n\n- The first KRN: Default KIP-7 `account-pool`\n- The second KRN: `account-pool` Wallet API, which has the `spender` account  \n- Just as in other APIs, not including the x-krn will give it the default value.<p></p>\n\n"
       summary: BurnFromToken
       tags:
       - KIP7
@@ -715,10 +747,10 @@ paths:
           headers: {}
   /v1/deployer/default:
     get:
-      description: "Queries the account that deploys and manages the KIP-7 contracts. `deployer` will automatically be created during the initial contract deployment.<p></p> \n"
+      description: "Queries the account that deploys and manages the KIP-7 contracts. \n`deployer` will automatically be created during the initial contract deployment.<p></p>\n\n"
       summary: GetDefaultDeployer
       tags:
-      - Kip7Deployer
+      - KIP7Deployer
       operationId: GetDefaultDeployer
       deprecated: false
       produces:
@@ -1043,5 +1075,5 @@ security:
 tags:
 - name: KIP7
   description: ''
-- name: Kip7Deployer
+- name: KIP7Deployer
   description: ''
