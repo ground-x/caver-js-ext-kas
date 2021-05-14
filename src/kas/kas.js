@@ -18,12 +18,14 @@ const TokenHistory = require('./tokenHistory/tokenHistory')
 const Anchor = require('./anchor/anchor')
 const Wallet = require('./wallet/wallet')
 const KIP17 = require('./kip17/kip17')
+const KIP7 = require('./kip7/kip7')
 const { createClient } = require('../utils/helper')
 
 const AnchorQueryOptions = require('./anchor/anchorQueryOptions')
 const TokenHistoryQueryOptions = require('./tokenHistory/tokenHistoryQueryOptions')
 const WalletQueryOptions = require('./wallet/walletQueryOptions')
 const KIP17QueryOptions = require('./kip17/kip17QueryOptions')
+const KIP7QueryOptions = require('./kip7/kip7QueryOptions')
 
 /**
  * The class that manages KAS API services.
@@ -43,11 +45,13 @@ class KAS {
         this.wallet = new Wallet()
         this.anchor = new Anchor()
         this.kip17 = new KIP17()
+        this.kip7 = new KIP7()
 
         this.tokenHistory.queryOptions = TokenHistoryQueryOptions
         this.anchor.queryOptions = AnchorQueryOptions
         this.wallet.queryOptions = WalletQueryOptions
         this.kip17.queryOptions = KIP17QueryOptions
+        this.kip7.queryOptions = KIP7QueryOptions
     }
 
     /**
@@ -92,6 +96,17 @@ class KAS {
 
     set kip17(kip17) {
         this._kip17 = kip17
+    }
+
+    /**
+     * @type {KIP7}
+     */
+    get kip7() {
+        return this._kip7
+    }
+
+    set kip7(kip7) {
+        this._kip7 = kip7
     }
 
     /**
@@ -168,6 +183,25 @@ class KAS {
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.kip17.accessOptions = accessOptions
         this.kip17.client = client
+    }
+
+    /**
+     * Sets chain id and authentication key for KIP7 API. <br>
+     * Since `caver.initKIP7API` calls this function internally, it is recommended to use `caver.initKIP7API`.
+     *
+     * @example
+     * caver.kas.initKIP7API(1001, 'accessKeyId', 'secretAccessKey', 'https://kip7-api.klaytnapi.com')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} url The end point url.
+     * @return {void}
+     */
+    initKIP7API(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
+        this.kip7.accessOptions = accessOptions
+        this.kip7.client = client
     }
 }
 

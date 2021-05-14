@@ -1,6 +1,6 @@
 /*
  * KIP-7 API
- * # Introduction KIP-7 API is a RESTful API for managing KIP-7 contracts and tokens that follow the [KIP-7 Fungible Token Standard](https://kips.klaytn.com/KIPs/kip-7).   You can deploy contracts and send tokens using the default contract managing account (`deployer`) and an `alias`. And by using SDK like caver,  you can manage your contracts and tokens using [Wallet API](https://refs.klaytnapi.com/en/wallet/latest) for contracts created on the Klaytn Network. # Error Codes ## 400: Bad Request  | Code | Messages |   | --- | --- | | 1130050 | incorrect request; spender 1130107 | incorrect bookmark 1134410 | invalid address; to</br>invalid address; owner</br>invalid address; address 1134411 | invalid amount; amount |## 404: Not Found  | Code | Messages | | --- | --- | | 1134504 | contract not found 1134506 | deployer not found |  ## 409: Conflict  | Code | Messages |   | --- | --- |   | 1134900 | duplicate alias 1134902 | contract already paused 1134903 | contract already unpaused |
+ * # Introduction KIP-7 API is a RESTful API for managing KIP-7 contracts and tokens that follow the [KIP-7 Fungible Token Standard](https://kips.klaytn.com/KIPs/kip-7).   You can deploy contracts and send tokens using the default contract managing account (`deployer`) and an `alias`. And by using SDK like caver,  you can manage your contracts and tokens using [Wallet API](https://refs.klaytnapi.com/en/wallet/latest) for contracts created on the Klaytn Network.     # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |  | 1130050 | incorrect request; spender 1130107 | incorrect bookmark 1134410 | invalid address; to</br>invalid address; owner</br>invalid address; address 1134411 | invalid amount; amount |  ## 404: Not Found   | Code | Messages |  | --- | --- |  | 1134504 | contract not found 1134506 | deployer not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1134900 | duplicate alias 1134902 | contract already paused 1134903 | contract already unpaused |
  *
  * OpenAPI spec version: 1.0
  *
@@ -110,7 +110,7 @@
 
         /**
          * ApproveToken
-         * Authorizes the `spender` to send a certain amount of tokens on behalf of the `owner`. You can execute a delegated token transfer by calling [/v1/contract/{contract-address-or-alias}/transfer-from](#opera ion/TransferFromToken) API.<p></p>  **Note**: Only a `spender` account address managed by Wallet API can execute delegated token transfers.  <br> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: `account-pool` Wallet API, which has the `owner` account - Just as in other APIs, not including the x-krn will give it the default value.<p></p>
+         * Authorizes the `spender` to send a certain amount of tokens on behalf of the `owner`.  You can execute a delegated token transfer by calling [/v1/contract/{contract-address-or-alias}/transfer-from](#opera ion/TransferFromToken) API.<p></p>  **Note**: Only a `spender` account address managed by Wallet API can execute delegated token transfers.  <br> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>  - The first KRN: Default KIP-7 `account-pool` - The second KRN: `account-pool` Wallet API, which has the `owner` account - Just as in other APIs, not including the x-krn will give it the default value.<p></p>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} contractAddressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias
          * @param {Object} opts Optional parameters
@@ -174,7 +174,7 @@
 
         /**
          * BurnFromToken
-         *  `spender` burns `owner`'s tokens on the`owner`'s behalf. The `totalSupply` on the contract will be deducted accordingly.  <p></p> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: `account-pool` Wallet API, which has the `spender` account   - Just as in other APIs, not including the x-krn will give it the default value.<p></p>
+         *  `spender` burns `owner`'s tokens on the`owner`'s behalf. The `totalSupply` on the contract will be deducted accordingly.  <p></p>  **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>  - The first KRN: Default KIP-7 `account-pool` - The second KRN: `account-pool` Wallet API, which has the `spender` account   - Just as in other APIs, not including the x-krn will give it the default value.<p></p>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} contractAddressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias
          * @param {Object} opts Optional parameters
@@ -238,7 +238,7 @@
 
         /**
          * BurnToken
-         * Burns tokens. The `totalSupply` on the contract will be deducted accordingly.  <p></p> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: Wallet API `account-pool`, which has the `from` account - Just as in other APIs, omitting the x-krn will give it the default value.<p></p>
+         * Burns tokens. The `totalSupply` on the contract will be deducted accordingly.  <p></p>  **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>  - The first KRN: Default KIP-7 `account-pool` - The second KRN: Wallet API `account-pool`, which has the `from` account - Just as in other APIs, omitting the x-krn will give it the default value.<p></p>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} contractAddressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias
          * @param {Object} opts Optional parameters
@@ -562,7 +562,7 @@
 
         /**
          * ListContractsInDeployerPool
-         * Retrieves a list of all KIP-7 contracts deployed by the user. The contracts will be listed in descending order of transactions requested for creation.<p></p> The `status` field in the response has one of the following values.<p></p> - `init`: The initial status before sending the transaction - `submitted`: The status of having submitted the contract deploy transaction - `deployed`: The status of having deployed the contract<p></p>
+         * Retrieves a list of all KIP-7 contracts deployed by the user. The contracts will be listed in descending order of transactions requested for creation.<p></p>  The `status` field in the response has one of the following values.<p></p>  - `init`: The initial status before sending the transaction - `submitted`: The status of having submitted the contract deploy transaction - `deployed`: The status of having deployed the contract<p></p>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {Object} opts Optional parameters
          * @param {String} opts.size The maximum number of items to return
@@ -688,7 +688,7 @@
 
         /**
          * PauseContract
-         * Pauses all token transfers and validations for a given contract. You can resume token transfers by using [/v1/{contract-address-or-alias}/unpause](#operation/UnpauseContract).<p></p>
+         * Pauses all token transfers and validations for a given contract.  You can resume token transfers by using [/v1/{contract-address-or-alias}/unpause](#operation/UnpauseContract).<p></p>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} contractAddressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias
          * @param {KIP7Api~pauseContractCallback} callback The callback function, accepting three arguments: error, data, response
@@ -749,7 +749,7 @@
 
         /**
          * TransferFromToken
-         * Sends tokens on behalf of the owner. You need to approve token transfers in advance ([/v1/{contract-address-or-alias}/approve](#operation/ApproveToken)).  <p></p> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: Wallet API `account-pool`, which has the `spender` account - Just as in other APIs, omitting the x-krn will give it the default value.<p></p>
+         * Sends tokens on behalf of the owner.  You need to approve token transfers in advance ([/v1/{contract-address-or-alias}/approve](#operation/ApproveToken)).  <p></p>  **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>  - The first KRN: Default KIP-7 `account-pool` - The second KRN: Wallet API `account-pool`, which has the `spender` account - Just as in other APIs, omitting the x-krn will give it the default value.<p></p>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} contractAddressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias
          * @param {Object} opts Optional parameters
@@ -813,7 +813,7 @@
 
         /**
          * TransferToken
-         * Sends tokens of the contract. If `from` is not specified in the request, the sender will be the `deployer` of the contract.  <p></p> **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p> - The first KRN: Default KIP-7 `account-pool` - The second KRN: Wallet API `account-pool`, which has the `from` account - Just as in other APIs, omitting the x-krn will give it the default value.<p></p>
+         * Sends tokens of the contract.  If `from` is not specified in the request, the sender will be the `deployer` of the contract.  <p></p>  **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br> krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>  - The first KRN: Default KIP-7 `account-pool` - The second KRN: Wallet API `account-pool`, which has the `from` account - Just as in other APIs, omitting the x-krn will give it the default value.<p></p>
          * @param {String} xChainId Klaytn Network Chain ID (1001 or 8217)
          * @param {String} contractAddressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias
          * @param {Object} opts Optional parameters

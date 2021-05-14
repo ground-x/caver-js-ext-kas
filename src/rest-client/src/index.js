@@ -173,7 +173,7 @@
             './kip7/model/TransferKip7TokenFromRequest',
             './kip7/model/TransferKip7TokenRequest',
             './kip7/api/KIP7Api',
-            './kip7/api/Kip7DeployerApi',
+            './kip7/api/KIP7DeployerApi',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
@@ -334,7 +334,7 @@
             require('./kip7/model/TransferKip7TokenFromRequest'),
             require('./kip7/model/TransferKip7TokenRequest'),
             require('./kip7/api/KIP7Api'),
-            require('./kip7/api/Kip7DeployerApi')
+            require('./kip7/api/KIP7DeployerApi')
         )
     }
 })(function(
@@ -492,7 +492,7 @@
     TransferKip7TokenFromRequest,
     TransferKip7TokenRequest,
     KIP7Api,
-    Kip7DeployerApi
+    KIP7DeployerApi
 ) {
     /**
      * @module RestClient
@@ -1241,10 +1241,10 @@
          */
         KIP7Api: KIP7Api,
         /**
-         * The Kip7DeployerApi service constructor.
-         * @property {Kip7DeployerApi}
+         * The KIP7DeployerApi service constructor.
+         * @property {KIP7DeployerApi}
          */
-        Kip7DeployerApi: Kip7DeployerApi,
+        KIP7DeployerApi: KIP7DeployerApi,
     }
 
     return exports
