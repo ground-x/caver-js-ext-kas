@@ -289,7 +289,7 @@ class KIP7 {
     }
 
     /**
-     * Shows the`{owner}`'s balance for the given KIP-7 contract. <br>
+     * Shows the `{owner}`'s balance for the given KIP-7 contract. <br>
      * GET /v1/contract/{contract-address-or-alias}/account/{owner}/balance
      *
      * @example
