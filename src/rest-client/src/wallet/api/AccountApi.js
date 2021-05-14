@@ -1,13 +1,13 @@
 /*
  * Wallet API
- * # Introduction Wallet API is used to create and manage Klaytn accounts and transfer transactions. If you create a Klaytn account with Wallet API, you do not need to manage private keys separately. Wallet API provides a secure wallet to keep your Klaytn account’s private keys for BApp. For more details on Wallet API, refer to our [tutorial](https://docs.klaytnapi.com/v/ko/tutorial).  Wallet API features an “Account” section for creating and managing Klaytn accounts and a “Transaction” section for transferring transactions. Wallet API creates, deletes, and monitors Klaytn accounts; updates multisig accounts; and manages the privates keys of all accounts registered to KAS.  In addition, Wallet API creates transactions and transfers them to Klaytn. They include transactions that are sent through the multisig accounts. A transaction will be automatically transferred to Klaytn if the threshold is met for the number of signatures. For more details on multisignatures, refer to [the followings](https://docs.klaytnapi.com/v/ko/tutorial).  Transactions include basic and fee delegation transactions. In particular, fee delegation transactions include global and user fee delegation transactions. In the global fee delegation transaction, Ground X’s KAS account first pays the transaction fee and charges the users later. Meanwhile, in the user fee delegation transaction, a user creates an account to pay for transaction fees when sending transactions.  Wallet API has the following functions and limitations.  | Version | Item | Description | | :--- | :--- | :--- | | 2.0 | Limitations | Support for Cypress (mainnet) and Baobab (testnet) (Service Chain not supported) | |  |  | Account management for external management keys not supported | |  |  | Multisignatures of RLP-encoded transactions not supported | |  | Account management  | Account creation, search, and deletion | |  |  | Multisignature account updates | |  | Transaction management | [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic) Transaction Creation and Transfer | |  |  | [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) Transaction Creation and Transfer | |  |  | RLP-encoded transaction \\([Legacy](https://ko.docs.klaytn.com/klaytn/design/transactions/basic#txtypelegacytransaction), [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic), [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) Transaction Creation and Transfer \\) | |  |  | Multisignature transaction management and transfer | |  | Administrator | Resource pool management (creation, pool search, deletion, and account search) |    # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1061010 | data don't exist</br>data don't exist; krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x9b2f4d85d7f7abb14db229b5a81f1bdca0aa24c8ff0c4c100b3f25098b7a6152 1061510 | account has been already deleted or disabled 1061511 | account has been already deleted or enabled 1061512 | account is invalid to sign the transaction; 0xc9bFDDabf2c38396b097C8faBE9151955413995D</br>account is invalid to sign the transaction; 0x35Cc4921B17Dfa67a58B93c9F8918f823e58b77e 1061515 | the requested account must be a legacy account; if the account is multisig account, use `PUT /v2/tx/{fd|fd-user}/account` API for multisig transaction and /v2/multisig/_**_/_** APIs 1061607 | it has to start with '0x' and allows [0-9a-fA-F]; input</br>it has to start with '0x' and allows [0-9a-fA-F]; tx_id 1061608 | cannot be empty or zero value; to</br>cannot be empty or zero value; input</br>cannot be empty or zero value; address</br>cannot be empty or zero value; keyId 1061609 | it just allow Klaytn address form; to 1061615 | its value is out of range; size 1061616 | feeration must be between 1 and 99; feeRatio 1061903 | failed to decode account keys 1061905 | failed to get feepayer 1061912 | rlp value and request value are not same; feeRatio</br>rlp value and request value are not same; feePayer 1061914 | already submitted transaction. Confirm transaction hash; 0xb9612ec6ec39bfd3f2841daa7ab062fc94cf33f23503606c979b2f81e50b2cb1 1061917 | AccountKeyLegacy type is not supported in AccountKeyRoleBased type 1061918 | it just allow (Partial)FeeDelegation transaction type 1061919 | PartialFeeDelegation transaction must set fee ratio to non-zero value 1061920 | FeeDelegation transaction cannot set fee ratio, use PartialFeeDelegation transaction type 1061921 | it just allow Basic transaction type 1065000 | failed to retrieve a transaction from klaytn node 1065001 | failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value </br>failed to send a raw transaction to klaytn node; -32000::not a program account (e.g., an account having code and storage)</br>failed to send a raw transaction to klaytn node; -32000::nonce too low</br>failed to send a raw transaction to klaytn node; -32000::insufficient funds of the fee payer for gas * price 1065100 | failed to get an account from AMS</br>failed to get an account from AMS; account key corrupted. can not use this account 1065102 | account key corrupted. can not use this account |   # Authentication  <!-- ReDoc-Inject: <security-definitions> -->
+ * # Introduction Wallet API is an API for creating and managing Klaytn accounts as well as sending transactions. If you create your Klaytn account using Wallet API, you don't have to manage your private key yourself. Wallet API provides a wallet for safe storage of your Klaytn account private keys that you would need to use BApps. For more details on how to use Wallet API, please refer to this [tutorial](https://docs.klaytnapi.com/v/en/tutorial). Wallet API can be divided into the Account part, which creates and manages Klaytn accounts, and the Transaction part, which sends different kinds of transactions. Wallet API creates, deletes and monitors Klaytn accounts and updates the accounts to multisig, and manages all private keys for all accounts registered on KAS. Wallet API can also create transaction to send it to Klaytn. These include transactions sent from multisig accounts. In case of muiltisig accounts, a transaction will automatically be sent to Klaytn once \\(Threshold\\) is met. For more detail, please refer to this [tutorial](https://docs.klaytnapi.com/v/en/tutorial). There are mainly two types of transactions: basic transactions and fee delegation transactions. Fee delegation transactions include Global Fee Delegation transaction and user fee deletation transaction. With the Global Fee Delegation transaction scheme, the transaction fee will initially be paid by GroundX and then be charged to you at a later date. With the User Fee Delegation transaction scheme, you create an account that pays the transaction fees on behalf of the users when a transaction. The functionalities and limits of Wallet API are shown below: | Version | Item | Description | | :--- | :--- | :--- | | 2.0 | Limits | Supports Cypress(Mainnet), Baobab(Testnet) \\ Doesn't support (Service Chain \\) | |  |  | Doesn't support account management for external custodial keys | |  |  | Doesn't support multisig for RLP encoded transactions | |  | Account management | Create, retrieve and delete account | |  |  | Multisig account update | |  | Managing transaction | [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic) creating and sending transaction | |  |  | [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation) creating and sending transaction | |  |  | RLP encoded transaction\\([Legacy](https://ko.docs.klaytn.com/klaytn/design/transactions/basic#txtypelegacytransaction), [Basic](https://ko.docs.klaytn.com/klaytn/design/transactions/basic), [FeeDelegatedWithRatio](https://ko.docs.klaytn.com/klaytn/design/transactions/partial-fee-delegation)\\) creating and sending | |  |  | Managing and sending multisig transactions | |  | Administrator | Manage resource pool\\(create, query pool, delete, retrieve account \\) | # Error Codes ## 400: Bad Request  | Code | Messages |   | --- | --- |   | 1061010 | data don't exist</br>data don't exist; krn:1001:wallet:68ec0e4b-0f61-4e6f-ae35-be865ab23187:account-pool:default:0x9b2f4d85d7f7abb14db229b5a81f1bdca0aa24c8ff0c4c100b3f25098b7a6152 1061510 | account has been already deleted or disabled 1061511 | account has been already deleted or enabled 1061512 | account is invalid to sign the transaction; 0x18925BDD724614bF13Bd5d53a74adFd228903796</br>account is invalid to sign the transaction; 0x6d06e7cA9F26d6D30B3b4Dff6084E74C51908fef 1061515 | the requested account must be a legacy account; if the account is multisig account, use `PUT /v2/tx/{fd|fd-user}/account` API for multisig transaction and /v2/multisig/_**_/_** APIs 1061607 | it has to start with '0x' and allows [0-9a-fA-F]; input</br>it has to start with '0x' and allows [0-9a-fA-F]; transaction-id 1061608 | cannot be empty or zero value; to</br>cannot be empty or zero value; keyId</br>cannot be empty or zero value; address 1061609 | it just allow Klaytn address form; to 1061615 | its value is out of range; size 1061616 | fee ratio must be between 1 and 99; feeRatio 1061903 | failed to decode account keys; runtime error: slice bounds out of range [:64] with length 4 1061905 | failed to get feepayer 1061912 | rlp value and request value are not same; feeRatio</br>rlp value and request value are not same; feePayer 1061914 | already submitted transaction. Confirm transaction hash; 0x6f2e9235a48a86c3a7912b4237f83e760609c7ca609bbccbf648c8617a3a980c</br>already submitted transaction. Confirm transaction hash; 0xfb1fae863da42bcefdde3d572404bf5fcb89c1809e9253d5fff7c07a4bb5210f 1061917 | AccountKeyLegacy type is not supported in AccountKeyRoleBased type 1061918 | it just allow (Partial)FeeDelegation transaction type 1061919 | PartialFeeDelegation transaction must set fee ratio to non-zero value 1061920 | FeeDelegation transaction cannot set fee ratio, use PartialFeeDelegation transaction type 1061921 | it just allow Basic transaction type 1065000 | failed to retrieve a transaction from klaytn node 1065001 | failed to send a raw transaction to klaytn node; -32000::insufficient funds of the sender for value </br>failed to send a raw transaction to klaytn node; -32000::not a program account (e.g., an account having code and storage)</br>failed to send a raw transaction to klaytn node; -32000::nonce too low</br>failed to send a raw transaction to klaytn node; -32000::insufficient funds of the fee payer for gas * price 1065100 | failed to get an account</br>failed to get an account; data don't exist</br>failed to get an account; account key corrupted. can not use this account 1065102 | account key corrupted. can not use this account |
  *
  * OpenAPI spec version: 1.0
  *
  * NOTE: This class is auto generated by the swagger code generator program.
  * https://github.com/swagger-api/swagger-codegen.git
  *
- * Swagger Codegen version: 2.4.18
+ * Swagger Codegen version: 2.4.19
  *
  * Do not edit the class manually.
  *
@@ -99,7 +99,7 @@
         /**
          * ActivateAccount
          * Reactivate a deactivated Klaytn account.
-         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
          * @param {String} address Klaytn account address
          * @param {AccountApi~activateAccountCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link AccountSummary}
@@ -159,8 +159,8 @@
 
         /**
          * CreateAccount
-         * Creates a Klaytn account. Creates random Klaytn account addresses and private/public key pairs, and returns public key and private key IDs.
-         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * Create Klaytn account. Generate a Klaytn account address and random private/public key pair and get ID of public key and private key returned.
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
          * @param {AccountApi~createAccountCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link Account}
          */
@@ -212,8 +212,8 @@
 
         /**
          * DeactivateAccount
-         * Deactivate a Klaytn account. If the account is deactivated, the account cannot be searched.
-         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * Deactivate this Klaytn account. Once the account is deactivated, the account won't be retrieved.
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
          * @param {String} address Klaytn account address
          * @param {AccountApi~deactivateAccountCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link AccountSummary}
@@ -273,8 +273,8 @@
 
         /**
          * DeleteAccount
-         * Deletes Klaytn account.
-         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * Delete the Klaytn account.
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
          * @param {String} address Klaytn account address
          * @param {AccountApi~deleteAccountCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link AccountStatus}
@@ -334,8 +334,8 @@
 
         /**
          * MultisigAccountUpdate
-         * Update a Klaytn account to a multisig account. Sufficient balance is required for a transaction fee payment when executing the update transaction.
-         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * Update the Klaytn account to a multisig account. Your account needs to have balances to pay the transaction fee when executing the account update transaction.
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
          * @param {String} address Klaytn account address
          * @param {Object} opts Optional parameters
          * @param {MultisigAccountUpdateRequest} opts.body
@@ -398,8 +398,8 @@
 
         /**
          * RetrieveAccount
-         * Search for a Klaytn account
-         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * Retrieve the Klaytn account.
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
          * @param {String} address Klaytn account address
          * @param {AccountApi~retrieveAccountCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link Account}
@@ -459,14 +459,14 @@
 
         /**
          * RetrieveAccounts
-         * Search for a list of existing Klaytn accounts.<p></p>  ## Size<p></p>  * The `size` query parameter is optional (minimum = 1, maximum = 1000, default = 100).<br> * Submitting negative values result in errors.<br> * Submitting zero results in a query with `size=100`, which is the default value.<br> * Submitting values greater than 1000 result in queries with `size=1000`, which is the maximum value.<br>
-         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * Retrieve a list of all Klaytn accounts.<p></p> ## Size<p></p> * The query parameter `size` is optional. (Min = 1, Max = 1000, Default = 100)<br> * Returns an error when given a negative number<br> * Uses default value (`size=100`) when `size=0`<br> * Uses the maximum value (`size=1000`) when given a value higher than the maximum value.<br>
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
          * @param {Object} opts Optional parameters
-         * @param {Number} opts.size Maximum size of account to search (default to 100)
-         * @param {String} opts.cursor Information on last searched cursor
-         * @param {Number} opts.toTimestamp Timestamp of the end time to be searched (in seconds)
-         * @param {Number} opts.fromTimestamp Timestamp of the start time to be searched (in seconds)
-         * @param {String} opts.status  (default to enabled)
+         * @param {Number} opts.size Maximum size of the account to be queried (default to 100)
+         * @param {String} opts.cursor Information on the last cursor
+         * @param {Number} opts.toTimestamp Limit of the time range to be queried (Timestamp in seconds)
+         * @param {Number} opts.fromTimestamp Starting point of the time range to be queried (Timestamp in seconds)
+         * @param {String} opts.status State of the account to be retrieved. 'all` retrieves accounts of all states, 'disable' retrieves deactivated accounts, and 'corrupted' retrieves accounts whose keys have been changed and rendered unusable. Default value will be set as 'enabled'. (default to enabled)
          * @param {AccountApi~retrieveAccountsCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link Accounts}
          */
@@ -525,8 +525,8 @@
 
         /**
          * RetrieveAccountsByPubkey
-         * Search for a list of Klaytn accounts with a public key.
-         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * Retrieve a list of Klaytn accounts by public key.
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
          * @param {String} publicKey Klaytn public key
          * @param {AccountApi~retrieveAccountsByPubkeyCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link AccountsByPubkey}
@@ -586,10 +586,10 @@
 
         /**
          * SignTransactionIDResponse
-         * Sign transactions with a transaction ID using the corresponding Klaytn account.
-         * @param {String} xChainId Klaytn chain network ID (1001 or 8217)
+         * Sign the transaction with a certain ID using this Klaytn account.
+         * @param {String} xChainId Klaytn Chain Network ID (1001 or 8217)
          * @param {String} address Klaytn account address
-         * @param {String} transactionId ID of transaction to be signed
+         * @param {String} transactionId ID of the transaction to be signed
          * @param {AccountApi~signTransactionIDResponseCallback} callback The callback function, accepting three arguments: error, data, response
          * data is of type: {@link Signature}
          */
