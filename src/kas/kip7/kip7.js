@@ -569,7 +569,7 @@ class KIP7 {
 
     /**
      * `spender` burns `owner`'s tokens on the `owner`'s behalf. <br>
-     * POST /v1/contract/{contract-address-or-alias}/burnFrom
+     * POST /v1/contract/{contract-address-or-alias}/burn-from
      *
      * @example
      * const spender = '0x{address in hex}'
