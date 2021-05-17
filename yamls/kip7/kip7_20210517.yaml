@@ -1153,7 +1153,7 @@
           "type": "integer"
           "format": "int64"
           "example": 8
-          "description": "Token decimal place "
+          "description": "Token decimal place. The default value is `0`."
         "initialSupply":
           "type": "string"
           "example": "0x100"
@@ -1163,7 +1163,6 @@
         - "alias"
         - "name"
         - "symbol"
-        - "decimals"
         - "initialSupply"
     "Kip7ContractMetadataResponse":
       "type": "object"

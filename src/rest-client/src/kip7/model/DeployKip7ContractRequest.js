@@ -41,14 +41,12 @@
      * @param alias {String} Contract alias; for KIP-7 API, you can use not only the contract address but also an alias.
      * @param name {String} Contract name
      * @param symbol {String} Token symbol
-     * @param decimals {Number} Token decimal place
      * @param initialSupply {String} Initial supply (in hexadecimal)
      */
-    const DeployKip7ContractRequest = function(alias, name, symbol, decimals, initialSupply) {
+    const DeployKip7ContractRequest = function(alias, name, symbol, initialSupply) {
         this.alias = alias
         this.name = name
         this.symbol = symbol
-        this.decimals = decimals
         this.initialSupply = initialSupply
     }
 
@@ -94,7 +92,7 @@
     DeployKip7ContractRequest.prototype.symbol = undefined
 
     /**
-     * Token decimal place
+     * Token decimal place. The default value is `0`.
      * @type {Number}
      * @memberof DeployKip7ContractRequest
      */

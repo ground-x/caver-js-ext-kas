@@ -882,7 +882,7 @@ definitions:
         example: MSK7
         type: string
       decimals:
-        description: Token decimal place
+        description: Token decimal place. The default value is `0`.
         example: 8
         type: integer
         format: int64
@@ -894,7 +894,6 @@ definitions:
     - alias
     - name
     - symbol
-    - decimals
     - initialSupply
   Kip7ContractMetadataResponse:
     title: Kip7ContractMetadataResponse
