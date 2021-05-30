@@ -135,7 +135,7 @@ class KIP7 {
     }
 
     /**
-     * Deploy KIP-7 token contract with a Klatn account in KAS. <br>
+     * Deploy KIP-7 token contract with a Klaytn account in KAS. <br>
      * POST /v1/contract
      *
      * @example
