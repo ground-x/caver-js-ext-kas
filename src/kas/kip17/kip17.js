@@ -124,7 +124,7 @@ class KIP17 {
     }
 
     /**
-     * Deploy KIP-17 token contract with a Klatn account in KAS. <br>
+     * Deploy KIP-17 token contract with a Klaytn account in KAS. <br>
      * POST /v1/contract
      * @example
      * const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', 'jasmine-alias')
