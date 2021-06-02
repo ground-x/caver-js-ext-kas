@@ -15,9 +15,9 @@
     "intNodeAPITest": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js",
     "intNodeAPITestQA": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js --testEnv=qa",
     "intNodeAPITestDev": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js --testEnv=dev",
-    "intTest": "npm run intNodeAPITest && ./node_modules/mocha/bin/mocha ./test/intTest/*.js",
-    "intTestQA": "npm run intNodeAPITestQA && ./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=qa",
-    "intTestDev": "npm run intNodeAPITestDev && ./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=dev",
+    "intTest": "./node_modules/mocha/bin/mocha ./test/intTest/*.js && npm run intNodeAPITest ",
+    "intTestQA": "./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=qa && npm run intNodeAPITestQA ",
+    "intTestDev": "./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=dev && npm run intNodeAPITestDev ",
     "lint": "eslint './**/*.js'",
     "lintFix": "./yamlFormatting.sh && eslint './**/*.js' --fix"
   },
