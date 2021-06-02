@@ -201,6 +201,7 @@ class CaverExtKAS extends Caver {
     /**
      * Sets chain id and authentication key for Node API with web socket.
      * This function will set caver's provider with WebsocketProvider.
+     * To use the websocket provider, you must use an accessKey and seretAccessKey that do not contain special characters.
      *
      * @example
      * caver.initNodeAPIWithWebSocket(1001, 'accessKeyId', 'secretAccessKey', 'Node API url to use')
