@@ -107,7 +107,7 @@ class KIP17 {
      * @type {object}
      */
     get client() {
-        return this.apiInstances.token.apiClient
+        return this.apiInstances.kip17.apiClient
     }
 
     set client(client) {
@@ -124,14 +124,14 @@ class KIP17 {
     }
 
     /**
-     * Deploy KIP-17 token contract with a Klatn account in KAS. <br>
+     * Deploy KIP-17 token contract with a Klaytn account in KAS. <br>
      * POST /v1/contract
      * @example
      * const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', 'jasmine-alias')
      *
      * @param {string} name The name of KIP-17 token.
      * @param {string} symbol The symbol of KIP-17 token.
-     * @param {string} alias The alias of KIP-17 token.
+     * @param {string} alias The alias of KIP-17 token. Your `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip17TransactionStatusResponse}
      */

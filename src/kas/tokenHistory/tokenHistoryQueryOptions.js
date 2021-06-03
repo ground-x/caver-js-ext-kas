@@ -37,35 +37,47 @@ class TokenHistoryQueryOptions {
         const size = obj.size
         const cursor = obj.cursor
         const caFilter = obj.caFilter || obj['ca-filter']
+        const caFilters = obj.caFilters || obj['ca-filters']
         const status = obj.status
         const type = obj.type
+        const excludeZeroKlay = obj.excludeZeroKlay || obj['exclude-zero-klay']
+        const fromOnly = obj.fromOnly || obj['from-only']
+        const toOnly = obj.toOnly || obj['to-only']
 
-        return new TokenHistoryQueryOptions(kind, range, size, cursor, caFilter, status, type)
+        return new TokenHistoryQueryOptions(kind, range, size, cursor, caFilter, caFilters, status, type, excludeZeroKlay, fromOnly, toOnly)
     }
 
     /**
      * Creates an instance of TokenHistoryQueryOptions.
      *
      * @example
-     * const options = new caver.kas.tokenHistory.queryOptions(kind, range, size, cursor, caFilter, status, type)
+     * const options = new caver.kas.tokenHistory.queryOptions(kind, range, size, cursor, caFilter, caFilters, status, type, excludeZeroKlay, fromOnly, toOnly)
      *
      * @constructor
-     * @param {Array.<string>} kind - Indicate the [“klay”, “ft”, “nft”, "mt"] type. All types will be searched if no type is specified. You can use `caver.tokenHistory.queryOptions.kind`.
+     * @param {Array.<string>} kind - Indicate the [“klay”, “ft”, “nft”, "mt"] type. All types will be searched if no type is specified. You can use `caver.kas.tokenHistory.queryOptions.kind`.
      * @param {string} range - Search range (block number of Unix time).
      * @param {number} size - Maximum number of items to retrieve (min=1, max=1000, default=100).
      * @param {string} cursor - Information of the last retrieved cursor.
      * @param {string} caFilter - The token contract address to filter from the result.
-     * @param {string} status - Labeling status [completed, processing, failed, cancelled]. You can use `caver.tokenHistory.queryOptions.status`.
-     * @param {string} type - Contract type. If not set, return all types. You can use `caver.tokenHistory.queryOptions.type`.
+     * @param {string} caFilters - Contract address list to filter.
+     * @param {string} status - Labeling status [completed, processing, failed, cancelled]. You can use `caver.kas.tokenHistory.queryOptions.status`.
+     * @param {string} type - Contract type. If not set, return all types. You can use `caver.kas.tokenHistory.queryOptions.type`.
+     * @param {boolean} excludeZeroKlay - Exclude transfers of 0 KLAY if true (default=false).
+     * @param {boolean} fromOnly If true, return transactions when sender corresponds to the given address. (default=false)
+     * @param {boolean} toOnly If true, return transactions when recipient corresponds to the given address. (default=false)
      */
-    constructor(kind, range, size, cursor, caFilter, status, type) {
+    constructor(kind, range, size, cursor, caFilter, caFilters, status, type, excludeZeroKlay, fromOnly, toOnly) {
         if (kind !== undefined) this.kind = kind
         if (range !== undefined) this.range = range
         if (size !== undefined) this.size = size
         if (cursor !== undefined) this.cursor = cursor
         if (caFilter !== undefined) this.caFilter = caFilter
+        if (caFilters !== undefined) this.caFilters = caFilters
         if (status !== undefined) this.status = status
         if (type !== undefined) this.type = type
+        if (excludeZeroKlay !== undefined) this.excludeZeroKlay = excludeZeroKlay
+        if (fromOnly !== undefined) this.fromOnly = fromOnly
+        if (toOnly !== undefined) this.toOnly = toOnly
     }
 
     /**
@@ -82,8 +94,8 @@ class TokenHistoryQueryOptions {
         for (let k of kind) {
             if (!lodash.isString(k)) throw new Error(`Invalid type of kind: kind should be string or string array type.`)
             const lowerCaseK = k.toLowerCase()
-            if (lowerCaseK !== 'klay' && lowerCaseK !== 'ft' && lowerCaseK !== 'nft') {
-                throw new Error(`Invalid kind. The kind can specify the type to search among 'klay','ft' or 'ntf'.`)
+            if (lowerCaseK !== 'klay' && lowerCaseK !== 'ft' && lowerCaseK !== 'nft' && lowerCaseK !== 'mt') {
+                throw new Error(`Invalid kind. The kind can specify the type to search among 'klay','ft', 'ntf' or 'mt'.`)
             }
             k = k.toLowerCase()
         }
@@ -162,6 +174,20 @@ class TokenHistoryQueryOptions {
     }
 
     /**
+     * @type {Array.<string>}
+     */
+    get caFilters() {
+        if (this._caFilters === undefined) return undefined
+        return this._caFilters.toString()
+    }
+
+    set caFilters(caFilters) {
+        if (lodash.isString(caFilters)) caFilters = [caFilters]
+        if (!lodash.isArray(caFilters)) throw new Error(`Invalid type of caFilters: caFilters should be string or array type.`)
+        this._caFilters = Array.from(new Set(caFilters))
+    }
+
+    /**
      * @type {string}
      */
     get status() {
@@ -197,6 +223,42 @@ class TokenHistoryQueryOptions {
             )
 
         this._type = type.toUpperCase()
+    }
+
+    /**
+     * @type {boolean}
+     */
+    get excludeZeroKlay() {
+        return this._excludeZeroKlay
+    }
+
+    set excludeZeroKlay(excludeZeroKlay) {
+        if (!lodash.isBoolean(excludeZeroKlay)) throw new Error(`Invalid type of excludeZeroKlay: excludeZeroKlay should be boolean type.`)
+        this._excludeZeroKlay = excludeZeroKlay
+    }
+
+    /**
+     * @type {boolean}
+     */
+    get fromOnly() {
+        return this._fromOnly
+    }
+
+    set fromOnly(fromOnly) {
+        if (!lodash.isBoolean(fromOnly)) throw new Error(`Invalid type of fromOnly: fromOnly should be boolean type.`)
+        this._fromOnly = fromOnly
+    }
+
+    /**
+     * @type {boolean}
+     */
+    get toOnly() {
+        return this._toOnly
+    }
+
+    set toOnly(toOnly) {
+        if (!lodash.isBoolean(toOnly)) throw new Error(`Invalid type of toOnly: toOnly should be boolean type.`)
+        this._toOnly = toOnly
     }
 
     /**

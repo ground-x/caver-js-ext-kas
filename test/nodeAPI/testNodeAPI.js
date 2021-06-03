@@ -59,12 +59,12 @@ describe('Node API service enabling', () => {
     })
 
     context('caver.initNodeAPI', () => {
-        it('should return error if nodeAPI is not initialized', async () => {
+        it('CAVERJS-EXT-KAS-NODE-001: should return error if nodeAPI is not initialized', async () => {
             const expectedError = 'Provider not set or invalid'
             await expect(caver.rpc.klay.getBlockNumber()).to.be.rejectedWith(expectedError)
         }).timeout(50000)
 
-        it('should set valid headers to provider with x-chain-id and auth', () => {
+        it('CAVERJS-EXT-KAS-NODE-002: should set valid headers to provider with x-chain-id and auth', () => {
             caver.initNodeAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const headers = caver._requestManager.provider.headers
@@ -95,7 +95,7 @@ describe('Node API service', () => {
     })
 
     context('caver.rpc.klay APIs', () => {
-        it('should use json rpc call of Klaytn thourgh KAS', async () => {
+        it('CAVERJS-EXT-KAS-NODE-003: should use json rpc call of Klaytn thourgh KAS', async () => {
             let filterId
 
             const klayAPIs = [

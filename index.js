@@ -15,6 +15,7 @@
  */
 
 const Caver = require('caver-js')
+const _ = require('lodash')
 const KAS = require('./src/kas/kas')
 const KASWallet = require('./src/wallet/kasWallet')
 
@@ -24,6 +25,7 @@ const productionEndpoints = {
     anchor: 'https://anchor-api.klaytnapi.com',
     tokenHistory: 'https://th-api.klaytnapi.com',
     kip17: 'https://kip17-api.klaytnapi.com',
+    kip7: 'https://kip7-api.klaytnapi.com',
 }
 
 /**
@@ -46,8 +48,9 @@ class CaverExtKAS extends Caver {
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
+     * @param {object} [opt] An object that defines the option value used when initializing to use the KAS API.
      */
-    constructor(chainId, accessKeyId, secretAccessKey) {
+    constructor(chainId, accessKeyId, secretAccessKey, opt) {
         super()
 
         this.kas = new KAS()
@@ -77,7 +80,7 @@ class CaverExtKAS extends Caver {
         this.keyringContainer.keyring = this.wallet.keyring
         this.wallet = kasWallet
 
-        if (chainId !== undefined && accessKeyId && secretAccessKey) this.initKASAPI(chainId, accessKeyId, secretAccessKey)
+        if (chainId !== undefined && accessKeyId && secretAccessKey) this.initKASAPI(chainId, accessKeyId, secretAccessKey, opt)
     }
 
     /**
@@ -110,34 +113,74 @@ class CaverExtKAS extends Caver {
      *
      * @example
      * caver.initKASAPI(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initKASAPI(1001, 'accessKeyId', 'secretAccessKey', { useNodeAPIWithHttp: true }) // use HttpProvider with Node API
+     * caver.initKASAPI(1001, 'accessKeyId', 'secretAccessKey', { useNodeAPIWithHttp: false }) // use WebsocketProvider with Node API
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
+     * @param {object} [opt] An object that defines the option value used when initializing to use the KAS API.
      * @return {void}
      */
-    initKASAPI(chainId, accessKeyId, secretAccessKey) {
-        this.initNodeAPI(chainId, accessKeyId, secretAccessKey)
+    initKASAPI(chainId, accessKeyId, secretAccessKey, opt = { useNodeAPIWithHttp: true }) {
+        this.initNodeAPI(chainId, accessKeyId, secretAccessKey, opt.useNodeAPIWithHttp)
         this.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey)
         this.initWalletAPI(chainId, accessKeyId, secretAccessKey)
         this.initAnchorAPI(chainId, accessKeyId, secretAccessKey)
         this.initKIP17API(chainId, accessKeyId, secretAccessKey)
+        this.initKIP7API(chainId, accessKeyId, secretAccessKey)
     }
 
     /**
      * Sets chain id and authentication key for Node API.
      *
      * @example
-     * caver.initNodeAPI(1001, 'accessKeyId', 'secretAccessKey')
-     * caver.initNodeAPI(1001, 'accessKeyId', 'secretAccessKey', 'Node API url to use')
+     * caver.initNodeAPI(1001, 'accessKeyId', 'secretAccessKey', true) // HttpProvider
+     * caver.initNodeAPI(1001, 'accessKeyId', 'secretAccessKey', true, 'Node API url to use') // HttpProvider
+     *
+     * caver.initNodeAPI(1001, 'accessKeyId', 'secretAccessKey', false) // WebsocketProvider
+     * caver.initNodeAPI(1001, 'accessKeyId', 'secretAccessKey', false, 'Node API url to use') // WebsocketProvider
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
+     * @param {boolean} [useHttp] If `true`, `HttpProvider` is used. If `false`, `WebsocketProvider` is used. (defaults to `true`)
      * @param {string} [url] The end point url.
      * @return {void}
      */
-    initNodeAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.node) {
+    initNodeAPI(chainId, accessKeyId, secretAccessKey, useHttp, url) {
+        // chainId, accessKeyId, secretAccessKey
+        // chainId, accessKeyId, secretAccessKey, useHttp
+        // chainId, accessKeyId, secretAccessKey, url
+        // chainId, accessKeyId, secretAccessKey, useHttp, url
+        if (_.isString(useHttp)) {
+            url = useHttp
+            useHttp = undefined
+        }
+        useHttp = useHttp === undefined ? true : useHttp
+        url = url === undefined ? productionEndpoints.node : url
+
+        if (useHttp) {
+            return this.initNodeAPIWithHttp(chainId, accessKeyId, secretAccessKey, url)
+        }
+
+        return this.initNodeAPIWithWebSocket(chainId, accessKeyId, secretAccessKey, url)
+    }
+
+    /**
+     * Sets chain id and authentication key for Node API.
+     * This function will set caver's provider with HttpProvider.
+     *
+     * @example
+     * caver.initNodeAPIWithHttp(1001, 'accessKeyId', 'secretAccessKey', 'Node API url to use')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} url The end point url.
+     * @return {void}
+     */
+    initNodeAPIWithHttp(chainId, accessKeyId, secretAccessKey, url) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
 
         const splitted = url.split('/')
@@ -153,6 +196,35 @@ class CaverExtKAS extends Caver {
             { name: 'x-chain-id', value: chainId },
         ]
         this._requestManager.provider.headers = this._requestManager.provider.headers.concat(auth)
+    }
+
+    /**
+     * Sets chain id and authentication key for Node API with web socket.
+     * This function will set caver's provider with WebsocketProvider.
+     * To use the websocket provider, you must use an accessKey and seretAccessKey that do not contain special characters.
+     *
+     * @example
+     * caver.initNodeAPIWithWebSocket(1001, 'accessKeyId', 'secretAccessKey', 'Node API url to use')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} url The end point url.
+     * @return {void}
+     */
+    initNodeAPIWithWebSocket(chainId, accessKeyId, secretAccessKey, url) {
+        const regex = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/
+        if (regex.test(accessKeyId) || regex.test(secretAccessKey))
+            throw new Error(
+                `Invalid auth: To use the websocket provider, you must use an accessKey and seretAccessKey that do not contain special characters. Please obtain a new AccessKey through the KAS Console.`
+            )
+
+        const endpoint = `wss://${accessKeyId}:${secretAccessKey}@${url
+            .slice(url.indexOf('//') + 2)
+            .replace('/v1/klaytn', '')}/v1/ws/open?chain-id=${chainId}`
+
+        const ws = new this.providers.WebsocketProvider(endpoint)
+        this.setProvider(ws)
     }
 
     /**
@@ -228,6 +300,24 @@ class CaverExtKAS extends Caver {
     initKIP17API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip17) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
+    }
+
+    /**
+     * Sets chain id and authentication key for KIP7 API.
+     *
+     * @example
+     * caver.initKIP7API(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initKIP7API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-7 API url to use')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initKIP7API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip7) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+        this.kas.initKIP7API(chainId, accessKeyId, secretAccessKey, url)
     }
 }
 

@@ -35,7 +35,6 @@
             './tokenHistory/model/FTSummary',
             './tokenHistory/model/FtContract',
             './tokenHistory/model/FtContractDetail',
-            './tokenHistory/model/FtLink',
             './tokenHistory/model/FtTransfer',
             './tokenHistory/model/KlayTransfer',
             './tokenHistory/model/Mt',
@@ -109,6 +108,7 @@
             './wallet/model/KeyCreationResponse',
             './wallet/model/KeySignDataRequest',
             './wallet/model/KeySignDataResponse',
+            './wallet/model/KeyStatus',
             './wallet/model/LegacyTransactionRequest',
             './wallet/model/MultisigAccount',
             './wallet/model/MultisigAccountUpdateRequest',
@@ -133,6 +133,7 @@
             './wallet/api/BasicTransactionApi',
             './wallet/api/FeeDelegatedTransactionPaidByKASApi',
             './wallet/api/FeeDelegatedTransactionPaidByUserApi',
+            './wallet/api/FeepayerApi',
             './wallet/api/KeyApi',
             './wallet/api/MultisigTransactionManagementApi',
             './wallet/api/RegistrationApi',
@@ -152,11 +153,27 @@
             './kip17/model/Kip17ContractListResponse',
             './kip17/model/Kip17ContractListResponseItem',
             './kip17/model/Kip17TokenListResponse',
-            './kip17/model/Kip17TokenListResponseItem',
             './kip17/model/Kip17TransactionStatusResponse',
             './kip17/model/MintKip17TokenRequest',
             './kip17/model/TransferKip17TokenRequest',
             './kip17/api/KIP17Api',
+
+            // KIP7
+            './kip7/model/ApproveKip7TokenRequest',
+            './kip7/model/BurnFromKip7TokenRequest',
+            './kip7/model/BurnKip7TokenRequest',
+            './kip7/model/DeployKip7ContractRequest',
+            './kip7/model/Kip7ContractListResponse',
+            './kip7/model/Kip7ContractListResponseItem',
+            './kip7/model/Kip7ContractMetadataResponse',
+            './kip7/model/Kip7DeployerResponse',
+            './kip7/model/Kip7TokenBalanceResponse',
+            './kip7/model/Kip7TransactionStatusResponse',
+            './kip7/model/MintKip7TokenRequest',
+            './kip7/model/TransferKip7TokenFromRequest',
+            './kip7/model/TransferKip7TokenRequest',
+            './kip7/api/KIP7Api',
+            './kip7/api/KIP7DeployerApi',
         ], factory)
     } else if (typeof module === 'object' && module.exports) {
         // CommonJS-like environments that support module.exports, like Node.
@@ -179,7 +196,6 @@
             require('./tokenHistory/model/FTSummary'),
             require('./tokenHistory/model/FtContract'),
             require('./tokenHistory/model/FtContractDetail'),
-            require('./tokenHistory/model/FtLink'),
             require('./tokenHistory/model/FtTransfer'),
             require('./tokenHistory/model/KlayTransfer'),
             require('./tokenHistory/model/Mt'),
@@ -253,6 +269,7 @@
             require('./wallet/model/KeyCreationResponse'),
             require('./wallet/model/KeySignDataRequest'),
             require('./wallet/model/KeySignDataResponse'),
+            require('./wallet/model/KeyStatus'),
             require('./wallet/model/LegacyTransactionRequest'),
             require('./wallet/model/MultisigAccount'),
             require('./wallet/model/MultisigAccountUpdateRequest'),
@@ -277,6 +294,7 @@
             require('./wallet/api/BasicTransactionApi'),
             require('./wallet/api/FeeDelegatedTransactionPaidByKASApi'),
             require('./wallet/api/FeeDelegatedTransactionPaidByUserApi'),
+            require('./wallet/api/FeepayerApi'),
             require('./wallet/api/KeyApi'),
             require('./wallet/api/MultisigTransactionManagementApi'),
             require('./wallet/api/RegistrationApi'),
@@ -296,11 +314,27 @@
             require('./kip17/model/Kip17ContractListResponse'),
             require('./kip17/model/Kip17ContractListResponseItem'),
             require('./kip17/model/Kip17TokenListResponse'),
-            require('./kip17/model/Kip17TokenListResponseItem'),
             require('./kip17/model/Kip17TransactionStatusResponse'),
             require('./kip17/model/MintKip17TokenRequest'),
             require('./kip17/model/TransferKip17TokenRequest'),
-            require('./kip17/api/KIP17Api')
+            require('./kip17/api/KIP17Api'),
+
+            // KIP7
+            require('./kip7/model/ApproveKip7TokenRequest'),
+            require('./kip7/model/BurnFromKip7TokenRequest'),
+            require('./kip7/model/BurnKip7TokenRequest'),
+            require('./kip7/model/DeployKip7ContractRequest'),
+            require('./kip7/model/Kip7ContractListResponse'),
+            require('./kip7/model/Kip7ContractListResponseItem'),
+            require('./kip7/model/Kip7ContractMetadataResponse'),
+            require('./kip7/model/Kip7DeployerResponse'),
+            require('./kip7/model/Kip7TokenBalanceResponse'),
+            require('./kip7/model/Kip7TransactionStatusResponse'),
+            require('./kip7/model/MintKip7TokenRequest'),
+            require('./kip7/model/TransferKip7TokenFromRequest'),
+            require('./kip7/model/TransferKip7TokenRequest'),
+            require('./kip7/api/KIP7Api'),
+            require('./kip7/api/KIP7DeployerApi')
         )
     }
 })(function(
@@ -322,7 +356,6 @@
     FTSummary,
     FtContract,
     FtContractDetail,
-    FtLink,
     FtTransfer,
     KlayTransfer,
     Mt,
@@ -396,6 +429,7 @@
     KeyCreationResponse,
     KeySignDataRequest,
     KeySignDataResponse,
+    KeyStatus,
     LegacyTransactionRequest,
     MultisigAccount,
     MultisigAccountUpdateRequest,
@@ -420,6 +454,7 @@
     BasicTransactionApi,
     FeeDelegatedTransactionPaidByKASApi,
     FeeDelegatedTransactionPaidByUserApi,
+    FeepayerApi,
     KeyApi,
     MultisigTransactionManagementApi,
     RegistrationApi,
@@ -437,11 +472,27 @@
     Kip17ContractListResponse,
     Kip17ContractListResponseItem,
     Kip17TokenListResponse,
-    Kip17TokenListResponseItem,
     Kip17TransactionStatusResponse,
     MintKip17TokenRequest,
     TransferKip17TokenRequest,
-    KIP17Api
+    KIP17Api,
+
+    // KIP7
+    ApproveKip7TokenRequest,
+    BurnFromKip7TokenRequest,
+    BurnKip7TokenRequest,
+    DeployKip7ContractRequest,
+    Kip7ContractListResponse,
+    Kip7ContractListResponseItem,
+    Kip7ContractMetadataResponse,
+    Kip7DeployerResponse,
+    Kip7TokenBalanceResponse,
+    Kip7TransactionStatusResponse,
+    MintKip7TokenRequest,
+    TransferKip7TokenFromRequest,
+    TransferKip7TokenRequest,
+    KIP7Api,
+    KIP7DeployerApi
 ) {
     /**
      * @module RestClient
@@ -522,11 +573,6 @@
          * @property {FtContractDetail}
          */
         FtContractDetail: FtContractDetail,
-        /**
-         * The FtLink model constructor.
-         * @property {FtLink}
-         */
-        FtLink: FtLink,
         /**
          * The FtTransfer model constructor.
          * @property {FtTransfer}
@@ -886,6 +932,11 @@
          */
         KeySignDataResponse: KeySignDataResponse,
         /**
+         * The KeyStatus model constructor.
+         * @property {KeyStatus}
+         */
+        KeyStatus: KeyStatus,
+        /**
          * The LegacyTransactionRequest model constructor.
          * @property {LegacyTransactionRequest}
          */
@@ -1006,6 +1057,11 @@
          */
         FeeDelegatedTransactionPaidByUserApi: FeeDelegatedTransactionPaidByUserApi,
         /**
+         * The FeepayerApi service constructor.
+         * @property {FeepayerApi}
+         */
+        FeepayerApi: FeepayerApi,
+        /**
          * The KeyApi service constructor.
          * @property {KeyApi}
          */
@@ -1093,11 +1149,6 @@
          */
         Kip17TokenListResponse: Kip17TokenListResponse,
         /**
-         * The Kip17TokenListResponseItem model constructor.
-         * @property {Kip17TokenListResponseItem}
-         */
-        Kip17TokenListResponseItem: Kip17TokenListResponseItem,
-        /**
          * The Kip17TransactionStatusResponse model constructor.
          * @property {Kip17TransactionStatusResponse}
          */
@@ -1117,6 +1168,83 @@
          * @property {KIP17Api}
          */
         KIP17Api: KIP17Api,
+
+        // KIP7
+        /**
+         * The ApproveKip7TokenRequest model constructor.
+         * @property {ApproveKip7TokenRequest}
+         */
+        ApproveKip7TokenRequest: ApproveKip7TokenRequest,
+        /**
+         * The BurnFromKip7TokenRequest model constructor.
+         * @property {BurnFromKip7TokenRequest}
+         */
+        BurnFromKip7TokenRequest: BurnFromKip7TokenRequest,
+        /**
+         * The BurnKip7TokenRequest model constructor.
+         * @property {BurnKip7TokenRequest}
+         */
+        BurnKip7TokenRequest: BurnKip7TokenRequest,
+        /**
+         * The DeployKip7ContractRequest model constructor.
+         * @property {DeployKip7ContractRequest}
+         */
+        DeployKip7ContractRequest: DeployKip7ContractRequest,
+        /**
+         * The Kip7ContractListResponse model constructor.
+         * @property {Kip7ContractListResponse}
+         */
+        Kip7ContractListResponse: Kip7ContractListResponse,
+        /**
+         * The Kip7ContractListResponseItem model constructor.
+         * @property {Kip7ContractListResponseItem}
+         */
+        Kip7ContractListResponseItem: Kip7ContractListResponseItem,
+        /**
+         * The Kip7ContractMetadataResponse model constructor.
+         * @property {Kip7ContractMetadataResponse}
+         */
+        Kip7ContractMetadataResponse: Kip7ContractMetadataResponse,
+        /**
+         * The Kip7DeployerResponse model constructor.
+         * @property {Kip7DeployerResponse}
+         */
+        Kip7DeployerResponse: Kip7DeployerResponse,
+        /**
+         * The Kip7TokenBalanceResponse model constructor.
+         * @property {Kip7TokenBalanceResponse}
+         */
+        Kip7TokenBalanceResponse: Kip7TokenBalanceResponse,
+        /**
+         * The Kip7TransactionStatusResponse model constructor.
+         * @property {Kip7TransactionStatusResponse}
+         */
+        Kip7TransactionStatusResponse: Kip7TransactionStatusResponse,
+        /**
+         * The MintKip7TokenRequest model constructor.
+         * @property {MintKip7TokenRequest}
+         */
+        MintKip7TokenRequest: MintKip7TokenRequest,
+        /**
+         * The TransferKip7TokenFromRequest model constructor.
+         * @property {TransferKip7TokenFromRequest}
+         */
+        TransferKip7TokenFromRequest: TransferKip7TokenFromRequest,
+        /**
+         * The TransferKip7TokenRequest model constructor.
+         * @property {TransferKip7TokenRequest}
+         */
+        TransferKip7TokenRequest: TransferKip7TokenRequest,
+        /**
+         * The KIP7Api service constructor.
+         * @property {KIP7Api}
+         */
+        KIP7Api: KIP7Api,
+        /**
+         * The KIP7DeployerApi service constructor.
+         * @property {KIP7DeployerApi}
+         */
+        KIP7DeployerApi: KIP7DeployerApi,
     }
 
     return exports

@@ -23,6 +23,7 @@ const {
     FeeDelegatedTransactionPaidByKASApi,
     FeeDelegatedTransactionPaidByUserApi,
     MultisigTransactionManagementApi,
+    FeepayerApi,
     KeyApi,
     RegistrationApi,
     StatisticsApi,
@@ -89,6 +90,7 @@ class Wallet {
                 statistics: new StatisticsApi(client),
                 key: new KeyApi(client),
                 registration: new RegistrationApi(client),
+                feePayer: new FeepayerApi(client),
             }
         }
     }
@@ -160,6 +162,7 @@ class Wallet {
             statistics: new StatisticsApi(client),
             key: new KeyApi(client),
             registration: new RegistrationApi(client),
+            feePayer: new FeepayerApi(client),
         }
     }
 
@@ -217,6 +220,13 @@ class Wallet {
      */
     get registrationApi() {
         return this.apiInstances.registration
+    }
+
+    /**
+     * @type {FeepayerApi}
+     */
+    get feePayerApi() {
+        return this.apiInstances.feePayer
     }
 
     /**
@@ -1848,17 +1858,25 @@ class Wallet {
      * GET /v2/stat/count/krn
      *
      * @example
-     * const result = await caver.kas.wallet.getAccountCountByKRN('krn:1001:wallet:test:account-pool:default')
+     * const result = await caver.kas.wallet.getAccountCountByKRN()
      *
-     * @param {string} krn The krn string to search.
+     * @param {string} [krn] The krn string to search.
      * @param {Function} [callback] The callback function to call.
      * @return {AccountCountByKRN}
      */
     getAccountCountByKRN(krn, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
+        if (_.isFunction(krn)) {
+            callback = krn
+            krn = undefined
+        }
+
+        if (krn !== undefined)
+            throw new Error(`Defining krn to get account count is not supported yet. You can search only with the default krn.`)
+
         return new Promise((resolve, reject) => {
-            this.statisticsApi.getAccountCountByKRN(this.chainId, { xKrn: krn }, (err, data, response) => {
+            this.statisticsApi.getAccountCountByKRN(this.chainId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1936,22 +1954,46 @@ class Wallet {
      *
      * @param {string} keyId The key id to use for signing.
      * @param {string} dataToSign The data to sign.
-     * @param {string} [krn] The krn string.
      * @param {Function} [callback] The callback function to call.
      * @return {KeySignDataResponse}
      */
-    signMessage(keyId, dataToSign, krn, callback) {
+    signMessage(keyId, dataToSign, callback) {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(keyId)) throw new Error(`Invalid keyId. You should pass string type parameter.`)
         if (!_.isString(dataToSign)) throw new Error(`Invalid data. You should pass string type parameter.`)
 
-        if (_.isFunction(krn)) {
-            callback = krn
-            krn = undefined
-        }
+        if (callback && !_.isFunction(callback))
+            throw new Error(`Invalid parameter: Please check your parameter ("signMessage(keyId, dataToSign [, callback])")`)
 
         return new Promise((resolve, reject) => {
-            this.keyApi.keySignData(this.chainId, keyId, { body: { data: dataToSign }, xKrn: krn }, (err, data, response) => {
+            this.keyApi.keySignData(this.chainId, keyId, { body: { data: dataToSign } }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Delete a key. <br>
+     * DELETE /v2/key/{key-id}
+     *
+     * @example
+     * const keyId = 'krn:1001:wallet:test:account-pool:default:0xd80ff4019cfd96f0812adece82dd956c5e781b79ca707cb5e957c97f27593221'
+     * const result = await caver.kas.wallet.deleteKey(keyId)
+     *
+     * @param {string} keyId The key id to delete.
+     * @param {Function} [callback] The callback function to call.
+     * @return {KeyStatus}
+     */
+    deleteKey(keyId, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(keyId)) throw new Error(`Invalid keyId. You should pass string type parameter.`)
+
+        return new Promise((resolve, reject) => {
+            this.keyApi.keyDeletion(this.chainId, keyId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -2006,6 +2048,122 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.registrationApi.registerAccount(this.chainId, { body: accounts }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    // Fee Payer Api
+
+    /**
+     * Create a Klaytn fee payer account. Generate a Klaytn account address and random private/public key pair and get ID of public key and private key returned. <br>
+     * Klaytn fee payer account should be updated to [AccountKeyRoleBased](https://docs.klaytn.com/klaytn/design/accounts#accountkeyrolebased) and can only be used for fee delegation. <br>
+     * POST /v2/feepayer
+     *
+     * @example
+     * const ret = await caver.kas.wallet.createFeePayer()
+     *
+     * @param {Function} [callback] The callback function to call.
+     * @return {Account}
+     */
+    createFeePayer(callback) {
+        if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.feePayerApi.creatFeePayerAccount(this.chainId, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Delete a certain Klaytn fee payer account. <br>
+     * DELETE /v2/feepayer/{address}
+     *
+     * @example
+     * const feePayer = '0x{address in hex}'
+     * const ret = await caver.kas.wallet.deleteFeePayer(feePayer)
+     *
+     * @param {string} address The fee payer address to delete.
+     * @param {Function} [callback] The callback function to call.
+     * @return {AccountStatus}
+     */
+    deleteFeePayer(address, callback) {
+        if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.feePayerApi.deleteFeePayerAccount(this.chainId, address, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Retrieve a certain Klaytn fee payer account. <br>
+     * GET /v2/feepayer/{address}
+     *
+     * @example
+     * const feePayer = '0x{address in hex}'
+     * const ret = await caver.kas.wallet.getFeePayer(feePayer)
+     *
+     * @param {string} address The fee payer address to retrieve.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Account}
+     */
+    getFeePayer(address, callback) {
+        if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        return new Promise((resolve, reject) => {
+            this.feePayerApi.retrieveFeePayerAccount(this.chainId, address, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Retrieve the Klaytn fee payer accounts. <br>
+     * GET /v2/feepayer
+     *
+     * @example
+     * const ret = await caver.kas.wallet.getFeePayerList()
+     *
+     * const queryOptions = { size: 1, cursor: '...' }
+     * const ret = await caver.kas.wallet.getFeePayerList(queryOptions)
+     *
+     * @param {WalletQueryOptions} [queryOptions] Filters required when retrieving data. `size`, `cursor`, `fromTimestamp` or `toTimestamp`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Accounts}
+     */
+    getFeePayerList(queryOptions, callback) {
+        if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = WalletQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['size', 'cursor', 'fromTimestamp', 'toTimestamp']))
+            throw new Error(`Invalid query options: 'size', 'cursor', 'fromTimestamp' or 'toTimestamp' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.feePayerApi.retrieveFeePayerAccounts(this.chainId, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

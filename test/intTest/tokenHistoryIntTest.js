@@ -92,6 +92,7 @@ describe('TokenHistory API service', () => {
             kind: [caver.kas.tokenHistory.queryOptions.kind.NFT],
             size: 1,
             range,
+            excludeZeroKlay: true,
         }
 
         const ret = await caver.kas.tokenHistory.getTransferHistory(presets, queryOptions)
@@ -118,20 +119,34 @@ describe('TokenHistory API service', () => {
     }).timeout(1000000)
 
     it('CAVERJS-EXT-KAS-INT-009: caver.kas.tokenHistory.getTransferHistoryByAccount should query transaction by account', async () => {
-        const queryOptions = {
+        let queryOptions = {
             kind: [caver.kas.tokenHistory.queryOptions.kind.NFT],
             size: 1,
             range,
             caFilter: nftContractAddress,
+            fromOnly: true,
+            excludeZeroKlay: true,
         }
 
-        const ret = await caver.kas.tokenHistory.getTransferHistoryByAccount(tokenOwnerAddress, queryOptions)
+        let ret = await caver.kas.tokenHistory.getTransferHistoryByAccount(tokenOwnerAddress, queryOptions)
 
         expect(ret.items).not.to.be.undefined
         expect(ret.items.length > 0).to.be.true
-        expect(ret.items[0].from === tokenOwnerAddress || ret.items[0].to === tokenOwnerAddress).to.be.true
+        expect(ret.items[0].from === tokenOwnerAddress).to.be.true
         expect(ret.items[0].contract.address.toLowerCase()).to.equal(queryOptions.caFilter.toLowerCase())
         expect(ret.cursor).not.to.be.undefined
+
+        queryOptions = {
+            kind: [caver.kas.tokenHistory.queryOptions.kind.NFT],
+            size: 1,
+            toOnly: true,
+        }
+
+        ret = await caver.kas.tokenHistory.getTransferHistoryByAccount(tokenOwnerAddress, queryOptions)
+
+        expect(ret.items).not.to.be.undefined
+        expect(ret.items.length > 0).to.be.true
+        expect(ret.items[0].to === tokenOwnerAddress).to.be.true
     }).timeout(1000000)
 
     it('CAVERJS-EXT-KAS-INT-010: caver.kas.tokenHistory.getFTContractList should query FT contract list', async () => {
@@ -279,5 +294,27 @@ describe('TokenHistory API service', () => {
         expect(ret.items[0].owner.toLowerCase()).to.equal(tokenOwnerAddress.toLowerCase())
         expect(ret.items[0].transferFrom).to.equal('0x0000000000000000000000000000000000000000')
         expect(ret.items[0].transferTo.toLowerCase()).to.equal(tokenOwnerAddress.toLowerCase())
+    }).timeout(1000000)
+
+    it('CAVERJS-EXT-KAS-INT-278: caver.kas.tokenHistory.getContractListByOwner should return contract list', async () => {
+        const ret = await caver.kas.tokenHistory.getContractListByOwner(tokenOwnerAddress, {
+            kind: [caver.kas.tokenHistory.queryOptions.kind.FT, caver.kas.tokenHistory.queryOptions.kind.NFT],
+            size: 2,
+        })
+
+        expect(ret.items).not.to.be.undefined
+        expect(ret.items.length).to.equal(2)
+        expect(ret.items[0].kind === 'ft' || ret.items[0].kind === 'nft').to.be.true
+    }).timeout(1000000)
+
+    it('CAVERJS-EXT-KAS-INT-279: caver.kas.tokenHistory.getTokenListByOwner should return token list', async () => {
+        const ret = await caver.kas.tokenHistory.getTokenListByOwner(tokenOwnerAddress, {
+            kind: caver.kas.tokenHistory.queryOptions.kind.MT,
+            size: 1,
+        })
+
+        expect(ret.items).not.to.be.undefined
+        expect(ret.items.length).to.equal(1)
+        expect(ret.items[0].kind).to.equal('mt')
     }).timeout(1000000)
 })

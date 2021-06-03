@@ -1,0 +1,1078 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: KIP-7 API
+  description: "# Introduction\nKIP-7 API is a RESTful API for managing KIP-7 contracts and tokens that follow the [KIP-7 Fungible Token Standard](https://kips.klaytn.com/KIPs/kip-7).  \nYou can deploy contracts and send tokens using the default contract managing account (`deployer`) and an `alias`. And by using SDK like caver, \nyou can manage your contracts and tokens using [Wallet API](https://refs.klaytnapi.com/en/wallet/latest) for contracts created on the Klaytn Network. \n\n\n\n# Error Codes\n\n## 400: Bad Request\n\n | Code | Messages | \n | --- | --- |\n | 1130050 | incorrect request; spender\n1130107 | incorrect bookmark\n1134410 | invalid address; to</br>invalid address; owner</br>invalid address; address\n1134411 | invalid amount; amount |\n\n## 404: Not Found\n\n | Code | Messages |\n | --- | --- |\n | 1134504 | contract not found\n1134506 | deployer not found | \n\n## 409: Conflict\n\n | Code | Messages | \n | --- | --- | \n | 1134900 | duplicate alias\n1134902 | contract already paused\n1134903 | contract already unpaused | \n"
+  contact: {}
+host: kip7-api.klaytn.com
+basePath: /
+securityDefinitions:
+  auth:
+    type: basic
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+  /v1/contract:
+    get:
+      description: >+
+        Retrieves a list of all KIP-7 contracts deployed by the user. The contracts will be listed in descending order of transactions requested for creation.<p></p>
+
+
+        The `status` field in the response has one of the following values.<p></p>
+
+
+        - `init`: The initial status before sending the transaction
+
+        - `submitted`: The status of having submitted the contract deploy transaction
+
+        - `deployed`: The status of having deployed the contract<p></p>
+
+      summary: ListContractsInDeployerPool
+      tags:
+      - KIP7
+      operationId: ListContractsInDeployerPool
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: size
+        in: query
+        required: false
+        type: string
+        description: The maximum number of items to return
+      - name: cursor
+        in: query
+        required: false
+        type: string
+        description: Offset for the first item. You can query data after the given offset using the `cursor` value returned in the response.
+      - name: status
+        in: query
+        required: false
+        type: string
+        description: You can only choose one deploy status [`all`,`init`,`submitted`,`deployed`] for the contract you wish to query. The default value is `all`.
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7ContractListResponse'
+          examples:
+            application/json:
+              items:
+              - address: 0x0f73bb170deb398180f02e60d7ea154c270b8fb9
+                alias: mycontract
+                decimals: 8
+                name: MyKIP7
+                status: deployed
+                symbol: MSK7
+                totalSupply: 0x500
+              cursor: ''
+          headers: {}
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1130107
+              message: incorrect bookmark
+          headers: {}
+    post:
+      description: "Deploys a standard KIP-7 contract based on the data provided. The contract will be deployed via the default contract management account. You cannot change the deployer.  \nYou can retrieve the default contract management accounts via [/v1/deployer/default](#operation/GetDefaultDeployer).  \nYour `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet. <p></p>\n\n"
+      summary: DeployContract
+      tags:
+      - KIP7
+      operationId: DeployContract
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/DeployKip7ContractRequest'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TransactionStatusResponse'
+          examples:
+            application/json:
+              status: Submitted
+              transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+          headers: {}
+        '409':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134900
+              message: duplicate alias
+          headers: {}
+  /v1/contract/{contract-address-or-alias}:
+    get:
+      description: >+
+        Returns contract data of the given alias or contract address. <p></p>
+
+      summary: GetContract
+      tags:
+      - KIP7
+      operationId: GetContract
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7ContractMetadataResponse'
+          examples:
+            application/json:
+              address: 0x0f73bb170deb398180f02e60d7ea154c270b8fb9
+              decimals: 8
+              name: MyKIP7
+              symbol: MSK7
+              totalSupply: 0x500
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/pause:
+    post:
+      description: "Pauses all token transfers and validations for a given contract. \nYou can resume token transfers by using [/v1/{contract-address-or-alias}/unpause](#operation/UnpauseContract).<p></p>\n\n"
+      summary: PauseContract
+      tags:
+      - KIP7
+      operationId: PauseContract
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TransactionStatusResponse'
+          examples:
+            application/json:
+              status: Submitted
+              transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+        '409':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134902
+              message: contract already paused
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/unpause:
+    post:
+      description: >+
+        Resumes token transfers and validations for a given contract.<p></p>
+
+      summary: UnpauseContract
+      tags:
+      - KIP7
+      operationId: UnpauseContract
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TransactionStatusResponse'
+          examples:
+            application/json:
+              status: Submitted
+              transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+        '409':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134903
+              message: contract already unpaused
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/mint:
+    post:
+      description: "Mints a new token for a given user.  \nThe total supply in the contract (`totalSupply`) will increase as requested.<p></p>\n\n"
+      summary: MintToken
+      tags:
+      - KIP7
+      operationId: MintToken
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or alias
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/MintKip7TokenRequest'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TransactionStatusResponse'
+          examples:
+            application/json:
+              status: Submitted
+              transactionHash: 0x31dd75c39e569b3fa5336186a6a464c0a84c487f481e80009a4d238fbe0d2357
+          headers: {}
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134410
+              message: invalid address; to
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/transfer:
+    post:
+      description: "Sends tokens of the contract. \nIf `from` is not specified in the request, the sender will be the `deployer` of the contract.  <p></p>\n\n**Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>\nkrn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>\n\n- The first KRN: Default KIP-7 `account-pool`\n- The second KRN: Wallet API `account-pool`, which has the `from` account\n- Just as in other APIs, omitting the x-krn will give it the default value.<p></p>\n\n"
+      summary: TransferToken
+      tags:
+      - KIP7
+      operationId: TransferToken
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/TransferKip7TokenRequest'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TransactionStatusResponse'
+          examples:
+            application/json:
+              status: Submitted
+              transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+          headers: {}
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134410
+              message: invalid address; to
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/transfer-from:
+    post:
+      description: "Sends tokens on behalf of the owner. \nYou need to approve token transfers in advance ([/v1/{contract-address-or-alias}/approve](#operation/ApproveToken)).  <p></p>\n\n**Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>\nkrn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>\n\n- The first KRN: Default KIP-7 `account-pool`\n- The second KRN: Wallet API `account-pool`, which has the `spender` account\n- Just as in other APIs, omitting the x-krn will give it the default value.<p></p>\n\n"
+      summary: TransferFromToken
+      tags:
+      - KIP7
+      operationId: TransferFromToken
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/TransferKip7TokenFromRequest'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TransactionStatusResponse'
+          examples:
+            application/json:
+              status: Submitted
+              transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+          headers: {}
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134410
+              message: invalid address; to
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/account/{owner}/balance:
+    get:
+      description: >+
+        Shows the`{owner}`'s balance for the given KIP-7 contract.  <p></p>
+
+      summary: GetTokenBalance
+      tags:
+      - KIP7
+      operationId: GetTokenBalance
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      - name: owner
+        in: path
+        required: true
+        type: string
+        description: Klaytn account address to query balance
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TokenBalanceResponse'
+          examples:
+            application/json:
+              balance: 0x10
+              decimals: 8
+          headers: {}
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134410
+              message: invalid address; owner
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/approve:
+    post:
+      description: "Authorizes the `spender` to send a certain amount of tokens on behalf of the `owner`. \nYou can execute a delegated token transfer by calling [/v1/contract/{contract-address-or-alias}/transfer-from](#opera	ion/TransferFromToken) API.<p></p>\n\n**Note**: Only a `spender` account address managed by Wallet API can execute delegated token transfers.  <br>\n**Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>\nkrn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>\n\n- The first KRN: Default KIP-7 `account-pool`\n- The second KRN: `account-pool` Wallet API, which has the `owner` account\n- Just as in other APIs, not including the x-krn will give it the default value.<p></p>\n\n"
+      summary: ApproveToken
+      tags:
+      - KIP7
+      operationId: ApproveToken
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/ApproveKip7TokenRequest'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TransactionStatusResponse'
+          examples:
+            application/json:
+              status: Submitted
+              transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+          headers: {}
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1130050
+              message: incorrect request; spender
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/account/{owner}/allowance/{spender}:
+    get:
+      description: >+
+        Shows the amount of tokens approved to the `spender` by the `owner`.<p></p>
+
+      summary: GetTokenAllowance
+      tags:
+      - KIP7
+      operationId: GetTokenAllowance
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      - name: owner
+        in: path
+        required: true
+        type: string
+        description: Token owner's Klaytn account address
+      - name: spender
+        in: path
+        required: true
+        type: string
+        description: ''
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TokenBalanceResponse'
+          examples:
+            application/json:
+              balance: 0x10
+              decimals: 8
+          headers: {}
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134410
+              message: invalid address; owner
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/burn:
+    delete:
+      description: >+
+        Burns tokens. The `totalSupply` on the contract will be deducted accordingly.  <p></p>
+
+
+        **Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>
+
+        krn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>
+
+
+        - The first KRN: Default KIP-7 `account-pool`
+
+        - The second KRN: Wallet API `account-pool`, which has the `from` account
+
+        - Just as in other APIs, omitting the x-krn will give it the default value.<p></p>
+
+      summary: BurnToken
+      tags:
+      - KIP7
+      operationId: BurnToken
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/BurnKip7TokenRequest'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TransactionStatusResponse'
+          examples:
+            application/json:
+              status: Submitted
+              transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+          headers: {}
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134411
+              message: invalid amount; amount
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+  /v1/contract/{contract-address-or-alias}/burn-from:
+    delete:
+      description: " `spender` burns `owner`'s tokens on the`owner`'s behalf. The `totalSupply` on the contract will be deducted accordingly.  <p></p>\n\n**Note**: This API requires two types of x-krn, separated by `,` in the request header. <br>\nkrn:{chain-id}:kip7:{account-id}:account-pool:default,krn:{chain-id}:wallet:{account-id}:account-pool:{pool-name}<p></p>\n\n- The first KRN: Default KIP-7 `account-pool`\n- The second KRN: `account-pool` Wallet API, which has the `spender` account  \n- Just as in other APIs, not including the x-krn will give it the default value.<p></p>\n\n"
+      summary: BurnFromToken
+      tags:
+      - KIP7
+      operationId: BurnFromToken
+      deprecated: false
+      produces:
+      - application/json
+      consumes:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      - name: contract-address-or-alias
+        in: path
+        required: true
+        type: string
+        description: Contract address (in hexadecimal with the 0x prefix) or an alias
+      - name: body
+        in: body
+        required: false
+        description: ''
+        schema:
+          $ref: '#/definitions/BurnFromKip7TokenRequest'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7TransactionStatusResponse'
+          examples:
+            application/json:
+              status: Submitted
+              transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+          headers: {}
+        '400':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134410
+              message: invalid address; address
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134504
+              message: contract not found
+          headers: {}
+  /v1/deployer/default:
+    get:
+      description: "Queries the account that deploys and manages the KIP-7 contracts. \n`deployer` will automatically be created during the initial contract deployment.<p></p>\n\n"
+      summary: GetDefaultDeployer
+      tags:
+      - KIP7Deployer
+      operationId: GetDefaultDeployer
+      deprecated: false
+      produces:
+      - application/json
+      parameters:
+      - name: x-chain-id
+        in: header
+        required: true
+        type: string
+        description: Klaytn Network Chain ID (1001 or 8217)
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Kip7DeployerResponse'
+          examples:
+            application/json:
+              address: 0xA490cbCB43a64cc4671F436dB9D33eD7A73Da675
+              krn: krn:1001:kip7:88c1223c-66af-4122-9818-069b2e3c6b30:account-pool:default
+          headers: {}
+        '404':
+          description: ''
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+          examples:
+            application/json:
+              code: 1134506
+              message: deployer not found
+          headers: {}
+definitions:
+  Kip7ContractListResponse:
+    title: Kip7ContractListResponse
+    type: object
+    properties:
+      items:
+        type: array
+        items:
+          $ref: '#/definitions/Kip7ContractListResponseItem'
+      cursor:
+        description: Next page cursor
+        type: string
+    required:
+    - items
+    - cursor
+  Kip7ContractListResponseItem:
+    title: Kip7ContractListResponseItem
+    type: object
+    properties:
+      address:
+        description: Contract address
+        example: 0x0f73bb170deb398180f02e60d7ea154c270b8fb9
+        type: string
+      alias:
+        description: Contract alias
+        example: mycontract
+        type: string
+      decimals:
+        description: Token decimal place
+        example: 8
+        type: integer
+        format: int64
+      name:
+        description: Contract name
+        example: MyKIP7
+        type: string
+      status:
+        description: Contract deploy status[`init`,`submitted`,`deployed`]
+        example: deployed
+        type: string
+      symbol:
+        description: Contract symbol
+        example: MSK7
+        type: string
+      totalSupply:
+        description: Total supply (in hexadecimal)
+        example: 0x500
+        type: string
+    required:
+    - address
+    - alias
+    - decimals
+    - name
+    - status
+    - symbol
+    - totalSupply
+  ErrorResponse:
+    title: ErrorResponse
+    type: object
+    properties:
+      code:
+        example: 1130107
+        type: integer
+        format: int64
+      message:
+        example: incorrect bookmark
+        type: string
+    required:
+    - code
+    - message
+  Kip7TransactionStatusResponse:
+    title: Kip7TransactionStatusResponse
+    type: object
+    properties:
+      status:
+        description: Transaction status(`Submitted`,`Pending`)
+        example: Submitted
+        type: string
+      transactionHash:
+        description: Transaction hash
+        example: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+        type: string
+    required:
+    - status
+    - transactionHash
+  DeployKip7ContractRequest:
+    title: DeployKip7ContractRequest
+    type: object
+    properties:
+      alias:
+        description: Contract alias; for KIP-7 API, you can use not only the contract address but also an alias.
+        example: mycontract
+        type: string
+      name:
+        description: Contract name
+        example: MyKIP7
+        type: string
+      symbol:
+        description: Token symbol
+        example: MSK7
+        type: string
+      decimals:
+        description: Token decimal place. The default value is `0`.
+        example: 8
+        type: integer
+        format: int64
+      initialSupply:
+        description: Initial supply (in hexadecimal)
+        example: 0x100
+        type: string
+    required:
+    - alias
+    - name
+    - symbol
+    - initialSupply
+  Kip7ContractMetadataResponse:
+    title: Kip7ContractMetadataResponse
+    type: object
+    properties:
+      address:
+        description: Contract address
+        example: 0x0f73bb170deb398180f02e60d7ea154c270b8fb9
+        type: string
+      decimals:
+        description: Token decimal place
+        example: 8
+        type: integer
+        format: int64
+      name:
+        description: Contract name
+        example: MyKIP7
+        type: string
+      symbol:
+        description: Contract symbol
+        example: MSK7
+        type: string
+      totalSupply:
+        description: Total supply (in hexadecimal)
+        example: 0x500
+        type: string
+    required:
+    - address
+    - decimals
+    - name
+    - symbol
+    - totalSupply
+  MintKip7TokenRequest:
+    title: MintKip7TokenRequest
+    type: object
+    properties:
+      to:
+        description: Klaytn account address to receive the newly created token
+        example: not-eoa
+        type: string
+      amount:
+        description: The amount of tokens to create (in hexadecimal)
+        example: 0x10
+        type: string
+    required:
+    - to
+    - amount
+  TransferKip7TokenRequest:
+    title: TransferKip7TokenRequest
+    type: object
+    properties:
+      from:
+        description: Klaytn account address to send tokens. The default value is the contract deployer account.
+        example: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+        type: string
+      to:
+        description: Klaytn account address to receive tokens
+        example: 0xaddbf9cbfd30768202b70b5504c012fbdf00b8d8
+        type: string
+      amount:
+        description: The amount of tokens to transfer (in hexadecimal)
+        example: 0x50
+        type: string
+    required:
+    - to
+    - amount
+  TransferKip7TokenFromRequest:
+    title: TransferKip7TokenFromRequest
+    type: object
+    properties:
+      spender:
+        description: Klaytn account address to send tokens
+        example: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+        type: string
+      owner:
+        description: Klaytn account address of the owner delegating the token transfer
+        example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        type: string
+      to:
+        description: Klaytn account address to receive tokens
+        example: not-eoa
+        type: string
+      amount:
+        description: Transfer amount (in hexadecimal)
+        example: 0x50
+        type: string
+    required:
+    - spender
+    - owner
+    - to
+    - amount
+  Kip7TokenBalanceResponse:
+    title: Kip7TokenBalanceResponse
+    type: object
+    properties:
+      balance:
+        description: Balance (in hexadecimal)
+        example: 0x10
+        type: string
+      decimals:
+        description: Contract decimal place
+        example: 8
+        type: integer
+        format: int64
+    required:
+    - balance
+    - decimals
+  ApproveKip7TokenRequest:
+    title: ApproveKip7TokenRequest
+    type: object
+    properties:
+      owner:
+        description: Klaytn account address of the owner delegating the token tranfer. The default is the contract deployer account.
+        example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        type: string
+      spender:
+        description: Klaytn account address to approve delegated token transfer
+        example: 0xfb7ead209e113ff15f588852f112cf331d02b4bf
+        type: string
+      amount:
+        description: Approved token amount (in hexadecimal)
+        example: 0x5c2
+        type: string
+    required:
+    - spender
+    - amount
+  BurnKip7TokenRequest:
+    title: BurnKip7TokenRequest
+    type: object
+    properties:
+      from:
+        description: Klaytn account address on which the tokens will be burned. The default value is the contract deployer account.
+        example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        type: string
+      amount:
+        description: The amount of tokens to burn (in hexadecimal)
+        example: not hex string
+        type: string
+    required:
+    - amount
+  BurnFromKip7TokenRequest:
+    title: BurnFromKip7TokenRequest
+    type: object
+    properties:
+      owner:
+        description: Klaytn account address of the owner of the tokens to be burned
+        example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        type: string
+      spender:
+        description: Klaytn account address on which the tokens will be burned
+        example: not-eoa
+        type: string
+      amount:
+        description: The amount of tokens to burn (in hexadecimal)
+        example: 0x100
+        type: string
+    required:
+    - owner
+    - spender
+    - amount
+  Kip7DeployerResponse:
+    title: Kip7DeployerResponse
+    type: object
+    properties:
+      address:
+        description: Default Klaytn account address that manages the contracts
+        example: 0xA490cbCB43a64cc4671F436dB9D33eD7A73Da675
+        type: string
+      krn:
+        description: KRN of the account
+        example: krn:1001:kip7:88c1223c-66af-4122-9818-069b2e3c6b30:account-pool:default
+        type: string
+    required:
+    - address
+    - krn
+security:
+- auth: []
+tags:
+- name: KIP7
+  description: ''
+- name: KIP7Deployer
+  description: ''

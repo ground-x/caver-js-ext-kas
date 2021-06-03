@@ -1,0 +1,3150 @@
+"openapi": "3.0.0"
+"info":
+  "title": "Token History API"
+  "description": "# Introduction
+
+
+    Token History API allows you to query the transaction history of KLAY, FTs (KIP-7 and Labelled ERC-20), 
+    NFTs (KIP-17 and
+    Labelled ERC-721), and MTs (KIP-37 and Labelled ERC-1155). You can track KLAY's transaction history or 
+    retrieve NFT-related data of a certain EOA.
+
+
+
+    For more details on using Token History API, please refer to the [Tutorial](https://docs.klaytnapi.com/tutorial).
+
+
+
+    For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/).
+
+    \n"
+"paths":
+  "/v2/transfer":
+    "get":
+      "description": "Query all transaction history. Transaction history is divided into KLAY Transfer (`KlayTransfer`), FT Transfer
+        (`FtTransfer`), NFT Transfer (`NftTransfer`), and MT Transfer (`MtTransfer`).
+        <p></p>
+
+
+        ## KlayTransfer in FT/NFT/MT transactions <p></p>
+
+
+        For transfers of FTs, NFTs, or MTs, `KlayTransfer` history will also be included in the query result.
+        This is because FT/NFT/MT transfers are essentially execution of a corresponding contract function, and the response for the transfer includes
+        `KlayTransfer`, which is equivalent to the transaction for sending KLAY. Since most transactions that execute contract functions
+        do not usually send KLAY, the `value` of `KlayTransfer` that transfered NT, NFT, and MT may be zero. By using the `exclude-zero-klay=true` query, `KlayTransfer` can be excluded.
+
+        <p></p>
+
+
+        ## Transaction type<p></p>
+
+
+        * You can choose KLAY, FT, NFT or MT by setting `kind` parameter to get 
+        transaction history of a certain type or a combination of types.<br>
+
+        * If you don't set the `kind` parameter, all transaction types will be returned.<p></p><br>
+
+
+        ## Date range<p></p>
+
+
+        * `range` is queried in the form of `range={from},{to}`<br>
+
+        * `{from}` and `{to}` will be considered Unix time in the case of a decimal number, and block number 
+        in the case of a hexadecimal number<br>
+
+        * When there is no value for `{to}`, current time or the latest block number will be used.<br>
+
+        * You can retrieve the transaction history from the past 6 months maximum. (for both Unix time and
+        block number)<p></p><br>
+
+
+        ## Preset<p></p>
+
+
+        Preset is a collection of EOA and FT, NFT and MT contracts. You can use it to repetitively retrieve transaction history
+        for certain accounts quickly and easily.<p></p>
+
+
+        * The parameter `presets` is a required parameter.<br>
+
+        *
+        [Preset](https://console.klaytnapi.com/en/service/th/preset/list) needs to be
+        created on KAS Console in advance.<br>
+
+        * You can check your Preset ID on KAS Console. For more information please visit [Preset](https://docs.klaytnapi.com/v/en/tutorial/th-api/th-api-token-history#preset).<p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default value (`size=100`) when `size=0`<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than the maximum value.<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "(csv) Types to include [\"ft\", \"nft\", \"mt\"], query all types when not specified"
+          "in": "query"
+          "name": "kind"
+          "required": false
+          "explode": false
+          "schema":
+            "type": "string"
+          "example": "klay,ft,nft,mt"
+        - "description": "Set range (block number or unix time)"
+          "in": "query"
+          "name": "range"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "0x1,0x2"
+        - "description": "Number of maximum response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Response offset"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Exclude transfers of 0 KLAY if true (default=false)"
+          "in": "query"
+          "name": "exclude-zero-klay"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "true"
+        - "description": " (csv) Preset IDs to be used for query, Preset ID can be found on KAS Console"
+          "in": "query"
+          "name": "presets"
+          "required": true
+          "explode": false
+          "schema":
+            "type": "string"
+          "example": "65,68"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableTransfers"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "transferType": "mt"
+                        "transaction":
+                          "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                          "fee": "0x661625fab1200"
+                          "transactionHash": "0x6826275ccdec83711277de86c773d9ce987fb8bcd7edf26b623d3117b\
+                            1d01b52"
+                          "typeInt": 48
+                          "timestamp": 1607993827
+                          "value": "0x0"
+                          "feePayer": ""
+                          "feeRatio": 0
+                        "contract":
+                          "address": "0xda781766c4ca2d6f35dab8c5d26ad3d3021e69c8"
+                        "operator": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "to": "0x9c7fe1c0af1cba4d341b46ac624464e3462b863b"
+                        "ids":
+                          - "0x1"
+                        "values":
+                          - "0x1c2"
+                      - "transferType": "nft"
+                        "transaction":
+                          "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                          "fee": "0x70aafcc4b0e00"
+                          "transactionHash": "0x4341fe79a5b69847a284e20aea3d1fdb3377724661bf224f38e02d34b\
+                            2940c96"
+                          "typeInt": 48
+                          "timestamp": 1607993827
+                          "value": "0x0"
+                          "feePayer": ""
+                          "feeRatio": 0
+                        "contract":
+                          "address": "0x67faa05618e00cde1e3d9092b90c0876855c39e4"
+                          "name": "KASNFT"
+                          "symbol": "KNFT"
+                        "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "to": "0x9c7fe1c0af1cba4d341b46ac624464e3462b863b"
+                        "tokenId": "0x1"
+                      - "transferType": "ft"
+                        "transaction":
+                          "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                          "fee": "0x4fe85ad649c00"
+                          "transactionHash": "0x196862e12efc8d4ea83a792d9bafbcc5d87b21805c7fe4ae76b8e3d7f\
+                            ac9e3f3"
+                          "typeInt": 48
+                          "timestamp": 1607993827
+                          "value": "0x0"
+                          "feePayer": ""
+                          "feeRatio": 0
+                        "contract":
+                          "address": "0xf2a8ab5b6c14f33a3b470ac7505712c8665e81d3"
+                          "name": "KASFT"
+                          "symbol": "KFT"
+                          "decimals": 18
+                        "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "to": "0x9c7fe1c0af1cba4d341b46ac624464e3462b863b"
+                        "value": "0x15e"
+                        "formattedValue": "0.00000000000000035"
+                      - "transferType": "klay"
+                        "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "fee": "0x1dd7c1681d000"
+                        "status": 1
+                        "to": "0x9c7fe1c0af1cba4d341b46ac624464e3462b863b"
+                        "transactionHash": "0xe5ba3d97ed0e2b69e2e0da7aa1abdc22a17b3f79141f67f4784b5ce54\
+                          33736c7"
+                        "transactionIndex": 0
+                        "typeInt": 8
+                        "timestamp": 1607993821
+                        "value": "0xde0b6b3a7640000"
+                        "feePayer": ""
+                        "feeRatio": 0
+                    "cursor": "KGvdzQDxL2AYZzAMk1dLK6g9OrJN02G7aqwaNpWkPJlL07V51MZ8xmBOR17GPp1KDXE5\
+                      bKhYnv93XgGbrz6EdAKeoQ2Y4Dq3peQV45vDPWmoXxlYB8wbEVPXBb9a7\
+                      Z6O"
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040010
+                "message": "[InvalidQueryParameterValue]required presets"
+      "summary": "Query received and sent transfers of tokens"
+      "operationId": "getTransfers"
+      "tags":
+        - "Token History"
+  "/v2/transfer/tx/{transaction-hash}":
+    "get":
+      "description": "Get transaction history by transaction hash. Transaction history is divided into KLAY transfer (`KlayTransfer`), FT transfer
+        (`FtTransfer`), NFT transfer (`NftTransfer`), MT transfer (`MtTransfer`). For FT, NFT, MT transfers, history of `KlayTransfer` will be
+        included in the result. `KlayTransfer` included in FT, NFT, MT transfers may have a `value` of 0. 
+        For more details, please refer to `GET
+        /v2/transfer`.\n"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Transaction hash to query"
+          "in": "path"
+          "name": "transaction-hash"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/Transfers"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "transferType": "ft"
+                        "transaction":
+                          "from": "0x5bf30ff4a1a3a905531c5e1b52c635892a9fc28d"
+                          "fee": "0x48abe561cf400"
+                          "transactionHash": "0x9fb236689b26fc8b8a938a8eb2b7e5a6afc1c7a837c61751f08eac735\
+                            8db8d73"
+                          "typeInt": 49
+                          "timestamp": 1597649114
+                          "value": "0x0"
+                          "feePayer": "0xacb22916b804ac088c61c8711ec196b518f2e7fc"
+                          "feeRatio": 0
+                        "contract":
+                          "address": "0xb1a7abe0c5a9e06cc7585a435e74976d2dee07f3"
+                          "name": "BlockchainPetToken"
+                          "symbol": "BPT"
+                          "decimals": 2
+                        "from": "0x5bf30ff4a1a3a905531c5e1b52c635892a9fc28d"
+                        "to": "0xeb7f7926cc4f866cec135728d35a7531c1d12791"
+                        "value": "0x3e8"
+                        "formattedValue": "10"
+                      - "transferType": "klay"
+                        "from": "0x5bf30ff4a1a3a905531c5e1b52c635892a9fc28d"
+                        "fee": "0x48abe561cf400"
+                        "status": 1
+                        "to": "0xb1a7abe0c5a9e06cc7585a435e74976d2dee07f3"
+                        "transactionHash": "0x9fb236689b26fc8b8a938a8eb2b7e5a6afc1c7a837c61751f08eac735\
+                          8db8d73"
+                        "transactionIndex": 1
+                        "typeInt": 49
+                        "timestamp": 1597649114
+                        "value": "0x0"
+                        "feePayer": "0xacb22916b804ac088c61c8711ec196b518f2e7fc"
+                        "feeRatio": 0
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid tx hash"
+                "requestId": "f40a1377-5b58-9157-9514-eda8d3158c2b"
+      "summary": "Query received and sent transfers of tokens with transaction hash"
+      "operationId": "getTransfersByTxHash"
+      "tags":
+        - "Token History"
+  "/v2/transfer/account/{address}":
+    "get":
+      "description": "Query token transaction history for a certain EOA. Functionally, it is same as `GET /v2/transfer`. 
+        If the EOA received the token, `to` is same as the EOA, and if the EOA sent the token, `from` is the same as the EOA in the returned transfer object.
+
+        \  \ 
+
+        Transaction history is divided into KLAY transfer (`KlayTransfer`), FT transfer
+        (`FtTransfer`), NFT transfer (`NftTransfer`), MT transfer (`MtTransfer`). For FT, NFT, MT transfers, 
+        history of `KlayTransfer` will be
+        included in the result. `KlayTransfer` included in FT, NFT, MT transfers may have a `value` of 0. 
+        For more details, please refer to `GET
+        /v2/transfer`.<p></p>
+
+
+        ## Transaction type<p></p>
+
+
+        * You can set the `kind` parameter to query different types of transactions.<br>
+
+        * Not setting the `kind` parameter will query all types of transactions.<p></p><br>
+
+
+        ## Date range<p></p>
+
+
+        * `range` is queried in the form of `range={from},{to}`<br>
+
+        * `{from}` and `{to}` will be considered Unix time in the case of a decimal number, and block number 
+        in the case of a hexadecimal number<br>
+
+        * When there is no value for `{to}`, current time or the latest block number will be used.<br>
+
+        * You can retrieve the transaction history from the past 6 months maximum. (for both unix time and block number)<p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number.<br>
+
+        * Uses default value (`size=100`) when given a 0.<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000.<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "(csv) Types to include [\"ft\", \"nft\", \"mt\"], query all types when not specified\n"
+          "in": "query"
+          "name": "kind"
+          "required": false
+          "explode": false
+          "schema":
+            "type": "string"
+          "example": "klay,ft,nft,mt"
+        - "description": "Contract addresses for FT, NFT or MT to retrieve, when selected, only the results whose `transferType` is \"ft\", \"nft\" or \"mt\" and the contract address matches the values in `ca-filter`.
+           will be returned.\n"
+          "in": "query"
+          "name": "ca-filter"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "0xc7565d24af561fe783aa73747ca0eda1f09f1118"
+        - "description": "(csv) Set query range (Block number or Unix time)"
+          "in": "query"
+          "name": "range"
+          "required": false
+          "explode": false
+          "schema":
+            "type": "string"
+          "example": "0x1,0x2"
+        - "description": "Number of maximum response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Exclude transfers of 0 KLAY if true. (default=false)"
+          "in": "query"
+          "name": "exclude-zero-klay"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "false"
+        - "description": "If true, return transactions when sender corresponds to the given address. (default=false)"
+          "in": "query"
+          "name": "from-only"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "false"
+        - "description": "If true, return transactions when recipient corresponds to the given address.. (default=false)"
+          "in": "query"
+          "name": "to-only"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "false"
+        - "description": "EOA to query"
+          "in": "path"
+          "name": "address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableTransfers"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "transferType": "mt"
+                        "transaction":
+                          "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                          "fee": "0x661625fab1200"
+                          "transactionHash": "0x6826275ccdec83711277de86c773d9ce987fb8bcd7edf26b623d3117b\
+                            1d01b52"
+                          "typeInt": 48
+                          "timestamp": 1607993827
+                          "value": "0x0"
+                          "feePayer": ""
+                          "feeRatio": 0
+                        "contract":
+                          "address": "0xda781766c4ca2d6f35dab8c5d26ad3d3021e69c8"
+                        "operator": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "to": "0x9c7fe1c0af1cba4d341b46ac624464e3462b863b"
+                        "ids":
+                          - "0x1"
+                        "values":
+                          - "0x1c2"
+                      - "transferType": "nft"
+                        "transaction":
+                          "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                          "fee": "0x70aafcc4b0e00"
+                          "transactionHash": "0x4341fe79a5b69847a284e20aea3d1fdb3377724661bf224f38e02d34b\
+                            2940c96"
+                          "typeInt": 48
+                          "timestamp": 1607993827
+                          "value": "0x0"
+                          "feePayer": ""
+                          "feeRatio": 0
+                        "contract":
+                          "address": "0x67faa05618e00cde1e3d9092b90c0876855c39e4"
+                          "name": "KASNFT"
+                          "symbol": "KNFT"
+                        "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "to": "0x9c7fe1c0af1cba4d341b46ac624464e3462b863b"
+                        "tokenId": "0x1"
+                      - "transferType": "ft"
+                        "transaction":
+                          "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                          "fee": "0x4fe85ad649c00"
+                          "transactionHash": "0x196862e12efc8d4ea83a792d9bafbcc5d87b21805c7fe4ae76b8e3d7f\
+                            ac9e3f3"
+                          "typeInt": 48
+                          "timestamp": 1607993827
+                          "value": "0x0"
+                          "feePayer": ""
+                          "feeRatio": 0
+                        "contract":
+                          "address": "0xf2a8ab5b6c14f33a3b470ac7505712c8665e81d3"
+                          "name": "KASFT"
+                          "symbol": "KFT"
+                          "decimals": 18
+                        "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "to": "0x9c7fe1c0af1cba4d341b46ac624464e3462b863b"
+                        "value": "0x15e"
+                        "formattedValue": "0.00000000000000035"
+                      - "transferType": "klay"
+                        "from": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                        "fee": "0x1dd7c1681d000"
+                        "status": 1
+                        "to": "0x9c7fe1c0af1cba4d341b46ac624464e3462b863b"
+                        "transactionHash": "0xe5ba3d97ed0e2b69e2e0da7aa1abdc22a17b3f79141f67f4784b5ce54\
+                          33736c7"
+                        "transactionIndex": 0
+                        "typeInt": 8
+                        "timestamp": 1607993821
+                        "value": "0xde0b6b3a7640000"
+                        "feePayer": ""
+                        "feeRatio": 0
+                    "cursor": "KGvdzQDxL2AYZzAMk1dLK6g9OrJN02G7aqwaNpWkPJlL07V51MZ8xmBOR17GPp1KDXE5\
+                      bKhYnv93XgGbrz6EdAKeoQ2Y4Dq3peQV45vDPWmoXxlYB8wbEVPXBb9a7\
+                      Z6O"
+      "summary": "Query received and sent transfers of tokens with EOA"
+      "operationId": "getTransfersByEoa"
+      "tags":
+        - "Token History"
+  "/v2/contract/ft":
+    "get":
+      "description": "Fetch data of all labelled FT contracts.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Labelling status [completed, processing, failed, cancelled]"
+          "in": "query"
+          "name": "status"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "completed"
+        - "description": "Contract type [KIP-7, ERC-20], returns all types if not specified"
+          "in": "query"
+          "name": "type"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "KIP-17"
+        - "description": "Number of maximum response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableFtContractDetails"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "address": "0xf2a8ab5b6c14f33a3b470ac7505712c8665e81d3"
+                        "decimals": 18
+                        "name": "KASFT"
+                        "symbol": "KFT"
+                        "totalSupply": "0xde0b6b3a7640000"
+                        "status": "completed"
+                        "type": "KIP-7"
+                        "createdAt": 1607993824
+                        "updatedAt": 1607993825
+                        "deletedAt": 0
+                      - "address": "0x7d7c73a49321738101030e23a5bf30fc68287e26"
+                        "decimals": 18
+                        "name": "SummerToken"
+                        "symbol": "JUN"
+                        "totalSupply": "0x52b7d2dcc80cd2e4000000"
+                        "status": "completed"
+                        "type": "ERC-20"
+                        "createdAt": 1606127642
+                        "updatedAt": 1606385006
+                        "deletedAt": 0
+                    "cursor": "JePBOQ20pEXl389k1K6W1AEzp2VBJ80b5MgowlXZYlkao45O0WMgr73BpPD6d9Rb97yK\
+                      wbqezELvmN8Gx1Q2JVAXZGQqmxd9a7e4krKN3YLDPOvNY7Zvbom5MrDA4\
+                      VW6"
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040010
+                "message": "[InvalidQueryParameterValue]invalid query value"
+                "requestId": "b4ff73f0-c32c-971a-8b01-933acd1c0a1f"
+      "summary": "Query all FT contract data"
+      "operationId": "getListofFtContracts"
+      "tags":
+        - "Token Contract"
+  "/v2/contract/ft/{ft-address}":
+    "get":
+      "description": "Fetch the FT contract information of a given address\n"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "FT Contract address"
+          "in": "path"
+          "name": "ft-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/FtContractDetail"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "address": "0x7d7c73a49321738101030e23a5bf30fc68287e26"
+                    "decimals": 18
+                    "name": "SummerToken"
+                    "symbol": "JUN"
+                    "totalSupply": "0x52b7d2dcc80cd2e4000000"
+                    "status": "completed"
+                    "type": "ERC-20"
+                    "createdAt": 1606127642
+                    "updatedAt": 1606385006
+                    "deletedAt": 0
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                  "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid ft address"
+                "requestId": "1d9743f5-d3d1-9158-8a96-ab37de4daef5"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040400
+                "message": "[ResourceNotFound]not found ft"
+                "requestId": "1108a8bf-ef05-9511-95d1-5fcecd959517"
+      "summary": "Get data of a certain FT contract"
+      "operationId": "getFtContractDetail"
+      "tags":
+        - "Token Contract"
+  "/v2/contract/nft":
+    "get":
+      "description": "Fetch data of all labelled NFT contracts.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Labelling status [completed, processing, failed, cancelled]"
+          "in": "query"
+          "name": "status"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "completed"
+        - "description": "Contract type [KIP-17, ERC-721], returns all types if not specified"
+          "in": "query"
+          "name": "type"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "KIP-17"
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 10
+        - "description": "Response offset (pagination)\n"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableNftContractDetails"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "address": "0x67faa05618e00cde1e3d9092b90c0876855c39e4"
+                        "name": "KASNFT"
+                        "symbol": "KNFT"
+                        "totalSupply": "0x1"
+                        "status": "completed"
+                        "type": "KIP-17"
+                        "createdAt": 1607993824
+                        "updatedAt": 1607993826
+                        "deletedAt": 0
+                      - "address": "0x73d6b2cbd8d84faa81c0eb3806b7b9a956150e98"
+                        "name": "evagon"
+                        "symbol": "en"
+                        "totalSupply": "0x1aaf"
+                        "status": "completed"
+                        "type": "ERC-721"
+                        "createdAt": 1607866073
+                        "updatedAt": 1607866077
+                        "deletedAt": 0
+                    "cursor": "omYpAQ8xGDrlz5O3akAbYDPolJ1r7kx3ZWg2L5mwDQ5GAk7ONYdpzXW0LBZVq2n6pWRJ\
+                      KPg8469bvxMl1rmoaew3EQVa6Gq8KpeEdzB0O9vMX4NE1X9eb206gBNLJ\
+                      7qW"
+      "summary": "Query list of all NFT contract data"
+      "operationId": "getListOfNftContracts"
+      "tags":
+        - "Token Contract"
+  "/v2/contract/nft/{nft-address}":
+    "get":
+      "description": "Fetch data of labelled NFTs for a certain contract.\n"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "NFT Contract address"
+          "in": "path"
+          "name": "nft-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/NftContractDetail"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "address": "0x251f622e8b5e713f357e9c4d990e91da2f448134"
+                    "name": "MineralNFT"
+                    "symbol": "FSI"
+                    "totalSupply": "0x9"
+                    "status": "completed"
+                    "type": "kip"
+                    "createdAt": 1597284956
+                    "updatedAt": 1597284956
+                    "deletedAt": 0
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid nft address"
+                "requestId": "a9b68119-7b98-9f07-b21f-17890f6f6d6b"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040400
+                "message": "[ResourceNotFound]not found nft"
+                "requestId": "0d5f6e9a-e1f6-94e3-a325-de540a33bb6d"
+      "summary": "Get data of certain NFT contracts"
+      "operationId": "getNftContractDetail"
+      "tags":
+        - "Token Contract"
+  "/v2/contract/mt":
+    "get":
+      "description": "Fetch data of labelled MTs for all contracts.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Labelling status [completed, processing, failed, cancelled]"
+          "in": "query"
+          "name": "status"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "completed"
+        - "description": "Contract type [KIP-37, ERC-1155], returns all types if not specified"
+          "in": "query"
+          "name": "type"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "KIP-37"
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 10
+        - "description": "Response offset (pagination)\n"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableMtContractDetails"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "address": "0xda781766c4ca2d6f35dab8c5d26ad3d3021e69c8"
+                        "status": "completed"
+                        "type": "KIP-37"
+                        "createdAt": 1607993824
+                        "updatedAt": 1607993826
+                        "deletedAt": 0
+                      - "address": "0x76457bce70262e6f7b642abb0684077eea604414"
+                        "status": "completed"
+                        "type": "ERC-1155"
+                        "createdAt": 1607993804
+                        "updatedAt": 1607993806
+                        "deletedAt": 0
+                    "cursor": "B9104rmYdAoabWP3Nlw7NvAWQP082aB13Xpqdx463kvX67eqw2gLdJWb0laZAQjvrj8O\
+                      N194xzoVpmrGY5PDKMEBogJmVEYlkKMD5e9LrGbzOZvxMkEzGpXVg6728\
+                      OZL"
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                  "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040010
+                "message": "[InvalidQueryParameterValue]invalid query value"
+                "requestId": "9d1596d8-1228-9fca-a4ac-b03d403a6c02"
+      "summary": "Query list of MT contract data"
+      "operationId": "getListOfMtContracts"
+      "tags":
+        - "Token Contract"
+  "/v2/contract/mt/{mt-address}":
+    "get":
+      "description": "Fetch data of labelled MTs for a certain contract.\n"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": ""
+          "in": "path"
+          "name": "mt-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/MtContractDetail"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "address": "0x251f622e8b5e713f357e9c4d990e91da2f448134"
+                    "name": "MineralNFT"
+                    "symbol": "FSI"
+                    "totalSupply": "0x9"
+                    "status": "completed"
+                    "type": "kip"
+                    "createdAt": 1597284956
+                    "updatedAt": 1597284956
+                    "deletedAt": 0
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "examples":
+                "Bad Request":
+                  "summary": "Bad Request"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid mt address"
+                    "requestId": "3e288b01-1c93-97fa-8850-18c89ebc340a"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "examples":
+                "Not Found":
+                  "summary": "Not Found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found mt"
+                    "requestId": "0d5f6e9a-e1f6-94e3-a325-de540a33bb6d"
+      "summary": "Get data of a certain MT contract"
+      "operationId": "getMtContractDetail"
+      "tags":
+        - "Token Contract"
+  "/v2/contract/nft/{nft-address}/token":
+    "get":
+      "description": "Selecting an NFT contract will fetch data of all NFTs created by this NFT contract.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": ""
+          "in": "path"
+          "name": "nft-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableNfts"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "tokenId": "0x9"
+                        "owner": "0x36884a060be5438226c4deaf799b0f7de5abd5df"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenUri": "http://ec2-13-125-244-0.ap-northeast-2.compute.amazonaws.com:8080/\
+                          meta/item9"
+                        "transactionHash": "0x2f6e8113862c1dbdc76a2fb29cda2dbefeca5878897af0bb3df682232\
+                          3e89440"
+                        "createdAt": 1597718863
+                        "updatedAt": 1597718863
+                    "cursor": ""
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid nft address"
+                "requestId": "e877af5f-99d8-98fb-9817-1e8bd970ae29"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040400
+                "message": "[ResourceNotFound]not found nft"
+                "requestId": "5562b6ed-bb19-91f1-8897-b32999b9879e"
+      "summary": "Query all token data for certain NFT contracts"
+      "operationId": "getNftsByContractAddress"
+      "tags":
+        - "Token"
+  "/v2/contract/nft/{nft-address}/owner/{owner-address}":
+    "get":
+      "description": "Selecting an NFT contract and an EOA will fetch data of the NFTs by EOA
+        created by the NFT contract.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Contract address to query"
+          "in": "path"
+          "name": "nft-address"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "EOA to query"
+          "in": "path"
+          "name": "owner-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableNfts"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "tokenId": "0x7"
+                        "owner": "0xe5389503156ee02775ee18552f0c9d9846b66a91"
+                        "previousOwner": "0x0000000000000000000000000000000000000000"
+                        "tokenUri": "http://172.16.15.49:8080/meta/item7"
+                        "transactionHash": "0x9b9d553d8b3141eabdc6ececd44958475366b1bc289088248b2b3dadc\
+                          ecf8ab4"
+                        "createdAt": 1597308968
+                        "updatedAt": 1597308968
+                    "cursor": ""
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid nft address"
+                "requestId": "c9b6092a-ff75-9dab-a493-48672ef62169"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040400
+                "message": "[ResourceNotFound]not found nft"
+                "requestId": "d371921f-8198-98cb-89d5-cf3e9eb420c7"
+      "summary": "Get token data for NFT data by EOA"
+      "operationId": "getNftsByOwnerAddress"
+      "tags":
+        - "Token"
+  "/v2/contract/nft/{nft-address}/token/{token-id}":
+    "get":
+      "description": "Fetch data for certain NFTs\n"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "NFT Contract address to query"
+          "in": "path"
+          "name": "nft-address"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "NFT ID to query (in hexadecimal)"
+          "in": "path"
+          "name": "token-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/Nft"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "tokenId": "0x2"
+                    "owner": "0xe5389503156ee02775ee18552f0c9d9846b66a91"
+                    "previousOwner": "0x0000000000000000000000000000000000000000"
+                    "tokenUri": "http://172.16.15.49:8080/meta/item2"
+                    "transactionHash": "0xc7d07066e4e42a7d896c34420ed43568ba44ae15a8ef771b13ba1f6f2\
+                      d2820c4"
+                    "createdAt": 1597304701
+                    "updatedAt": 1597304701
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid nft address"
+                "requestId": "5d63e976-063d-984f-8676-881d71729d66"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040400
+                "message": "[ResourceNotFound]not found nft token"
+                "requestId": "615a2f6a-5aa3-90f8-b714-b8005e42e985"
+      "summary": "Query token data for certain NFTs"
+      "operationId": "getNftById"
+      "tags":
+        - "Token"
+  "/v2/contract/mt/{mt-address}/token":
+    "get":
+      "description": "Selecting an MT contract will fetch all data of tokens issued by the contract.<p></p>
+
+
+        ## Sort<p></p>
+
+
+        * The items in the response will be listed
+        in lexicographical order of the token IDs. <p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 2
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "NFT Contract address to query"
+          "in": "path"
+          "name": "mt-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableMts"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "tokenId": "0x1"
+                        "totalSupply": "0xaf298d050e4395d69670b12b7f41000000000000"
+                        "tokenUri": "http://evahello.com"
+                    "cursor": "z53x014AdOQJGNl6V99k3wAap7M08oLKedg5DVqlLdZqWwPQzo3aM7v8A9J6V2nmqnpg\
+                      DNOeGkblm1BKEX5x0Yr46bW2ZN4YGmQPJO1xBvrEzXrW2gbvDZ7EKMaYm\
+                      kew"
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid mt address"
+                "requestId": "28a79540-89b3-9c4c-ab6c-00ef6fbb5004"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040400
+                "message": "[ResourceNotFound]not found mt"
+                "requestId": "8339f2bf-1b9e-9150-a563-60f731c33a4e"
+      "summary": "Query data of all tokens for certain MT contracts"
+      "operationId": "getMtsByContractAddress"
+      "tags":
+        - "Token"
+  "/v2/contract/mt/{mt-address}/token/{token-id}":
+    "get":
+      "description": "Selecting an MT contract and a token ID will  data of the EOA that owns the tokens.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 1
+        - "description": "NFT Contract address to query"
+          "in": "path"
+          "name": "mt-address"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "MT ID to query (in hexadecimal)"
+          "in": "path"
+          "name": "token-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableMtTokens"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "tokenId": "0x1"
+                        "owner": "0xb8bb4b109f18eb6f292757aaec623200f1a41369"
+                        "tokenAddress": "0x2c2382bcca41295495973be1d5a997d21f77b50e"
+                        "totalSupply": "0xaf298d050e4395d69670b12b7f41000000000000"
+                        "tokenUri": "http://evahello.com"
+                        "balance": "0x1f"
+                        "transactionHash": "0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7\
+                          c9032ee"
+                        "transferFrom": "0xb8bb4b109f18eb6f292757aaec623200f1a41369"
+                        "transferTo": "0xae02aba56bae1624e2c4f029e3a79308e2a19e98"
+                        "updatedAt": 1607319007
+                    "cursor": ""
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid token id"
+                "requestId": "aeca8406-9dda-9ece-bf9e-cf8569fccfbf"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040400
+                "message": "[ResourceNotFound]not found mt"
+                "requestId": "116aece2-f79f-9cc9-b1ba-f77467afe89d"
+      "summary": "Query list of all owners for certain MTs"
+      "operationId": "getMtTokensByContractAddressAndTokenId"
+      "tags":
+        - "Token"
+  "/v2/contract/mt/{mt-address}/owner/{owner-address}":
+    "get":
+      "description": "Selecting an MT contract and an EOA will fetch data of MTs by EOA created by 
+        MT contract.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 1
+        - "description": "NFT Contract address to query"
+          "in": "path"
+          "name": "mt-address"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "EOA to query"
+          "in": "path"
+          "name": "owner-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableMtTokensWithBalance"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "tokenId": "0x1"
+                        "owner": "0xb8bb4b109f18eb6f292757aaec623200f1a41369"
+                        "tokenAddress": "0x2c2382bcca41295495973be1d5a997d21f77b50e"
+                        "totalSupply": "0xaf298d050e4395d69670b12b7f41000000000000"
+                        "tokenUri": "http://evahello.com"
+                        "balance": "0x1f"
+                        "transactionHash": "0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7\
+                          c9032ee"
+                        "transferFrom": "0x39262962d3889b02915f943d6f917edcf6c71f5a"
+                        "transferTo": "0xb8bb4b109f18eb6f292757aaec623200f1a41369"
+                        "updatedAt": 1607319007
+                    "totalBalance": "0xfa"
+                    "cursor": "PBOQ20pEXl389k1K6W1AEzp2VBJ80b5MgowlXZYlkao45O0WMgr73BpPD6d9Rb9ZPK13\
+                      yKwbqezELvmN8Gx1Q2JVAXZGQqmxd9a7e4krKN3YLDPOvNY7Zvbom5MrD\
+                      A4V"
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid owner address"
+                "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040400
+                "message": "[ResourceNotFound]not found mt"
+                "requestId": "0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee"
+      "summary": "Get token data for MT data by EOA"
+      "operationId": "getMtTokensByContractAddressAndOwnerAddress"
+      "tags":
+        - "Token"
+  "/v2/contract/mt/{mt-address}/owner/{owner-address}/token/{token-id}":
+    "get":
+      "description": "Query data of certain MTs."
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "NFT Contract address to query"
+          "in": "path"
+          "name": "mt-address"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "EOA to query"
+          "in": "path"
+          "name": "owner-address"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "MT ID to query (in hexadecimal)"
+          "in": "path"
+          "name": "token-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/MtToken"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "tokenId": "0x1"
+                    "owner": "0xb8bb4b109f18eb6f292757aaec623200f1a41369"
+                    "tokenAddress": "0x2c2382bcca41295495973be1d5a997d21f77b50e"
+                    "totalSupply": "0xaf298d050e4395d69670b12b7f41000000000000"
+                    "tokenUri": "http://evahello.com"
+                    "balance": "0x1f"
+                    "transactionHash": "0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7\
+                      c9032ee"
+                    "transferFrom": "0x39262962d3889b02915f943d6f917edcf6c71f5a"
+                    "transferTo": "0xb8bb4b109f18eb6f292757aaec623200f1a41369"
+                    "updatedAt": 1607319007
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040020
+                "message": "[InvalidUriValue]invalid owner address"
+                "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+        "404":
+          "description": "Not found"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040400
+                "message": "[ResourceNotFound]not found mt"
+                "requestId": "0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee"
+      "summary": "Get data of MT contracts for certain EOAs"
+      "operationId": "getMtTokensByContractAddressAndOwnerAddressAndTokenId"
+      "tags":
+        - "Token"
+  "/v2/contract/nft/{nft-address}/token/{token-id}/history":
+    "get":
+      "description": "Get ownership change history of certain NFTs.<p></p>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "NFT Contract address to query"
+          "in": "path"
+          "name": "nft-address"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "NFT ID to query (in hexadecimal)"
+          "in": "path"
+          "name": "token-id"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableNftOwnershipChanges"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "from": "0x0000000000000000000000000000000000000000"
+                        "to": "0x36884a060be5438226c4deaf799b0f7de5abd5df"
+                        "timestamp": 1597226350
+                    "cursor": ""
+      "summary": "Query ownership change history for certain NFTs"
+      "operationId": "getListOfNftOwnershipChanges"
+      "tags":
+        - "Token Ownership"
+  "/v2/account/{address}/contract":
+    "get":
+      "description": "Selecting an EOA will fetch data of all contracts of tokens by EOA.<p></p>
+
+
+        * `ft`: `ft` balances existing in the contract will be included in the response<br>
+
+        * `nft`: Tokens existing in the contract will be included in the response<br>
+
+        * `mt`: Token balances existing in the contract will be included in the response<p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "(csv) Types to include [\"ft\", \"nft\", \"mt\"], query all types when not specified"
+          "in": "query"
+          "name": "kind"
+          "required": false
+          "explode": false
+          "schema":
+            "type": "string"
+          "example": "ft,nft,mt"
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "EOA to query"
+          "in": "path"
+          "name": "address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableContractSummary"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "kind": "nft"
+                        "contractAddress": "0xfa9a1b66b970dc713ae71d56a7cc44b573d4c8f7"
+                        "updatedAt": 1607993770
+                        "totalBalance": "0x1"
+                        "extras":
+                          "name": "KASNFT"
+                          "symbol": "KNFT"
+                          "totalSupply": "0x1"
+                      - "kind": "ft"
+                        "contractAddress": "0x66ac22b457006c3f519e4a5c49ff19eb531bba4e"
+                        "updatedAt": 1607993770
+                        "totalBalance": "0x15e"
+                        "extras":
+                          "name": "KASFT"
+                          "symbol": "KFT"
+                          "decimals": 18
+                          "totalSupply": "0xde0b6b3a7640000"
+                          "formattedValue": "0.00000000000000035"
+                      - "kind": "mt"
+                        "contractAddress": "0x2b2e50e8c8e0d097f22ac9389af2f354d18d2882"
+                        "updatedAt": 1607993770
+                        "totalBalance": "0x1c2"
+                        "extras": {}
+                    "cursor": ""
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040010
+                "message": "[InvalidQueryParameterValue]invalid kind:klay"
+                "requestId": "f8c0cbb7-c2a5-96b9-a3b5-23c0892d63bc"
+      "summary": "Get contract data by  EOA"
+      "operationId": "getListOfContractByOwnerAddress"
+      "tags":
+        - "Token Ownership"
+  "/v2/account/{address}/token":
+    "get":
+      "description": "Selecting an EOA will get all token data by EOA.<p></p>
+      
+
+         * `ft`: `ft` balances existing in the contract will be included in the response<br>
+
+        * `nft`: Tokens existing in the contract will be included in the response<br>
+
+        * `mt`: Token balances existing in the contract will be included in the response<p></p><br>
+
+
+        ## Size<p></p>
+
+
+        * The query parameter `size` is optional. (Min = 1, Max = 1000, Default =
+        100)<br>
+
+        * Returns an error when given a negative number<br>
+
+        * Uses default (`size=100`) when given a 0<br>
+
+        * Uses the maximum value (`size=1000`) when given a value higher than 1000<br>"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "(csv) Types to include [\"ft\", \"nft\", \"mt\"], query all types when not specified"
+          "in": "query"
+          "name": "kind"
+          "required": false
+          "explode": false
+          "schema":
+            "type": "string"
+          "example": "ft,nft,mt"
+        - "description": "Number of response items (min=1, max=1000, default=100)"
+          "in": "query"
+          "name": "size"
+          "required": false
+          "schema":
+            "type": "integer"
+            "format": "int64"
+          "example": 100
+        - "description": "Contract address list to filter (separated by \",\")"
+          "in": "query"
+          "name": "ca-filters"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": "0x4e1abf46b3cfba7c64755f280e3c7349cf0f65ac,0x251f622e8b5e713f357e9c\
+            4d990e91da2f448134"
+        - "description": "Offset for specifying a certain position"
+          "in": "query"
+          "name": "cursor"
+          "required": false
+          "schema":
+            "type": "string"
+          "example": ""
+        - "description": "EOA to query"
+          "in": "path"
+          "name": "address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": "Success"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/PageableTokenSummary"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "items":
+                      - "kind": "nft"
+                        "contractAddress": "0xfa9a1b66b970dc713ae71d56a7cc44b573d4c8f7"
+                        "updatedAt": 1607993770
+                        "balance": "0x1"
+                        "lastTransfer":
+                          "transactionHash": "0xc724efc8bd9e62d6149cfcb6ae08b6eb7b47fff16dfe0c1f169160ed1\
+                            b4870e5"
+                          "transferFrom": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                          "transferTo": "0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21"
+                        "extras":
+                          "tokenId": "0x1"
+                          "tokenUri": "https://www.klaytnapi.com/nft/0x1.json"
+                      - "kind": "ft"
+                        "contractAddress": "0x66ac22b457006c3f519e4a5c49ff19eb531bba4e"
+                        "updatedAt": 1607993770
+                        "balance": "0x15e"
+                        "lastTransfer":
+                          "transactionHash": "0xcd23a37616840f997298a6ae62effb8d28303b1a22ee0acc73f8e4867\
+                            14837ff"
+                          "transferFrom": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                          "transferTo": "0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21"
+                        "extras":
+                          "name": "KASFT"
+                          "symbol": "KFT"
+                          "decimals": 18
+                          "totalSupply": "0xde0b6b3a7640000"
+                          "formattedValue": "0.00000000000000035"
+                      - "kind": "mt"
+                        "contractAddress": "0x2b2e50e8c8e0d097f22ac9389af2f354d18d2882"
+                        "updatedAt": 1607993770
+                        "balance": "0x1c2"
+                        "lastTransfer":
+                          "transactionHash": "0x85263b3d17fe92edd4a665bb65211c5b8a08e88ebeb0474f477bc4484\
+                            eb26096"
+                          "transferFrom": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+                          "transferTo": "0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21"
+                        "extras":
+                          "tokenId": "0x1"
+                          "tokenUri": "https://www.klaytnapi.com/mt"
+                          "totalSupply": "0xde0b6b3a7640000"
+                    "cursor": ""
+        "400":
+          "description": "Invalid request"
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "#/components/schemas/ErrorResponse"
+              "example":
+                "code": 1040010
+                "message": "[InvalidQueryParameterValue]invalid kind:klay"
+                "requestId": "76269e63-28d9-9425-97fb-7a431dad1327"
+      "summary": "Get data of certain tokens for certain EOAs"
+      "operationId": "getListOfTokenByOwnerAddress"
+      "tags":
+        - "Token Ownership"
+"tags": []
+"servers":
+  - "url": "https://th-api.klaytnapi.com"
+"components":
+  "schemas":
+    "ErrorResponse":
+      "title": "ErrorResponse"
+      "type": "object"
+      "properties":
+        "code":
+          "type": "integer"
+          "description": "KAS error code"
+        "message":
+          "type": "string"
+          "description": "KAS error message"
+        "requestId":
+          "type": "string"
+          "description": "Request ID"
+      "required":
+        - "code"
+        - "message"
+        - "requestId"
+    "PageableContractSummary":
+      "title": "PageableContractSummary"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "title": "ContractSummaryItem"
+            "anyOf":
+              - "$ref": "#/components/schemas/FTContractSummary"
+              - "$ref": "#/components/schemas/NFTContractSummary"
+              - "$ref": "#/components/schemas/MTContractSummary"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "FTContractSummary":
+      "title": "ftContractSummary"
+      "type": "object"
+      "properties":
+        "kind":
+          "type": "string"
+          "description": "Contract type"
+          "example": "ft"
+        "contractAddress":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0x66ac22b457006c3f519e4a5c49ff19eb531bba4e"
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in token balances (timestamp)"
+          "example": 1607993770
+        "totalBalance":
+          "type": "string"
+          "description": "Balances (in hexadecimal)"
+          "example": "0x15e"
+        "extras":
+          "$ref": "#/components/schemas/FTContractSummaryExtras"
+      "required":
+        - "kind"
+        - "contractAddress"
+        - "updatedAt"
+        - "totalBalance"
+        - "extras"
+    "FTContractSummaryExtras":
+      "title": "ftContractSummaryExtras"
+      "type": "object"
+      "properties":
+        "name":
+          "type": "string"
+          "description": "Token name"
+          "example": "KAS FCoin"
+        "decimals":
+          "type": "integer"
+          "format": "int64"
+          "description": "Token digits"
+          "example": 8
+        "symbol":
+          "type": "string"
+          "description": "Token symbols"
+          "example": "KFC"
+        "totalSupply":
+          "type": "string"
+          "description": "Total issued amount (in hexadecimal)"
+          "example": "0xde0b6b3a7640000"
+        "formattedValue":
+          "type": "string"
+          "description": "Formatted value with contracts `decimals`"
+          "example": "0.00000000000000035"
+    "NFTContractSummary":
+      "title": "nftContractSummary"
+      "type": "object"
+      "properties":
+        "kind":
+          "type": "string"
+          "description": "Contract type"
+          "example": "nft"
+        "contractAddress":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0xfa9a1b66b970dc713ae71d56a7cc44b573d4c8f7"
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change of token ownership (timestamp)"
+          "example": 1607993770
+        "totalBalance":
+          "type": "string"
+          "description": "Total balance of tokens (in hexadecimal)"
+          "example": "0x1"
+        "extras":
+          "$ref": "#/components/schemas/NFTContractSummaryExtras"
+      "required":
+        - "kind"
+        - "contractAddress"
+        - "updatedAt"
+        - "totalBalance"
+        - "extras"
+    "NFTContractSummaryExtras":
+      "title": "nftContractSummaryExtras"
+      "type": "object"
+      "properties":
+        "name":
+          "type": "string"
+          "description": "Token name"
+          "example": "KAS NCoin"
+        "symbol":
+          "type": "string"
+          "description": "Token symbol"
+          "example": "KNC"
+        "totalSupply":
+          "type": "string"
+          "description": "Total issued tokens (in hexadecimal)"
+          "example": "0x1d"
+    "MTContractSummary":
+      "title": "mtContractSummary"
+      "type": "object"
+      "properties":
+        "kind":
+          "type": "string"
+          "description": "Contract type"
+          "example": "mt"
+        "contractAddress":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0x2b2e50e8c8e0d097f22ac9389af2f354d18d2882"
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change of token ownership (timestamp)"
+          "example": 1607993770
+        "totalBalance":
+          "type": "string"
+          "description": "Total balance of tokens (in hexadecimal)"
+          "example": "0x1c2"
+        "extras":
+          "$ref": "#/components/schemas/MTContractSummaryExtras"
+      "required":
+        - "kind"
+        - "contractAddress"
+        - "updatedAt"
+        - "totalBalance"
+        - "extras"
+    "MTContractSummaryExtras":
+      "title": "mtContractSummaryExtras"
+      "type": "object"
+    "FtContract":
+      "title": "FtContract"
+      "type": "object"
+      "properties":
+        "address":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "decimals":
+          "type": "integer"
+          "format": "int64"
+          "description": "Token digits"
+          "example": 8
+        "name":
+          "type": "string"
+          "description": "Token name"
+          "example": "Test Coin"
+        "symbol":
+          "type": "string"
+          "description": "Token symbol"
+          "example": "TSTC"
+        "status":
+          "type": "string"
+          "description": "Contract labelling status (completed, processing, failed, cancelled)"
+          "example": "completed"
+      "required":
+        - "address"
+        - "decimals"
+        - "name"
+        - "symbol"
+        - "status"
+    "FtContractDetail":
+      "title": "FtContractDetail"
+      "type": "object"
+      "properties":
+        "address":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0xaD15bCa7D0f1e077f43eC18ACBA7eE2a347ADE87"
+        "decimals":
+          "type": "integer"
+          "format": "int32"
+          "description": "Token digits"
+          "example": 8
+        "name":
+          "type": "string"
+          "description": "Token name"
+          "example": "Test Token"
+        "symbol":
+          "type": "string"
+          "description": "Token symbol"
+          "example": "TSC"
+        "status":
+          "type": "string"
+          "description": "Contract labelling status (completed, processing, failed, cancelled)"
+          "example": "completed"
+        "totalSupply":
+          "type": "string"
+          "description": "Total issued amount (in hexadecimal)"
+          "example": "0x174876e800"
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Time of labelling (timestamp)"
+          "example": 1592180992
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in labelling information (timestamp)"
+          "example": 1592180992
+        "deletedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Time of removal of labelling (timestamp); 0 if not removed"
+          "example": 1592180992
+        "type":
+          "type": "string"
+          "description": "Contract type (KIP-7, ERC-20)"
+      "required":
+        - "address"
+        - "decimals"
+        - "name"
+        - "symbol"
+        - "totalSupply"
+        - "createdAt"
+        - "updatedAt"
+        - "deletedAt"
+        - "link"
+        - "type"
+        - "status"
+    "Mt":
+      "title": "Mt"
+      "type": "object"
+      "properties":
+        "tokenId":
+          "type": "string"
+          "description": "Token ID (in hexadecimal)"
+          "example": "0x1"
+        "totalSupply":
+          "type": "string"
+          "description": "Total issued amount (in hexadecimal)"
+          "example": "0xaf298d050e4395d69670b12b7f41"
+        "tokenUri":
+          "type": "string"
+          "description": "Token URL"
+          "example": "https://link.to/mt/1"
+      "required":
+        - "tokenId"
+        - "totalSupply"
+        - "tokenUri"
+    "MtToken":
+      "title": "MtToken"
+      "type": "object"
+      "properties":
+        "tokenId":
+          "type": "string"
+          "description": "Token ID (in hexadecimal)"
+          "example": "0x1"
+        "owner":
+          "type": "string"
+          "description": "Owner EOA (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "tokenAddress":
+          "type": "string"
+          "description": "CA (20-byte)"
+          "example": "0x2c2382bcca41295495973be1d5a997d21f77b50e"
+        "totalSupply":
+          "type": "string"
+          "description": "Total issued amount (in hexadecimal)"
+          "example": "0xaf298d050e4395d69670b12b7f41"
+        "tokenUri":
+          "type": "string"
+          "description": "Token URL"
+          "example": "https://link.to/mt/1"
+        "balance":
+          "type": "string"
+          "description": "Owner's balances in EOA"
+          "example": "0xaf298d050e4395d69670b12b7f4"
+        "transactionHash":
+          "type": "string"
+          "description": "Last transaction hash (32-byte)"
+          "example": "0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8"
+        "transferFrom":
+          "type": "string"
+          "description": "Sender EOA of last TransferSingle or TransferBatch (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "transferTo":
+          "type": "string"
+          "description": "Receiver EOA of recent TransferSingle or TransferBatch (20-byte)"
+          "example": "0xbe02aba56bae1624e2c4f029e3a79308e2a19e98"
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in token information (timestamp)"
+          "example": 1592180992
+      "required":
+        - "tokenId"
+        - "owner"
+        - "tokenAddress"
+        - "totalSupply"
+        - "tokenUri"
+        - "balance"
+        - "transactionHash"
+        - "transferFrom"
+        - "transferTo"
+        - "updatedAt"
+    "PageableMts":
+      "title": "PageableMts"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/Mt"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "PageableMtTokens":
+      "title": "PageableMtTokens"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/MtToken"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "PageableMtTokensWithBalance":
+      "title": "PageableMtTokensWithBalance"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/MtToken"
+        "totalBalance":
+          "type": "string"
+          "description": "Total balance of tokens by EOA"
+          "example": "0xf1"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "totalBalance"
+        - "cursor"
+    "MtContractDetail":
+      "title": "MtContractDetail"
+      "type": "object"
+      "properties":
+        "address":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0xaD15bCa7D0f1e077f43eC18ACBA7eE2a347ADE87"
+        "status":
+          "type": "string"
+          "description": "Contract labelling status (completed, processing, failed, cancelled)"
+          "example": "completed"
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Timestamp of Labelling"
+          "example": 1592180992
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in labelling information (timestamp)"
+          "example": 1592180992
+        "deletedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Time of removal of labelling (timestamp); 0 if not removed"
+          "example": 1592180992
+        "type":
+          "type": "string"
+          "description": "Contract type (KIP-7, ERC-20)"
+      "required":
+        - "address"
+        - "status"
+        - "createdAt"
+        - "updatedAt"
+        - "deletedAt"
+        - "type"
+    "Nft":
+      "title": "Nft"
+      "type": "object"
+      "properties":
+        "owner":
+          "type": "string"
+          "description": "Owner EOA (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "previousOwner":
+          "type": "string"
+          "description": "Previous owner EOA (20-byte)"
+          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
+        "tokenId":
+          "type": "string"
+          "description": "Token ID (in hexadecimal)"
+          "example": "0x1"
+        "tokenUri":
+          "type": "string"
+          "description": "Token URL"
+          "example": "https://link.to/nft/1"
+        "transactionHash":
+          "type": "string"
+          "description": "Last transaction hash(32-byte)"
+          "example": "0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8"
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Time of token creation (timestamp)"
+          "example": 1592180992
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in token information (timestamp)"
+          "example": 1592180992
+      "required":
+        - "owner"
+        - "previousOwner"
+        - "tokenId"
+        - "tokenUri"
+        - "createdAt"
+        - "updatedAt"
+        - "transactionHash"
+    "PageableNfts":
+      "title": "PageableNfts"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/Nft"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "NftContract":
+      "title": "NftContract"
+      "type": "object"
+      "properties":
+        "address":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "name":
+          "type": "string"
+          "description": "Token name"
+          "example": "Test contract"
+        "symbol":
+          "type": "string"
+          "description": "Token symbol"
+          "example": "TSTC"
+        "status":
+          "type": "string"
+          "description": "Contract labelling status (completed, processing, failed, cancelled)"
+          "example": "completed"
+      "required":
+        - "address"
+        - "name"
+        - "symbol"
+    "NftContractDetail":
+      "title": "NftContractDetail"
+      "type": "object"
+      "properties":
+        "address":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0xc7565d24af561fe783aa73747ca0eda1f09f1118"
+        "name":
+          "type": "string"
+          "description": "Token name"
+          "example": "Test Token"
+        "symbol":
+          "type": "string"
+          "description": "Token symbol"
+          "example": "TSTC"
+        "totalSupply":
+          "type": "string"
+          "description": "Total issued amount (in hexadecimal)"
+          "example": "0x174876e800"
+        "createdAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Time of labelling (timestamp)"
+          "example": 1592180992
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in token in labelling (timestamp)"
+          "example": 1592180992
+        "deletedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Time of removal of labelling (timestamp); 0 if not removed"
+          "example": 1592180992
+        "type":
+          "type": "string"
+          "description": "Contract type (KIP-17, ERC-721)"
+          "example": "KIP-7"
+        "status":
+          "type": "string"
+          "description": "Contract labelling status (completed, processing, failed, cancelled)"
+          "example": "completed"
+      "required":
+        - "address"
+        - "name"
+        - "symbol"
+        - "totalSupply"
+        - "createdAt"
+        - "updatedAt"
+        - "deletedAt"
+        - "type"
+        - "status"
+    "NftOwnershipChange":
+      "title": "NftOwnershipChange"
+      "type": "object"
+      "properties":
+        "from":
+          "type": "string"
+          "description": "Sender (previous owner) EOA (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "to":
+          "type": "string"
+          "description": "Receiver (current owner) EOA (20-byte)"
+          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
+        "timestamp":
+          "type": "integer"
+          "format": "int64"
+          "description": "Change of NFT ownership (timestamp)"
+          "example": 1592180992
+      "required":
+        - "to"
+        - "from"
+        - "timestamp"
+    "PageableNftOwnershipChanges":
+      "title": "PageableNftOwnershipChanges"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/NftOwnershipChange"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "PageableTokenSummary":
+      "title": "PageableTokenSummary"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "title": "TokenSummaryItem"
+            "anyOf":
+              - "$ref": "#/components/schemas/FTTokenSummary"
+              - "$ref": "#/components/schemas/NFTTokenSummary"
+              - "$ref": "#/components/schemas/MTTokenSummary"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "FTTokenSummary":
+      "title": "ftTokenSummary"
+      "type": "object"
+      "properties":
+        "kind":
+          "type": "string"
+          "description": "Token type"
+          "example": "ft"
+        "contractAddress":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0x66ac22b457006c3f519e4a5c49ff19eb531bba4e"
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in token balances  (timestamp)"
+          "example": 1607993770
+        "balance":
+          "type": "string"
+          "description": "Balances (in hexadecimal)"
+          "example": "0x15e"
+        "lastTransfer":
+          "$ref": "#/components/schemas/LastTransfer"
+        "extras":
+          "$ref": "#/components/schemas/FTTokenSummaryExtras"
+      "required":
+        - "kind"
+        - "contractAddress"
+        - "updatedAt"
+        - "balance"
+        - "lastTransfer"
+        - "extras"
+    "FTTokenSummaryExtras":
+      "title": "ftTokenSummaryExtras"
+      "type": "object"
+      "properties":
+        "name":
+          "type": "string"
+          "description": "Token name"
+          "example": "KAS FCoin"
+        "decimals":
+          "type": "integer"
+          "format": "int64"
+          "description": "Token digits"
+          "example": 8
+        "symbol":
+          "type": "string"
+          "description": "Token symbol"
+          "example": "KFC"
+        "totalSupply":
+          "type": "string"
+          "description": "Total issued amount (in hexadecimal)"
+          "example": "0xde0b6b3a7640000"
+        "formattedValue":
+          "type": "string"
+          "description": "Formatted value with contracts `decimals`"
+          "example": "0.00000000000000035"
+    "NFTTokenSummary":
+      "title": "nftTokenSummary"
+      "type": "object"
+      "properties":
+        "kind":
+          "type": "string"
+          "description": "Contract type"
+          "example": "nft"
+        "contractAddress":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0xfa9a1b66b970dc713ae71d56a7cc44b573d4c8f7"
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in token ownership (timestamp)"
+          "example": 1607993770
+        "balance":
+          "type": "string"
+          "description": "Token balance (in hexadecimal)"
+          "example": "0x1"
+        "lastTransfer":
+          "$ref": "#/components/schemas/LastTransfer"
+        "extras":
+          "$ref": "#/components/schemas/NFTTokenSummaryExtras"
+      "required":
+        - "kind"
+        - "contractAddress"
+        - "updatedAt"
+        - "balance"
+        - "lastTransfer"
+        - "extras"
+    "NFTTokenSummaryExtras":
+      "title": "nftTokenSummaryExtras"
+      "type": "object"
+      "properties":
+        "tokenId":
+          "type": "string"
+          "description": "Token ID (in hexadecimal)"
+          "example": "0x1"
+        "tokenUri":
+          "type": "string"
+          "description": "Token URL"
+          "example": "https://link.to/nft/1"
+    "MTTokenSummary":
+      "title": "mtTokenSummary"
+      "type": "object"
+      "properties":
+        "kind":
+          "type": "string"
+          "description": "Contract type"
+          "example": "mt"
+        "contractAddress":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0x2b2e50e8c8e0d097f22ac9389af2f354d18d2882"
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in token balances (timestamp)"
+          "example": 1607993770
+        "balance":
+          "type": "string"
+          "description": "Token balance (in hexadecimal)"
+          "example": "0x1"
+        "lastTransfer":
+          "$ref": "#/components/schemas/LastTransfer"
+        "extras":
+          "$ref": "#/components/schemas/MTTokenSummaryExtras"
+      "required":
+        - "kind"
+        - "contractAddress"
+        - "updatedAt"
+        - "balance"
+        - "lastTransfer"
+        - "extras"
+    "MTTokenSummaryExtras":
+      "title": "MTTokenSummaryExtras"
+      "type": "object"
+      "properties":
+        "tokenId":
+          "type": "string"
+          "description": "Token ID (in hexadecimal)"
+          "example": "0x1"
+        "tokenUri":
+          "type": "string"
+          "description": "Token URL"
+          "example": "https://link.to/mt/1"
+        "totalSupply":
+          "type": "string"
+          "description": "Total issued amount (in hexadecimal)"
+          "example": "0xde0b6b3a7640000"
+    "LastTransfer":
+      "title": "lastTransfer"
+      "type": "object"
+      "properties":
+        "transactionHash":
+          "type": "string"
+          "description": "Transaction hash"
+          "example": "0xcd23a37616840f997298a6ae62effb8d28303b1a22ee0acc73f8e486714837ff"
+        "transferFrom":
+          "type": "string"
+          "description": "Sender EOA (20-byte)"
+          "example": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
+        "transferTo":
+          "type": "string"
+          "description": "Receiver EOA (20-byte)"
+          "example": "0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21"
+      "required":
+        - "transactionHash"
+        - "transferFrom"
+        - "transferTo"
+    "TransferArray":
+      "title": "TransferArray"
+      "type": "array"
+      "items":
+        "title": "TransferItem"
+        "anyOf":
+          - "$ref": "#/components/schemas/KlayTransfer"
+          - "$ref": "#/components/schemas/FtTransfer"
+          - "$ref": "#/components/schemas/NftTransfer"
+          - "$ref": "#/components/schemas/MtTransfer"
+    "NftTransfer":
+      "title": "NftTransfer"
+      "type": "object"
+      "properties":
+        "contract":
+          "$ref": "#/components/schemas/NftContract"
+        "from":
+          "type": "string"
+          "description": "Sender EOA (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "to":
+          "type": "string"
+          "description": "Recipient EOA (20-byte)"
+          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
+        "transaction":
+          "$ref": "#/components/schemas/Transaction"
+        "transferType":
+          "type": "string"
+          "description": "Transaction type"
+          "example": "nft"
+        "tokenId":
+          "type": "string"
+          "description": "Token Identifier (in hexadecimal)"
+          "example": "0x1"
+      "required":
+        - "contract"
+        - "from"
+        - "to"
+        - "transaction"
+        - "transferType"
+        - "tokenId"
+    "Transaction":
+      "title": "Transaction"
+      "type": "object"
+      "properties":
+        "feePayer":
+          "type": "string"
+          "description": "Fee delegation account address (20-byte)"
+          "example": "0xd0ea3e0eabaea095ea3ba231c043dbf8c0feb40a"
+        "feeRatio":
+          "type": "integer"
+          "format": "int32"
+          "description": "Fee delegation ratio"
+          "example": 100
+        "fee":
+          "type": "string"
+          "description": "Gas fee"
+          "example": "0xa455"
+        "from":
+          "type": "string"
+          "description": "EOA of the sender of transaction (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "timestamp":
+          "type": "integer"
+          "format": "int64"
+          "description": "Time of transaction (timestamp)"
+          "example": 1592180992
+        "transactionHash":
+          "type": "string"
+          "description": "Transaction hash (32-byte)"
+          "example": "0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8"
+        "typeInt":
+          "type": "integer"
+          "format": "int32"
+          "description": "Transaction type"
+          "example": 10
+        "value":
+          "type": "string"
+          "description": "Amount of KLAY transferred (in hexadecimal)"
+          "example": "0xa"
+      "required":
+        - "feePayer"
+        - "feeRatio"
+        - "fee"
+        - "from"
+        - "timestamp"
+        - "transactionHash"
+        - "typeInt"
+        - "value"
+    "FtTransfer":
+      "title": "FtTransfer"
+      "type": "object"
+      "properties":
+        "contract":
+          "$ref": "#/components/schemas/FtContract"
+        "formattedValue":
+          "type": "string"
+          "description": "Formatted value with contracts `decimals`"
+          "example": "0.000000000000000002"
+        "from":
+          "type": "string"
+          "description": "Sender EOA (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "to":
+          "type": "string"
+          "description": "Receiver EOA (20-byte)"
+          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
+        "transaction":
+          "$ref": "#/components/schemas/Transaction"
+        "transferType":
+          "type": "string"
+          "description": "Transaction type"
+          "example": "ft"
+        "value":
+          "type": "string"
+          "description": "Number of tokens sent (in hexadecimal)"
+          "example": "0xa"
+      "required":
+        - "contract"
+        - "formattedValue"
+        - "from"
+        - "to"
+        - "transaction"
+        - "transferType"
+        - "value"
+    "MtContract":
+      "title": "MtContract"
+      "type": "object"
+      "properties":
+        "address":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+      "required":
+        - "address"
+    "MtTransfer":
+      "title": "MtTransfer"
+      "type": "object"
+      "properties":
+        "contract":
+          "$ref": "#/components/schemas/MtContract"
+        "operator":
+          "type": "string"
+          "description": "Validator EOA (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "from":
+          "type": "string"
+          "description": "Sender EOA (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "to":
+          "type": "string"
+          "description": "Receiver EOA (20-byte)"
+          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
+        "transaction":
+          "$ref": "#/components/schemas/Transaction"
+        "transferType":
+          "type": "string"
+          "description": "Transaction type"
+          "example": "mt"
+        "ids":
+          "type": "array"
+          "items":
+            "type": "string"
+          "description": "Array of token identifiers (in hexadecimal)"
+          "example": "[0x1,0x2]"
+        "values":
+          "type": "array"
+          "items":
+            "type": "string"
+          "description": "Array of sent tokens (in hexadecimal)"
+          "example": "[0xa,0xb]"
+      "required":
+        - "contract"
+        - "operator"
+        - "from"
+        - "to"
+        - "transaction"
+        - "transferType"
+        - "ids"
+        - "values"
+    "KlayTransfer":
+      "title": "KlayTransfer"
+      "type": "object"
+      "properties":
+        "feePayer":
+          "type": "string"
+          "description": "Fee delegation account address (20-byte)"
+          "example": "0xd0ea3e0eabaea095ea3ba231c043dbf8c0feb40a"
+        "feeRatio":
+          "type": "integer"
+          "format": "int32"
+          "description": "Fee delegation ratio"
+          "example": 100
+        "fee":
+          "type": "string"
+          "description": "Gas fee"
+          "example": "0xa455"
+        "from":
+          "type": "string"
+          "description": "Sender EOA (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "to":
+          "type": "string"
+          "description": "Receiver EOA (20-byte)"
+          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
+        "transactionHash":
+          "type": "string"
+          "description": "Transaction hash"
+          "example": "0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8"
+        "transactionIndex":
+          "type": "integer"
+          "format": "int32"
+          "description": "Transaction index"
+          "example": 1
+        "transferType":
+          "type": "string"
+          "description": "Transactino type"
+          "example": "klay"
+        "typeInt":
+          "type": "integer"
+          "format": "int32"
+          "description": "Transaction type"
+          "example": 50
+        "value":
+          "type": "string"
+          "description": "Amount of KLAY transferred (in hexadecimal)"
+          "example": "0xa"
+      "required":
+        - "feePayer"
+        - "feeRatio"
+        - "fee"
+        - "from"
+        - "to"
+        - "transactionHash"
+        - "transactionIndex"
+        - "transferType"
+        - "typeInt"
+        - "value"
+    "PageableNftContractDetails":
+      "title": "PageableNftContractDetails"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/NftContractDetail"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "PageableFtContractDetails":
+      "title": "PageableFtContractDetails"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/FtContractDetail"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "PageableMtContractDetails":
+      "title": "PageableMtContractDetails"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/MtContractDetail"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "PageableTransfers":
+      "title": "PageableTransfers"
+      "type": "object"
+      "properties":
+        "items":
+          "$ref": "#/components/schemas/TransferArray"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+    "Transfers":
+      "title": "Transfers"
+      "type": "object"
+      "properties":
+        "items":
+          "$ref": "#/components/schemas/TransferArray"
+      "required":
+        - "items"
+    "AccountFT":
+      "title": "FT Summary"
+      "type": "object"
+      "properties":
+        "address":
+          "type": "string"
+          "description": "Contract address (20-byte)"
+          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
+        "owner":
+          "type": "string"
+          "description": "EOA to query (20-byte)"
+          "example": "0x00ebd049eff96861d9fb3843fd0de79b08a3cc17"
+        "balance":
+          "type": "string"
+          "description": "Token balances (in hexadecimal)"
+          "example": "0x15e"
+        "formattedValue":
+          "type": "string"
+          "description": "Formatted value with contracts `decimals`"
+          "example": "0.00000000000000035"
+        "decimals":
+          "type": "integer"
+          "format": "int64"
+          "description": "FT token digits"
+          "example": 8
+        "name":
+          "type": "string"
+          "description": "FT Token name"
+          "example": "KASFT"
+        "symbol":
+          "type": "string"
+          "description": "FT Token symbol"
+          "example": "KFT"
+        "totalSupply":
+          "type": "string"
+          "description": "FT total issued amount (in hexadecimal)"
+          "example": "0x174876e800"
+        "updatedAt":
+          "type": "integer"
+          "format": "int64"
+          "description": "Last change in token information (timestamp)"
+          "example": "1592180992"
+      "required":
+        - "address"
+        - "owner"
+        - "decimals"
+        - "name"
+        - "symbol"
+        - "totalSupply"
+        - "updatedAt"
+        - "balance"
+        - "formattedValue"
+    "PageableAccountFT":
+      "title": "PageableAccountFT"
+      "type": "object"
+      "properties":
+        "items":
+          "type": "array"
+          "items":
+            "$ref": "#/components/schemas/AccountFT"
+        "cursor":
+          "type": "string"
+          "description": "Next page cursor"
+          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
+            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
+      "required":
+        - "items"
+        - "cursor"
+  "securitySchemes":
+    "basic":
+      "description": "KAS uses Basic HTTP Auth. All requests must contain a valid Authorization header.
+        KAS user must use access key ID as `username`, and secret access key as `password`
+        to create credentials for Basic Auth.
+
+
+        The KAS account credentials grant access to all services of KAS and own all rights to the Klaytn account created with Wallet API, 
+        which means they can execute value transfer of assets on the Klaytn account (like KLAY) or a 
+        [Transaction](https://docs.klaytnapi.com/tutorial/wallet-transaction-api).
+        To keep your KAS/Klaytn accounts secure, do not share your 
+        KAS API Secret Access Key with others.
+
+        ### cURL
+
+        ```
+
+        \  curl --location --request GET 'https://th-api.klaytnapi.com/v2/contract/ft'
+        \\
+
+        \  -u ${your_accessKeyId}:${your_secretAccessKey} \\
+
+        \  --header 'x-chain-id: 8217' \\
+
+        \  --header 'Content-Type: application/json'
+
+        ```     \ 
+
+        \n"
+      "type": "http"
+      "scheme": "basic"
+"security":
+  - "basic": []
