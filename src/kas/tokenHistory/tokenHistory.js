@@ -593,12 +593,12 @@ class TokenHistory {
      *
      * @example
      * const queryOptions = { size: 1, kind: caver.kas.tokenHistory.queryOptions.kind.FT }
-     * const result = await caver.kas.tokenHistory.getContractListByOwner('0xbbe63781168c9e67e7a8b112425aa84c479f39aa', queryOptions)
+     * const result = await caver.kas.tokenHistory.getTokenListByOwner('0xbbe63781168c9e67e7a8b112425aa84c479f39aa', queryOptions)
      *
      * @param {string} address The EOA to query.
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `kind`, `size`, `cursor` and `caFilters`.
      * @param {Function} [callback] The callback function to call.
-     * @return {PageableContractSummary}
+     * @return {PageableTokenSummary}
      */
     getTokenListByOwner(address, queryOptions, callback) {
         if (!this.accessOptions || !this.tokenOwnershipApi) throw new Error(NOT_INIT_API_ERR_MSG)
