@@ -20,6 +20,22 @@ for i in ${DIRS};do
 			# Changed model name from exports to acutal
 			sed -i '' "s/ exports/ ${model}/g" $j
 
+			# The formatting below converts the code format so that it can be used in caver-js-ext-kas.
+			cnt=$(grep -o 'import' $j | wc -l)
+			cmp=0
+			if [ ${cnt} -gt ${cmp} ]; then
+				# Use class and exports and also format class variable using "ModelName.prototype.varName"
+				sed -i '' "s/export default class /class /g" $j
+				tac $j | awk '/    }/ && ! seen {print "}"; seen=1} {print}'  | tac > tmp && mv tmp $j
+				sed -i '' '$ s/}/module.exports = '${model}'/g' $j
+				sed -i '' "s/'\(.*\)' = \(.*\)/${model}.prototype.\1 = \2/g" $j
+
+				# Changed import to require
+				sed -i '' "s/import\(.*\);/import\1/g" $j
+				sed -i '' "s/import\(.*\)from \"\(.*\)\"/import\1from \'\2\'/g" $j
+				sed -i '' "s/import\(.*\)from \(.*\)/const\1= require(\2)/g" $j
+			fi
+
 			# Modified path
 			sed -i '' "s/'..\/ApiClient'/'..\/..\/ApiClient'/g" $j
 			sed -i '' "s/'ApiClient'/'..\/..\/ApiClient'/g" $j
@@ -60,6 +76,22 @@ for i in ${DIRS};do
 
 			# Format empty brace without newline
 			sed -i '' 'H;1h;$!d;x; s/{\n *}/{}/g' $j
+
+			# Use Object instead of wrong model for anyof to use Object
+			sed -i '' "s/\[AnyOfPageable\(.*\)SummaryItemsItems\]/\[Object\]/g" $j
+			sed -i '' "/AnyOfPageable\(.*\)ItemsItems.call(this)/D" $j
+			sed -i '' "s/{Models\(.*\)Yaml}/{Object}/g" $j
+			sed -i '' "s/\(.*\)Models\(.*\)Yaml.constructFromObject(\(.*\))/\1ApiClient.convertToType(\3, Object)/g" $j
+			sed -i '' "/Models\(.*\)Yaml/D" $j
+
+			# Modify invalid 'ModelObject'
+			sed -i '' "/const ModelObject/D" $j
+			sed -i '' "s/ApiClient.constructFromObject(data, obj, 'ModelObject')/ApiClient.constructFromObject(data, obj, Object)/g" $j
+			sed -i '' "s/{Array.<ModelObject>}/{Array.<Object>}/g" $j
+
+			# Use Object instead of unused AccountUpdateKey model
+			sed -i '' "s/\(.*\)AccountUpdateKey.constructFromObject(\(.*\))/\1ApiClient.convertToType(\2, Object)/g" $j
+
 		done
 
       cd ../../;
@@ -76,6 +108,20 @@ for i in ${DIRS};do
 
 			# Changed api name from exports to acutal
 			sed -i '' "s/ exports/ ${api}/g" $j
+
+			# The formatting below converts the code format so that it can be used in caver-js-ext-kas.
+			cnt=$(grep -o 'import' $j | wc -l)
+			cmp=0
+			if [ ${cnt} -gt ${cmp} ]; then
+				# Use class and exports and also format class variable using "ModelName.prototype.varName"
+				sed -i '' "s/export default class /class /g" $j
+				echo "module.exports = ${api}" >> $j
+
+				# Changed import to require
+				sed -i '' "s/import\(.*\);/import\1/g" $j
+				sed -i '' "s/import\(.*\)from \"\(.*\)\"/import\1from \'\2\'/g" $j
+				sed -i '' "s/import\(.*\)from \(.*\)/const\1= require(\2)/g" $j
+			fi
 
 			# Modified path
 			sed -i '' "s/'..\/ApiClient'/'..\/..\/ApiClient'/g" $j
