@@ -14,103 +14,33 @@
 const ApiClient = require('../../ApiClient')
 
 /**
- * The LegacyTransactionRequest model module.
- * @class LegacyTransactionRequest
+ * The AccountUpdateKey model module.
+ * @class AccountUpdateKey
  * @version 1.0
  */
-class LegacyTransactionRequest {
+class AccountUpdateKey {
     /**
-     * Constructs a new <code>LegacyTransactionRequest</code>.
-     * Legacy transaction request schema.
-     * @alias LegacyTransactionRequest
+     * Constructs a new <code>AccountUpdateKey</code>.
+     * @alias AccountUpdateKey
      * @class
-     * @param from {String} KLAY sender's Klaytn account address
      */
 
-    constructor(from) {
-        this.from = from
-    }
+    constructor() {}
 
     /**
-     * Constructs a <code>LegacyTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>AccountUpdateKey</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {LegacyTransactionRequest} obj Optional instance to populate.
-     * @return {LegacyTransactionRequest} The populated <code>LegacyTransactionRequest</code> instance.
-     * @memberof LegacyTransactionRequest
+     * @param {AccountUpdateKey} obj Optional instance to populate.
+     * @return {AccountUpdateKey} The populated <code>AccountUpdateKey</code> instance.
+     * @memberof AccountUpdateKey
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new LegacyTransactionRequest()
-
-            if (data.hasOwnProperty('from')) {
-                obj.from = ApiClient.convertToType(data.from, 'String')
-            }
-            if (data.hasOwnProperty('value')) {
-                obj.value = ApiClient.convertToType(data.value, 'String')
-            }
-            if (data.hasOwnProperty('input')) {
-                obj.input = ApiClient.convertToType(data.input, 'String')
-            }
-            if (data.hasOwnProperty('nonce')) {
-                obj.nonce = ApiClient.convertToType(data.nonce, 'Number')
-            }
-            if (data.hasOwnProperty('gas')) {
-                obj.gas = ApiClient.convertToType(data.gas, 'Number')
-            }
-            if (data.hasOwnProperty('submit')) {
-                obj.submit = ApiClient.convertToType(data.submit, 'Boolean')
-            }
-            if (data.hasOwnProperty('to')) {
-                obj.to = ApiClient.convertToType(data.to, 'String')
-            }
+            obj = obj || new AccountUpdateKey()
         }
         return obj
     }
 }
 
-/**
- * KLAY sender's Klaytn account address
- * @type {String}
- * @memberof LegacyTransactionRequest
- */
-LegacyTransactionRequest.prototype.from = undefined
-/**
- * KLAY converted into PEB
- * @type {String}
- * @memberof LegacyTransactionRequest
- */
-LegacyTransactionRequest.prototype.value = undefined
-/**
- * Data that is sent along with the transaction and used for the execution.
- * @type {String}
- * @memberof LegacyTransactionRequest
- */
-LegacyTransactionRequest.prototype.input = undefined
-/**
- * Unique identifier for the transactions being sent.(By entering 0, the nonce will be automatically determined.)
- * @type {Number}
- * @memberof LegacyTransactionRequest
- */
-LegacyTransactionRequest.prototype.nonce = undefined
-/**
- * Maximum gas fee to be used for sending the transaction. (By entering 0, it will be set to default value)
- * @type {Number}
- * @memberof LegacyTransactionRequest
- * @default 100000
- */
-LegacyTransactionRequest.prototype.gas = 100000
-/**
- * Send or not send the transaction to Klaytn
- * @type {Boolean}
- * @memberof LegacyTransactionRequest
- */
-LegacyTransactionRequest.prototype.submit = undefined
-/**
- * KLAY receiver's Klaytn account address
- * @type {String}
- * @memberof LegacyTransactionRequest
- */
-LegacyTransactionRequest.prototype.to = undefined
-
-module.exports = LegacyTransactionRequest
+module.exports = AccountUpdateKey

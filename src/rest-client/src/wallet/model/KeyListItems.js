@@ -14,55 +14,46 @@
 const ApiClient = require('../../ApiClient')
 
 /**
- * The LegacyTransactionRequest model module.
- * @class LegacyTransactionRequest
+ * The KeyListItems model module.
+ * @class KeyListItems
  * @version 1.0
  */
-class LegacyTransactionRequest {
+class KeyListItems {
     /**
-     * Constructs a new <code>LegacyTransactionRequest</code>.
-     * Legacy transaction request schema.
-     * @alias LegacyTransactionRequest
+     * Constructs a new <code>KeyListItems</code>.
+     * @alias KeyListItems
      * @class
-     * @param from {String} KLAY sender's Klaytn account address
+     * @param keyId {String} key ID
+     * @param krn {String} KAS resource name
+     * @param publicKey {String} Public key
      */
 
-    constructor(from) {
-        this.from = from
+    constructor(keyId, krn, publicKey) {
+        this.keyId = keyId
+        this.krn = krn
+        this.publicKey = publicKey
     }
 
     /**
-     * Constructs a <code>LegacyTransactionRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>KeyListItems</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {LegacyTransactionRequest} obj Optional instance to populate.
-     * @return {LegacyTransactionRequest} The populated <code>LegacyTransactionRequest</code> instance.
-     * @memberof LegacyTransactionRequest
+     * @param {KeyListItems} obj Optional instance to populate.
+     * @return {KeyListItems} The populated <code>KeyListItems</code> instance.
+     * @memberof KeyListItems
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new LegacyTransactionRequest()
+            obj = obj || new KeyListItems()
 
-            if (data.hasOwnProperty('from')) {
-                obj.from = ApiClient.convertToType(data.from, 'String')
+            if (data.hasOwnProperty('keyId')) {
+                obj.keyId = ApiClient.convertToType(data.keyId, 'String')
             }
-            if (data.hasOwnProperty('value')) {
-                obj.value = ApiClient.convertToType(data.value, 'String')
+            if (data.hasOwnProperty('krn')) {
+                obj.krn = ApiClient.convertToType(data.krn, 'String')
             }
-            if (data.hasOwnProperty('input')) {
-                obj.input = ApiClient.convertToType(data.input, 'String')
-            }
-            if (data.hasOwnProperty('nonce')) {
-                obj.nonce = ApiClient.convertToType(data.nonce, 'Number')
-            }
-            if (data.hasOwnProperty('gas')) {
-                obj.gas = ApiClient.convertToType(data.gas, 'Number')
-            }
-            if (data.hasOwnProperty('submit')) {
-                obj.submit = ApiClient.convertToType(data.submit, 'Boolean')
-            }
-            if (data.hasOwnProperty('to')) {
-                obj.to = ApiClient.convertToType(data.to, 'String')
+            if (data.hasOwnProperty('publicKey')) {
+                obj.publicKey = ApiClient.convertToType(data.publicKey, 'String')
             }
         }
         return obj
@@ -70,47 +61,22 @@ class LegacyTransactionRequest {
 }
 
 /**
- * KLAY sender's Klaytn account address
+ * key ID
  * @type {String}
- * @memberof LegacyTransactionRequest
+ * @memberof KeyListItems
  */
-LegacyTransactionRequest.prototype.from = undefined
+KeyListItems.prototype.keyId = undefined
 /**
- * KLAY converted into PEB
+ * KAS resource name
  * @type {String}
- * @memberof LegacyTransactionRequest
+ * @memberof KeyListItems
  */
-LegacyTransactionRequest.prototype.value = undefined
+KeyListItems.prototype.krn = undefined
 /**
- * Data that is sent along with the transaction and used for the execution.
+ * Public key
  * @type {String}
- * @memberof LegacyTransactionRequest
+ * @memberof KeyListItems
  */
-LegacyTransactionRequest.prototype.input = undefined
-/**
- * Unique identifier for the transactions being sent.(By entering 0, the nonce will be automatically determined.)
- * @type {Number}
- * @memberof LegacyTransactionRequest
- */
-LegacyTransactionRequest.prototype.nonce = undefined
-/**
- * Maximum gas fee to be used for sending the transaction. (By entering 0, it will be set to default value)
- * @type {Number}
- * @memberof LegacyTransactionRequest
- * @default 100000
- */
-LegacyTransactionRequest.prototype.gas = 100000
-/**
- * Send or not send the transaction to Klaytn
- * @type {Boolean}
- * @memberof LegacyTransactionRequest
- */
-LegacyTransactionRequest.prototype.submit = undefined
-/**
- * KLAY receiver's Klaytn account address
- * @type {String}
- * @memberof LegacyTransactionRequest
- */
-LegacyTransactionRequest.prototype.to = undefined
+KeyListItems.prototype.publicKey = undefined
 
-module.exports = LegacyTransactionRequest
+module.exports = KeyListItems
