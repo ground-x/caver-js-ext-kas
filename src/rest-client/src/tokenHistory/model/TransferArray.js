@@ -12,60 +12,41 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Mt = require('./Mt')
 
 /**
- * The PageableMts model module.
- * @class PageableMts
+ * The TransferArray model module.
+ * @class TransferArray
  * @version 2.0
  */
-class PageableMts {
+class TransferArray extends Array {
     /**
-     * Constructs a new <code>PageableMts</code>.
-     * @alias PageableMts
+     * Constructs a new <code>TransferArray</code>.
+     * @alias TransferArray
      * @class
-     * @param items {Array.<Mt>}
-     * @param cursor {String} Next page cursor
+     * @extends Array
      */
 
-    constructor(items, cursor) {
-        this.items = items
-        this.cursor = cursor
+    constructor() {
+        super()
+
+        return this
     }
 
     /**
-     * Constructs a <code>PageableMts</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>TransferArray</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {PageableMts} obj Optional instance to populate.
-     * @return {PageableMts} The populated <code>PageableMts</code> instance.
-     * @memberof PageableMts
+     * @param {TransferArray} obj Optional instance to populate.
+     * @return {TransferArray} The populated <code>TransferArray</code> instance.
+     * @memberof TransferArray
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new PageableMts()
-
-            if (data.hasOwnProperty('items')) {
-                obj.items = ApiClient.convertToType(data.items, [Mt])
-            }
-            if (data.hasOwnProperty('cursor')) {
-                obj.cursor = ApiClient.convertToType(data.cursor, 'String')
-            }
+            obj = obj || new TransferArray()
+            ApiClient.constructFromObject(data, obj, Object)
         }
         return obj
     }
 }
 
-/**
- * @type {Array.<Mt>}
- * @memberof PageableMts
- */
-PageableMts.prototype.items = undefined
-/**
- * Next page cursor
- * @type {String}
- * @memberof PageableMts
- */
-PageableMts.prototype.cursor = undefined
-
-module.exports = PageableMts
+module.exports = TransferArray

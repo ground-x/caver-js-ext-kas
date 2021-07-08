@@ -12,49 +12,35 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const TransferArray = require('./TransferArray')
 
 /**
- * The Transfers model module.
- * @class Transfers
+ * The AnyOfPageableTokenSummaryItemsItems model module.
+ * @class AnyOfPageableTokenSummaryItemsItems
  * @version 2.0
  */
-class Transfers {
+class AnyOfPageableTokenSummaryItemsItems {
     /**
-     * Constructs a new <code>Transfers</code>.
-     * @alias Transfers
+     * Constructs a new <code>AnyOfPageableTokenSummaryItemsItems</code>.
+     * @alias AnyOfPageableTokenSummaryItemsItems
      * @class
-     * @param items {TransferArray}
      */
 
-    constructor(items) {
-        this.items = items
-    }
+    constructor() {}
 
     /**
-     * Constructs a <code>Transfers</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>AnyOfPageableTokenSummaryItemsItems</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Transfers} obj Optional instance to populate.
-     * @return {Transfers} The populated <code>Transfers</code> instance.
-     * @memberof Transfers
+     * @param {AnyOfPageableTokenSummaryItemsItems} obj Optional instance to populate.
+     * @return {AnyOfPageableTokenSummaryItemsItems} The populated <code>AnyOfPageableTokenSummaryItemsItems</code> instance.
+     * @memberof AnyOfPageableTokenSummaryItemsItems
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Transfers()
-
-            if (data.hasOwnProperty('items')) {
-                obj.items = TransferArray.constructFromObject(data.items)
-            }
+            obj = obj || new AnyOfPageableTokenSummaryItemsItems()
         }
         return obj
     }
 }
 
-/**
- * @type {TransferArray}
- * @memberof Transfers
- */
-Transfers.prototype.items = undefined
-
-module.exports = Transfers
+module.exports = AnyOfPageableTokenSummaryItemsItems

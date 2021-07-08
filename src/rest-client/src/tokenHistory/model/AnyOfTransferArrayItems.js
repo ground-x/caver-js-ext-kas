@@ -12,49 +12,35 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const TransferArray = require('./TransferArray')
 
 /**
- * The Transfers model module.
- * @class Transfers
+ * The AnyOfTransferArrayItems model module.
+ * @class AnyOfTransferArrayItems
  * @version 2.0
  */
-class Transfers {
+class AnyOfTransferArrayItems {
     /**
-     * Constructs a new <code>Transfers</code>.
-     * @alias Transfers
+     * Constructs a new <code>AnyOfTransferArrayItems</code>.
+     * @alias AnyOfTransferArrayItems
      * @class
-     * @param items {TransferArray}
      */
 
-    constructor(items) {
-        this.items = items
-    }
+    constructor() {}
 
     /**
-     * Constructs a <code>Transfers</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>AnyOfTransferArrayItems</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Transfers} obj Optional instance to populate.
-     * @return {Transfers} The populated <code>Transfers</code> instance.
-     * @memberof Transfers
+     * @param {AnyOfTransferArrayItems} obj Optional instance to populate.
+     * @return {AnyOfTransferArrayItems} The populated <code>AnyOfTransferArrayItems</code> instance.
+     * @memberof AnyOfTransferArrayItems
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Transfers()
-
-            if (data.hasOwnProperty('items')) {
-                obj.items = TransferArray.constructFromObject(data.items)
-            }
+            obj = obj || new AnyOfTransferArrayItems()
         }
         return obj
     }
 }
 
-/**
- * @type {TransferArray}
- * @memberof Transfers
- */
-Transfers.prototype.items = undefined
-
-module.exports = Transfers
+module.exports = AnyOfTransferArrayItems
