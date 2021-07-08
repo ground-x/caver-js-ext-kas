@@ -1110,8 +1110,6 @@ class Wallet {
 
         const obj = Object.assign({ ...sendOptions }, { to: contractAddress, data: { methodName, arguments: callArguments } })
         const body = ContractCallRequest.constructFromObject(obj)
-        body.data.arguments = body.data._arguments
-        delete body.data._arguments
 
         return new Promise((resolve, reject) => {
             this.basicTransactionApi.contractCall(this.chainId, { body }, (err, data, response) => {
