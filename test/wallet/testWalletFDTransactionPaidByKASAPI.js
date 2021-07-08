@@ -91,7 +91,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -105,13 +105,13 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     expect(mtd).to.equal(`POST`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     Object.keys(tx).map(key => {
                         expect(postBody[key]).to.equal(tx[key])
                     })
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -260,7 +260,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -274,13 +274,13 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     expect(mtd).to.equal(`POST`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     Object.keys(tx).map(key => {
                         expect(postBody[key]).to.equal(tx[key])
                     })
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -414,7 +414,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -428,13 +428,13 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     expect(mtd).to.equal(`POST`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     Object.keys(tx).map(key => {
                         expect(postBody[key]).to.equal(tx[key])
                     })
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -562,7 +562,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -576,13 +576,13 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     expect(mtd).to.equal(`DELETE`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     Object.keys(tx).map(key => {
                         expect(postBody[key]).to.equal(tx[key])
                     })
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -713,7 +713,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -727,13 +727,13 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     expect(mtd).to.equal(`POST`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     Object.keys(tx).map(key => {
                         expect(postBody[key]).to.equal(tx[key])
                     })
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -845,7 +845,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -859,13 +859,13 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     expect(mtd).to.equal(`POST`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     Object.keys(tx).map(key => {
                         expect(postBody[key]).to.equal(tx[key])
                     })
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -1078,7 +1078,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1092,7 +1092,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                     expect(mtd).to.equal(`PUT`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     Object.keys(tx).map(key => {
@@ -1102,7 +1102,7 @@ describe('Wallet API - FD transaction API paid by KAS', () => {
                             expect(postBody[key]).to.equal(tx[key])
                         }
                     })
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
