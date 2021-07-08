@@ -14,48 +14,38 @@
 const ApiClient = require('../../ApiClient')
 
 /**
- * The AnchorBlockStatus model module.
- * @class AnchorBlockStatus
+ * The AnchorBlockPayload model module.
+ * @class AnchorBlockPayload
  * @version 1.0
  */
-class AnchorBlockStatus {
+class AnchorBlockPayload {
     /**
-     * Constructs a new <code>AnchorBlockStatus</code>.
-     * Response with the anchoring state
-     * @alias AnchorBlockStatus
+     * Constructs a new <code>AnchorBlockPayload</code>.
+     * Anchoring data. Default settings for ID is &#x60;id &#x3D; SHA256(payload)&#x60; unless ID is provided. It receives a string-type ID; unless it regards as an unset ID.
+     * @alias AnchorBlockPayload
      * @class
-     * @param status {String} Whether anchoring succeeded or not
+     * @extends Object
      */
 
-    constructor(status) {
-        this.status = status
+    constructor() {
+        return this
     }
 
     /**
-     * Constructs a <code>AnchorBlockStatus</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>AnchorBlockPayload</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {AnchorBlockStatus} obj Optional instance to populate.
-     * @return {AnchorBlockStatus} The populated <code>AnchorBlockStatus</code> instance.
-     * @memberof AnchorBlockStatus
+     * @param {AnchorBlockPayload} obj Optional instance to populate.
+     * @return {AnchorBlockPayload} The populated <code>AnchorBlockPayload</code> instance.
+     * @memberof AnchorBlockPayload
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new AnchorBlockStatus()
-
-            if (data.hasOwnProperty('status')) {
-                obj.status = ApiClient.convertToType(data.status, 'String')
-            }
+            obj = obj || new AnchorBlockPayload()
+            ApiClient.constructFromObject(data, obj, 'Object')
         }
         return obj
     }
 }
 
-/**
- * Whether anchoring succeeded or not
- * @type {String}
- * @memberof AnchorBlockStatus
- */
-AnchorBlockStatus.prototype.status = undefined
-
-module.exports = AnchorBlockStatus
+module.exports = AnchorBlockPayload
