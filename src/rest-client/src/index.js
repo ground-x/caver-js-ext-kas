@@ -205,754 +205,754 @@ const KIP17Api = require('./kip17/api/KIP17Api')
 module.exports = {
     /**
      * The ApiClient constructor.
-     * @property {module:ApiClient}
+     * @property {ApiClient}
      */
     ApiClient,
     // Anchor
     /**
      * The AnchorBlockPayload model constructor.
-     * @property {module:model/AnchorBlockPayload}
+     * @property {AnchorBlockPayload}
      */
     AnchorBlockPayload,
     /**
      * The AnchorBlockRequest model constructor.
-     * @property {module:model/AnchorBlockRequest}
+     * @property {AnchorBlockRequest}
      */
     AnchorBlockRequest,
     /**
      * The AnchorBlockStatus model constructor.
-     * @property {module:model/AnchorBlockStatus}
+     * @property {AnchorBlockStatus}
      */
     AnchorBlockStatus,
     /**
      * The AnchorTransaction model constructor.
-     * @property {module:model/AnchorTransaction}
+     * @property {AnchorTransaction}
      */
     AnchorTransaction,
     /**
      * The AnchorTransactionDetail model constructor.
-     * @property {module:model/AnchorTransactionDetail}
+     * @property {AnchorTransactionDetail}
      */
     AnchorTransactionDetail,
     /**
      * The AnchorTransactions model constructor.
-     * @property {module:model/AnchorTransactions}
+     * @property {AnchorTransactions}
      */
     AnchorTransactions,
     /**
      * The ErrorResponse model constructor.
-     * @property {module:model/ErrorResponse}
+     * @property {ErrorResponse}
      */
     ErrorResponse,
     /**
      * The Operator model constructor.
-     * @property {module:model/Operator}
+     * @property {Operator}
      */
     Operator,
     /**
      * The OperatorSetting model constructor.
-     * @property {module:model/OperatorSetting}
+     * @property {OperatorSetting}
      */
     OperatorSetting,
     /**
      * The Operators model constructor.
-     * @property {module:model/Operators}
+     * @property {Operators}
      */
     Operators,
     /**
      * The DataAnchoringTransactionApi service constructor.
-     * @property {module:api/DataAnchoringTransactionApi}
+     * @property {DataAnchoringTransactionApi}
      */
     DataAnchoringTransactionApi,
     /**
      * The OperatorApi service constructor.
-     * @property {module:api/OperatorApi}
+     * @property {OperatorApi}
      */
     OperatorApi,
     // Wallet
     /**
      * The Account model constructor.
-     * @property {module:model/Account}
+     * @property {Account}
      */
     Account,
     /**
      * The AccountByPubkey model constructor.
-     * @property {module:model/AccountByPubkey}
+     * @property {AccountByPubkey}
      */
     AccountByPubkey,
     /**
      * The AccountCountByAccountID model constructor.
-     * @property {module:model/AccountCountByAccountID}
+     * @property {AccountCountByAccountID}
      */
     AccountCountByAccountID,
     /**
      * The AccountCountByKRN model constructor.
-     * @property {module:model/AccountCountByKRN}
+     * @property {AccountCountByKRN}
      */
     AccountCountByKRN,
     /**
      * The AccountRegistration model constructor.
-     * @property {module:model/AccountRegistration}
+     * @property {AccountRegistration}
      */
     AccountRegistration,
     /**
      * The AccountRegistrationRequest model constructor.
-     * @property {module:model/AccountRegistrationRequest}
+     * @property {AccountRegistrationRequest}
      */
     AccountRegistrationRequest,
     /**
      * The AccountStatus model constructor.
-     * @property {module:model/AccountStatus}
+     * @property {AccountStatus}
      */
     AccountStatus,
     /**
      * The AccountSummary model constructor.
-     * @property {module:model/AccountSummary}
+     * @property {AccountSummary}
      */
     AccountSummary,
     /**
      * The AccountUpdateKey model constructor.
-     * @property {module:model/AccountUpdateKey}
+     * @property {AccountUpdateKey}
      */
     AccountUpdateKey,
     /**
      * The AccountUpdateTransactionRequest model constructor.
-     * @property {module:model/AccountUpdateTransactionRequest}
+     * @property {AccountUpdateTransactionRequest}
      */
     AccountUpdateTransactionRequest,
     /**
      * The Accounts model constructor.
-     * @property {module:model/Accounts}
+     * @property {Accounts}
      */
     Accounts,
     /**
      * The AccountsByPubkey model constructor.
-     * @property {module:model/AccountsByPubkey}
+     * @property {AccountsByPubkey}
      */
     AccountsByPubkey,
     /**
      * The AnchorTransactionRequest model constructor.
-     * @property {module:model/AnchorTransactionRequest}
+     * @property {AnchorTransactionRequest}
      */
     AnchorTransactionRequest,
     /**
      * The CallArgument model constructor.
-     * @property {module:model/CallArgument}
+     * @property {CallArgument}
      */
     CallArgument,
     /**
      * The CancelTransactionRequest model constructor.
-     * @property {module:model/CancelTransactionRequest}
+     * @property {CancelTransactionRequest}
      */
     CancelTransactionRequest,
     /**
      * The ContractCallData model constructor.
-     * @property {module:model/ContractCallData}
+     * @property {ContractCallData}
      */
     ContractCallData,
     /**
      * The ContractCallRequest model constructor.
-     * @property {module:model/ContractCallRequest}
+     * @property {ContractCallRequest}
      */
     ContractCallRequest,
     /**
      * The ContractCallResponse model constructor.
-     * @property {module:model/ContractCallResponse}
+     * @property {ContractCallResponse}
      */
     ContractCallResponse,
     /**
      * The ContractDeployTransactionRequest model constructor.
-     * @property {module:model/ContractDeployTransactionRequest}
+     * @property {ContractDeployTransactionRequest}
      */
     ContractDeployTransactionRequest,
     /**
      * The ContractExecutionTransactionRequest model constructor.
-     * @property {module:model/ContractExecutionTransactionRequest}
+     * @property {ContractExecutionTransactionRequest}
      */
     ContractExecutionTransactionRequest,
     /**
      * The EventLog model constructor.
-     * @property {module:model/EventLog}
+     * @property {EventLog}
      */
     EventLog,
     /**
      * The FDAccountUpdateTransactionRequest model constructor.
-     * @property {module:model/FDAccountUpdateTransactionRequest}
+     * @property {FDAccountUpdateTransactionRequest}
      */
     FDAccountUpdateTransactionRequest,
     /**
      * The FDAnchorTransactionRequest model constructor.
-     * @property {module:model/FDAnchorTransactionRequest}
+     * @property {FDAnchorTransactionRequest}
      */
     FDAnchorTransactionRequest,
     /**
      * The FDCancelTransactionRequest model constructor.
-     * @property {module:model/FDCancelTransactionRequest}
+     * @property {FDCancelTransactionRequest}
      */
     FDCancelTransactionRequest,
     /**
      * The FDContractDeployTransactionRequest model constructor.
-     * @property {module:model/FDContractDeployTransactionRequest}
+     * @property {FDContractDeployTransactionRequest}
      */
     FDContractDeployTransactionRequest,
     /**
      * The FDContractExecutionTransactionRequest model constructor.
-     * @property {module:model/FDContractExecutionTransactionRequest}
+     * @property {FDContractExecutionTransactionRequest}
      */
     FDContractExecutionTransactionRequest,
     /**
      * The FDProcessRLPRequest model constructor.
-     * @property {module:model/FDProcessRLPRequest}
+     * @property {FDProcessRLPRequest}
      */
     FDProcessRLPRequest,
     /**
      * The FDTransactionResult model constructor.
-     * @property {module:model/FDTransactionResult}
+     * @property {FDTransactionResult}
      */
     FDTransactionResult,
     /**
      * The FDUserAccountUpdateTransactionRequest model constructor.
-     * @property {module:model/FDUserAccountUpdateTransactionRequest}
+     * @property {FDUserAccountUpdateTransactionRequest}
      */
     FDUserAccountUpdateTransactionRequest,
     /**
      * The FDUserAnchorTransactionRequest model constructor.
-     * @property {module:model/FDUserAnchorTransactionRequest}
+     * @property {FDUserAnchorTransactionRequest}
      */
     FDUserAnchorTransactionRequest,
     /**
      * The FDUserCancelTransactionRequest model constructor.
-     * @property {module:model/FDUserCancelTransactionRequest}
+     * @property {FDUserCancelTransactionRequest}
      */
     FDUserCancelTransactionRequest,
     /**
      * The FDUserContractDeployTransactionRequest model constructor.
-     * @property {module:model/FDUserContractDeployTransactionRequest}
+     * @property {FDUserContractDeployTransactionRequest}
      */
     FDUserContractDeployTransactionRequest,
     /**
      * The FDUserContractExecutionTransactionRequest model constructor.
-     * @property {module:model/FDUserContractExecutionTransactionRequest}
+     * @property {FDUserContractExecutionTransactionRequest}
      */
     FDUserContractExecutionTransactionRequest,
     /**
      * The FDUserProcessRLPRequest model constructor.
-     * @property {module:model/FDUserProcessRLPRequest}
+     * @property {FDUserProcessRLPRequest}
      */
     FDUserProcessRLPRequest,
     /**
      * The FDUserValueTransferTransactionRequest model constructor.
-     * @property {module:model/FDUserValueTransferTransactionRequest}
+     * @property {FDUserValueTransferTransactionRequest}
      */
     FDUserValueTransferTransactionRequest,
     /**
      * The FDValueTransferTransactionRequest model constructor.
-     * @property {module:model/FDValueTransferTransactionRequest}
+     * @property {FDValueTransferTransactionRequest}
      */
     FDValueTransferTransactionRequest,
     /**
      * The FeePayerSignaturesObj model constructor.
-     * @property {module:model/FeePayerSignaturesObj}
+     * @property {FeePayerSignaturesObj}
      */
     FeePayerSignaturesObj,
     /**
      * The Key model constructor.
-     * @property {module:model/Key}
+     * @property {Key}
      */
     Key,
     /**
      * The KeyCreationRequest model constructor.
-     * @property {module:model/KeyCreationRequest}
+     * @property {KeyCreationRequest}
      */
     KeyCreationRequest,
     /**
      * The KeyCreationResponse model constructor.
-     * @property {module:model/KeyCreationResponse}
+     * @property {KeyCreationResponse}
      */
     KeyCreationResponse,
     /**
      * The KeyList model constructor.
-     * @property {module:model/KeyList}
+     * @property {KeyList}
      */
     KeyList,
     /**
      * The KeyListItems model constructor.
-     * @property {module:model/KeyListItems}
+     * @property {KeyListItems}
      */
     KeyListItems,
     /**
      * The KeySignDataRequest model constructor.
-     * @property {module:model/KeySignDataRequest}
+     * @property {KeySignDataRequest}
      */
     KeySignDataRequest,
     /**
      * The KeySignDataResponse model constructor.
-     * @property {module:model/KeySignDataResponse}
+     * @property {KeySignDataResponse}
      */
     KeySignDataResponse,
     /**
      * The KeyStatus model constructor.
-     * @property {module:model/KeyStatus}
+     * @property {KeyStatus}
      */
     KeyStatus,
     /**
      * The LegacyTransactionRequest model constructor.
-     * @property {module:model/LegacyTransactionRequest}
+     * @property {LegacyTransactionRequest}
      */
     LegacyTransactionRequest,
     /**
      * The MultisigAccount model constructor.
-     * @property {module:model/MultisigAccount}
+     * @property {MultisigAccount}
      */
     MultisigAccount,
     /**
      * The MultisigAccountUpdateRequest model constructor.
-     * @property {module:model/MultisigAccountUpdateRequest}
+     * @property {MultisigAccountUpdateRequest}
      */
     MultisigAccountUpdateRequest,
     /**
      * The MultisigAddress model constructor.
-     * @property {module:model/MultisigAddress}
+     * @property {MultisigAddress}
      */
     MultisigAddress,
     /**
      * The MultisigKey model constructor.
-     * @property {module:model/MultisigKey}
+     * @property {MultisigKey}
      */
     MultisigKey,
     /**
      * The MultisigTransactionStatus model constructor.
-     * @property {module:model/MultisigTransactionStatus}
+     * @property {MultisigTransactionStatus}
      */
     MultisigTransactionStatus,
     /**
      * The MultisigTransactions model constructor.
-     * @property {module:model/MultisigTransactions}
+     * @property {MultisigTransactions}
      */
     MultisigTransactions,
     /**
      * The PendedTransaction model constructor.
-     * @property {module:model/PendedTransaction}
+     * @property {PendedTransaction}
      */
     PendedTransaction,
     /**
      * The ProcessRLPRequest model constructor.
-     * @property {module:model/ProcessRLPRequest}
+     * @property {ProcessRLPRequest}
      */
     ProcessRLPRequest,
     /**
      * The RegistrationFailure model constructor.
-     * @property {module:model/RegistrationFailure}
+     * @property {RegistrationFailure}
      */
     RegistrationFailure,
     /**
      * The RegistrationStatusResponse model constructor.
-     * @property {module:model/RegistrationStatusResponse}
+     * @property {RegistrationStatusResponse}
      */
     RegistrationStatusResponse,
     /**
      * The SignPendingTransactionBySigRequest model constructor.
-     * @property {module:model/SignPendingTransactionBySigRequest}
+     * @property {SignPendingTransactionBySigRequest}
      */
     SignPendingTransactionBySigRequest,
     /**
      * The Signature model constructor.
-     * @property {module:model/Signature}
+     * @property {Signature}
      */
     Signature,
     /**
      * The TransactionReceipt model constructor.
-     * @property {module:model/TransactionReceipt}
+     * @property {TransactionReceipt}
      */
     TransactionReceipt,
     /**
      * The TransactionResult model constructor.
-     * @property {module:model/TransactionResult}
+     * @property {TransactionResult}
      */
     TransactionResult,
     /**
      * The TxData model constructor.
-     * @property {module:model/TxData}
+     * @property {TxData}
      */
     TxData,
     /**
      * The ValueTransferTransactionRequest model constructor.
-     * @property {module:model/ValueTransferTransactionRequest}
+     * @property {ValueTransferTransactionRequest}
      */
     ValueTransferTransactionRequest,
     /**
      * The AccountApi service constructor.
-     * @property {module:api/AccountApi}
+     * @property {AccountApi}
      */
     AccountApi,
     /**
      * The BasicTransactionApi service constructor.
-     * @property {module:api/BasicTransactionApi}
+     * @property {BasicTransactionApi}
      */
     BasicTransactionApi,
     /**
      * The FeeDelegatedTransactionPaidByKASApi service constructor.
-     * @property {module:api/FeeDelegatedTransactionPaidByKASApi}
+     * @property {FeeDelegatedTransactionPaidByKASApi}
      */
     FeeDelegatedTransactionPaidByKASApi,
     /**
      * The FeeDelegatedTransactionPaidByUserApi service constructor.
-     * @property {module:api/FeeDelegatedTransactionPaidByUserApi}
+     * @property {FeeDelegatedTransactionPaidByUserApi}
      */
     FeeDelegatedTransactionPaidByUserApi,
     /**
      * The FeepayerApi service constructor.
-     * @property {module:api/FeepayerApi}
+     * @property {FeepayerApi}
      */
     FeepayerApi,
     /**
      * The KeyApi service constructor.
-     * @property {module:api/KeyApi}
+     * @property {KeyApi}
      */
     KeyApi,
     /**
      * The MultisigTransactionManagementApi service constructor.
-     * @property {module:api/MultisigTransactionManagementApi}
+     * @property {MultisigTransactionManagementApi}
      */
     MultisigTransactionManagementApi,
     /**
      * The RegistrationApi service constructor.
-     * @property {module:api/RegistrationApi}
+     * @property {RegistrationApi}
      */
     RegistrationApi,
     /**
      * The StatisticsApi service constructor.
-     * @property {module:api/StatisticsApi}
+     * @property {StatisticsApi}
      */
     StatisticsApi,
     // Token History
     /**
      * The AnyOfPageableContractSummaryItemsItems model constructor.
-     * @property {module:model/AnyOfPageableContractSummaryItemsItems}
+     * @property {AnyOfPageableContractSummaryItemsItems}
      */
     AnyOfPageableContractSummaryItemsItems,
     /**
      * The AnyOfPageableTokenSummaryItemsItems model constructor.
-     * @property {module:model/AnyOfPageableTokenSummaryItemsItems}
+     * @property {AnyOfPageableTokenSummaryItemsItems}
      */
     AnyOfPageableTokenSummaryItemsItems,
     /**
      * The AnyOfTransferArrayItems model constructor.
-     * @property {module:model/AnyOfTransferArrayItems}
+     * @property {AnyOfTransferArrayItems}
      */
     AnyOfTransferArrayItems,
     /**
      * The FTContractSummary model constructor.
-     * @property {module:model/FTContractSummary}
+     * @property {FTContractSummary}
      */
     FTContractSummary,
     /**
      * The FTTokenSummary model constructor.
-     * @property {module:model/FTTokenSummary}
+     * @property {FTTokenSummary}
      */
     FTTokenSummary,
     /**
      * The FtContractDetail model constructor.
-     * @property {module:model/FtContractDetail}
+     * @property {FtContractDetail}
      */
     FtContractDetail,
     /**
      * The MTContractSummary model constructor.
-     * @property {module:model/MTContractSummary}
+     * @property {MTContractSummary}
      */
     MTContractSummary,
     /**
      * The MTTokenSummary model constructor.
-     * @property {module:model/MTTokenSummary}
+     * @property {MTTokenSummary}
      */
     MTTokenSummary,
     /**
      * The Mt model constructor.
-     * @property {module:model/Mt}
+     * @property {Mt}
      */
     Mt,
     /**
      * The MtContractDetail model constructor.
-     * @property {module:model/MtContractDetail}
+     * @property {MtContractDetail}
      */
     MtContractDetail,
     /**
      * The MtToken model constructor.
-     * @property {module:model/MtToken}
+     * @property {MtToken}
      */
     MtToken,
     /**
      * The NFTContractSummary model constructor.
-     * @property {module:model/NFTContractSummary}
+     * @property {NFTContractSummary}
      */
     NFTContractSummary,
     /**
      * The NFTTokenSummary model constructor.
-     * @property {module:model/NFTTokenSummary}
+     * @property {NFTTokenSummary}
      */
     NFTTokenSummary,
     /**
      * The Nft model constructor.
-     * @property {module:model/Nft}
+     * @property {Nft}
      */
     Nft,
     /**
      * The NftContractDetail model constructor.
-     * @property {module:model/NftContractDetail}
+     * @property {NftContractDetail}
      */
     NftContractDetail,
     /**
      * The NftOwnershipChange model constructor.
-     * @property {module:model/NftOwnershipChange}
+     * @property {NftOwnershipChange}
      */
     NftOwnershipChange,
     /**
      * The PageableContractSummary model constructor.
-     * @property {module:model/PageableContractSummary}
+     * @property {PageableContractSummary}
      */
     PageableContractSummary,
     /**
      * The PageableFtContractDetails model constructor.
-     * @property {module:model/PageableFtContractDetails}
+     * @property {PageableFtContractDetails}
      */
     PageableFtContractDetails,
     /**
      * The PageableMtContractDetails model constructor.
-     * @property {module:model/PageableMtContractDetails}
+     * @property {PageableMtContractDetails}
      */
     PageableMtContractDetails,
     /**
      * The PageableMtTokens model constructor.
-     * @property {module:model/PageableMtTokens}
+     * @property {PageableMtTokens}
      */
     PageableMtTokens,
     /**
      * The PageableMtTokensWithBalance model constructor.
-     * @property {module:model/PageableMtTokensWithBalance}
+     * @property {PageableMtTokensWithBalance}
      */
     PageableMtTokensWithBalance,
     /**
      * The PageableMts model constructor.
-     * @property {module:model/PageableMts}
+     * @property {PageableMts}
      */
     PageableMts,
     /**
      * The PageableNftContractDetails model constructor.
-     * @property {module:model/PageableNftContractDetails}
+     * @property {PageableNftContractDetails}
      */
     PageableNftContractDetails,
     /**
      * The PageableNftOwnershipChanges model constructor.
-     * @property {module:model/PageableNftOwnershipChanges}
+     * @property {PageableNftOwnershipChanges}
      */
     PageableNftOwnershipChanges,
     /**
      * The PageableNfts model constructor.
-     * @property {module:model/PageableNfts}
+     * @property {PageableNfts}
      */
     PageableNfts,
     /**
      * The PageableTokenSummary model constructor.
-     * @property {module:model/PageableTokenSummary}
+     * @property {PageableTokenSummary}
      */
     PageableTokenSummary,
     /**
      * The PageableTransfers model constructor.
-     * @property {module:model/PageableTransfers}
+     * @property {PageableTransfers}
      */
     PageableTransfers,
     /**
      * The TransferArray model constructor.
-     * @property {module:model/TransferArray}
+     * @property {TransferArray}
      */
     TransferArray,
     /**
      * The Transfers model constructor.
-     * @property {module:model/Transfers}
+     * @property {Transfers}
      */
     Transfers,
     /**
      * The TokenApi service constructor.
-     * @property {module:api/TokenApi}
+     * @property {TokenApi}
      */
     TokenApi,
     /**
      * The TokenContractApi service constructor.
-     * @property {module:api/TokenContractApi}
+     * @property {TokenContractApi}
      */
     TokenContractApi,
     /**
      * The TokenHistoryApi service constructor.
-     * @property {module:api/TokenHistoryApi}
+     * @property {TokenHistoryApi}
      */
     TokenHistoryApi,
     /**
      * The TokenOwnershipApi service constructor.
-     * @property {module:api/TokenOwnershipApi}
+     * @property {TokenOwnershipApi}
      */
     TokenOwnershipApi,
     // KIP7
 
     /**
      * The ApproveKip7TokenRequest model constructor.
-     * @property {module:model/ApproveKip7TokenRequest}
+     * @property {ApproveKip7TokenRequest}
      */
     ApproveKip7TokenRequest,
     /**
      * The BurnFromKip7TokenRequest model constructor.
-     * @property {module:model/BurnFromKip7TokenRequest}
+     * @property {BurnFromKip7TokenRequest}
      */
     BurnFromKip7TokenRequest,
     /**
      * The BurnKip7TokenRequest model constructor.
-     * @property {module:model/BurnKip7TokenRequest}
+     * @property {BurnKip7TokenRequest}
      */
     BurnKip7TokenRequest,
     /**
      * The DeployKip7ContractRequest model constructor.
-     * @property {module:model/DeployKip7ContractRequest}
+     * @property {DeployKip7ContractRequest}
      */
     DeployKip7ContractRequest,
     /**
      * The Kip7ContractListResponse model constructor.
-     * @property {module:model/Kip7ContractListResponse}
+     * @property {Kip7ContractListResponse}
      */
     Kip7ContractListResponse,
     /**
      * The Kip7ContractListResponseItem model constructor.
-     * @property {module:model/Kip7ContractListResponseItem}
+     * @property {Kip7ContractListResponseItem}
      */
     Kip7ContractListResponseItem,
     /**
      * The Kip7ContractMetadataResponse model constructor.
-     * @property {module:model/Kip7ContractMetadataResponse}
+     * @property {Kip7ContractMetadataResponse}
      */
     Kip7ContractMetadataResponse,
     /**
      * The Kip7DeployerResponse model constructor.
-     * @property {module:model/Kip7DeployerResponse}
+     * @property {Kip7DeployerResponse}
      */
     Kip7DeployerResponse,
     /**
      * The Kip7TokenBalanceResponse model constructor.
-     * @property {module:model/Kip7TokenBalanceResponse}
+     * @property {Kip7TokenBalanceResponse}
      */
     Kip7TokenBalanceResponse,
     /**
      * The Kip7TransactionStatusResponse model constructor.
-     * @property {module:model/Kip7TransactionStatusResponse}
+     * @property {Kip7TransactionStatusResponse}
      */
     Kip7TransactionStatusResponse,
     /**
      * The MintKip7TokenRequest model constructor.
-     * @property {module:model/MintKip7TokenRequest}
+     * @property {MintKip7TokenRequest}
      */
     MintKip7TokenRequest,
     /**
      * The TransferKip7TokenFromRequest model constructor.
-     * @property {module:model/TransferKip7TokenFromRequest}
+     * @property {TransferKip7TokenFromRequest}
      */
     TransferKip7TokenFromRequest,
     /**
      * The TransferKip7TokenRequest model constructor.
-     * @property {module:model/TransferKip7TokenRequest}
+     * @property {TransferKip7TokenRequest}
      */
     TransferKip7TokenRequest,
     /**
      * The KIP7Api service constructor.
-     * @property {module:api/KIP7Api}
+     * @property {KIP7Api}
      */
     KIP7Api,
     /**
      * The KIP7DeployerApi service constructor.
-     * @property {module:api/KIP7DeployerApi}
+     * @property {KIP7DeployerApi}
      */
     KIP7DeployerApi,
     // KIP17
 
     /**
      * The ApproveAllKip17Request model constructor.
-     * @property {module:model/ApproveAllKip17Request}
+     * @property {ApproveAllKip17Request}
      */
     ApproveAllKip17Request,
     /**
      * The ApproveKip17TokenRequest model constructor.
-     * @property {module:model/ApproveKip17TokenRequest}
+     * @property {ApproveKip17TokenRequest}
      */
     ApproveKip17TokenRequest,
     /**
      * The BurnKip17TokenRequest model constructor.
-     * @property {module:model/BurnKip17TokenRequest}
+     * @property {BurnKip17TokenRequest}
      */
     BurnKip17TokenRequest,
     /**
      * The DeployKip17ContractRequest model constructor.
-     * @property {module:model/DeployKip17ContractRequest}
+     * @property {DeployKip17ContractRequest}
      */
     DeployKip17ContractRequest,
     /**
      * The GetKip17TokenHistoryResponse model constructor.
-     * @property {module:model/GetKip17TokenHistoryResponse}
+     * @property {GetKip17TokenHistoryResponse}
      */
     GetKip17TokenHistoryResponse,
     /**
      * The GetKip17TokenHistoryResponseItem model constructor.
-     * @property {module:model/GetKip17TokenHistoryResponseItem}
+     * @property {GetKip17TokenHistoryResponseItem}
      */
     GetKip17TokenHistoryResponseItem,
     /**
      * The GetKip17TokenResponse model constructor.
-     * @property {module:model/GetKip17TokenResponse}
+     * @property {GetKip17TokenResponse}
      */
     GetKip17TokenResponse,
     /**
      * The GetOwnerKip17TokensResponse model constructor.
-     * @property {module:model/GetOwnerKip17TokensResponse}
+     * @property {GetOwnerKip17TokensResponse}
      */
     GetOwnerKip17TokensResponse,
     /**
      * The GetOwnerKip17TokensResponseItem model constructor.
-     * @property {module:model/GetOwnerKip17TokensResponseItem}
+     * @property {GetOwnerKip17TokensResponseItem}
      */
     GetOwnerKip17TokensResponseItem,
     /**
      * The Kip17ContractInfoResponse model constructor.
-     * @property {module:model/Kip17ContractInfoResponse}
+     * @property {Kip17ContractInfoResponse}
      */
     Kip17ContractInfoResponse,
     /**
      * The Kip17ContractListResponse model constructor.
-     * @property {module:model/Kip17ContractListResponse}
+     * @property {Kip17ContractListResponse}
      */
     Kip17ContractListResponse,
     /**
      * The Kip17ContractListResponseItem model constructor.
-     * @property {module:model/Kip17ContractListResponseItem}
+     * @property {Kip17ContractListResponseItem}
      */
     Kip17ContractListResponseItem,
     /**
      * The Kip17TokenListResponse model constructor.
-     * @property {module:model/Kip17TokenListResponse}
+     * @property {Kip17TokenListResponse}
      */
     Kip17TokenListResponse,
     /**
      * The Kip17TransactionStatusResponse model constructor.
-     * @property {module:model/Kip17TransactionStatusResponse}
+     * @property {Kip17TransactionStatusResponse}
      */
     Kip17TransactionStatusResponse,
     /**
      * The MintKip17TokenRequest model constructor.
-     * @property {module:model/MintKip17TokenRequest}
+     * @property {MintKip17TokenRequest}
      */
     MintKip17TokenRequest,
     /**
      * The TransferKip17TokenRequest model constructor.
-     * @property {module:model/TransferKip17TokenRequest}
+     * @property {TransferKip17TokenRequest}
      */
     TransferKip17TokenRequest,
     /**
      * The KIP17Api service constructor.
-     * @property {module:api/KIP17Api}
+     * @property {KIP17Api}
      */
     KIP17Api,
 }
