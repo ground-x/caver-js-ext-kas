@@ -640,7 +640,7 @@ class TokenHistory {
      *
      * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `status`, `type`, `size`, and `cursor`.
      * @param {Function} [callback] The callback function to call.
-     * @return {PageableFtContractDetails}
+     * @return {PageableMtContractDetails}
      */
     getMTContractList(queryOptions, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)

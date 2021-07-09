@@ -76,7 +76,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -90,14 +90,14 @@ describe('KIP17 API service enabling', () => {
                     expect(mtd).to.equal(`POST`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).not.to.be.null
                     expect(postBody.name).to.equal(name)
                     expect(postBody.symbol).to.equal(symbol)
                     if (alias) expect(postBody.alias).to.equal(alias)
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -162,7 +162,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -178,12 +178,12 @@ describe('KIP17 API service enabling', () => {
                     expect(Object.keys(queryParams).length).to.equal(2)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -328,7 +328,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -343,12 +343,12 @@ describe('KIP17 API service enabling', () => {
                     expect(Object.keys(pathParams).length).to.equal(1)
                     expect(pathParams['contract-address-or-alias']).to.equal(addressOrAlias)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -428,7 +428,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -443,14 +443,14 @@ describe('KIP17 API service enabling', () => {
                     expect(Object.keys(pathParams).length).to.equal(1)
                     expect(pathParams['contract-address-or-alias']).to.equal(addressOrAlias)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).not.to.be.null
                     expect(postBody.to).to.equal(to)
                     expect(postBody.uri).to.equal(uri)
                     expect(postBody.id).to.equal(caver.utils.toHex(id))
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -563,7 +563,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -580,12 +580,12 @@ describe('KIP17 API service enabling', () => {
                     expect(Object.keys(queryParams).length).to.equal(2)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -796,7 +796,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -812,12 +812,12 @@ describe('KIP17 API service enabling', () => {
                     expect(pathParams['contract-address-or-alias']).to.equal(addressOrAlias)
                     expect(pathParams['token-id']).to.equal(caver.utils.toHex(id))
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -923,7 +923,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -939,14 +939,14 @@ describe('KIP17 API service enabling', () => {
                     expect(pathParams['contract-address-or-alias']).to.equal(addressOrAlias)
                     expect(pathParams['token-id']).to.equal(tokenIdHex)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).not.to.be.null
                     expect(postBody.sender).to.equal(senderAddress)
                     expect(postBody.owner).to.equal(ownerAddress)
                     expect(postBody.to).to.equal(to)
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -1107,7 +1107,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1123,12 +1123,12 @@ describe('KIP17 API service enabling', () => {
                     expect(pathParams['contract-address-or-alias']).to.equal(addressOrAlias)
                     expect(pathParams['token-id']).to.equal(tokenIdHex)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).not.to.be.null
                     expect(postBody.from).to.equal(owner)
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -1234,7 +1234,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1250,13 +1250,13 @@ describe('KIP17 API service enabling', () => {
                     expect(pathParams['contract-address-or-alias']).to.equal(addressOrAlias)
                     expect(pathParams['token-id']).to.equal(tokenIdHex)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).not.to.be.null
                     expect(postBody.from).to.equal(owner)
                     expect(postBody.to).to.equal(to)
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -1360,7 +1360,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1375,14 +1375,14 @@ describe('KIP17 API service enabling', () => {
                     expect(Object.keys(pathParams).length).to.equal(1)
                     expect(pathParams['contract-address-or-alias']).to.equal(addressOrAlias)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).not.to.be.null
                     expect(postBody.from).to.equal(owner)
                     expect(postBody.to).to.equal(to)
                     expect(postBody.approved).to.equal(approved)
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
@@ -1504,7 +1504,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1522,12 +1522,12 @@ describe('KIP17 API service enabling', () => {
                     expect(Object.keys(queryParams).length).to.equal(2)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -1740,7 +1740,7 @@ describe('KIP17 API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1758,12 +1758,12 @@ describe('KIP17 API service enabling', () => {
                     expect(Object.keys(queryParams).length).to.equal(2)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 

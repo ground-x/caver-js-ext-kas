@@ -77,7 +77,7 @@ describe('Wallet API - Migration', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,

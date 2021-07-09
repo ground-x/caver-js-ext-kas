@@ -54,7 +54,7 @@ describe('Wallet API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -68,7 +68,7 @@ describe('Wallet API service enabling', () => {
                     expect(mtd).to.equal(`POST`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).not.to.be.null
@@ -78,7 +78,7 @@ describe('Wallet API service enabling', () => {
                         expect(postBody[i].address).to.equal(account.address)
                         expect(postBody[i].rlp).to.equal(account.rlp)
                     }
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
