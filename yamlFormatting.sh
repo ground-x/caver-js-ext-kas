@@ -77,17 +77,19 @@ for i in ${DIRS};do
 			# Format empty brace without newline
 			sed -i '' 'H;1h;$!d;x; s/{\n *}/{}/g' $j
 
-			# Use Object instead of wrong model for anyof to use Object
+			# Use Object instead of wrong model for anyof(or oneOf) to use Object
 			sed -i '' "s/\[AnyOf\(.*\)Items\]/\[Object\]/g" $j
 			sed -i '' "/AnyOf\(.*\)Items.call(this)/D" $j
 			sed -i '' "s/{Models\(.*\)Yaml}/{Object}/g" $j
 			sed -i '' "s/\(.*\)Models\(.*\)Yaml.constructFromObject(\(.*\))/\1ApiClient.convertToType(\3, Object)/g" $j
 			sed -i '' "/Models\(.*\)Yaml/D" $j
+			sed -i '' "/OneOf\(.*\).call(this)/D" $j
 
 			# Modify invalid 'ModelObject'
 			sed -i '' "/const ModelObject/D" $j
-			sed -i '' "s/ApiClient.constructFromObject(data, obj, 'ModelObject')/ApiClient.constructFromObject(data, obj, Object)/g" $j
+			sed -i '' "s/ApiClient.\(.*\)ModelObject\(.*\)/ApiClient.\1Object\2/g" $j
 			sed -i '' "s/{Array.<ModelObject>}/{Array.<Object>}/g" $j
+			sed -i '' "s/@type {ModelObject}/@type {Object}/g" $j
 
 			# Use Object instead of unused AccountUpdateKey model
 			sed -i '' "s/\(.*\)AccountUpdateKey.constructFromObject(\(.*\))/\1ApiClient.convertToType(\2, Object)/g" $j
