@@ -78,8 +78,8 @@ for i in ${DIRS};do
 			sed -i '' 'H;1h;$!d;x; s/{\n *}/{}/g' $j
 
 			# Use Object instead of wrong model for anyof to use Object
-			sed -i '' "s/\[AnyOfPageable\(.*\)SummaryItemsItems\]/\[Object\]/g" $j
-			sed -i '' "/AnyOfPageable\(.*\)ItemsItems.call(this)/D" $j
+			sed -i '' "s/\[AnyOf\(.*\)Items\]/\[Object\]/g" $j
+			sed -i '' "/AnyOf\(.*\)Items.call(this)/D" $j
 			sed -i '' "s/{Models\(.*\)Yaml}/{Object}/g" $j
 			sed -i '' "s/\(.*\)Models\(.*\)Yaml.constructFromObject(\(.*\))/\1ApiClient.convertToType(\3, Object)/g" $j
 			sed -i '' "/Models\(.*\)Yaml/D" $j
