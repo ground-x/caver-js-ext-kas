@@ -6,9 +6,9 @@
 # Make rest-client code.
 cd ../../kas-ref-docs
 make clean
-git checkout dev
-git fetch upstream dev
-git reset --hard upstream/dev
+git checkout master
+git fetch upstream master
+git reset --hard upstream/master
 make .build/sdk/js/$1/$2
 
 # Copy the rest-client code
