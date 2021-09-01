@@ -1,14 +1,23 @@
 #!/bin/bash
 
-# ./generate_client_code.sh {service name} {version} {directory name}
+# ./generate_client_code.sh {service name} {version} {directory name} -> This case `master` branch will be used as a default
+# ./generate_client_code.sh {service name} {version} {directory name} {branch}
 # ./generate_client_code.sh anchor v1 anchor
+
+branch=$4
+
+if [ -z "$branch" ]; then
+   branch="master"
+fi
+
+echo "Rest client code is generated from the yaml file in ${branch} branch."
 
 # Make rest-client code.
 cd ../../kas-ref-docs
 make clean
-git checkout master
-git fetch upstream master
-git reset --hard upstream/master
+git checkout $branch
+git fetch upstream $branch
+git reset --hard upstream/$branch
 make .build/sdk/js/$1/$2
 
 # Copy the rest-client code
