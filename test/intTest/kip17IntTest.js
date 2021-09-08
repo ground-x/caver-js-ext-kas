@@ -154,6 +154,8 @@ describe('KIP17 API service', () => {
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
 
+        await timeout(10000)
+
         ret = await caver.kas.kip17.transfer(contractAddress, to, to, owner, caver.utils.toHex(tokenId))
 
         expect(ret.status).to.equal('Submitted')
