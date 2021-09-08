@@ -94,7 +94,7 @@ describe('KIP17 API service', () => {
     it('CAVERJS-EXT-KAS-INT-250: caver.kas.kip17.mint should mint KIP-17 token', async () => {
         const accounts = await caver.wallet.generate(3)
         const toAddress = accounts[0]
-        const id = 0
+        const id = 1
 
         let ret = await caver.kas.kip17.mint(alias, toAddress, id, 'uri')
 
