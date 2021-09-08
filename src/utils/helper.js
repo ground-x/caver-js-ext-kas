@@ -154,6 +154,30 @@ const formatAccountKey = function(accountKey) {
 
     return accountKey
 }
+/**
+ * Validates `ids` and `amounts` length and type.
+ * And converts to the hex string array.
+ *
+ * @param {string|number|Array.<string|number>} ids Array of the token IDs.
+ * @param {string|number|BigNumber|Array.<string|number|BigNumber>} amounts Array of the token amount.
+ * @return {string}
+ */
+const checkTypeAndConvertForIdsAndAmounts = function(ids, amounts) {
+    // Convert to the array if `ids` or `amounts` is one element, not in the array format.
+    ids = _.isArray(ids) ? ids : [ids]
+    amounts = _.isArray(amounts) ? amounts : [amounts]
+
+    if (ids.length !== amounts.length) throw new Error(`ids and accounts must have the same length.`)
+    ids.every(id => utils.isValidNSHSN(id))
+    amounts.every(amount => {
+        return utils.isValidNSHSN(amount) || utils.isBigNumber(amount)
+    })
+
+    ids = ids.map(id => utils.toHex(id))
+    amounts = amounts.map(amt => utils.toHex(amt))
+
+    return { ids, amounts }
+}
 
 module.exports = {
     createClient,
@@ -161,6 +185,6 @@ module.exports = {
     formatObjectKeyWithoutUnderscore,
     addUncompressedPublickeyPrefix,
     formatAccountKey,
-
+    checkTypeAndConvertForIdsAndAmounts,
     DEFAULT_CHAIN_ID,
 }
