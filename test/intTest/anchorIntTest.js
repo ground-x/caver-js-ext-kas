@@ -58,7 +58,7 @@ describe('Anchor API service', () => {
 
         await caver.kas.anchor.sendAnchoringData(operator, anchoringData)
 
-        await timeout(3000)
+        await timeout(10000)
 
         const queryOptions = caver.kas.anchor.queryOptions.constructFromObject({
             fromTimestamp,
