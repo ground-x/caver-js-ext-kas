@@ -165,10 +165,16 @@ describe('KIP17 API service', () => {
     it('CAVERJS-EXT-KAS-INT-254: caver.kas.kip17.transfer should transfer token when sender and owner are different', async () => {
         await timeout(10000)
 
+        // Approve sender to send owner's specificf token.
+        await caver.kas.kip17.approve(alias, owner, sender, tokenId)
+        await timeout(5000)
+
         let ret = await caver.kas.kip17.transfer(alias, sender, owner, to, tokenId)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
+
+        await timeout(10000)
 
         ret = await caver.kas.kip17.transfer(contractAddress, to, to, owner, caver.utils.toHex(tokenId))
 
