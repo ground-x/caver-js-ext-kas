@@ -48,7 +48,9 @@ module.exports = {
         'prefer-const': 1,
         'no-multi-assign': 1,
         'class-methods-use-this': 1,
-        "no-undef": 1,
-        "no-unused-vars": 1,
+        'no-undef': 1,
+        'no-unused-vars': 1,
+        'no-useless-constructor': 1,
+        'no-empty-function': 1,
     },
 }

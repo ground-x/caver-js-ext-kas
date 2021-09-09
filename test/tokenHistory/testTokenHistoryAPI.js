@@ -89,7 +89,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -108,12 +108,12 @@ describe('TokenHistory API service enabling', () => {
                     if (queryOptions.kind) expect(queryParams.kind).to.equal(queryOptions.kind)
                     expect(queryParams.presets).to.equal(presets.toString())
                     expect(queryParams.range).to.equal(queryOptions.range)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -545,7 +545,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -559,12 +559,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(mtd).to.equal(`GET`)
                     expect(pathParams['transaction-hash']).to.equal(txHash)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -667,7 +667,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -686,12 +686,12 @@ describe('TokenHistory API service enabling', () => {
                     if (queryOptions.kind) expect(queryParams.kind).to.equal(queryOptions.kind)
                     expect(queryParams['ca-filter']).to.equal(queryOptions.caFilter)
                     expect(queryParams.range).to.equal(queryOptions.range)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -1108,7 +1108,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1126,12 +1126,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
                     expect(queryParams.status).to.equal(queryOptions.status)
                     expect(queryParams.type).to.equal(queryOptions.type)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -1337,7 +1337,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1351,12 +1351,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(mtd).to.equal(`GET`)
                     expect(pathParams['ft-address']).to.equal(ftContract)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -1455,7 +1455,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1473,12 +1473,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
                     expect(queryParams.status).to.equal(queryOptions.status)
                     expect(queryParams.type).to.equal(queryOptions.type)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -1682,7 +1682,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1696,12 +1696,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(mtd).to.equal(`GET`)
                     expect(pathParams['nft-address']).to.equal(nftContract)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -1798,7 +1798,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -1814,12 +1814,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(Object.keys(queryParams).length).to.equal(2)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -2008,7 +2008,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -2025,12 +2025,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(Object.keys(queryParams).length).to.equal(2)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -2213,7 +2213,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -2228,12 +2228,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(pathParams['nft-address']).to.equal(nftContract)
                     expect(pathParams['token-id']).to.equal(tokenId)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -2332,7 +2332,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -2349,12 +2349,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(Object.keys(queryParams).length).to.equal(2)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -2523,7 +2523,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -2541,12 +2541,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
                     expect(queryParams.status).to.equal(queryOptions.status)
                     expect(queryParams.type).to.equal(queryOptions.type)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -2747,7 +2747,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -2761,12 +2761,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(mtd).to.equal(`GET`)
                     expect(pathParams['mt-address']).to.equal(mtContract)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -2858,7 +2858,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -2875,12 +2875,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(Object.keys(queryParams).length).to.equal(2)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -3051,7 +3051,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -3067,12 +3067,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(pathParams['owner-address']).to.equal(owner)
                     expect(pathParams['token-id']).to.equal(tokenId)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -3183,7 +3183,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -3200,12 +3200,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(Object.keys(queryParams).length).to.equal(2)
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -3405,7 +3405,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -3422,12 +3422,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(queryParams.size).to.equal(queryOptions.size)
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
                     if (queryOptions.kind) expect(queryParams.kind).to.equal(queryOptions.kind.toString())
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -3653,7 +3653,7 @@ describe('TokenHistory API service enabling', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -3671,12 +3671,12 @@ describe('TokenHistory API service enabling', () => {
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
                     if (queryOptions.kind) expect(queryParams.kind).to.equal(queryOptions.kind.toString())
                     if (queryOptions.caFilters) expect(queryParams['ca-filters']).to.equal(queryOptions.caFilters.toString())
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 

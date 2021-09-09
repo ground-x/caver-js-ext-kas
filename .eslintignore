@@ -15,3 +15,4 @@ dist/*
 caver-cli
 anchor1.0.0/*
 nodeAPI/*
+codeGenerator/*

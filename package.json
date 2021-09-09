@@ -1,6 +1,6 @@
 {
   "name": "caver-js-ext-kas",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "This is extenstion library of caver-js for connecting KAS",
   "main": "index.js",
   "scripts": {
@@ -35,7 +35,7 @@
   "author": "Ground X Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "caver-js": "1.6.2",
+    "caver-js": "1.6.4-rc.1",
     "dotenv": "8.2.0",
     "lodash": "4.17.21",
     "querystring": "0.2.0",
@@ -60,7 +60,7 @@
     "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-prettier": "3.1.1",
     "eslint-plugin-react": "7.10.0",
-    "jsdoc": "3.6.6",
+    "jsdoc": "^3.6.7",
     "mocha": "6.2.3",
     "prettier": "1.18.2",
     "sinon": "9.0.3",

@@ -60,7 +60,7 @@ describe('Wallet Statistics API', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -74,12 +74,12 @@ describe('Wallet Statistics API', () => {
                     expect(mtd).to.equal(`GET`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
                     callback(null, resultOfApi, { body: resultOfApi })
@@ -160,7 +160,7 @@ describe('Wallet Statistics API', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -174,12 +174,12 @@ describe('Wallet Statistics API', () => {
                     expect(mtd).to.equal(`GET`)
                     expect(Object.keys(pathParams).length).to.equal(0)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
                     callback(null, resultOfApi, { body: resultOfApi })

@@ -40,8 +40,8 @@ const createClient = function(path, chainId, accessKeyId, secretAccessKey) {
 
     client.basePath = path
     chainId = chainId || DEFAULT_CHAIN_ID
-    client.authentications.auth.username = accessKeyId
-    client.authentications.auth.password = secretAccessKey
+    client.authentications.basic.username = accessKeyId
+    client.authentications.basic.password = secretAccessKey
 
     const accessOptions = new AccessOptions(accessKeyId, secretAccessKey, chainId)
 

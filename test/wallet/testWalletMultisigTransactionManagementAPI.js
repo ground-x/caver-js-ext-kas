@@ -88,7 +88,7 @@ describe('Wallet API - Basic transaction API', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -107,12 +107,12 @@ describe('Wallet API - Basic transaction API', () => {
                     expect(queryParams.cursor).to.equal(queryOptions.cursor)
                     expect(queryParams['from-timestamp']).to.equal(queryOptions.fromTimestamp)
                     expect(queryParams['to-timestamp']).to.equal(queryOptions.toTimestamp)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -380,7 +380,7 @@ describe('Wallet API - Basic transaction API', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -396,12 +396,12 @@ describe('Wallet API - Basic transaction API', () => {
                     expect(pathParams.address).to.equal(address)
                     expect(pathParams['transaction-id']).to.equal(transactionId)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).to.be.null
-                    expect(authNames[0]).to.equal('auth')
-                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -488,7 +488,7 @@ describe('Wallet API - Basic transaction API', () => {
                     mtd,
                     pathParams,
                     queryParams,
-                    collectionQueryParams,
+
                     headerParams,
                     formParams,
                     postBody,
@@ -503,7 +503,7 @@ describe('Wallet API - Basic transaction API', () => {
                     expect(Object.keys(pathParams).length).to.equal(1)
                     expect(pathParams['transaction-id']).to.equal(transactionId)
                     expect(Object.keys(queryParams).length).to.equal(0)
-                    expect(Object.keys(collectionQueryParams).length).to.equal(0)
+
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
                     expect(postBody).not.to.be.null
@@ -512,7 +512,7 @@ describe('Wallet API - Basic transaction API', () => {
                     expect(postBody.signatures[0].V).to.equal(sigsToAppend.signatures[0].V)
                     expect(postBody.signatures[0].R).to.equal(sigsToAppend.signatures[0].R)
                     expect(postBody.signatures[0].S).to.equal(sigsToAppend.signatures[0].S)
-                    expect(authNames[0]).to.equal('auth')
+                    expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
