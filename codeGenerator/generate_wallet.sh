@@ -1,9 +1,6 @@
 #!/bin/bash
 
-mkdir wallet
+# ./generate_wallet.sh -> This case `master` branch will be used as a default
+# ./generate_wallet.sh {branch name}
 
-swagger-codegen generate \
--i ../../kas-ref-docs/openapi/en/services/wallet/v2.yaml \
--l javascript \
--o ./wallet \
--c ./config.json;
+./generate_client_code.sh wallet v2 wallet $1
