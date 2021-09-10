@@ -171,6 +171,30 @@ const MintKip17TokenRequest = require('./kip17/model/MintKip17TokenRequest')
 const TransferKip17TokenRequest = require('./kip17/model/TransferKip17TokenRequest')
 const KIP17Api = require('./kip17/api/KIP17Api')
 
+// KIP37
+const ApproveAllKip37ContractRequest = require('./kip37/model/ApproveAllKip37ContractRequest')
+const BurnKip37TokenRequest = require('./kip37/model/BurnKip37TokenRequest')
+const CreateKip37TokenRequest = require('./kip37/model/CreateKip37TokenRequest')
+const DeployKip37ContractRequest = require('./kip37/model/DeployKip37ContractRequest')
+const ImportKip37ContractRequest = require('./kip37/model/ImportKip37ContractRequest')
+const Kip37Contract = require('./kip37/model/Kip37Contract')
+const Kip37ContractListResponse = require('./kip37/model/Kip37ContractListResponse')
+const Kip37DeployResponse = require('./kip37/model/Kip37DeployResponse')
+const Kip37DeployerResponse = require('./kip37/model/Kip37DeployerResponse')
+const Kip37FeePayerOption = require('./kip37/model/Kip37FeePayerOption')
+const Kip37FeePayerOptionUserFeePayer = require('./kip37/model/Kip37FeePayerOptionUserFeePayer')
+const Kip37TokenInfoListResponse = require('./kip37/model/Kip37TokenInfoListResponse')
+const Kip37TokenInfoListResponseItem = require('./kip37/model/Kip37TokenInfoListResponseItem')
+const Kip37TokenListResponse = require('./kip37/model/Kip37TokenListResponse')
+const Kip37TokenListResponseItem = require('./kip37/model/Kip37TokenListResponseItem')
+const Kip37TransactionStatusResponse = require('./kip37/model/Kip37TransactionStatusResponse')
+const MintKip37TokenRequest = require('./kip37/model/MintKip37TokenRequest')
+const OperateKip37ContractRequest = require('./kip37/model/OperateKip37ContractRequest')
+const TransferKip37TokenRequest = require('./kip37/model/TransferKip37TokenRequest')
+const UpdateKip37ContractRequest = require('./kip37/model/UpdateKip37ContractRequest')
+const KIP37Api = require('./kip37/api/KIP37Api')
+const KIP37DeployerApi = require('./kip37/api/KIP37DeployerApi')
+
 /**
  * _IntroductionThis_document_describes_KAS__Klaytn_API_Service_Anchor_API__Anchor_API_provides_features_sending_metadata_available_to_verify_data_reliability_to_ensure_the_reliability_of_service_chain_data_to_Klaytn_main_chain_For_more_details_on_using_the_Anchor_API_please_refer_to__Tutorial_httpsdocs_klaytnapi_comtutorialanchor_api__Error_Codes_400_Bad_Request__Code__Messages________________1071010__data_dont_exist1071615__its_value_is_out_of_range_size1072100__same_payload_ID_or_payload_was_already_anchored1072101__all_configured_accounts_have_insufficient_funds__.<br>
  * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
@@ -792,7 +816,6 @@ module.exports = {
      */
     TokenOwnershipApi,
     // KIP7
-
     /**
      * The ApproveKip7TokenRequest model constructor.
      * @property {ApproveKip7TokenRequest}
@@ -869,7 +892,6 @@ module.exports = {
      */
     KIP7DeployerApi,
     // KIP17
-
     /**
      * The ApproveAllKip17Request model constructor.
      * @property {ApproveAllKip17Request}
@@ -955,4 +977,137 @@ module.exports = {
      * @property {KIP17Api}
      */
     KIP17Api,
+    // KIP37
+
+    /**
+     * The ApproveAllKip37ContractRequest model constructor.
+     * @property {ApproveAllKip37ContractRequest}
+     */
+    ApproveAllKip37ContractRequest,
+
+    /**
+     * The BurnKip37TokenRequest model constructor.
+     * @property {BurnKip37TokenRequest}
+     */
+    BurnKip37TokenRequest,
+
+    /**
+     * The CreateKip37TokenRequest model constructor.
+     * @property {CreateKip37TokenRequest}
+     */
+    CreateKip37TokenRequest,
+
+    /**
+     * The DeployKip37ContractRequest model constructor.
+     * @property {DeployKip37ContractRequest}
+     */
+    DeployKip37ContractRequest,
+
+    /**
+     * The ImportKip37ContractRequest model constructor.
+     * @property {ImportKip37ContractRequest}
+     */
+    ImportKip37ContractRequest,
+
+    /**
+     * The Kip37Contract model constructor.
+     * @property {Kip37Contract}
+     */
+    Kip37Contract,
+
+    /**
+     * The Kip37ContractListResponse model constructor.
+     * @property {Kip37ContractListResponse}
+     */
+    Kip37ContractListResponse,
+
+    /**
+     * The Kip37DeployResponse model constructor.
+     * @property {Kip37DeployResponse}
+     */
+    Kip37DeployResponse,
+
+    /**
+     * The Kip37DeployerResponse model constructor.
+     * @property {Kip37DeployerResponse}
+     */
+    Kip37DeployerResponse,
+
+    /**
+     * The Kip37FeePayerOption model constructor.
+     * @property {Kip37FeePayerOption}
+     */
+    Kip37FeePayerOption,
+
+    /**
+     * The Kip37FeePayerOptionUserFeePayer model constructor.
+     * @property {Kip37FeePayerOptionUserFeePayer}
+     */
+    Kip37FeePayerOptionUserFeePayer,
+
+    /**
+     * The Kip37TokenInfoListResponse model constructor.
+     * @property {Kip37TokenInfoListResponse}
+     */
+    Kip37TokenInfoListResponse,
+
+    /**
+     * The Kip37TokenInfoListResponseItem model constructor.
+     * @property {Kip37TokenInfoListResponseItem}
+     */
+    Kip37TokenInfoListResponseItem,
+
+    /**
+     * The Kip37TokenListResponse model constructor.
+     * @property {Kip37TokenListResponse}
+     */
+    Kip37TokenListResponse,
+
+    /**
+     * The Kip37TokenListResponseItem model constructor.
+     * @property {Kip37TokenListResponseItem}
+     */
+    Kip37TokenListResponseItem,
+
+    /**
+     * The Kip37TransactionStatusResponse model constructor.
+     * @property {Kip37TransactionStatusResponse}
+     */
+    Kip37TransactionStatusResponse,
+
+    /**
+     * The MintKip37TokenRequest model constructor.
+     * @property {MintKip37TokenRequest}
+     */
+    MintKip37TokenRequest,
+
+    /**
+     * The OperateKip37ContractRequest model constructor.
+     * @property {OperateKip37ContractRequest}
+     */
+    OperateKip37ContractRequest,
+
+    /**
+     * The TransferKip37TokenRequest model constructor.
+     * @property {TransferKip37TokenRequest}
+     */
+    TransferKip37TokenRequest,
+
+    /**
+     * The UpdateKip37ContractRequest model constructor.
+     * @property {UpdateKip37ContractRequest}
+     */
+    UpdateKip37ContractRequest,
+
+    /**
+     * The KIP37Api service constructor.
+     * @property {KIP37Api}
+     */
+    KIP37Api,
+
+    /**
+     * The KIP37DeployerApi service constructor.
+     * @property {KIP37DeployerApi}
+     */
+    KIP37DeployerApi,
 }
