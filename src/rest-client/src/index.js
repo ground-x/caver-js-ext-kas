@@ -194,6 +194,8 @@ const TransferKip37TokenRequest = require('./kip37/model/TransferKip37TokenReque
 const UpdateKip37ContractRequest = require('./kip37/model/UpdateKip37ContractRequest')
 const KIP37Api = require('./kip37/api/KIP37Api')
 const KIP37DeployerApi = require('./kip37/api/KIP37DeployerApi')
+const KIP37TokenApi = require('./kip37/api/KIP37TokenApi')
+const KIP37TokenOwnershipApi = require('./kip37/api/KIP37TokenOwnershipApi')
 
 /**
  * _IntroductionThis_document_describes_KAS__Klaytn_API_Service_Anchor_API__Anchor_API_provides_features_sending_metadata_available_to_verify_data_reliability_to_ensure_the_reliability_of_service_chain_data_to_Klaytn_main_chain_For_more_details_on_using_the_Anchor_API_please_refer_to__Tutorial_httpsdocs_klaytnapi_comtutorialanchor_api__Error_Codes_400_Bad_Request__Code__Messages________________1071010__data_dont_exist1071615__its_value_is_out_of_range_size1072100__same_payload_ID_or_payload_was_already_anchored1072101__all_configured_accounts_have_insufficient_funds__.<br>
@@ -1110,4 +1112,16 @@ module.exports = {
      * @property {KIP37DeployerApi}
      */
     KIP37DeployerApi,
+
+    /**
+     * The KIP37TokenApi service constructor.
+     * @property {KIP37TokenApi}
+     */
+    KIP37TokenApi,
+
+    /**
+     * The KIP37TokenOwnershipApi service constructor.
+     * @property {KIP37TokenOwnershipApi}
+     */
+    KIP37TokenOwnershipApi,
 }

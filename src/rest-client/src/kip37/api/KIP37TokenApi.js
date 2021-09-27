@@ -12,26 +12,24 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const ApproveAllKip37ContractRequest = require('../model/ApproveAllKip37ContractRequest')
-const DeployKip37ContractRequest = require('../model/DeployKip37ContractRequest')
+const BurnKip37TokenRequest = require('../model/BurnKip37TokenRequest')
+const CreateKip37TokenRequest = require('../model/CreateKip37TokenRequest')
 const ErrorResponse = require('../model/ErrorResponse')
-const ImportKip37ContractRequest = require('../model/ImportKip37ContractRequest')
-const Kip37Contract = require('../model/Kip37Contract')
-const Kip37ContractListResponse = require('../model/Kip37ContractListResponse')
-const Kip37DeployResponse = require('../model/Kip37DeployResponse')
+const Kip37TokenInfoListResponse = require('../model/Kip37TokenInfoListResponse')
 const Kip37TransactionStatusResponse = require('../model/Kip37TransactionStatusResponse')
+const MintKip37TokenRequest = require('../model/MintKip37TokenRequest')
 const OperateKip37ContractRequest = require('../model/OperateKip37ContractRequest')
-const UpdateKip37ContractRequest = require('../model/UpdateKip37ContractRequest')
+const TransferKip37TokenRequest = require('../model/TransferKip37TokenRequest')
 
 /**
- * Contract service.
- * @class KIP37Api
+ * Token service.
+ * @class KIP37TokenApi
  * @version 1.0
  */
-class KIP37Api {
+class KIP37TokenApi {
     /**
-     * Constructs a new KIP37Api.
-     * @alias KIP37Api
+     * Constructs a new KIP37TokenApi.
+     * @alias KIP37TokenApi
      * @class
      * @param {ApiClient} [apiClient] Optional API client implementation to use,
      * default to {@link ApiClient#instance} if unspecified.
@@ -41,21 +39,21 @@ class KIP37Api {
     }
 
     /**
-     * Callback function to receive the result of the approveAll operation.
-     * @callback KIP37Api~approveAllCallback
+     * Callback function to receive the result of the burnToken operation.
+     * @callback KIP37TokenApi~burnTokenCallback
      * @param {String} error Error message, if any.
      * @param {Kip37TransactionStatusResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Grant/Remove Authorization for Token Transfers
-     * Grants/cancels authorization to a third party (&#x60;to&#x60;) to transfer all tokens for a specified contract.    ##### From The account that sends the transaction.  If the &#x60;from&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.
+     * Burn KIP-37 Token
+     * Burns KIP-37 tokens.  ##### From The account that sends the transaction.  If the &#x60;from&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.  ##### Batch Items Call the contract function according to the Batch Items (&#x60;ids&#x60;, &#x60;amounts&#x60;) included in the request.  - If there is one element, call the &#x60;burn&#x60; function. - If there are multiple elements, call the &#x60;burnBatch&#x60; function.
      * @param {Object} opts Optional parameters
-     * @param {KIP37Api~approveAllCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {KIP37TokenApi~burnTokenCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37TransactionStatusResponse}
      */
-    approveAll(contractAddressOrAlias, xChainId, opts, callback) {
+    burnToken(contractAddressOrAlias, xChainId, opts, callback) {
         opts = opts || {}
         const postBody = opts.body
 
@@ -74,8 +72,8 @@ class KIP37Api {
         const returnType = Kip37TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}/approveall',
-            'POST',
+            '/v1/contract/{contract-address-or-alias}/token',
+            'DELETE',
             pathParams,
             queryParams,
             headerParams,
@@ -89,67 +87,23 @@ class KIP37Api {
         )
     }
     /**
-     * Callback function to receive the result of the deployContract operation.
-     * @callback KIP37Api~deployContractCallback
+     * Callback function to receive the result of the createToken operation.
+     * @callback KIP37TokenApi~createTokenCallback
      * @param {String} error Error message, if any.
-     * @param {Kip37DeployResponse} data The data returned by the service call.
+     * @param {Kip37TransactionStatusResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Deploy KIP-37 Contract
-     * Deploys a KIP-37 contract. &lt;br/&gt;   KIP-37 supports the use of &#x60;alias&#x60;, which you can use in place of the account address. The &#x60;alias&#x60; must only contain lowercase letters, numbers and hyphens and begin with a lowercase letter.  ##### Options   Options for paying the transaction fee. For more details, please refer to [Fee Payer Options](#section/Fee-Payer-Options).
+     * Mint a KIP-37 Token
+     * Creates a new token from a specified KIP-37 contract.  ##### Sender The account for sending the transaction.  If the &#x60;sender&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.
      * @param {Object} opts Optional parameters
-     * @param {KIP37Api~deployContractCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Kip37DeployResponse}
+     * @param {KIP37TokenApi~createTokenCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip37TransactionStatusResponse}
      */
-    deployContract(xChainId, opts, callback) {
+    createToken(contractAddressOrAlias, xChainId, opts, callback) {
         opts = opts || {}
         const postBody = opts.body
-
-        const pathParams = {}
-        const queryParams = {}
-        const headerParams = {
-            'x-chain-id': xChainId,
-        }
-        const formParams = {}
-
-        const authNames = ['basic']
-        const contentTypes = ['application/json']
-        const accepts = ['application/json']
-        const returnType = Kip37DeployResponse
-
-        return this.apiClient.callApi(
-            '/v1/contract',
-            'POST',
-            pathParams,
-            queryParams,
-            headerParams,
-            formParams,
-            postBody,
-            authNames,
-            contentTypes,
-            accepts,
-            returnType,
-            callback
-        )
-    }
-    /**
-     * Callback function to receive the result of the getContract operation.
-     * @callback KIP37Api~getContractCallback
-     * @param {String} error Error message, if any.
-     * @param {Kip37Contract} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Get KIP-37 Contract Information
-     * Queries a specified contract using the alias or the contract address.
-     * @param {KIP37Api~getContractCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Kip37Contract}
-     */
-    getContract(contractAddressOrAlias, xChainId, callback) {
-        const postBody = null
 
         const pathParams = {
             'contract-address-or-alias': contractAddressOrAlias,
@@ -161,58 +115,12 @@ class KIP37Api {
         const formParams = {}
 
         const authNames = ['basic']
-        const contentTypes = []
-        const accepts = ['application/json']
-        const returnType = Kip37Contract
-
-        return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}',
-            'GET',
-            pathParams,
-            queryParams,
-            headerParams,
-            formParams,
-            postBody,
-            authNames,
-            contentTypes,
-            accepts,
-            returnType,
-            callback
-        )
-    }
-    /**
-     * Callback function to receive the result of the importContract operation.
-     * @callback KIP37Api~importContractCallback
-     * @param {String} error Error message, if any.
-     * @param {Kip37Contract} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Import KIP-37 Contract
-     * Import a contract that has already been deployed.&lt;br/&gt;   The &#x60;alias&#x60; must only contain lowercase letters, numbers and hyphens and begin with a lowercase letter.  ##### Options   Options for paying the transaction fee. For more details, please refer to [Fee Payer Options](#section/Fee-Payer-Options).
-     * @param {Object} opts Optional parameters
-     * @param {KIP37Api~importContractCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Kip37Contract}
-     */
-    importContract(xChainId, opts, callback) {
-        opts = opts || {}
-        const postBody = opts.body
-
-        const pathParams = {}
-        const queryParams = {}
-        const headerParams = {
-            'x-chain-id': xChainId,
-        }
-        const formParams = {}
-
-        const authNames = ['basic']
         const contentTypes = ['application/json']
         const accepts = ['application/json']
-        const returnType = Kip37Contract
+        const returnType = Kip37TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v1/contract/import',
+            '/v1/contract/{contract-address-or-alias}/token',
             'POST',
             pathParams,
             queryParams,
@@ -227,29 +135,30 @@ class KIP37Api {
         )
     }
     /**
-     * Callback function to receive the result of the listContractsInDeployerPool operation.
-     * @callback KIP37Api~listContractsInDeployerPoolCallback
+     * Callback function to receive the result of the getTokens operation.
+     * @callback KIP37TokenApi~getTokensCallback
      * @param {String} error Error message, if any.
-     * @param {Kip37ContractListResponse} data The data returned by the service call.
+     * @param {Kip37TokenInfoListResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Get KIP-37 Contract
-     * Get a list of all KIP-37 contracts by account. The response items will be listed in the order of contract creation request time. &lt;br/&gt;&lt;br/&gt; The &#x60;status&#x60; field in the response can contain the following: - &#x60;init&#x60;: Initial state before transaction is sent - &#x60;submitted&#x60;: Contract deployment transaction has been sent - &#x60;deployed&#x60;: Contract has been deployed - &#x60;imported&#x60;: Contract list has been imported - &#x60;failed&#x60: Contract deployment transaction has failed
+     * Get KIP-37 Token List
+     * Returns a list of KIP-37 tokens.   ##### Sort Order - The response items are listed in lexicographical order of the token ID.
      * @param {Object} opts Optional parameters
-     * @param {KIP37Api~listContractsInDeployerPoolCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Kip37ContractListResponse}
+     * @param {KIP37TokenApi~getTokensCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip37TokenInfoListResponse}
      */
-    listContractsInDeployerPool(xChainId, opts, callback) {
+    getTokens(contractAddressOrAlias, xChainId, opts, callback) {
         opts = opts || {}
         const postBody = null
 
-        const pathParams = {}
+        const pathParams = {
+            'contract-address-or-alias': contractAddressOrAlias,
+        }
         const queryParams = {
             size: opts.size,
             cursor: opts.cursor,
-            status: opts.status,
         }
         const headerParams = {
             'x-chain-id': xChainId,
@@ -259,10 +168,10 @@ class KIP37Api {
         const authNames = ['basic']
         const contentTypes = []
         const accepts = ['application/json']
-        const returnType = Kip37ContractListResponse
+        const returnType = Kip37TokenInfoListResponse
 
         return this.apiClient.callApi(
-            '/v1/contract',
+            '/v1/contract/{contract-address-or-alias}/token',
             'GET',
             pathParams,
             queryParams,
@@ -277,21 +186,21 @@ class KIP37Api {
         )
     }
     /**
-     * Callback function to receive the result of the pauseContract operation.
-     * @callback KIP37Api~pauseContractCallback
+     * Callback function to receive the result of the mintToken operation.
+     * @callback KIP37TokenApi~mintTokenCallback
      * @param {String} error Error message, if any.
      * @param {Kip37TransactionStatusResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Pause KIP-37 Contract
-     * Pauses all operations for a specified contract, such as minting, transfering tokens.&lt;br /&gt; You can resume using [/v1/{contract-address-or-alias/unpause](#operation/UnpauseContract).    ##### Sender The Account that sends the transaction.  If the &#x60;sender&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt;&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.
+     * Mint Additional KIP-37 Tokens
+     * Mints multiple tokens for a given KIP-37 contract.   Minting is possible after having created a token with [Create KIP-37 Token](#operation/CreateToken).    ##### Sender The account for sending the transaction.  If the &#x60;sender&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.  ##### Batch Items Call the contract function according to the Batch Items (&#x60;ids&#x60;, &#x60;amounts&#x60;) included in the request.  - If there is one element, call the &#x60;mint&#x60; function. - If there are multiple elements, call the &#x60;mintBatch&#x60; function.
      * @param {Object} opts Optional parameters
-     * @param {KIP37Api~pauseContractCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {KIP37TokenApi~mintTokenCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37TransactionStatusResponse}
      */
-    pauseContract(contractAddressOrAlias, xChainId, opts, callback) {
+    mintToken(contractAddressOrAlias, xChainId, opts, callback) {
         opts = opts || {}
         const postBody = opts.body
 
@@ -310,7 +219,7 @@ class KIP37Api {
         const returnType = Kip37TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}/pause',
+            '/v1/contract/{contract-address-or-alias}/token/mint',
             'POST',
             pathParams,
             queryParams,
@@ -325,26 +234,27 @@ class KIP37Api {
         )
     }
     /**
-     * Callback function to receive the result of the putContract operation.
-     * @callback KIP37Api~putContractCallback
+     * Callback function to receive the result of the pauseToken operation.
+     * @callback KIP37TokenApi~pauseTokenCallback
      * @param {String} error Error message, if any.
-     * @param {Kip37Contract} data The data returned by the service call.
+     * @param {Kip37TransactionStatusResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Edit KIP-37 Contract Information
-     * Edits the information of a contract. &lt;br/&gt;  ##### Options   Options for paying the transaction fee. For more details, please refer to [Fee Payer Options](#section/Fee-Payer-Options).
+     * Pause KIP-37 Token Operations
+     * Pauses the operations of a specified token, such as minting and creating tokens.  You can resume the opertations by using [/v1/{contract-address-or-alias/token/unpause/{token-id}](#operation/UnpauseToken).  ##### Sender The account for sending the transaction.  If the &#x60;sender&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.
      * @param {Object} opts Optional parameters
-     * @param {KIP37Api~putContractCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Kip37Contract}
+     * @param {KIP37TokenApi~pauseTokenCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip37TransactionStatusResponse}
      */
-    putContract(contractAddressOrAlias, xChainId, opts, callback) {
+    pauseToken(contractAddressOrAlias, tokenId, xChainId, opts, callback) {
         opts = opts || {}
         const postBody = opts.body
 
         const pathParams = {
             'contract-address-or-alias': contractAddressOrAlias,
+            'token-id': tokenId,
         }
         const queryParams = {}
         const headerParams = {
@@ -355,11 +265,11 @@ class KIP37Api {
         const authNames = ['basic']
         const contentTypes = ['application/json']
         const accepts = ['application/json']
-        const returnType = Kip37Contract
+        const returnType = Kip37TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}',
-            'PUT',
+            '/v1/contract/{contract-address-or-alias}/token/pause/{token-id}',
+            'POST',
             pathParams,
             queryParams,
             headerParams,
@@ -373,21 +283,21 @@ class KIP37Api {
         )
     }
     /**
-     * Callback function to receive the result of the unpauseContract operation.
-     * @callback KIP37Api~unpauseContractCallback
+     * Callback function to receive the result of the transferToken operation.
+     * @callback KIP37TokenApi~transferTokenCallback
      * @param {String} error Error message, if any.
      * @param {Kip37TransactionStatusResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Resume KIP-37 Contract
-     * Resumes the operations for a paused contract.  ##### Sender The account for sending the transaction.  If the &#x60;sender&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.
+     * Send KIP-37 Token
+     * Sends multiple tokens for a given KIP-37 contract.  ##### Sender The account for sending the transaction. If the &#x60;sender&#x60; and&#x60;owner&#x60; are different,&#x60;sender&#x60; must be authorized to send the token.  If the &#x60;sender&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.  ##### Batch Items Call the contract function according to the Batch Items (&#x60;ids&#x60;, &#x60;amounts&#x60;) included in the request.  - If there is one element, call the &#x60;safeTransferFrom&#x60; function. - If there are multiple elements, call the &#x60;safeBatchTransferFrom&#x60; function.
      * @param {Object} opts Optional parameters
-     * @param {KIP37Api~unpauseContractCallback} callback The callback function, accepting three arguments: error, data, response
+     * @param {KIP37TokenApi~transferTokenCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37TransactionStatusResponse}
      */
-    unpauseContract(contractAddressOrAlias, xChainId, opts, callback) {
+    transferToken(contractAddressOrAlias, xChainId, opts, callback) {
         opts = opts || {}
         const postBody = opts.body
 
@@ -406,7 +316,56 @@ class KIP37Api {
         const returnType = Kip37TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}/unpause',
+            '/v1/contract/{contract-address-or-alias}/token/transfer',
+            'POST',
+            pathParams,
+            queryParams,
+            headerParams,
+            formParams,
+            postBody,
+            authNames,
+            contentTypes,
+            accepts,
+            returnType,
+            callback
+        )
+    }
+    /**
+     * Callback function to receive the result of the unpauseToken operation.
+     * @callback KIP37TokenApi~unpauseTokenCallback
+     * @param {String} error Error message, if any.
+     * @param {Kip37TransactionStatusResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Resume KIP-37 Token Operations
+     * Resumes paused token operations for a given contract.  ##### Sender The account for sending the transaction. If the &#x60;sender&#x60; and &#x60;owner&#x60; are different, &#x60;sender&#x60; must be authorized to transfer the token.    If the &#x60;sender&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.
+     * @param {Object} opts Optional parameters
+     * @param {KIP37TokenApi~unpauseTokenCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip37TransactionStatusResponse}
+     */
+    unpauseToken(contractAddressOrAlias, tokenId, xChainId, opts, callback) {
+        opts = opts || {}
+        const postBody = opts.body
+
+        const pathParams = {
+            'contract-address-or-alias': contractAddressOrAlias,
+            'token-id': tokenId,
+        }
+        const queryParams = {}
+        const headerParams = {
+            'x-chain-id': xChainId,
+        }
+        const formParams = {}
+
+        const authNames = ['basic']
+        const contentTypes = ['application/json']
+        const accepts = ['application/json']
+        const returnType = Kip37TransactionStatusResponse
+
+        return this.apiClient.callApi(
+            '/v1/contract/{contract-address-or-alias}/token/unpause/{token-id}',
             'POST',
             pathParams,
             queryParams,
@@ -421,4 +380,4 @@ class KIP37Api {
         )
     }
 }
-module.exports = KIP37Api
+module.exports = KIP37TokenApi
