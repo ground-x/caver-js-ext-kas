@@ -26,13 +26,11 @@ class Kip37DeployResponse {
      * @class
      * @param status {String} Transaction status (`Submitted`, `Pending`)
      * @param transactionHash {String} Transaction hash
-     * @param uri {String} Contract URI
      */
 
-    constructor(status, transactionHash, uri) {
+    constructor(status, transactionHash) {
         this.status = status
         this.transactionHash = transactionHash
-        this.uri = uri
     }
 
     /**
@@ -52,9 +50,6 @@ class Kip37DeployResponse {
             }
             if (data.hasOwnProperty('transactionHash')) {
                 obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
-            }
-            if (data.hasOwnProperty('uri')) {
-                obj.uri = ApiClient.convertToType(data.uri, 'String')
             }
             if (data.hasOwnProperty('options')) {
                 obj.options = Kip37FeePayerOptionResponse.constructFromObject(data.options)
@@ -76,12 +71,6 @@ Kip37DeployResponse.prototype.status = undefined
  * @memberof Kip37DeployResponse
  */
 Kip37DeployResponse.prototype.transactionHash = undefined
-/**
- * Contract URI
- * @type {String}
- * @memberof Kip37DeployResponse
- */
-Kip37DeployResponse.prototype.uri = undefined
 /**
  * @type {Kip37FeePayerOptionResponse}
  * @memberof Kip37DeployResponse
