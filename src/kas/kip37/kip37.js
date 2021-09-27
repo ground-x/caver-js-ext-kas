@@ -17,7 +17,7 @@
 const _ = require('lodash')
 const utils = require('caver-js').utils
 
-const { KIP37DeployerApi, KIP37Api } = require('../../rest-client/src')
+const { KIP37DeployerApi, KIP37Api, KIP37TokenApi, KIP37TokenOwnershipApi } = require('../../rest-client/src')
 const KIP37QueryOptions = require('./kip37QueryOptions')
 const KIP37FeePayerOptions = require('./kip37FeePayerOptions')
 const { checkTypeAndConvertForIdsAndAmounts } = require('../../utils/helper')
@@ -44,6 +44,8 @@ class KIP37 {
             this.apiInstances = {
                 kip37: new KIP37Api(client),
                 deployer: new KIP37DeployerApi(client),
+                token: new KIP37TokenApi(client),
+                tokenOwnership: new KIP37TokenOwnershipApi(client),
             }
         }
     }
@@ -109,6 +111,8 @@ class KIP37 {
         this.apiInstances = {
             kip37: new KIP37Api(client),
             deployer: new KIP37DeployerApi(client),
+            token: new KIP37TokenApi(client),
+            tokenOwnership: new KIP37TokenOwnershipApi(client),
         }
     }
 
@@ -124,6 +128,20 @@ class KIP37 {
      */
     get deployerApi() {
         return this.apiInstances.deployer
+    }
+
+    /**
+     * @type {KIP37TokenApi}
+     */
+    get tokenApi() {
+        return this.apiInstances.token
+    }
+
+    /**
+     * @type {KIP37TokenOwnershipApi}
+     */
+    get tokenOwnershipApi() {
+        return this.apiInstances.tokenOwnership
     }
 
     /**
@@ -340,7 +358,7 @@ class KIP37 {
         if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size' and 'cursor' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.getTokensByOwner(addressOrAlias, owner, this.chainId, queryOptions, (err, data, response) => {
+            this.tokenOwnershipApi.getTokensByOwner(addressOrAlias, owner, this.chainId, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -508,7 +526,7 @@ class KIP37 {
         const opts = { body: { sender: pauser } }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.pauseToken(addressOrAlias, tokenId, this.chainId, opts, (err, data, response) => {
+            this.tokenApi.pauseToken(addressOrAlias, tokenId, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -550,7 +568,7 @@ class KIP37 {
         const opts = { body: { sender: pauser } }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.unpauseToken(addressOrAlias, tokenId, this.chainId, opts, (err, data, response) => {
+            this.tokenApi.unpauseToken(addressOrAlias, tokenId, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -614,7 +632,7 @@ class KIP37 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.createToken(addressOrAlias, this.chainId, opts, (err, data, response) => {
+            this.tokenApi.createToken(addressOrAlias, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -656,7 +674,7 @@ class KIP37 {
         if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size' and 'cursor' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.getTokens(addressOrAlias, this.chainId, queryOptions, (err, data, response) => {
+            this.tokenApi.getTokens(addressOrAlias, this.chainId, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -707,7 +725,7 @@ class KIP37 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.burnToken(addressOrAlias, this.chainId, opts, (err, data, response) => {
+            this.tokenApi.burnToken(addressOrAlias, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -762,7 +780,7 @@ class KIP37 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.mintToken(addressOrAlias, this.chainId, opts, (err, data, response) => {
+            this.tokenApi.mintToken(addressOrAlias, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -818,7 +836,7 @@ class KIP37 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.transferToken(addressOrAlias, this.chainId, opts, (err, data, response) => {
+            this.tokenApi.transferToken(addressOrAlias, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

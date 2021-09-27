@@ -751,8 +751,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-022: should return KIP-37 token list by owner', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokensByOwner')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenOwnershipApi, 'getTokensByOwner')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenOwnershipApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, contractAddress)
 
             const ret = await caver.kas.kip37.getTokenListByOwner(contractAddress, owner)
@@ -767,8 +767,8 @@ describe('KIP37 API service enabling', () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = { size: 1 }
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokensByOwner')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenOwnershipApi, 'getTokensByOwner')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenOwnershipApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, alias, queryOptions)
 
             const ret = await caver.kas.kip37.getTokenListByOwner(alias, owner, queryOptions)
@@ -786,8 +786,8 @@ describe('KIP37 API service enabling', () => {
                 cursor:
                     'eyJjcmVhdGVkX2F0IjoxNjEwNTg3MTIyLCJnc2kyIjoiOGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhIiwicGsiOiI4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2EjMTAwMSNqYXNtaW5lLWNvbnRyYWN0MiJ9',
             }
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokensByOwner')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenOwnershipApi, 'getTokensByOwner')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenOwnershipApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, contractAddress, queryOptions)
 
             const ret = await caver.kas.kip37.getTokenListByOwner(contractAddress, owner, queryOptions)
@@ -806,8 +806,8 @@ describe('KIP37 API service enabling', () => {
                 cursor:
                     '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
             }
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokensByOwner')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenOwnershipApi, 'getTokensByOwner')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenOwnershipApi.apiClient, 'callApi')
             const expectedQueryParams = caver.kas.kip37.queryOptions.constructFromObject(queryOptions)
             setCallFakeForCallApi(callApiStub, alias, expectedQueryParams)
 
@@ -822,8 +822,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-026: should call callback function with KIP-37 token list by owner', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokensByOwner')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenOwnershipApi, 'getTokensByOwner')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenOwnershipApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, contractAddress)
 
             let isCalled = false
@@ -847,8 +847,8 @@ describe('KIP37 API service enabling', () => {
                 cursor:
                     '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
             }
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokensByOwner')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenOwnershipApi, 'getTokensByOwner')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenOwnershipApi.apiClient, 'callApi')
             const expectedQueryParams = caver.kas.kip37.queryOptions.constructFromObject(queryOptions)
             setCallFakeForCallApi(callApiStub, contractAddress, expectedQueryParams)
 
@@ -1218,8 +1218,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-037: should pause KIP-37 token without pauser (number token id)', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'pauseToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'pauseToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, alias)
 
@@ -1233,8 +1233,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-038: should pause KIP-37 token without pauser (hex string token id)', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'pauseToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'pauseToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, alias)
 
@@ -1248,8 +1248,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-039: should pause KIP-37 token with pauser', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'pauseToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'pauseToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, contractAddress, pauserAddress)
 
@@ -1263,8 +1263,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-040: should call callback function with unpausing response', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'pauseToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'pauseToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             let isCalled = false
 
@@ -1333,8 +1333,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-041: should unpause KIP-37 token without pauser (number token id)', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'unpauseToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'unpauseToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, alias)
 
@@ -1348,8 +1348,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-042: should unpause KIP-37 token without pauser (hex string token id)', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'unpauseToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'unpauseToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, alias)
 
@@ -1363,8 +1363,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-043: should unpause KIP-37 token with pauser', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'unpauseToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'unpauseToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, contractAddress, pauserAddress)
 
@@ -1378,8 +1378,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-044: should call callback function with unpausing response', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'unpauseToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'unpauseToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             let isCalled = false
 
@@ -1452,8 +1452,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-045: should create KIP-37 token without sender (number token id)', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'createToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'createToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, alias)
 
@@ -1467,8 +1467,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-046: should create KIP-37 token without sender (hex string token id)', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'createToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'createToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, alias)
 
@@ -1482,8 +1482,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-047: should create KIP-37 token without sender (number initialSupply)', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'createToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'createToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, alias)
 
@@ -1497,8 +1497,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-048: should create KIP-37 token without sender (BigNumber initialSupply)', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'createToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'createToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, alias)
 
@@ -1512,8 +1512,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-049: should create KIP-37 token without sender (hex string initialSupply)', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'createToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'createToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, alias)
 
@@ -1527,8 +1527,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-050: should create KIP-37 token with sender', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'createToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'createToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             setCallFakeForCallApi(callApiStub, contractAddress, senderAddress)
 
@@ -1542,8 +1542,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-051: should call callback function with creating response', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'createToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'createToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             let isCalled = false
 
@@ -1617,8 +1617,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-052: should return KIP-37 token list', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokens')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'getTokens')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, contractAddress)
 
             const ret = await caver.kas.kip37.getTokenList(contractAddress)
@@ -1633,8 +1633,8 @@ describe('KIP37 API service enabling', () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = { size: 1 }
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokens')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'getTokens')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, alias, queryOptions)
 
             const ret = await caver.kas.kip37.getTokenList(alias, queryOptions)
@@ -1652,8 +1652,8 @@ describe('KIP37 API service enabling', () => {
                 cursor:
                     'eyJjcmVhdGVkX2F0IjoxNjEwNTg3MTIyLCJnc2kyIjoiOGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhIiwicGsiOiI4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2EjMTAwMSNqYXNtaW5lLWNvbnRyYWN0MiJ9',
             }
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokens')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'getTokens')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, contractAddress, queryOptions)
 
             const ret = await caver.kas.kip37.getTokenList(contractAddress, queryOptions)
@@ -1672,8 +1672,8 @@ describe('KIP37 API service enabling', () => {
                 cursor:
                     '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
             }
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokens')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'getTokens')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
             const expectedQueryParams = caver.kas.kip37.queryOptions.constructFromObject(queryOptions)
             setCallFakeForCallApi(callApiStub, alias, expectedQueryParams)
 
@@ -1688,8 +1688,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-056: should call callback function with KIP-37 token list', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokens')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'getTokens')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, contractAddress)
 
             let isCalled = false
@@ -1713,8 +1713,8 @@ describe('KIP37 API service enabling', () => {
                 cursor:
                     '36rxE5ek8gVWPp2JZlvmBPq17z94O06eXYwLgWNpPq6gxBYdeaNQ8A4DzV0wW9nQkrR1KL3X5oGmlkOp72JrvMZEbrZEkDGaoKQ2M5lbdJVxA38zKoB09MbQXYGNwODm',
             }
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'getTokens')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'getTokens')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
             const expectedQueryParams = caver.kas.kip37.queryOptions.constructFromObject(queryOptions)
             setCallFakeForCallApi(callApiStub, contractAddress, expectedQueryParams)
 
@@ -1784,8 +1784,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-058: should burn a KIP-37 token with not array parameter', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'burnToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'burnToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const id = 1
             const amount = 10
@@ -1801,8 +1801,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-059: should burn a KIP-37 token with array parameters', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'burnToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'burnToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const id = [1]
             const amount = [10]
@@ -1818,8 +1818,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-060: should burn the KIP-37 tokens with array parameter', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'burnToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'burnToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const ids = [1, 2]
             const amounts = [10, 20]
@@ -1835,8 +1835,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-061: should burn the KIP-37 tokens with hex string and bigNumber parameters', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'burnToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'burnToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const ids = ['0x1', '0x2']
             const amounts = ['0xa', new caver.utils.BigNumber(20)]
@@ -1853,8 +1853,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-062: should burn the KIP-37 tokens with from address', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'burnToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'burnToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const ids = [1, 2]
             const amounts = [10, 20]
@@ -1871,8 +1871,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-063: should call callback function with unpausing response', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'burnToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'burnToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             let isCalled = false
 
@@ -1946,8 +1946,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-064: should mint a KIP-37 token with not array parameter', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'mintToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'mintToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const id = 1
             const amount = 10
@@ -1963,8 +1963,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-065: should mint a KIP-37 token with array parameters', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'mintToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'mintToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const id = [1]
             const amount = [10]
@@ -1980,8 +1980,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-066: should mint the KIP-37 tokens with array parameter', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'mintToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'mintToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const ids = [1, 2]
             const amounts = [10, 20]
@@ -1997,8 +1997,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-067: should mint the KIP-37 tokens with hex string and bigNumber parameters', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'mintToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'mintToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const ids = ['0x1', '0x2']
             const amounts = ['0xa', new caver.utils.BigNumber(20)]
@@ -2015,8 +2015,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-068: should mint the KIP-37 tokens with from address', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'mintToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'mintToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const ids = [1, 2]
             const amounts = [10, 20]
@@ -2033,8 +2033,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-069: should call callback function with minting response', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'mintToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'mintToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             let isCalled = false
 
@@ -2109,8 +2109,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-070: should transfer a KIP-37 token with not array parameter', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'transferToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'transferToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const id = 1
             const amount = 10
@@ -2126,8 +2126,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-071: should transfer a KIP-37 token with array parameters', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'transferToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'transferToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const id = [1]
             const amount = [10]
@@ -2143,8 +2143,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-072: should transfer the KIP-37 tokens with array parameter', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'transferToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'transferToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const ids = [1, 2]
             const amounts = [10, 20]
@@ -2160,8 +2160,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-073: should transfer the KIP-37 tokens with hex string and bigNumber parameters', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'transferToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'transferToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             const ids = ['0x1', '0x2']
             const amounts = ['0xa', new caver.utils.BigNumber(20)]
@@ -2178,8 +2178,8 @@ describe('KIP37 API service enabling', () => {
         it('CAVERJS-EXT-KAS-KIP37-074: should call callback function with transfering response', async () => {
             caver.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
 
-            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.kip37Api, 'transferToken')
-            const callApiStub = sandbox.stub(caver.kas.kip37.kip37Api.apiClient, 'callApi')
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip37.tokenApi, 'transferToken')
+            const callApiStub = sandbox.stub(caver.kas.kip37.tokenApi.apiClient, 'callApi')
 
             let isCalled = false
 
