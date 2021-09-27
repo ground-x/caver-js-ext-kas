@@ -98,7 +98,7 @@ describe('TokenHistory API service', () => {
         const ret = await caver.kas.tokenHistory.getTransferHistory(presets, queryOptions)
 
         expect(ret.items).not.to.be.undefined
-        expect(ret.items.length).to.equal(1)
+        expect(ret.items.length).not.to.be.undefined
         expect(ret.cursor).not.to.be.undefined
         expect(ret.items[0].contract).not.to.be.undefined
     }).timeout(10000)
