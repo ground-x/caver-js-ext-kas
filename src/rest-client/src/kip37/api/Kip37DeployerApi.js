@@ -12,69 +12,68 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip37FeePayerOptionResponse = require('./Kip37FeePayerOptionResponse')
+const Kip37DeployerResponse = require('../model/Kip37DeployerResponse')
 
 /**
- * The Kip37DeployResponse model module.
- * @class Kip37DeployResponse
+ * Kip37Deployer service.
+ * @class Kip37DeployerApi
  * @version 1.0
  */
-class Kip37DeployResponse {
+class Kip37DeployerApi {
     /**
-     * Constructs a new <code>Kip37DeployResponse</code>.
-     * @alias Kip37DeployResponse
+     * Constructs a new Kip37DeployerApi.
+     * @alias Kip37DeployerApi
      * @class
-     * @param status {String} Transaction status (`Submitted`, `Pending`)
-     * @param transactionHash {String} Transaction hash
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
-
-    constructor(status, transactionHash) {
-        this.status = status
-        this.transactionHash = transactionHash
+    constructor(apiClient) {
+        this.apiClient = apiClient || ApiClient.instance
     }
 
     /**
-     * Constructs a <code>Kip37DeployResponse</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip37DeployResponse} obj Optional instance to populate.
-     * @return {Kip37DeployResponse} The populated <code>Kip37DeployResponse</code> instance.
-     * @memberof Kip37DeployResponse
+     * Callback function to receive the result of the getDefaultDeployer operation.
+     * @callback Kip37DeployerApi~getDefaultDeployerCallback
+     * @param {String} error Error message, if any.
+     * @param {Kip37DeployerResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
      */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Kip37DeployResponse()
 
-            if (data.hasOwnProperty('status')) {
-                obj.status = ApiClient.convertToType(data.status, 'String')
-            }
-            if (data.hasOwnProperty('transactionHash')) {
-                obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
-            }
-            if (data.hasOwnProperty('options')) {
-                obj.options = Kip37FeePayerOptionResponse.constructFromObject(data.options)
-            }
+    /**
+     * Get Default Account for Contract Deployment
+     * Get account for deploying and managing contract.
+     * @param {Kip37DeployerApi~getDefaultDeployerCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip37DeployerResponse}
+     */
+    getDefaultDeployer(xChainId, callback) {
+        const postBody = null
+
+        const pathParams = {}
+        const queryParams = {}
+        const headerParams = {
+            'x-chain-id': xChainId,
         }
-        return obj
+        const formParams = {}
+
+        const authNames = ['basic']
+        const contentTypes = []
+        const accepts = ['application/json']
+        const returnType = Kip37DeployerResponse
+
+        return this.apiClient.callApi(
+            '/v1/deployer/default',
+            'GET',
+            pathParams,
+            queryParams,
+            headerParams,
+            formParams,
+            postBody,
+            authNames,
+            contentTypes,
+            accepts,
+            returnType,
+            callback
+        )
     }
 }
-
-/**
- * Transaction status (`Submitted`, `Pending`)
- * @type {String}
- * @memberof Kip37DeployResponse
- */
-Kip37DeployResponse.prototype.status = undefined
-/**
- * Transaction hash
- * @type {String}
- * @memberof Kip37DeployResponse
- */
-Kip37DeployResponse.prototype.transactionHash = undefined
-/**
- * @type {Kip37FeePayerOptionResponse}
- * @memberof Kip37DeployResponse
- */
-Kip37DeployResponse.prototype.options = undefined
-
-module.exports = Kip37DeployResponse
+module.exports = Kip37DeployerApi

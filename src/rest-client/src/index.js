@@ -192,8 +192,10 @@ const MintKip37TokenRequest = require('./kip37/model/MintKip37TokenRequest')
 const OperateKip37ContractRequest = require('./kip37/model/OperateKip37ContractRequest')
 const TransferKip37TokenRequest = require('./kip37/model/TransferKip37TokenRequest')
 const UpdateKip37ContractRequest = require('./kip37/model/UpdateKip37ContractRequest')
-const KIP37Api = require('./kip37/api/KIP37Api')
-const KIP37DeployerApi = require('./kip37/api/KIP37DeployerApi')
+const Kip37ContractApi = require('./kip37/api/Kip37ContractApi')
+const Kip37DeployerApi = require('./kip37/api/Kip37DeployerApi')
+const Kip37TokenApi = require('./kip37/api/Kip37TokenApi')
+const Kip37TokenOwnershipApi = require('./kip37/api/Kip37TokenOwnershipApi')
 
 /**
  * _IntroductionThis_document_describes_KAS__Klaytn_API_Service_Anchor_API__Anchor_API_provides_features_sending_metadata_available_to_verify_data_reliability_to_ensure_the_reliability_of_service_chain_data_to_Klaytn_main_chain_For_more_details_on_using_the_Anchor_API_please_refer_to__Tutorial_httpsdocs_klaytnapi_comtutorialanchor_api__Error_Codes_400_Bad_Request__Code__Messages________________1071010__data_dont_exist1071615__its_value_is_out_of_range_size1072100__same_payload_ID_or_payload_was_already_anchored1072101__all_configured_accounts_have_insufficient_funds__.<br>
@@ -1100,14 +1102,26 @@ module.exports = {
     UpdateKip37ContractRequest,
 
     /**
-     * The KIP37Api service constructor.
-     * @property {KIP37Api}
+     * The Kip37ContractApi service constructor.
+     * @property {Kip37ContractApi}
      */
-    KIP37Api,
+    Kip37ContractApi,
 
     /**
-     * The KIP37DeployerApi service constructor.
-     * @property {KIP37DeployerApi}
+     * The Kip37DeployerApi service constructor.
+     * @property {Kip37DeployerApi}
      */
-    KIP37DeployerApi,
+    Kip37DeployerApi,
+
+    /**
+     * The Kip37TokenApi service constructor.
+     * @property {Kip37TokenApi}
+     */
+    Kip37TokenApi,
+
+    /**
+     * The Kip37TokenOwnershipApi service constructor.
+     * @property {Kip37TokenOwnershipApi}
+     */
+    Kip37TokenOwnershipApi,
 }
