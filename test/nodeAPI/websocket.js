@@ -96,77 +96,83 @@ describe('caver.contract with websocket provider', () => {
         const expectedError =
             'Invalid auth: To use the websocket provider, you must use an accessKey and seretAccessKey that do not contain special characters. Please obtain a new AccessKey through the KAS Console.'
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}=`, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id}=`, pwd, url) // =, -, _ will be allowed in credential
+        }).not.to.throw(expectedError)
+        expect(() => {
+            caver.initNodeAPIWithWebSocket(chainId, `${id}[`, pwd, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}[`, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id}]`, pwd, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}]`, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id}$`, pwd, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}$`, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id}_`, pwd, url) // =, -, _ will be allowed in credential
+        }).not.to.throw(expectedError)
+        expect(() => {
+            caver.initNodeAPIWithWebSocket(chainId, `${id}-`, pwd, url) // =, -, _ will be allowed in credential
+        }).not.to.throw(expectedError)
+        expect(() => {
+            caver.initNodeAPIWithWebSocket(chainId, `${id}~`, pwd, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}_`, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id}?`, pwd, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}~`, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id}<`, pwd, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}?`, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id}\\`, pwd, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}<`, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id}/`, pwd, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}\\`, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id}?`, pwd, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}/`, pwd)
-        }).to.throw(expectedError)
-        expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id}?`, pwd)
-        }).to.throw(expectedError)
-        expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, `${id} `, pwd)
+            caver.initNodeAPIWithWebSocket(chainId, `${id} `, pwd, url)
         }).to.throw(expectedError)
 
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}=`)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}=`, url) // =, -, _ will be allowed in credential
+        }).not.to.throw(expectedError)
+        expect(() => {
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}[`, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}[`)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}]`, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}]`)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}$`, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}$`)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}_`, url) // =, -, _ will be allowed in credential
+        }).not.to.throw(expectedError)
+        expect(() => {
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}-`, url) // =, -, _ will be allowed in credential
+        }).not.to.throw(expectedError)
+        expect(() => {
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}~`, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}_`)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}?`, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}~`)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}<`, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}?`)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}\\`, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}<`)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}/`, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}\\`)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}?`, url)
         }).to.throw(expectedError)
         expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}/`)
-        }).to.throw(expectedError)
-        expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd}?`)
-        }).to.throw(expectedError)
-        expect(() => {
-            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd} `)
+            caver.initNodeAPIWithWebSocket(chainId, id, `${pwd} `, url)
         }).to.throw(expectedError)
 
         caver.currentProvider.connection.close()

@@ -215,7 +215,7 @@ class CaverExtKAS extends Caver {
      * @return {void}
      */
     initNodeAPIWithWebSocket(chainId, accessKeyId, secretAccessKey, url) {
-        const regex = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/
+        const regex = /[ `!@#$%^&*()+[\]{};':"\\|,.<>/?~]/
         if (regex.test(accessKeyId) || regex.test(secretAccessKey))
             throw new Error(
                 `Invalid auth: To use the websocket provider, you must use an accessKey and seretAccessKey that do not contain special characters. Please obtain a new AccessKey through the KAS Console.`
