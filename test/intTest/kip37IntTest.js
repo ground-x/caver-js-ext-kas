@@ -36,12 +36,8 @@ let contractAddress
 let alias
 let deployer
 
-let owner
-let spender
 const to = '0x7366f54429185bbcb6053b2fb5947358a9752103'
 const uri = 'https://caver.example/id/{id}.json'
-
-const mintedAmount = '0x2540be400' // 10000000000
 
 const tokens = []
 
