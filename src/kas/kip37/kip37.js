@@ -17,7 +17,7 @@
 const _ = require('lodash')
 const utils = require('caver-js').utils
 
-const { KIP37DeployerApi, KIP37Api, KIP37TokenApi, KIP37TokenOwnershipApi } = require('../../rest-client/src')
+const { Kip37DeployerApi, Kip37ContractApi, Kip37TokenApi, Kip37TokenOwnershipApi } = require('../../rest-client/src')
 const KIP37QueryOptions = require('./kip37QueryOptions')
 const KIP37FeePayerOptions = require('./kip37FeePayerOptions')
 const { checkTypeAndConvertForIdsAndAmounts } = require('../../utils/helper')
@@ -42,10 +42,10 @@ class KIP37 {
 
         if (client) {
             this.apiInstances = {
-                kip37: new KIP37Api(client),
-                deployer: new KIP37DeployerApi(client),
-                token: new KIP37TokenApi(client),
-                tokenOwnership: new KIP37TokenOwnershipApi(client),
+                kip37Contract: new Kip37ContractApi(client),
+                deployer: new Kip37DeployerApi(client),
+                token: new Kip37TokenApi(client),
+                tokenOwnership: new Kip37TokenOwnershipApi(client),
             }
         }
     }
@@ -104,41 +104,41 @@ class KIP37 {
      * @type {object}
      */
     get client() {
-        return this.apiInstances.kip37.apiClient
+        return this.apiInstances.kip37Contract.apiClient
     }
 
     set client(client) {
         this.apiInstances = {
-            kip37: new KIP37Api(client),
-            deployer: new KIP37DeployerApi(client),
-            token: new KIP37TokenApi(client),
-            tokenOwnership: new KIP37TokenOwnershipApi(client),
+            kip37Contract: new Kip37ContractApi(client),
+            deployer: new Kip37DeployerApi(client),
+            token: new Kip37TokenApi(client),
+            tokenOwnership: new Kip37TokenOwnershipApi(client),
         }
     }
 
     /**
-     * @type {KIP37Api}
+     * @type {Kip37ContractApi}
      */
-    get kip37Api() {
-        return this.apiInstances.kip37
+    get kip37ContractApi() {
+        return this.apiInstances.kip37Contract
     }
 
     /**
-     * @type {KIP37DeployerApi}
+     * @type {Kip37DeployerApi}
      */
     get deployerApi() {
         return this.apiInstances.deployer
     }
 
     /**
-     * @type {KIP37TokenApi}
+     * @type {Kip37TokenApi}
      */
     get tokenApi() {
         return this.apiInstances.token
     }
 
     /**
-     * @type {KIP37TokenOwnershipApi}
+     * @type {Kip37TokenOwnershipApi}
      */
     get tokenOwnershipApi() {
         return this.apiInstances.tokenOwnership
@@ -158,7 +158,7 @@ class KIP37 {
      * @return {DeployerKip37ContractResponse}
      */
     deploy(uri, alias, options, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(uri)) throw new Error(`The uri of KIP-37 token contract should be string type.`)
         if (!_.isString(alias)) throw new Error(`The alias of KIP-37 token contract should be string type.`)
 
@@ -170,7 +170,7 @@ class KIP37 {
         const opts = { body: { uri, alias, options: KIP37FeePayerOptions.constructFromObject(options || {}) } }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.deployContract(this.chainId, opts, (err, data, response) => {
+            this.kip37ContractApi.deployContract(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -195,7 +195,7 @@ class KIP37 {
      * @return {DeployerKip37ContractResponse}
      */
     importContract(address, uri, alias, options, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!utils.isAddress(address)) throw new Error(`Invalid address: ${address}`)
         if (!_.isString(uri)) throw new Error(`The uri of KIP-37 token contract should be string type.`)
         if (!_.isString(alias)) throw new Error(`The alias of KIP-37 token contract should be string type.`)
@@ -208,7 +208,7 @@ class KIP37 {
         const opts = { body: { address, uri, alias, options: KIP37FeePayerOptions.constructFromObject(options || {}) } }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.importContract(this.chainId, opts, (err, data, response) => {
+            this.kip37ContractApi.importContract(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -231,7 +231,7 @@ class KIP37 {
      * @return {Kip37Contract}
      */
     updateContractOptions(addressOrAlias, options, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
 
         if (_.isFunction(options)) {
@@ -242,7 +242,7 @@ class KIP37 {
         const opts = { body: { options: KIP37FeePayerOptions.constructFromObject(options || {}) } }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.putContract(addressOrAlias, this.chainId, opts, (err, data, response) => {
+            this.kip37ContractApi.putContract(addressOrAlias, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -268,11 +268,11 @@ class KIP37 {
      * @return {Kip37Contract}
      */
     getContract(addressOrAlias, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.getContract(addressOrAlias, this.chainId, (err, data, response) => {
+            this.kip37ContractApi.getContract(addressOrAlias, this.chainId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -302,7 +302,7 @@ class KIP37 {
      * @return {Kip37ContractListResponse}
      */
     getContractList(queryOptions, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -314,7 +314,7 @@ class KIP37 {
             throw new Error(`Invalid query options: 'size', 'cursor' and 'status' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.listContractsInDeployerPool(this.chainId, queryOptions, (err, data, response) => {
+            this.kip37ContractApi.listContractsInDeployerPool(this.chainId, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -345,7 +345,7 @@ class KIP37 {
      * @return {Kip37TokenListResponse}
      */
     getTokenListByOwner(addressOrAlias, owner, queryOptions, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
         if (!utils.isAddress(owner)) throw new Error(`Invalid owner address: ${owner}.`)
 
@@ -391,7 +391,7 @@ class KIP37 {
      * @return {Kip37TransactionStatusResponse}
      */
     setApprovalForAll(addressOrAlias, from, to, approved, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
         if (!utils.isAddress(from)) throw new Error(`Invalid from address: ${from}.`)
         if (!utils.isAddress(to)) throw new Error(`Invalid to address: ${to}.`)
@@ -404,7 +404,7 @@ class KIP37 {
         const opts = { body: { from, to, approved } }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.approveAll(addressOrAlias, this.chainId, opts, (err, data, response) => {
+            this.kip37ContractApi.approveAll(addressOrAlias, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -432,7 +432,7 @@ class KIP37 {
      * @return {Kip37TransactionStatusResponse}
      */
     pause(addressOrAlias, pauser, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
 
         if (_.isFunction(pauser)) {
@@ -443,7 +443,7 @@ class KIP37 {
         const opts = { body: { sender: pauser } }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.pauseContract(addressOrAlias, this.chainId, opts, (err, data, response) => {
+            this.kip37ContractApi.pauseContract(addressOrAlias, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -470,7 +470,7 @@ class KIP37 {
      * @return {Kip37TransactionStatusResponse}
      */
     unpause(addressOrAlias, pauser, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
 
         if (_.isFunction(pauser)) {
@@ -481,7 +481,7 @@ class KIP37 {
         const opts = { body: { sender: pauser } }
 
         return new Promise((resolve, reject) => {
-            this.kip37Api.unpauseContract(addressOrAlias, this.chainId, opts, (err, data, response) => {
+            this.kip37ContractApi.unpauseContract(addressOrAlias, this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -512,7 +512,7 @@ class KIP37 {
      * @return {Kip37TransactionStatusResponse}
      */
     pauseToken(addressOrAlias, tokenId, pauser, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
 
         if (_.isFunction(pauser)) {
@@ -554,7 +554,7 @@ class KIP37 {
      * @return {Kip37TransactionStatusResponse}
      */
     unpauseToken(addressOrAlias, tokenId, pauser, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
 
         if (_.isFunction(pauser)) {
@@ -605,7 +605,7 @@ class KIP37 {
      * @return {Kip37TransactionStatusResponse}
      */
     create(addressOrAlias, id, initialSupply, uri, sender, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
 
         if (_.isFunction(sender)) {
@@ -662,7 +662,7 @@ class KIP37 {
      * @return {Kip37TokenInfoListResponse}
      */
     getTokenList(addressOrAlias, queryOptions, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-37 token contract should be string type.`)
 
         if (_.isFunction(queryOptions)) {
@@ -707,7 +707,7 @@ class KIP37 {
      * @return {Kip37TransactionStatusResponse}
      */
     burn(addressOrAlias, ids, amounts, from, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(from)) {
             callback = from
@@ -761,7 +761,7 @@ class KIP37 {
      * @return {Kip37TransactionStatusResponse}
      */
     mint(addressOrAlias, to, ids, amounts, sender, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(sender)) {
             callback = sender
@@ -817,7 +817,7 @@ class KIP37 {
      * @return {Kip37TransactionStatusResponse}
      */
     transfer(addressOrAlias, sender, owner, to, ids, amounts, callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(sender)) {
             callback = sender
@@ -857,7 +857,7 @@ class KIP37 {
      * @return {Kip37DeployerResponse}
      */
     getDeployer(callback) {
-        if (!this.accessOptions || !this.kip37Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.deployerApi.getDefaultDeployer(this.chainId, (err, data, response) => {
