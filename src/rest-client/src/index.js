@@ -149,8 +149,9 @@ const Kip7TransactionStatusResponse = require('./kip7/model/Kip7TransactionStatu
 const MintKip7TokenRequest = require('./kip7/model/MintKip7TokenRequest')
 const TransferKip7TokenFromRequest = require('./kip7/model/TransferKip7TokenFromRequest')
 const TransferKip7TokenRequest = require('./kip7/model/TransferKip7TokenRequest')
-const KIP7Api = require('./kip7/api/KIP7Api')
-const KIP7DeployerApi = require('./kip7/api/KIP7DeployerApi')
+const Kip7ContractApi = require('./kip7/api/Kip7ContractApi')
+const Kip7TokenApi = require('./kip7/api/Kip7TokenApi')
+const Kip7DeployerApi = require('./kip7/api/Kip7DeployerApi')
 
 // KIP17
 const ApproveAllKip17Request = require('./kip17/model/ApproveAllKip17Request')
@@ -884,15 +885,20 @@ module.exports = {
      */
     TransferKip7TokenRequest,
     /**
-     * The KIP7Api service constructor.
-     * @property {KIP7Api}
+     * The Kip7ContractApi service constructor.
+     * @property {Kip7ContractApi}
      */
-    KIP7Api,
+    Kip7ContractApi,
     /**
-     * The KIP7DeployerApi service constructor.
-     * @property {KIP7DeployerApi}
+     * The Kip7TokenApi service constructor.
+     * @property {Kip7TokenApi}
      */
-    KIP7DeployerApi,
+    Kip7TokenApi,
+    /**
+     * The Kip7DeployerApi service constructor.
+     * @property {Kip7DeployerApi}
+     */
+    Kip7DeployerApi,
     // KIP17
     /**
      * The ApproveAllKip17Request model constructor.

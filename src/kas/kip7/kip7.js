@@ -25,8 +25,9 @@ const {
     MintKip7TokenRequest,
     TransferKip7TokenFromRequest,
     TransferKip7TokenRequest,
-    KIP7DeployerApi,
-    KIP7Api,
+    Kip7DeployerApi,
+    Kip7ContractApi,
+    Kip7TokenApi,
 } = require('../../rest-client/src')
 const KIP7QueryOptions = require('./kip7QueryOptions')
 
@@ -50,8 +51,9 @@ class KIP7 {
 
         if (client) {
             this.apiInstances = {
-                kip7: new KIP7Api(client),
-                deployer: new KIP7DeployerApi(client),
+                kip7Contract: new Kip7ContractApi(client),
+                kip7Token: new Kip7TokenApi(client),
+                deployer: new Kip7DeployerApi(client),
             }
         }
     }
@@ -110,25 +112,33 @@ class KIP7 {
      * @type {object}
      */
     get client() {
-        return this.apiInstances.kip7.apiClient
+        return this.apiInstances.kip7Contract.apiClient
     }
 
     set client(client) {
         this.apiInstances = {
-            kip7: new KIP7Api(client),
-            deployer: new KIP7DeployerApi(client),
+            kip7Contract: new Kip7ContractApi(client),
+            kip7Token: new Kip7TokenApi(client),
+            deployer: new Kip7DeployerApi(client),
         }
     }
 
     /**
-     * @type {KIP7Api}
+     * @type {Kip7ContractApi}
      */
-    get kip7Api() {
-        return this.apiInstances.kip7
+    get kip7ContractApi() {
+        return this.apiInstances.kip7Contract
     }
 
     /**
-     * @type {KIP7DeployerApi}
+     * @type {Kip7TokenApi}
+     */
+    get kip7TokenApi() {
+        return this.apiInstances.kip7Token
+    }
+
+    /**
+     * @type {Kip7DeployerApi}
      */
     get deployerApi() {
         return this.apiInstances.deployer
@@ -150,7 +160,7 @@ class KIP7 {
      * @return {Kip7TransactionStatusResponse}
      */
     deploy(name, symbol, decimals, initialSupply, alias, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(name) || !_.isString(symbol)) throw new Error(`The name and symbol of KIP-7 token contract should be string type.`)
         if (!_.isNumber(decimals)) throw new Error(`The decimals of KIP-7 token contract should be number type.`)
         if (!_.isString(alias)) throw new Error(`The alias of KIP-7 token contract should be string type.`)
@@ -169,7 +179,7 @@ class KIP7 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.deployContract(this.chainId, opts, (err, data, response) => {
+            this.kip7ContractApi.deployContract(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -195,11 +205,11 @@ class KIP7 {
      * @return {Kip7ContractMetadataResponse}
      */
     getContract(addressOrAlias, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-7 token contract should be string type.`)
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.getContract(this.chainId, addressOrAlias, (err, data, response) => {
+            this.kip7ContractApi.getContract(this.chainId, addressOrAlias, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -229,7 +239,7 @@ class KIP7 {
      * @return {Kip7ContractListResponse}
      */
     getContractList(queryOptions, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -241,7 +251,7 @@ class KIP7 {
             throw new Error(`Invalid query options: 'size', 'cursor' and 'status' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.listContractsInDeployerPool(this.chainId, queryOptions, (err, data, response) => {
+            this.kip7ContractApi.listContractsInDeployerPool(this.chainId, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -272,13 +282,13 @@ class KIP7 {
      * @return {Kip7TokenBalanceResponse}
      */
     allowance(addressOrAlias, owner, spender, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-7 token contract should be string type.`)
         if (!utils.isAddress(owner)) throw new Error(`Invalid owner address: ${owner}.`)
         if (!utils.isAddress(spender)) throw new Error(`Invalid spender address: ${spender}.`)
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.getTokenAllowance(this.chainId, addressOrAlias, owner, spender, (err, data, response) => {
+            this.kip7TokenApi.getTokenAllowance(this.chainId, addressOrAlias, owner, spender, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -307,12 +317,12 @@ class KIP7 {
      * @return {Kip7TokenBalanceResponse}
      */
     balance(addressOrAlias, owner, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-7 token contract should be string type.`)
         if (!utils.isAddress(owner)) throw new Error(`Invalid owner address: ${owner}.`)
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.getTokenBalance(this.chainId, addressOrAlias, owner, (err, data, response) => {
+            this.kip7TokenApi.getTokenBalance(this.chainId, addressOrAlias, owner, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -344,7 +354,7 @@ class KIP7 {
      * @return {Kip7TransactionStatusResponse}
      */
     approve(addressOrAlias, owner, spender, amount, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!utils.isAddress(owner)) throw new Error(`Invalid owner address: ${owner}.`)
         if (!utils.isAddress(spender)) throw new Error(`Invalid spender address: ${spender}.`)
         if (!_.isNumber(amount) && !utils.isBigNumber(amount) && (!_.isString(amount) || !utils.isHex(amount))) {
@@ -358,7 +368,7 @@ class KIP7 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.approveToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
+            this.kip7TokenApi.approveToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -390,7 +400,7 @@ class KIP7 {
      * @return {Kip7TransactionStatusResponse}
      */
     transfer(addressOrAlias, from, to, amount, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         // If amount is a function, it means that the from parameter is omitted.
         if (_.isFunction(amount)) {
@@ -413,7 +423,7 @@ class KIP7 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.transferToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
+            this.kip7TokenApi.transferToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -448,7 +458,7 @@ class KIP7 {
      * @return {Kip7TransactionStatusResponse}
      */
     transferFrom(addressOrAlias, spender, owner, to, amount, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!utils.isAddress(spender)) throw new Error(`Invalid spender address: ${spender}.`)
         if (!utils.isAddress(owner)) throw new Error(`Invalid owner address: ${owner}.`)
         if (!utils.isAddress(to)) throw new Error(`Invalid to address: ${to}.`)
@@ -463,7 +473,7 @@ class KIP7 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.transferFromToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
+            this.kip7TokenApi.transferFromToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -493,7 +503,7 @@ class KIP7 {
      * @return {Kip7TransactionStatusResponse}
      */
     mint(addressOrAlias, to, amount, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!utils.isAddress(to)) throw new Error(`Invalid to address: ${to}.`)
         if (!_.isNumber(amount) && !utils.isBigNumber(amount) && (!_.isString(amount) || !utils.isHex(amount))) {
             throw new Error(`The amount should be hex string, number or BigNumber type.`)
@@ -506,7 +516,7 @@ class KIP7 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.mintToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
+            this.kip7TokenApi.mintToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -536,7 +546,7 @@ class KIP7 {
      * @return {Kip7TransactionStatusResponse}
      */
     burn(addressOrAlias, from, amount, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         // If amount is a function, it means that the from parameter is omitted.
         if (_.isFunction(amount)) {
@@ -557,7 +567,7 @@ class KIP7 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.burnToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
+            this.kip7TokenApi.burnToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -589,7 +599,7 @@ class KIP7 {
      * @return {Kip7TransactionStatusResponse}
      */
     burnFrom(addressOrAlias, spender, owner, amount, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!utils.isAddress(spender)) throw new Error(`Invalid spender address: ${spender}.`)
         if (!utils.isAddress(owner)) throw new Error(`Invalid owner address: ${owner}.`)
         if (!_.isNumber(amount) && !utils.isBigNumber(amount) && (!_.isString(amount) || !utils.isHex(amount))) {
@@ -603,7 +613,7 @@ class KIP7 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.burnFromToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
+            this.kip7TokenApi.burnFromToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -625,14 +635,21 @@ class KIP7 {
      * const ret = await caver.kas.kip7.pause('jasmine-alias')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
+     * @param {string} [pauser] The Klaytn account address whose authority to send contracts will be removed. The default value is the `deployer`'s address.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip7TransactionStatusResponse}
      */
-    pause(addressOrAlias, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+    pause(addressOrAlias, pauser, callback) {
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(pauser)) {
+            callback = pauser
+            pauser = undefined
+        }
+        const opts = { body: { pauser: pauser || '' } }
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.pauseContract(this.chainId, addressOrAlias, (err, data, response) => {
+            this.kip7ContractApi.pauseContract(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -654,14 +671,21 @@ class KIP7 {
      * const ret = await caver.kas.kip7.unpause('jasmine-alias')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
+     * @param {string} [pauser] The Klaytn account address whose authority to send contracts will be removed. The default value is the `deployer`'s address.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip7TransactionStatusResponse}
      */
-    unpause(addressOrAlias, callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+    unpause(addressOrAlias, pauser, callback) {
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(pauser)) {
+            callback = pauser
+            pauser = undefined
+        }
+        const opts = { body: { pauser: pauser || '' } }
 
         return new Promise((resolve, reject) => {
-            this.kip7Api.unpauseContract(this.chainId, addressOrAlias, (err, data, response) => {
+            this.kip7ContractApi.unpauseContract(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -682,7 +706,7 @@ class KIP7 {
      * @return {Kip7DeployerResponse}
      */
     getDeployer(callback) {
-        if (!this.accessOptions || !this.kip7Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
             this.deployerApi.getDefaultDeployer(this.chainId, (err, data, response) => {
