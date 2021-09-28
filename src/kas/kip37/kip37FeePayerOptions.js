@@ -34,7 +34,8 @@ class KIP37FeePayerOptions {
         const enableGlobalFeePayer = obj.enableGlobalFeePayer
         const userFeePayer = obj.userFeePayer
 
-        return new KIP37FeePayerOptions(enableGlobalFeePayer, userFeePayer)
+        const options = new KIP37FeePayerOptions(enableGlobalFeePayer, userFeePayer)
+        return options.toObject()
     }
 
     /**
@@ -86,6 +87,26 @@ class KIP37FeePayerOptions {
         }
 
         this._userFeePayer = Object.assign({}, userFeePayer)
+    }
+
+    /**
+     * Returns an object without '_' prefix at variables.
+     * This function will be used at `constructFromObject`.
+     *
+     * @example
+     * options.toObject()
+     *
+     * @return {object}
+     */
+    toObject() {
+        const obj = {}
+        if (this.enableGlobalFeePayer !== undefined) obj.enableGlobalFeePayer = this.enableGlobalFeePayer
+        if (this.userFeePayer !== undefined) {
+            obj.userFeePayer = {}
+            if (this.userFeePayer.krn) obj.userFeePayer.krn = this.userFeePayer.krn
+            if (this.userFeePayer.address) obj.userFeePayer.address = this.userFeePayer.address
+        }
+        return obj
     }
 }
 

@@ -153,9 +153,9 @@ class KIP37 {
      *
      * @param {string} uri The URI for all token types, by relying on the {@link http://kips.klaytn.com/KIPs/kip-37#metadata|token type ID substitution mechanism}.
      * @param {string} alias The alias of KIP-37 token. Your `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet.
-     * @param {object} [options] Options for paying the transaction fee.
+     * @param {KIP37FeePayerOptions|object} [options] Options for paying the transaction fee.
      * @param {Function} [callback] The callback function to call.
-     * @return {DeployerKip37ContractResponse}
+     * @return {Kip37DeployResponse}
      */
     deploy(uri, alias, options, callback) {
         if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
@@ -190,9 +190,9 @@ class KIP37 {
      * @param {string} address The contract address to import to the KAS KIP-37 API service.
      * @param {string} uri The URI for all token types, by relying on the {@link http://kips.klaytn.com/KIPs/kip-37#metadata|token type ID substitution mechanism}.
      * @param {string} alias The alias of KIP-37 token. Your `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet.
-     * @param {object} [options] Options for paying the transaction fee.
+     * @param {KIP37FeePayerOptions|object} [options] Options for paying the transaction fee.
      * @param {Function} [callback] The callback function to call.
-     * @return {DeployerKip37ContractResponse}
+     * @return {Kip37Contract}
      */
     importContract(address, uri, alias, options, callback) {
         if (!this.accessOptions || !this.kip37ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
