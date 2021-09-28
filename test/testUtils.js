@@ -18,6 +18,13 @@ function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+function createAlias(prefix) {
+    // Make random string for alias to avoid duplicated alias
+    return `${prefix}-${Math.random()
+        .toString(36)
+        .substr(2, 11)}`
+}
 module.exports = {
     timeout,
+    createAlias,
 }
