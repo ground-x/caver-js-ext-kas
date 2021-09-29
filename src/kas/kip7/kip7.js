@@ -846,7 +846,7 @@ class KIP7 {
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} accountToBePauser The Klaytn account address to be granted authority to send and pause a contract.
-     * @param {string} [pauser] Klaytn account address that grants to be granted authority to send and pause a contract. The default value is the `deployer`'s address.
+     * @param {string} [pauser] The Klaytn account address that grants to be granted authority to send and pause a contract. The default value is the `deployer`'s address.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip7TransactionStatusResponse}
      */
