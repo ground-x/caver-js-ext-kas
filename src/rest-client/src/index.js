@@ -36,7 +36,6 @@ const AccountRegistration = require('./wallet/model/AccountRegistration')
 const AccountRegistrationRequest = require('./wallet/model/AccountRegistrationRequest')
 const AccountStatus = require('./wallet/model/AccountStatus')
 const AccountSummary = require('./wallet/model/AccountSummary')
-const AccountUpdateKey = require('./wallet/model/AccountUpdateKey')
 const AccountUpdateTransactionRequest = require('./wallet/model/AccountUpdateTransactionRequest')
 const Accounts = require('./wallet/model/Accounts')
 const AccountsByPubkey = require('./wallet/model/AccountsByPubkey')
@@ -48,6 +47,8 @@ const ContractCallRequest = require('./wallet/model/ContractCallRequest')
 const ContractCallResponse = require('./wallet/model/ContractCallResponse')
 const ContractDeployTransactionRequest = require('./wallet/model/ContractDeployTransactionRequest')
 const ContractExecutionTransactionRequest = require('./wallet/model/ContractExecutionTransactionRequest')
+const CreateFeePayerAccountRequest = require('./wallet/model/CreateFeePayerAccountRequest')
+const EmptyUpdateKeyType = require('./wallet/model/EmptyUpdateKeyType')
 const EventLog = require('./wallet/model/EventLog')
 const FDAccountUpdateTransactionRequest = require('./wallet/model/FDAccountUpdateTransactionRequest')
 const FDAnchorTransactionRequest = require('./wallet/model/FDAnchorTransactionRequest')
@@ -56,6 +57,8 @@ const FDContractDeployTransactionRequest = require('./wallet/model/FDContractDep
 const FDContractExecutionTransactionRequest = require('./wallet/model/FDContractExecutionTransactionRequest')
 const FDProcessRLPRequest = require('./wallet/model/FDProcessRLPRequest')
 const FDTransactionResult = require('./wallet/model/FDTransactionResult')
+const FDTransactionWithCurrencyResult = require('./wallet/model/FDTransactionWithCurrencyResult')
+const FDTransactionWithCurrencyResultList = require('./wallet/model/FDTransactionWithCurrencyResultList')
 const FDUserAccountUpdateTransactionRequest = require('./wallet/model/FDUserAccountUpdateTransactionRequest')
 const FDUserAnchorTransactionRequest = require('./wallet/model/FDUserAnchorTransactionRequest')
 const FDUserCancelTransactionRequest = require('./wallet/model/FDUserCancelTransactionRequest')
@@ -80,10 +83,18 @@ const MultisigAddress = require('./wallet/model/MultisigAddress')
 const MultisigKey = require('./wallet/model/MultisigKey')
 const MultisigTransactionStatus = require('./wallet/model/MultisigTransactionStatus')
 const MultisigTransactions = require('./wallet/model/MultisigTransactions')
+const MultisigUpdateKey = require('./wallet/model/MultisigUpdateKey')
+const MultisigUpdateKeyType = require('./wallet/model/MultisigUpdateKeyType')
+const OneOfAccountUpdateTransactionRequestAccountKey = require('./wallet/model/OneOfAccountUpdateTransactionRequestAccountKey')
+const OneOfFDAccountUpdateTransactionRequestAccountKey = require('./wallet/model/OneOfFDAccountUpdateTransactionRequestAccountKey')
+const OneOfFDUserAccountUpdateTransactionRequestAccountKey = require('./wallet/model/OneOfFDUserAccountUpdateTransactionRequestAccountKey')
+const OneOfRoleBasedUpdateKeyTypeKeyItems = require('./wallet/model/OneOfRoleBasedUpdateKeyTypeKeyItems')
 const PendedTransaction = require('./wallet/model/PendedTransaction')
 const ProcessRLPRequest = require('./wallet/model/ProcessRLPRequest')
+const PubkeyUpdateKeyType = require('./wallet/model/PubkeyUpdateKeyType')
 const RegistrationFailure = require('./wallet/model/RegistrationFailure')
 const RegistrationStatusResponse = require('./wallet/model/RegistrationStatusResponse')
+const RoleBasedUpdateKeyType = require('./wallet/model/RoleBasedUpdateKeyType')
 const SignPendingTransactionBySigRequest = require('./wallet/model/SignPendingTransactionBySigRequest')
 const Signature = require('./wallet/model/Signature')
 const TransactionReceipt = require('./wallet/model/TransactionReceipt')
@@ -91,14 +102,15 @@ const TransactionResult = require('./wallet/model/TransactionResult')
 const TxData = require('./wallet/model/TxData')
 const ValueTransferTransactionRequest = require('./wallet/model/ValueTransferTransactionRequest')
 const AccountApi = require('./wallet/api/AccountApi')
-const BasicTransactionApi = require('./wallet/api/BasicTransactionApi')
-const FeeDelegatedTransactionPaidByKASApi = require('./wallet/api/FeeDelegatedTransactionPaidByKASApi')
-const FeeDelegatedTransactionPaidByUserApi = require('./wallet/api/FeeDelegatedTransactionPaidByUserApi')
+const BasicTxApi = require('./wallet/api/BasicTxApi')
+const FdtxKasApi = require('./wallet/api/FdtxKasApi')
+const FdtxUserApi = require('./wallet/api/FdtxUserApi')
 const FeepayerApi = require('./wallet/api/FeepayerApi')
 const KeyApi = require('./wallet/api/KeyApi')
-const MultisigTransactionManagementApi = require('./wallet/api/MultisigTransactionManagementApi')
+const MultisigTxApi = require('./wallet/api/MultisigTxApi')
 const RegistrationApi = require('./wallet/api/RegistrationApi')
 const StatisticsApi = require('./wallet/api/StatisticsApi')
+const TxHistoryApi = require('./wallet/api/TxHistoryApi')
 
 // Token History
 const AnyOfPageableContractSummaryItemsItems = require('./tokenHistory/model/AnyOfPageableContractSummaryItemsItems')
@@ -297,361 +309,504 @@ module.exports = {
      */
     OperatorApi,
     // Wallet
+
     /**
      * The Account model constructor.
      * @property {Account}
      */
     Account,
+
     /**
      * The AccountByPubkey model constructor.
      * @property {AccountByPubkey}
      */
     AccountByPubkey,
+
     /**
      * The AccountCountByAccountID model constructor.
      * @property {AccountCountByAccountID}
      */
     AccountCountByAccountID,
+
     /**
      * The AccountCountByKRN model constructor.
      * @property {AccountCountByKRN}
      */
     AccountCountByKRN,
+
     /**
      * The AccountRegistration model constructor.
      * @property {AccountRegistration}
      */
     AccountRegistration,
+
     /**
      * The AccountRegistrationRequest model constructor.
      * @property {AccountRegistrationRequest}
      */
     AccountRegistrationRequest,
+
     /**
      * The AccountStatus model constructor.
      * @property {AccountStatus}
      */
     AccountStatus,
+
     /**
      * The AccountSummary model constructor.
      * @property {AccountSummary}
      */
     AccountSummary,
-    /**
-     * The AccountUpdateKey model constructor.
-     * @property {AccountUpdateKey}
-     */
-    AccountUpdateKey,
+
     /**
      * The AccountUpdateTransactionRequest model constructor.
      * @property {AccountUpdateTransactionRequest}
      */
     AccountUpdateTransactionRequest,
+
     /**
      * The Accounts model constructor.
      * @property {Accounts}
      */
     Accounts,
+
     /**
      * The AccountsByPubkey model constructor.
      * @property {AccountsByPubkey}
      */
     AccountsByPubkey,
+
     /**
      * The AnchorTransactionRequest model constructor.
      * @property {AnchorTransactionRequest}
      */
     AnchorTransactionRequest,
+
     /**
      * The CallArgument model constructor.
      * @property {CallArgument}
      */
     CallArgument,
+
     /**
      * The CancelTransactionRequest model constructor.
      * @property {CancelTransactionRequest}
      */
     CancelTransactionRequest,
+
     /**
      * The ContractCallData model constructor.
      * @property {ContractCallData}
      */
     ContractCallData,
+
     /**
      * The ContractCallRequest model constructor.
      * @property {ContractCallRequest}
      */
     ContractCallRequest,
+
     /**
      * The ContractCallResponse model constructor.
      * @property {ContractCallResponse}
      */
     ContractCallResponse,
+
     /**
      * The ContractDeployTransactionRequest model constructor.
      * @property {ContractDeployTransactionRequest}
      */
     ContractDeployTransactionRequest,
+
     /**
      * The ContractExecutionTransactionRequest model constructor.
      * @property {ContractExecutionTransactionRequest}
      */
     ContractExecutionTransactionRequest,
+
+    /**
+     * The CreateFeePayerAccountRequest model constructor.
+     * @property {CreateFeePayerAccountRequest}
+     */
+    CreateFeePayerAccountRequest,
+
+    /**
+     * The EmptyUpdateKeyType model constructor.
+     * @property {EmptyUpdateKeyType}
+     */
+    EmptyUpdateKeyType,
+
     /**
      * The EventLog model constructor.
      * @property {EventLog}
      */
     EventLog,
+
     /**
      * The FDAccountUpdateTransactionRequest model constructor.
      * @property {FDAccountUpdateTransactionRequest}
      */
     FDAccountUpdateTransactionRequest,
+
     /**
      * The FDAnchorTransactionRequest model constructor.
      * @property {FDAnchorTransactionRequest}
      */
     FDAnchorTransactionRequest,
+
     /**
      * The FDCancelTransactionRequest model constructor.
      * @property {FDCancelTransactionRequest}
      */
     FDCancelTransactionRequest,
+
     /**
      * The FDContractDeployTransactionRequest model constructor.
      * @property {FDContractDeployTransactionRequest}
      */
     FDContractDeployTransactionRequest,
+
     /**
      * The FDContractExecutionTransactionRequest model constructor.
      * @property {FDContractExecutionTransactionRequest}
      */
     FDContractExecutionTransactionRequest,
+
     /**
      * The FDProcessRLPRequest model constructor.
      * @property {FDProcessRLPRequest}
      */
     FDProcessRLPRequest,
+
     /**
      * The FDTransactionResult model constructor.
      * @property {FDTransactionResult}
      */
     FDTransactionResult,
+
+    /**
+     * The FDTransactionWithCurrencyResult model constructor.
+     * @property {FDTransactionWithCurrencyResult}
+     */
+    FDTransactionWithCurrencyResult,
+
+    /**
+     * The FDTransactionWithCurrencyResultList model constructor.
+     * @property {FDTransactionWithCurrencyResultList}
+     */
+    FDTransactionWithCurrencyResultList,
+
     /**
      * The FDUserAccountUpdateTransactionRequest model constructor.
      * @property {FDUserAccountUpdateTransactionRequest}
      */
     FDUserAccountUpdateTransactionRequest,
+
     /**
      * The FDUserAnchorTransactionRequest model constructor.
      * @property {FDUserAnchorTransactionRequest}
      */
     FDUserAnchorTransactionRequest,
+
     /**
      * The FDUserCancelTransactionRequest model constructor.
      * @property {FDUserCancelTransactionRequest}
      */
     FDUserCancelTransactionRequest,
+
     /**
      * The FDUserContractDeployTransactionRequest model constructor.
      * @property {FDUserContractDeployTransactionRequest}
      */
     FDUserContractDeployTransactionRequest,
+
     /**
      * The FDUserContractExecutionTransactionRequest model constructor.
      * @property {FDUserContractExecutionTransactionRequest}
      */
     FDUserContractExecutionTransactionRequest,
+
     /**
      * The FDUserProcessRLPRequest model constructor.
      * @property {FDUserProcessRLPRequest}
      */
     FDUserProcessRLPRequest,
+
     /**
      * The FDUserValueTransferTransactionRequest model constructor.
      * @property {FDUserValueTransferTransactionRequest}
      */
     FDUserValueTransferTransactionRequest,
+
     /**
      * The FDValueTransferTransactionRequest model constructor.
      * @property {FDValueTransferTransactionRequest}
      */
     FDValueTransferTransactionRequest,
+
     /**
      * The FeePayerSignaturesObj model constructor.
      * @property {FeePayerSignaturesObj}
      */
     FeePayerSignaturesObj,
+
     /**
      * The Key model constructor.
      * @property {Key}
      */
     Key,
+
     /**
      * The KeyCreationRequest model constructor.
      * @property {KeyCreationRequest}
      */
     KeyCreationRequest,
+
     /**
      * The KeyCreationResponse model constructor.
      * @property {KeyCreationResponse}
      */
     KeyCreationResponse,
+
     /**
      * The KeyList model constructor.
      * @property {KeyList}
      */
     KeyList,
+
     /**
      * The KeyListItems model constructor.
      * @property {KeyListItems}
      */
     KeyListItems,
+
     /**
      * The KeySignDataRequest model constructor.
      * @property {KeySignDataRequest}
      */
     KeySignDataRequest,
+
     /**
      * The KeySignDataResponse model constructor.
      * @property {KeySignDataResponse}
      */
     KeySignDataResponse,
+
     /**
      * The KeyStatus model constructor.
      * @property {KeyStatus}
      */
     KeyStatus,
+
     /**
      * The LegacyTransactionRequest model constructor.
      * @property {LegacyTransactionRequest}
      */
     LegacyTransactionRequest,
+
     /**
      * The MultisigAccount model constructor.
      * @property {MultisigAccount}
      */
     MultisigAccount,
+
     /**
      * The MultisigAccountUpdateRequest model constructor.
      * @property {MultisigAccountUpdateRequest}
      */
     MultisigAccountUpdateRequest,
+
     /**
      * The MultisigAddress model constructor.
      * @property {MultisigAddress}
      */
     MultisigAddress,
+
     /**
      * The MultisigKey model constructor.
      * @property {MultisigKey}
      */
     MultisigKey,
+
     /**
      * The MultisigTransactionStatus model constructor.
      * @property {MultisigTransactionStatus}
      */
     MultisigTransactionStatus,
+
     /**
      * The MultisigTransactions model constructor.
      * @property {MultisigTransactions}
      */
     MultisigTransactions,
+
+    /**
+     * The MultisigUpdateKey model constructor.
+     * @property {MultisigUpdateKey}
+     */
+    MultisigUpdateKey,
+
+    /**
+     * The MultisigUpdateKeyType model constructor.
+     * @property {MultisigUpdateKeyType}
+     */
+    MultisigUpdateKeyType,
+
+    /**
+     * The OneOfAccountUpdateTransactionRequestAccountKey model constructor.
+     * @property {OneOfAccountUpdateTransactionRequestAccountKey}
+     */
+    OneOfAccountUpdateTransactionRequestAccountKey,
+
+    /**
+     * The OneOfFDAccountUpdateTransactionRequestAccountKey model constructor.
+     * @property {OneOfFDAccountUpdateTransactionRequestAccountKey}
+     */
+    OneOfFDAccountUpdateTransactionRequestAccountKey,
+
+    /**
+     * The OneOfFDUserAccountUpdateTransactionRequestAccountKey model constructor.
+     * @property {OneOfFDUserAccountUpdateTransactionRequestAccountKey}
+     */
+    OneOfFDUserAccountUpdateTransactionRequestAccountKey,
+
+    /**
+     * The OneOfRoleBasedUpdateKeyTypeKeyItems model constructor.
+     * @property {OneOfRoleBasedUpdateKeyTypeKeyItems}
+     */
+    OneOfRoleBasedUpdateKeyTypeKeyItems,
+
     /**
      * The PendedTransaction model constructor.
      * @property {PendedTransaction}
      */
     PendedTransaction,
+
     /**
      * The ProcessRLPRequest model constructor.
      * @property {ProcessRLPRequest}
      */
     ProcessRLPRequest,
+
+    /**
+     * The PubkeyUpdateKeyType model constructor.
+     * @property {PubkeyUpdateKeyType}
+     */
+    PubkeyUpdateKeyType,
+
     /**
      * The RegistrationFailure model constructor.
      * @property {RegistrationFailure}
      */
     RegistrationFailure,
+
     /**
      * The RegistrationStatusResponse model constructor.
      * @property {RegistrationStatusResponse}
      */
     RegistrationStatusResponse,
+
+    /**
+     * The RoleBasedUpdateKeyType model constructor.
+     * @property {RoleBasedUpdateKeyType}
+     */
+    RoleBasedUpdateKeyType,
+
     /**
      * The SignPendingTransactionBySigRequest model constructor.
      * @property {SignPendingTransactionBySigRequest}
      */
     SignPendingTransactionBySigRequest,
+
     /**
      * The Signature model constructor.
      * @property {Signature}
      */
     Signature,
+
     /**
      * The TransactionReceipt model constructor.
      * @property {TransactionReceipt}
      */
     TransactionReceipt,
+
     /**
      * The TransactionResult model constructor.
      * @property {TransactionResult}
      */
     TransactionResult,
+
     /**
      * The TxData model constructor.
      * @property {TxData}
      */
     TxData,
+
     /**
      * The ValueTransferTransactionRequest model constructor.
      * @property {ValueTransferTransactionRequest}
      */
     ValueTransferTransactionRequest,
+
     /**
      * The AccountApi service constructor.
      * @property {AccountApi}
      */
     AccountApi,
+
     /**
-     * The BasicTransactionApi service constructor.
-     * @property {BasicTransactionApi}
+     * The BasicTxApi service constructor.
+     * @property {BasicTxApi}
      */
-    BasicTransactionApi,
+    BasicTxApi,
+
     /**
-     * The FeeDelegatedTransactionPaidByKASApi service constructor.
-     * @property {FeeDelegatedTransactionPaidByKASApi}
+     * The FdtxKasApi service constructor.
+     * @property {FdtxKasApi}
      */
-    FeeDelegatedTransactionPaidByKASApi,
+    FdtxKasApi,
+
     /**
-     * The FeeDelegatedTransactionPaidByUserApi service constructor.
-     * @property {FeeDelegatedTransactionPaidByUserApi}
+     * The FdtxUserApi service constructor.
+     * @property {FdtxUserApi}
      */
-    FeeDelegatedTransactionPaidByUserApi,
+    FdtxUserApi,
+
     /**
      * The FeepayerApi service constructor.
      * @property {FeepayerApi}
      */
     FeepayerApi,
+
     /**
      * The KeyApi service constructor.
      * @property {KeyApi}
      */
     KeyApi,
+
     /**
-     * The MultisigTransactionManagementApi service constructor.
-     * @property {MultisigTransactionManagementApi}
+     * The MultisigTxApi service constructor.
+     * @property {MultisigTxApi}
      */
-    MultisigTransactionManagementApi,
+    MultisigTxApi,
+
     /**
      * The RegistrationApi service constructor.
      * @property {RegistrationApi}
      */
     RegistrationApi,
+
     /**
      * The StatisticsApi service constructor.
      * @property {StatisticsApi}
      */
     StatisticsApi,
+
+    /**
+     * The TxHistoryApi service constructor.
+     * @property {TxHistoryApi}
+     */
+    TxHistoryApi,
     // Token History
     /**
      * The AnyOfPageableContractSummaryItemsItems model constructor.
