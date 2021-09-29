@@ -236,7 +236,7 @@ class Kip37ContractApi {
 
     /**
      * Get KIP-37 Contract
-     * Get a list of all KIP-37 contracts by account. The response items will be listed in the order of contract creation request time. &lt;br/&gt;&lt;br/&gt; The &#x60;status&#x60; field in the response can contain the following: - &#x60;init&#x60;: Initial state before transaction is sent - &#x60;submitted&#x60;: Contract deployment transaction has been sent - &#x60;deployed&#x60;: Contract has been deployed - &#x60;imported&#x60: Contract list has been imported - &#x60failed&#x60: Contract deployment transaction has failed
+     * Get a list of all KIP-37 contracts by account. The response items will be listed in the order of contract creation request time. &lt;br/&gt;&lt;br/&gt; The &#x60;status&#x60; field in the response can contain the following: - &#x60;init&#x60;: Initial state before transaction is sent - &#x60;submitted&#x60;: Contract deployment transaction has been sent - &#x60;deployed&#x60;: Contract has been deployed - &#x60;imported&#x60;: Contract list has been imported - &#x60;failed&#x60: Contract deployment transaction has failed
      * @param {Object} opts Optional parameters
      * @param {Kip37ContractApi~listContractsInDeployerPoolCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37ContractListResponse}
@@ -421,8 +421,4 @@ class Kip37ContractApi {
         )
     }
 }
-module.exports = Kip37ContractApi
-module.exports = Kip37ContractApi
-module.exports = Kip37ContractApi
-module.exports = Kip37ContractApi
 module.exports = Kip37ContractApi
