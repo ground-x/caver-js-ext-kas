@@ -767,7 +767,7 @@ class KIP7 {
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} accountToBeMinter The Klaytn account address to be granted authority to mint and burn tokens.
-     * @param {string} [minter] Klaytn account address that grants authority to mint and burn a token. The default value is the `deployer`'s address'.
+     * @param {string} [minter] The Klaytn account address that grants authority to mint and burn a token. The default value is the `deployer`'s address'.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip7TransactionStatusResponse}
      */
