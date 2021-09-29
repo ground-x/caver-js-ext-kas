@@ -14,44 +14,39 @@
 const ApiClient = require('../../ApiClient')
 
 /**
- * The TransferKip7TokenRequest model module.
- * @class TransferKip7TokenRequest
+ * The AddMinterKip7Request model module.
+ * @class AddMinterKip7Request
  * @version 1.0
  */
-class TransferKip7TokenRequest {
+class AddMinterKip7Request {
     /**
-     * Constructs a new <code>TransferKip7TokenRequest</code>.
-     * @alias TransferKip7TokenRequest
+     * Constructs a new <code>AddMinterKip7Request</code>.
+     * @alias AddMinterKip7Request
      * @class
-     * @param to {String} The Klaytn account address to receive the tokens.
-     * @param amount {String} The amount of tokens to transfer (in hex.)
+     * @param minter {String} The Klaytn account address to be granted authority to mint and burn tokens.
      */
 
-    constructor(to, amount) {
-        this.to = to
-        this.amount = amount
+    constructor(minter) {
+        this.minter = minter
     }
 
     /**
-     * Constructs a <code>TransferKip7TokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>AddMinterKip7Request</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {TransferKip7TokenRequest} obj Optional instance to populate.
-     * @return {TransferKip7TokenRequest} The populated <code>TransferKip7TokenRequest</code> instance.
-     * @memberof TransferKip7TokenRequest
+     * @param {AddMinterKip7Request} obj Optional instance to populate.
+     * @return {AddMinterKip7Request} The populated <code>AddMinterKip7Request</code> instance.
+     * @memberof AddMinterKip7Request
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new TransferKip7TokenRequest()
+            obj = obj || new AddMinterKip7Request()
 
-            if (data.hasOwnProperty('from')) {
-                obj.from = ApiClient.convertToType(data.from, 'String')
+            if (data.hasOwnProperty('sender')) {
+                obj.sender = ApiClient.convertToType(data.sender, 'String')
             }
-            if (data.hasOwnProperty('to')) {
-                obj.to = ApiClient.convertToType(data.to, 'String')
-            }
-            if (data.hasOwnProperty('amount')) {
-                obj.amount = ApiClient.convertToType(data.amount, 'String')
+            if (data.hasOwnProperty('minter')) {
+                obj.minter = ApiClient.convertToType(data.minter, 'String')
             }
         }
         return obj
@@ -59,22 +54,16 @@ class TransferKip7TokenRequest {
 }
 
 /**
- * The Klaytn account address to send the tokens. The default value is the `deployer`'s address.
+ * Klaytn account address that grants authority to mint and burn a token. The default value is the `deployer`'s address'.
  * @type {String}
- * @memberof TransferKip7TokenRequest
+ * @memberof AddMinterKip7Request
  */
-TransferKip7TokenRequest.prototype.from = undefined
+AddMinterKip7Request.prototype.sender = undefined
 /**
- * The Klaytn account address to receive the tokens.
+ * The Klaytn account address to be granted authority to mint and burn tokens.
  * @type {String}
- * @memberof TransferKip7TokenRequest
+ * @memberof AddMinterKip7Request
  */
-TransferKip7TokenRequest.prototype.to = undefined
-/**
- * The amount of tokens to transfer (in hex.)
- * @type {String}
- * @memberof TransferKip7TokenRequest
- */
-TransferKip7TokenRequest.prototype.amount = undefined
+AddMinterKip7Request.prototype.minter = undefined
 
-module.exports = TransferKip7TokenRequest
+module.exports = AddMinterKip7Request

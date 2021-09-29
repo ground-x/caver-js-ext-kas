@@ -14,44 +14,33 @@
 const ApiClient = require('../../ApiClient')
 
 /**
- * The TransferKip7TokenRequest model module.
- * @class TransferKip7TokenRequest
+ * The UnpauseKip7Request model module.
+ * @class UnpauseKip7Request
  * @version 1.0
  */
-class TransferKip7TokenRequest {
+class UnpauseKip7Request {
     /**
-     * Constructs a new <code>TransferKip7TokenRequest</code>.
-     * @alias TransferKip7TokenRequest
+     * Constructs a new <code>UnpauseKip7Request</code>.
+     * @alias UnpauseKip7Request
      * @class
-     * @param to {String} The Klaytn account address to receive the tokens.
-     * @param amount {String} The amount of tokens to transfer (in hex.)
      */
 
-    constructor(to, amount) {
-        this.to = to
-        this.amount = amount
-    }
+    constructor() {}
 
     /**
-     * Constructs a <code>TransferKip7TokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>UnpauseKip7Request</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {TransferKip7TokenRequest} obj Optional instance to populate.
-     * @return {TransferKip7TokenRequest} The populated <code>TransferKip7TokenRequest</code> instance.
-     * @memberof TransferKip7TokenRequest
+     * @param {UnpauseKip7Request} obj Optional instance to populate.
+     * @return {UnpauseKip7Request} The populated <code>UnpauseKip7Request</code> instance.
+     * @memberof UnpauseKip7Request
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new TransferKip7TokenRequest()
+            obj = obj || new UnpauseKip7Request()
 
-            if (data.hasOwnProperty('from')) {
-                obj.from = ApiClient.convertToType(data.from, 'String')
-            }
-            if (data.hasOwnProperty('to')) {
-                obj.to = ApiClient.convertToType(data.to, 'String')
-            }
-            if (data.hasOwnProperty('amount')) {
-                obj.amount = ApiClient.convertToType(data.amount, 'String')
+            if (data.hasOwnProperty('pauser')) {
+                obj.pauser = ApiClient.convertToType(data.pauser, 'String')
             }
         }
         return obj
@@ -59,22 +48,10 @@ class TransferKip7TokenRequest {
 }
 
 /**
- * The Klaytn account address to send the tokens. The default value is the `deployer`'s address.
+ * The Klaytn account address whose authority to carry out contract operations - transfer and authorization of tokens, etc. -  will be recovered. The default value is the `deployer`'s address.
  * @type {String}
- * @memberof TransferKip7TokenRequest
+ * @memberof UnpauseKip7Request
  */
-TransferKip7TokenRequest.prototype.from = undefined
-/**
- * The Klaytn account address to receive the tokens.
- * @type {String}
- * @memberof TransferKip7TokenRequest
- */
-TransferKip7TokenRequest.prototype.to = undefined
-/**
- * The amount of tokens to transfer (in hex.)
- * @type {String}
- * @memberof TransferKip7TokenRequest
- */
-TransferKip7TokenRequest.prototype.amount = undefined
+UnpauseKip7Request.prototype.pauser = undefined
 
-module.exports = TransferKip7TokenRequest
+module.exports = UnpauseKip7Request

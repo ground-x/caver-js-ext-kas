@@ -12,69 +12,69 @@
  */
 
 const ApiClient = require('../../ApiClient')
+const ErrorResponse = require('../model/ErrorResponse')
+const Kip7DeployerResponse = require('../model/Kip7DeployerResponse')
 
 /**
- * The TransferKip7TokenRequest model module.
- * @class TransferKip7TokenRequest
+ * Kip7Deployer service.
+ * @class Kip7DeployerApi
  * @version 1.0
  */
-class TransferKip7TokenRequest {
+class Kip7DeployerApi {
     /**
-     * Constructs a new <code>TransferKip7TokenRequest</code>.
-     * @alias TransferKip7TokenRequest
+     * Constructs a new Kip7DeployerApi.
+     * @alias Kip7DeployerApi
      * @class
-     * @param to {String} The Klaytn account address to receive the tokens.
-     * @param amount {String} The amount of tokens to transfer (in hex.)
+     * @param {ApiClient} [apiClient] Optional API client implementation to use,
+     * default to {@link ApiClient#instance} if unspecified.
      */
-
-    constructor(to, amount) {
-        this.to = to
-        this.amount = amount
+    constructor(apiClient) {
+        this.apiClient = apiClient || ApiClient.instance
     }
 
     /**
-     * Constructs a <code>TransferKip7TokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {TransferKip7TokenRequest} obj Optional instance to populate.
-     * @return {TransferKip7TokenRequest} The populated <code>TransferKip7TokenRequest</code> instance.
-     * @memberof TransferKip7TokenRequest
+     * Callback function to receive the result of the getDefaultDeployer operation.
+     * @callback Kip7DeployerApi~getDefaultDeployerCallback
+     * @param {String} error Error message, if any.
+     * @param {Kip7DeployerResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
      */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new TransferKip7TokenRequest()
 
-            if (data.hasOwnProperty('from')) {
-                obj.from = ApiClient.convertToType(data.from, 'String')
-            }
-            if (data.hasOwnProperty('to')) {
-                obj.to = ApiClient.convertToType(data.to, 'String')
-            }
-            if (data.hasOwnProperty('amount')) {
-                obj.amount = ApiClient.convertToType(data.amount, 'String')
-            }
+    /**
+     * Get Deployer Address
+     * Retrieves the &#x60;deployer&#x60; address automatically created when deploying a contract. You will get one &#x60;deployer&#x60; address per Credential.&lt;p&gt;&lt;/p&gt;
+     * @param {Kip7DeployerApi~getDefaultDeployerCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip7DeployerResponse}
+     */
+    getDefaultDeployer(xChainId, callback) {
+        const postBody = null
+
+        const pathParams = {}
+        const queryParams = {}
+        const headerParams = {
+            'x-chain-id': xChainId,
         }
-        return obj
+        const formParams = {}
+
+        const authNames = ['basic']
+        const contentTypes = []
+        const accepts = ['application/json']
+        const returnType = Kip7DeployerResponse
+
+        return this.apiClient.callApi(
+            '/v1/deployer/default',
+            'GET',
+            pathParams,
+            queryParams,
+            headerParams,
+            formParams,
+            postBody,
+            authNames,
+            contentTypes,
+            accepts,
+            returnType,
+            callback
+        )
     }
 }
-
-/**
- * The Klaytn account address to send the tokens. The default value is the `deployer`'s address.
- * @type {String}
- * @memberof TransferKip7TokenRequest
- */
-TransferKip7TokenRequest.prototype.from = undefined
-/**
- * The Klaytn account address to receive the tokens.
- * @type {String}
- * @memberof TransferKip7TokenRequest
- */
-TransferKip7TokenRequest.prototype.to = undefined
-/**
- * The amount of tokens to transfer (in hex.)
- * @type {String}
- * @memberof TransferKip7TokenRequest
- */
-TransferKip7TokenRequest.prototype.amount = undefined
-
-module.exports = TransferKip7TokenRequest
+module.exports = Kip7DeployerApi

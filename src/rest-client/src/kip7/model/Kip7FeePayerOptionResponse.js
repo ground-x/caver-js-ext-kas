@@ -12,46 +12,39 @@
  */
 
 const ApiClient = require('../../ApiClient')
+const Kip7FeePayerOptionResponseUserFeePayer = require('./Kip7FeePayerOptionResponseUserFeePayer')
 
 /**
- * The TransferKip7TokenRequest model module.
- * @class TransferKip7TokenRequest
+ * The Kip7FeePayerOptionResponse model module.
+ * @class Kip7FeePayerOptionResponse
  * @version 1.0
  */
-class TransferKip7TokenRequest {
+class Kip7FeePayerOptionResponse {
     /**
-     * Constructs a new <code>TransferKip7TokenRequest</code>.
-     * @alias TransferKip7TokenRequest
+     * Constructs a new <code>Kip7FeePayerOptionResponse</code>.
+     * @alias Kip7FeePayerOptionResponse
      * @class
-     * @param to {String} The Klaytn account address to receive the tokens.
-     * @param amount {String} The amount of tokens to transfer (in hex.)
      */
 
-    constructor(to, amount) {
-        this.to = to
-        this.amount = amount
-    }
+    constructor() {}
 
     /**
-     * Constructs a <code>TransferKip7TokenRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip7FeePayerOptionResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {TransferKip7TokenRequest} obj Optional instance to populate.
-     * @return {TransferKip7TokenRequest} The populated <code>TransferKip7TokenRequest</code> instance.
-     * @memberof TransferKip7TokenRequest
+     * @param {Kip7FeePayerOptionResponse} obj Optional instance to populate.
+     * @return {Kip7FeePayerOptionResponse} The populated <code>Kip7FeePayerOptionResponse</code> instance.
+     * @memberof Kip7FeePayerOptionResponse
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new TransferKip7TokenRequest()
+            obj = obj || new Kip7FeePayerOptionResponse()
 
-            if (data.hasOwnProperty('from')) {
-                obj.from = ApiClient.convertToType(data.from, 'String')
+            if (data.hasOwnProperty('enableGlobalFeepayer')) {
+                obj.enableGlobalFeepayer = ApiClient.convertToType(data.enableGlobalFeepayer, 'Boolean')
             }
-            if (data.hasOwnProperty('to')) {
-                obj.to = ApiClient.convertToType(data.to, 'String')
-            }
-            if (data.hasOwnProperty('amount')) {
-                obj.amount = ApiClient.convertToType(data.amount, 'String')
+            if (data.hasOwnProperty('userFeePayer')) {
+                obj.userFeePayer = Kip7FeePayerOptionResponseUserFeePayer.constructFromObject(data.userFeePayer)
             }
         }
         return obj
@@ -59,22 +52,15 @@ class TransferKip7TokenRequest {
 }
 
 /**
- * The Klaytn account address to send the tokens. The default value is the `deployer`'s address.
- * @type {String}
- * @memberof TransferKip7TokenRequest
+ * The boolean value indicating whether KAS Global Fee Delegation is being used. The default value is `true`.
+ * @type {Boolean}
+ * @memberof Kip7FeePayerOptionResponse
  */
-TransferKip7TokenRequest.prototype.from = undefined
+Kip7FeePayerOptionResponse.prototype.enableGlobalFeepayer = undefined
 /**
- * The Klaytn account address to receive the tokens.
- * @type {String}
- * @memberof TransferKip7TokenRequest
+ * @type {Kip7FeePayerOptionResponseUserFeePayer}
+ * @memberof Kip7FeePayerOptionResponse
  */
-TransferKip7TokenRequest.prototype.to = undefined
-/**
- * The amount of tokens to transfer (in hex.)
- * @type {String}
- * @memberof TransferKip7TokenRequest
- */
-TransferKip7TokenRequest.prototype.amount = undefined
+Kip7FeePayerOptionResponse.prototype.userFeePayer = undefined
 
-module.exports = TransferKip7TokenRequest
+module.exports = Kip7FeePayerOptionResponse

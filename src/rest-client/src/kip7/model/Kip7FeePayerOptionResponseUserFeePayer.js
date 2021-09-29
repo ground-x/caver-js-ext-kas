@@ -12,72 +12,38 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip7FeePayerOption = require('./Kip7FeePayerOption')
 
 /**
- * The Kip7ContractListResponseItem model module.
- * @class Kip7ContractListResponseItem
+ * The Kip7FeePayerOptionResponseUserFeePayer model module.
+ * @class Kip7FeePayerOptionResponseUserFeePayer
  * @version 1.0
  */
-class Kip7ContractListResponseItem {
+class Kip7FeePayerOptionResponseUserFeePayer {
     /**
-     * Constructs a new <code>Kip7ContractListResponseItem</code>.
-     * @alias Kip7ContractListResponseItem
+     * Constructs a new <code>Kip7FeePayerOptionResponseUserFeePayer</code>.
+     * @alias Kip7FeePayerOptionResponseUserFeePayer
      * @class
-     * @param address {String} Contract address
-     * @param alias {String} Contract alias
-     * @param decimals {Number} The number of digits that come after the decimal place when displaying token values on-screen. The default value is `0`.
-     * @param name {String} Contract name
-     * @param status {String} Contract deployment status[`init`,`submitted`,`deployed`]
-     * @param symbol {String} Contract symbol
-     * @param totalSupply {String} Total supply (in hex.)
      */
 
-    constructor(address, alias, decimals, name, status, symbol, totalSupply) {
-        this.address = address
-        this.alias = alias
-        this.decimals = decimals
-        this.name = name
-        this.status = status
-        this.symbol = symbol
-        this.totalSupply = totalSupply
-    }
+    constructor() {}
 
     /**
-     * Constructs a <code>Kip7ContractListResponseItem</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip7FeePayerOptionResponseUserFeePayer</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip7ContractListResponseItem} obj Optional instance to populate.
-     * @return {Kip7ContractListResponseItem} The populated <code>Kip7ContractListResponseItem</code> instance.
-     * @memberof Kip7ContractListResponseItem
+     * @param {Kip7FeePayerOptionResponseUserFeePayer} obj Optional instance to populate.
+     * @return {Kip7FeePayerOptionResponseUserFeePayer} The populated <code>Kip7FeePayerOptionResponseUserFeePayer</code> instance.
+     * @memberof Kip7FeePayerOptionResponseUserFeePayer
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Kip7ContractListResponseItem()
+            obj = obj || new Kip7FeePayerOptionResponseUserFeePayer()
 
+            if (data.hasOwnProperty('krn')) {
+                obj.krn = ApiClient.convertToType(data.krn, 'String')
+            }
             if (data.hasOwnProperty('address')) {
                 obj.address = ApiClient.convertToType(data.address, 'String')
-            }
-            if (data.hasOwnProperty('alias')) {
-                obj.alias = ApiClient.convertToType(data.alias, 'String')
-            }
-            if (data.hasOwnProperty('decimals')) {
-                obj.decimals = ApiClient.convertToType(data.decimals, 'Number')
-            }
-            if (data.hasOwnProperty('name')) {
-                obj.name = ApiClient.convertToType(data.name, 'String')
-            }
-            if (data.hasOwnProperty('status')) {
-                obj.status = ApiClient.convertToType(data.status, 'String')
-            }
-            if (data.hasOwnProperty('symbol')) {
-                obj.symbol = ApiClient.convertToType(data.symbol, 'String')
-            }
-            if (data.hasOwnProperty('totalSupply')) {
-                obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'String')
-            }
-            if (data.hasOwnProperty('options')) {
-                obj.options = Kip7FeePayerOption.constructFromObject(data.options)
             }
         }
         return obj
@@ -85,51 +51,16 @@ class Kip7ContractListResponseItem {
 }
 
 /**
- * Contract address
+ * The KRN of the Fee-payer Pool
  * @type {String}
- * @memberof Kip7ContractListResponseItem
+ * @memberof Kip7FeePayerOptionResponseUserFeePayer
  */
-Kip7ContractListResponseItem.prototype.address = undefined
+Kip7FeePayerOptionResponseUserFeePayer.prototype.krn = undefined
 /**
- * Contract alias
+ * The Klaytn account address of the FeePayer
  * @type {String}
- * @memberof Kip7ContractListResponseItem
+ * @memberof Kip7FeePayerOptionResponseUserFeePayer
  */
-Kip7ContractListResponseItem.prototype.alias = undefined
-/**
- * The number of digits that come after the decimal place when displaying token values on-screen. The default value is `0`.
- * @type {Number}
- * @memberof Kip7ContractListResponseItem
- */
-Kip7ContractListResponseItem.prototype.decimals = undefined
-/**
- * Contract name
- * @type {String}
- * @memberof Kip7ContractListResponseItem
- */
-Kip7ContractListResponseItem.prototype.name = undefined
-/**
- * Contract deployment status[`init`,`submitted`,`deployed`]
- * @type {String}
- * @memberof Kip7ContractListResponseItem
- */
-Kip7ContractListResponseItem.prototype.status = undefined
-/**
- * Contract symbol
- * @type {String}
- * @memberof Kip7ContractListResponseItem
- */
-Kip7ContractListResponseItem.prototype.symbol = undefined
-/**
- * Total supply (in hex.)
- * @type {String}
- * @memberof Kip7ContractListResponseItem
- */
-Kip7ContractListResponseItem.prototype.totalSupply = undefined
-/**
- * @type {Kip7FeePayerOption}
- * @memberof Kip7ContractListResponseItem
- */
-Kip7ContractListResponseItem.prototype.options = undefined
+Kip7FeePayerOptionResponseUserFeePayer.prototype.address = undefined
 
-module.exports = Kip7ContractListResponseItem
+module.exports = Kip7FeePayerOptionResponseUserFeePayer
