@@ -3752,6 +3752,20 @@ describe('Wallet API service', () => {
         feePayer = ret.address
     }).timeout(500000)
 
+    it('CAVERJS-EXT-KAS-INT-315: caver.kas.wallet.createFeePayer with withoutAccountUpdate', async () => {
+        const ret = await caver.kas.wallet.createFeePayer(true)
+
+        expect(ret.address).not.to.be.undefined
+        expect(ret.chainId).not.to.be.undefined
+        expect(ret.createdAt).not.to.be.undefined
+        expect(ret.keyId).not.to.be.undefined
+        expect(ret.krn).not.to.be.undefined
+        expect(ret.publicKey).not.to.be.undefined
+        expect(ret.updatedAt).not.to.be.undefined
+
+        feePayer = ret.address
+    }).timeout(500000)
+
     it('CAVERJS-EXT-KAS-INT-275: caver.kas.wallet.getFeePayer should return the fee payer from KAS', async () => {
         const ret = await caver.kas.wallet.getFeePayer(feePayer)
 

@@ -112,8 +112,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-038: should request legacy transaction to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'legacyTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'legacyTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestLegacyTransaction(txObj)
@@ -135,8 +135,8 @@ describe('Wallet API - Basic transaction API', () => {
                 gas: 1000000,
                 submit: true,
             }
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'legacyTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'legacyTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, deploy)
 
             const ret = await caver.kas.wallet.requestLegacyTransaction(deploy)
@@ -150,8 +150,8 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = LegacyTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'legacyTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'legacyTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestLegacyTransaction(requestModel)
@@ -167,8 +167,8 @@ describe('Wallet API - Basic transaction API', () => {
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'legacyTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'legacyTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestLegacyTransaction(requestObject)
@@ -181,8 +181,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-042: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'legacyTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'legacyTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -201,7 +201,7 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -285,8 +285,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-044: should request value transfer transaction to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'valueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'valueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestValueTransfer(txObj)
@@ -300,8 +300,8 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const withMemo = Object.assign({ memo: 'memo' }, txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'valueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'valueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, withMemo)
 
             const ret = await caver.kas.wallet.requestValueTransfer(withMemo)
@@ -315,8 +315,8 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = ValueTransferTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'valueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'valueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestValueTransfer(requestModel)
@@ -332,8 +332,8 @@ describe('Wallet API - Basic transaction API', () => {
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'valueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'valueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestValueTransfer(requestObject)
@@ -346,8 +346,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-048: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'valueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'valueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -366,7 +366,7 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -452,8 +452,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-050: should request smart contract deploy transaction to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractDeployTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractDeployTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestSmartContractDeploy(txObj)
@@ -467,8 +467,8 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = ContractDeployTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractDeployTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractDeployTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestSmartContractDeploy(requestModel)
@@ -484,8 +484,8 @@ describe('Wallet API - Basic transaction API', () => {
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractDeployTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractDeployTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestSmartContractDeploy(requestObject)
@@ -498,8 +498,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-053: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractDeployTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractDeployTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -518,7 +518,7 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -605,8 +605,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-055: should request smart contract execution transaction to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractExecutionTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractExecutionTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestSmartContractExecution(txObj)
@@ -620,8 +620,8 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = ContractExecutionTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractExecutionTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractExecutionTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestSmartContractExecution(requestModel)
@@ -637,8 +637,8 @@ describe('Wallet API - Basic transaction API', () => {
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractExecutionTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractExecutionTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestSmartContractExecution(requestObject)
@@ -651,8 +651,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-058: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractExecutionTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractExecutionTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -671,7 +671,7 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -751,8 +751,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-060: should request cancel transaction to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'cancelTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'cancelTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestCancel(txObj)
@@ -769,8 +769,8 @@ describe('Wallet API - Basic transaction API', () => {
             delete requestObject.nonce
             requestObject.transactionHash = '0x02e13becf638cac359381fa5dfc3ef8f598a90cceb9842eb714019bcd883fd59'
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'cancelTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'cancelTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestObject)
 
             const ret = await caver.kas.wallet.requestCancel(requestObject)
@@ -784,8 +784,8 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = CancelTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'cancelTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'cancelTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestCancel(requestModel)
@@ -798,8 +798,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-063: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'cancelTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'cancelTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -818,7 +818,7 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -900,8 +900,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-065: should request chain data anchoring transaction to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'anchorTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'anchorTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestChainDataAnchoring(txObj)
@@ -915,8 +915,8 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = AnchorTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'anchorTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'anchorTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestChainDataAnchoring(requestModel)
@@ -929,8 +929,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-067: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'anchorTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'anchorTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -949,7 +949,7 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -1030,8 +1030,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-069: should request transaction to KAS via RLP-encoded string (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'processRLP')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'processRLP')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestRawTransaction(txObj)
@@ -1045,8 +1045,8 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = ProcessRLPRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'processRLP')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'processRLP')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestRawTransaction(requestModel)
@@ -1059,8 +1059,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-071: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'processRLP')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'processRLP')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -1079,7 +1079,7 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -1265,8 +1265,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-073: should request account update transaction to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'accountUpdateTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'accountUpdateTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
 
             for (const obj of txObjects) {
                 setCallFakeForCallApi(callApiStub, obj)
@@ -1284,8 +1284,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-074: should request account update transaction to KAS (with AccountUpdateTransactionRequest)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'accountUpdateTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'accountUpdateTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
 
             for (const obj of txObjects) {
                 const requestModel = AccountUpdateTransactionRequest.constructFromObject(obj)
@@ -1304,8 +1304,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-075: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'accountUpdateTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'accountUpdateTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObjects[0])
 
             let isCalled = false
@@ -1324,7 +1324,7 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -1401,8 +1401,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-077: should return transaction from KAS', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'transactionReceipt')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'transactionReceipt')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub)
 
             const ret = await caver.kas.wallet.getTransaction(transactionHash)
@@ -1416,8 +1416,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-078: should call callback function with transaction', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'transactionReceipt')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'transactionReceipt')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub)
 
             let isCalled = false
@@ -1436,7 +1436,7 @@ describe('Wallet API - Basic transaction API', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1071010, message: "data don't exist" }
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -1509,8 +1509,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-208: should call contract with callArgumetns and sendOptions', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractCall')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractCall')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
 
             const methodName = 'transfer'
             const callArguments = [
@@ -1538,8 +1538,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-209: should call contract with sendOptions', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractCall')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractCall')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
 
             const methodName = 'increase'
             const sendOptions = {
@@ -1560,8 +1560,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-210: should call contract with callArguments', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractCall')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractCall')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
 
             const methodName = 'isMinter'
             const callArguments = [
@@ -1583,8 +1583,8 @@ describe('Wallet API - Basic transaction API', () => {
         it('CAVERJS-EXT-KAS-WALLET-211: should call contract without callArguments and sendOptions', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTransactionApi, 'contractCall')
-            const callApiStub = sandbox.stub(caver.kas.wallet.basicTransactionApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.basicTxApi, 'contractCall')
+            const callApiStub = sandbox.stub(caver.kas.wallet.basicTxApi.apiClient, 'callApi')
 
             const methodName = 'name'
 

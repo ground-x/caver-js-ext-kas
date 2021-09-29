@@ -53,7 +53,7 @@ describe('Wallet API service enabling', () => {
             updatedAt: 1620702008,
         }
 
-        function setCallFakeForCallApi(callApiStub) {
+        function setCallFakeForCallApi(callApiStub, withoutAccountUpdate) {
             callApiStub.callsFake(
                 (
                     path,
@@ -77,9 +77,9 @@ describe('Wallet API service enabling', () => {
 
                     expect(headerParams['x-chain-id']).to.equal(chainId)
                     expect(Object.keys(formParams).length).to.equal(0)
-                    expect(postBody).to.be.null
+                    if (withoutAccountUpdate !== undefined) expect(postBody.withoutAccountUpdate).to.equal(withoutAccountUpdate)
                     expect(authNames[0]).to.equal('basic')
-                    expect(Object.keys(contentTypes).length).to.equal(0)
+                    expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
                     expect(returnType).not.to.be.undefined
 
@@ -96,6 +96,27 @@ describe('Wallet API service enabling', () => {
             setCallFakeForCallApi(callApiStub)
 
             const ret = await caver.kas.wallet.createFeePayer()
+
+            expect(createFeePayerSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.address).not.to.be.undefined
+            expect(ret.chainId).not.to.be.undefined
+            expect(ret.createdAt).not.to.be.undefined
+            expect(ret.keyId).not.to.be.undefined
+            expect(ret.krn).not.to.be.undefined
+            expect(ret.publicKey).not.to.be.undefined
+            expect(ret.updatedAt).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-241: should create fee payer from KAS with withoutAccountUpdate parameter', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const createFeePayerSpy = sandbox.spy(caver.kas.wallet.feePayerApi, 'creatFeePayerAccount')
+            const callApiStub = sandbox.stub(caver.kas.wallet.feePayerApi.apiClient, 'callApi')
+
+            const withoutAccountUpdate = true
+            setCallFakeForCallApi(callApiStub, withoutAccountUpdate)
+            const ret = await caver.kas.wallet.createFeePayer(withoutAccountUpdate)
 
             expect(createFeePayerSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true

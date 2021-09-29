@@ -125,8 +125,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-113: should request fd value transfer transaction paid by User to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDValueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDValueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestFDValueTransferPaidByUser(txObj)
@@ -140,8 +140,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const withMemo = Object.assign({ memo: 'memo' }, txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDValueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDValueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, withMemo)
 
             const ret = await caver.kas.wallet.requestFDValueTransferPaidByUser(withMemo)
@@ -155,8 +155,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDValueTransferTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDValueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDValueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestFDValueTransferPaidByUser(requestModel)
@@ -172,8 +172,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDValueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDValueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestFDValueTransferPaidByUser(requestObject)
@@ -186,8 +186,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-117: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDValueTransferTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDValueTransferTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -206,7 +206,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -295,8 +295,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-119: should request fd smart contract deploy transaction paid by User to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractDeployTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDContractDeployTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestFDSmartContractDeployPaidByUser(txObj)
@@ -310,8 +310,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDContractDeployTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractDeployTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDContractDeployTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestFDSmartContractDeployPaidByUser(requestModel)
@@ -327,8 +327,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractDeployTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDContractDeployTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestFDSmartContractDeployPaidByUser(requestObject)
@@ -341,8 +341,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-122: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractDeployTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDContractDeployTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -361,7 +361,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -451,8 +451,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-124: should request fd smart contract execution transaction paid by User to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractExecutionTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDContractExecutionTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestFDSmartContractExecutionPaidByUser(txObj)
@@ -466,8 +466,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDContractExecutionTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractExecutionTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDContractExecutionTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestFDSmartContractExecutionPaidByUser(requestModel)
@@ -483,8 +483,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             const requestObject = Object.assign({}, txObj)
             requestObject.value = Number(requestObject.value)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractExecutionTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDContractExecutionTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestFDSmartContractExecutionPaidByUser(requestObject)
@@ -497,8 +497,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-127: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDContractExecutionTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDContractExecutionTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -517,7 +517,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -600,8 +600,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-129: should request fd cancel transaction paid by User to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDUserCancelTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDUserCancelTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestFDCancelPaidByUser(txObj)
@@ -618,8 +618,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             delete requestObject.nonce
             requestObject.transactionHash = '0x02e13becf638cac359381fa5dfc3ef8f598a90cceb9842eb714019bcd883fd59'
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDUserCancelTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDUserCancelTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestObject)
 
             const ret = await caver.kas.wallet.requestFDCancelPaidByUser(requestObject)
@@ -633,8 +633,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDCancelTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDUserCancelTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDUserCancelTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestFDCancelPaidByUser(requestModel)
@@ -647,8 +647,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-132: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDUserCancelTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDUserCancelTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -667,7 +667,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -752,8 +752,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-134: should request fd chain data anchoring transaction paid by User to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAnchorTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDAnchorTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestFDChainDataAnchoringPaidByUser(txObj)
@@ -767,8 +767,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDAnchorTransactionRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAnchorTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDAnchorTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestFDChainDataAnchoringPaidByUser(requestModel)
@@ -781,8 +781,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-136: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAnchorTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDAnchorTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -801,7 +801,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -885,8 +885,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-138: should request fd transaction paid by User to KAS via RLP-encoded string (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDProcessRLP')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDProcessRLP')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(txObj)
@@ -900,8 +900,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const requestModel = FDProcessRLPRequest.constructFromObject(txObj)
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDProcessRLP')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDProcessRLP')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, requestModel)
 
             const ret = await caver.kas.wallet.requestFDRawTransactionPaidByUser(requestModel)
@@ -914,8 +914,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-140: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDProcessRLP')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDProcessRLP')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObj)
 
             let isCalled = false
@@ -934,7 +934,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
@@ -1123,8 +1123,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-142: should request fd account update transaction paid by User to KAS (with object)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAccountUpdateTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDAccountUpdateTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
 
             for (const obj of txObjects) {
                 setCallFakeForCallApi(callApiStub, obj)
@@ -1142,8 +1142,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-143: should request fd account update transaction paid by User to KAS (with FDAccountUpdateTransactionRequest)', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAccountUpdateTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDAccountUpdateTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
 
             for (const obj of txObjects) {
                 const requestModel = FDAccountUpdateTransactionRequest.constructFromObject(obj)
@@ -1162,8 +1162,8 @@ describe('Wallet API - FD transaction API paid by User', () => {
         it('CAVERJS-EXT-KAS-WALLET-144: should call callback function with api result', async () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
-            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdTransactionPaidByUserApi, 'uFDAccountUpdateTransaction')
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const apiFunctionSpy = sandbox.spy(caver.kas.wallet.fdtxUserApi, 'uFDAccountUpdateTransaction')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             setCallFakeForCallApi(callApiStub, txObjects[0])
 
             let isCalled = false
@@ -1182,7 +1182,7 @@ describe('Wallet API - FD transaction API paid by User', () => {
             caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = { code: 1010008, message: 'The authorization header you provided is invalid.' }
-            const callApiStub = sandbox.stub(caver.kas.wallet.fdTransactionPaidByUserApi.apiClient, 'callApi')
+            const callApiStub = sandbox.stub(caver.kas.wallet.fdtxUserApi.apiClient, 'callApi')
             callApiStub.callsFake((...args) => {
                 const callback = args[args.length - 1]
                 callback(null, errorResult, {})
