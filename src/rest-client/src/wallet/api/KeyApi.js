@@ -238,7 +238,7 @@ class KeyApi {
      * @param {KeyApi~retrieveKeysCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link KeyList}
      */
-    retrieveKeys(krn, opts, callback) {
+    retrieveKeys(xChainId, krn, opts, callback) {
         opts = opts || {}
         const postBody = null
 
@@ -249,7 +249,7 @@ class KeyApi {
             size: opts.size,
         }
         const headerParams = {
-            'x-chain-id': opts.xChainId,
+            'x-chain-id': xChainId,
         }
         const formParams = {}
 

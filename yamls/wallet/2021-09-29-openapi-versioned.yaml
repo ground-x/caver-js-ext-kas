@@ -799,6 +799,10 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreateFeePayerAccountRequest'
+            examples:
+              example-1:
+                value:
+                  withoutAccountUpdate: true
       responses:
         "200":
           content:
@@ -3462,7 +3466,7 @@ paths:
       - name: x-chain-id
         in: header
         description: Klaytn chain network ID (1001 or 8217)
-        required: false
+        required: true
         style: simple
         explode: false
         schema:
@@ -3862,7 +3866,7 @@ paths:
       - name: x-chain-id
         in: header
         description: Klaytn Network Chain ID (1001 or 8217)
-        required: false
+        required: true
         style: simple
         explode: false
         schema:
@@ -3947,7 +3951,7 @@ paths:
       - name: x-chain-id
         in: header
         description: Klaytn Network Chain ID (1001 or 8217)
-        required: false
+        required: true
         style: simple
         explode: false
         schema:

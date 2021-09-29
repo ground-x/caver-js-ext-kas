@@ -48,7 +48,7 @@ class TxHistoryApi {
      * @param {TxHistoryApi~getV2HistoryFdTxCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link FDTransactionWithCurrencyResultList}
      */
-    getV2HistoryFdTx(opts, callback) {
+    getV2HistoryFdTx(xChainId, opts, callback) {
         opts = opts || {}
         const postBody = null
 
@@ -57,7 +57,7 @@ class TxHistoryApi {
             from: opts.from,
         }
         const headerParams = {
-            'x-chain-id': opts.xChainId,
+            'x-chain-id': xChainId,
         }
         const formParams = {}
 
@@ -92,12 +92,10 @@ class TxHistoryApi {
     /**
      * Get Fee Delegation Transaction History
      * Returns a single fee delegation transaction. You can find out the KRW and USD price of the fees at the time of sending the transaction.
-     * @param {Object} opts Optional parameters
      * @param {TxHistoryApi~getV2HistoryFdTxTransactionHashCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link FDTransactionWithCurrencyResult}
      */
-    getV2HistoryFdTxTransactionHash(transactionHash, opts, callback) {
-        opts = opts || {}
+    getV2HistoryFdTxTransactionHash(transactionHash, xChainId, callback) {
         const postBody = null
 
         const pathParams = {
@@ -105,7 +103,7 @@ class TxHistoryApi {
         }
         const queryParams = {}
         const headerParams = {
-            'x-chain-id': opts.xChainId,
+            'x-chain-id': xChainId,
         }
         const formParams = {}
 
