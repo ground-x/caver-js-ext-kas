@@ -223,7 +223,7 @@ class KIP37 {
      * PUT /v1/contract/{contract-address-or-alias}
      *
      * @example
-     * const ret = await caver.kas.kip37.updateContractOptions('0x{address in hex}', 'https://caver.example/id/{id}.json', 'jasmine-alias')
+     * const ret = await caver.kas.kip37.updateContractOptions('0x{address in hex}', { enableGlobalFeePayer: true })
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {KIP37FeePayerOptions|object} [options] Options for paying the transaction fee.
@@ -439,6 +439,7 @@ class KIP37 {
             callback = pauser
             pauser = undefined
         }
+        if (pauser && !utils.isAddress(pauser)) throw new Error(`Invalid address: ${pauser}`)
 
         const opts = { body: { sender: pauser } }
 
@@ -477,6 +478,7 @@ class KIP37 {
             callback = pauser
             pauser = undefined
         }
+        if (pauser && !utils.isAddress(pauser)) throw new Error(`Invalid address: ${pauser}`)
 
         const opts = { body: { sender: pauser } }
 
@@ -519,6 +521,7 @@ class KIP37 {
             callback = pauser
             pauser = undefined
         }
+        if (pauser && !utils.isAddress(pauser)) throw new Error(`Invalid address: ${pauser}`)
 
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
@@ -561,6 +564,7 @@ class KIP37 {
             callback = pauser
             pauser = undefined
         }
+        if (pauser && !utils.isAddress(pauser)) throw new Error(`Invalid address: ${pauser}`)
 
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
