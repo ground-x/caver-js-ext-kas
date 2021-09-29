@@ -51,12 +51,11 @@ const {
     FDUserProcessRLPRequest,
     FDUserAccountUpdateTransactionRequest,
     SignPendingTransactionBySigRequest,
-    AccountRegistration,
-    AccountRegistrationRequest,
     Key,
     KeyCreationRequest,
     KeyCreationResponse,
     ContractCallRequest,
+    TxHistoryApi,
 } = require('../../rest-client/src')
 const WalletQueryOptions = require('./walletQueryOptions')
 const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey } = require('../../utils/helper')
@@ -91,6 +90,7 @@ class Wallet {
                 key: new KeyApi(client),
                 registration: new RegistrationApi(client),
                 feePayer: new FeepayerApi(client),
+                txHistory: new TxHistoryApi(client),
             }
         }
     }
@@ -163,6 +163,7 @@ class Wallet {
             key: new KeyApi(client),
             registration: new RegistrationApi(client),
             feePayer: new FeepayerApi(client),
+            txHistory: new TxHistoryApi(client),
         }
     }
 
@@ -227,6 +228,13 @@ class Wallet {
      */
     get feePayerApi() {
         return this.apiInstances.feePayer
+    }
+
+    /**
+     * @type {TxHistoryApi}
+     */
+    get txHistoryApi() {
+        return this.apiInstances.txHistory
     }
 
     /**
@@ -1910,6 +1918,42 @@ class Wallet {
     }
 
     /**
+     * Returns a list of keys. <br>
+     * GET /v2/key
+     *
+     * @example
+     * const krn = 'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:account-pool:default'
+     * const result = await caver.kas.wallet.getKeyListByKRN(krn, { size: 1 })
+     *
+     * @param {string} krn KAS resource name.
+     * @param {WalletQueryOptions} [queryOptions] Filters required when retrieving data. `size` and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {KeyList}
+     */
+    getKeyListByKRN(krn, queryOptions, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(krn)) throw new Error(`Invalid krn. You should pass string type parameter.`)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = WalletQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size' or 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.keyApi.retrieveKeys(this.chainId, krn, queryOptions, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
      * Find key information from KAS. <br>
      * GET /v2/key/{key-id}
      *
@@ -2165,6 +2209,69 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.feePayerApi.retrieveFeePayerAccounts(this.chainId, queryOptions, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    // Tx History Api
+
+    /**
+     * Returns the history of fee delegation transactions. <br>
+     * You can find out the KRW and USD price of the fees at the time of sending the transaction. <br>
+     * If you add the `from` query parameter, only the transactions from a certain address will be returned. <br>
+     * GET /v2/history/fd/tx
+     *
+     * @example
+     * const ret = await caver.kas.wallet.getFDTransactionList()
+     * const ret = await caver.kas.wallet.getFDTransactionList('0x{from address}')
+     *
+     * @param {string} [from] The Klaytn account address of the sender.
+     * @param {Function} [callback] The callback function to call.
+     * @return {FDTransactionWithCurrencyResultList}
+     */
+    getFDTransactionList(from, callback) {
+        if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(from)) {
+            callback = from
+            from = undefined
+        }
+        if (from && !utils.isAddress(from)) throw new Error(`Invalid from address: ${from}`)
+
+        return new Promise((resolve, reject) => {
+            this.txHistoryApi.getV2HistoryFdTx(this.chainId, { from }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Returns a single fee delegation transaction. <br>
+     * You can find out the KRW and USD price of the fees at the time of sending the transaction. <br>
+     * GET /v2/history/fd/tx/{transaction-hash}
+     *
+     * @example
+     * const ret = await caver.kas.wallet.getFDTransaction('0x{transaction hash}')
+     *
+     * @param {string} txHash Transaction hash.
+     * @param {Function} [callback] The callback function to call.
+     * @return {FDTransactionWithCurrencyResult}
+     */
+    getFDTransaction(txHash, callback) {
+        if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isValidHash(txHash)) throw new Error(`Invalid transaction hash: ${txHash}`)
+
+        return new Promise((resolve, reject) => {
+            this.txHistoryApi.getV2HistoryFdTxTransactionHash(txHash, this.chainId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
