@@ -30,6 +30,7 @@ const {
     Kip7TokenApi,
 } = require('../../rest-client/src')
 const KIP7QueryOptions = require('./kip7QueryOptions')
+const KIP7FeePayerOptions = require('./kip7FeePayerOptions')
 
 const NOT_INIT_API_ERR_MSG = `KIP7 API is not initialized. Use 'caver.initKIP7API' function to initialize KIP7 API.`
 
@@ -156,10 +157,11 @@ class KIP7 {
      * @param {number} decimals The number of decimal places the token uses.
      * @param {string|number|BigNumber} initialSupply The total amount of token to be supplied initially.
      * @param {string} alias The alias of KIP-7 token. Your `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet.
+     * @param {KIP7FeePayerOptions|object} [options] Options for paying the transaction fee.
      * @param {Function} [callback] The callback function to call.
-     * @return {Kip7TransactionStatusResponse}
+     * @return {Kip7DeployResponse}
      */
-    deploy(name, symbol, decimals, initialSupply, alias, callback) {
+    deploy(name, symbol, decimals, initialSupply, alias, options, callback) {
         if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(name) || !_.isString(symbol)) throw new Error(`The name and symbol of KIP-7 token contract should be string type.`)
         if (!_.isNumber(decimals)) throw new Error(`The decimals of KIP-7 token contract should be number type.`)
@@ -174,12 +176,58 @@ class KIP7 {
 
         initialSupply = utils.toHex(initialSupply)
 
+        if (_.isFunction(options)) {
+            callback = options
+            options = {}
+        }
+
         const opts = {
-            body: DeployKip7ContractRequest.constructFromObject({ name, symbol, decimals, initialSupply, alias }),
+            body: DeployKip7ContractRequest.constructFromObject({
+                name,
+                symbol,
+                decimals,
+                initialSupply,
+                alias,
+                options: KIP7FeePayerOptions.constructFromObject(options || {}),
+            }),
         }
 
         return new Promise((resolve, reject) => {
             this.kip7ContractApi.deployContract(this.chainId, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Edits the information of a contract. <br>
+     * PUT /v1/contract/{contract-address-or-alias}
+     *
+     * @example
+     * const ret = await caver.kas.kip7.updateContractOptions('0x{address in hex}', { enableGlobalFeePayer: true })
+     *
+     * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
+     * @param {KIP7FeePayerOptions|object} [options] Options for paying the transaction fee.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Kip7ContractMetadataResponse}
+     */
+    updateContractOptions(addressOrAlias, options, callback) {
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-7 token contract should be string type.`)
+
+        if (_.isFunction(options)) {
+            callback = options
+            options = {}
+        }
+
+        const opts = { body: { options: KIP7FeePayerOptions.constructFromObject(options || {}) } }
+
+        return new Promise((resolve, reject) => {
+            this.kip7ContractApi.updateContract(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -499,10 +547,11 @@ class KIP7 {
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} to Klaytn account address to receive the newly created token.
      * @param {string|number|BigNumber} amount Amount of tokens to create.
+     * @param {string} [minter] The Klaytn account address to mint the tokens. The default value is the `deployer`'s account.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip7TransactionStatusResponse}
      */
-    mint(addressOrAlias, to, amount, callback) {
+    mint(addressOrAlias, to, amount, minter, callback) {
         if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!utils.isAddress(to)) throw new Error(`Invalid to address: ${to}.`)
         if (!_.isNumber(amount) && !utils.isBigNumber(amount) && (!_.isString(amount) || !utils.isHex(amount))) {
@@ -511,8 +560,12 @@ class KIP7 {
 
         amount = utils.toHex(amount)
 
+        if (_.isFunction(minter)) {
+            callback = minter
+            minter = undefined
+        }
         const opts = {
-            body: MintKip7TokenRequest.constructFromObject({ to, amount }),
+            body: MintKip7TokenRequest.constructFromObject({ to, amount, from: minter }),
         }
 
         return new Promise((resolve, reject) => {
@@ -646,6 +699,7 @@ class KIP7 {
             callback = pauser
             pauser = undefined
         }
+        if (pauser && !utils.isAddress(pauser)) throw new Error(`Invalid address: ${pauser}`)
         const opts = { body: { pauser: pauser || '' } }
 
         return new Promise((resolve, reject) => {
@@ -682,10 +736,168 @@ class KIP7 {
             callback = pauser
             pauser = undefined
         }
+        if (pauser && !utils.isAddress(pauser)) throw new Error(`Invalid address: ${pauser}`)
         const opts = { body: { pauser: pauser || '' } }
 
         return new Promise((resolve, reject) => {
             this.kip7ContractApi.unpauseContract(this.chainId, addressOrAlias, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Grants a specified account the authority to mint and burn tokens from a contract. <br>
+     * You can remove the authority by using {@link KIP7#renounceMinter|caver.kas.kip7.renonuceMinter}. <br>
+     * POST v1/contract/{contract-address-or-alias}/minter
+     *
+     * @example
+     * const minterToBe = '0x{addree in hex}'
+     * const minter = '0x{minter address}' // should have authority to mint
+     *
+     * // with contract address
+     * const ret = await caver.kas.kip7.addMinter('0x{address in hex}', minterToBe)
+     *
+     * // with contract alias
+     * const ret = await caver.kas.kip7.addMinter('jasmine-alias', minterToBe, minter)
+     *
+     * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
+     * @param {string} accountToBeMinter The Klaytn account address to be granted authority to mint and burn tokens.
+     * @param {string} [minter] The Klaytn account address that grants authority to mint and burn a token. The default value is the `deployer`'s address'.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Kip7TransactionStatusResponse}
+     */
+    addMinter(addressOrAlias, accountToBeMinter, minter, callback) {
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(accountToBeMinter)) throw new Error(`Invalid address: ${accountToBeMinter}`)
+
+        if (_.isFunction(minter)) {
+            callback = minter
+            minter = undefined
+        }
+        if (minter && !utils.isAddress(minter)) throw new Error(`Invalid address: ${minter}`)
+
+        const opts = { body: { minter: accountToBeMinter, sender: minter } }
+
+        return new Promise((resolve, reject) => {
+            this.kip7TokenApi.addMinter(addressOrAlias, this.chainId, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Removes the authority granted to a specifed account to mint and burn tokens from a contract. <br>
+     * The address whose authority to mint and burn tokens will be removed. <br>
+     * DELETE v1/contract/{contract-address-or-alias}/minter
+     *
+     * @example
+     * const minter = '0x{minter address}' // should have authority to mint
+     *
+     * // with contract address
+     * const ret = await caver.kas.kip7.addMinter('0x{address in hex}', minter)
+     *
+     * // with contract alias
+     * const ret = await caver.kas.kip7.addMinter('jasmine-alias', minter)
+     *
+     * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
+     * @param {string} minter Klaytn account address that grants authority to mint and burn a token. The default value is the `deployer`'s address'.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Kip7TransactionStatusResponse}
+     */
+    renounceMinter(addressOrAlias, minter, callback) {
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(minter)) throw new Error(`Invalid address: ${minter}`)
+
+        return new Promise((resolve, reject) => {
+            this.kip7TokenApi.renounceMinter(addressOrAlias, minter, this.chainId, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Grants a specified account the authority to pause the actions of a contract. <br>
+     * The actions of a contract here refer to sending tokens and sending tokens on the owner's behalf. <br>
+     * To remove the authority, use {@link KIP7#renouncePauser|caver.kas.kip7.renouncePauser}. <br>
+     * POST v1/contract/{contract-address-or-alias}/pauser
+     *
+     * @example
+     * const pauserToBe = '0x{addree in hex}'
+     * const pauser = '0x{pauser address}' // should have authority to pause
+     *
+     * // with contract address
+     * const ret = await caver.kas.kip7.addPauser('0x{address in hex}', pauserToBe)
+     *
+     * // with contract alias
+     * const ret = await caver.kas.kip7.addPauser('jasmine-alias', pauserToBe, pauser)
+     *
+     * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
+     * @param {string} accountToBePauser The Klaytn account address to be granted authority to send and pause a contract.
+     * @param {string} [pauser] The Klaytn account address that grants to be granted authority to send and pause a contract. The default value is the `deployer`'s address.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Kip7TransactionStatusResponse}
+     */
+    addPauser(addressOrAlias, accountToBePauser, pauser, callback) {
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(accountToBePauser)) throw new Error(`Invalid address: ${accountToBePauser}`)
+
+        if (_.isFunction(pauser)) {
+            callback = pauser
+            pauser = undefined
+        }
+        if (pauser && !utils.isAddress(pauser)) throw new Error(`Invalid address: ${pauser}`)
+
+        const opts = { body: { pauser: accountToBePauser, sender: pauser } }
+
+        return new Promise((resolve, reject) => {
+            this.kip7ContractApi.addPauser(addressOrAlias, this.chainId, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Removes the authority given to a certain account to pause the actions of specified contract. <br>
+     * The actions of a contract here refer to sending tokens and sending tokens on the owner's behalf. <br>
+     * DELETE /v1/contract/{contract-address-or-alias}/pauser/{pauser-address}
+     *
+     * @example
+     * const pauser = '0x{pauser address}' // should have authority to pause
+     *
+     * // with contract address
+     * const ret = await caver.kas.kip7.renouncePauser('0x{address in hex}', pauser)
+     *
+     * // with contract alias
+     * const ret = await caver.kas.kip7.renouncePauser('jasmine-alias', pauser)
+     *
+     * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
+     * @param {string} pauser Klaytn account address that grants authority to mint and burn a token. The default value is the `deployer`'s address'.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Kip7TransactionStatusResponse}
+     */
+    renouncePauser(addressOrAlias, pauser, callback) {
+        if (!this.accessOptions || !this.kip7ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!utils.isAddress(pauser)) throw new Error(`Invalid address: ${pauser}`)
+
+        return new Promise((resolve, reject) => {
+            this.kip7ContractApi.renouncePauser(addressOrAlias, pauser, this.chainId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
