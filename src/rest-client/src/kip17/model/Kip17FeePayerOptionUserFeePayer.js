@@ -12,57 +12,38 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip17FeePayerOption = require('./Kip17FeePayerOption')
 
 /**
- * The Kip17ContractListResponseItem model module.
- * @class Kip17ContractListResponseItem
+ * The Kip17FeePayerOptionUserFeePayer model module.
+ * @class Kip17FeePayerOptionUserFeePayer
  * @version 1.0
  */
-class Kip17ContractListResponseItem {
+class Kip17FeePayerOptionUserFeePayer {
     /**
-     * Constructs a new <code>Kip17ContractListResponseItem</code>.
-     * @alias Kip17ContractListResponseItem
+     * Constructs a new <code>Kip17FeePayerOptionUserFeePayer</code>.
+     * @alias Kip17FeePayerOptionUserFeePayer
      * @class
-     * @param address {String} The contract address.
-     * @param alias {String} The contract alias.
-     * @param name {String} The token name.
-     * @param symbol {String} The token symbol.
      */
 
-    constructor(address, alias, name, symbol) {
-        this.address = address
-        this.alias = alias
-        this.name = name
-        this.symbol = symbol
-    }
+    constructor() {}
 
     /**
-     * Constructs a <code>Kip17ContractListResponseItem</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip17FeePayerOptionUserFeePayer</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip17ContractListResponseItem} obj Optional instance to populate.
-     * @return {Kip17ContractListResponseItem} The populated <code>Kip17ContractListResponseItem</code> instance.
-     * @memberof Kip17ContractListResponseItem
+     * @param {Kip17FeePayerOptionUserFeePayer} obj Optional instance to populate.
+     * @return {Kip17FeePayerOptionUserFeePayer} The populated <code>Kip17FeePayerOptionUserFeePayer</code> instance.
+     * @memberof Kip17FeePayerOptionUserFeePayer
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Kip17ContractListResponseItem()
+            obj = obj || new Kip17FeePayerOptionUserFeePayer()
 
+            if (data.hasOwnProperty('krn')) {
+                obj.krn = ApiClient.convertToType(data.krn, 'String')
+            }
             if (data.hasOwnProperty('address')) {
                 obj.address = ApiClient.convertToType(data.address, 'String')
-            }
-            if (data.hasOwnProperty('alias')) {
-                obj.alias = ApiClient.convertToType(data.alias, 'String')
-            }
-            if (data.hasOwnProperty('name')) {
-                obj.name = ApiClient.convertToType(data.name, 'String')
-            }
-            if (data.hasOwnProperty('options')) {
-                obj.options = Kip17FeePayerOption.constructFromObject(data.options)
-            }
-            if (data.hasOwnProperty('symbol')) {
-                obj.symbol = ApiClient.convertToType(data.symbol, 'String')
             }
         }
         return obj
@@ -70,33 +51,16 @@ class Kip17ContractListResponseItem {
 }
 
 /**
- * The contract address.
+ * The KRN of the FeePayer-Pool of the FeePayer.
  * @type {String}
- * @memberof Kip17ContractListResponseItem
+ * @memberof Kip17FeePayerOptionUserFeePayer
  */
-Kip17ContractListResponseItem.prototype.address = undefined
+Kip17FeePayerOptionUserFeePayer.prototype.krn = undefined
 /**
- * The contract alias.
+ * The Klaytn account address that will pay the transaction fee.
  * @type {String}
- * @memberof Kip17ContractListResponseItem
+ * @memberof Kip17FeePayerOptionUserFeePayer
  */
-Kip17ContractListResponseItem.prototype.alias = undefined
-/**
- * The token name.
- * @type {String}
- * @memberof Kip17ContractListResponseItem
- */
-Kip17ContractListResponseItem.prototype.name = undefined
-/**
- * @type {Kip17FeePayerOption}
- * @memberof Kip17ContractListResponseItem
- */
-Kip17ContractListResponseItem.prototype.options = undefined
-/**
- * The token symbol.
- * @type {String}
- * @memberof Kip17ContractListResponseItem
- */
-Kip17ContractListResponseItem.prototype.symbol = undefined
+Kip17FeePayerOptionUserFeePayer.prototype.address = undefined
 
-module.exports = Kip17ContractListResponseItem
+module.exports = Kip17FeePayerOptionUserFeePayer

@@ -1,6 +1,6 @@
 /**
  * KIP-17 API
- *   # Error Codes  ## 400: Bad Request   | Code | Messages |   | --- | --- |   | 1100050 | incorrect request 1100101 | data don't exist 1100251 | its value is out of range; size 1104401 | failed to get an account |   ## 404: Not Found   | Code | Messages |   | --- | --- |   | 1104404 | Token not found |   ## 409: Conflict   | Code | Messages |   | --- | --- |   | 1104400 | Duplicate alias - test |
+ * # Introduction The KIP-17 API helps BApp (Blockchain Application) developers to manage contracts and tokens created in accordance with the [KIP-17](https://docs.klaytnapi.com/v/en/api#kip-17-api) standard, which is Klaytn's technical speficication for Non-Fungible Tokens.  The functionality of the multiple endpoints enables you to do the following actions: - deploy smart contracts - manage the entire life cycle of an NFT from minting, to sending and burning - get contract or token data - authorize a third party to execute token transfers - view token ownership history  For more details on KAS, please refer to [KAS Docs](https://docs.klaytnapi.com/). If you have any questions or comments, please leave them in the [Klaytn Developers Forum](http://forum.klaytn.com).    **alias**  When a method of the KIP-17 API requires a contract address, you can use the contract **alias**. You can give the contract an alias when deploying, and use it in place of the complicated address.  # Fee Payer Options KAS KIP-17 supports four ways to pay the transaction fees.<br />  **1. Only using KAS Global FeePayer Account** <br /> Sends all transactions using KAS Global FeePayer Account. ``` {     \"options\": {       \"enableGlobalFeePayer\": true     } } ``` <br />  **2. Using User FeePayer Account** <br /> Sends all transactions using User FeePayer Account. ``` {   \"options\": {     \"enableGlobalFeePayer\": false,     \"userFeePayer\": {       \"krn\": \"krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default\",       \"address\": \"0xd6905b98E4Ba43a24E842d2b66c1410173791cab\"     }   } } ``` <br />  **3. Using both KAS Global FeePayer Account + User FeePayer Account** <br /> Sends transactions using User FeePayer Account by default, and switches to the KAS Global FeePayer Account when balances are insufficient. ``` {   \"options\": {     \"enableGlobalFeePayer\": true,     \"userFeePayer\": {       \"krn\": \"krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default\",       \"address\": \"0xd6905b98E4Ba43a24E842d2b66c1410173791cab\"     }   } } ``` <br />  **4. Not using FeePayer Account** <br /> Sends transactions the default way, paying the transaction fee from the user's account. ``` {   \"options\": {     \"enableGlobalFeePayer\": false   } } ``` <br />  # Error Code This section contains the errors that might occur when using the KIP-17 API. KAS uses HTTP status codes. More details can be found in this [link](https://developer.mozilla.org/en/docs/Web/HTTP/Status).
  *
  * OpenAPI spec version: 1.0
  *
@@ -23,13 +23,13 @@ class GetOwnerKip17TokensResponseItem {
      * Constructs a new <code>GetOwnerKip17TokensResponseItem</code>.
      * @alias GetOwnerKip17TokensResponseItem
      * @class
-     * @param createdAt {Number} Token-minting time with Unix timestamp
-     * @param owner {String} Token owner EOA at present
-     * @param previousOwner {String} Previous owner who transfered the token to the current owner
-     * @param tokenId {String} Token ID
-     * @param tokenUri {String} URI identifying documentation with token metadata
-     * @param transactionHash {String} The latest transaction hash with ownership change
-     * @param updatedAt {Number} The last update of token ownership with Unix timestamp
+     * @param createdAt {Number} The UNIX timestamp of when the token was minted.
+     * @param owner {String} The Klaytn account address of the current owner.
+     * @param previousOwner {String} The Klaytn account address of the previous owner.
+     * @param tokenId {String} The ID assigned to the token.
+     * @param tokenUri {String} The URI that contains the token's metadata.
+     * @param transactionHash {String}
+     * @param updatedAt {Number} The UNIX timestamp of the last token ownership change.
      */
 
     constructor(createdAt, owner, previousOwner, tokenId, tokenUri, transactionHash, updatedAt) {
@@ -81,43 +81,42 @@ class GetOwnerKip17TokensResponseItem {
 }
 
 /**
- * Token-minting time with Unix timestamp
+ * The UNIX timestamp of when the token was minted.
  * @type {Number}
  * @memberof GetOwnerKip17TokensResponseItem
  */
 GetOwnerKip17TokensResponseItem.prototype.createdAt = undefined
 /**
- * Token owner EOA at present
+ * The Klaytn account address of the current owner.
  * @type {String}
  * @memberof GetOwnerKip17TokensResponseItem
  */
 GetOwnerKip17TokensResponseItem.prototype.owner = undefined
 /**
- * Previous owner who transfered the token to the current owner
+ * The Klaytn account address of the previous owner.
  * @type {String}
  * @memberof GetOwnerKip17TokensResponseItem
  */
 GetOwnerKip17TokensResponseItem.prototype.previousOwner = undefined
 /**
- * Token ID
+ * The ID assigned to the token.
  * @type {String}
  * @memberof GetOwnerKip17TokensResponseItem
  */
 GetOwnerKip17TokensResponseItem.prototype.tokenId = undefined
 /**
- * URI identifying documentation with token metadata
+ * The URI that contains the token's metadata.
  * @type {String}
  * @memberof GetOwnerKip17TokensResponseItem
  */
 GetOwnerKip17TokensResponseItem.prototype.tokenUri = undefined
 /**
- * The latest transaction hash with ownership change
  * @type {String}
  * @memberof GetOwnerKip17TokensResponseItem
  */
 GetOwnerKip17TokensResponseItem.prototype.transactionHash = undefined
 /**
- * The last update of token ownership with Unix timestamp
+ * The UNIX timestamp of the last token ownership change.
  * @type {Number}
  * @memberof GetOwnerKip17TokensResponseItem
  */
