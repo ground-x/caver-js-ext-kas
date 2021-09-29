@@ -88,6 +88,7 @@ for i in ${DIRS};do
 			sed -i "/const ModelObject/D" $j
 			sed -i "s/ApiClient.constructFromObject(data, obj, 'ModelObject')/ApiClient.constructFromObject(data, obj, Object)/g" $j
 			sed -i "s/{Array.<ModelObject>}/{Array.<Object>}/g" $j
+			sed -i "s/obj\(.*\) = ApiClient.convertToType(\(.*\), ModelObject)/obj\1 = ApiClient.convertToType(\2, Object)/g" $j
 
 			# Use Object instead of unused AccountUpdateKey model
 			sed -i "s/\(.*\)AccountUpdateKey.constructFromObject(\(.*\))/\1ApiClient.convertToType(\2, Object)/g" $j
