@@ -51,17 +51,16 @@ const {
     FDUserProcessRLPRequest,
     FDUserAccountUpdateTransactionRequest,
     SignPendingTransactionBySigRequest,
-    Key,
     KeyCreationRequest,
-    KeyCreationResponse,
     ContractCallRequest,
     TxHistoryApi,
 } = require('../../rest-client/src')
 const WalletQueryOptions = require('./walletQueryOptions')
-const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey } = require('../../utils/helper')
+const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey, chainIds } = require('../../utils/helper')
 
 const NOT_INIT_API_ERR_MSG = `Wallet API is not initialized. Use 'caver.initWalletAPI' function to initialize Wallet API.`
 const INCORRECT_MIGRATE_ACCOUNTS = `You must pass a list of accounts as an argument.`
+const SUPPORTS_CYPRESS_ONLY = `This API is only supported on the Cypress network. Please change network to use this.`
 
 /**
  * A warpping class that connects Wallet API.
@@ -2236,6 +2235,7 @@ class Wallet {
      */
     getFDTransactionList(from, callback) {
         if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (this.chainId !== chainIds.CHAIN_ID_CYPRESS) throw new Error(SUPPORTS_CYPRESS_ONLY)
 
         if (_.isFunction(from)) {
             callback = from
@@ -2268,6 +2268,7 @@ class Wallet {
      */
     getFDTransaction(txHash, callback) {
         if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (this.chainId !== chainIds.CHAIN_ID_CYPRESS) throw new Error(SUPPORTS_CYPRESS_ONLY)
         if (!utils.isValidHash(txHash)) throw new Error(`Invalid transaction hash: ${txHash}`)
 
         return new Promise((resolve, reject) => {

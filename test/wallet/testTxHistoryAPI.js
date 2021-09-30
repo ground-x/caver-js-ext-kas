@@ -27,7 +27,10 @@ const expect = chai.expect
 const CaverExtKAS = require('../../index.js')
 
 let caver
-const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.walletAPI
+const { url, accessKeyId, secretAccessKey } = require('../testEnv').auths.walletAPI
+const chainIds = require('../../src/utils/helper').chainIds
+
+const chainId = chainIds.CHAIN_ID_CYPRESS
 
 const sandbox = sinon.createSandbox()
 
@@ -188,6 +191,14 @@ describe('Wallet API service enabling', () => {
             expect(ret.items).not.to.be.undefined
             expect(ret.cursor).not.to.be.undefined
         })
+
+        it('CAVERJS-EXT-KAS-WALLET-254: should throw an error when chain id is not cypress network', async () => {
+            caver.initWalletAPI(chainIds.CHAIN_ID_BAOBAB, accessKeyId, secretAccessKey, url)
+
+            expect(() => caver.kas.wallet.getFDTransactionList(from)).to.throw(
+                `This API is only supported on the Cypress network. Please change network to use this.`
+            )
+        })
     })
 
     context('caver.kas.wallet.getFDTransaction', () => {
@@ -305,6 +316,14 @@ describe('Wallet API service enabling', () => {
             expect(ret.transactionHash).not.to.be.undefined
             expect(ret.typeInt).not.to.be.undefined
             expect(ret.usd).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-255: should throw an error when chain id is not cypress network', async () => {
+            caver.initWalletAPI(chainIds.CHAIN_ID_BAOBAB, accessKeyId, secretAccessKey, url)
+
+            expect(() => caver.kas.wallet.getFDTransaction(txHash)).to.throw(
+                `This API is only supported on the Cypress network. Please change network to use this.`
+            )
         })
     })
 })
