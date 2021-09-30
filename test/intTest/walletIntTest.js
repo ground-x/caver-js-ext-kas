@@ -3732,6 +3732,18 @@ describe('Wallet API service', () => {
         expect(ret.failures).to.be.undefined
     }).timeout(500000)
 
+    it('CAVERJS-EXT-KAS-INT-316: caver.kas.wallet.getKeyListByKRN should return key list in KAS', async () => {
+        const ret = await caver.kas.wallet.getKeyListByKRN(krn, { size: 1 })
+
+        expect(ret.items.length).to.equal(1)
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-317: caver.kas.wallet.getKey should return key list in KAS', async () => {
+        const ret = await caver.kas.wallet.getKey(keyId)
+
+        expect(ret.keyId).to.equal(keyId)
+    }).timeout(500000)
+
     it('CAVERJS-EXT-KAS-INT-273: caver.kas.wallet.deleteKey should delete the key in KAS', async () => {
         const ret = await caver.kas.wallet.deleteKey(keyId)
 
