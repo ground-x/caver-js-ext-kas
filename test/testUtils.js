@@ -25,7 +25,7 @@ function createAlias(prefix) {
         .substr(2, 11)}`
 }
 
-async function createFeePayerOptions(enableGlobalFeePayer, userFeePayer) {
+function createFeePayerOptions(enableGlobalFeePayer, userFeePayer) {
     return {
         enableGlobalFeePayer,
         userFeePayer: {
