@@ -167,8 +167,8 @@ const Kip17ContractInfoResponse = require('./kip17/model/Kip17ContractInfoRespon
 const Kip17ContractListResponse = require('./kip17/model/Kip17ContractListResponse')
 const Kip17ContractListResponseItem = require('./kip17/model/Kip17ContractListResponseItem')
 const Kip17DeployResponse = require('./kip17/model/Kip17DeployResponse')
-const Kip17FeePayerOption = require('./kip17/model/Kip17FeePayerOption')
-const Kip17FeePayerOptionUserFeePayer = require('./kip17/model/Kip17FeePayerOptionUserFeePayer')
+const Kip17FeePayerOptions = require('./kip17/model/Kip17FeePayerOptions')
+const Kip17FeePayerOptionsUserFeePayer = require('./kip17/model/Kip17FeePayerOptionsUserFeePayer')
 const Kip17TokenListResponse = require('./kip17/model/Kip17TokenListResponse')
 const Kip17TransactionStatusResponse = require('./kip17/model/Kip17TransactionStatusResponse')
 const MintKip17TokenRequest = require('./kip17/model/MintKip17TokenRequest')
@@ -985,16 +985,16 @@ module.exports = {
     Kip17DeployResponse,
 
     /**
-     * The Kip17FeePayerOption model constructor.
-     * @property {Kip17FeePayerOption}
+     * The Kip17FeePayerOptions model constructor.
+     * @property {Kip17FeePayerOptions}
      */
-    Kip17FeePayerOption,
+    Kip17FeePayerOptions,
 
     /**
-     * The Kip17FeePayerOptionUserFeePayer model constructor.
-     * @property {Kip17FeePayerOptionUserFeePayer}
+     * The Kip17FeePayerOptionsUserFeePayer model constructor.
+     * @property {Kip17FeePayerOptionsUserFeePayer}
      */
-    Kip17FeePayerOptionUserFeePayer,
+    Kip17FeePayerOptionsUserFeePayer,
 
     /**
      * The Kip17TokenListResponse model constructor.

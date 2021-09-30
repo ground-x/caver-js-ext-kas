@@ -1397,8 +1397,8 @@ components:
           type: string
           description: Transaction hash
           example: 0x0a4f4f97d8a5904721514d60abd3f9ad7938862e415a6c043553a94ab68a5edb
-        option:
-          $ref: '#/components/schemas/Kip17FeePayerOption'
+        options:
+          $ref: '#/components/schemas/Kip17FeePayerOptions'
       description: ""
     Kip17ContractInfoResponse:
       title: Kip17ContractInfoResponse
@@ -1426,7 +1426,7 @@ components:
           description: The token symbol.
           example: TEST
         options:
-          $ref: '#/components/schemas/Kip17FeePayerOption'
+          $ref: '#/components/schemas/Kip17FeePayerOptions'
       description: ""
     Kip17TokenListResponse:
       title: Kip17TokenListResponse
@@ -1567,14 +1567,14 @@ components:
             \ letters, numbers and hyphens."
           example: Test NFT
         options:
-          $ref: '#/components/schemas/Kip17FeePayerOption'
+          $ref: '#/components/schemas/Kip17FeePayerOptions'
       description: ""
     UpdateKip17ContractRequest:
       title: UpdateKip17ContractRequest
       type: object
       properties:
         options:
-          $ref: '#/components/schemas/Kip17FeePayerOption'
+          $ref: '#/components/schemas/Kip17FeePayerOptions'
     MintKip17TokenRequest:
       title: MintKip17TokenRequest
       required:
@@ -1691,14 +1691,14 @@ components:
           description: The token name.
           example: TEST NFT
         options:
-          $ref: '#/components/schemas/Kip17FeePayerOption'
+          $ref: '#/components/schemas/Kip17FeePayerOptions'
         symbol:
           type: string
           description: The token symbol.
           example: TEST
       description: ""
-    Kip17FeePayerOption:
-      title: Kip17FeePayerOption
+    Kip17FeePayerOptions:
+      title: Kip17FeePayerOptions
       type: object
       properties:
         enableGlobalFeePayer:
@@ -1706,7 +1706,7 @@ components:
           description: The boolean value that indicates whether KAS global fee delegation
             is used. The default value is `true`.
         userFeePayer:
-          $ref: '#/components/schemas/Kip17FeePayerOption_userFeePayer'
+          $ref: '#/components/schemas/Kip17FeePayerOptions_userFeePayer'
     GetOwnerKip17TokensResponseItem:
       title: GetOwnerKip17TokensResponseItem
       required:
@@ -1772,7 +1772,7 @@ components:
           description: The Klaytn account address of the recipient.
           example: 0xae7bb7efff289c163a95303795c4d59293f6ba92
       description: ""
-    Kip17FeePayerOption_userFeePayer:
+    Kip17FeePayerOptions_userFeePayer:
       type: object
       properties:
         krn:

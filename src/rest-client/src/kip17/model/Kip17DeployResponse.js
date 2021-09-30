@@ -12,7 +12,7 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip17FeePayerOption = require('./Kip17FeePayerOption')
+const Kip17FeePayerOptions = require('./Kip17FeePayerOptions')
 
 /**
  * The Kip17DeployResponse model module.
@@ -51,8 +51,8 @@ class Kip17DeployResponse {
             if (data.hasOwnProperty('transactionHash')) {
                 obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
             }
-            if (data.hasOwnProperty('option')) {
-                obj.option = Kip17FeePayerOption.constructFromObject(data.option)
+            if (data.hasOwnProperty('options')) {
+                obj.options = Kip17FeePayerOptions.constructFromObject(data.options)
             }
         }
         return obj
@@ -72,9 +72,9 @@ Kip17DeployResponse.prototype.status = undefined
  */
 Kip17DeployResponse.prototype.transactionHash = undefined
 /**
- * @type {Kip17FeePayerOption}
+ * @type {Kip17FeePayerOptions}
  * @memberof Kip17DeployResponse
  */
-Kip17DeployResponse.prototype.option = undefined
+Kip17DeployResponse.prototype.options = undefined
 
 module.exports = Kip17DeployResponse
