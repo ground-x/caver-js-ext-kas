@@ -111,7 +111,7 @@ for i in ${DIRS};do
 			sed -i "s/ exports/ ${api}/g" $j
 
 			# The formatting below converts the code format so that it can be used in caver-js-ext-kas.
-			cnt=$(grep -o 'import' $j | wc -l)
+			cnt=$(grep -o 'import\(.*\)from' $j | wc -l)
 			cmp=0
 			if [ ${cnt} -gt ${cmp} ]; then
 				# Use class and exports and also format class variable using "ModelName.prototype.varName"
