@@ -12,7 +12,7 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip7FeePayerOption = require('./Kip7FeePayerOption')
+const Kip7FeePayerOptions = require('./Kip7FeePayerOptions')
 
 /**
  * The Kip7ContractMetadataResponse model module.
@@ -67,7 +67,7 @@ class Kip7ContractMetadataResponse {
                 obj.totalSupply = ApiClient.convertToType(data.totalSupply, 'String')
             }
             if (data.hasOwnProperty('options')) {
-                obj.options = Kip7FeePayerOption.constructFromObject(data.options)
+                obj.options = Kip7FeePayerOptions.constructFromObject(data.options)
             }
         }
         return obj
@@ -105,7 +105,7 @@ Kip7ContractMetadataResponse.prototype.symbol = undefined
  */
 Kip7ContractMetadataResponse.prototype.totalSupply = undefined
 /**
- * @type {Kip7FeePayerOption}
+ * @type {Kip7FeePayerOptions}
  * @memberof Kip7ContractMetadataResponse
  */
 Kip7ContractMetadataResponse.prototype.options = undefined

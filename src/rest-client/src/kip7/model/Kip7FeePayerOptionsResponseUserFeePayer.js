@@ -12,39 +12,38 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip7FeePayerOptionResponseUserFeePayer = require('./Kip7FeePayerOptionResponseUserFeePayer')
 
 /**
- * The Kip7FeePayerOptionResponse model module.
- * @class Kip7FeePayerOptionResponse
+ * The Kip7FeePayerOptionsResponseUserFeePayer model module.
+ * @class Kip7FeePayerOptionsResponseUserFeePayer
  * @version 1.0
  */
-class Kip7FeePayerOptionResponse {
+class Kip7FeePayerOptionsResponseUserFeePayer {
     /**
-     * Constructs a new <code>Kip7FeePayerOptionResponse</code>.
-     * @alias Kip7FeePayerOptionResponse
+     * Constructs a new <code>Kip7FeePayerOptionsResponseUserFeePayer</code>.
+     * @alias Kip7FeePayerOptionsResponseUserFeePayer
      * @class
      */
 
     constructor() {}
 
     /**
-     * Constructs a <code>Kip7FeePayerOptionResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip7FeePayerOptionsResponseUserFeePayer</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip7FeePayerOptionResponse} obj Optional instance to populate.
-     * @return {Kip7FeePayerOptionResponse} The populated <code>Kip7FeePayerOptionResponse</code> instance.
-     * @memberof Kip7FeePayerOptionResponse
+     * @param {Kip7FeePayerOptionsResponseUserFeePayer} obj Optional instance to populate.
+     * @return {Kip7FeePayerOptionsResponseUserFeePayer} The populated <code>Kip7FeePayerOptionsResponseUserFeePayer</code> instance.
+     * @memberof Kip7FeePayerOptionsResponseUserFeePayer
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Kip7FeePayerOptionResponse()
+            obj = obj || new Kip7FeePayerOptionsResponseUserFeePayer()
 
-            if (data.hasOwnProperty('enableGlobalFeepayer')) {
-                obj.enableGlobalFeepayer = ApiClient.convertToType(data.enableGlobalFeepayer, 'Boolean')
+            if (data.hasOwnProperty('krn')) {
+                obj.krn = ApiClient.convertToType(data.krn, 'String')
             }
-            if (data.hasOwnProperty('userFeePayer')) {
-                obj.userFeePayer = Kip7FeePayerOptionResponseUserFeePayer.constructFromObject(data.userFeePayer)
+            if (data.hasOwnProperty('address')) {
+                obj.address = ApiClient.convertToType(data.address, 'String')
             }
         }
         return obj
@@ -52,15 +51,16 @@ class Kip7FeePayerOptionResponse {
 }
 
 /**
- * The boolean value indicating whether KAS Global Fee Delegation is being used. The default value is `true`.
- * @type {Boolean}
- * @memberof Kip7FeePayerOptionResponse
+ * The KRN of the Fee-payer Pool
+ * @type {String}
+ * @memberof Kip7FeePayerOptionsResponseUserFeePayer
  */
-Kip7FeePayerOptionResponse.prototype.enableGlobalFeepayer = undefined
+Kip7FeePayerOptionsResponseUserFeePayer.prototype.krn = undefined
 /**
- * @type {Kip7FeePayerOptionResponseUserFeePayer}
- * @memberof Kip7FeePayerOptionResponse
+ * The Klaytn account address of the FeePayer
+ * @type {String}
+ * @memberof Kip7FeePayerOptionsResponseUserFeePayer
  */
-Kip7FeePayerOptionResponse.prototype.userFeePayer = undefined
+Kip7FeePayerOptionsResponseUserFeePayer.prototype.address = undefined
 
-module.exports = Kip7FeePayerOptionResponse
+module.exports = Kip7FeePayerOptionsResponseUserFeePayer

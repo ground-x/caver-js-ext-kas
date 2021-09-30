@@ -148,6 +148,8 @@ const TokenHistoryApi = require('./tokenHistory/api/TokenHistoryApi')
 const TokenOwnershipApi = require('./tokenHistory/api/TokenOwnershipApi')
 
 // KIP7
+const AddMinterKip7Request = require('./kip7/model/AddMinterKip7Request')
+const AddPauserKip7Request = require('./kip7/model/AddPauserKip7Request')
 const ApproveKip7TokenRequest = require('./kip7/model/ApproveKip7TokenRequest')
 const BurnFromKip7TokenRequest = require('./kip7/model/BurnFromKip7TokenRequest')
 const BurnKip7TokenRequest = require('./kip7/model/BurnKip7TokenRequest')
@@ -155,15 +157,22 @@ const DeployKip7ContractRequest = require('./kip7/model/DeployKip7ContractReques
 const Kip7ContractListResponse = require('./kip7/model/Kip7ContractListResponse')
 const Kip7ContractListResponseItem = require('./kip7/model/Kip7ContractListResponseItem')
 const Kip7ContractMetadataResponse = require('./kip7/model/Kip7ContractMetadataResponse')
+const Kip7DeployResponse = require('./kip7/model/Kip7DeployResponse')
 const Kip7DeployerResponse = require('./kip7/model/Kip7DeployerResponse')
+const Kip7FeePayerOptions = require('./kip7/model/Kip7FeePayerOptions')
+const Kip7FeePayerOptionsResponse = require('./kip7/model/Kip7FeePayerOptionsResponse')
+const Kip7FeePayerOptionsResponseUserFeePayer = require('./kip7/model/Kip7FeePayerOptionsResponseUserFeePayer')
 const Kip7TokenBalanceResponse = require('./kip7/model/Kip7TokenBalanceResponse')
 const Kip7TransactionStatusResponse = require('./kip7/model/Kip7TransactionStatusResponse')
 const MintKip7TokenRequest = require('./kip7/model/MintKip7TokenRequest')
+const PauseKip7Request = require('./kip7/model/PauseKip7Request')
 const TransferKip7TokenFromRequest = require('./kip7/model/TransferKip7TokenFromRequest')
 const TransferKip7TokenRequest = require('./kip7/model/TransferKip7TokenRequest')
+const UnpauseKip7Request = require('./kip7/model/UnpauseKip7Request')
+const UpdateKip7ContractRequest = require('./kip7/model/UpdateKip7ContractRequest')
 const Kip7ContractApi = require('./kip7/api/Kip7ContractApi')
-const Kip7TokenApi = require('./kip7/api/Kip7TokenApi')
 const Kip7DeployerApi = require('./kip7/api/Kip7DeployerApi')
+const Kip7TokenApi = require('./kip7/api/Kip7TokenApi')
 
 // KIP17
 const ApproveAllKip17Request = require('./kip17/model/ApproveAllKip17Request')
@@ -199,8 +208,8 @@ const Kip37Contract = require('./kip37/model/Kip37Contract')
 const Kip37ContractListResponse = require('./kip37/model/Kip37ContractListResponse')
 const Kip37DeployResponse = require('./kip37/model/Kip37DeployResponse')
 const Kip37DeployerResponse = require('./kip37/model/Kip37DeployerResponse')
-const Kip37FeePayerOption = require('./kip37/model/Kip37FeePayerOption')
-const Kip37FeePayerOptionUserFeePayer = require('./kip37/model/Kip37FeePayerOptionUserFeePayer')
+const Kip37FeePayerOptions = require('./kip37/model/Kip37FeePayerOptions')
+const Kip37FeePayerOptionsUserFeePayer = require('./kip37/model/Kip37FeePayerOptionsUserFeePayer')
 const Kip37TokenInfoListResponse = require('./kip37/model/Kip37TokenInfoListResponse')
 const Kip37TokenInfoListResponseItem = require('./kip37/model/Kip37TokenInfoListResponseItem')
 const Kip37TokenListResponse = require('./kip37/model/Kip37TokenListResponse')
@@ -979,86 +988,156 @@ module.exports = {
      */
     TokenOwnershipApi,
     // KIP7
+
+    /**
+     * The AddMinterKip7Request model constructor.
+     * @property {AddMinterKip7Request}
+     */
+    AddMinterKip7Request,
+
+    /**
+     * The AddPauserKip7Request model constructor.
+     * @property {AddPauserKip7Request}
+     */
+    AddPauserKip7Request,
+
     /**
      * The ApproveKip7TokenRequest model constructor.
      * @property {ApproveKip7TokenRequest}
      */
     ApproveKip7TokenRequest,
+
     /**
      * The BurnFromKip7TokenRequest model constructor.
      * @property {BurnFromKip7TokenRequest}
      */
     BurnFromKip7TokenRequest,
+
     /**
      * The BurnKip7TokenRequest model constructor.
      * @property {BurnKip7TokenRequest}
      */
     BurnKip7TokenRequest,
+
     /**
      * The DeployKip7ContractRequest model constructor.
      * @property {DeployKip7ContractRequest}
      */
     DeployKip7ContractRequest,
+
     /**
      * The Kip7ContractListResponse model constructor.
      * @property {Kip7ContractListResponse}
      */
     Kip7ContractListResponse,
+
     /**
      * The Kip7ContractListResponseItem model constructor.
      * @property {Kip7ContractListResponseItem}
      */
     Kip7ContractListResponseItem,
+
     /**
      * The Kip7ContractMetadataResponse model constructor.
      * @property {Kip7ContractMetadataResponse}
      */
     Kip7ContractMetadataResponse,
+
+    /**
+     * The Kip7DeployResponse model constructor.
+     * @property {Kip7DeployResponse}
+     */
+    Kip7DeployResponse,
+
     /**
      * The Kip7DeployerResponse model constructor.
      * @property {Kip7DeployerResponse}
      */
     Kip7DeployerResponse,
+
+    /**
+     * The Kip7FeePayerOptions model constructor.
+     * @property {Kip7FeePayerOptions}
+     */
+    Kip7FeePayerOptions,
+
+    /**
+     * The Kip7FeePayerOptionsResponse model constructor.
+     * @property {Kip7FeePayerOptionsResponse}
+     */
+    Kip7FeePayerOptionsResponse,
+
+    /**
+     * The Kip7FeePayerOptionsResponseUserFeePayer model constructor.
+     * @property {Kip7FeePayerOptionsResponseUserFeePayer}
+     */
+    Kip7FeePayerOptionsResponseUserFeePayer,
+
     /**
      * The Kip7TokenBalanceResponse model constructor.
      * @property {Kip7TokenBalanceResponse}
      */
     Kip7TokenBalanceResponse,
+
     /**
      * The Kip7TransactionStatusResponse model constructor.
      * @property {Kip7TransactionStatusResponse}
      */
     Kip7TransactionStatusResponse,
+
     /**
      * The MintKip7TokenRequest model constructor.
      * @property {MintKip7TokenRequest}
      */
     MintKip7TokenRequest,
+
+    /**
+     * The PauseKip7Request model constructor.
+     * @property {PauseKip7Request}
+     */
+    PauseKip7Request,
+
     /**
      * The TransferKip7TokenFromRequest model constructor.
      * @property {TransferKip7TokenFromRequest}
      */
     TransferKip7TokenFromRequest,
+
     /**
      * The TransferKip7TokenRequest model constructor.
      * @property {TransferKip7TokenRequest}
      */
     TransferKip7TokenRequest,
+
+    /**
+     * The UnpauseKip7Request model constructor.
+     * @property {UnpauseKip7Request}
+     */
+    UnpauseKip7Request,
+
+    /**
+     * The UpdateKip7ContractRequest model constructor.
+     * @property {UpdateKip7ContractRequest}
+     */
+    UpdateKip7ContractRequest,
+
     /**
      * The Kip7ContractApi service constructor.
      * @property {Kip7ContractApi}
      */
     Kip7ContractApi,
-    /**
-     * The Kip7TokenApi service constructor.
-     * @property {Kip7TokenApi}
-     */
-    Kip7TokenApi,
+
     /**
      * The Kip7DeployerApi service constructor.
      * @property {Kip7DeployerApi}
      */
     Kip7DeployerApi,
+
+    /**
+     * The Kip7TokenApi service constructor.
+     * @property {Kip7TokenApi}
+     */
+    Kip7TokenApi,
     // KIP17
 
     /**
@@ -1249,16 +1328,16 @@ module.exports = {
     Kip37DeployerResponse,
 
     /**
-     * The Kip37FeePayerOption model constructor.
-     * @property {Kip37FeePayerOption}
+     * The Kip37FeePayerOptions model constructor.
+     * @property {Kip37FeePayerOptions}
      */
-    Kip37FeePayerOption,
+    Kip37FeePayerOptions,
 
     /**
-     * The Kip37FeePayerOptionUserFeePayer model constructor.
-     * @property {Kip37FeePayerOptionUserFeePayer}
+     * The Kip37FeePayerOptionsUserFeePayer model constructor.
+     * @property {Kip37FeePayerOptionsUserFeePayer}
      */
-    Kip37FeePayerOptionUserFeePayer,
+    Kip37FeePayerOptionsUserFeePayer,
 
     /**
      * The Kip37TokenInfoListResponse model constructor.
