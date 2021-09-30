@@ -20,7 +20,10 @@ const utils = require('caver-js').utils
 const RestClient = require('../rest-client')
 const AccessOptions = require('./accessOptions')
 
-const DEFAULT_CHAIN_ID = 1001 // BAOBAB
+const chainIds = {
+    CHAIN_ID_BAOBAB: 1001,
+    CHAIN_ID_CYPRESS: 8217,
+}
 
 /**
  * The util module
@@ -39,7 +42,7 @@ const createClient = function(path, chainId, accessKeyId, secretAccessKey) {
     const client = new RestClient.ApiClient()
 
     client.basePath = path
-    chainId = chainId || DEFAULT_CHAIN_ID
+    chainId = chainId || chainIds.CHAIN_ID_BAOBAB
     client.authentications.basic.username = accessKeyId
     client.authentications.basic.password = secretAccessKey
 
@@ -186,5 +189,5 @@ module.exports = {
     addUncompressedPublickeyPrefix,
     formatAccountKey,
     checkTypeAndConvertForIdsAndAmounts,
-    DEFAULT_CHAIN_ID,
+    chainIds,
 }

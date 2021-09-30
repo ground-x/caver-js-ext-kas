@@ -18,6 +18,7 @@ const Caver = require('caver-js')
 const _ = require('lodash')
 const KAS = require('./src/kas/kas')
 const KASWallet = require('./src/wallet/kasWallet')
+const { chainIds } = require('./src/utils/helper')
 
 const productionEndpoints = {
     node: 'https://node-api.klaytnapi.com/v1/klaytn',
@@ -341,5 +342,8 @@ class CaverExtKAS extends Caver {
         this.kas.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
     }
 }
+
+CaverExtKAS.CHAIN_ID_BAOBAB = chainIds.CHAIN_ID_BAOBAB
+CaverExtKAS.CHAIN_ID_CYPRESS = chainIds.CHAIN_ID_CYPRESS
 
 module.exports = CaverExtKAS

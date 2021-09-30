@@ -56,10 +56,10 @@ describe('Wallet API service enabling', () => {
             expect(caver.kas.wallet.chainId).to.equal(chainId)
             expect(caver.kas.wallet.apiInstances).not.to.be.undefined
             expect(caver.kas.wallet.accountApi).not.to.be.undefined
-            expect(caver.kas.wallet.basicTransactionApi).not.to.be.undefined
-            expect(caver.kas.wallet.fdTransactionPaidByKASApi).not.to.be.undefined
-            expect(caver.kas.wallet.fdTransactionPaidByUserApi).not.to.be.undefined
-            expect(caver.kas.wallet.multisigTransactionManagementApi).not.to.be.undefined
+            expect(caver.kas.wallet.basicTxApi).not.to.be.undefined
+            expect(caver.kas.wallet.fdtxKasApi).not.to.be.undefined
+            expect(caver.kas.wallet.fdtxUserApi).not.to.be.undefined
+            expect(caver.kas.wallet.multisigTxApi).not.to.be.undefined
             expect(caver.kas.wallet.statisticsApi).not.to.be.undefined
         })
     })
