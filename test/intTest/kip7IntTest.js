@@ -28,13 +28,14 @@ const CaverExtKAS = require('../../index.js')
 let caver
 const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.kip7API
 const walletEnv = require('../testEnv').auths.walletAPI
-const { timeout } = require('../testUtils')
+const { createAlias, createFeePayerOptions, timeout } = require('../testUtils')
 
 let contractAddress
 let alias
 let owner
 let spender
 let deployer
+let feePayer
 const to = '0x7366f54429185bbcb6053b2fb5947358a9752103'
 
 const mintedAmount = '0x2540be400' // 10000000000
@@ -46,25 +47,8 @@ describe('KIP7 API service', () => {
         caver.initWalletAPI(walletEnv.chainId, walletEnv.accessKeyId, walletEnv.secretAccessKey, walletEnv.url)
     })
 
-    async function createFeePayerOptions(enableGlobalFeePayer) {
-        // Get a fee payer
-        const feePayerAddress = walletEnv.feePayerAddress
-        const feePayer = await caver.kas.wallet.getFeePayer(feePayerAddress)
-
-        return {
-            enableGlobalFeePayer,
-            userFeePayer: {
-                krn: feePayer.krn,
-                address: feePayer.address,
-            },
-        }
-    }
-
     it('CAVERJS-EXT-KAS-INT-259: caver.kas.kip7.deploy should deploy KIP-7 token contract', async () => {
-        // Make random string for alias to avoid duplicated alias
-        alias = `jasmine-${Math.random()
-            .toString(36)
-            .substr(2, 11)}`
+        alias = createAlias('jasmine')
 
         const ret = await caver.kas.kip7.deploy('Jasmine', 'JAS', 18, '10000000000000000000', alias)
 
@@ -73,12 +57,10 @@ describe('KIP7 API service', () => {
     }).timeout(100000)
 
     it('CAVERJS-EXT-KAS-INT-310: caver.kas.kip7.deploy should deploy KIP-7 token contract with fee payer options', async () => {
-        // Make random string for alias to avoid duplicated alias
-        alias = `jasmine-${Math.random()
-            .toString(36)
-            .substr(2, 11)}`
+        alias = createAlias('jasmine')
 
-        const feePayerOptions = await createFeePayerOptions(false)
+        feePayer = await caver.kas.wallet.getFeePayer(walletEnv.feePayerAddress)
+        const feePayerOptions = createFeePayerOptions(false, feePayer)
         const ret = await caver.kas.kip7.deploy('Jasmine', 'JAS', 18, '10000000000000000000', alias, feePayerOptions)
 
         expect(ret.status).to.equal('Submitted')
@@ -92,7 +74,7 @@ describe('KIP7 API service', () => {
     it('CAVERJS-EXT-KAS-INT-311: caver.kas.kip7.updateContractOptions should update KIP-7 token contract options with fee payer options', async () => {
         await timeout(10000)
 
-        const feePayerOptions = await createFeePayerOptions(true)
+        const feePayerOptions = createFeePayerOptions(true, feePayer)
         const ret = await caver.kas.kip7.updateContractOptions(alias, feePayerOptions)
 
         expect(ret.options).not.to.be.undefined

@@ -30,11 +30,12 @@ const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').aut
 const walletEnv = require('../testEnv').auths.walletAPI
 const nodeEnv = require('../testEnv').auths.nodeAPI
 const { senderPrivateKey } = require('../testEnv')
-const { createAlias, timeout } = require('../testUtils')
+const { createAlias, createFeePayerOptions, timeout } = require('../testUtils')
 
 let contractAddress
 let alias
 let deployer
+let feePayer
 
 const to = '0x7366f54429185bbcb6053b2fb5947358a9752103'
 const uri = 'https://caver.example/id/{id}.json'
@@ -62,24 +63,11 @@ describe('KIP37 API service', () => {
         expect(ret.options.userFeePayer.address).not.to.be.undefined
     }).timeout(100000)
 
-    async function createFeePayerOptions(enableGlobalFeePayer) {
-        // Get a fee payer
-        const feePayerAddress = walletEnv.feePayerAddress
-        const feePayer = await caver.kas.wallet.getFeePayer(feePayerAddress)
-
-        return {
-            enableGlobalFeePayer,
-            userFeePayer: {
-                krn: feePayer.krn,
-                address: feePayer.address,
-            },
-        }
-    }
-
     it('CAVERJS-EXT-KAS-INT-281: caver.kas.kip37.deploy should deploy with options', async () => {
         alias = createAlias('jasmine')
 
-        const feePayerOptions = await createFeePayerOptions(false)
+        feePayer = await caver.kas.wallet.getFeePayer(walletEnv.feePayerAddress)
+        const feePayerOptions = createFeePayerOptions(false, feePayer)
         const ret = await caver.kas.kip37.deploy(uri, alias, feePayerOptions)
 
         expect(ret.status).to.equal('Submitted')
@@ -132,7 +120,7 @@ describe('KIP37 API service', () => {
 
         const contractToImport = await deployKIP37Contract()
 
-        const feePayerOptions = await createFeePayerOptions(false)
+        const feePayerOptions = createFeePayerOptions(false, feePayer)
         const ret = await caver.kas.kip37.importContract(contractToImport, uri, contractAlias, feePayerOptions)
 
         expect(ret.status).to.equal('imported')
@@ -146,7 +134,7 @@ describe('KIP37 API service', () => {
     it('CAVERJS-EXT-KAS-INT-284: caver.kas.kip37.updateContractOptions should edit the information of a contract', async () => {
         await timeout(10000)
 
-        const feePayerOptions = await createFeePayerOptions(true)
+        const feePayerOptions = createFeePayerOptions(true, feePayer)
         const ret = await caver.kas.kip37.updateContractOptions(alias, feePayerOptions)
 
         expect(ret.options).not.to.be.undefined

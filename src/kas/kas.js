@@ -26,6 +26,7 @@ const AnchorQueryOptions = require('./anchor/anchorQueryOptions')
 const TokenHistoryQueryOptions = require('./tokenHistory/tokenHistoryQueryOptions')
 const WalletQueryOptions = require('./wallet/walletQueryOptions')
 const KIP17QueryOptions = require('./kip17/kip17QueryOptions')
+const KIP17FeePayerOptions = require('./kip17/kip17FeePayerOptions')
 const KIP7QueryOptions = require('./kip7/kip7QueryOptions')
 const KIP7FeePayerOptions = require('./kip7/kip7FeePayerOptions')
 const KIP37QueryOptions = require('./kip37/kip37QueryOptions')
@@ -56,6 +57,7 @@ class KAS {
         this.anchor.queryOptions = AnchorQueryOptions
         this.wallet.queryOptions = WalletQueryOptions
         this.kip17.queryOptions = KIP17QueryOptions
+        this.kip17.feePayerOptions = KIP17FeePayerOptions
         this.kip7.queryOptions = KIP7QueryOptions
         this.kip7.feePayerOptions = KIP7FeePayerOptions
         this.kip37.queryOptions = KIP37QueryOptions

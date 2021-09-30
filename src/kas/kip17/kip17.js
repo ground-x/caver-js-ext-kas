@@ -28,6 +28,7 @@ const {
     ApproveAllKip17Request,
 } = require('../../rest-client/src')
 const KIP17QueryOptions = require('./kip17QueryOptions')
+const KIP17FeePayerOptions = require('./kip17FeePayerOptions')
 
 const NOT_INIT_API_ERR_MSG = `KIP17 API is not initialized. Use 'caver.initKIP17API' function to initialize KIP17 API.`
 
@@ -142,20 +143,65 @@ class KIP17 {
      * @param {string} name The name of KIP-17 token.
      * @param {string} symbol The symbol of KIP-17 token.
      * @param {string} alias The alias of KIP-17 token. Your `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet.
+     * @param {KIP17FeePayerOptions|object} [options] Options for paying the transaction fee.
      * @param {Function} [callback] The callback function to call.
-     * @return {Kip17TransactionStatusResponse}
+     * @return {Kip17DeployResponse}
      */
-    deploy(name, symbol, alias, callback) {
+    deploy(name, symbol, alias, options, callback) {
         if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(name) || !_.isString(symbol)) throw new Error(`The name and symbol of KIP-17 token contract should be string type.`)
         if (!_.isString(alias)) throw new Error(`The alias of KIP-17 token contract should be string type.`)
 
+        if (_.isFunction(options)) {
+            callback = options
+            options = {}
+        }
+
         const opts = {
-            body: DeployKip17ContractRequest.constructFromObject({ name, symbol, alias }),
+            body: DeployKip17ContractRequest.constructFromObject({
+                name,
+                symbol,
+                alias,
+                options: KIP17FeePayerOptions.constructFromObject(options || {}),
+            }),
         }
 
         return new Promise((resolve, reject) => {
             this.kip17ContractApi.deployContract(this.chainId, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Edits the information of a contract. <br>
+     * PUT /v1/contract/{contract-address-or-alias}
+     *
+     * @example
+     * const ret = await caver.kas.kip17.updateContractOptions('0x{address in hex}', { enableGlobalFeePayer: true })
+     *
+     * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
+     * @param {KIP17FeePayerOptions|object} [options] Options for paying the transaction fee.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Kip17ContractInfoResponse}
+     */
+    updateContractOptions(addressOrAlias, options, callback) {
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
+
+        if (_.isFunction(options)) {
+            callback = options
+            options = {}
+        }
+
+        const opts = { body: { options: KIP17FeePayerOptions.constructFromObject(options || {}) } }
+
+        return new Promise((resolve, reject) => {
+            this.kip17ContractApi.updateContract(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

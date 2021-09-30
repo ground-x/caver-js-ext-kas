@@ -24,7 +24,19 @@ function createAlias(prefix) {
         .toString(36)
         .substr(2, 11)}`
 }
+
+async function createFeePayerOptions(enableGlobalFeePayer, userFeePayer) {
+    return {
+        enableGlobalFeePayer,
+        userFeePayer: {
+            krn: userFeePayer.krn,
+            address: userFeePayer.address,
+        },
+    }
+}
+
 module.exports = {
     timeout,
     createAlias,
+    createFeePayerOptions,
 }
