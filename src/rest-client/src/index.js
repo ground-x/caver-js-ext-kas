@@ -178,11 +178,16 @@ const GetOwnerKip17TokensResponseItem = require('./kip17/model/GetOwnerKip17Toke
 const Kip17ContractInfoResponse = require('./kip17/model/Kip17ContractInfoResponse')
 const Kip17ContractListResponse = require('./kip17/model/Kip17ContractListResponse')
 const Kip17ContractListResponseItem = require('./kip17/model/Kip17ContractListResponseItem')
+const Kip17DeployResponse = require('./kip17/model/Kip17DeployResponse')
+const Kip17FeePayerOption = require('./kip17/model/Kip17FeePayerOption')
+const Kip17FeePayerOptionUserFeePayer = require('./kip17/model/Kip17FeePayerOptionUserFeePayer')
 const Kip17TokenListResponse = require('./kip17/model/Kip17TokenListResponse')
 const Kip17TransactionStatusResponse = require('./kip17/model/Kip17TransactionStatusResponse')
 const MintKip17TokenRequest = require('./kip17/model/MintKip17TokenRequest')
 const TransferKip17TokenRequest = require('./kip17/model/TransferKip17TokenRequest')
-const KIP17Api = require('./kip17/api/KIP17Api')
+const UpdateKip17ContractRequest = require('./kip17/model/UpdateKip17ContractRequest')
+const Kip17ContractApi = require('./kip17/api/Kip17ContractApi')
+const Kip17TokenApi = require('./kip17/api/Kip17TokenApi')
 
 // KIP37
 const ApproveAllKip37ContractRequest = require('./kip37/model/ApproveAllKip37ContractRequest')
@@ -1055,91 +1060,138 @@ module.exports = {
      */
     Kip7DeployerApi,
     // KIP17
+
     /**
      * The ApproveAllKip17Request model constructor.
      * @property {ApproveAllKip17Request}
      */
     ApproveAllKip17Request,
+
     /**
      * The ApproveKip17TokenRequest model constructor.
      * @property {ApproveKip17TokenRequest}
      */
     ApproveKip17TokenRequest,
+
     /**
      * The BurnKip17TokenRequest model constructor.
      * @property {BurnKip17TokenRequest}
      */
     BurnKip17TokenRequest,
+
     /**
      * The DeployKip17ContractRequest model constructor.
      * @property {DeployKip17ContractRequest}
      */
     DeployKip17ContractRequest,
+
     /**
      * The GetKip17TokenHistoryResponse model constructor.
      * @property {GetKip17TokenHistoryResponse}
      */
     GetKip17TokenHistoryResponse,
+
     /**
      * The GetKip17TokenHistoryResponseItem model constructor.
      * @property {GetKip17TokenHistoryResponseItem}
      */
     GetKip17TokenHistoryResponseItem,
+
     /**
      * The GetKip17TokenResponse model constructor.
      * @property {GetKip17TokenResponse}
      */
     GetKip17TokenResponse,
+
     /**
      * The GetOwnerKip17TokensResponse model constructor.
      * @property {GetOwnerKip17TokensResponse}
      */
     GetOwnerKip17TokensResponse,
+
     /**
      * The GetOwnerKip17TokensResponseItem model constructor.
      * @property {GetOwnerKip17TokensResponseItem}
      */
     GetOwnerKip17TokensResponseItem,
+
     /**
      * The Kip17ContractInfoResponse model constructor.
      * @property {Kip17ContractInfoResponse}
      */
     Kip17ContractInfoResponse,
+
     /**
      * The Kip17ContractListResponse model constructor.
      * @property {Kip17ContractListResponse}
      */
     Kip17ContractListResponse,
+
     /**
      * The Kip17ContractListResponseItem model constructor.
      * @property {Kip17ContractListResponseItem}
      */
     Kip17ContractListResponseItem,
+
+    /**
+     * The Kip17DeployResponse model constructor.
+     * @property {Kip17DeployResponse}
+     */
+    Kip17DeployResponse,
+
+    /**
+     * The Kip17FeePayerOption model constructor.
+     * @property {Kip17FeePayerOption}
+     */
+    Kip17FeePayerOption,
+
+    /**
+     * The Kip17FeePayerOptionUserFeePayer model constructor.
+     * @property {Kip17FeePayerOptionUserFeePayer}
+     */
+    Kip17FeePayerOptionUserFeePayer,
+
     /**
      * The Kip17TokenListResponse model constructor.
      * @property {Kip17TokenListResponse}
      */
     Kip17TokenListResponse,
+
     /**
      * The Kip17TransactionStatusResponse model constructor.
      * @property {Kip17TransactionStatusResponse}
      */
     Kip17TransactionStatusResponse,
+
     /**
      * The MintKip17TokenRequest model constructor.
      * @property {MintKip17TokenRequest}
      */
     MintKip17TokenRequest,
+
     /**
      * The TransferKip17TokenRequest model constructor.
      * @property {TransferKip17TokenRequest}
      */
     TransferKip17TokenRequest,
+
     /**
-     * The KIP17Api service constructor.
-     * @property {KIP17Api}
+     * The UpdateKip17ContractRequest model constructor.
+     * @property {UpdateKip17ContractRequest}
      */
-    KIP17Api,
+    UpdateKip17ContractRequest,
+
+    /**
+     * The Kip17ContractApi service constructor.
+     * @property {Kip17ContractApi}
+     */
+    Kip17ContractApi,
+
+    /**
+     * The Kip17TokenApi service constructor.
+     * @property {Kip17TokenApi}
+     */
+    Kip17TokenApi,
     // KIP37
 
     /**

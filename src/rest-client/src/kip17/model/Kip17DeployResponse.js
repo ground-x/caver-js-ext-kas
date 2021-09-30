@@ -15,54 +15,44 @@ const ApiClient = require('../../ApiClient')
 const Kip17FeePayerOption = require('./Kip17FeePayerOption')
 
 /**
- * The Kip17ContractListResponseItem model module.
- * @class Kip17ContractListResponseItem
+ * The Kip17DeployResponse model module.
+ * @class Kip17DeployResponse
  * @version 1.0
  */
-class Kip17ContractListResponseItem {
+class Kip17DeployResponse {
     /**
-     * Constructs a new <code>Kip17ContractListResponseItem</code>.
-     * @alias Kip17ContractListResponseItem
+     * Constructs a new <code>Kip17DeployResponse</code>.
+     * @alias Kip17DeployResponse
      * @class
-     * @param address {String} The contract address.
-     * @param alias {String} The contract alias.
-     * @param name {String} The token name.
-     * @param symbol {String} The token symbol.
+     * @param status {String} Transaction status
+     * @param transactionHash {String} Transaction hash
      */
 
-    constructor(address, alias, name, symbol) {
-        this.address = address
-        this.alias = alias
-        this.name = name
-        this.symbol = symbol
+    constructor(status, transactionHash) {
+        this.status = status
+        this.transactionHash = transactionHash
     }
 
     /**
-     * Constructs a <code>Kip17ContractListResponseItem</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip17DeployResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip17ContractListResponseItem} obj Optional instance to populate.
-     * @return {Kip17ContractListResponseItem} The populated <code>Kip17ContractListResponseItem</code> instance.
-     * @memberof Kip17ContractListResponseItem
+     * @param {Kip17DeployResponse} obj Optional instance to populate.
+     * @return {Kip17DeployResponse} The populated <code>Kip17DeployResponse</code> instance.
+     * @memberof Kip17DeployResponse
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Kip17ContractListResponseItem()
+            obj = obj || new Kip17DeployResponse()
 
-            if (data.hasOwnProperty('address')) {
-                obj.address = ApiClient.convertToType(data.address, 'String')
+            if (data.hasOwnProperty('status')) {
+                obj.status = ApiClient.convertToType(data.status, 'String')
             }
-            if (data.hasOwnProperty('alias')) {
-                obj.alias = ApiClient.convertToType(data.alias, 'String')
+            if (data.hasOwnProperty('transactionHash')) {
+                obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
             }
-            if (data.hasOwnProperty('name')) {
-                obj.name = ApiClient.convertToType(data.name, 'String')
-            }
-            if (data.hasOwnProperty('options')) {
-                obj.options = Kip17FeePayerOption.constructFromObject(data.options)
-            }
-            if (data.hasOwnProperty('symbol')) {
-                obj.symbol = ApiClient.convertToType(data.symbol, 'String')
+            if (data.hasOwnProperty('option')) {
+                obj.option = Kip17FeePayerOption.constructFromObject(data.option)
             }
         }
         return obj
@@ -70,33 +60,21 @@ class Kip17ContractListResponseItem {
 }
 
 /**
- * The contract address.
+ * Transaction status
  * @type {String}
- * @memberof Kip17ContractListResponseItem
+ * @memberof Kip17DeployResponse
  */
-Kip17ContractListResponseItem.prototype.address = undefined
+Kip17DeployResponse.prototype.status = undefined
 /**
- * The contract alias.
+ * Transaction hash
  * @type {String}
- * @memberof Kip17ContractListResponseItem
+ * @memberof Kip17DeployResponse
  */
-Kip17ContractListResponseItem.prototype.alias = undefined
-/**
- * The token name.
- * @type {String}
- * @memberof Kip17ContractListResponseItem
- */
-Kip17ContractListResponseItem.prototype.name = undefined
+Kip17DeployResponse.prototype.transactionHash = undefined
 /**
  * @type {Kip17FeePayerOption}
- * @memberof Kip17ContractListResponseItem
+ * @memberof Kip17DeployResponse
  */
-Kip17ContractListResponseItem.prototype.options = undefined
-/**
- * The token symbol.
- * @type {String}
- * @memberof Kip17ContractListResponseItem
- */
-Kip17ContractListResponseItem.prototype.symbol = undefined
+Kip17DeployResponse.prototype.option = undefined
 
-module.exports = Kip17ContractListResponseItem
+module.exports = Kip17DeployResponse
