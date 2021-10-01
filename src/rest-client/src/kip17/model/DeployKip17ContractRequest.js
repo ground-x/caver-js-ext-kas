@@ -12,7 +12,7 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip17FeePayerOption = require('./Kip17FeePayerOption')
+const Kip17FeePayerOptions = require('./Kip17FeePayerOptions')
 
 /**
  * The DeployKip17ContractRequest model module.
@@ -57,7 +57,7 @@ class DeployKip17ContractRequest {
                 obj.name = ApiClient.convertToType(data.name, 'String')
             }
             if (data.hasOwnProperty('options')) {
-                obj.options = Kip17FeePayerOption.constructFromObject(data.options)
+                obj.options = Kip17FeePayerOptions.constructFromObject(data.options)
             }
         }
         return obj
@@ -83,7 +83,7 @@ DeployKip17ContractRequest.prototype.symbol = undefined
  */
 DeployKip17ContractRequest.prototype.name = undefined
 /**
- * @type {Kip17FeePayerOption}
+ * @type {Kip17FeePayerOptions}
  * @memberof DeployKip17ContractRequest
  */
 DeployKip17ContractRequest.prototype.options = undefined

@@ -12,39 +12,39 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip17FeePayerOptionUserFeePayer = require('./Kip17FeePayerOptionUserFeePayer')
+const Kip17FeePayerOptionsUserFeePayer = require('./Kip17FeePayerOptionsUserFeePayer')
 
 /**
- * The Kip17FeePayerOption model module.
- * @class Kip17FeePayerOption
+ * The Kip17FeePayerOptions model module.
+ * @class Kip17FeePayerOptions
  * @version 1.0
  */
-class Kip17FeePayerOption {
+class Kip17FeePayerOptions {
     /**
-     * Constructs a new <code>Kip17FeePayerOption</code>.
-     * @alias Kip17FeePayerOption
+     * Constructs a new <code>Kip17FeePayerOptions</code>.
+     * @alias Kip17FeePayerOptions
      * @class
      */
 
     constructor() {}
 
     /**
-     * Constructs a <code>Kip17FeePayerOption</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip17FeePayerOptions</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip17FeePayerOption} obj Optional instance to populate.
-     * @return {Kip17FeePayerOption} The populated <code>Kip17FeePayerOption</code> instance.
-     * @memberof Kip17FeePayerOption
+     * @param {Kip17FeePayerOptions} obj Optional instance to populate.
+     * @return {Kip17FeePayerOptions} The populated <code>Kip17FeePayerOptions</code> instance.
+     * @memberof Kip17FeePayerOptions
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Kip17FeePayerOption()
+            obj = obj || new Kip17FeePayerOptions()
 
             if (data.hasOwnProperty('enableGlobalFeePayer')) {
                 obj.enableGlobalFeePayer = ApiClient.convertToType(data.enableGlobalFeePayer, 'Boolean')
             }
             if (data.hasOwnProperty('userFeePayer')) {
-                obj.userFeePayer = Kip17FeePayerOptionUserFeePayer.constructFromObject(data.userFeePayer)
+                obj.userFeePayer = Kip17FeePayerOptionsUserFeePayer.constructFromObject(data.userFeePayer)
             }
         }
         return obj
@@ -54,13 +54,13 @@ class Kip17FeePayerOption {
 /**
  * The boolean value that indicates whether KAS global fee delegation is used. The default value is `true`.
  * @type {Boolean}
- * @memberof Kip17FeePayerOption
+ * @memberof Kip17FeePayerOptions
  */
-Kip17FeePayerOption.prototype.enableGlobalFeePayer = undefined
+Kip17FeePayerOptions.prototype.enableGlobalFeePayer = undefined
 /**
- * @type {Kip17FeePayerOptionUserFeePayer}
- * @memberof Kip17FeePayerOption
+ * @type {Kip17FeePayerOptionsUserFeePayer}
+ * @memberof Kip17FeePayerOptions
  */
-Kip17FeePayerOption.prototype.userFeePayer = undefined
+Kip17FeePayerOptions.prototype.userFeePayer = undefined
 
-module.exports = Kip17FeePayerOption
+module.exports = Kip17FeePayerOptions

@@ -28,7 +28,7 @@ const CaverExtKAS = require('../../index.js')
 let caver
 const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.kip17API
 const walletEnv = require('../testEnv').auths.walletAPI
-const { timeout } = require('../testUtils')
+const { createAlias, createFeePayerOptions, timeout } = require('../testUtils')
 
 let contractAddress
 let alias
@@ -37,6 +37,7 @@ let owner
 let sender
 let to
 let tokenToBurn
+let feePayer
 
 describe('KIP17 API service', () => {
     before(() => {
@@ -46,15 +47,40 @@ describe('KIP17 API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-247: caver.kas.kip17.deploy should deploy KIP-17 token contract', async () => {
-        // Make random string for alias to avoid duplicated alias
-        alias = `jasmine-${Math.random()
-            .toString(36)
-            .substr(2, 11)}`
+        alias = createAlias('jasmine')
 
         const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', alias)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
+    }).timeout(100000)
+
+    it('CAVERJS-EXT-KAS-INT-320: caver.kas.kip17.deploy should deploy KIP-17 token contract with fee payer options', async () => {
+        alias = createAlias('jasmine')
+
+        feePayer = await caver.kas.wallet.getFeePayer(walletEnv.feePayerAddress)
+        const feePayerOptions = createFeePayerOptions(false, feePayer)
+        const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', alias, feePayerOptions)
+
+        expect(ret.status).to.equal('Submitted')
+        expect(ret.transactionHash).not.to.be.undefined
+        expect(ret.options.enableGlobalFeePayer).to.be.false
+        expect(ret.options.userFeePayer).not.to.be.undefined
+        expect(ret.options.userFeePayer.krn).to.equal(feePayerOptions.userFeePayer.krn)
+        expect(ret.options.userFeePayer.address).to.equal(feePayerOptions.userFeePayer.address)
+    }).timeout(100000)
+
+    it('CAVERJS-EXT-KAS-INT-321: caver.kas.kip17.updateContractOptions should update KIP-17 token contract options with fee payer options', async () => {
+        await timeout(10000)
+
+        const feePayerOptions = createFeePayerOptions(true, feePayer)
+        const ret = await caver.kas.kip17.updateContractOptions(alias, feePayerOptions)
+
+        expect(ret.options).not.to.be.undefined
+        expect(ret.options.enableGlobalFeePayer).to.be.true
+        expect(ret.options.userFeePayer).not.to.be.undefined
+        expect(ret.options.userFeePayer.krn).to.equal(feePayerOptions.userFeePayer.krn)
+        expect(ret.options.userFeePayer.address).to.equal(feePayerOptions.userFeePayer.address)
     }).timeout(100000)
 
     it('CAVERJS-EXT-KAS-INT-248: caver.kas.kip17.getContractList should return KIP-17 token contract list', async () => {

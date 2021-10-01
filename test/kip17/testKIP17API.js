@@ -31,6 +31,11 @@ const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').aut
 
 const sandbox = sinon.createSandbox()
 
+const feePayerOptionsObj = {
+    enableGlobalFeePayer: true,
+    userFeePayer: { krn: 'krn:1001:wallet:test:account-pool:default', address: '0x18cff7e7054784e666535de1b609c05625d23a1d' },
+}
+
 describe('KIP17 API service enabling', () => {
     beforeEach(() => {
         caver = new CaverExtKAS()
@@ -63,14 +68,21 @@ describe('KIP17 API service enabling', () => {
     context('caver.kas.kip17.deploy', () => {
         const apiResult = {
             status: 'Submitted',
-            transactionHash: '0x4707420eeda479477eae0c73878d9186150c153a9e2cbfe43e9d37750b64a4ec',
+            transactionHash: '0x0a4f4f97d8a5904721514d60abd3f9ad7938862e415a6c043553a94ab68a5edb',
+            options: {
+                enableGlobalFeePayer: true,
+                userFeePayer: {
+                    krn: 'krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default',
+                    address: '0xE8964cA0C83cBbF520df5597dc1f5EFc27E5E729',
+                },
+            },
         }
 
         const name = 'Jasmine'
         const symbol = 'JAS'
         const alias = 'jasmine'
 
-        function setCallFakeForCallApi(callApiStub) {
+        function setCallFakeForCallApi(callApiStub, feePayerOptions) {
             callApiStub.callsFake(
                 (
                     path,
@@ -98,6 +110,11 @@ describe('KIP17 API service enabling', () => {
                     expect(postBody.name).to.equal(name)
                     expect(postBody.symbol).to.equal(symbol)
                     if (alias) expect(postBody.alias).to.equal(alias)
+                    if (feePayerOptions) {
+                        expect(postBody.options.enableGlobalFeePayer).to.equal(feePayerOptions.enableGlobalFeePayer)
+                        expect(postBody.options.userFeePayer.address).to.equal(feePayerOptions.userFeePayer.address)
+                        expect(postBody.options.userFeePayer.krn).to.equal(feePayerOptions.userFeePayer.krn)
+                    }
                     expect(authNames[0]).to.equal('basic')
                     expect(contentTypes[0]).to.equal('application/json')
                     expect(accepts[0]).to.equal('application/json')
@@ -114,12 +131,29 @@ describe('KIP17 API service enabling', () => {
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'deployContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
 
-            setCallFakeForCallApi(callApiStub, alias)
+            setCallFakeForCallApi(callApiStub)
             const ret = await caver.kas.kip17.deploy(name, symbol, alias)
 
             expect(clientFunctionSpy.calledWith(chainId)).to.be.true
             expect(callApiStub.calledOnce).to.be.true
             expect(ret.status).to.equal('Submitted')
+            expect(ret.options).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-KIP17-080: should deploy KIP-17 token contract with fee payer options', async () => {
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
+
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'deployContract')
+            const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
+
+            const feePayerOptions = caver.kas.kip17.feePayerOptions.constructFromObject(feePayerOptionsObj)
+            setCallFakeForCallApi(callApiStub, feePayerOptions)
+            const ret = await caver.kas.kip17.deploy(name, symbol, alias, feePayerOptions)
+
+            expect(clientFunctionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.status).to.equal('Submitted')
+            expect(ret.options).not.to.be.undefined
         })
 
         it('CAVERJS-EXT-KAS-KIP17-006: should call callback function with deployment response (with alias)', async () => {
@@ -130,7 +164,7 @@ describe('KIP17 API service enabling', () => {
 
             let isCalled = false
 
-            setCallFakeForCallApi(callApiStub, alias)
+            setCallFakeForCallApi(callApiStub)
             const ret = await caver.kas.kip17.deploy(name, symbol, alias, () => {
                 isCalled = true
             })
@@ -139,6 +173,115 @@ describe('KIP17 API service enabling', () => {
             expect(callApiStub.calledOnce).to.be.true
             expect(isCalled).to.be.true
             expect(ret.status).to.equal('Submitted')
+            expect(ret.options).not.to.be.undefined
+        })
+    })
+
+    context('caver.kas.kip17.updateContractOptions', () => {
+        const contractAddress = '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280'
+        const alias = 'jasmine-contract'
+
+        const apiResult = {
+            address: '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280',
+            alias: 'jasmine-contract',
+            name: 'Jasmine',
+            symbol: 'JAS',
+            options: {
+                enableGlobalFeePayer: false,
+                userFeePayer: {
+                    krn: 'krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default',
+                    address: '0xd6905b98E4Ba43a24E842d2b66c1410173791cab',
+                },
+            },
+        }
+
+        function setCallFakeForCallApi(callApiStub, addressOrAlias, feePayerOptions) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v1/contract/{contract-address-or-alias}`)
+                    expect(mtd).to.equal(`PUT`)
+                    expect(Object.keys(pathParams).length).to.equal(1)
+                    expect(pathParams['contract-address-or-alias']).to.equal(addressOrAlias)
+                    expect(Object.keys(queryParams).length).to.equal(0)
+
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    expect(postBody).not.to.be.null
+                    if (feePayerOptions) {
+                        expect(postBody.options.enableGlobalFeePayer).to.equal(feePayerOptions.enableGlobalFeePayer)
+                        expect(postBody.options.userFeePayer.address).to.equal(feePayerOptions.userFeePayer.address)
+                        expect(postBody.options.userFeePayer.krn).to.equal(feePayerOptions.userFeePayer.krn)
+                    }
+                    expect(authNames[0]).to.equal('basic')
+                    expect(contentTypes[0]).to.equal('application/json')
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+
+                    callback(null, apiResult, { body: apiResult })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-KIP17-081: should import KIP-17 token contract with address and alias', async () => {
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
+
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'updateContract')
+            const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
+
+            setCallFakeForCallApi(callApiStub, contractAddress)
+            const ret = await caver.kas.kip17.updateContractOptions(contractAddress)
+
+            expect(clientFunctionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.address).to.equal(contractAddress)
+        })
+
+        it('CAVERJS-EXT-KAS-KIP17-082: should import KIP-17 token contract with address, alias and feePayerOptions', async () => {
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
+
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'updateContract')
+            const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
+
+            const feePayerOptions = caver.kas.kip17.feePayerOptions.constructFromObject(feePayerOptionsObj)
+            setCallFakeForCallApi(callApiStub, alias, feePayerOptions)
+            const ret = await caver.kas.kip17.updateContractOptions(alias, feePayerOptions)
+
+            expect(clientFunctionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.address).to.equal(contractAddress)
+        })
+
+        it('CAVERJS-EXT-KAS-KIP17-083: should call callback function with deployment response', async () => {
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
+
+            const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'updateContract')
+            const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
+
+            let isCalled = false
+
+            setCallFakeForCallApi(callApiStub, contractAddress)
+            const ret = await caver.kas.kip17.updateContractOptions(contractAddress, () => {
+                isCalled = true
+            })
+
+            expect(clientFunctionSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.address).to.equal(contractAddress)
         })
     })
 

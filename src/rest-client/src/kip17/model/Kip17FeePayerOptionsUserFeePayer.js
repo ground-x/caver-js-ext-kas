@@ -14,30 +14,30 @@
 const ApiClient = require('../../ApiClient')
 
 /**
- * The Kip17FeePayerOptionUserFeePayer model module.
- * @class Kip17FeePayerOptionUserFeePayer
+ * The Kip17FeePayerOptionsUserFeePayer model module.
+ * @class Kip17FeePayerOptionsUserFeePayer
  * @version 1.0
  */
-class Kip17FeePayerOptionUserFeePayer {
+class Kip17FeePayerOptionsUserFeePayer {
     /**
-     * Constructs a new <code>Kip17FeePayerOptionUserFeePayer</code>.
-     * @alias Kip17FeePayerOptionUserFeePayer
+     * Constructs a new <code>Kip17FeePayerOptionsUserFeePayer</code>.
+     * @alias Kip17FeePayerOptionsUserFeePayer
      * @class
      */
 
     constructor() {}
 
     /**
-     * Constructs a <code>Kip17FeePayerOptionUserFeePayer</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip17FeePayerOptionsUserFeePayer</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip17FeePayerOptionUserFeePayer} obj Optional instance to populate.
-     * @return {Kip17FeePayerOptionUserFeePayer} The populated <code>Kip17FeePayerOptionUserFeePayer</code> instance.
-     * @memberof Kip17FeePayerOptionUserFeePayer
+     * @param {Kip17FeePayerOptionsUserFeePayer} obj Optional instance to populate.
+     * @return {Kip17FeePayerOptionsUserFeePayer} The populated <code>Kip17FeePayerOptionsUserFeePayer</code> instance.
+     * @memberof Kip17FeePayerOptionsUserFeePayer
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Kip17FeePayerOptionUserFeePayer()
+            obj = obj || new Kip17FeePayerOptionsUserFeePayer()
 
             if (data.hasOwnProperty('krn')) {
                 obj.krn = ApiClient.convertToType(data.krn, 'String')
@@ -53,14 +53,14 @@ class Kip17FeePayerOptionUserFeePayer {
 /**
  * The KRN of the FeePayer-Pool of the FeePayer.
  * @type {String}
- * @memberof Kip17FeePayerOptionUserFeePayer
+ * @memberof Kip17FeePayerOptionsUserFeePayer
  */
-Kip17FeePayerOptionUserFeePayer.prototype.krn = undefined
+Kip17FeePayerOptionsUserFeePayer.prototype.krn = undefined
 /**
  * The Klaytn account address that will pay the transaction fee.
  * @type {String}
- * @memberof Kip17FeePayerOptionUserFeePayer
+ * @memberof Kip17FeePayerOptionsUserFeePayer
  */
-Kip17FeePayerOptionUserFeePayer.prototype.address = undefined
+Kip17FeePayerOptionsUserFeePayer.prototype.address = undefined
 
-module.exports = Kip17FeePayerOptionUserFeePayer
+module.exports = Kip17FeePayerOptionsUserFeePayer

@@ -12,7 +12,7 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip17FeePayerOption = require('./Kip17FeePayerOption')
+const Kip17FeePayerOptions = require('./Kip17FeePayerOptions')
 
 /**
  * The UpdateKip17ContractRequest model module.
@@ -41,7 +41,7 @@ class UpdateKip17ContractRequest {
             obj = obj || new UpdateKip17ContractRequest()
 
             if (data.hasOwnProperty('options')) {
-                obj.options = Kip17FeePayerOption.constructFromObject(data.options)
+                obj.options = Kip17FeePayerOptions.constructFromObject(data.options)
             }
         }
         return obj
@@ -49,7 +49,7 @@ class UpdateKip17ContractRequest {
 }
 
 /**
- * @type {Kip17FeePayerOption}
+ * @type {Kip17FeePayerOptions}
  * @memberof UpdateKip17ContractRequest
  */
 UpdateKip17ContractRequest.prototype.options = undefined
