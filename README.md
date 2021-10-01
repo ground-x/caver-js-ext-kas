@@ -62,7 +62,7 @@ $ npm run test
 
 ### Set Auth
 
-You can use KAS' Node API, Token History API, Wallet API, Anchor API, KIP17 API, KIP7 API and KIP-37 API through this library. To use KAS, you need your "access key id", "secret access key" and chain id of the Klaytn blochain network.
+You can use KAS' Node API, Token History API, Wallet API, Anchor API, KIP17 API, KIP7 API and KIP37 API through this library. To use KAS, you need your "access key id", "secret access key" and chain id of the Klaytn blochain network.
 
 Set your authorization using the `constructor` or the `caver.initKASAPI` function as shown below. Below code sets the authentication key used by the node api, token history api, wallet api, anchor api, kip17 api, kip7 api and kip37 api at once.
 
