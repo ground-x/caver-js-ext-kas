@@ -27,7 +27,7 @@ const productionEndpoints = {
     tokenHistory: 'https://th-api.klaytnapi.com',
     kip17: 'https://kip17-api.klaytnapi.com',
     kip7: 'https://kip7-api.klaytnapi.com',
-    kip37: 'https://kip7-api.klaytnapi.com',
+    kip37: 'https://kip37-api.klaytnapi.com',
 }
 
 /**
