@@ -12,7 +12,7 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip37FeePayerOption = require('./Kip37FeePayerOption')
+const Kip37FeePayerOptions = require('./Kip37FeePayerOptions')
 
 /**
  * The ImportKip37ContractRequest model module.
@@ -57,7 +57,7 @@ class ImportKip37ContractRequest {
                 obj.address = ApiClient.convertToType(data.address, 'String')
             }
             if (data.hasOwnProperty('options')) {
-                obj.options = Kip37FeePayerOption.constructFromObject(data.options)
+                obj.options = Kip37FeePayerOptions.constructFromObject(data.options)
             }
         }
         return obj
@@ -83,7 +83,7 @@ ImportKip37ContractRequest.prototype.uri = undefined
  */
 ImportKip37ContractRequest.prototype.address = undefined
 /**
- * @type {Kip37FeePayerOption}
+ * @type {Kip37FeePayerOptions}
  * @memberof ImportKip37ContractRequest
  */
 ImportKip37ContractRequest.prototype.options = undefined

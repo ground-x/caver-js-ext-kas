@@ -1966,7 +1966,7 @@ components:
           type: string
           description: The URI that stores the contract's metadata
         options:
-          $ref: '#/components/schemas/Kip37FeePayerOption'
+          $ref: '#/components/schemas/Kip37FeePayerOptions'
       x-examples:
         example-1:
           alias: my-first-kip37
@@ -1985,7 +1985,7 @@ components:
           type: string
           description: Transaction hash
         options:
-          $ref: '#/components/schemas/Kip37FeePayerOptionResponse'
+          $ref: '#/components/schemas/Kip37FeePayerOptionsResponse'
     ImportKip37ContractRequest:
       title: ImportKip37ContractRequest
       required:
@@ -2005,7 +2005,7 @@ components:
           type: string
           description: Contract address
         options:
-          $ref: '#/components/schemas/Kip37FeePayerOption'
+          $ref: '#/components/schemas/Kip37FeePayerOptions'
     Kip37Contract:
       title: Kip37Contract
       required:
@@ -2028,13 +2028,13 @@ components:
           type: string
           description: Contract URI
         options:
-          $ref: '#/components/schemas/Kip37FeePayerOption'
+          $ref: '#/components/schemas/Kip37FeePayerOptions'
     UpdateKip37ContractRequest:
       title: UpdateKip37ContractRequest
       type: object
       properties:
         options:
-          $ref: '#/components/schemas/Kip37FeePayerOption'
+          $ref: '#/components/schemas/Kip37FeePayerOptions'
     ApproveAllKip37ContractRequest:
       title: ApproveAllKip37ContractRequest
       required:
@@ -2213,8 +2213,8 @@ components:
         krn:
           type: string
           description: KRN of the account
-    Kip37FeePayerOption:
-      title: Kip37FeePayerOption
+    Kip37FeePayerOptions:
+      title: Kip37FeePayerOptions
       type: object
       properties:
         enableGlobalFeePayer:
@@ -2222,9 +2222,9 @@ components:
           description: A boolean value of whether KAS Global FeePayer is used. The
             default value is `true`.
         userFeePayer:
-          $ref: '#/components/schemas/Kip37FeePayerOption_userFeePayer'
-    Kip37FeePayerOptionResponse:
-      title: Kip37FeePayerOption
+          $ref: '#/components/schemas/Kip37FeePayerOptions_userFeePayer'
+    Kip37FeePayerOptionsResponse:
+      title: Kip37FeePayerOptions
       type: object
       properties:
         enableGlobalFeepayer:
@@ -2232,7 +2232,7 @@ components:
           description: A boolean value of whether KAS Global FeePayer is used. The
             default value is `true`.
         userFeePayer:
-          $ref: '#/components/schemas/Kip37FeePayerOption_userFeePayer'
+          $ref: '#/components/schemas/Kip37FeePayerOptions_userFeePayer'
     Kip37TokenInfoListResponseItem:
       title: Kip37TokenInfoListResponseItem
       required:
@@ -2301,7 +2301,7 @@ components:
         updatedAt:
           type: string
           description: Timestamp of the latest change in token data
-    Kip37FeePayerOption_userFeePayer:
+    Kip37FeePayerOptions_userFeePayer:
       type: object
       properties:
         krn:

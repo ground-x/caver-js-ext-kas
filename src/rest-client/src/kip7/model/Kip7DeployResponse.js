@@ -12,7 +12,7 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip7FeePayerOptionResponse = require('./Kip7FeePayerOptionResponse')
+const Kip7FeePayerOptionsResponse = require('./Kip7FeePayerOptionsResponse')
 
 /**
  * The Kip7DeployResponse model module.
@@ -52,7 +52,7 @@ class Kip7DeployResponse {
                 obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
             }
             if (data.hasOwnProperty('options')) {
-                obj.options = Kip7FeePayerOptionResponse.constructFromObject(data.options)
+                obj.options = Kip7FeePayerOptionsResponse.constructFromObject(data.options)
             }
         }
         return obj
@@ -72,7 +72,7 @@ Kip7DeployResponse.prototype.status = undefined
  */
 Kip7DeployResponse.prototype.transactionHash = undefined
 /**
- * @type {Kip7FeePayerOptionResponse}
+ * @type {Kip7FeePayerOptionsResponse}
  * @memberof Kip7DeployResponse
  */
 Kip7DeployResponse.prototype.options = undefined

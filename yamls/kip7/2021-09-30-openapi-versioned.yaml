@@ -1906,7 +1906,7 @@ components:
           type: string
           description: Transaction hash
         options:
-          $ref: '#/components/schemas/Kip7FeePayerOptionResponse'
+          $ref: '#/components/schemas/Kip7FeePayerOptionsResponse'
     Kip7ContractMetadataResponse:
       title: Kip7ContractMetadataResponse
       required:
@@ -1940,7 +1940,7 @@ components:
           description: Total supply (in hex)
           example: 0x500
         options:
-          $ref: '#/components/schemas/Kip7FeePayerOption'
+          $ref: '#/components/schemas/Kip7FeePayerOptions'
       description: ""
     AddPauserKip7Request:
       title: AddPauserKip7Request
@@ -2081,14 +2081,14 @@ components:
           description: Initial supply (in hex.)
           example: 0x100
         options:
-          $ref: '#/components/schemas/Kip7FeePayerOption'
+          $ref: '#/components/schemas/Kip7FeePayerOptions'
       description: ""
     UpdateKip7ContractRequest:
       title: UpdateKip7ContractRequest
       type: object
       properties:
         options:
-          $ref: '#/components/schemas/Kip7FeePayerOption'
+          $ref: '#/components/schemas/Kip7FeePayerOptions'
     MintKip7TokenRequest:
       title: MintKip7TokenRequest
       required:
@@ -2262,9 +2262,9 @@ components:
           description: Total supply (in hex.)
           example: 0x500
         options:
-          $ref: '#/components/schemas/Kip7FeePayerOption'
+          $ref: '#/components/schemas/Kip7FeePayerOptions'
       description: ""
-    Kip7FeePayerOptionResponse:
+    Kip7FeePayerOptionsResponse:
       title: Kip7FeePayerOption
       type: object
       properties:
@@ -2273,8 +2273,8 @@ components:
           description: The boolean value indicating whether KAS Global Fee Delegation
             is being used. The default value is `true`.
         userFeePayer:
-          $ref: '#/components/schemas/Kip7FeePayerOptionResponse_userFeePayer'
-    Kip7FeePayerOption:
+          $ref: '#/components/schemas/Kip7FeePayerOptionsResponse_userFeePayer'
+    Kip7FeePayerOptions:
       title: Kip7FeePayerOption
       type: object
       properties:
@@ -2283,8 +2283,8 @@ components:
           description: The boolean value indicating whether KAS Global Fee Delegation
             is being used. The default value is `true`.
         userFeePayer:
-          $ref: '#/components/schemas/Kip7FeePayerOptionResponse_userFeePayer'
-    Kip7FeePayerOptionResponse_userFeePayer:
+          $ref: '#/components/schemas/Kip7FeePayerOptionsResponse_userFeePayer'
+    Kip7FeePayerOptionsResponse_userFeePayer:
       type: object
       properties:
         krn:
