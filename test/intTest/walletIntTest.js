@@ -3732,6 +3732,18 @@ describe('Wallet API service', () => {
         expect(ret.failures).to.be.undefined
     }).timeout(500000)
 
+    it('CAVERJS-EXT-KAS-INT-316: caver.kas.wallet.getKeyListByKRN should return key list in KAS', async () => {
+        const ret = await caver.kas.wallet.getKeyListByKRN(krn, { size: 1 })
+
+        expect(ret.items.length).to.equal(1)
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-317: caver.kas.wallet.getKey should return key list in KAS', async () => {
+        const ret = await caver.kas.wallet.getKey(keyId)
+
+        expect(ret.keyId).to.equal(keyId)
+    }).timeout(500000)
+
     it('CAVERJS-EXT-KAS-INT-273: caver.kas.wallet.deleteKey should delete the key in KAS', async () => {
         const ret = await caver.kas.wallet.deleteKey(keyId)
 
@@ -3740,6 +3752,20 @@ describe('Wallet API service', () => {
 
     it('CAVERJS-EXT-KAS-INT-274: caver.kas.wallet.createFeePayer should create a fee payer in KAS', async () => {
         const ret = await caver.kas.wallet.createFeePayer()
+
+        expect(ret.address).not.to.be.undefined
+        expect(ret.chainId).not.to.be.undefined
+        expect(ret.createdAt).not.to.be.undefined
+        expect(ret.keyId).not.to.be.undefined
+        expect(ret.krn).not.to.be.undefined
+        expect(ret.publicKey).not.to.be.undefined
+        expect(ret.updatedAt).not.to.be.undefined
+
+        feePayer = ret.address
+    }).timeout(500000)
+
+    it('CAVERJS-EXT-KAS-INT-315: caver.kas.wallet.createFeePayer with withoutAccountUpdate', async () => {
+        const ret = await caver.kas.wallet.createFeePayer(true)
 
         expect(ret.address).not.to.be.undefined
         expect(ret.chainId).not.to.be.undefined

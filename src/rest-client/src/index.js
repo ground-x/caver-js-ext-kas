@@ -36,7 +36,6 @@ const AccountRegistration = require('./wallet/model/AccountRegistration')
 const AccountRegistrationRequest = require('./wallet/model/AccountRegistrationRequest')
 const AccountStatus = require('./wallet/model/AccountStatus')
 const AccountSummary = require('./wallet/model/AccountSummary')
-const AccountUpdateKey = require('./wallet/model/AccountUpdateKey')
 const AccountUpdateTransactionRequest = require('./wallet/model/AccountUpdateTransactionRequest')
 const Accounts = require('./wallet/model/Accounts')
 const AccountsByPubkey = require('./wallet/model/AccountsByPubkey')
@@ -48,6 +47,8 @@ const ContractCallRequest = require('./wallet/model/ContractCallRequest')
 const ContractCallResponse = require('./wallet/model/ContractCallResponse')
 const ContractDeployTransactionRequest = require('./wallet/model/ContractDeployTransactionRequest')
 const ContractExecutionTransactionRequest = require('./wallet/model/ContractExecutionTransactionRequest')
+const CreateFeePayerAccountRequest = require('./wallet/model/CreateFeePayerAccountRequest')
+const EmptyUpdateKeyType = require('./wallet/model/EmptyUpdateKeyType')
 const EventLog = require('./wallet/model/EventLog')
 const FDAccountUpdateTransactionRequest = require('./wallet/model/FDAccountUpdateTransactionRequest')
 const FDAnchorTransactionRequest = require('./wallet/model/FDAnchorTransactionRequest')
@@ -56,6 +57,8 @@ const FDContractDeployTransactionRequest = require('./wallet/model/FDContractDep
 const FDContractExecutionTransactionRequest = require('./wallet/model/FDContractExecutionTransactionRequest')
 const FDProcessRLPRequest = require('./wallet/model/FDProcessRLPRequest')
 const FDTransactionResult = require('./wallet/model/FDTransactionResult')
+const FDTransactionWithCurrencyResult = require('./wallet/model/FDTransactionWithCurrencyResult')
+const FDTransactionWithCurrencyResultList = require('./wallet/model/FDTransactionWithCurrencyResultList')
 const FDUserAccountUpdateTransactionRequest = require('./wallet/model/FDUserAccountUpdateTransactionRequest')
 const FDUserAnchorTransactionRequest = require('./wallet/model/FDUserAnchorTransactionRequest')
 const FDUserCancelTransactionRequest = require('./wallet/model/FDUserCancelTransactionRequest')
@@ -80,10 +83,18 @@ const MultisigAddress = require('./wallet/model/MultisigAddress')
 const MultisigKey = require('./wallet/model/MultisigKey')
 const MultisigTransactionStatus = require('./wallet/model/MultisigTransactionStatus')
 const MultisigTransactions = require('./wallet/model/MultisigTransactions')
+const MultisigUpdateKey = require('./wallet/model/MultisigUpdateKey')
+const MultisigUpdateKeyType = require('./wallet/model/MultisigUpdateKeyType')
+const OneOfAccountUpdateTransactionRequestAccountKey = require('./wallet/model/OneOfAccountUpdateTransactionRequestAccountKey')
+const OneOfFDAccountUpdateTransactionRequestAccountKey = require('./wallet/model/OneOfFDAccountUpdateTransactionRequestAccountKey')
+const OneOfFDUserAccountUpdateTransactionRequestAccountKey = require('./wallet/model/OneOfFDUserAccountUpdateTransactionRequestAccountKey')
+const OneOfRoleBasedUpdateKeyTypeKeyItems = require('./wallet/model/OneOfRoleBasedUpdateKeyTypeKeyItems')
 const PendedTransaction = require('./wallet/model/PendedTransaction')
 const ProcessRLPRequest = require('./wallet/model/ProcessRLPRequest')
+const PubkeyUpdateKeyType = require('./wallet/model/PubkeyUpdateKeyType')
 const RegistrationFailure = require('./wallet/model/RegistrationFailure')
 const RegistrationStatusResponse = require('./wallet/model/RegistrationStatusResponse')
+const RoleBasedUpdateKeyType = require('./wallet/model/RoleBasedUpdateKeyType')
 const SignPendingTransactionBySigRequest = require('./wallet/model/SignPendingTransactionBySigRequest')
 const Signature = require('./wallet/model/Signature')
 const TransactionReceipt = require('./wallet/model/TransactionReceipt')
@@ -91,14 +102,15 @@ const TransactionResult = require('./wallet/model/TransactionResult')
 const TxData = require('./wallet/model/TxData')
 const ValueTransferTransactionRequest = require('./wallet/model/ValueTransferTransactionRequest')
 const AccountApi = require('./wallet/api/AccountApi')
-const BasicTransactionApi = require('./wallet/api/BasicTransactionApi')
-const FeeDelegatedTransactionPaidByKASApi = require('./wallet/api/FeeDelegatedTransactionPaidByKASApi')
-const FeeDelegatedTransactionPaidByUserApi = require('./wallet/api/FeeDelegatedTransactionPaidByUserApi')
+const BasicTxApi = require('./wallet/api/BasicTxApi')
+const FdtxKasApi = require('./wallet/api/FdtxKasApi')
+const FdtxUserApi = require('./wallet/api/FdtxUserApi')
 const FeepayerApi = require('./wallet/api/FeepayerApi')
 const KeyApi = require('./wallet/api/KeyApi')
-const MultisigTransactionManagementApi = require('./wallet/api/MultisigTransactionManagementApi')
+const MultisigTxApi = require('./wallet/api/MultisigTxApi')
 const RegistrationApi = require('./wallet/api/RegistrationApi')
 const StatisticsApi = require('./wallet/api/StatisticsApi')
+const TxHistoryApi = require('./wallet/api/TxHistoryApi')
 
 // Token History
 const AnyOfPageableContractSummaryItemsItems = require('./tokenHistory/model/AnyOfPageableContractSummaryItemsItems')
@@ -136,6 +148,8 @@ const TokenHistoryApi = require('./tokenHistory/api/TokenHistoryApi')
 const TokenOwnershipApi = require('./tokenHistory/api/TokenOwnershipApi')
 
 // KIP7
+const AddMinterKip7Request = require('./kip7/model/AddMinterKip7Request')
+const AddPauserKip7Request = require('./kip7/model/AddPauserKip7Request')
 const ApproveKip7TokenRequest = require('./kip7/model/ApproveKip7TokenRequest')
 const BurnFromKip7TokenRequest = require('./kip7/model/BurnFromKip7TokenRequest')
 const BurnKip7TokenRequest = require('./kip7/model/BurnKip7TokenRequest')
@@ -143,14 +157,22 @@ const DeployKip7ContractRequest = require('./kip7/model/DeployKip7ContractReques
 const Kip7ContractListResponse = require('./kip7/model/Kip7ContractListResponse')
 const Kip7ContractListResponseItem = require('./kip7/model/Kip7ContractListResponseItem')
 const Kip7ContractMetadataResponse = require('./kip7/model/Kip7ContractMetadataResponse')
+const Kip7DeployResponse = require('./kip7/model/Kip7DeployResponse')
 const Kip7DeployerResponse = require('./kip7/model/Kip7DeployerResponse')
+const Kip7FeePayerOptions = require('./kip7/model/Kip7FeePayerOptions')
+const Kip7FeePayerOptionsResponse = require('./kip7/model/Kip7FeePayerOptionsResponse')
+const Kip7FeePayerOptionsResponseUserFeePayer = require('./kip7/model/Kip7FeePayerOptionsResponseUserFeePayer')
 const Kip7TokenBalanceResponse = require('./kip7/model/Kip7TokenBalanceResponse')
 const Kip7TransactionStatusResponse = require('./kip7/model/Kip7TransactionStatusResponse')
 const MintKip7TokenRequest = require('./kip7/model/MintKip7TokenRequest')
+const PauseKip7Request = require('./kip7/model/PauseKip7Request')
 const TransferKip7TokenFromRequest = require('./kip7/model/TransferKip7TokenFromRequest')
 const TransferKip7TokenRequest = require('./kip7/model/TransferKip7TokenRequest')
-const KIP7Api = require('./kip7/api/KIP7Api')
-const KIP7DeployerApi = require('./kip7/api/KIP7DeployerApi')
+const UnpauseKip7Request = require('./kip7/model/UnpauseKip7Request')
+const UpdateKip7ContractRequest = require('./kip7/model/UpdateKip7ContractRequest')
+const Kip7ContractApi = require('./kip7/api/Kip7ContractApi')
+const Kip7DeployerApi = require('./kip7/api/Kip7DeployerApi')
+const Kip7TokenApi = require('./kip7/api/Kip7TokenApi')
 
 // KIP17
 const ApproveAllKip17Request = require('./kip17/model/ApproveAllKip17Request')
@@ -165,11 +187,42 @@ const GetOwnerKip17TokensResponseItem = require('./kip17/model/GetOwnerKip17Toke
 const Kip17ContractInfoResponse = require('./kip17/model/Kip17ContractInfoResponse')
 const Kip17ContractListResponse = require('./kip17/model/Kip17ContractListResponse')
 const Kip17ContractListResponseItem = require('./kip17/model/Kip17ContractListResponseItem')
+const Kip17DeployResponse = require('./kip17/model/Kip17DeployResponse')
+const Kip17FeePayerOptions = require('./kip17/model/Kip17FeePayerOptions')
+const Kip17FeePayerOptionsUserFeePayer = require('./kip17/model/Kip17FeePayerOptionsUserFeePayer')
 const Kip17TokenListResponse = require('./kip17/model/Kip17TokenListResponse')
 const Kip17TransactionStatusResponse = require('./kip17/model/Kip17TransactionStatusResponse')
 const MintKip17TokenRequest = require('./kip17/model/MintKip17TokenRequest')
 const TransferKip17TokenRequest = require('./kip17/model/TransferKip17TokenRequest')
-const KIP17Api = require('./kip17/api/KIP17Api')
+const UpdateKip17ContractRequest = require('./kip17/model/UpdateKip17ContractRequest')
+const Kip17ContractApi = require('./kip17/api/Kip17ContractApi')
+const Kip17TokenApi = require('./kip17/api/Kip17TokenApi')
+
+// KIP37
+const ApproveAllKip37ContractRequest = require('./kip37/model/ApproveAllKip37ContractRequest')
+const BurnKip37TokenRequest = require('./kip37/model/BurnKip37TokenRequest')
+const CreateKip37TokenRequest = require('./kip37/model/CreateKip37TokenRequest')
+const DeployKip37ContractRequest = require('./kip37/model/DeployKip37ContractRequest')
+const ImportKip37ContractRequest = require('./kip37/model/ImportKip37ContractRequest')
+const Kip37Contract = require('./kip37/model/Kip37Contract')
+const Kip37ContractListResponse = require('./kip37/model/Kip37ContractListResponse')
+const Kip37DeployResponse = require('./kip37/model/Kip37DeployResponse')
+const Kip37DeployerResponse = require('./kip37/model/Kip37DeployerResponse')
+const Kip37FeePayerOptions = require('./kip37/model/Kip37FeePayerOptions')
+const Kip37FeePayerOptionsUserFeePayer = require('./kip37/model/Kip37FeePayerOptionsUserFeePayer')
+const Kip37TokenInfoListResponse = require('./kip37/model/Kip37TokenInfoListResponse')
+const Kip37TokenInfoListResponseItem = require('./kip37/model/Kip37TokenInfoListResponseItem')
+const Kip37TokenListResponse = require('./kip37/model/Kip37TokenListResponse')
+const Kip37TokenListResponseItem = require('./kip37/model/Kip37TokenListResponseItem')
+const Kip37TransactionStatusResponse = require('./kip37/model/Kip37TransactionStatusResponse')
+const MintKip37TokenRequest = require('./kip37/model/MintKip37TokenRequest')
+const OperateKip37ContractRequest = require('./kip37/model/OperateKip37ContractRequest')
+const TransferKip37TokenRequest = require('./kip37/model/TransferKip37TokenRequest')
+const UpdateKip37ContractRequest = require('./kip37/model/UpdateKip37ContractRequest')
+const Kip37ContractApi = require('./kip37/api/Kip37ContractApi')
+const Kip37DeployerApi = require('./kip37/api/Kip37DeployerApi')
+const Kip37TokenApi = require('./kip37/api/Kip37TokenApi')
+const Kip37TokenOwnershipApi = require('./kip37/api/Kip37TokenOwnershipApi')
 
 /**
  * _IntroductionThis_document_describes_KAS__Klaytn_API_Service_Anchor_API__Anchor_API_provides_features_sending_metadata_available_to_verify_data_reliability_to_ensure_the_reliability_of_service_chain_data_to_Klaytn_main_chain_For_more_details_on_using_the_Anchor_API_please_refer_to__Tutorial_httpsdocs_klaytnapi_comtutorialanchor_api__Error_Codes_400_Bad_Request__Code__Messages________________1071010__data_dont_exist1071615__its_value_is_out_of_range_size1072100__same_payload_ID_or_payload_was_already_anchored1072101__all_configured_accounts_have_insufficient_funds__.<br>
@@ -270,361 +323,504 @@ module.exports = {
      */
     OperatorApi,
     // Wallet
+
     /**
      * The Account model constructor.
      * @property {Account}
      */
     Account,
+
     /**
      * The AccountByPubkey model constructor.
      * @property {AccountByPubkey}
      */
     AccountByPubkey,
+
     /**
      * The AccountCountByAccountID model constructor.
      * @property {AccountCountByAccountID}
      */
     AccountCountByAccountID,
+
     /**
      * The AccountCountByKRN model constructor.
      * @property {AccountCountByKRN}
      */
     AccountCountByKRN,
+
     /**
      * The AccountRegistration model constructor.
      * @property {AccountRegistration}
      */
     AccountRegistration,
+
     /**
      * The AccountRegistrationRequest model constructor.
      * @property {AccountRegistrationRequest}
      */
     AccountRegistrationRequest,
+
     /**
      * The AccountStatus model constructor.
      * @property {AccountStatus}
      */
     AccountStatus,
+
     /**
      * The AccountSummary model constructor.
      * @property {AccountSummary}
      */
     AccountSummary,
-    /**
-     * The AccountUpdateKey model constructor.
-     * @property {AccountUpdateKey}
-     */
-    AccountUpdateKey,
+
     /**
      * The AccountUpdateTransactionRequest model constructor.
      * @property {AccountUpdateTransactionRequest}
      */
     AccountUpdateTransactionRequest,
+
     /**
      * The Accounts model constructor.
      * @property {Accounts}
      */
     Accounts,
+
     /**
      * The AccountsByPubkey model constructor.
      * @property {AccountsByPubkey}
      */
     AccountsByPubkey,
+
     /**
      * The AnchorTransactionRequest model constructor.
      * @property {AnchorTransactionRequest}
      */
     AnchorTransactionRequest,
+
     /**
      * The CallArgument model constructor.
      * @property {CallArgument}
      */
     CallArgument,
+
     /**
      * The CancelTransactionRequest model constructor.
      * @property {CancelTransactionRequest}
      */
     CancelTransactionRequest,
+
     /**
      * The ContractCallData model constructor.
      * @property {ContractCallData}
      */
     ContractCallData,
+
     /**
      * The ContractCallRequest model constructor.
      * @property {ContractCallRequest}
      */
     ContractCallRequest,
+
     /**
      * The ContractCallResponse model constructor.
      * @property {ContractCallResponse}
      */
     ContractCallResponse,
+
     /**
      * The ContractDeployTransactionRequest model constructor.
      * @property {ContractDeployTransactionRequest}
      */
     ContractDeployTransactionRequest,
+
     /**
      * The ContractExecutionTransactionRequest model constructor.
      * @property {ContractExecutionTransactionRequest}
      */
     ContractExecutionTransactionRequest,
+
+    /**
+     * The CreateFeePayerAccountRequest model constructor.
+     * @property {CreateFeePayerAccountRequest}
+     */
+    CreateFeePayerAccountRequest,
+
+    /**
+     * The EmptyUpdateKeyType model constructor.
+     * @property {EmptyUpdateKeyType}
+     */
+    EmptyUpdateKeyType,
+
     /**
      * The EventLog model constructor.
      * @property {EventLog}
      */
     EventLog,
+
     /**
      * The FDAccountUpdateTransactionRequest model constructor.
      * @property {FDAccountUpdateTransactionRequest}
      */
     FDAccountUpdateTransactionRequest,
+
     /**
      * The FDAnchorTransactionRequest model constructor.
      * @property {FDAnchorTransactionRequest}
      */
     FDAnchorTransactionRequest,
+
     /**
      * The FDCancelTransactionRequest model constructor.
      * @property {FDCancelTransactionRequest}
      */
     FDCancelTransactionRequest,
+
     /**
      * The FDContractDeployTransactionRequest model constructor.
      * @property {FDContractDeployTransactionRequest}
      */
     FDContractDeployTransactionRequest,
+
     /**
      * The FDContractExecutionTransactionRequest model constructor.
      * @property {FDContractExecutionTransactionRequest}
      */
     FDContractExecutionTransactionRequest,
+
     /**
      * The FDProcessRLPRequest model constructor.
      * @property {FDProcessRLPRequest}
      */
     FDProcessRLPRequest,
+
     /**
      * The FDTransactionResult model constructor.
      * @property {FDTransactionResult}
      */
     FDTransactionResult,
+
+    /**
+     * The FDTransactionWithCurrencyResult model constructor.
+     * @property {FDTransactionWithCurrencyResult}
+     */
+    FDTransactionWithCurrencyResult,
+
+    /**
+     * The FDTransactionWithCurrencyResultList model constructor.
+     * @property {FDTransactionWithCurrencyResultList}
+     */
+    FDTransactionWithCurrencyResultList,
+
     /**
      * The FDUserAccountUpdateTransactionRequest model constructor.
      * @property {FDUserAccountUpdateTransactionRequest}
      */
     FDUserAccountUpdateTransactionRequest,
+
     /**
      * The FDUserAnchorTransactionRequest model constructor.
      * @property {FDUserAnchorTransactionRequest}
      */
     FDUserAnchorTransactionRequest,
+
     /**
      * The FDUserCancelTransactionRequest model constructor.
      * @property {FDUserCancelTransactionRequest}
      */
     FDUserCancelTransactionRequest,
+
     /**
      * The FDUserContractDeployTransactionRequest model constructor.
      * @property {FDUserContractDeployTransactionRequest}
      */
     FDUserContractDeployTransactionRequest,
+
     /**
      * The FDUserContractExecutionTransactionRequest model constructor.
      * @property {FDUserContractExecutionTransactionRequest}
      */
     FDUserContractExecutionTransactionRequest,
+
     /**
      * The FDUserProcessRLPRequest model constructor.
      * @property {FDUserProcessRLPRequest}
      */
     FDUserProcessRLPRequest,
+
     /**
      * The FDUserValueTransferTransactionRequest model constructor.
      * @property {FDUserValueTransferTransactionRequest}
      */
     FDUserValueTransferTransactionRequest,
+
     /**
      * The FDValueTransferTransactionRequest model constructor.
      * @property {FDValueTransferTransactionRequest}
      */
     FDValueTransferTransactionRequest,
+
     /**
      * The FeePayerSignaturesObj model constructor.
      * @property {FeePayerSignaturesObj}
      */
     FeePayerSignaturesObj,
+
     /**
      * The Key model constructor.
      * @property {Key}
      */
     Key,
+
     /**
      * The KeyCreationRequest model constructor.
      * @property {KeyCreationRequest}
      */
     KeyCreationRequest,
+
     /**
      * The KeyCreationResponse model constructor.
      * @property {KeyCreationResponse}
      */
     KeyCreationResponse,
+
     /**
      * The KeyList model constructor.
      * @property {KeyList}
      */
     KeyList,
+
     /**
      * The KeyListItems model constructor.
      * @property {KeyListItems}
      */
     KeyListItems,
+
     /**
      * The KeySignDataRequest model constructor.
      * @property {KeySignDataRequest}
      */
     KeySignDataRequest,
+
     /**
      * The KeySignDataResponse model constructor.
      * @property {KeySignDataResponse}
      */
     KeySignDataResponse,
+
     /**
      * The KeyStatus model constructor.
      * @property {KeyStatus}
      */
     KeyStatus,
+
     /**
      * The LegacyTransactionRequest model constructor.
      * @property {LegacyTransactionRequest}
      */
     LegacyTransactionRequest,
+
     /**
      * The MultisigAccount model constructor.
      * @property {MultisigAccount}
      */
     MultisigAccount,
+
     /**
      * The MultisigAccountUpdateRequest model constructor.
      * @property {MultisigAccountUpdateRequest}
      */
     MultisigAccountUpdateRequest,
+
     /**
      * The MultisigAddress model constructor.
      * @property {MultisigAddress}
      */
     MultisigAddress,
+
     /**
      * The MultisigKey model constructor.
      * @property {MultisigKey}
      */
     MultisigKey,
+
     /**
      * The MultisigTransactionStatus model constructor.
      * @property {MultisigTransactionStatus}
      */
     MultisigTransactionStatus,
+
     /**
      * The MultisigTransactions model constructor.
      * @property {MultisigTransactions}
      */
     MultisigTransactions,
+
+    /**
+     * The MultisigUpdateKey model constructor.
+     * @property {MultisigUpdateKey}
+     */
+    MultisigUpdateKey,
+
+    /**
+     * The MultisigUpdateKeyType model constructor.
+     * @property {MultisigUpdateKeyType}
+     */
+    MultisigUpdateKeyType,
+
+    /**
+     * The OneOfAccountUpdateTransactionRequestAccountKey model constructor.
+     * @property {OneOfAccountUpdateTransactionRequestAccountKey}
+     */
+    OneOfAccountUpdateTransactionRequestAccountKey,
+
+    /**
+     * The OneOfFDAccountUpdateTransactionRequestAccountKey model constructor.
+     * @property {OneOfFDAccountUpdateTransactionRequestAccountKey}
+     */
+    OneOfFDAccountUpdateTransactionRequestAccountKey,
+
+    /**
+     * The OneOfFDUserAccountUpdateTransactionRequestAccountKey model constructor.
+     * @property {OneOfFDUserAccountUpdateTransactionRequestAccountKey}
+     */
+    OneOfFDUserAccountUpdateTransactionRequestAccountKey,
+
+    /**
+     * The OneOfRoleBasedUpdateKeyTypeKeyItems model constructor.
+     * @property {OneOfRoleBasedUpdateKeyTypeKeyItems}
+     */
+    OneOfRoleBasedUpdateKeyTypeKeyItems,
+
     /**
      * The PendedTransaction model constructor.
      * @property {PendedTransaction}
      */
     PendedTransaction,
+
     /**
      * The ProcessRLPRequest model constructor.
      * @property {ProcessRLPRequest}
      */
     ProcessRLPRequest,
+
+    /**
+     * The PubkeyUpdateKeyType model constructor.
+     * @property {PubkeyUpdateKeyType}
+     */
+    PubkeyUpdateKeyType,
+
     /**
      * The RegistrationFailure model constructor.
      * @property {RegistrationFailure}
      */
     RegistrationFailure,
+
     /**
      * The RegistrationStatusResponse model constructor.
      * @property {RegistrationStatusResponse}
      */
     RegistrationStatusResponse,
+
+    /**
+     * The RoleBasedUpdateKeyType model constructor.
+     * @property {RoleBasedUpdateKeyType}
+     */
+    RoleBasedUpdateKeyType,
+
     /**
      * The SignPendingTransactionBySigRequest model constructor.
      * @property {SignPendingTransactionBySigRequest}
      */
     SignPendingTransactionBySigRequest,
+
     /**
      * The Signature model constructor.
      * @property {Signature}
      */
     Signature,
+
     /**
      * The TransactionReceipt model constructor.
      * @property {TransactionReceipt}
      */
     TransactionReceipt,
+
     /**
      * The TransactionResult model constructor.
      * @property {TransactionResult}
      */
     TransactionResult,
+
     /**
      * The TxData model constructor.
      * @property {TxData}
      */
     TxData,
+
     /**
      * The ValueTransferTransactionRequest model constructor.
      * @property {ValueTransferTransactionRequest}
      */
     ValueTransferTransactionRequest,
+
     /**
      * The AccountApi service constructor.
      * @property {AccountApi}
      */
     AccountApi,
+
     /**
-     * The BasicTransactionApi service constructor.
-     * @property {BasicTransactionApi}
+     * The BasicTxApi service constructor.
+     * @property {BasicTxApi}
      */
-    BasicTransactionApi,
+    BasicTxApi,
+
     /**
-     * The FeeDelegatedTransactionPaidByKASApi service constructor.
-     * @property {FeeDelegatedTransactionPaidByKASApi}
+     * The FdtxKasApi service constructor.
+     * @property {FdtxKasApi}
      */
-    FeeDelegatedTransactionPaidByKASApi,
+    FdtxKasApi,
+
     /**
-     * The FeeDelegatedTransactionPaidByUserApi service constructor.
-     * @property {FeeDelegatedTransactionPaidByUserApi}
+     * The FdtxUserApi service constructor.
+     * @property {FdtxUserApi}
      */
-    FeeDelegatedTransactionPaidByUserApi,
+    FdtxUserApi,
+
     /**
      * The FeepayerApi service constructor.
      * @property {FeepayerApi}
      */
     FeepayerApi,
+
     /**
      * The KeyApi service constructor.
      * @property {KeyApi}
      */
     KeyApi,
+
     /**
-     * The MultisigTransactionManagementApi service constructor.
-     * @property {MultisigTransactionManagementApi}
+     * The MultisigTxApi service constructor.
+     * @property {MultisigTxApi}
      */
-    MultisigTransactionManagementApi,
+    MultisigTxApi,
+
     /**
      * The RegistrationApi service constructor.
      * @property {RegistrationApi}
      */
     RegistrationApi,
+
     /**
      * The StatisticsApi service constructor.
      * @property {StatisticsApi}
      */
     StatisticsApi,
+
+    /**
+     * The TxHistoryApi service constructor.
+     * @property {TxHistoryApi}
+     */
+    TxHistoryApi,
     // Token History
     /**
      * The AnyOfPageableContractSummaryItemsItems model constructor.
@@ -794,80 +990,154 @@ module.exports = {
     // KIP7
 
     /**
+     * The AddMinterKip7Request model constructor.
+     * @property {AddMinterKip7Request}
+     */
+    AddMinterKip7Request,
+
+    /**
+     * The AddPauserKip7Request model constructor.
+     * @property {AddPauserKip7Request}
+     */
+    AddPauserKip7Request,
+
+    /**
      * The ApproveKip7TokenRequest model constructor.
      * @property {ApproveKip7TokenRequest}
      */
     ApproveKip7TokenRequest,
+
     /**
      * The BurnFromKip7TokenRequest model constructor.
      * @property {BurnFromKip7TokenRequest}
      */
     BurnFromKip7TokenRequest,
+
     /**
      * The BurnKip7TokenRequest model constructor.
      * @property {BurnKip7TokenRequest}
      */
     BurnKip7TokenRequest,
+
     /**
      * The DeployKip7ContractRequest model constructor.
      * @property {DeployKip7ContractRequest}
      */
     DeployKip7ContractRequest,
+
     /**
      * The Kip7ContractListResponse model constructor.
      * @property {Kip7ContractListResponse}
      */
     Kip7ContractListResponse,
+
     /**
      * The Kip7ContractListResponseItem model constructor.
      * @property {Kip7ContractListResponseItem}
      */
     Kip7ContractListResponseItem,
+
     /**
      * The Kip7ContractMetadataResponse model constructor.
      * @property {Kip7ContractMetadataResponse}
      */
     Kip7ContractMetadataResponse,
+
+    /**
+     * The Kip7DeployResponse model constructor.
+     * @property {Kip7DeployResponse}
+     */
+    Kip7DeployResponse,
+
     /**
      * The Kip7DeployerResponse model constructor.
      * @property {Kip7DeployerResponse}
      */
     Kip7DeployerResponse,
+
+    /**
+     * The Kip7FeePayerOptions model constructor.
+     * @property {Kip7FeePayerOptions}
+     */
+    Kip7FeePayerOptions,
+
+    /**
+     * The Kip7FeePayerOptionsResponse model constructor.
+     * @property {Kip7FeePayerOptionsResponse}
+     */
+    Kip7FeePayerOptionsResponse,
+
+    /**
+     * The Kip7FeePayerOptionsResponseUserFeePayer model constructor.
+     * @property {Kip7FeePayerOptionsResponseUserFeePayer}
+     */
+    Kip7FeePayerOptionsResponseUserFeePayer,
+
     /**
      * The Kip7TokenBalanceResponse model constructor.
      * @property {Kip7TokenBalanceResponse}
      */
     Kip7TokenBalanceResponse,
+
     /**
      * The Kip7TransactionStatusResponse model constructor.
      * @property {Kip7TransactionStatusResponse}
      */
     Kip7TransactionStatusResponse,
+
     /**
      * The MintKip7TokenRequest model constructor.
      * @property {MintKip7TokenRequest}
      */
     MintKip7TokenRequest,
+
+    /**
+     * The PauseKip7Request model constructor.
+     * @property {PauseKip7Request}
+     */
+    PauseKip7Request,
+
     /**
      * The TransferKip7TokenFromRequest model constructor.
      * @property {TransferKip7TokenFromRequest}
      */
     TransferKip7TokenFromRequest,
+
     /**
      * The TransferKip7TokenRequest model constructor.
      * @property {TransferKip7TokenRequest}
      */
     TransferKip7TokenRequest,
+
     /**
-     * The KIP7Api service constructor.
-     * @property {KIP7Api}
+     * The UnpauseKip7Request model constructor.
+     * @property {UnpauseKip7Request}
      */
-    KIP7Api,
+    UnpauseKip7Request,
+
     /**
-     * The KIP7DeployerApi service constructor.
-     * @property {KIP7DeployerApi}
+     * The UpdateKip7ContractRequest model constructor.
+     * @property {UpdateKip7ContractRequest}
      */
-    KIP7DeployerApi,
+    UpdateKip7ContractRequest,
+
+    /**
+     * The Kip7ContractApi service constructor.
+     * @property {Kip7ContractApi}
+     */
+    Kip7ContractApi,
+
+    /**
+     * The Kip7DeployerApi service constructor.
+     * @property {Kip7DeployerApi}
+     */
+    Kip7DeployerApi,
+
+    /**
+     * The Kip7TokenApi service constructor.
+     * @property {Kip7TokenApi}
+     */
+    Kip7TokenApi,
     // KIP17
 
     /**
@@ -875,84 +1145,275 @@ module.exports = {
      * @property {ApproveAllKip17Request}
      */
     ApproveAllKip17Request,
+
     /**
      * The ApproveKip17TokenRequest model constructor.
      * @property {ApproveKip17TokenRequest}
      */
     ApproveKip17TokenRequest,
+
     /**
      * The BurnKip17TokenRequest model constructor.
      * @property {BurnKip17TokenRequest}
      */
     BurnKip17TokenRequest,
+
     /**
      * The DeployKip17ContractRequest model constructor.
      * @property {DeployKip17ContractRequest}
      */
     DeployKip17ContractRequest,
+
     /**
      * The GetKip17TokenHistoryResponse model constructor.
      * @property {GetKip17TokenHistoryResponse}
      */
     GetKip17TokenHistoryResponse,
+
     /**
      * The GetKip17TokenHistoryResponseItem model constructor.
      * @property {GetKip17TokenHistoryResponseItem}
      */
     GetKip17TokenHistoryResponseItem,
+
     /**
      * The GetKip17TokenResponse model constructor.
      * @property {GetKip17TokenResponse}
      */
     GetKip17TokenResponse,
+
     /**
      * The GetOwnerKip17TokensResponse model constructor.
      * @property {GetOwnerKip17TokensResponse}
      */
     GetOwnerKip17TokensResponse,
+
     /**
      * The GetOwnerKip17TokensResponseItem model constructor.
      * @property {GetOwnerKip17TokensResponseItem}
      */
     GetOwnerKip17TokensResponseItem,
+
     /**
      * The Kip17ContractInfoResponse model constructor.
      * @property {Kip17ContractInfoResponse}
      */
     Kip17ContractInfoResponse,
+
     /**
      * The Kip17ContractListResponse model constructor.
      * @property {Kip17ContractListResponse}
      */
     Kip17ContractListResponse,
+
     /**
      * The Kip17ContractListResponseItem model constructor.
      * @property {Kip17ContractListResponseItem}
      */
     Kip17ContractListResponseItem,
+
+    /**
+     * The Kip17DeployResponse model constructor.
+     * @property {Kip17DeployResponse}
+     */
+    Kip17DeployResponse,
+
+    /**
+     * The Kip17FeePayerOptions model constructor.
+     * @property {Kip17FeePayerOptions}
+     */
+    Kip17FeePayerOptions,
+
+    /**
+     * The Kip17FeePayerOptionsUserFeePayer model constructor.
+     * @property {Kip17FeePayerOptionsUserFeePayer}
+     */
+    Kip17FeePayerOptionsUserFeePayer,
+
     /**
      * The Kip17TokenListResponse model constructor.
      * @property {Kip17TokenListResponse}
      */
     Kip17TokenListResponse,
+
     /**
      * The Kip17TransactionStatusResponse model constructor.
      * @property {Kip17TransactionStatusResponse}
      */
     Kip17TransactionStatusResponse,
+
     /**
      * The MintKip17TokenRequest model constructor.
      * @property {MintKip17TokenRequest}
      */
     MintKip17TokenRequest,
+
     /**
      * The TransferKip17TokenRequest model constructor.
      * @property {TransferKip17TokenRequest}
      */
     TransferKip17TokenRequest,
+
     /**
-     * The KIP17Api service constructor.
-     * @property {KIP17Api}
+     * The UpdateKip17ContractRequest model constructor.
+     * @property {UpdateKip17ContractRequest}
      */
-    KIP17Api,
+    UpdateKip17ContractRequest,
+
+    /**
+     * The Kip17ContractApi service constructor.
+     * @property {Kip17ContractApi}
+     */
+    Kip17ContractApi,
+
+    /**
+     * The Kip17TokenApi service constructor.
+     * @property {Kip17TokenApi}
+     */
+    Kip17TokenApi,
+    // KIP37
+
+    /**
+     * The ApproveAllKip37ContractRequest model constructor.
+     * @property {ApproveAllKip37ContractRequest}
+     */
+    ApproveAllKip37ContractRequest,
+
+    /**
+     * The BurnKip37TokenRequest model constructor.
+     * @property {BurnKip37TokenRequest}
+     */
+    BurnKip37TokenRequest,
+
+    /**
+     * The CreateKip37TokenRequest model constructor.
+     * @property {CreateKip37TokenRequest}
+     */
+    CreateKip37TokenRequest,
+
+    /**
+     * The DeployKip37ContractRequest model constructor.
+     * @property {DeployKip37ContractRequest}
+     */
+    DeployKip37ContractRequest,
+
+    /**
+     * The ImportKip37ContractRequest model constructor.
+     * @property {ImportKip37ContractRequest}
+     */
+    ImportKip37ContractRequest,
+
+    /**
+     * The Kip37Contract model constructor.
+     * @property {Kip37Contract}
+     */
+    Kip37Contract,
+
+    /**
+     * The Kip37ContractListResponse model constructor.
+     * @property {Kip37ContractListResponse}
+     */
+    Kip37ContractListResponse,
+
+    /**
+     * The Kip37DeployResponse model constructor.
+     * @property {Kip37DeployResponse}
+     */
+    Kip37DeployResponse,
+
+    /**
+     * The Kip37DeployerResponse model constructor.
+     * @property {Kip37DeployerResponse}
+     */
+    Kip37DeployerResponse,
+
+    /**
+     * The Kip37FeePayerOptions model constructor.
+     * @property {Kip37FeePayerOptions}
+     */
+    Kip37FeePayerOptions,
+
+    /**
+     * The Kip37FeePayerOptionsUserFeePayer model constructor.
+     * @property {Kip37FeePayerOptionsUserFeePayer}
+     */
+    Kip37FeePayerOptionsUserFeePayer,
+
+    /**
+     * The Kip37TokenInfoListResponse model constructor.
+     * @property {Kip37TokenInfoListResponse}
+     */
+    Kip37TokenInfoListResponse,
+
+    /**
+     * The Kip37TokenInfoListResponseItem model constructor.
+     * @property {Kip37TokenInfoListResponseItem}
+     */
+    Kip37TokenInfoListResponseItem,
+
+    /**
+     * The Kip37TokenListResponse model constructor.
+     * @property {Kip37TokenListResponse}
+     */
+    Kip37TokenListResponse,
+
+    /**
+     * The Kip37TokenListResponseItem model constructor.
+     * @property {Kip37TokenListResponseItem}
+     */
+    Kip37TokenListResponseItem,
+
+    /**
+     * The Kip37TransactionStatusResponse model constructor.
+     * @property {Kip37TransactionStatusResponse}
+     */
+    Kip37TransactionStatusResponse,
+
+    /**
+     * The MintKip37TokenRequest model constructor.
+     * @property {MintKip37TokenRequest}
+     */
+    MintKip37TokenRequest,
+
+    /**
+     * The OperateKip37ContractRequest model constructor.
+     * @property {OperateKip37ContractRequest}
+     */
+    OperateKip37ContractRequest,
+
+    /**
+     * The TransferKip37TokenRequest model constructor.
+     * @property {TransferKip37TokenRequest}
+     */
+    TransferKip37TokenRequest,
+
+    /**
+     * The UpdateKip37ContractRequest model constructor.
+     * @property {UpdateKip37ContractRequest}
+     */
+    UpdateKip37ContractRequest,
+
+    /**
+     * The Kip37ContractApi service constructor.
+     * @property {Kip37ContractApi}
+     */
+    Kip37ContractApi,
+
+    /**
+     * The Kip37DeployerApi service constructor.
+     * @property {Kip37DeployerApi}
+     */
+    Kip37DeployerApi,
+
+    /**
+     * The Kip37TokenApi service constructor.
+     * @property {Kip37TokenApi}
+     */
+    Kip37TokenApi,
+
+    /**
+     * The Kip37TokenOwnershipApi service constructor.
+     * @property {Kip37TokenOwnershipApi}
+     */
+    Kip37TokenOwnershipApi,
 }

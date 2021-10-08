@@ -28,12 +28,14 @@ const CaverExtKAS = require('../../index.js')
 let caver
 const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.kip7API
 const walletEnv = require('../testEnv').auths.walletAPI
-const { timeout } = require('../testUtils')
+const { createAlias, createFeePayerOptions, timeout } = require('../testUtils')
 
 let contractAddress
 let alias
 let owner
 let spender
+let deployer
+let feePayer
 const to = '0x7366f54429185bbcb6053b2fb5947358a9752103'
 
 const mintedAmount = '0x2540be400' // 10000000000
@@ -46,15 +48,40 @@ describe('KIP7 API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-259: caver.kas.kip7.deploy should deploy KIP-7 token contract', async () => {
-        // Make random string for alias to avoid duplicated alias
-        alias = `jasmine-${Math.random()
-            .toString(36)
-            .substr(2, 11)}`
+        alias = createAlias('jasmine')
 
         const ret = await caver.kas.kip7.deploy('Jasmine', 'JAS', 18, '10000000000000000000', alias)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
+    }).timeout(100000)
+
+    it('CAVERJS-EXT-KAS-INT-310: caver.kas.kip7.deploy should deploy KIP-7 token contract with fee payer options', async () => {
+        alias = createAlias('jasmine')
+
+        feePayer = await caver.kas.wallet.getFeePayer(walletEnv.feePayerAddress)
+        const feePayerOptions = createFeePayerOptions(false, feePayer)
+        const ret = await caver.kas.kip7.deploy('Jasmine', 'JAS', 18, '10000000000000000000', alias, feePayerOptions)
+
+        expect(ret.status).to.equal('Submitted')
+        expect(ret.transactionHash).not.to.be.undefined
+        expect(ret.options.enableGlobalFeepayer).to.be.false
+        expect(ret.options.userFeePayer).not.to.be.undefined
+        expect(ret.options.userFeePayer.krn).to.equal(feePayerOptions.userFeePayer.krn)
+        expect(ret.options.userFeePayer.address).to.equal(feePayerOptions.userFeePayer.address)
+    }).timeout(100000)
+
+    it('CAVERJS-EXT-KAS-INT-311: caver.kas.kip7.updateContractOptions should update KIP-7 token contract options with fee payer options', async () => {
+        await timeout(10000)
+
+        const feePayerOptions = createFeePayerOptions(true, feePayer)
+        const ret = await caver.kas.kip7.updateContractOptions(alias, feePayerOptions)
+
+        expect(ret.options).not.to.be.undefined
+        expect(ret.options.enableGlobalFeePayer).to.be.true
+        expect(ret.options.userFeePayer).not.to.be.undefined
+        expect(ret.options.userFeePayer.krn).to.equal(feePayerOptions.userFeePayer.krn)
+        expect(ret.options.userFeePayer.address).to.equal(feePayerOptions.userFeePayer.address)
     }).timeout(100000)
 
     it('CAVERJS-EXT-KAS-INT-260: caver.kas.kip7.getContractList should return KIP-7 token contract list', async () => {
@@ -99,6 +126,18 @@ describe('KIP7 API service', () => {
         spender = accounts[1]
 
         const ret = await caver.kas.kip7.mint(alias, owner, mintedAmount)
+
+        expect(ret.status).to.equal('Submitted')
+        expect(ret.transactionHash).not.to.be.undefined
+    }).timeout(100000)
+
+    it('CAVERJS-EXT-KAS-INT-312: caver.kas.kip7.mint should mint tokens with minter', async () => {
+        const accounts = await caver.wallet.generate(2)
+        owner = accounts[0]
+        spender = accounts[1]
+
+        deployer = (await caver.kas.kip7.getDeployer()).address
+        const ret = await caver.kas.kip7.mint(alias, owner, mintedAmount, deployer)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
@@ -190,6 +229,22 @@ describe('KIP7 API service', () => {
     it('CAVERJS-EXT-KAS-INT-271: caver.kas.kip7.unpause should unpause the KIP-7 contract', async () => {
         await timeout(10000)
         const ret = await caver.kas.kip7.unpause(alias)
+
+        expect(ret.status).to.equal('Submitted')
+        expect(ret.transactionHash).not.to.be.undefined
+    }).timeout(100000)
+
+    it('CAVERJS-EXT-KAS-INT-313: caver.kas.kip7.pause should pause with pauser param', async () => {
+        await timeout(10000)
+        const ret = await caver.kas.kip7.pause(alias, deployer)
+
+        expect(ret.status).to.equal('Submitted')
+        expect(ret.transactionHash).not.to.be.undefined
+    }).timeout(100000)
+
+    it('CAVERJS-EXT-KAS-INT-314: caver.kas.kip7.unpause should unpause with pauser param', async () => {
+        await timeout(10000)
+        const ret = await caver.kas.kip7.unpause(alias, deployer)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined

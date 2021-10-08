@@ -60,6 +60,12 @@ const auths = {
         accessKeyId: '',
         secretAccessKey: '',
     },
+    kip37API: {
+        url: 'https://kip37-api.klaytnapi.com',
+        chainId: 1001,
+        accessKeyId: '',
+        secretAccessKey: '',
+    },
 }
 
 if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm_config_testEnv === 'dev') {
@@ -91,6 +97,10 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.kip7API.url = process.env.KIP7_API_DEV
     auths.kip7API.accessKeyId = process.env.ACCESS_KEY_DEV
     auths.kip7API.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+
+    auths.kip37API.url = process.env.KIP37_API_DEV
+    auths.kip37API.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.kip37API.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
 } else if (process.argv[process.argv.length - 1] === '--testEnv=qa' || process.env.npm_config_testEnv === 'qa') {
     senderPrivateKey = process.env.SENDER_PRV_KEY_JS_QA
 
@@ -120,6 +130,10 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.kip7API.url = process.env.KIP7_API_QA
     auths.kip7API.accessKeyId = process.env.ACCESS_KEY_QA
     auths.kip7API.secretAccessKey = process.env.SECRET_ACCESS_KEY_QA
+
+    auths.kip37API.url = process.env.KIP37_API_QA
+    auths.kip37API.accessKeyId = process.env.ACCESS_KEY_QA
+    auths.kip37API.secretAccessKey = process.env.SECRET_ACCESS_KEY_QA
 } else {
     senderPrivateKey = process.env.SENDER_PRV_KEY_JS
 
@@ -143,6 +157,9 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
 
     auths.kip7API.accessKeyId = process.env.ACCESS_KEY
     auths.kip7API.secretAccessKey = process.env.SECRET_ACCESS_KEY
+
+    auths.kip37API.accessKeyId = process.env.ACCESS_KEY
+    auths.kip37API.secretAccessKey = process.env.SECRET_ACCESS_KEY
 }
 
 // console.log(auths)

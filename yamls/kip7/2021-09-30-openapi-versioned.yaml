@@ -1,0 +1,2459 @@
+openapi: 3.0.0
+info:
+  version: 1.0
+  title: KIP-7 API
+  description: "# Introduction\nThe KIP-17 API helps BApp (Blockchain Application)\
+    \ developers to manage contracts and tokens created in accordance with the [KIP-7](https://docs.klaytnapi.com/v/en/api#kip-7-api)\
+    \ standard, which is Klaytn's technical speficication for Fungible Tokens. \n\
+    The functionality of the multiple endpoints enables you to do the following actions:\n\
+    - deploy smart contracts\n- manage the entire life cycle of an FT from minting,\
+    \ to sending and burning\n- get contract or token data\n- authorize a third party\
+    \ to execute token transfers\n- send tokens on behalf of the owner\n\n\nFor more\
+    \ details on KAS, please refer to [KAS Docs](https://docs.klaytnapi.com/). If\
+    \ you have any questions or comments, please leave them in the [Klaytn Developers\
+    \ Forum](http://forum.klaytn.com).  \n\n**alias**\n\nWhen a method of the KIP-17\
+    \ API requires a contract address, you can use the contract **alias**. You can\
+    \ give the contract an alias when deploying, and use it in place of the complicated\
+    \ address.\n\n**deployer**\n\nWhen you create a contract, you will be assigned\
+    \ one `deployer` address per Credential, which is the account address used for\
+    \ managing contracts. In KIP-7 API, this address is used in many different token-related\
+    \ operations. You can find the `deployer` address with [KIP7Deployer](#operation/GetDefaultDeployer).\n\
+    \nEven with contracts created using SDKs like \"caver\", you can still use the\
+    \ contract address and [Wallet API](https://refs.klaytnapi.com/en/wallet/latest)\
+    \ account to manage your contracts and tokens.\n\n# Fee Payer Options\n\nKAS KIP-17\
+    \ supports four ways to pay the transaction fees.<br />\n\n**1. Only using KAS\
+    \ Global FeePayer Account** <br />\nSends all transactions using KAS Global FeePayer\
+    \ Account.\n```\n{\n    \"options\": {\n      \"enableGlobalFeePayer\": true\n\
+    \    }\n}\n```\n\n<br />\n\n**2. Using User FeePayer Account** <br />\nSends all\
+    \ transactions using User FeePayer Account.\n```\n{\n  \"options\": {\n    \"\
+    enableGlobalFeePayer\": false,\n    \"userFeePayer\": {\n      \"krn\": \"krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default\"\
+    ,\n      \"address\": \"0xd6905b98E4Ba43a24E842d2b66c1410173791cab\"\n    }\n\
+    \  }\n}\n```\n\n<br />\n\n**3. Using both KAS Global FeePayer Account + User FeePayer\
+    \ Account** <br />\nSends transactions using User FeePayer Account by default,\
+    \ and switches to the KAS Global FeePayer Account when balances are insufficient.\n\
+    ```\n{\n  \"options\": {\n    \"enableGlobalFeePayer\": true,\n    \"userFeePayer\"\
+    : {\n      \"krn\": \"krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default\"\
+    ,\n      \"address\": \"0xd6905b98E4Ba43a24E842d2b66c1410173791cab\"\n    }\n\
+    \  }\n}\n```\n\n<br />\n\n**4. Not using FeePayer Account** <br />\nSends transactions\
+    \ the default way, paying the transaction fee from the user's account.\n```\n\
+    {\n  \"options\": {\n    \"enableGlobalFeePayer\": false\n  }\n}\n```\n\n# Error\
+    \ Code\nThis section contains the errors that might occur when using the KIP-17\
+    \ API. KAS uses HTTP status codes. More details can be found in this [link](https://developer.mozilla.org/en/docs/Web/HTTP/Status).\n"
+servers:
+- url: https://kip7-api.klaytnapi.com
+security:
+- basic: []
+tags:
+- name: err-400
+  description: "The request is not valid.\n\n| Code | Message | Description |\n| ---\
+    \ | --- | --- |\n| 1130050 | invalid request; {data} | The data format is wrong.\n\
+    1100101 | data not found | Data doesn't exist.\n1130107 | incorrect bookmark |\
+    \ Cursor format is wrong.\n1010007 | invalid path or method | The path or method\
+    \ you entered is wrong. \n1100251 | value out of range | Value is out of range.\n\
+    1104401 | failed to get account | The KRN or the `sender` address you entered\
+    \ is wrong. Please check your sender Account Pool.\n1134410 | invalid address;\
+    \ {data} | The address you entered is wrong.\n1134411 | invalid amount; amount\
+    \ | Amount is invalid.\n1134412 | invalid krn; {data} | The KRN or the `sender`\
+    \ address you entered is wrong.\n1134414 | invalid hex format: {data} | Hex format\
+    \ is wrong.\n1100251 | contract not ready | Checking contract deployment status.\n\
+    1134403 | invalid alias format | The alias is invalid. Please check the requirements.\n\
+    1134418 | insufficient balance; {data} | Balance is insufficient to execute this\
+    \ request.\n"
+  x-displayName: "400: Bad Request"
+- name: err-401
+  description: "The credential you entered is invalid.\n\n| Code | Message | Description\
+    \ |\n|  --- | --- | --- |\n| 1010009 | invalid credential | The credential you\
+    \ entered is invalid. \n"
+  x-displayName: "401: Unauthorized"
+- name: err-403
+  description: "Your request has been passed on to the server, but denied due to permission\
+    \ issues.\n\n| Code | Message | Description |\n|  --- | --- | --- |\n| 1134300\
+    \ | insufficient account permission | You have no permission to this account.\n"
+  x-displayName: "403: Forbidden"
+- name: err-404
+  description: "The resource you requested doesn't exist.\n\n| Code | Messages | Description\
+    \ |\n| --- | --- | --- |\n| 1134504 | contract not found | The contract doesn't\
+    \ exist. \n| 1134506 | deployer not found | The deployer address doesn't exist.\
+    \ \n"
+  x-displayName: "404: Not Found"
+- name: err-409
+  description: "There was a conflict with the current state of the server.\n\n| Code\
+    \ | Messages | Description |\n| --- | --- | --- |\n| 1134900 | duplicate alias-\
+    \ {alias} | This alias is already taken.\n| 1134902 | contract already paused\
+    \ | Contract is already paused.\n| 1134903 | contract already unpaused | Contract\
+    \ is already unpaused.\n"
+  x-displayName: "409: Conflict"
+- name: kip7-contract
+  x-displayName: Contract
+- name: kip7-token
+  x-displayName: Token
+- name: kip7-deployer
+  x-displayName: Deployer
+paths:
+  /v1/contract:
+    get:
+      tags:
+      - kip7-contract
+      summary: Get Contract List
+      description: "Returns a list of all KIP-7 contracts deployed by the user in\
+        \ chronological order of contract creation request.<p></p>\n\n\nThe `status`\
+        \ field in the request has the following meanings:<p></p>\n\n\n- `init`: The\
+        \ initial state before sending the transaction\n\n- `submitted`: After the\
+        \ contract deployment transaction has been sent\n\n- `deployed`: The state\
+        \ in which the contract is deployed<p></p>"
+      operationId: ListContractsInDeployerPool
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: "The number of items to return (min=1, max=1000, default=100)."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: ""
+      - name: cursor
+        in: query
+        description: "The pointer for the next request, after which the result will\
+          \ be returned."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: eyJjm...ZSJ9
+      - name: status
+        in: query
+        description: "The contract deployment status you wish to return. You can select\
+          \ only one of [`all`,`init`,`submitted`,`deployed`]. The default value is\
+          \ `all`."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+        example: ""
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7ContractListResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    items:
+                    - address: 0x0f73bb170deb398180f02e60d7ea154c270b8fb9
+                      alias: mycontract
+                      decimals: 8
+                      name: MyKIP7
+                      status: deployed
+                      symbol: MSK7
+                      totalSupply: 0x500
+                      options:
+                        enableGlobalFeePayer: true
+                        userFeePayer:
+                          krn: krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default
+                          address: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+                    cursor: eyJjm...ZSJ9
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid bookmark:
+                  summary: Invalid bookmark
+                  description: Cursor format ist wrong.
+                  value:
+                    code: 1130107
+                    message: incorrect bookmark
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+    post:
+      tags:
+      - kip7-contract
+      summary: Deploy Contract
+      description: "Deploys a new KIP-7 contract with the given parameters. You will\
+        \ automatically be assigned a `deployer` address, which cannot be changed.\
+        \ You can find the `deployer` address using [KIP7Deployer](#operation/GetDefaultDeployer).\n\
+        \nThe alias must only consist of lowercase letters, numbers and hyphens, and\
+        \ the first letter is restricted to a lowercase letter.<p></p>\n\n##### Options\n\
+        With `options` you can set the transaction fee payment method. You can find\
+        \ more details in [Fee Payer Options](#section/Fee-Payer-Options)."
+      operationId: DeployContract
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/DeployKip7ContractRequest'
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7DeployResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+                    options:
+                      enableGlobalFeePayer: true
+                      userFeePayer:
+                        krn: krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default
+                        address: 0xE8964cA0C83cBbF520df5597dc1f5EFc27E5E729
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The data format is wrong.
+                  value:
+                    code: 1130050
+                    message: incorrect request; alias
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid alias format:
+                  summary: Invalid alias format
+                  description: The alias is invalid. Please check the requirements.
+                  value:
+                    code: 1134413
+                    message: invalid alias format
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid fee payer KRN:
+                  summary: Invalid fee payer KRN
+                  description: The KRN or the `sender` address you entered is wrong.
+                  value:
+                    code: 1134412
+                    message: invalid krn; fee payer not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "409":
+          description: There was a conflict with the current state of the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Duplicate Alias:
+                  summary: Duplicate Alias
+                  description: This alias is already taken.
+                  value:
+                    code: 1134900
+                    message: duplicate alias
+  /v1/contract/{contract-address-or-alias}:
+    get:
+      tags:
+      - kip7-contract
+      summary: Get Contract
+      description: Returns the data for a specified KIP-7 contract. You can use either
+        the contract alias or contract address.<p></p>
+      operationId: GetContract
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7ContractMetadataResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    address: 0x0f73bb170deb398180f02e60d7ea154c270b8fb9
+                    decimals: 8
+                    name: MyKIP7
+                    symbol: MSK7
+                    totalSupply: 0x500
+                    alias: my-first-kip7
+                    options:
+                      enableGlobalFeePayer: true
+                      userFeePayer:
+                        krn: krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default
+                        address: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+    put:
+      tags:
+      - kip7-contract
+      summary: Update Contract
+      description: "Updates the fee payment method for a contract.\n\n##### Options\n\
+        With `options` you can set the transaction fee payment method. You can find\
+        \ more details in [Fee Payer Options](#section/Fee-Payer-Options)."
+      operationId: UpdateContract
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateKip7ContractRequest'
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7ContractMetadataResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    address: 0x0f73bb170deb398180f02e60d7ea154c270b8fb9
+                    decimals: 8
+                    name: MyKIP7
+                    symbol: MSK7
+                    totalSupply: 0x500
+                    alias: my-first-kip7
+                    options:
+                      enableGlobalFeePayer: false
+                      userFeePayer:
+                        krn: krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default
+                        address: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid fee payer KRN:
+                  value:
+                    code: 1134412
+                    message: invalid krn;options.userFeePayer.krn
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Fee payer not found:
+                  value:
+                    code: 1134412
+                    message: invalid krn;fee payer not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/contract/{contract-address-or-alias}/pauser:
+    post:
+      tags:
+      - kip7-contract
+      summary: Add Contract Pauser
+      description: "Grants a specified account the authority to pause the actions\
+        \ of a contract. The actions of a contract here refer to sending tokens and\
+        \ sending tokens on the owner's behalf. To remove the authority, use [Remove\
+        \ Pauser](#operation/RenouncePauser).\n\n> **NOTE**\n> \n> The `pauser` needs\
+        \ to be an account managed by Wallet API in order to use [Remove Contract\
+        \ Pauser API](#operation/RenouncePauser). Otherwise, you will have to sign\
+        \ and send the transaction on your own.\n\n##### Sender\nThe account that\
+        \ grants the authority. If you leave it blank, it will automatically be set\
+        \ to the `deployer` address as default . You can find the `deployer` address\
+        \ by [KIP7Deployer](#operation/GetDefaultDeployer).   \n\nYou can omit the\
+        \ KRN if the `sender` address is managed by the KIP-7 or Wallet Service `account-pool`.<br/>\n\
+        Otherwise you have to provide the KRN object in the header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`)."
+      operationId: AddPauser
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddPauserKip7Request'
+            examples:
+              Success:
+                value:
+                  sender: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                  pauser: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+                Success with multisig account:
+                  value:
+                    status: Submitted
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  value:
+                    code: 1134410
+                    message: invalid address; pauser
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "403":
+          description: Access has been denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                No permission:
+                  description: You have no permission to this account.
+                  value:
+                    code: 1134300
+                    message: insufficient account permissions
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/contract/{contract-address-or-alias}/pauser/{pauser-address}:
+    delete:
+      tags:
+      - kip7-contract
+      summary: Remove Contract Pauser
+      description: "Removes the authority given to a certain account to pause the\
+        \ actions of specified contract. The actions of a contract here refer to sending\
+        \ tokens and sending tokens on the owner's behalf.\n\n##### Pauser\nThe account\
+        \ whose authority to pause the contract will be removed.\n\nYou can omit the\
+        \ KRN if the `pauser-address` is managed by the KIP-7 or Wallet Service `account-pool`.<br\
+        \ />\nOtherwise you have to provide the KRN object in the header (`x-krn:\
+        \ krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`)."
+      operationId: RenouncePauser
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: pauser-address
+        in: path
+        description: The Klaytn account address whose authority to pause contract
+          will be removed.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+                Success with multisig account:
+                  value:
+                    status: Submitted
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "403":
+          description: Access has been denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                No permission:
+                  description: You have no permission to this account.
+                  value:
+                    code: 1134300
+                    message: insufficient account permissions; pauser
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/pause:
+    post:
+      tags:
+      - kip7-contract
+      summary: Pause Contract
+      description: "Pauses all actions of a specified contract. The actions of a contract\
+        \ here refer to sending tokens and sending tokens on the owner's behalf. You\
+        \ can resume the contract by using [Resume Contract](#operation/UnpauseContract).<p></p>\n\
+        \n##### Pauser\nThe account that sends the transaction to pause the contract.\
+        \ If you leave it blank, it will automatically be set to the `deployer` address\
+        \ as default . You can find the `deployer` address by [KIP7Deployer](#operation/GetDefaultDeployer).\
+        \  \n\nYou can omit the KRN if the `pauser` address is managed by the KIP-7\
+        \ or Wallet Service `account-pool`.<br />\nOtherwise you have to provide the\
+        \ KRN object in the header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`)."
+      operationId: PauseContract
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PauseKip7Request'
+            examples:
+              Success:
+                value:
+                  pauser: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+        "409":
+          description: There was a conflict with the state of the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Already paused:
+                  summary: Already paused
+                  description: The contract is already paused.
+                  value:
+                    code: 1134902
+                    message: contract already paused
+  /v1/contract/{contract-address-or-alias}/unpause:
+    post:
+      tags:
+      - kip7-contract
+      summary: Resume Contract
+      description: "Resumes the actions of the given contract. The actions of a contract\
+        \ here refer to sending tokens and sending tokens on the owner's behalf. \n\
+        \n##### Pauser\nThe account that sends the transaction to resume the contract.\
+        \ If you leave it blank, it will automatically be set to the `deployer` address\
+        \ as default . You can find the `deployer` address by [KIP7Deployer](#operation/GetDefaultDeployer).\
+        \  \n\nYou can omit the KRN if the `pauser` address is managed by the KIP-7\
+        \ or Wallet Service `account-pool`.<br/>\nOtherwise you have to provide the\
+        \ KRN object in the header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`)."
+      operationId: UnpauseContract
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnpauseKip7Request'
+            examples:
+              Success:
+                value:
+                  pauser: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+        "409":
+          description: There was a conflict with current state of the server.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Already resumed:
+                  summary: Already resumed
+                  description: The contract is already resumed.
+                  value:
+                    code: 1134903
+                    message: contract already unpaused
+  /v1/contract/{contract-address-or-alias}/minter:
+    post:
+      tags:
+      - kip7-token
+      summary: Add Minter
+      description: "Grants a specified account the authority to mint and burn tokens\
+        \ from a contract. You can remove the authority by using [Remove Minter](#operation/RenounceMinter).\n\
+        \n> **NOTE** \n>\n> `minter` is the address that will be granted the authority.\
+        \ It needs to be managed by Wallet API in order to be use [Remove Minter](#operation/RenounceMinter).\
+        \ Otherwise, you have to sign and send the transaction yourself.\n\n#####\
+        \ Sender\nThe account that sends the transaction to grant the authority for\
+        \ tokens. If you leave it blank, it will automatically be set to the `deployer`\
+        \ address as default . You can find the `deployer` address by [KIP7Deployer](#operation/GetDefaultDeployer).\
+        \  \n\nYou can omit the KRN if the `sender` address is managed by the KIP-7\
+        \ or Wallet Service `account-pool`.<br />\nOtherwise you have to provide the\
+        \ KRN object in the header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`)."
+      operationId: AddMinter
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMinterKip7Request'
+            examples:
+              Success:
+                value:
+                  sender: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                  minter: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: "null"
+                  value:
+                    status: Submitted
+                    transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  summary: Invalid address
+                  description: Address is invalid.
+                  value:
+                    code: 1134410
+                    message: invalid address; minter
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "403":
+          description: Access has been denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                No permission:
+                  summary: No permission
+                  description: You have no permission to this account.
+                  value:
+                    code: 1134300
+                    message: insufficient account permissions
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/minter/{minter-address}:
+    delete:
+      tags:
+      - kip7-token
+      summary: Remove Minter
+      description: "Removes the authority granted to a specifed account to mint and\
+        \ burn tokens from a contract.\n\n##### Minter\nThe address whose authority\
+        \ to mint and burn tokens will be removed.\n\nYou can omit the KRN if the\
+        \ `minter-address` is managed by the KIP-7 or Wallet Service `account-pool`.<br\
+        \ />\nOtherwise you have to provide the KRN object in the header (`x-krn:\
+        \ krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`).\n"
+      operationId: RenounceMinter
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: minter-address
+        in: path
+        description: The Klaytn account address whose authority to mint and burn tokens
+          will be removed.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "403":
+          description: Access has been denied.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                No permission:
+                  summary: No permission
+                  description: You have no permission to this account.
+                  value:
+                    code: 1134300
+                    message: insufficient account permissions
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/mint:
+    post:
+      tags:
+      - kip7-token
+      summary: Mint Token
+      description: "Mints a specified amount of tokens to a specified account address.\n\
+        \nThe contract's `totalSupply` will increase accordingly.<p></p>\n\n#####\
+        \ From\nThe account that sends the transaction. You can enter the Klaytn account\
+        \ address of an authorized Minter, or leave it blank, so it will automatically\
+        \ be set to the `deployer` address as default . You can find the `deployer`\
+        \ address by [KIP7Deployer](#operation/GetDefaultDeployer).\n\nYou can omit\
+        \ the KRN if the `from` address is managed by the KIP-7 or Wallet Service\
+        \ `account-pool`.<br />\nOtherwise you have to provide the KRN object in the\
+        \ header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`).\n\
+        \n\n> **NOTE**\n>\n> Remember that a contract address is not an account address\
+        \ managed by Wallet Service, so it can't in `from`."
+      operationId: MintToken
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/MintKip7TokenRequest'
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0x31dd75c39e569b3fa5336186a6a464c0a84c487f481e80009a4d238fbe0d2357
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  summary: Invalid address
+                  description: The address you entered is wrong.
+                  value:
+                    code: 1134410
+                    message: invalid address; to
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/contract/{contract-address-or-alias}/transfer:
+    post:
+      tags:
+      - kip7-token
+      summary: Send Token
+      description: "Sends a token to a specified address.\n\n##### From\nThe account\
+        \ that sends the transaction to transfer tokens. If you leave it blank, it\
+        \ will automatically be set to the `deployer` address as default . You can\
+        \ find the `deployer` address by [KIP7Deployer](#operation/GetDefaultDeployer).\
+        \  <br/>\n\nYou can omit the KRN if the `from` address is managed by the KIP-7\
+        \ or Wallet Service `account-pool`.<br />\nOtherwise you have to provide the\
+        \ KRN object in the header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`)."
+      operationId: TransferToken
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/TransferKip7TokenRequest'
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  summary: Invalid address
+                  description: The address you entered is wrong.
+                  value:
+                    code: 1134410
+                    message: invalid address; to
+                Insufficient balance:
+                  summary: Insufficient balance
+                  description: Balance is insufficient to execute this request.
+                  value:
+                    code: 1134418
+                    message: insufficient balance; amount
+                    requestId: 653cf078-1dd1-428d-a948-6d868b4210a1
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/contract/{contract-address-or-alias}/transfer-from:
+    post:
+      tags:
+      - kip7-token
+      summary: Send Token on Behalf of Owner
+      description: "Sends a token with an account authorized via [Approve Token Transfer](#operation/ApproveToken).\
+        \ You can view the remaining balance of authorized tokens by using [Get Approved\
+        \ Balance](#operation/GetTokenAllowance).<p></p>\n\n##### Spender\nThe account\
+        \ that has been granted the authority from the `owner` to send tokens on his/her\
+        \ behalf.\n\nYou can omit the KRN if the `spender` address is managed by the\
+        \ KIP-7 or Wallet Service `account-pool`.<br />\nOtherwise you have to provide\
+        \ the KRN object in the header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`)."
+      operationId: TransferFromToken
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/TransferKip7TokenFromRequest'
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  summary: Invalid address
+                  description: The address you entered is wrong.
+                  value:
+                    code: 1134410
+                    message: invalid address; to
+                Insufficient balance:
+                  summary: Insufficient balance
+                  description: Balance is insufficient to execute this request.
+                  value:
+                    code: 1134418
+                    message: insufficient balance; amount
+                    requestId: 653cf078-1dd1-428d-a948-6d868b4210a1
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/contract/{contract-address-or-alias}/account/{owner}/balance:
+    get:
+      tags:
+      - kip7-token
+      summary: Get Token Balance
+      description: |-
+        "Returns the `owner`'s balance of the tokens from a specified  KIP-7 contract. <p></p>
+
+        \n"
+      operationId: GetTokenBalance
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: owner
+        in: path
+        description: The Klaytn account address whose balance is requested.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TokenBalanceResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    balance: 0x10
+                    decimals: 8
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  summary: Invalid address
+                  description: The address you entered is wrong.
+                  value:
+                    code: 1134410
+                    message: invalid address; owner
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/contract/{contract-address-or-alias}/approve:
+    post:
+      tags:
+      - kip7-token
+      summary: Authorize to Send Token
+      description: "Grants authority to `spender` to send a certain amount of tokens\
+        \ from the `owner`'s account.\n\nTo send the token as an authorized `spender`,\
+        \ use [Send Token on Behalf of Owner](#operation/TransferFromToken).<p></p>\n\
+        \n> **NOTE** \n>\n> `spender` is the address that will be granted the authority.\
+        \ It needs to be managed by Wallet API in order to be use [Send Token on Behalf\
+        \ of Owner](#operation/TransferFromToken).\n\n##### Owner\nThe account that\
+        \ owns the token, and grants authority to `spender`. If you leave it blank,\
+        \ it will automatically be set to the `deployer` address as default . You\
+        \ can find the `deployer` address by [KIP7Deployer](#operation/GetDefaultDeployer).\
+        \  \n\nYou can omit the KRN if the `owner` address is managed by the KIP-7\
+        \ or Wallet Service `account-pool`.<br />\nOtherwise you have to provide the\
+        \ KRN object in the header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`)."
+      operationId: ApproveToken
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/ApproveKip7TokenRequest'
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  summary: Invalid address
+                  description: The address you entered is wrong.
+                  value:
+                    code: 1130050
+                    message: incorrect request; spender
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/contract/{contract-address-or-alias}/account/{owner}/allowance/{spender}:
+    get:
+      tags:
+      - kip7-token
+      summary: Get Approved Balance
+      description: Returns the remaining balance of the tokens that the `owner` authorized
+        the `spender` to send.<p></p>
+      operationId: GetTokenAllowance
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: owner
+        in: path
+        description: The Klaytn account address of the token's owner.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: spender
+        in: path
+        description: 'The Klaytn account address granted the authority to send the
+          tokens. '
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TokenBalanceResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    balance: 0x10
+                    decimals: 8
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  summary: Invalid address
+                  description: The address you entered is wrong.
+                  value:
+                    code: 1134410
+                    message: invalid address; owner
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/contract/{contract-address-or-alias}/burn:
+    delete:
+      tags:
+      - kip7-token
+      summary: Burn Token
+      description: "Burns tokens. The contract's `totalSupply` will be reduced accordingly.\
+        \ You can find the `totalSupply` by using [Get Contract](#operation/GetContract).\
+        \ <p></p>\n\n##### From\nThe account that sends the transaction to burn tokens.\
+        \ If you leave it blank, it will automatically be set to the `deployer` address\
+        \ as default . You can find the `deployer` address by [KIP7Deployer](#operation/GetDefaultDeployer).\
+        \  \n\nYou can omit the KRN if the `from` address is managed by the KIP-7\
+        \ or Wallet Service `account-pool`.<br />\nOtherwise you have to provide the\
+        \ KRN object in the header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`)."
+      operationId: BurnToken
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/BurnKip7TokenRequest'
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid amount:
+                  summary: Invalid amount
+                  value:
+                    code: 1134411
+                    message: invalid amount; amount
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/contract/{contract-address-or-alias}/burn-from:
+    delete:
+      tags:
+      - kip7-token
+      summary: Burn Authorized Tokens
+      description: "Burns the tokens from the amount that the `spender` is authorized\
+        \ to send, as specified by the `owner`. The remaining balance of the tokens\
+        \ that the `sender` is allowed to send can be found via [Get Token Balance](#operation/GetTokenBalance).<p></p>\n\
+        \n##### Spender\nThe account that sends the transaction.\n\nYou can omit the\
+        \ KRN if the `spender` address is managed by the KIP-7 or Wallet Service `account-pool`.<br\
+        \ />\nOtherwise you have to provide the KRN object in the header (`x-krn:\
+        \ krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`)."
+      operationId: BurnFromToken
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex.) or alias.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/BurnFromKip7TokenRequest'
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7TransactionStatusResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    status: Submitted
+                    transactionHash: 0x60412f876bfb8ae9953caa47be11cd5961a591198e09c25bb8cc3b26e416a862
+        "400":
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  summary: Invalid address
+                  description: The address you entered is wrong.
+                  value:
+                    code: 1134410
+                    message: invalid address; address
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  summary: Contract not found
+                  description: The contract doesn't exist.
+                  value:
+                    code: 1134504
+                    message: contract not found
+  /v1/deployer/default:
+    get:
+      tags:
+      - kip7-deployer
+      summary: Get Deployer Address
+      description: Retrieves the `deployer` address automatically created when deploying
+        a contract. You will get one `deployer` address per Credential.<p></p>
+      operationId: GetDefaultDeployer
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID(1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip7DeployerResponse'
+              examples:
+                Success:
+                  summary: Success
+                  description: Your request was successful.
+                  value:
+                    address: 0xA490cbCB43a64cc4671F436dB9D33eD7A73Da675
+                    krn: krn:1001:kip7:88c1223c-66af-4122-9818-069b2e3c6b30:account-pool:default
+        "401":
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        "404":
+          description: The resource you requested doesn't exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Deployer not Found:
+                  summary: Deployer not Found
+                  description: The deployer address doesn't exist.
+                  value:
+                    code: 1134506
+                    message: deployer not found
+components:
+  schemas:
+    Kip7ContractListResponse:
+      title: Kip7ContractListResponse
+      required:
+      - cursor
+      - items
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Kip7ContractListResponseItem'
+        cursor:
+          type: string
+          description: "The pointer for the next request, after which the result will\
+            \ be returned."
+          example: ""
+      description: ""
+    ErrorResponse:
+      title: ErrorResponse
+      required:
+      - code
+      - message
+      - requestId
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error Code
+        message:
+          type: string
+          description: Error Message
+        requestId:
+          type: string
+          description: Request ID
+    Kip7DeployResponse:
+      title: Kip7DeployResponse
+      required:
+      - status
+      - transactionHash
+      type: object
+      properties:
+        status:
+          type: string
+          description: "Transaction status (`Submitted`, `Pending`)"
+        transactionHash:
+          type: string
+          description: Transaction hash
+        options:
+          $ref: '#/components/schemas/Kip7FeePayerOptionsResponse'
+    Kip7ContractMetadataResponse:
+      title: Kip7ContractMetadataResponse
+      required:
+      - address
+      - decimals
+      - name
+      - symbol
+      - totalSupply
+      type: object
+      properties:
+        address:
+          type: string
+          description: Contract address
+          example: 0x0f73bb170deb398180f02e60d7ea154c270b8fb9
+        decimals:
+          type: integer
+          description: The number of digits that come after the decimal place when
+            displaying token values on-screen. The default value is `0`.
+          format: int64
+          example: 8
+        name:
+          type: string
+          description: Contract name
+          example: MyKIP7
+        symbol:
+          type: string
+          description: Contract symbol
+          example: MSK7
+        totalSupply:
+          type: string
+          description: Total supply (in hex)
+          example: 0x500
+        options:
+          $ref: '#/components/schemas/Kip7FeePayerOptions'
+      description: ""
+    AddPauserKip7Request:
+      title: AddPauserKip7Request
+      required:
+      - pauser
+      type: object
+      properties:
+        sender:
+          type: string
+          description: Klaytn account address that grants to be granted authority
+            to send and pause a contract. The default value is the `deployer`'s address.
+          example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        pauser:
+          type: string
+          description: The Klaytn account address to be granted authority to send
+            and pause a contract.
+          example: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+      description: ""
+    Kip7TransactionStatusResponse:
+      title: Kip7TransactionStatusResponse
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: "Transaction status (`Submitted`,`Pending`)"
+          example: Submitted
+        transactionHash:
+          type: string
+          description: Transaction hash
+          example: 0xf7843f034f2283d0ec32886a69d44a85ce19af25d8bd89d84322b973a86328a8
+        transactionId:
+          type: string
+          description: Multisig transaction ID
+          example: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+      description: ""
+    PauseKip7Request:
+      title: PauseKip7Request
+      type: object
+      properties:
+        pauser:
+          type: string
+          description: The Klaytn account address whose authority to send contracts
+            will be removed. The default value is the `deployer`'s address.
+    UnpauseKip7Request:
+      title: UnpauseKip7Request
+      type: object
+      properties:
+        pauser:
+          type: string
+          description: "The Klaytn account address whose authority to carry out contract\
+            \ operations - transfer and authorization of tokens, etc. -  will be recovered.\
+            \ The default value is the `deployer`'s address."
+    AddMinterKip7Request:
+      title: AddMinterKip7Request
+      required:
+      - minter
+      type: object
+      properties:
+        sender:
+          type: string
+          description: Klaytn account address that grants authority to mint and burn
+            a token. The default value is the `deployer`'s address'.
+          example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        minter:
+          type: string
+          description: The Klaytn account address to be granted authority to mint
+            and burn tokens.
+          example: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+      description: ""
+    Kip7TokenBalanceResponse:
+      title: Kip7TokenBalanceResponse
+      required:
+      - balance
+      - decimals
+      type: object
+      properties:
+        balance:
+          type: string
+          description: Balance (in hex.)
+          example: 0x10
+        decimals:
+          type: integer
+          description: The number of digits that come after the decimal place when
+            displaying token values on-screen. The default value is `0`.
+          format: int64
+          example: 8
+      description: ""
+    Kip7DeployerResponse:
+      title: Kip7DeployerResponse
+      required:
+      - address
+      - krn
+      type: object
+      properties:
+        address:
+          type: string
+          description: The default Klaytn account address (`deployer`) that manages
+            contracts.
+          example: "939503546684984478007064713435074187155134588533"
+        krn:
+          type: string
+          description: KRN of the account
+          example: krn:1001:kip7:88c1223c-66af-4122-9818-069b2e3c6b30:account-pool:default
+    DeployKip7ContractRequest:
+      title: DeployKip7ContractRequest
+      required:
+      - alias
+      - initialSupply
+      - name
+      - symbol
+      type: object
+      properties:
+        alias:
+          type: string
+          description: "The alias of the contract. When using KIP-7 API, you can use\
+            \ the contract alias in place of the address. The alias must only consist\
+            \ of lowercase letters, numbers and hyphens, and the first letter is restricted\
+            \ to a lowercase letter."
+          example: mycontract
+        name:
+          type: string
+          description: Contract name
+          example: MyKIP7
+        symbol:
+          type: string
+          description: Token symbol
+          example: MSK7
+        decimals:
+          type: integer
+          description: The number of digits that come after the decimal place when
+            displaying token values on-screen. The default value is `0`.
+          format: int64
+          example: 8
+        initialSupply:
+          type: string
+          description: Initial supply (in hex.)
+          example: 0x100
+        options:
+          $ref: '#/components/schemas/Kip7FeePayerOptions'
+      description: ""
+    UpdateKip7ContractRequest:
+      title: UpdateKip7ContractRequest
+      type: object
+      properties:
+        options:
+          $ref: '#/components/schemas/Kip7FeePayerOptions'
+    MintKip7TokenRequest:
+      title: MintKip7TokenRequest
+      required:
+      - amount
+      - to
+      type: object
+      properties:
+        from:
+          type: string
+          description: The Klaytn account address to mint the tokens. The default
+            value is the `deployer`'s account.
+          example: not-eoa
+        to:
+          type: string
+          description: The Klaytn account address to receive the new tokens.
+          example: not-eoa
+        amount:
+          type: string
+          description: The amount of tokens to create (in hexadecimal)
+          example: 0x10
+      description: ""
+    TransferKip7TokenRequest:
+      title: TransferKip7TokenRequest
+      required:
+      - amount
+      - to
+      type: object
+      properties:
+        from:
+          type: string
+          description: The Klaytn account address to send the tokens. The default
+            value is the `deployer`'s address.
+          example: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+        to:
+          type: string
+          description: The Klaytn account address to receive the tokens.
+          example: 0xaddbf9cbfd30768202b70b5504c012fbdf00b8d8
+        amount:
+          type: string
+          description: The amount of tokens to transfer (in hex.)
+          example: 0x50
+      description: ""
+    TransferKip7TokenFromRequest:
+      title: TransferKip7TokenFromRequest
+      required:
+      - amount
+      - owner
+      - spender
+      - to
+      type: object
+      properties:
+        spender:
+          type: string
+          description: The Klaytn account address to send tokens on behalf of the
+            `owner`.
+          example: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+        owner:
+          type: string
+          description: The Klaytn account address of the owner granting the authority
+            to send tokens on his or her behalf.
+          example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        to:
+          type: string
+          description: Klaytn account address to receive tokens
+          example: 0x3f3d6688385E0350B416813cD1D9461F7E8c5877
+        amount:
+          type: string
+          description: Transfer amount (in hex.)
+          example: 0x50
+      description: ""
+    ApproveKip7TokenRequest:
+      title: ApproveKip7TokenRequest
+      required:
+      - amount
+      - spender
+      type: object
+      properties:
+        owner:
+          type: string
+          description: The Klaytn account address to grant the authority. The default
+            value is the `deployer`'s address'.
+          example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        spender:
+          type: string
+          description: The Klaytn account address to be granted authority.
+          example: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+        amount:
+          type: string
+          description: Approved token amount (in hex.)
+          example: 0x5c2
+      description: ""
+    BurnKip7TokenRequest:
+      title: BurnKip7TokenRequest
+      required:
+      - amount
+      type: object
+      properties:
+        from:
+          type: string
+          description: The Klaytn account address whose tokens will be burned. The
+            default value is the `deployer`'s address'.`
+          example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        amount:
+          type: string
+          description: The amount of tokens to burn (in hex.)
+          example: not hex string
+      description: ""
+    BurnFromKip7TokenRequest:
+      title: BurnFromKip7TokenRequest
+      required:
+      - amount
+      - owner
+      - spender
+      type: object
+      properties:
+        owner:
+          type: string
+          description: The Klaytn account address of the owner of the tokens to be
+            burned.
+          example: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+        spender:
+          type: string
+          description: The Klaytn account address whose authorized tokens will be
+            burned.
+          example: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+        amount:
+          type: string
+          description: The amount of tokens to burn (in hex.)
+          example: 0x100
+      description: ""
+    Kip7ContractListResponseItem:
+      title: Kip7ContractListResponseItem
+      required:
+      - address
+      - alias
+      - decimals
+      - name
+      - status
+      - symbol
+      - totalSupply
+      type: object
+      properties:
+        address:
+          type: string
+          description: Contract address
+          example: 0x0f73bb170deb398180f02e60d7ea154c270b8fb9
+        alias:
+          type: string
+          description: Contract alias
+          example: mycontract
+        decimals:
+          type: integer
+          description: The number of digits that come after the decimal place when
+            displaying token values on-screen. The default value is `0`.
+          format: int64
+          example: 8
+        name:
+          type: string
+          description: Contract name
+          example: MyKIP7
+        status:
+          type: string
+          description: "Contract deployment status[`init`,`submitted`,`deployed`]"
+          example: deployed
+        symbol:
+          type: string
+          description: Contract symbol
+          example: MSK7
+        totalSupply:
+          type: string
+          description: Total supply (in hex.)
+          example: 0x500
+        options:
+          $ref: '#/components/schemas/Kip7FeePayerOptions'
+      description: ""
+    Kip7FeePayerOptionsResponse:
+      title: Kip7FeePayerOption
+      type: object
+      properties:
+        enableGlobalFeepayer:
+          type: boolean
+          description: The boolean value indicating whether KAS Global Fee Delegation
+            is being used. The default value is `true`.
+        userFeePayer:
+          $ref: '#/components/schemas/Kip7FeePayerOptionsResponse_userFeePayer'
+    Kip7FeePayerOptions:
+      title: Kip7FeePayerOption
+      type: object
+      properties:
+        enableGlobalFeePayer:
+          type: boolean
+          description: The boolean value indicating whether KAS Global Fee Delegation
+            is being used. The default value is `true`.
+        userFeePayer:
+          $ref: '#/components/schemas/Kip7FeePayerOptionsResponse_userFeePayer'
+    Kip7FeePayerOptionsResponse_userFeePayer:
+      type: object
+      properties:
+        krn:
+          type: string
+          description: The KRN of the Fee-payer Pool
+        address:
+          type: string
+          description: The Klaytn account address of the FeePayer
+  requestBodies:
+    DeployKip7ContractRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DeployKip7ContractRequest'
+          examples:
+            Success:
+              value:
+                alias: mycontract
+                name: MyKIP7
+                symbol: MSK7
+                decimals: 8
+                initialSupply: 268435456
+                options:
+                  enableGlobalFeePayer: true
+                  userFeePayer:
+                    krn: krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default
+                    address: 0xE8964cA0C83cBbF520df5597dc1f5EFc27E5E729
+    UpdateKip7ContractRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateKip7ContractRequest'
+          examples:
+            Success:
+              value:
+                options:
+                  enableGlobalFeePayer: false
+                  userFeePayer:
+                    krn: krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default
+                    address: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+    MintKip7TokenRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MintKip7TokenRequest'
+          examples:
+            Success:
+              value:
+                from: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+                to: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+                amount: 0x10
+            with default deployer account:
+              value:
+                to: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+                amount: 0x10
+            Bad Request - invalid address:
+              value:
+                to: "{wrong address}"
+                amount: 0x10
+    TransferKip7TokenRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransferKip7TokenRequest'
+          examples:
+            Success:
+              value:
+                from: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+                to: 0xaddbf9cbfd30768202b70b5504c012fbdf00b8d8
+                amount: 0x50
+            Bad Request - invalid address:
+              value:
+                from: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+                to: "{wrong address}"
+                amount: 0x10
+    TransferKip7TokenFromRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TransferKip7TokenFromRequest'
+          examples:
+            Bad Request - invalid address:
+              value:
+                spender: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+                owner: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                to: "{wrong address}"
+                amount: 0x50
+            Success:
+              value:
+                spender: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+                owner: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                to: 0xaddbf9cbfd30768202b70b5504c012fbdf00b8d8
+                amount: 0x50
+    ApproveKip7TokenRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ApproveKip7TokenRequest'
+          examples:
+            Success:
+              value:
+                owner: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                spender: 0xfb7ead209e113ff15f588852f112cf331d02b4bf
+                amount: 0x5c2
+            Bad Request - invalid address:
+              value:
+                owner: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                spender: "{wrong address}"
+                amount: 0x5c2
+    BurnKip7TokenRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BurnKip7TokenRequest'
+          examples:
+            Bad Request - invalid amount:
+              value:
+                from: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                amount: "{wrong value}"
+            Success:
+              value:
+                from: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                amount: 0x100
+    BurnFromKip7TokenRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BurnFromKip7TokenRequest'
+          examples:
+            Bad Request - invalid address:
+              value:
+                owner: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                spender: "{wrong address}"
+                amount: 0x100
+            Success:
+              value:
+                owner: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                spender: 0x08c7a5d79f37f658f2dd30da0af02fdfd0cb773e
+                amount: 0x100
+            Not Found - alias:
+              value:
+                owner: 0x1eb15b3ccb2add3bfe132a4f6ad21ca62cf94e6d
+                spender: 0x08c7a5d79f37f658f2dd30da0af02fdfd0cb773e
+                amount: 0x100
+  securitySchemes:
+    basic:
+      type: http
+      description: "KAS uses Basic HTTP Auth. All requests must have a correct Authorization\
+        \ header. You can create the Credential for Basic Auth by using `username`\
+        \ as AccessKey ID and `password` as SecretAccessKey obtained on KAS Console.\n\
+        \n> **NOTE**\n>\n> KAS Credential enables full access to KAS and the Klaytn\
+        \ accounts created using the Wallet API. It enables asset transfers of the\
+        \ Klaytn account's assets (like KLAY) as well as [Transaction Executions](https://docs.klaytnapi.com/v/en/tutorial/wallet-transaction-api).\
+        \ To keep your KAS/Klaytn accounts secure, do not share your KAS API Secret\
+        \ Access Key with others.\n\n**cURL**\n\n```\n  curl --location --request\
+        \ GET 'https://kip7-api.klaytnapi.com/v1/contract' \\\n  -u ${your_accessKeyId}:${your_secretAccessKey}\
+        \ \\\n  --header 'x-chain-id: 1001' \\\n  --header 'Content-Type: application/json'\n\
+        ```  "
+      scheme: basic
+x-tagGroups:
+- name: API
+  tags:
+  - kip7-contract
+  - kip7-token
+  - kip7-deployer
+- name: Error Codes
+  tags:
+  - err-400
+  - err-401
+  - err-403
+  - err-404
+  - err-409

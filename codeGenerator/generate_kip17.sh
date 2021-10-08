@@ -1,9 +1,6 @@
 #!/bin/bash
 
-mkdir kip17
+# ./generate_kip17.sh -> This case `master` branch will be used as a default
+# ./generate_kip17.sh {branch name}
 
-swagger-codegen generate \
--i ../../kas-ref-docs/openapi/en/services/kip17/v1.yaml \
--l javascript \
--o ./kip17 \
--c ./config.json;
+./generate_client_code.sh kip17 v1 kip17 $1

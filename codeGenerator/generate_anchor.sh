@@ -1,9 +1,6 @@
 #!/bin/bash
 
-mkdir anchor
+# ./generate_anchor.sh -> This case `master` branch will be used as a default
+# ./generate_anchor.sh {branch name}
 
-swagger-codegen generate \
--i ../../kas-ref-docs/openapi/en/services/anchor/v1.yaml \
--l javascript \
--o ./anchor \
--c ./config.json;
+./generate_client_code.sh anchor v1 anchor $1

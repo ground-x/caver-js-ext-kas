@@ -18,7 +18,8 @@ const _ = require('lodash')
 const utils = require('caver-js').utils
 
 const {
-    KIP17Api,
+    Kip17ContractApi,
+    Kip17TokenApi,
     DeployKip17ContractRequest,
     MintKip17TokenRequest,
     TransferKip17TokenRequest,
@@ -27,6 +28,7 @@ const {
     ApproveAllKip17Request,
 } = require('../../rest-client/src')
 const KIP17QueryOptions = require('./kip17QueryOptions')
+const KIP17FeePayerOptions = require('./kip17FeePayerOptions')
 
 const NOT_INIT_API_ERR_MSG = `KIP17 API is not initialized. Use 'caver.initKIP17API' function to initialize KIP17 API.`
 
@@ -48,7 +50,8 @@ class KIP17 {
 
         if (client) {
             this.apiInstances = {
-                kip17: new KIP17Api(client),
+                kip17Contract: new Kip17ContractApi(client),
+                token: new Kip17TokenApi(client),
             }
         }
     }
@@ -112,15 +115,23 @@ class KIP17 {
 
     set client(client) {
         this.apiInstances = {
-            kip17: new KIP17Api(client),
+            kip17Contract: new Kip17ContractApi(client),
+            token: new Kip17TokenApi(client),
         }
     }
 
     /**
-     * @type {KIP17Api}
+     * @type {Kip17ContractApi}
      */
-    get kip17Api() {
-        return this.apiInstances.kip17
+    get kip17ContractApi() {
+        return this.apiInstances.kip17Contract
+    }
+
+    /**
+     * @type {Kip17TokenApi}
+     */
+    get tokenApi() {
+        return this.apiInstances.token
     }
 
     /**
@@ -132,20 +143,65 @@ class KIP17 {
      * @param {string} name The name of KIP-17 token.
      * @param {string} symbol The symbol of KIP-17 token.
      * @param {string} alias The alias of KIP-17 token. Your `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet.
+     * @param {KIP17FeePayerOptions|object} [options] Options for paying the transaction fee.
      * @param {Function} [callback] The callback function to call.
-     * @return {Kip17TransactionStatusResponse}
+     * @return {Kip17DeployResponse}
      */
-    deploy(name, symbol, alias, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+    deploy(name, symbol, alias, options, callback) {
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(name) || !_.isString(symbol)) throw new Error(`The name and symbol of KIP-17 token contract should be string type.`)
         if (!_.isString(alias)) throw new Error(`The alias of KIP-17 token contract should be string type.`)
 
+        if (_.isFunction(options)) {
+            callback = options
+            options = {}
+        }
+
         const opts = {
-            body: DeployKip17ContractRequest.constructFromObject({ name, symbol, alias }),
+            body: DeployKip17ContractRequest.constructFromObject({
+                name,
+                symbol,
+                alias,
+                options: KIP17FeePayerOptions.constructFromObject(options || {}),
+            }),
         }
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.deployContract(this.chainId, opts, (err, data, response) => {
+            this.kip17ContractApi.deployContract(this.chainId, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Edits the information of a contract. <br>
+     * PUT /v1/contract/{contract-address-or-alias}
+     *
+     * @example
+     * const ret = await caver.kas.kip17.updateContractOptions('0x{address in hex}', { enableGlobalFeePayer: true })
+     *
+     * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
+     * @param {KIP17FeePayerOptions|object} [options] Options for paying the transaction fee.
+     * @param {Function} [callback] The callback function to call.
+     * @return {Kip17ContractInfoResponse}
+     */
+    updateContractOptions(addressOrAlias, options, callback) {
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
+
+        if (_.isFunction(options)) {
+            callback = options
+            options = {}
+        }
+
+        const opts = { body: { options: KIP17FeePayerOptions.constructFromObject(options || {}) } }
+
+        return new Promise((resolve, reject) => {
+            this.kip17ContractApi.updateContract(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -170,7 +226,7 @@ class KIP17 {
      * @return {Kip17ContractListResponse}
      */
     getContractList(queryOptions, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (_.isFunction(queryOptions)) {
             callback = queryOptions
@@ -181,7 +237,7 @@ class KIP17 {
         if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.listContractsInDeployerPool(this.chainId, queryOptions, (err, data, response) => {
+            this.kip17ContractApi.listContractsInDeployerPool(this.chainId, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -206,11 +262,11 @@ class KIP17 {
      * @return {Kip17ContractInfoResponse}
      */
     getContract(addressOrAlias, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.getContract(this.chainId, addressOrAlias, (err, data, response) => {
+            this.kip17ContractApi.getContract(this.chainId, addressOrAlias, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -238,7 +294,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     mint(addressOrAlias, to, tokenId, tokenURI, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!utils.isAddress(to)) throw new Error(`Invalid address format: ${to}`)
         if (!_.isString(tokenURI)) throw new Error(`The token URI should be string type.`)
@@ -251,7 +307,7 @@ class KIP17 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.mintToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
+            this.tokenApi.mintToken(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -277,7 +333,7 @@ class KIP17 {
      * @return {ListKip17TokensResponse}
      */
     getTokenList(addressOrAlias, queryOptions, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
 
         if (_.isFunction(queryOptions)) {
@@ -289,7 +345,7 @@ class KIP17 {
         if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.listTokens(this.chainId, addressOrAlias, queryOptions, (err, data, response) => {
+            this.tokenApi.listTokens(this.chainId, addressOrAlias, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -315,14 +371,14 @@ class KIP17 {
      * @return {GetKip17TokenResponse}
      */
     getToken(addressOrAlias, tokenId, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
         tokenId = utils.toHex(tokenId)
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.getToken(this.chainId, addressOrAlias, tokenId, (err, data, response) => {
+            this.tokenApi.getToken(this.chainId, addressOrAlias, tokenId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -355,7 +411,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     transfer(addressOrAlias, sender, owner, to, tokenId, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
         if (!utils.isAddress(sender)) throw new Error(`Invalid address format: ${sender}`)
@@ -369,7 +425,7 @@ class KIP17 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.transferToken(this.chainId, addressOrAlias, tokenId, opts, (err, data, response) => {
+            this.tokenApi.transferToken(this.chainId, addressOrAlias, tokenId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -398,7 +454,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     burn(addressOrAlias, from, tokenId, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
         if (!utils.isAddress(from)) throw new Error(`Invalid address format: ${from}`)
@@ -410,7 +466,7 @@ class KIP17 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.burnToken(this.chainId, addressOrAlias, tokenId, opts, (err, data, response) => {
+            this.tokenApi.burnToken(this.chainId, addressOrAlias, tokenId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -442,7 +498,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     approve(addressOrAlias, from, to, tokenId, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
         if (!utils.isAddress(from)) throw new Error(`Invalid address format: ${from}`)
@@ -455,7 +511,7 @@ class KIP17 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.approveToken(this.chainId, addressOrAlias, tokenId, opts, (err, data, response) => {
+            this.tokenApi.approveToken(this.chainId, addressOrAlias, tokenId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -486,7 +542,7 @@ class KIP17 {
      * @return {Kip17TransactionStatusResponse}
      */
     approveAll(addressOrAlias, from, to, approved, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!utils.isAddress(from)) throw new Error(`Invalid address format: ${from}`)
         if (!utils.isAddress(to)) throw new Error(`Invalid address format: ${to}`)
@@ -496,7 +552,7 @@ class KIP17 {
         }
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.approveAll(this.chainId, addressOrAlias, opts, (err, data, response) => {
+            this.tokenApi.approveAll(this.chainId, addressOrAlias, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -525,7 +581,7 @@ class KIP17 {
      * @return {GetOwnerKip17TokensResponse}
      */
     getTokenListByOwner(addressOrAlias, owner, queryOptions, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
 
         if (_.isFunction(queryOptions)) {
@@ -537,7 +593,7 @@ class KIP17 {
         if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.getOwnerTokens(this.chainId, addressOrAlias, owner, queryOptions, (err, data, response) => {
+            this.tokenApi.getOwnerTokens(this.chainId, addressOrAlias, owner, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -564,7 +620,7 @@ class KIP17 {
      * @return {GetKip17TokenHistoryResponse}
      */
     getTransferHistory(addressOrAlias, tokenId, queryOptions, callback) {
-        if (!this.accessOptions || !this.kip17Api) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
         if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
         if (!_.isString(tokenId) && !_.isNumber(tokenId)) throw new Error(`The token Id should be hexadecimal string or number type.`)
 
@@ -579,7 +635,7 @@ class KIP17 {
         if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.kip17Api.getTokenHistory(this.chainId, addressOrAlias, tokenId, queryOptions, (err, data, response) => {
+            this.tokenApi.getTokenHistory(this.chainId, addressOrAlias, tokenId, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

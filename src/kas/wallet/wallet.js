@@ -19,10 +19,10 @@ const utils = require('caver-js').utils
 
 const {
     AccountApi,
-    BasicTransactionApi,
-    FeeDelegatedTransactionPaidByKASApi,
-    FeeDelegatedTransactionPaidByUserApi,
-    MultisigTransactionManagementApi,
+    BasicTxApi,
+    FdtxKasApi,
+    FdtxUserApi,
+    MultisigTxApi,
     FeepayerApi,
     KeyApi,
     RegistrationApi,
@@ -51,18 +51,16 @@ const {
     FDUserProcessRLPRequest,
     FDUserAccountUpdateTransactionRequest,
     SignPendingTransactionBySigRequest,
-    AccountRegistration,
-    AccountRegistrationRequest,
-    Key,
     KeyCreationRequest,
-    KeyCreationResponse,
     ContractCallRequest,
+    TxHistoryApi,
 } = require('../../rest-client/src')
 const WalletQueryOptions = require('./walletQueryOptions')
-const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey } = require('../../utils/helper')
+const { formatObjectKeyWithoutUnderscore, addUncompressedPublickeyPrefix, formatAccountKey, chainIds } = require('../../utils/helper')
 
 const NOT_INIT_API_ERR_MSG = `Wallet API is not initialized. Use 'caver.initWalletAPI' function to initialize Wallet API.`
 const INCORRECT_MIGRATE_ACCOUNTS = `You must pass a list of accounts as an argument.`
+const SUPPORTS_CYPRESS_ONLY = `This API is only supported on the Cypress network. Please change network to use this.`
 
 /**
  * A warpping class that connects Wallet API.
@@ -83,14 +81,15 @@ class Wallet {
         if (client) {
             this.apiInstances = {
                 account: new AccountApi(client),
-                basicTransaction: new BasicTransactionApi(client),
-                fdTransactionPaidByKAS: new FeeDelegatedTransactionPaidByKASApi(client),
-                fdTransactionPaidByUser: new FeeDelegatedTransactionPaidByUserApi(client),
-                multisigTransactionManagement: new MultisigTransactionManagementApi(client),
+                basicTx: new BasicTxApi(client),
+                fdtxKas: new FdtxKasApi(client),
+                fdtxUser: new FdtxUserApi(client),
+                multisigTx: new MultisigTxApi(client),
                 statistics: new StatisticsApi(client),
                 key: new KeyApi(client),
                 registration: new RegistrationApi(client),
                 feePayer: new FeepayerApi(client),
+                txHistory: new TxHistoryApi(client),
             }
         }
     }
@@ -155,14 +154,15 @@ class Wallet {
     set client(client) {
         this.apiInstances = {
             account: new AccountApi(client),
-            basicTransaction: new BasicTransactionApi(client),
-            fdTransactionPaidByKAS: new FeeDelegatedTransactionPaidByKASApi(client),
-            fdTransactionPaidByUser: new FeeDelegatedTransactionPaidByUserApi(client),
-            multisigTransactionManagement: new MultisigTransactionManagementApi(client),
+            basicTx: new BasicTxApi(client), // Basic transaction API
+            fdtxKas: new FdtxKasApi(client), // Fee delegated transaction API paid by KAS
+            fdtxUser: new FdtxUserApi(client), //  Fee delegated transaction API paid by user
+            multisigTx: new MultisigTxApi(client),
             statistics: new StatisticsApi(client),
             key: new KeyApi(client),
             registration: new RegistrationApi(client),
             feePayer: new FeepayerApi(client),
+            txHistory: new TxHistoryApi(client),
         }
     }
 
@@ -174,31 +174,31 @@ class Wallet {
     }
 
     /**
-     * @type {BasicTransactionApi}
+     * @type {BasicTxApi}
      */
-    get basicTransactionApi() {
-        return this.apiInstances.basicTransaction
+    get basicTxApi() {
+        return this.apiInstances.basicTx
     }
 
     /**
-     * @type {FeeDelegatedTransactionPaidByKASApi}
+     * @type {FdtxKasApi}
      */
-    get fdTransactionPaidByKASApi() {
-        return this.apiInstances.fdTransactionPaidByKAS
+    get fdtxKasApi() {
+        return this.apiInstances.fdtxKas
     }
 
     /**
-     * @type {FeeDelegatedTransactionPaidByUserApi}
+     * @type {FdtxUserApi}
      */
-    get fdTransactionPaidByUserApi() {
-        return this.apiInstances.fdTransactionPaidByUser
+    get fdtxUserApi() {
+        return this.apiInstances.fdtxUser
     }
 
     /**
-     * @type {MultisigTransactionManagementApi}
+     * @type {MultisigTxApi}
      */
-    get multisigTransactionManagementApi() {
-        return this.apiInstances.multisigTransactionManagement
+    get multisigTxApi() {
+        return this.apiInstances.multisigTx
     }
 
     /**
@@ -227,6 +227,13 @@ class Wallet {
      */
     get feePayerApi() {
         return this.apiInstances.feePayer
+    }
+
+    /**
+     * @type {TxHistoryApi}
+     */
+    get txHistoryApi() {
+        return this.apiInstances.txHistory
     }
 
     /**
@@ -648,7 +655,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.legacyTransaction(this.chainId, opts, (err, data, response) => {
+            this.basicTxApi.legacyTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -689,7 +696,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.valueTransferTransaction(this.chainId, opts, (err, data, response) => {
+            this.basicTxApi.valueTransferTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -729,7 +736,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.contractDeployTransaction(this.chainId, opts, (err, data, response) => {
+            this.basicTxApi.contractDeployTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -770,7 +777,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.contractExecutionTransaction(this.chainId, opts, (err, data, response) => {
+            this.basicTxApi.contractExecutionTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -808,7 +815,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.cancelTransaction(this.chainId, opts, (err, data, response) => {
+            this.basicTxApi.cancelTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -846,7 +853,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.anchorTransaction(this.chainId, opts, (err, data, response) => {
+            this.basicTxApi.anchorTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -878,7 +885,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.processRLP(this.chainId, opts, (err, data, response) => {
+            this.basicTxApi.processRLP(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -999,7 +1006,7 @@ class Wallet {
         opts.body.accountKey = formatAccountKey(opts.body.accountKey)
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.accountUpdateTransaction(this.chainId, opts, (err, data, response) => {
+            this.basicTxApi.accountUpdateTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1025,7 +1032,7 @@ class Wallet {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.transactionReceipt(this.chainId, transactionHash, (err, data, response) => {
+            this.basicTxApi.transactionReceipt(this.chainId, transactionHash, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1112,7 +1119,7 @@ class Wallet {
         const body = ContractCallRequest.constructFromObject(obj)
 
         return new Promise((resolve, reject) => {
-            this.basicTransactionApi.contractCall(this.chainId, { body }, (err, data, response) => {
+            this.basicTxApi.contractCall(this.chainId, { body }, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1157,7 +1164,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByKASApi.fDValueTransferTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxKasApi.fDValueTransferTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1198,7 +1205,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByKASApi.fDContractDeployTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxKasApi.fDContractDeployTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1240,7 +1247,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByKASApi.fDContractExecutionTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxKasApi.fDContractExecutionTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1278,7 +1285,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByKASApi.fDCancelTransactionResponse(this.chainId, opts, (err, data, response) => {
+            this.fdtxKasApi.fDCancelTransactionResponse(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1316,7 +1323,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByKASApi.fDAnchorTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxKasApi.fDAnchorTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1348,7 +1355,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByKASApi.fDProcessRLP(this.chainId, opts, (err, data, response) => {
+            this.fdtxKasApi.fDProcessRLP(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1404,7 +1411,7 @@ class Wallet {
         opts.body.accountKey = formatAccountKey(opts.body.accountKey)
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByKASApi.fDAccountUpdateTransactionResponse(this.chainId, opts, (err, data, response) => {
+            this.fdtxKasApi.fDAccountUpdateTransactionResponse(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1450,7 +1457,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByUserApi.uFDValueTransferTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxUserApi.uFDValueTransferTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1492,7 +1499,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByUserApi.uFDContractDeployTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxUserApi.uFDContractDeployTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1534,7 +1541,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByUserApi.uFDContractExecutionTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxUserApi.uFDContractExecutionTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1574,7 +1581,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByUserApi.uFDUserCancelTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxUserApi.uFDUserCancelTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1613,7 +1620,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByUserApi.uFDAnchorTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxUserApi.uFDAnchorTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1645,7 +1652,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByUserApi.uFDProcessRLP(this.chainId, opts, (err, data, response) => {
+            this.fdtxUserApi.uFDProcessRLP(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1702,7 +1709,7 @@ class Wallet {
         opts.body.accountKey = formatAccountKey(opts.body.accountKey)
 
         return new Promise((resolve, reject) => {
-            this.fdTransactionPaidByUserApi.uFDAccountUpdateTransaction(this.chainId, opts, (err, data, response) => {
+            this.fdtxUserApi.uFDAccountUpdateTransaction(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1739,18 +1746,13 @@ class Wallet {
             throw new Error(`Invalid query options: 'size', 'cursor', 'fromTimestamp' or 'toTimestamp' can be used.`)
 
         return new Promise((resolve, reject) => {
-            this.multisigTransactionManagementApi.retrieveMultisigTransactions(
-                this.chainId,
-                address,
-                queryOptions,
-                (err, data, response) => {
-                    if (err) {
-                        reject(err)
-                    }
-                    if (callback) callback(err, data, response)
-                    resolve(data)
+            this.multisigTxApi.retrieveMultisigTransactions(this.chainId, address, queryOptions, (err, data, response) => {
+                if (err) {
+                    reject(err)
                 }
-            )
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
         })
     }
 
@@ -1772,7 +1774,7 @@ class Wallet {
         if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
-            this.multisigTransactionManagementApi.signPendingTransaction(this.chainId, address, transactionId, (err, data, response) => {
+            this.multisigTxApi.signPendingTransaction(this.chainId, address, transactionId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1815,7 +1817,7 @@ class Wallet {
         }
 
         return new Promise((resolve, reject) => {
-            this.multisigTransactionManagementApi.signPendingTransactionBySig(this.chainId, transactionId, opts, (err, data, response) => {
+            this.multisigTxApi.signPendingTransactionBySig(this.chainId, transactionId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -1905,6 +1907,42 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.keyApi.keyCreation(this.chainId, { body }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Returns a list of keys. <br>
+     * GET /v2/key
+     *
+     * @example
+     * const krn = 'krn:1001:wallet:8e76d003-d6dd-4278-8d05-5172d8f010ca:account-pool:default'
+     * const result = await caver.kas.wallet.getKeyListByKRN(krn, { size: 1 })
+     *
+     * @param {string} krn KAS resource name.
+     * @param {WalletQueryOptions} [queryOptions] Filters required when retrieving data. `size` and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {KeyList}
+     */
+    getKeyListByKRN(krn, queryOptions, callback) {
+        if (!this.accessOptions || !this.accountApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (!_.isString(krn)) throw new Error(`Invalid krn. You should pass string type parameter.`)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = WalletQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size' or 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.keyApi.retrieveKeys(this.chainId, krn, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -2063,16 +2101,24 @@ class Wallet {
      * POST /v2/feepayer
      *
      * @example
-     * const ret = await caver.kas.wallet.createFeePayer()
+     * const ret = await caver.kas.wallet.createFeePayer() // same with `caver.kas.wallet.createFeePayer(false)`. This will update fee payer account to role-based account.
      *
+     * @param {boolean} [withoutAccountUpdate] You can set whether the FeePayer has been updated to {@link https://docs.klaytn.com/klaytn/design/accounts#accountkeyrolebased|Role-based account} with `withoutAccountUpdate`. The default value is `false`, in which case all roles other than **RoleFeePayer** will be set to {@link https://docs.klaytn.com/klaytn/design/accounts#accountkeyfail|AccountKeyFail}, putting the FeePayer role in the foreground.
      * @param {Function} [callback] The callback function to call.
      * @return {Account}
      */
-    createFeePayer(callback) {
+    createFeePayer(withoutAccountUpdate, callback) {
         if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
+        if (_.isFunction(withoutAccountUpdate)) {
+            callback = withoutAccountUpdate
+            withoutAccountUpdate = undefined
+        }
+
+        const opts = { body: { withoutAccountUpdate } }
+
         return new Promise((resolve, reject) => {
-            this.feePayerApi.creatFeePayerAccount(this.chainId, (err, data, response) => {
+            this.feePayerApi.creatFeePayerAccount(this.chainId, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -2162,6 +2208,71 @@ class Wallet {
 
         return new Promise((resolve, reject) => {
             this.feePayerApi.retrieveFeePayerAccounts(this.chainId, queryOptions, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    // Tx History Api
+
+    /**
+     * Returns the history of fee delegation transactions. <br>
+     * You can find out the KRW and USD price of the fees at the time of sending the transaction. <br>
+     * If you add the `from` query parameter, only the transactions from a certain address will be returned. <br>
+     * GET /v2/history/fd/tx
+     *
+     * @example
+     * const ret = await caver.kas.wallet.getFDTransactionList()
+     * const ret = await caver.kas.wallet.getFDTransactionList('0x{from address}')
+     *
+     * @param {string} [from] The Klaytn account address of the sender.
+     * @param {Function} [callback] The callback function to call.
+     * @return {FDTransactionWithCurrencyResultList}
+     */
+    getFDTransactionList(from, callback) {
+        if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (this.chainId !== chainIds.CHAIN_ID_CYPRESS) throw new Error(SUPPORTS_CYPRESS_ONLY)
+
+        if (_.isFunction(from)) {
+            callback = from
+            from = undefined
+        }
+        if (from && !utils.isAddress(from)) throw new Error(`Invalid from address: ${from}`)
+
+        return new Promise((resolve, reject) => {
+            this.txHistoryApi.getV2HistoryFdTx(this.chainId, { from }, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Returns a single fee delegation transaction. <br>
+     * You can find out the KRW and USD price of the fees at the time of sending the transaction. <br>
+     * GET /v2/history/fd/tx/{transaction-hash}
+     *
+     * @example
+     * const ret = await caver.kas.wallet.getFDTransaction('0x{transaction hash}')
+     *
+     * @param {string} txHash Transaction hash.
+     * @param {Function} [callback] The callback function to call.
+     * @return {FDTransactionWithCurrencyResult}
+     */
+    getFDTransaction(txHash, callback) {
+        if (!this.accessOptions || !this.feePayerApi) throw new Error(NOT_INIT_API_ERR_MSG)
+        if (this.chainId !== chainIds.CHAIN_ID_CYPRESS) throw new Error(SUPPORTS_CYPRESS_ONLY)
+        if (!utils.isValidHash(txHash)) throw new Error(`Invalid transaction hash: ${txHash}`)
+
+        return new Promise((resolve, reject) => {
+            this.txHistoryApi.getV2HistoryFdTxTransactionHash(txHash, this.chainId, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

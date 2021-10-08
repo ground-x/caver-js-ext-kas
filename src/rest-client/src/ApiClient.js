@@ -445,7 +445,12 @@ class ApiClient {
                     error = null
                     error = ErrorResponse.constructFromObject(response.body)
                 }
-
+                // if (error) {
+                //     console.log(`HOST: ${request.host}`)
+                //     console.log(`${request.req.method} ${request.req.path}`)
+                //     console.log(request._data)
+                //     console.log(request.response)
+                // }
                 callback(error, data, response)
             }
         })

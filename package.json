@@ -1,6 +1,6 @@
 {
   "name": "caver-js-ext-kas",
-  "version": "1.4.2",
+  "version": "1.9.0",
   "description": "This is extenstion library of caver-js for connecting KAS",
   "main": "index.js",
   "scripts": {
@@ -35,7 +35,7 @@
   "author": "Ground X Team",
   "license": "Apache-2.0",
   "dependencies": {
-    "caver-js": "1.6.4-rc.1",
+    "caver-js": "1.6.5-rc.1",
     "dotenv": "8.2.0",
     "lodash": "4.17.21",
     "querystring": "0.2.0",
@@ -44,7 +44,7 @@
     "webpack-cli": "3.3.12"
   },
   "devDependencies": {
-    "@babel/cli": "7.10.5",
+    "@babel/cli": "7.14.8",
     "@babel/core": "7.11.1",
     "@babel/node": "7.10.5",
     "@babel/preset-env": "7.11.0",

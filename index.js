@@ -18,6 +18,7 @@ const Caver = require('caver-js')
 const _ = require('lodash')
 const KAS = require('./src/kas/kas')
 const KASWallet = require('./src/wallet/kasWallet')
+const { chainIds } = require('./src/utils/helper')
 
 const productionEndpoints = {
     node: 'https://node-api.klaytnapi.com/v1/klaytn',
@@ -26,6 +27,7 @@ const productionEndpoints = {
     tokenHistory: 'https://th-api.klaytnapi.com',
     kip17: 'https://kip17-api.klaytnapi.com',
     kip7: 'https://kip7-api.klaytnapi.com',
+    kip37: 'https://kip37-api.klaytnapi.com',
 }
 
 /**
@@ -129,6 +131,7 @@ class CaverExtKAS extends Caver {
         this.initAnchorAPI(chainId, accessKeyId, secretAccessKey)
         this.initKIP17API(chainId, accessKeyId, secretAccessKey)
         this.initKIP7API(chainId, accessKeyId, secretAccessKey)
+        this.initKIP37API(chainId, accessKeyId, secretAccessKey)
     }
 
     /**
@@ -213,8 +216,9 @@ class CaverExtKAS extends Caver {
      * @return {void}
      */
     initNodeAPIWithWebSocket(chainId, accessKeyId, secretAccessKey, url) {
-        const regex = /[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/
-        if (regex.test(accessKeyId) || regex.test(secretAccessKey))
+        const regexForAccessKeyId = /^[A-Za-z0-9]+$/ // only A-Z, a-z, 0-9
+        const regexForSecretAccessKey = /^[^?=&+\s]+$/ // not allow to inclue ?, ,=,&,+
+        if (!regexForAccessKeyId.test(accessKeyId) || !regexForSecretAccessKey.test(secretAccessKey))
             throw new Error(
                 `Invalid auth: To use the websocket provider, you must use an accessKey and seretAccessKey that do not contain special characters. Please obtain a new AccessKey through the KAS Console.`
             )
@@ -319,6 +323,27 @@ class CaverExtKAS extends Caver {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initKIP7API(chainId, accessKeyId, secretAccessKey, url)
     }
+
+    /**
+     * Sets chain id and authentication key for KIP37 API.
+     *
+     * @example
+     * caver.initKIP37API(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initKIP37API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-7 API url to use')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initKIP37API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip37) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+        this.kas.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
+    }
 }
+
+CaverExtKAS.CHAIN_ID_BAOBAB = chainIds.CHAIN_ID_BAOBAB
+CaverExtKAS.CHAIN_ID_CYPRESS = chainIds.CHAIN_ID_CYPRESS
 
 module.exports = CaverExtKAS

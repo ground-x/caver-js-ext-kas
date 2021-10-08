@@ -376,4 +376,178 @@ describe('Wallet API service enabling', () => {
             expect(ret.status).to.equal('deleted')
         })
     })
+
+    context('caver.kas.wallet.getKeyListByKRN', () => {
+        const resultOfApi = {
+            items: [
+                {
+                    keyId:
+                        'krn:1001:wallet:676de94a-9ca9-45e2-a67b-ed72178cdbcc:key-pool:default:0xce662e6eab8bf2b135664042150cf56e198e43a01d815a30227cd3f498c632c2',
+                    krn: 'krn:1001:wallet:676de94a-9ca9-45e2-a67b-ed72178cdbcc:key-pool:default',
+                    publicKey:
+                        '0x04c394fdc6b7e29d733c6004316a283d9d83771ccbfa4e3983a8c5b71aad7933d943aa2760f46b750d76af5692d4d43f3a48ea4c6c6d829cdb40edd274cb18d85a',
+                },
+            ],
+            cursor: '',
+        }
+
+        const krn = 'krn:1001:wallet:676de94a-9ca9-45e2-a67b-ed72178cdbcc:key-pool:default'
+
+        function setCallFakeForCallApi(callApiStub, queryOptions = {}) {
+            callApiStub.callsFake(
+                (
+                    path,
+                    mtd,
+                    pathParams,
+                    queryParams,
+
+                    headerParams,
+                    formParams,
+                    postBody,
+                    authNames,
+                    contentTypes,
+                    accepts,
+                    returnType,
+                    callback
+                ) => {
+                    expect(path).to.equal(`/v2/key`)
+                    expect(mtd).to.equal(`GET`)
+                    expect(Object.keys(pathParams).length).to.equal(0)
+                    expect(Object.keys(queryParams).length).to.equal(3)
+                    expect(queryParams.krn).to.equal(krn)
+                    expect(queryParams.size).to.equal(queryOptions.size)
+                    expect(queryParams.cursor).to.equal(queryOptions.cursor)
+                    expect(headerParams['x-chain-id']).to.equal(chainId)
+                    expect(Object.keys(formParams).length).to.equal(0)
+                    expect(postBody).to.be.null
+                    expect(authNames[0]).to.equal('basic')
+                    expect(Object.keys(contentTypes).length).to.equal(0)
+                    expect(accepts[0]).to.equal('application/json')
+                    expect(returnType).not.to.be.undefined
+
+                    callback(null, resultOfApi, { body: resultOfApi })
+                }
+            )
+        }
+
+        it('CAVERJS-EXT-KAS-WALLET-242: should return key list from KAS without query parameters', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const retrieveKeysSpy = sandbox.spy(caver.kas.wallet.keyApi, 'retrieveKeys')
+            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            const ret = await caver.kas.wallet.getKeyListByKRN(krn)
+
+            expect(retrieveKeysSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-243: should return key list from KAS with query parameters (size)', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const retrieveKeysSpy = sandbox.spy(caver.kas.wallet.keyApi, 'retrieveKeys')
+            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
+
+            const queryParams = { size: 1 }
+            setCallFakeForCallApi(callApiStub, queryParams)
+
+            const ret = await caver.kas.wallet.getKeyListByKRN(krn, queryParams)
+
+            expect(retrieveKeysSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-244: should return key list from KAS with query parameters (cursor)', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const retrieveKeysSpy = sandbox.spy(caver.kas.wallet.keyApi, 'retrieveKeys')
+            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
+
+            const queryParams = {
+                curosr:
+                    'eyJjcmVhdGVkX2F0IjoxNTk3OTA2Mjc0LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMDUiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ',
+            }
+            setCallFakeForCallApi(callApiStub, queryParams)
+
+            const ret = await caver.kas.wallet.getKeyListByKRN(krn, queryParams)
+
+            expect(retrieveKeysSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-245: should return key list from KAS with query parameters (all)', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const retrieveKeysSpy = sandbox.spy(caver.kas.wallet.keyApi, 'retrieveKeys')
+            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
+
+            const queryParams = {
+                size: 1,
+                curosr:
+                    'eyJjcmVhdGVkX2F0IjoxNTk3OTA2Mjc0LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMDUiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ',
+            }
+            setCallFakeForCallApi(callApiStub, queryParams)
+
+            const ret = await caver.kas.wallet.getKeyListByKRN(krn, queryParams)
+
+            expect(retrieveKeysSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-246: should call callback function with api result', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const retrieveKeysSpy = sandbox.spy(caver.kas.wallet.keyApi, 'retrieveKeys')
+            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            let isCalled = false
+
+            const ret = await caver.kas.wallet.getKeyListByKRN(krn, () => {
+                isCalled = true
+            })
+
+            expect(retrieveKeysSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).not.to.be.undefined
+        })
+
+        it('CAVERJS-EXT-KAS-WALLET-247: should call callback function with api result and query parameters', async () => {
+            caver.initWalletAPI(chainId, accessKeyId, secretAccessKey, url)
+
+            const retrieveKeysSpy = sandbox.spy(caver.kas.wallet.keyApi, 'retrieveKeys')
+            const callApiStub = sandbox.stub(caver.kas.wallet.keyApi.apiClient, 'callApi')
+            setCallFakeForCallApi(callApiStub)
+
+            let isCalled = false
+
+            const queryParams = {
+                size: 1,
+                curosr:
+                    'eyJjcmVhdGVkX2F0IjoxNTk3OTA2Mjc0LCJkb2NfaWQiOiJrcm46MTAwMTphbmNob3I6OGU3NmQwMDMtZDZkZC00Mjc4LThkMDUtNTE3MmQ4ZjAxMGNhOm9wZXJhdG9yLXBvb2w6ZGVmYXVsdDoweGM4QWEwNzNFMkE5MjRGYzQ2OTMzOUZmMGNCMkVjNEE3ODM4ODg4RDA6OTAwMDUiLCJxdWVyeV9pZCI6ImtybjoxMDAxOmFuY2hvcjo4ZTc2ZDAwMy1kNmRkLTQyNzgtOGQwNS01MTcyZDhmMDEwY2E6b3BlcmF0b3ItcG9vbDpkZWZhdWx0OkFOQ0hfVFg6MHhjOEFhMDczRTJBOTI0RmM0NjkzMzlGZjBjQjJFYzRBNzgzODg4OEQwIiwidHlwZSI6IkFOQ0hfVFgifQ',
+            }
+            setCallFakeForCallApi(callApiStub, queryParams)
+
+            const ret = await caver.kas.wallet.getKeyListByKRN(krn, queryParams, () => {
+                isCalled = true
+            })
+
+            expect(retrieveKeysSpy.calledWith(chainId)).to.be.true
+            expect(callApiStub.calledOnce).to.be.true
+            expect(isCalled).to.be.true
+            expect(ret.items).not.to.be.undefined
+            expect(ret.cursor).not.to.be.undefined
+        })
+    })
 })

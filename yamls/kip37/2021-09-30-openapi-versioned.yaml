@@ -1,0 +1,2342 @@
+openapi: 3.0.0
+info:
+  version: 1.0
+  title: KIP-37 API
+  description: "## Introduction\nThe KIP-37 API helps Blockchain app (BApp) developers\
+    \ to easily deploy smart contracts and send tokens of the [KIP-37 Multi Token\
+    \ Standard](https://kips.klaytn.com/KIPs/kip-37).\n\nYou can use the default contract\
+    \ managing account (`deployer`) and `alias`.  \n\nYou can also manage the contracts\
+    \ and tokens created on the klaytn network using the caver SDK, using contract\
+    \ address and the [Wallet API](https://refs.klaytnapi.com/ko/wallet/latest) account.\
+    \  \n\n## Fee Payer Options\n\nKAS KIP-37 supports four scenarios for paying transactin\
+    \ fees:    \n\n**1. Using only KAS Global FeePayer Account**  \nSends all transactions\
+    \ using the KAS global FeePayer Account.  \n   \n```\n{\n    \"options\": {\n\
+    \      \"enableGlobalFeePayer\": true\n    }    \n}\n```  \n\n<br />  \n\n**2.\
+    \ Using User FeePayer account**  \nSends all transactions using the KAS User FeePayer\
+    \ Account. \n   \n```\n{\n  \"options\": {\n    \"enableGlobalFeePayer\": false,\n\
+    \    \"userFeePayer\": {\n      \"krn\": \"krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default\"\
+    ,\n      \"address\": \"0xd6905b98E4Ba43a24E842d2b66c1410173791cab\"\n    }\n\
+    \  }\n}\n```  \n\n<br />\n\n**3. Using both KAS Global FeePayer Account + User\
+    \ FeePayer Account**  \nUses User FeePayer Account as default. When the balance\
+    \ runs out, KAS Global FeePayer Account will be used.\n   \n```\n{\n  \"options\"\
+    : {\n    \"enableGlobalFeePayer\": true,\n    \"userFeePayer\": {\n      \"krn\"\
+    : \"krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default\"\
+    ,\n      \"address\": \"0xd6905b98E4Ba43a24E842d2b66c1410173791cab\"\n    }\n\
+    \  }\n}\n```  \n\n<br />\n\n**4. Not using FeePayer Account**  \nSends a transaction\
+    \ via normal means where the sender pays the transaction fee.  \n   \n```\n{\n\
+    \  \"options\": {\n    \"enableGlobalFeePayer\": false\n  }\n}\n```\n"
+servers:
+- url: https://kip37-api.klaytnapi.com
+security:
+- basic: []
+tags:
+- name: err-400
+  description: |
+    | Code    | Message                                      |
+    |---------|----------------------------------------------|
+    | 1160050 | incorrect request                            |
+    | 1160251 | its value is out of range                    |
+    | 1164000 | invalid alias format                         |
+    | 1164001 | invalid address                              |
+    | 1164002 | invalid hex format                           |
+    | 1164004 | account not found in wallet account-pool     |
+    | 1164005 | batch items mismatch                         |
+    | 1164006 | too many batch items                         |
+    | 1164007 | invalid krn                                  |
+    | 1164008 | no contract code                             |
+    | 1164009 | insufficient balance                         |
+    | 1164011 | fee payer not found in wallet feepayer-pool  |
+  x-displayName: "400: Bad Request"
+- name: err-403
+  description: |
+    | Code    | Message                          |
+    |---------|----------------------------------|
+    | 1164300 | insufficient account permissions |
+  x-displayName: "403: Forbidden"
+- name: err-404
+  description: |
+    | Code    | Message            |
+    |---------|--------------------|
+    | 1164400 | contract not found |
+    | 1164401 | token not found    |
+  x-displayName: "404: Not Found"
+- name: err-409
+  description: |
+    | Code    | Message                   |
+    |---------|---------------------------|
+    | 1164900 | duplicate alias           |
+    | 1164901 | contract already paused   |
+    | 1164902 | contract already unpaused |
+    | 1164903 | token already exist       |
+    | 1164904 | contract already paused   |
+    | 1164905 | token already unpaused    |
+    | 1164906 | already approved          |
+    | 1164907 | already not approved      |
+    | 1164908 | duplicate contract        |
+    | 1164909 | contract being created    |
+  x-displayName: "409: Conflict"
+- name: err-503
+  description: |
+    | Code    | Message                   |
+    |---------|---------------------------|
+    | 1165100 | internal server error     |
+  x-displayName: "503: Service Unavailable"
+- name: kip37-contract
+  x-displayName: Contract
+- name: kip37-token
+  x-displayName: Token
+- name: kip37-token-ownership
+  x-displayName: Token Ownership
+- name: kip37-deployer
+  x-displayName: Deployer
+paths:
+  /v1/contract:
+    get:
+      tags:
+      - kip37-contract
+      summary: Get KIP-37 Contract
+      description: "Get a list of all KIP-37 contracts by account. The response items\
+        \ will be listed in the order of contract creation request time. <br/><br/>\n\
+        The `status` field in the response can contain the following:\n- `init`: Initial\
+        \ state before transaction is sent\n- `submitted`: Contract deployment transaction\
+        \ has been sent\n- `deployed`: Contract has been deployed\n- `imported`: Contract\
+        \ list has been imported\n- `failed`: Contract deployment transaction has\
+        \ failed"
+      operationId: ListContractsInDeployerPool
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: Number of items to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: cursor
+        in: query
+        description: The pointer after which the results will be returned. `cursor`
+          will be included in the result when you request a query of a specific number
+          (`size`) of items.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: "Status of the contract you want to query as a filter for the\
+          \ request. You can only choose one of [`all`,`init`,`submitted`,`deployed`,`imported`,`failed`].\
+          \ The default value is `all`."
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37ContractListResponse'
+              examples:
+                Success:
+                  value:
+                    items:
+                    - address: 0xcbcbe8297801600bf8e0530baa2fdd6358547ebe
+                      alias: my-first-kip37
+                      status: deployed
+                      uri: "https://token-cdn-domain/{id}.json"
+                      options:
+                        enableGlobalFeePayer: true
+                        userFeePayer:
+                          krn: ""
+                          address: ""
+                    cursor: eyJjcmVhdGVkX2F0IjoxNjE5NTkwNTAxLCJpZCI6ImNvbnRyYWN0IzEwMDEjODhjMTIyM2MtNjZhZi00MTIyLTk4MTgtMDY5YjJlM2M2YjMwIiwic19pZCI6Imtha2Fyb3QtMTYxOTU5MDUwMTYxNyJ9
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid size type:
+                  value:
+                    code: 1160050
+                    message: incorrect request
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Out of range size:
+                  value:
+                    code: 1160251
+                    message: its value is out of range; size
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid cursor:
+                  value:
+                    code: 1160107
+                    message: incorrect bookmark
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid status:
+                  value:
+                    code: 1160050
+                    message: incorrect request; status
+                    requestId: 9c51cbbf-ab79-9a82-9879-0e02df47be9d
+    post:
+      tags:
+      - kip37-contract
+      summary: Deploy KIP-37 Contract
+      description: "Deploys a KIP-37 contract. <br/>\n\n\nKIP-37 supports the use\
+        \ of `alias`, which you can use in place of the account address. The `alias`\
+        \ must only contain lowercase letters, numbers and hyphens and begin with\
+        \ a lowercase letter.\n\n##### Options  \nOptions for paying the transaction\
+        \ fee. For more details, please refer to [Fee Payer Options](#section/Fee-Payer-Options)."
+      operationId: DeployContract
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeployKip37ContractRequest'
+            examples:
+              Success:
+                value:
+                  alias: my-first-kip37
+                  uri: "https://token-cdn-domain/{id}.json"
+                  options:
+                    enableGlobalFeePayer: true
+                    userFeePayer:
+                      krn: ""
+                      address: ""
+              "400 - Required alias":
+                value:
+                  uri: https://cdn.com/
+              "400 - Invalid alias format":
+                value:
+                  alias: 2021-my-first-kip37
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37DeployResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0x0a4f4f97d8a5904721514d60abd3f9ad7938862e415a6c043553a94ab68a5edb
+                    uri: "https://token-cdn-domain/{id}.json"
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required alias:
+                  value:
+                    code: 1160050
+                    message: incorrect request; alias
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid alias format:
+                  value:
+                    code: 1164000
+                    message: invalid alias format
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid fee payer KRN:
+                  value:
+                    code: 1164007
+                    message: invalid krn;options.userFeePayer.krn
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Fee payer not found:
+                  value:
+                    code: 1164007
+                    message: invalid krn;fee payer not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Duplicate alias:
+                  value:
+                    code: 1164900
+                    message: duplicate alias
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/import:
+    post:
+      tags:
+      - kip37-contract
+      summary: Import KIP-37 Contract
+      description: "Import a contract that has already been deployed.<br/>\n\n\nThe\
+        \ `alias` must only contain lowercase letters, numbers and hyphens and begin\
+        \ with a lowercase letter.\n\n##### Options  \nOptions for paying the transaction\
+        \ fee. For more details, please refer to [Fee Payer Options](#section/Fee-Payer-Options)."
+      operationId: ImportContract
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImportKip37ContractRequest'
+            examples:
+              Success:
+                value:
+                  alias: my-first-kip37
+                  uri: "https://token-cdn-domain/{id}.json"
+                  address: 0xcbcbe8297801600bf8e0530baa2fdd6358547ebe
+                  options:
+                    enableGlobalFeePayer: true
+              Required Alias:
+                value:
+                  uri: "https://token-cdn-domain/{id}.json"
+                  address: 0xcbcbe8297801600bf8e0530baa2fdd6358547ebe
+                  options:
+                    enableGlobalFeePayer: true
+              Invalid alias format:
+                value:
+                  alias: 2021-my-first-kip37
+                  uri: "https://token-cdn-domain/{id}.json"
+                  address: 0xcbcbe8297801600bf8e0530baa2fdd6358547ebe
+                  options:
+                    enableGlobalFeePayer: true
+              Required Address:
+                value:
+                  alias: my-first-kip37
+                  uri: "https://token-cdn-domain/{id}.json"
+                  options:
+                    enableGlobalFeePayer: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37Contract'
+              examples:
+                Success:
+                  value:
+                    address: 0xcbcbe8297801600bf8e0530baa2fdd6358547ebe
+                    alias: my-first-kip37
+                    status: deployed
+                    uri: "https://token-cdn-domain/{id}.json"
+                    options:
+                      enableGlobalFeePayer: true
+                      userFeePayer:
+                        krn: ""
+                        address: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required alias:
+                  value:
+                    code: 1160050
+                    message: incorrect request; alias
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid alias format:
+                  value:
+                    code: 1164000
+                    message: invalid alias format
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Required Address:
+                  value:
+                    code: 1160050
+                    message: incorrect request; address
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                No contract code:
+                  value:
+                    code: 1164008
+                    message: no contract code
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid fee payer KRN:
+                  value:
+                    code: 1164007
+                    message: invalid krn;options.userFeePayer.krn
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Fee payer not found:
+                  value:
+                    code: 1164007
+                    message: invalid krn;fee payer not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Duplicate contract:
+                  value:
+                    code: 1164909
+                    message: duplicate contract
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Duplicate alias:
+                  value:
+                    code: 1164900
+                    message: duplicate alias
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}:
+    get:
+      tags:
+      - kip37-contract
+      summary: Get KIP-37 Contract Information
+      description: Queries a specified contract using the alias or the contract address.
+      operationId: GetContract
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37Contract'
+              examples:
+                Success:
+                  value:
+                    address: 0xcbcbe8297801600bf8e0530baa2fdd6358547ebe
+                    alias: my-first-kip37
+                    status: deployed
+                    uri: "https://token-cdn-domain/{id}.json"
+                    options:
+                      enableGlobalFeePayer: true
+                      userFeePayer:
+                        krn: ""
+                        address: ""
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 20bab367-141b-439a-8b4c-ae8788b86316
+    put:
+      tags:
+      - kip37-contract
+      summary: Edit KIP-37 Contract Information
+      description: "Edits the information of a contract. <br/>\n\n##### Options  \n\
+        Options for paying the transaction fee. For more details, please refer to\
+        \ [Fee Payer Options](#section/Fee-Payer-Options)."
+      operationId: PutContract
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateKip37ContractRequest'
+            examples:
+              Success:
+                value:
+                  options:
+                    enableGlobalFeePayer: true
+                    userFeePayer:
+                      krn: krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default
+                      address: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37Contract'
+              examples:
+                Success:
+                  value:
+                    alias: my-first-kip37
+                    uri: "https://token-cdn-domain/{id}.json"
+                    address: 0xcbcbe8297801600bf8e0530baa2fdd6358547ebe
+                    options:
+                      enableGlobalFeePayer: true
+                      userFeePayer:
+                        krn: krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default
+                        address: 0xd6905b98E4Ba43a24E842d2b66c1410173791cab
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid fee payer KRN:
+                  value:
+                    code: 1164007
+                    message: invalid krn;options.userFeePayer.krn
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid address:
+                  value:
+                    code: 1164001
+                    message: invalid address; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Fee payer not found:
+                  value:
+                    code: 1164007
+                    message: invalid krn;fee payer not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not Found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 20bab367-141b-439a-8b4c-ae8788b86316
+  /v1/contract/{contract-address-or-alias}/approveall:
+    post:
+      tags:
+      - kip37-contract
+      summary: Grant/Remove Authorization for Token Transfers
+      description: "Grants/cancels authorization to a third party (`to`) to transfer\
+        \ all tokens for a specified contract.  \n\n##### From\nThe account that sends\
+        \ the transaction.\n\nIf the `from` account belongs to a default `account-pool`\
+        \ for either KIP-37 or Wallet, you can omit the KRN.<br />\nOtherwise you\
+        \ have to provide the KRN data (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`) in the header."
+      operationId: ApproveAll
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApproveAllKip37ContractRequest'
+            examples:
+              Success:
+                value:
+                  from: 0x2dad235a3b8a87b1fca38ba3d8bb2a0f6a892b58
+                  to: 0xb4040265dba628cbb2cdd36031016b1a68a20546
+                  approved: true
+              "400 - Required field":
+                value:
+                  to: 0xb4040265dba628cbb2cdd36031016b1a68a20546
+                  approve: true
+              "400 - Invalid address":
+                value:
+                  from: not hex address
+                  to: 0xb4040265dba628cbb2cdd36031016b1a68a20546
+                  approve: true
+              "400 - Same from and to":
+                value:
+                  from: 0xb4040265dba628cbb2cdd36031016b1a68a20546
+                  to: 0xb4040265dba628cbb2cdd36031016b1a68a20546
+                  approve: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TransactionStatusResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+                Success with multisig account:
+                  value:
+                    status: Pending
+                    transactionId: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required fields:
+                  value:
+                    code: 1160050
+                    message: incorrect request; from
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid address:
+                  value:
+                    code: 1164001
+                    message: invalid address; from
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Same from and to:
+                  value:
+                    code: 1164003
+                    message: from and to must have different address
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Account not found:
+                  value:
+                    code: 1164404
+                    message: account not found in wallet account-pool
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Already approved:
+                  value:
+                    code: 1164006
+                    message: already approved
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/pause:
+    post:
+      tags:
+      - kip37-contract
+      summary: Pause KIP-37 Contract
+      description: "Pauses all operations for a specified contract, such as minting,\
+        \ transfering tokens.<br />\nYou can resume using [/v1/{contract-address-or-alias/unpause](#operation/UnpauseContract).\
+        \  \n\n##### Sender\nThe Account that sends the transaction.\n\nIf the `sender`\
+        \ account belongs to a default `account-pool` for either KIP-37 or Wallet,\
+        \ you can omit the KRN.<br /><br />\nOtherwise you have to provide the KRN\
+        \ data (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`)\
+        \ in the header."
+      operationId: PauseContract
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperateKip37ContractRequest'
+            examples:
+              Success:
+                value:
+                  sender: 0x2dad235a3b8a87b1fca38ba3d8bb2a0f6a892b58
+              "400 - Required fields":
+                value:
+                  sender: ""
+              "400 - Invalid address":
+                value:
+                  sender: not hex address
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TransactionStatusResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+                Success with multisig account:
+                  value:
+                    status: Pending
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required fields:
+                  value:
+                    code: 1160050
+                    message: incorrect request; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid address:
+                  value:
+                    code: 1164001
+                    message: invalid address; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Account not found:
+                  value:
+                    code: 1164404
+                    message: account not found in wallet account-pool
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not pauser:
+                  value:
+                    code: 1164300
+                    message: insufficient account permissions
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Already paused:
+                  value:
+                    code: 1164901
+                    message: contract already paused
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/unpause:
+    post:
+      tags:
+      - kip37-contract
+      summary: Resume KIP-37 Contract
+      description: "Resumes the operations for a paused contract.\n\n##### Sender\n\
+        The account for sending the transaction.\n\nIf the `sender` account belongs\
+        \ to a default `account-pool` for either KIP-37 or Wallet, you can omit the\
+        \ KRN.<br />\nOtherwise you have to provide the KRN data (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`) in the header."
+      operationId: UnpauseContract
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperateKip37ContractRequest'
+            examples:
+              Success:
+                value:
+                  sender: 0x2dad235a3b8a87b1fca38ba3d8bb2a0f6a892b58
+              "400 - Required fields":
+                value:
+                  sender: ""
+              "400 - Invalid address":
+                value:
+                  sender: not hex address
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TransactionStatusResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+                Success with miultisig account:
+                  value:
+                    status: Pending
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required fields:
+                  value:
+                    code: 1160050
+                    message: incorrect request; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid address:
+                  value:
+                    code: 1164001
+                    message: invalid address; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Account not found:
+                  value:
+                    code: 1164404
+                    message: account not found in wallet account-pool
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not pauser:
+                  value:
+                    code: 1164300
+                    message: insufficient account permissions; pauser
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Already unpaused:
+                  value:
+                    code: 1164902
+                    message: contract already unpaused
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/token:
+    get:
+      tags:
+      - kip37-token
+      summary: Get KIP-37 Token List
+      description: |
+        Returns a list of KIP-37 tokens.
+
+
+        ##### Sort Order
+        - The response items are listed in lexicographical order of the token ID.
+      operationId: GetTokens
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: The maximum number of items to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: cursor
+        in: query
+        description: The pointer after which the results will be returned. `cursor`
+          will be included in the result when you request a query of a specific number
+          (`size`) of items.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TokenInfoListResponse'
+              examples:
+                Success:
+                  value:
+                    items:
+                    - tokenId: 0x1
+                      totalSupply: 0xaf298d050e4395d69670b12b7f41000000000000
+                      tokenUri: https://token-cdn-domain/1.json
+                    cursor: z53x014AdOQJGNl6V99k3wAap7M08oLKedg5DVqlLdZqWwPQzo3aM7v8A9J6V2nmqnpgDNOeGkblm1BKEX5x0Yr46bW2ZN4YGmQPJO1xBvrEzXrW2gbvDZ7EKMaYmkew
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid size type:
+                  value:
+                    code: 1160050
+                    message: incorrect request
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Out of range size:
+                  value:
+                    code: 1160251
+                    message: its value is out of range; size
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid cursor:
+                  value:
+                    code: 1160107
+                    message: incorrect bookmark
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                example-4:
+                  value:
+                    code: 0
+                    message: string
+                    requestId: string
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+    post:
+      tags:
+      - kip37-token
+      summary: Mint a KIP-37 Token
+      description: "Creates a new token from a specified KIP-37 contract.\n\n#####\
+        \ Sender\nThe account for sending the transaction.\n\nIf the `sender` account\
+        \ belongs to a default `account-pool` for either KIP-37 or Wallet, you can\
+        \ omit the KRN.<br />\nOtherwise you have to provide the KRN data (`x-krn:\
+        \ krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`) in the header."
+      operationId: CreateToken
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateKip37TokenRequest'
+            examples:
+              Success with uri:
+                value:
+                  sender: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  id: 0x1
+                  initialSupply: 0x100
+                  uri: https://token-cdn-domain/1.json
+              "400 - Required fields":
+                value:
+                  id: 0x1
+                  initialSupply: 0x100
+                  uri: https://s3.amazonaws.com/your-bucket/1.json
+              "400 - Invalid address":
+                value:
+                  sender: not hex address
+                  id: 0x1
+                  initialSupply: 0x100
+                  uri: https://s3.amazonaws.com/your-bucket/1.json
+              "400 - Invalid initialSupply":
+                value:
+                  sender: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  id: 0x1
+                  initialSupply: not hex value
+                  uri: https://s3.amazonaws.com/your-bucket/1.json
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TransactionStatusResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+                Success with multisig account:
+                  value:
+                    status: Pending
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required Fields:
+                  value:
+                    code: 1160050
+                    message: incorrect request; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid address:
+                  value:
+                    code: 1164001
+                    message: invalid address; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid initialSupply:
+                  value:
+                    code: 1164002
+                    message: invalid hex format; initialSupply
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Out of range initialSupply:
+                  value:
+                    code: 1160251
+                    message: its value is out of range; initialSupply
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not minter:
+                  value:
+                    code: 1164300
+                    message: insufficient account permissions
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Already exist token:
+                  value:
+                    code: 1164903
+                    message: token already exists
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+    delete:
+      tags:
+      - kip37-token
+      summary: Burn KIP-37 Token
+      description: "Burns KIP-37 tokens.\n\n##### From\nThe account that sends the\
+        \ transaction.\n\nIf the `from` account belongs to a default `account-pool`\
+        \ for either KIP-37 or Wallet, you can omit the KRN.<br />\nOtherwise you\
+        \ have to provide the KRN data (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`) in the header.\n\n##### Batch Items\nCall the contract function\
+        \ according to the Batch Items (`ids`, `amounts`) included in the request.\n\
+        \n- If there is one element, call the `burn` function.\n- If there are multiple\
+        \ elements, call the `burnBatch` function."
+      operationId: BurnToken
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BurnKip37TokenRequest'
+            examples:
+              Success:
+                value:
+                  from: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+                  - 0x200
+              "400 - Required fields":
+                value:
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+                  - 0x200
+              Invalid amounts:
+                value:
+                  from: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - not hex amount
+                  - 0x200
+              Out of range amounts:
+                value:
+                  from: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+                  - 0xd23687e82ffbbf0ee7e1c6874b4ced84752abc63af7396295c0ff8842e52ec34fff
+              Mismatch batch items:
+                value:
+                  from: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TransactionStatusResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+                Success with multisig account:
+                  value:
+                    status: Pending
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required fields:
+                  value:
+                    code: 1160050
+                    message: incorrect request; from
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid amounts:
+                  value:
+                    code: 1164002
+                    message: invalid hex format; amounts
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Out of range amounts:
+                  value:
+                    code: 1160251
+                    message: its value is out of range; amounts
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Mismatch batch items:
+                  value:
+                    code: 1164005
+                    message: batch items mismatch
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Too many batch items:
+                  value:
+                    code: 1164006
+                    message: too many batch items
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/token/mint:
+    post:
+      tags:
+      - kip37-token
+      summary: Mint Additional KIP-37 Tokens
+      description: "Mints multiple tokens for a given KIP-37 contract.  \nMinting\
+        \ is possible after having created a token with [Create KIP-37 Token](#operation/CreateToken).\
+        \  \n\n##### Sender\nThe account for sending the transaction.\n\nIf the `sender`\
+        \ account belongs to a default `account-pool` for either KIP-37 or Wallet,\
+        \ you can omit the KRN.<br />\nOtherwise you have to provide the KRN data\
+        \ (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`) in\
+        \ the header.\n\n##### Batch Items\nCall the contract function according to\
+        \ the Batch Items (`ids`, `amounts`) included in the request.\n\n- If there\
+        \ is one element, call the `mint` function.\n- If there are multiple elements,\
+        \ call the `mintBatch` function."
+      operationId: MintToken
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MintKip37TokenRequest'
+            examples:
+              Success:
+                value:
+                  sender: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  to: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+                  - 0x200
+              "400 - Invalid address":
+                value:
+                  sender: not hex address
+                  to: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+                  - 0x200
+              "400 - Invalid amounts":
+                value:
+                  sender: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  to: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - not hex amount
+                  - 0x200
+              "400 - Out of range amount":
+                value:
+                  sender: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  to: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+                  - 0xd23687e82ffbbf0ee7e1c6874b4ced84752abc63af7396295c0ff8842e52ec34fff
+              "400 Mismatch batch items":
+                value:
+                  sender: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  to: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TransactionStatusResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+                Success with multisig account:
+                  value:
+                    status: Pending
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid address:
+                  value:
+                    code: 1164001
+                    message: invalid address; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid amounts:
+                  value:
+                    code: 1164002
+                    message: invalid hex format; amounts
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Out of range amount:
+                  value:
+                    code: 1160251
+                    message: its value is out of range; amounts
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Mismatch batch items:
+                  value:
+                    code: 1164005
+                    message: batch items mismatch
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Too many batch items:
+                  value:
+                    code: 1164006
+                    message: too many batch items
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not minter:
+                  value:
+                    code: 1164300
+                    message: insufficient account permissions
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/token/transfer:
+    post:
+      tags:
+      - kip37-token
+      summary: Send KIP-37 Token
+      description: "Sends multiple tokens for a given KIP-37 contract.\n\n##### Sender\n\
+        The account for sending the transaction. If the `sender` and`owner` are different,`sender`\
+        \ must be authorized to send the token.\n\nIf the `sender` account belongs\
+        \ to a default `account-pool` for either KIP-37 or Wallet, you can omit the\
+        \ KRN.<br />\nOtherwise you have to provide the KRN data (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`) in the header.\n\n##### Batch Items\nCall the contract function\
+        \ according to the Batch Items (`ids`, `amounts`) included in the request.\n\
+        \n- If there is one element, call the `safeTransferFrom` function.\n- If there\
+        \ are multiple elements, call the `safeBatchTransferFrom` function."
+      operationId: TransferToken
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferKip37TokenRequest'
+            examples:
+              Success:
+                value:
+                  sender: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  owner: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  to: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+                  - 0x200
+              "400 - Required fields":
+                value:
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+                  - 0x200
+              Invalid amounts:
+                value:
+                  sender: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  owner: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  to: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - not hex amount
+                  - 0x200
+              Out of range amounts:
+                value:
+                  sender: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  owner: 0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4
+                  to: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+                  - 0xd23687e82ffbbf0ee7e1c6874b4ced84752abc63af7396295c0ff8842e52ec34fff
+              Mismatch batch items:
+                value:
+                  from: 0xDc277E2D89b92336A4ee80be3c7142443FDaDE47
+                  ids:
+                  - 0x1
+                  - 0x2
+                  amounts:
+                  - 0x100
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TransactionStatusResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+                Success with multisig account:
+                  value:
+                    status: Pending
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required fields:
+                  value:
+                    code: 1160050
+                    message: incorrect request; from
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid amounts:
+                  value:
+                    code: 1164002
+                    message: invalid hex format; amounts
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Out of range amounts:
+                  value:
+                    code: 1160251
+                    message: its value is out of range; amounts
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Mismatch batch items:
+                  value:
+                    code: 1164005
+                    message: batch items mismatch
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Too many batch items:
+                  value:
+                    code: 1164006
+                    message: too many batch items
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/token/pause/{token-id}:
+    post:
+      tags:
+      - kip37-token
+      summary: Pause KIP-37 Token Operations
+      description: "Pauses the operations of a specified token, such as minting and\
+        \ creating tokens.\n\nYou can resume the opertations by using [/v1/{contract-address-or-alias/token/unpause/{token-id}](#operation/UnpauseToken).\n\
+        \n##### Sender\nThe account for sending the transaction.\n\nIf the `sender`\
+        \ account belongs to a default `account-pool` for either KIP-37 or Wallet,\
+        \ you can omit the KRN.<br />\nOtherwise you have to provide the KRN data\
+        \ (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`) in\
+        \ the header."
+      operationId: PauseToken
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: token-id
+        in: path
+        description: ID of the token to pause operations
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperateKip37ContractRequest'
+            examples:
+              Success:
+                value:
+                  sender: 0x2dad235a3b8a87b1fca38ba3d8bb2a0f6a892b58
+              "400 - Required fields":
+                value:
+                  sender: ""
+              "400 - Invalid address":
+                value:
+                  sender: not hex address
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TransactionStatusResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+                Success with multisig account:
+                  value:
+                    status: Pending
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required fields:
+                  value:
+                    code: 1160050
+                    message: incorrect request; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid address:
+                  value:
+                    code: 1164001
+                    message: invalid address; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not pauser:
+                  value:
+                    code: 1164300
+                    message: insufficient account permissions
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Already paused:
+                  value:
+                    code: 1164904
+                    message: token already paused
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/token/unpause/{token-id}:
+    post:
+      tags:
+      - kip37-token
+      summary: Resume KIP-37 Token Operations
+      description: "Resumes paused token operations for a given contract.\n\n#####\
+        \ Sender\nThe account for sending the transaction. If the `sender` and `owner`\
+        \ are different, `sender` must be authorized to transfer the token.  \n\n\
+        If the `sender` account belongs to a default `account-pool` for either KIP-37\
+        \ or Wallet, you can omit the KRN.<br />\nOtherwise you have to provide the\
+        \ KRN data (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool\
+        \ name}`) in the header."
+      operationId: UnpauseToken
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: token-id
+        in: path
+        description: ID of the token to resume operations
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperateKip37ContractRequest'
+            examples:
+              Success:
+                value:
+                  sender: 0x2dad235a3b8a87b1fca38ba3d8bb2a0f6a892b58
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TransactionStatusResponse'
+              examples:
+                Success:
+                  value:
+                    status: Submitted
+                    transactionHash: 0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b
+                Success with multisig account:
+                  value:
+                    status: Pending
+                    transactionId: 0x947e5149c93e0bdbd3973e348a4b3557b857d2dee865f407b29f7f02c9b5d22e
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Required fields:
+                  value:
+                    code: 1160050
+                    message: incorrect request; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid address:
+                  value:
+                    code: 1164001
+                    message: invalid address; sender
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Not pauser:
+                  value:
+                    code: 1164300
+                    message: insufficient account permissions
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Already unpaused:
+                  value:
+                    code: 1164905
+                    message: token already unpaused
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/contract/{contract-address-or-alias}/owner/{owner-address}/token:
+    get:
+      tags:
+      - kip37-token-ownership
+      summary: Get KIP-37 Token List of an Account
+      description: 'Returns a list of tokens owned by a certain account. '
+      operationId: GetTokensByOwner
+      parameters:
+      - name: contract-address-or-alias
+        in: path
+        description: Contract address (in hex. with the 0x prefix) or alias
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: owner-address
+        in: path
+        description: Klaytn account address to query.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: size
+        in: query
+        description: Number of items to return
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: cursor
+        in: query
+        description: The pointer after which the results will be returned. `cursor`
+          will be included in the result when you request a query of a specific number
+          (`size`) of items.
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37TokenListResponse'
+              examples:
+                Success:
+                  value:
+                    items:
+                    - tokenId: 0x1
+                      owner: 0xb8bb4b109f18eb6f292757aaec623200f1a41369
+                      tokenAddress: 0x2c2382bcca41295495973be1d5a997d21f77b50e
+                      totalSupply: 0xaf298d050e4395d69670b12b7f41000000000000
+                      tokenUri: https://kas-kip37-metadata.klaytn.com/b5ae1fbb-4175-4505-bd6b-8330e1d3c71b
+                      replacedTokenUri: https://kas-kip37-metadata.klaytn.com/b5ae1fbb-4175-4505-bd6b-8330e1d3c71b/0000000000000000000000000000000000000000000000000000000000000001.json
+                      balance: 0x1f
+                      transactionHash: 0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7c9032ee
+                      transferFrom: 0xb8bb4b109f18eb6f292757aaec623200f1a41369
+                      transferTo: 0xae02aba56bae1624e2c4f029e3a79308e2a19e98
+                      updatedAt: 1607319007
+                    cursor: ""
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Invalid size type:
+                  value:
+                    code: 1160050
+                    message: incorrect request
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Out of range size:
+                  value:
+                    code: 1160251
+                    message: its value is out of range; size
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid cursor:
+                  value:
+                    code: 1160107
+                    message: incorrect bookmark
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Invalid tokenId:
+                  value:
+                    code: 1164002
+                    message: invalid hex format; tokenId
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Out of range tokenId:
+                  value:
+                    code: 1160251
+                    message: its value is out of range; tokenId
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                Contract not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+                Token not found:
+                  value:
+                    code: 1164400
+                    message: contract not found
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+  /v1/deployer/default:
+    get:
+      tags:
+      - kip37-deployer
+      summary: Get Default Account for Contract Deployment
+      description: Get account for deploying and managing contract.
+      operationId: GetDefaultDeployer
+      parameters:
+      - name: x-chain-id
+        in: header
+        description: Klaytn Network Chain ID (1001 or 8217)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Kip37DeployerResponse'
+              examples:
+                Success:
+                  value:
+                    address: 0xA490cbCB43a64cc4671F436dB9D33eD7A73Da675
+                    krn: krn:1001:kip37:88c1223c-66af-4122-9818-069b2e3c6b30:account-pool:default
+components:
+  schemas:
+    Kip37ContractListResponse:
+      title: Kip37ContractListResponse
+      required:
+      - cursor
+      - items
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Kip37Contract'
+        cursor:
+          type: string
+          description: "The pointer for the next request, after which the result will\
+            \ be returned."
+    ErrorResponse:
+      title: ErrorResponse
+      required:
+      - code
+      - message
+      - requestId
+      type: object
+      properties:
+        code:
+          type: integer
+          description: Error Code
+        message:
+          type: string
+          description: Error Message
+        requestId:
+          type: string
+          description: Request ID
+    DeployKip37ContractRequest:
+      title: DeployKip37ContractRequest
+      required:
+      - alias
+      - uri
+      type: object
+      properties:
+        alias:
+          type: string
+          description: Contract alias; KIP-37 API supports the use of alias in place
+            of the contract adddress.
+        uri:
+          type: string
+          description: The URI that stores the contract's metadata
+        options:
+          $ref: '#/components/schemas/Kip37FeePayerOptions'
+      x-examples:
+        example-1:
+          alias: my-first-kip37
+          uri: https://mytoken.com
+    Kip37DeployResponse:
+      title: Kip37DeployResponse
+      required:
+      - status
+      - transactionHash
+      type: object
+      properties:
+        status:
+          type: string
+          description: "Transaction status (`Submitted`, `Pending`)"
+        transactionHash:
+          type: string
+          description: Transaction hash
+        options:
+          $ref: '#/components/schemas/Kip37FeePayerOptionsResponse'
+    ImportKip37ContractRequest:
+      title: ImportKip37ContractRequest
+      required:
+      - address
+      - alias
+      - uri
+      type: object
+      properties:
+        alias:
+          type: string
+          description: Contract alias. KIP-37 API supports the use of alias in place
+            of the contract address.
+        uri:
+          type: string
+          description: The URI for storing contract metadata
+        address:
+          type: string
+          description: Contract address
+        options:
+          $ref: '#/components/schemas/Kip37FeePayerOptions'
+    Kip37Contract:
+      title: Kip37Contract
+      required:
+      - address
+      - alias
+      - status
+      - uri
+      type: object
+      properties:
+        address:
+          type: string
+          description: Contract address
+        alias:
+          type: string
+          description: Contract alias
+        status:
+          type: string
+          description: "Contract status [`init`, `submitted`, `deployed`]"
+        uri:
+          type: string
+          description: Contract URI
+        options:
+          $ref: '#/components/schemas/Kip37FeePayerOptions'
+    UpdateKip37ContractRequest:
+      title: UpdateKip37ContractRequest
+      type: object
+      properties:
+        options:
+          $ref: '#/components/schemas/Kip37FeePayerOptions'
+    ApproveAllKip37ContractRequest:
+      title: ApproveAllKip37ContractRequest
+      required:
+      - from
+      - to
+      type: object
+      properties:
+        from:
+          type: string
+          description: The Klaytn account address of the owner
+        to:
+          type: string
+          description: The Klaytn account address to be authrorized for token transfer
+        approved:
+          type: boolean
+          description: Authorization granted/cancelled. The default value is `true`.
+    Kip37TransactionStatusResponse:
+      title: Kip37TransactionStatusResponse
+      required:
+      - status
+      type: object
+      properties:
+        status:
+          type: string
+          description: "Transaction status (`Submitted`, `Pending`)"
+        transactionHash:
+          type: string
+          description: Transaction hash
+        transactionId:
+          type: string
+          description: Multisig Transaction ID
+    OperateKip37ContractRequest:
+      title: OperateKip37ContractRequest
+      type: object
+      properties:
+        sender:
+          type: string
+          description: Account to execute token operations such as pause and resume.
+            The default value is the account that deployed the contract.
+    Kip37TokenInfoListResponse:
+      title: Kip37TokenInfoListResponse
+      required:
+      - cursor
+      - items
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Kip37TokenInfoListResponseItem'
+        cursor:
+          type: string
+          description: "The pointer for the next request, after which the result will\
+            \ be returned."
+    CreateKip37TokenRequest:
+      title: CreateKip37TokenRequest
+      required:
+      - id
+      - initialSupply
+      - uri
+      type: object
+      properties:
+        sender:
+          type: string
+          description: The Klaytn account address to mint the token. The default value
+            is the address that deployed the contract.
+        id:
+          type: string
+          description: ID of the new token; cannot use an existing one
+        initialSupply:
+          type: string
+          description: Initial supply (in hex.)
+        uri:
+          type: string
+          description: Token URI
+    BurnKip37TokenRequest:
+      title: BurnKip37TokenRequest
+      required:
+      - amounts
+      - ids
+      type: object
+      properties:
+        from:
+          type: string
+          description: The owner of the token or the Klaytn account address authorized
+            to burn. The default value is the address that deployed the contract.
+        ids:
+          type: array
+          description: ID of the token to burn.
+          items:
+            type: string
+        amounts:
+          type: array
+          description: Number of the token to burn (in hex.)
+          items:
+            type: string
+    MintKip37TokenRequest:
+      title: MintKip37TokenRequest
+      required:
+      - amounts
+      - ids
+      - to
+      type: object
+      properties:
+        sender:
+          type: string
+          description: The Klaytn account address to mint tokens. The default value
+            is the address that deployed the contract.
+        to:
+          type: string
+          description: The Klaytn account address of the token owner
+        ids:
+          type: array
+          description: Array of the new token IDs
+          items:
+            type: string
+        amounts:
+          type: array
+          description: Array of the new token supplies (in hex.)
+          items:
+            type: string
+    TransferKip37TokenRequest:
+      title: TransferKip37TokenRequest
+      required:
+      - amounts
+      - ids
+      - owner
+      - sender
+      - to
+      type: object
+      properties:
+        sender:
+          type: string
+          description: The Klaytn account address to send the tokens
+        owner:
+          type: string
+          description: The Klaytn account address that owns the tokens
+        to:
+          type: string
+          description: The Klaytn account address to receive the tokens
+        ids:
+          type: array
+          description: Array of IDs of the tokens to send
+          items:
+            type: string
+        amounts:
+          type: array
+          description: Array of the tokens to send (in hex.)
+          items:
+            type: string
+    Kip37TokenListResponse:
+      title: Kip37TokenListResponse
+      required:
+      - cursor
+      - items
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Kip37TokenListResponseItem'
+        cursor:
+          type: string
+          description: "The pointer for the next request, after which the result will\
+            \ be returned."
+    Kip37DeployerResponse:
+      title: Kip37DeployerResponse
+      required:
+      - address
+      - krn
+      type: object
+      properties:
+        address:
+          type: string
+          description: The default Klaytn account address for contract management
+        krn:
+          type: string
+          description: KRN of the account
+    Kip37FeePayerOptions:
+      title: Kip37FeePayerOptions
+      type: object
+      properties:
+        enableGlobalFeePayer:
+          type: boolean
+          description: A boolean value of whether KAS Global FeePayer is used. The
+            default value is `true`.
+        userFeePayer:
+          $ref: '#/components/schemas/Kip37FeePayerOptions_userFeePayer'
+    Kip37FeePayerOptionsResponse:
+      title: Kip37FeePayerOptions
+      type: object
+      properties:
+        enableGlobalFeepayer:
+          type: boolean
+          description: A boolean value of whether KAS Global FeePayer is used. The
+            default value is `true`.
+        userFeePayer:
+          $ref: '#/components/schemas/Kip37FeePayerOptions_userFeePayer'
+    Kip37TokenInfoListResponseItem:
+      title: Kip37TokenInfoListResponseItem
+      required:
+      - tokenId
+      - tokenUri
+      - totalSupply
+      type: object
+      properties:
+        tokenId:
+          type: string
+          description: Token ID
+        totalSupply:
+          type: string
+          description: Total token supply (in hex.)
+        tokenUri:
+          type: string
+          description: Token URI
+    Kip37TokenListResponseItem:
+      title: Kip37TokenListResponseItem
+      required:
+      - balance
+      - owner
+      - replacedTokenUri
+      - tokenAddress
+      - tokenId
+      - tokenUri
+      - totalSupply
+      - transactionHash
+      - transferFrom
+      - transferTo
+      - updatedAt
+      type: object
+      properties:
+        tokenId:
+          type: string
+          description: Token ID
+        owner:
+          type: string
+          description: Klaytn account address of the token owner
+        tokenAddress:
+          type: string
+          description: Contract address
+        totalSupply:
+          type: string
+          description: Total token supply (in hex.)
+        tokenUri:
+          type: string
+          description: Token URI
+        replacedTokenUri:
+          type: string
+          description: Changed token URI. The token ID is used as the URI path.
+        balance:
+          type: string
+          description: Balance (in hex.)
+        transactionHash:
+          type: string
+          description: Latest transaction hash (32-byte)
+        transferFrom:
+          type: string
+          description: The Klaytn account address of the sender of the lastest TransferSingle
+            or TransferBatch
+        transferTo:
+          type: string
+          description: The Klaytn account address of the receiver of the lastest TransferSingle
+            or TransferBatch
+        updatedAt:
+          type: string
+          description: Timestamp of the latest change in token data
+    Kip37FeePayerOptions_userFeePayer:
+      type: object
+      properties:
+        krn:
+          type: string
+          description: The feepayer-pool KRN of the FeePayer account
+        address:
+          type: string
+          description: Klaytn FeePayer account address
+  securitySchemes:
+    basic:
+      type: http
+      description: "The KAS APIs use Basic HTTP Authorization, where the the AccessKey\
+        \ ID and the Secret AccessKey, which you can obtain on the KAS Console, are\
+        \ used as `username` and `password` respectively. The Authorization header\
+        \ is generated using the two values.\n\n> **NOTE** \n>\n> The Credentials\
+        \ of your KAS account grant access to all KAS services, as well as to all\
+        \ actions of a Klaytn account generated by Wallet API, such as asset transfers\
+        \ and [transaction executions](https://docs.klaytnapi.com/v/en/tutorial/wallet-transaction-api).\
+        \ In order to keep your KAS and Klaytn accounts safe, do not expose your KAS\
+        \ API Secret Access Key to any third parties and keep it safe.\n\n**cURL**\
+        \  \n\n```\ncurl --location --request GET 'https://kip7-api.klaytnapi.com/v1/contract'\
+        \ \\\n-u ${your_accessKeyId}:${your_secretAccessKey} \\\n--header 'x-chain-id:\
+        \ 1001' \\\n--header 'Content-Type: application/json'\n```"
+      scheme: basic
+x-tagGroups:
+- name: API
+  tags:
+  - kip37-contract
+  - kip37-token
+  - kip37-token-ownership
+  - kip37-deployer
+- name: Error Codes
+  tags:
+  - err-400
+  - err-403
+  - err-404
+  - err-409
+  - err-503

@@ -18,6 +18,25 @@ function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+function createAlias(prefix) {
+    // Make random string for alias to avoid duplicated alias
+    return `${prefix}-${Math.random()
+        .toString(36)
+        .substr(2, 11)}`
+}
+
+function createFeePayerOptions(enableGlobalFeePayer, userFeePayer) {
+    return {
+        enableGlobalFeePayer,
+        userFeePayer: {
+            krn: userFeePayer.krn,
+            address: userFeePayer.address,
+        },
+    }
+}
+
 module.exports = {
     timeout,
+    createAlias,
+    createFeePayerOptions,
 }

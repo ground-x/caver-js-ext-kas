@@ -19,13 +19,18 @@ const Anchor = require('./anchor/anchor')
 const Wallet = require('./wallet/wallet')
 const KIP17 = require('./kip17/kip17')
 const KIP7 = require('./kip7/kip7')
+const KIP37 = require('./kip37/kip37')
 const { createClient } = require('../utils/helper')
 
 const AnchorQueryOptions = require('./anchor/anchorQueryOptions')
 const TokenHistoryQueryOptions = require('./tokenHistory/tokenHistoryQueryOptions')
 const WalletQueryOptions = require('./wallet/walletQueryOptions')
 const KIP17QueryOptions = require('./kip17/kip17QueryOptions')
+const KIP17FeePayerOptions = require('./kip17/kip17FeePayerOptions')
 const KIP7QueryOptions = require('./kip7/kip7QueryOptions')
+const KIP7FeePayerOptions = require('./kip7/kip7FeePayerOptions')
+const KIP37QueryOptions = require('./kip37/kip37QueryOptions')
+const KIP37FeePayerOptions = require('./kip37/kip37FeePayerOptions')
 
 /**
  * The class that manages KAS API services.
@@ -46,12 +51,17 @@ class KAS {
         this.anchor = new Anchor()
         this.kip17 = new KIP17()
         this.kip7 = new KIP7()
+        this.kip37 = new KIP37()
 
         this.tokenHistory.queryOptions = TokenHistoryQueryOptions
         this.anchor.queryOptions = AnchorQueryOptions
         this.wallet.queryOptions = WalletQueryOptions
         this.kip17.queryOptions = KIP17QueryOptions
+        this.kip17.feePayerOptions = KIP17FeePayerOptions
         this.kip7.queryOptions = KIP7QueryOptions
+        this.kip7.feePayerOptions = KIP7FeePayerOptions
+        this.kip37.queryOptions = KIP37QueryOptions
+        this.kip37.feePayerOptions = KIP37FeePayerOptions
     }
 
     /**
@@ -107,6 +117,17 @@ class KAS {
 
     set kip7(kip7) {
         this._kip7 = kip7
+    }
+
+    /**
+     * @type {KIP37}
+     */
+    get kip37() {
+        return this._kip37
+    }
+
+    set kip37(kip37) {
+        this._kip37 = kip37
     }
 
     /**
@@ -202,6 +223,25 @@ class KAS {
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.kip7.accessOptions = accessOptions
         this.kip7.client = client
+    }
+
+    /**
+     * Sets chain id and authentication key for KIP37 API. <br>
+     * Since `caver.initKIP37API` calls this function internally, it is recommended to use `caver.initKIP37API`.
+     *
+     * @example
+     * caver.kas.initKIP37API(1001, 'accessKeyId', 'secretAccessKey', 'https://kip37-api.klaytnapi.com')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} url The end point url.
+     * @return {void}
+     */
+    initKIP37API(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
+        this.kip37.accessOptions = accessOptions
+        this.kip37.client = client
     }
 }
 
