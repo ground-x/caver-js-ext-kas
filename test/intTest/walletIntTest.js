@@ -270,7 +270,7 @@ describe('Wallet API service', () => {
         // {
         // 	from: '0xd0821cada8b04a60a67989748e9bdababef3de77',
         // 	gas: 25000,
-        // 	gasPrice: '0x5d21dba00',
+        // 	gasPrice: '0xae9f7bcc00',
         // 	nonce: 1,
         // 	rlp: undefined,
         // 	typeInt: 8,
