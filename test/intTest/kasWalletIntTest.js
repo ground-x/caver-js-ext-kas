@@ -1940,7 +1940,7 @@ describe('KAS Wallet', () => {
                 name: 'Jasmine',
                 symbol: 'JAS',
                 decimals: 18,
-                initialSupply: '100000000000000000000',
+                initialSupply: '5000000000000000000000',
             },
             from
         )
