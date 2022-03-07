@@ -140,7 +140,7 @@ class KASWallet {
      *     from,
      *     to: '0x5ad2ee923fb1bf71b570d8be15b86b1ae0a7e7f3',
      *     value: 1,
-     *     gas: 25000,
+     *     gas: 750000,
      * })
      * const result = await caver.wallet.sign(from, tx)
      *
@@ -200,7 +200,7 @@ class KASWallet {
      *     from: '0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549',
      *     to: '0x5ad2ee923fb1bf71b570d8be15b86b1ae0a7e7f3',
      *     value: 1,
-     *     gas: 25000,
+     *     gas: 750000,
      * })
      * const feePayer = '0x3b1522890efa7322591baa3ff126de79b9c6d009'
      * const result = await caver.wallet.signAsFeePayer(feePayer, tx)
@@ -254,7 +254,7 @@ class KASWallet {
      *     from: '0x3ee2ef77ad56ade0b86fcc3bccc7f278f9983549',
      *     to: '0x5ad2ee923fb1bf71b570d8be15b86b1ae0a7e7f3',
      *     value: 1,
-     *     gas: 25000,
+     *     gas: 750000,
      * })
      * const result = await caver.wallet.signAsGlobalFeePayer(tx)
      *

@@ -634,7 +634,7 @@ class Wallet {
      *     from: '0x602846DDC31F6Fc092edcF945565fBE9c48BdD7E',
      *     to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
      *     value: 1,
-     *     gas: 25000,
+     *     gas: 750000,
      *     submit: true
      * }
      * const result = await caver.kas.wallet.requestLegacyTransaction(tx)
@@ -674,7 +674,7 @@ class Wallet {
      *     from: '0x13a9f77304cE84bb4EecA9E7d56AeE644bdd71bd',
      *     to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
      *     value: 1,
-     *     gas: 25000,
+     *     gas: 750000,
      *     memo: 'memo',
      *     submit: true
      * }
@@ -794,7 +794,7 @@ class Wallet {
      * @example
      * const tx = {
      *     from: '0x008Ad97530612A272d16228ec893e6Ce0F180b06',
-     *     gas: 25000,
+     *     gas: 750000,
      *     nonce: '0x1',
      *     submit: true
      * }

@@ -68,7 +68,7 @@ describe('Wallet API - Basic transaction API', () => {
             from: '0x72A328cEB689962B66d3af17BD50a6003f42ca01',
             to: '0xa20f03fa4360fe3c58b034c30a91b45500e96383',
             value: 1,
-            gas: 250000,
+            gas: 7500000,
             submit: false,
         }
 
@@ -217,7 +217,7 @@ describe('Wallet API - Basic transaction API', () => {
     context('caver.kas.wallet.requestValueTransfer', () => {
         const resultOfApi = {
             from: '0xe5bde240904a6a76449c2e7247e2538cbd7c9f1f',
-            gas: 25000,
+            gas: 750000,
             gasPrice: '0xae9f7bcc00',
             nonce: 0,
             rlp:
@@ -687,7 +687,7 @@ describe('Wallet API - Basic transaction API', () => {
     context('caver.kas.wallet.requestCancel', () => {
         const resultOfApi = {
             from: '0xf3103a29d34e254d6133fb7462babae41644a2de',
-            gas: 25000,
+            gas: 750000,
             gasPrice: '0xae9f7bcc00',
             nonce: 2,
             rlp:
@@ -965,7 +965,7 @@ describe('Wallet API - Basic transaction API', () => {
     context('caver.kas.wallet.requestRawTransaction', () => {
         const resultOfApi = {
             from: '0x418dad870aaaad954f245b3d0c4c13ff6a6dc201',
-            gas: 25000,
+            gas: 750000,
             gasPrice: '0xae9f7bcc00',
             nonce: 1,
             rlp:

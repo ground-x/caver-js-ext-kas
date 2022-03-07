@@ -223,7 +223,7 @@ describe('caver.wallet with KASWallet', () => {
     context('caver.wallet.sign', () => {
         const resultOfSigning = {
             from: '0x418dad870aaaad954f245b3d0c4c13ff6a6dc201',
-            gas: 25000,
+            gas: 750000,
             gasPrice: '0xae9f7bcc00',
             nonce: 1,
             rlp:
@@ -252,7 +252,7 @@ describe('caver.wallet with KASWallet', () => {
                 from: address,
                 to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
                 value: 1,
-                gas: 25000,
+                gas: 750000,
                 nonce: 1,
                 gasPrice: '0xae9f7bcc00',
                 chainId: 1001,
@@ -262,7 +262,7 @@ describe('caver.wallet with KASWallet', () => {
                 from: address,
                 to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
                 value: 1,
-                gas: 25000,
+                gas: 750000,
                 nonce: 1,
                 gasPrice: '0xae9f7bcc00',
                 chainId: 1001,

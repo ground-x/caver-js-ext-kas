@@ -68,7 +68,7 @@ describe('Wallet API - Basic transaction API', () => {
                     ],
                     txData: {
                         from: '0xa9628ca9df1be3a7c8b93eacb5c2715dd0a5f7b7',
-                        gas: 25000,
+                        gas: 750000,
                         gasPrice: '0xae9f7bcc00',
                         to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
                         typeInt: 8,
