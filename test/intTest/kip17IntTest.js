@@ -226,10 +226,10 @@ describe('KIP17 API service', () => {
         await timeout(10000)
 
         let ret = await caver.kas.kip17.approveAll(alias, owner, sender, true)
-
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
 
+        await timeout(5000)
         ret = await caver.kas.kip17.approveAll(contractAddress, owner, sender, false)
 
         expect(ret.status).to.equal('Submitted')
