@@ -19,7 +19,8 @@
     "intTestQA": "./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=qa && npm run intNodeAPITestQA ",
     "intTestDev": "./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=dev && npm run intNodeAPITestDev ",
     "lint": "eslint './**/*.js'",
-    "lintFix": "./yamlFormatting.sh && eslint './**/*.js' --fix"
+    "lintFix": "./yamlFormatting.sh && eslint './**/*.js' --fix",
+    "cob": "npm run build && ./node_modules/mocha/bin/mocha ./test/intTest/kip17IntTest.js"
   },
   "keywords": [
     "caver",

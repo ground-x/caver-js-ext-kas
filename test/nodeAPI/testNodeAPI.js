@@ -34,7 +34,7 @@ async function sendTestKLAY(sender) {
         from: testAddress,
         to: testAddress,
         value: 1,
-        gas: 25000,
+        gas: 750000,
     })
 
     await keyringContainer.sign(sender.address, vt)
@@ -47,7 +47,7 @@ async function getRawTransaction(keyring) {
         from: keyring.address,
         to: testAddress,
         value: 1,
-        gas: 25000,
+        gas: 750000,
     })
     const signed = await vt.sign(keyring)
     return signed.getRLPEncoding()

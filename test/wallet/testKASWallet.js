@@ -223,8 +223,8 @@ describe('caver.wallet with KASWallet', () => {
     context('caver.wallet.sign', () => {
         const resultOfSigning = {
             from: '0x418dad870aaaad954f245b3d0c4c13ff6a6dc201',
-            gas: 25000,
-            gasPrice: '0x5d21dba00',
+            gas: 750000,
+            gasPrice: '0xae9f7bcc00',
             nonce: 1,
             rlp:
                 '0x08f87e018505d21dba008261a89476c6b1f34562ed7a843786e1d7f57d0d7948a6f10194418dad870aaaad954f245b3d0c4c13ff6a6dc201f847f8458207f6a0137491673d0014cca219705291f3ee7350295ef549069e639b5e9d0d8014ffd2a03289ed52548303f7f2f5fbb85e88ba7f373026178d30105f9738c71ae07b4a5a',
@@ -252,9 +252,9 @@ describe('caver.wallet with KASWallet', () => {
                 from: address,
                 to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
                 value: 1,
-                gas: 25000,
+                gas: 750000,
                 nonce: 1,
-                gasPrice: '0x5d21dba00',
+                gasPrice: '0xae9f7bcc00',
                 chainId: 1001,
             })
 
@@ -262,9 +262,9 @@ describe('caver.wallet with KASWallet', () => {
                 from: address,
                 to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
                 value: 1,
-                gas: 25000,
+                gas: 750000,
                 nonce: 1,
-                gasPrice: '0x5d21dba00',
+                gasPrice: '0xae9f7bcc00',
                 chainId: 1001,
             })
         })
@@ -433,7 +433,7 @@ describe('caver.wallet with KASWallet', () => {
                 account: caver.account.createWithAccountKeyLegacy(address),
                 gas: 50000,
                 nonce: 1,
-                gasPrice: '0x5d21dba00',
+                gasPrice: '0xae9f7bcc00',
                 chainId: 1001,
             })
             const getAccountKeyStub = sandbox.stub(upateTx.constructor._klaytnCall, 'getAccountKey')
@@ -465,7 +465,7 @@ describe('caver.wallet with KASWallet', () => {
             feePayer: '0x44ee3906a7a2007762e9d706df6e4ef63fa1eda8',
             from: '0x758473e68179c446437b74ca8a74b58706792806',
             gas: 50000,
-            gasPrice: '0x5d21dba00',
+            gasPrice: '0xae9f7bcc00',
             nonce: 3,
             status: 'Submitted',
             to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
@@ -492,7 +492,7 @@ describe('caver.wallet with KASWallet', () => {
                 value: 1,
                 gas: '0xc350',
                 nonce: '0x3',
-                gasPrice: '0x5d21dba00',
+                gasPrice: '0xae9f7bcc00',
                 chainId: 1001,
                 signatures: [
                     {
@@ -619,7 +619,7 @@ describe('caver.wallet with KASWallet', () => {
                 value: 1,
                 gas: '0xc350',
                 nonce: '0x3',
-                gasPrice: '0x5d21dba00',
+                gasPrice: '0xae9f7bcc00',
                 chainId: 1001,
                 signatures: [
                     {
@@ -666,7 +666,7 @@ describe('caver.wallet with KASWallet', () => {
             feePayer: '0x1b71a63903e35371e2fc41c6012effb99b9a2c0f',
             from: '0xac3bd4b108f56ffcec6339fda14f649be01819c8',
             gas: 50000,
-            gasPrice: '0x5d21dba00',
+            gasPrice: '0xae9f7bcc00',
             nonce: 0,
             status: 'Submitted',
             to: '0x76c6b1f34562ed7a843786e1d7f57d0d7948a6f1',
@@ -693,7 +693,7 @@ describe('caver.wallet with KASWallet', () => {
                 value: 1,
                 gas: '0xc350',
                 nonce: '0x3',
-                gasPrice: '0x5d21dba00',
+                gasPrice: '0xae9f7bcc00',
                 chainId: 1001,
                 signatures: [
                     {
@@ -794,7 +794,7 @@ describe('caver.wallet with KASWallet', () => {
                 value: 1,
                 gas: '0xc350',
                 nonce: '0x3',
-                gasPrice: '0x5d21dba00',
+                gasPrice: '0xae9f7bcc00',
                 chainId: 1001,
                 signatures: [
                     {

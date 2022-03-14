@@ -58,7 +58,7 @@ async function sendTestKLAY(to, klay = 1) {
         from: senderKeyring.address,
         to,
         value: caver.utils.toPeb(klay, 'KLAY'),
-        gas: 25000,
+        gas: 750000,
     })
 
     await keyringContainer.sign(senderKeyring.address, vt)
@@ -263,14 +263,14 @@ describe('Wallet API service', () => {
             from: multiSigAccount.address,
             to: senderKeyring.address,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             submit: true,
         }
 
         // {
         // 	from: '0xd0821cada8b04a60a67989748e9bdababef3de77',
-        // 	gas: 25000,
-        // 	gasPrice: '0x5d21dba00',
+        // 	gas: 750000,
+        // 	gasPrice: '0xae9f7bcc00',
         // 	nonce: 1,
         // 	rlp: undefined,
         // 	typeInt: 8,
@@ -296,7 +296,7 @@ describe('Wallet API service', () => {
             from: accountToTest.address,
             to: senderKeyring.address,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             submit: true,
         }
 
@@ -329,7 +329,7 @@ describe('Wallet API service', () => {
             from: accountToTest.address,
             to: senderKeyring.address,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             submit: false,
         }
 
@@ -363,7 +363,7 @@ describe('Wallet API service', () => {
             from: accountToTest.address,
             to: senderKeyring.address,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             submit: true,
         }
 
@@ -394,7 +394,7 @@ describe('Wallet API service', () => {
             from: accountToTest.address,
             to: senderKeyring.address,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             submit: false,
         }
 
@@ -430,7 +430,7 @@ describe('Wallet API service', () => {
             from: accountToTest.address,
             to: senderKeyring.address,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             memo: 'memo',
             submit: true,
         }
@@ -464,7 +464,7 @@ describe('Wallet API service', () => {
             from: accountToTest.address,
             to: senderKeyring.address,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             memo: 'memo',
             submit: false,
         }
@@ -635,7 +635,7 @@ describe('Wallet API service', () => {
 
         const tx = {
             from: accountToTest.address,
-            gas: 25000,
+            gas: 750000,
             nonce: await caver.rpc.klay.getTransactionCount(accountToTest.address),
             submit: true,
         }
@@ -667,7 +667,7 @@ describe('Wallet API service', () => {
     it('CAVERJS-EXT-KAS-INT-038: caver.kas.wallet.requestCancel should return signed cancel transaction (submit false)', async () => {
         const tx = {
             from: accountToTest.address,
-            gas: 25000,
+            gas: 750000,
             nonce: await caver.rpc.klay.getTransactionCount(accountToTest.address),
             submit: false,
         }
@@ -767,7 +767,7 @@ describe('Wallet API service', () => {
             from: accountToTest.address,
             to: senderKeyring.address,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             submit: false,
         })
 
@@ -804,7 +804,7 @@ describe('Wallet API service', () => {
             from: accountToTest.address,
             to: senderKeyring.address,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             submit: false,
         })
 
