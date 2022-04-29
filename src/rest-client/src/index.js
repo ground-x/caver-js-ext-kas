@@ -197,7 +197,9 @@ const TransferKip17TokenRequest = require('./kip17/model/TransferKip17TokenReque
 const UpdateKip17ContractRequest = require('./kip17/model/UpdateKip17ContractRequest')
 const Kip17ContractApi = require('./kip17/api/Kip17ContractApi')
 const Kip17TokenApi = require('./kip17/api/Kip17TokenApi')
-
+const Kip17ContractTransferRequest = require('./kip17/model/Kip17ContractTransferRequest')
+const Kip17ContractOwnerResponse = require('./kip17/model/Kip17ContractOwnerResponse')
+const RenounceKIP17Request = require('./kip17/model/RenounceKIP17Request')
 // KIP37
 const ApproveAllKip37ContractRequest = require('./kip37/model/ApproveAllKip37ContractRequest')
 const BurnKip37TokenRequest = require('./kip37/model/BurnKip37TokenRequest')
@@ -1163,6 +1165,24 @@ module.exports = {
      * @property {DeployKip17ContractRequest}
      */
     DeployKip17ContractRequest,
+
+    /**
+     * The Kip17ContractTransferRequest model constructor.
+     * @property {Kip17ContractTransferRequest}
+     */
+    Kip17ContractTransferRequest,
+
+    /**
+     * The Kip17ContractOwnerResponse model constructor.
+     * @property {Kip17ContractOwnerResponse}
+     */
+    Kip17ContractOwnerResponse,
+
+    /**
+     * The RenounceKIP17Request model constructor.
+     * @property {RenounceKIP17Request}
+     */
+    RenounceKIP17Request,
 
     /**
      * The GetKip17TokenHistoryResponse model constructor.

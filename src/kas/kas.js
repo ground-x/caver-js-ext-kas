@@ -219,7 +219,9 @@ class KAS {
      * @param {string} url The end point url.
      * @return {void}
      */
-    initKIP7API(chainId, accessKeyId, secretAccessKey, url) {
+    initKIP7API(chainId, accessKeyId, secretAccessKey, url, ver) {
+        if (ver === 'v2') {
+        }
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.kip7.accessOptions = accessOptions
         this.kip7.client = client

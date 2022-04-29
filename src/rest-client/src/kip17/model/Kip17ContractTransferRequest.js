@@ -12,57 +12,43 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip17FeePayerOptions = require('./Kip17FeePayerOptions')
 
 /**
- * The DeployKip17ContractRequest model module.
- * @class DeployKip17ContractRequest
+ * The Kip17ContractTransferRequest model module.
+ * @class Kip17ContractTransferRequest
  * @version 1.0
  */
-class DeployKip17ContractRequest {
+class Kip17ContractTransferRequest {
     /**
-     * Constructs a new <code>DeployKip17ContractRequest</code>.
-     * @alias DeployKip17ContractRequest
+     * Constructs a new <code>Kip17ContractTransferRequest</code>.
+     * @alias Kip17ContractTransferRequest
      * @class
-     * @param alias {String} The alias of the contract. When using KIP-17 API, you can use the contract alias in place of the address. The alias must only consist of lowercase letters, numbers and hyphens, and the first letter is restricted to a lowercase letter.<p></p>
-     * @param symbol {String} The contract symbol. It usually consists of 3-4 uppercase letters.
-     * @param name {String} The contract name. It can contain lowercase and uppercase letters, numbers and hyphens.
-     * @param owner {String} The address available to own the contract. The account creating this contract can be an owner if empty.
+     * @param sender {String} The Klaytn account address of the sender.
+     * @param owner {String} The Klaytn account address of the current owner.
      */
 
-    constructor(alias, symbol, name, owner) {
-        this.alias = alias
-        this.symbol = symbol
-        this.name = name
+    constructor(sender, owner) {
+        this.sender = sender
         this.owner = owner
     }
 
     /**
-     * Constructs a <code>DeployKip17ContractRequest</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip17ContractTransferRequest</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {DeployKip17ContractRequest} obj Optional instance to populate.
-     * @return {DeployKip17ContractRequest} The populated <code>DeployKip17ContractRequest</code> instance.
-     * @memberof DeployKip17ContractRequest
+     * @param {Kip17ContractTransferRequest} obj Optional instance to populate.
+     * @return {Kip17ContractTransferRequest} The populated <code>Kip17ContractTransferRequest</code> instance.
+     * @memberof Kip17ContractTransferRequest
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new DeployKip17ContractRequest()
+            obj = obj || new Kip17ContractTransferRequest()
 
-            if (data.hasOwnProperty('alias')) {
-                obj.alias = ApiClient.convertToType(data.alias, 'String')
-            }
-            if (data.hasOwnProperty('symbol')) {
-                obj.symbol = ApiClient.convertToType(data.symbol, 'String')
-            }
-            if (data.hasOwnProperty('name')) {
-                obj.name = ApiClient.convertToType(data.name, 'String')
+            if (data.hasOwnProperty('sender')) {
+                obj.sender = ApiClient.convertToType(data.sender, 'String')
             }
             if (data.hasOwnProperty('owner')) {
                 obj.owner = ApiClient.convertToType(data.owner, 'String')
-            }
-            if (data.hasOwnProperty('options')) {
-                obj.options = Kip17FeePayerOptions.constructFromObject(data.options)
             }
         }
         return obj
@@ -70,34 +56,16 @@ class DeployKip17ContractRequest {
 }
 
 /**
- * The alias of the contract. When using KIP-17 API, you can use the contract alias in place of the address. The alias must only consist of lowercase letters, numbers and hyphens, and the first letter is restricted to a lowercase letter.<p></p>
+ * The Klaytn account address of the sender.
  * @type {String}
- * @memberof DeployKip17ContractRequest
+ * @memberof Kip17ContractTransferRequest
  */
-DeployKip17ContractRequest.prototype.alias = undefined
+Kip17ContractTransferRequest.prototype.sender = undefined
 /**
- * The contract symbol. It usually consists of 3-4 uppercase letters.
+ * The Klaytn account address of the current owner.
  * @type {String}
- * @memberof DeployKip17ContractRequest
+ * @memberof Kip17ContractTransferRequest
  */
-DeployKip17ContractRequest.prototype.symbol = undefined
-/**
- * The contract name. It can contain lowercase and uppercase letters, numbers and hyphens.
- * @type {String}
- * @memberof DeployKip17ContractRequest
- */
-DeployKip17ContractRequest.prototype.name = undefined
-/**
- * The contract name. It can contain lowercase and uppercase letters, numbers and hyphens.
- * @type {String}
- * @memberof DeployKip17ContractRequest
- */
-DeployKip17ContractRequest.prototype.owner = undefined
+Kip17ContractTransferRequest.prototype.owner = undefined
 
-/**
- * @type {Kip17FeePayerOptions}
- * @memberof DeployKip17ContractRequest
- */
-DeployKip17ContractRequest.prototype.options = undefined
-
-module.exports = DeployKip17ContractRequest
+module.exports = Kip17ContractTransferRequest
