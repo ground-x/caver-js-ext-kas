@@ -11,18 +11,12 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
-const ApproveAllKip17Request = require('../model/ApproveAllKip17Request')
-const ApproveKip17TokenRequest = require('../model/ApproveKip17TokenRequest')
-const BurnKip17TokenRequest = require('../model/BurnKip17TokenRequest')
-const ErrorResponse = require('../model/ErrorResponse')
-const GetKip17TokenHistoryResponse = require('../model/GetKip17TokenHistoryResponse')
-const GetKip17TokenResponse = require('../model/GetKip17TokenResponse')
-const GetOwnerKip17TokensResponse = require('../model/GetOwnerKip17TokensResponse')
-const Kip17TokenListResponse = require('../model/Kip17TokenListResponse')
-const Kip17TransactionStatusResponse = require('../model/Kip17TransactionStatusResponse')
-const MintKip17TokenRequest = require('../model/MintKip17TokenRequest')
-const TransferKip17TokenRequest = require('../model/TransferKip17TokenRequest')
+const ApiClient = require('../../../ApiClient')
+const GetKip17TokenHistoryResponse = require('../../model/GetKip17TokenHistoryResponse')
+const GetKip17TokenResponse = require('../../model/GetKip17TokenResponse')
+const GetOwnerKip17TokensResponse = require('../../model/GetOwnerKip17TokensResponse')
+const Kip17TokenListResponse = require('../../model/Kip17TokenListResponse')
+const Kip17TransactionStatusResponse = require('../../model/Kip17TransactionStatusResponse')
 
 /**
  * Kip17Token service.
@@ -76,7 +70,7 @@ class Kip17TokenApi {
         const returnType = Kip17TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v2/contract/{contract-address-or-alias}/approveall',
+            '/v1/contract/{contract-address-or-alias}/approveall',
             'POST',
             pathParams,
             queryParams,
@@ -126,7 +120,7 @@ class Kip17TokenApi {
         const returnType = Kip17TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v2/contract/{contract-address-or-alias}/approve/{token-id}',
+            '/v1/contract/{contract-address-or-alias}/approve/{token-id}',
             'POST',
             pathParams,
             queryParams,
@@ -176,7 +170,7 @@ class Kip17TokenApi {
         const returnType = Kip17TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v2/contract/{contract-address-or-alias}/token/{token-id}',
+            '/v1/contract/{contract-address-or-alias}/token/{token-id}',
             'DELETE',
             pathParams,
             queryParams,
@@ -228,7 +222,7 @@ class Kip17TokenApi {
         const returnType = GetOwnerKip17TokensResponse
 
         return this.apiClient.callApi(
-            '/v2/contract/{contract-address-or-alias}/owner/{owner-address}',
+            '/v1/contract/{contract-address-or-alias}/owner/{owner-address}',
             'GET',
             pathParams,
             queryParams,
@@ -275,7 +269,7 @@ class Kip17TokenApi {
         const returnType = GetKip17TokenResponse
 
         return this.apiClient.callApi(
-            '/v2/contract/{contract-address-or-alias}/token/{token-id}',
+            '/v1/contract/{contract-address-or-alias}/token/{token-id}',
             'GET',
             pathParams,
             queryParams,
@@ -327,7 +321,7 @@ class Kip17TokenApi {
         const returnType = GetKip17TokenHistoryResponse
 
         return this.apiClient.callApi(
-            '/v2/contract/{contract-address-or-alias}/token/{token-id}/history',
+            '/v1/contract/{contract-address-or-alias}/token/{token-id}/history',
             'GET',
             pathParams,
             queryParams,
@@ -378,7 +372,7 @@ class Kip17TokenApi {
         const returnType = Kip17TokenListResponse
 
         return this.apiClient.callApi(
-            '/v2/contract/{contract-address-or-alias}/token',
+            '/v1/contract/{contract-address-or-alias}/token',
             'GET',
             pathParams,
             queryParams,
@@ -427,7 +421,7 @@ class Kip17TokenApi {
         const returnType = Kip17TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v2/contract/{contract-address-or-alias}/token',
+            '/v1/contract/{contract-address-or-alias}/token',
             'POST',
             pathParams,
             queryParams,
@@ -451,7 +445,7 @@ class Kip17TokenApi {
 
     /**
      * Transfer Token
-     * Sends a token to a specified address. If the token has a different &#x60;sender&#x60; and &#x60;owner&#x60;, the &#x60;sender&#x60; must be authorized to send the token. You can authorize an account to send tokens via [v2/contract/{contract-address-or-alias}/approve/{token-id}](#operation/ApproveToken).&lt;p&gt;&lt;/p&gt;   You will see &#x60;Submitted&#x60; in the response even when you enter a wrong token ID. But that does not mean that it is successfully &#x60;Committed&#x60;. To confirm transaction status, use Get Transaction Receipt from the Wallet API [/v2/tx/{transaction-hash}](https://refs.klaytnapi.com/en/wallet/latest#operation/TransactionReceipt).   ##### Sender  &#x60;sender&#x60; is the address that sends the transaction. If it is an account in the default &#x60;account-pool&#x60; of KIP-17 or Wallet Service, you can omit the KRN header. &lt;br /&gt; Otherwise you need to include the KRN header (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;).
+     * Sends a token to a specified address. If the token has a different &#x60;sender&#x60; and &#x60;owner&#x60;, the &#x60;sender&#x60; must be authorized to send the token. You can authorize an account to send tokens via [v1/contract/{contract-address-or-alias}/approve/{token-id}](#operation/ApproveToken).&lt;p&gt;&lt;/p&gt;   You will see &#x60;Submitted&#x60; in the response even when you enter a wrong token ID. But that does not mean that it is successfully &#x60;Committed&#x60;. To confirm transaction status, use Get Transaction Receipt from the Wallet API [/v2/tx/{transaction-hash}](https://refs.klaytnapi.com/en/wallet/latest#operation/TransactionReceipt).   ##### Sender  &#x60;sender&#x60; is the address that sends the transaction. If it is an account in the default &#x60;account-pool&#x60; of KIP-17 or Wallet Service, you can omit the KRN header. &lt;br /&gt; Otherwise you need to include the KRN header (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;).
      * @param {Object} opts Optional parameters
      * @param {Kip17TokenApi~transferTokenCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip17TransactionStatusResponse}
@@ -477,7 +471,7 @@ class Kip17TokenApi {
         const returnType = Kip17TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v2/contract/{contract-address-or-alias}/token/{token-id}',
+            '/v1/contract/{contract-address-or-alias}/token/{token-id}',
             'POST',
             pathParams,
             queryParams,

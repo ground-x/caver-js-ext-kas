@@ -18,8 +18,8 @@ const _ = require('lodash')
 const utils = require('caver-js').utils
 
 const {
-    Kip17ContractApi,
-    Kip17TokenApi,
+    Kip17ContractApiV2,
+    Kip17TokenApiV2,
     DeployKip17ContractRequest,
     MintKip17TokenRequest,
     TransferKip17TokenRequest,
@@ -27,10 +27,10 @@ const {
     ApproveKip17TokenRequest,
     ApproveAllKip17Request,
     Kip17ContractTransferRequest,
-} = require('../../rest-client/src')
-const KIP17QueryOptions = require('./kip17QueryOptions')
-const KIP17FeePayerOptions = require('./kip17FeePayerOptions')
-const RenounceKIP17Request = require('../../rest-client/src/kip17/model/RenounceKIP17Request')
+} = require('../../../rest-client/src')
+const KIP17QueryOptions = require('../kip17QueryOptions')
+const KIP17FeePayerOptions = require('../kip17FeePayerOptions')
+const RenounceKIP17Request = require('../../../rest-client/src/kip17/model/RenounceKIP17Request')
 
 const NOT_INIT_API_ERR_MSG = `KIP17 API is not initialized. Use 'caver.initKIP17API' function to initialize KIP17 API.`
 
@@ -52,8 +52,8 @@ class KIP17 {
 
         if (client) {
             this.apiInstances = {
-                kip17Contract: new Kip17ContractApi(client),
-                token: new Kip17TokenApi(client),
+                kip17Contract: new Kip17ContractApiV2(client),
+                token: new Kip17TokenApiV2(client),
             }
         }
     }
@@ -117,20 +117,20 @@ class KIP17 {
 
     set client(client) {
         this.apiInstances = {
-            kip17Contract: new Kip17ContractApi(client),
-            token: new Kip17TokenApi(client),
+            kip17Contract: new Kip17ContractApiV2(client),
+            token: new Kip17TokenApiV2(client),
         }
     }
 
     /**
-     * @type {Kip17ContractApi}
+     * @type {Kip17ContractApiV2}
      */
     get kip17ContractApi() {
         return this.apiInstances.kip17Contract
     }
 
     /**
-     * @type {Kip17TokenApi}
+     * @type {Kip17TokenApiV2}
      */
     get tokenApi() {
         return this.apiInstances.token
@@ -169,6 +169,10 @@ class KIP17 {
                     }
                     break
                 case 'object':
+                    if (_.isFunction(options)) {
+                        callback = options
+                        options = {}
+                    }
                     options = owner
                     owner = ''
                     break

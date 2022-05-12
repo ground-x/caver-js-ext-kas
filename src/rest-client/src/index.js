@@ -142,6 +142,8 @@ const PageableTokenSummary = require('./tokenHistory/model/PageableTokenSummary'
 const PageableTransfers = require('./tokenHistory/model/PageableTransfers')
 const TransferArray = require('./tokenHistory/model/TransferArray')
 const Transfers = require('./tokenHistory/model/Transfers')
+// const NFTTokenHolder = require('./tokenHistory/model/NftTokenHolder')
+// const MTTokenHolder = require('./tokenHistory/model/MtTokenHolder')
 const TokenApi = require('./tokenHistory/api/TokenApi')
 const TokenContractApi = require('./tokenHistory/api/TokenContractApi')
 const TokenHistoryApi = require('./tokenHistory/api/TokenHistoryApi')
@@ -195,8 +197,10 @@ const Kip17TransactionStatusResponse = require('./kip17/model/Kip17TransactionSt
 const MintKip17TokenRequest = require('./kip17/model/MintKip17TokenRequest')
 const TransferKip17TokenRequest = require('./kip17/model/TransferKip17TokenRequest')
 const UpdateKip17ContractRequest = require('./kip17/model/UpdateKip17ContractRequest')
-const Kip17ContractApi = require('./kip17/api/Kip17ContractApi')
-const Kip17TokenApi = require('./kip17/api/Kip17TokenApi')
+const Kip17ContractApi = require('./kip17/api/v1/Kip17ContractApi')
+const Kip17TokenApi = require('./kip17/api/v1/Kip17TokenApi')
+const Kip17ContractApiV2 = require('./kip17/api/v2/Kip17ContractApi')
+const Kip17TokenApiV2 = require('./kip17/api/v2/Kip17TokenApi')
 const Kip17ContractTransferRequest = require('./kip17/model/Kip17ContractTransferRequest')
 const Kip17ContractOwnerResponse = require('./kip17/model/Kip17ContractOwnerResponse')
 const RenounceKIP17Request = require('./kip17/model/RenounceKIP17Request')
@@ -880,6 +884,16 @@ module.exports = {
      */
     MtToken,
     /**
+     * The MTTokenHolder model constructor.
+     * @property {MTTokenHolder}
+     */
+    // MTTokenHolder,
+    /**
+     * The NFTTokenHolder model constructor.
+     * @property {NFTTokenHolder}
+     */
+    // NFTTokenHolder,
+    /**
      * The NFTContractSummary model constructor.
      * @property {NFTContractSummary}
      */
@@ -1287,10 +1301,22 @@ module.exports = {
     Kip17ContractApi,
 
     /**
+     * The Kip17ContractApiV2 service constructor.
+     * @property {Kip17ContractApiV2}
+     */
+    Kip17ContractApiV2,
+
+    /**
      * The Kip17TokenApi service constructor.
      * @property {Kip17TokenApi}
      */
     Kip17TokenApi,
+
+    /**
+     * The Kip17TokenApi service constructor.
+     * @property {Kip17TokenApiV2}
+     */
+    Kip17TokenApiV2,
     // KIP37
 
     /**
