@@ -11,13 +11,10 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
-const DeployKip17ContractRequest = require('../model/DeployKip17ContractRequest')
-const ErrorResponse = require('../model/ErrorResponse')
-const Kip17ContractInfoResponse = require('../model/Kip17ContractInfoResponse')
-const Kip17ContractListResponse = require('../model/Kip17ContractListResponse')
-const Kip17DeployResponse = require('../model/Kip17DeployResponse')
-const UpdateKip17ContractRequest = require('../model/UpdateKip17ContractRequest')
+const ApiClient = require('../../../ApiClient')
+const Kip17ContractInfoResponse = require('../../model/Kip17ContractInfoResponse')
+const Kip17ContractListResponse = require('../../model/Kip17ContractListResponse')
+const Kip17DeployResponse = require('../../model/Kip17DeployResponse')
 
 /**
  * Kip17Contract service.

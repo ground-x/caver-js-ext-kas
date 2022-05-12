@@ -17,7 +17,8 @@
 const TokenHistory = require('./tokenHistory/tokenHistory')
 const Anchor = require('./anchor/anchor')
 const Wallet = require('./wallet/wallet')
-const KIP17 = require('./kip17/kip17')
+const KIP17 = require('./kip17/v1/kip17')
+const KIP17V2 = require('./kip17/v2/kip17')
 const KIP7 = require('./kip7/kip7')
 const KIP37 = require('./kip37/kip37')
 const { createClient } = require('../utils/helper')
@@ -198,9 +199,17 @@ class KAS {
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
      * @param {string} url The end point url.
+     * @param {string} [ver] The version of kip. default value v1.
      * @return {void}
      */
-    initKIP17API(chainId, accessKeyId, secretAccessKey, url) {
+
+    initKIP17API(chainId, accessKeyId, secretAccessKey, url, ver = 'v1') {
+        if (ver === 'v2') {
+            this.kip17 = new KIP17V2()
+            this.kip17.queryOptions = KIP17QueryOptions
+            this.kip17.feePayerOptions = KIP17FeePayerOptions
+        }
+
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.kip17.accessOptions = accessOptions
         this.kip17.client = client

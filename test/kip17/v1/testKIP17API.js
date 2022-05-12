@@ -24,10 +24,10 @@ chai.use(sinonChai)
 
 const expect = chai.expect
 
-const CaverExtKAS = require('../../index.js')
+const CaverExtKAS = require('../../../index.js')
 
 let caver
-const { url, chainId, accessKeyId, secretAccessKey } = require('../testEnv').auths.kip17API
+const { url, chainId, accessKeyId, secretAccessKey } = require('../../testEnv').auths.kip17API
 
 const sandbox = sinon.createSandbox()
 

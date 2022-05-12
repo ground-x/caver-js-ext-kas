@@ -294,16 +294,20 @@ class CaverExtKAS extends Caver {
      * @example
      * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey')
      * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-17 API url to use')
+     * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-17 API url to use' , 'v2')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
      * @param {string} [url] The end point url.
+     * @param {string} [ver] The version of kip. default value v1.
      * @return {void}
      */
-    initKIP17API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip17) {
+    initKIP17API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip17, ver = 'v1') {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
-        this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
+        if (ver === 'v2') {
+            this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+        } else this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
     }
 
     /**

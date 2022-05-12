@@ -12,50 +12,38 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip17FeePayerOptions = require('./Kip17FeePayerOptions')
 
 /**
- * The Kip17DeployResponse model module.
- * @class Kip17DeployResponse
+ * The RenounceKIP17Request model module.
+ * @class RenounceKIP17Request
  * @version 1.0
  */
-class Kip17DeployResponse {
+class RenounceKIP17Request {
     /**
-     * Constructs a new <code>Kip17DeployResponse</code>.
-     * @alias Kip17DeployResponse
+     * Constructs a new <code>RenounceKIP17Request</code>.
+     * @alias RenounceKIP17Request
      * @class
-     * @param status {String} Transaction status
-     * @param transactionHash {String} Transaction hash
+     * @param from (optional){String} The Klaytn account address of the recipient.
      */
 
-    constructor(status, transactionHash) {
-        this.status = status
-        this.transactionHash = transactionHash
+    constructor(from) {
+        this.from = from
     }
 
     /**
-     * Constructs a <code>Kip17DeployResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>RenounceKIP17Request</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip17DeployResponse} obj Optional instance to populate.
-     * @return {Kip17DeployResponse} The populated <code>Kip17DeployResponse</code> instance.
-     * @memberof Kip17DeployResponse
+     * @param {RenounceKIP17Request} obj Optional instance to populate.
+     * @return {RenounceKIP17Request} The populated <code>RenounceKIP17Request</code> instance.
+     * @memberof RenounceKIP17Request
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Kip17DeployResponse()
+            obj = obj || new RenounceKIP17Request()
 
-            if (data.hasOwnProperty('status')) {
-                obj.status = ApiClient.convertToType(data.status, 'String')
-            }
-            if (data.hasOwnProperty('transactionHash')) {
-                obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
-            }
-            if (data.hasOwnProperty('options')) {
-                obj.options = Kip17FeePayerOptions.constructFromObject(data.options)
-            }
-            if (data.hasOwnProperty('owner')) {
-                obj.owner = ApiClient.convertToType(data.owner, 'String')
+            if (data.hasOwnProperty('from')) {
+                obj.from = ApiClient.convertToType(data.from, 'String')
             }
         }
         return obj
@@ -63,21 +51,10 @@ class Kip17DeployResponse {
 }
 
 /**
- * Transaction status
+ * The Klaytn account address of the sender.
  * @type {String}
- * @memberof Kip17DeployResponse
+ * @memberof RenounceKIP17Request
  */
-Kip17DeployResponse.prototype.status = undefined
-/**
- * Transaction hash
- * @type {String}
- * @memberof Kip17DeployResponse
- */
-Kip17DeployResponse.prototype.transactionHash = undefined
-/**
- * @type {Kip17FeePayerOptions}
- * @memberof Kip17DeployResponse
- */
-Kip17DeployResponse.prototype.options = undefined
+RenounceKIP17Request.prototype.from = undefined
 
-module.exports = Kip17DeployResponse
+module.exports = RenounceKIP17Request
