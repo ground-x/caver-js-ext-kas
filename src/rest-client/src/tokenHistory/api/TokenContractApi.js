@@ -15,7 +15,9 @@ const ApiClient = require('../../ApiClient')
 const ErrorResponse = require('../model/ErrorResponse')
 const FtContractDetail = require('../model/FtContractDetail')
 const MtContractDetail = require('../model/MtContractDetail')
+const MTTokenHolder = require('../model/MtTokenHolder')
 const NftContractDetail = require('../model/NftContractDetail')
+const NFTTokenHolder = require('../model/NftTokenHolder')
 const PageableFtContractDetails = require('../model/PageableFtContractDetails')
 const PageableMtContractDetails = require('../model/PageableMtContractDetails')
 const PageableNftContractDetails = require('../model/PageableNftContractDetails')
@@ -315,6 +317,99 @@ class TokenContractApi {
 
         return this.apiClient.callApi(
             '/v2/contract/nft/{nft-address}',
+            'GET',
+            pathParams,
+            queryParams,
+            headerParams,
+            formParams,
+            postBody,
+            authNames,
+            contentTypes,
+            accepts,
+            returnType,
+            callback
+        )
+    }
+
+    /**
+     * Callback function to receive the result of the getNftTokenHolderCallback operation.
+     * @callback TokenContractApi~getNftTokenHolderCallback
+     * @param {String} error Error message, if any.
+     * @param {NFTTokenHolder} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Get data of certain NFT contracts
+     * Fetch data of labelled NFTs for a certain contract.
+     * @param {TokenContractApi~getNftTokenHolderCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link NFTTokenHolder}
+     */
+    getNftContractHolder(xChainId, nftAddress, callback) {
+        const postBody = null
+
+        const pathParams = {
+            'nft-address': nftAddress,
+        }
+        const queryParams = {}
+        const headerParams = {
+            'x-chain-id': xChainId,
+        }
+        const formParams = {}
+
+        const authNames = ['basic']
+        const contentTypes = []
+        const accepts = ['application/json']
+        const returnType = NFTTokenHolder
+
+        return this.apiClient.callApi(
+            '/v2/contract/nft/{nft-address}/holder',
+            'GET',
+            pathParams,
+            queryParams,
+            headerParams,
+            formParams,
+            postBody,
+            authNames,
+            contentTypes,
+            accepts,
+            returnType,
+            callback
+        )
+    }
+    /**
+     * Callback function to receive the result of the getMtTokenHolderCallback operation.
+     * @callback TokenContractApi~getMtTokenHolderCallback
+     * @param {String} error Error message, if any.
+     * @param {MTTokenHolder} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Get data of certain MT contracts
+     * Fetch data of labelled MTs for a certain contract.
+     * @param {TokenContractApi~getMtTokenHolderCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link MTTokenHolder}
+     */
+    getMtContractHolder(xChainId, mtAddress, callback) {
+        const postBody = null
+
+        const pathParams = {
+            'mt-address': mtAddress,
+        }
+        const queryParams = {}
+        const headerParams = {
+            'x-chain-id': xChainId,
+        }
+        const formParams = {}
+
+        const authNames = ['basic']
+        const contentTypes = []
+        const accepts = ['application/json']
+        const returnType = MTTokenHolder
+
+        return this.apiClient.callApi(
+            '/v2/contract/mt/{mt-address}/holder',
             'GET',
             pathParams,
             queryParams,
