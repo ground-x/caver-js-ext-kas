@@ -15,9 +15,25 @@
 
 
 
-    For any inquiries on this document or KAS in general, please visit [Developer Forum](https://forum.klaytn.com/).
+    For any inquiries on this document or KAS in general, please visit [KAS Developer Forum](https://support.klaytnapi.com/hc/en/community/topics).
 
     \n"
+tags:
+  - name: th-contract
+    x-displayName: "Contract"
+  - name: th-token
+    x-displayName: "Token"
+  - name: th-token-ownership
+    x-displayName: "Token Ownership"
+  - name: token-history
+    x-displayName: "Token History"
+x-tagGroups:
+  - name: API
+    tags:
+      - th-contract    
+      - th-token
+      - th-token-ownership
+      - token-history
 "paths":
   "/v2/transfer":
     "get":
@@ -141,11 +157,11 @@
           "example": "65,68"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableTransfers"
+                "$ref": "../../models/PageableTransfers.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -158,6 +174,7 @@
                           "fee": "0x661625fab1200"
                           "transactionHash": "0x6826275ccdec83711277de86c773d9ce987fb8bcd7edf26b623d3117b\
                             1d01b52"
+                          "blockNumber": 5312085
                           "typeInt": 48
                           "timestamp": 1607993827
                           "value": "0x0"
@@ -178,6 +195,7 @@
                           "fee": "0x70aafcc4b0e00"
                           "transactionHash": "0x4341fe79a5b69847a284e20aea3d1fdb3377724661bf224f38e02d34b\
                             2940c96"
+                          "blockNumber": 5312080
                           "typeInt": 48
                           "timestamp": 1607993827
                           "value": "0x0"
@@ -196,6 +214,7 @@
                           "fee": "0x4fe85ad649c00"
                           "transactionHash": "0x196862e12efc8d4ea83a792d9bafbcc5d87b21805c7fe4ae76b8e3d7f\
                             ac9e3f3"
+                          "blockNumber": 5312079
                           "typeInt": 48
                           "timestamp": 1607993827
                           "value": "0x0"
@@ -218,6 +237,7 @@
                         "transactionHash": "0xe5ba3d97ed0e2b69e2e0da7aa1abdc22a17b3f79141f67f4784b5ce54\
                           33736c7"
                         "transactionIndex": 0
+                        "blockNumber": 5312080
                         "typeInt": 8
                         "timestamp": 1607993821
                         "value": "0xde0b6b3a7640000"
@@ -226,19 +246,65 @@
                     "cursor": "KGvdzQDxL2AYZzAMk1dLK6g9OrJN02G7aqwaNpWkPJlL07V51MZ8xmBOR17GPp1KDXE5\
                       bKhYnv93XgGbrz6EdAKeoQ2Y4Dq3peQV45vDPWmoXxlYB8wbEVPXBb9a7\
                       Z6O"
+                "Empty transfers":
+                  "summary": "Empty transfers"
+                  "description": ""
+                  "value":
+                    "items": []
+                    "cursor": ""
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040010
-                "message": "[InvalidQueryParameterValue]required presets"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Empty presets":
+                  "summary": "Empty presets"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]required presets"
+                    "requestId": "aeed9ea2-5300-4d1e-b898-8d02c3e352a9"
+                "Invalid preset query":
+                  "summary": "Invalid preset query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid presets query"
+                    "requestId": "aeed9ea2-5300-4d1e-b898-8d02c3e352a9"
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid query value"
+                    "requestId": "aeed9ea2-5300-4d1e-b898-8d02c3e352a9"
+                "Out of range timestamp":
+                  "summary": "Out of range timestamp"
+                  "description": ""
+                  "value":
+                    "code": 1040011
+                    "message": "[OutOfRangeQueryParameterValue]invalid timestamp range"
+                    "requestId": "aeed9ea2-5300-4d1e-b898-8d02c3e352a9"
+        "404":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Presets not found":
+                  "summary": "Presets not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]preset not found"
+                    "requestId": "aeed9ea2-5300-4d1e-b898-8d02c3e352a9"
       "summary": "Query received and sent transfers of tokens"
       "operationId": "getTransfers"
       "tags":
-        - "Token History"
+        - "token-history"
   "/v2/transfer/tx/{transaction-hash}":
     "get":
       "description": "Get transaction history by transaction hash. Transaction history is divided into KLAY transfer (`KlayTransfer`), FT transfer
@@ -261,11 +327,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/Transfers"
+                "$ref": "../../models/Transfers.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -278,6 +344,7 @@
                           "fee": "0x48abe561cf400"
                           "transactionHash": "0x9fb236689b26fc8b8a938a8eb2b7e5a6afc1c7a837c61751f08eac735\
                             8db8d73"
+                          "blockNumber": 5312085
                           "typeInt": 49
                           "timestamp": 1597649114
                           "value": "0x0"
@@ -300,17 +367,23 @@
                         "transactionHash": "0x9fb236689b26fc8b8a938a8eb2b7e5a6afc1c7a837c61751f08eac735\
                           8db8d73"
                         "transactionIndex": 1
+                        "blockNumber": 5312085
                         "typeInt": 49
                         "timestamp": 1597649114
                         "value": "0x0"
                         "feePayer": "0xacb22916b804ac088c61c8711ec196b518f2e7fc"
                         "feeRatio": 0
+                "Transaction not found":
+                  "summary": "Transaction not found"
+                  "description": ""
+                  "value":
+                    "items": []
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
+                "$ref": "../../models/ErrorResponse.yaml"
               "example":
                 "code": 1040020
                 "message": "[InvalidUriValue]invalid tx hash"
@@ -318,7 +391,7 @@
       "summary": "Query received and sent transfers of tokens with transaction hash"
       "operationId": "getTransfersByTxHash"
       "tags":
-        - "Token History"
+        - "token-history"
   "/v2/transfer/account/{address}":
     "get":
       "description": "Query token transaction history for a certain EOA. Functionally, it is same as `GET /v2/transfer`. 
@@ -441,11 +514,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableTransfers"
+                "$ref": "../../models/PageableTransfers.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -458,6 +531,7 @@
                           "fee": "0x661625fab1200"
                           "transactionHash": "0x6826275ccdec83711277de86c773d9ce987fb8bcd7edf26b623d3117b\
                             1d01b52"
+                          "blockNumber": 5312085
                           "typeInt": 48
                           "timestamp": 1607993827
                           "value": "0x0"
@@ -478,6 +552,7 @@
                           "fee": "0x70aafcc4b0e00"
                           "transactionHash": "0x4341fe79a5b69847a284e20aea3d1fdb3377724661bf224f38e02d34b\
                             2940c96"
+                          "blockNumber": 5312085
                           "typeInt": 48
                           "timestamp": 1607993827
                           "value": "0x0"
@@ -496,6 +571,7 @@
                           "fee": "0x4fe85ad649c00"
                           "transactionHash": "0x196862e12efc8d4ea83a792d9bafbcc5d87b21805c7fe4ae76b8e3d7f\
                             ac9e3f3"
+                          "blockNumber": 5312085
                           "typeInt": 48
                           "timestamp": 1607993827
                           "value": "0x0"
@@ -518,6 +594,7 @@
                         "transactionHash": "0xe5ba3d97ed0e2b69e2e0da7aa1abdc22a17b3f79141f67f4784b5ce54\
                           33736c7"
                         "transactionIndex": 0
+                        "blockNumber": 5312085
                         "typeInt": 8
                         "timestamp": 1607993821
                         "value": "0xde0b6b3a7640000"
@@ -526,10 +603,44 @@
                     "cursor": "KGvdzQDxL2AYZzAMk1dLK6g9OrJN02G7aqwaNpWkPJlL07V51MZ8xmBOR17GPp1KDXE5\
                       bKhYnv93XgGbrz6EdAKeoQ2Y4Dq3peQV45vDPWmoXxlYB8wbEVPXBb9a7\
                       Z6O"
+                "Empty transfers":
+                  "summary": "Empty transfers"
+                  "description": ""
+                  "value":
+                    "items": []
+                    "cursor": ""
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid query value"
+                    "requestId": "aeed9ea2-5300-4d1e-b898-8d02c3e352a9"
+                "Invalid from-only, to-only query":
+                  "summary": "Invalid from-only, to-only query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]both from-only and to-only could not be true"
+                    "requestId": "aeed9ea2-5300-4d1e-b898-8d02c3e352a9"
+                "Out of range timestamp":
+                  "summary": "Out of range timestamp"
+                  "description": ""
+                  "value":
+                    "code": 1040011
+                    "message": "[OutOfRangeQueryParameterValue]invalid timestamp range"
+                    "requestId": "aeed9ea2-5300-4d1e-b898-8d02c3e352a9"
       "summary": "Query received and sent transfers of tokens with EOA"
       "operationId": "getTransfersByEoa"
       "tags":
-        - "Token History"
+        - "token history"
   "/v2/contract/ft":
     "get":
       "description": "Fetch data of all labelled FT contracts.<p></p>
@@ -584,11 +695,11 @@
           "example": ""
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableFtContractDetails"
+                "$ref": "../../models/PageableFtContractDetails.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -619,19 +730,23 @@
                       wbqezELvmN8Gx1Q2JVAXZGQqmxd9a7e4krKN3YLDPOvNY7Zvbom5MrDA4\
                       VW6"
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040010
-                "message": "[InvalidQueryParameterValue]invalid query value"
-                "requestId": "b4ff73f0-c32c-971a-8b01-933acd1c0a1f"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid query value"
+                    "requestId": "b4ff73f0-c32c-971a-8b01-933acd1c0a1f"
       "summary": "Query all FT contract data"
       "operationId": "getListofFtContracts"
       "tags":
-        - "Token Contract"
+        - "th-contract"
   "/v2/contract/ft/{ft-address}":
     "get":
       "description": "Fetch the FT contract information of a given address\n"
@@ -650,11 +765,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/FtContractDetail"
+                "$ref": "../../models/FtContractDetail.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -671,29 +786,37 @@
                     "updatedAt": 1606385006
                     "deletedAt": 0
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                  "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040020
-                "message": "[InvalidUriValue]invalid ft address"
-                "requestId": "1d9743f5-d3d1-9158-8a96-ab37de4daef5"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid URI":
+                  "summary": "Invalid URI"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid ft address"
+                    "requestId": "1d9743f5-d3d1-9158-8a96-ab37de4daef5"
         "404":
-          "description": "Not found"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040400
-                "message": "[ResourceNotFound]not found ft"
-                "requestId": "1108a8bf-ef05-9511-95d1-5fcecd959517"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "FT not found":
+                  "summary": "FT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found ft"
+                    "requestId": "1108a8bf-ef05-9511-95d1-5fcecd959517"
       "summary": "Get data of a certain FT contract"
       "operationId": "getFtContractDetail"
       "tags":
-        - "Token Contract"
+        - "th-contract"
   "/v2/contract/nft":
     "get":
       "description": "Fetch data of all labelled NFT contracts.<p></p>
@@ -748,11 +871,11 @@
           "example": ""
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableNftContractDetails"
+                "$ref": "../../models/PageableNftContractDetails.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -780,10 +903,24 @@
                     "cursor": "omYpAQ8xGDrlz5O3akAbYDPolJ1r7kx3ZWg2L5mwDQ5GAk7ONYdpzXW0LBZVq2n6pWRJ\
                       KPg8469bvxMl1rmoaew3EQVa6Gq8KpeEdzB0O9vMX4NE1X9eb206gBNLJ\
                       7qW"
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid query value"
+                    "requestId": "b4ff73f0-c32c-971a-8b01-933acd1c0a1f"
       "summary": "Query list of all NFT contract data"
       "operationId": "getListOfNftContracts"
       "tags":
-        - "Token Contract"
+        - "th-contract"
   "/v2/contract/nft/{nft-address}":
     "get":
       "description": "Fetch data of labelled NFTs for a certain contract.\n"
@@ -802,11 +939,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/NftContractDetail"
+                "$ref": "../../models/NftContractDetail.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -822,29 +959,99 @@
                     "updatedAt": 1597284956
                     "deletedAt": 0
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040020
-                "message": "[InvalidUriValue]invalid nft address"
-                "requestId": "a9b68119-7b98-9f07-b21f-17890f6f6d6b"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid URI":
+                  "summary": "Invalid URI"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid nft address"
+                    "requestId": "a9b68119-7b98-9f07-b21f-17890f6f6d6b"
         "404":
-          "description": "Not found"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040400
-                "message": "[ResourceNotFound]not found nft"
-                "requestId": "0d5f6e9a-e1f6-94e3-a325-de540a33bb6d"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "NFT not found":
+                  "summary": "NFT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found nft"
+                    "requestId": "0d5f6e9a-e1f6-94e3-a325-de540a33bb6d"
       "summary": "Get data of certain NFT contracts"
       "operationId": "getNftContractDetail"
       "tags":
-        - "Token Contract"
+        - "th-contract"
+  "/v2/contract/nft/{nft-address}/holder":
+    "get":
+      "description": "Fetch the number of owners of all NFTs issued by the NFT contract.\n"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "NFT Contract address"
+          "in": "path"
+          "name": "nft-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/NFTTokenHolder.yaml"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "address": "0x251f622e8b5e713f357e9c4d990e91da2f448134"
+                    "totalHolder": 48
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid URI":
+                  "summary": "Invalid URI"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid nft address"
+                    "requestId": "3e288b01-1c93-97fa-8850-18c89ebc340a"
+        "404":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "MT not found":
+                  "summary": "NFT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found nft"
+                    "requestId": "0d5f6e9a-e1f6-94e3-a325-de540a33bb6d"
+      "summary": "Get the number of NFT owners"
+      "operationId": "getNFTTokenHolder"
+      "tags":
+        - "th-contract"
   "/v2/contract/mt":
     "get":
       "description": "Fetch data of labelled MTs for all contracts.<p></p>
@@ -899,11 +1106,11 @@
           "example": ""
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableMtContractDetails"
+                "$ref": "../../models/PageableMtContractDetails.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -926,19 +1133,23 @@
                       N194xzoVpmrGY5PDKMEBogJmVEYlkKMD5e9LrGbzOZvxMkEzGpXVg6728\
                       OZL"
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                  "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040010
-                "message": "[InvalidQueryParameterValue]invalid query value"
-                "requestId": "9d1596d8-1228-9fca-a4ac-b03d403a6c02"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid query value"
+                    "requestId": "9d1596d8-1228-9fca-a4ac-b03d403a6c02"
       "summary": "Query list of MT contract data"
       "operationId": "getListOfMtContracts"
       "tags":
-        - "Token Contract"
+        - "th-contract"
   "/v2/contract/mt/{mt-address}":
     "get":
       "description": "Fetch data of labelled MTs for a certain contract.\n"
@@ -957,11 +1168,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/MtContractDetail"
+                "$ref": "../../models/MtContractDetail.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -977,28 +1188,28 @@
                     "updatedAt": 1597284956
                     "deletedAt": 0
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
+                "$ref": "../../models/ErrorResponse.yaml"
               "examples":
-                "Bad Request":
-                  "summary": "Bad Request"
+                "Invalid URI":
+                  "summary": "Invalid URI"
                   "description": ""
                   "value":
                     "code": 1040020
                     "message": "[InvalidUriValue]invalid mt address"
                     "requestId": "3e288b01-1c93-97fa-8850-18c89ebc340a"
         "404":
-          "description": "Not found"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
+                "$ref": "../../models/ErrorResponse.yaml"
               "examples":
-                "Not Found":
-                  "summary": "Not Found"
+                "MT not found":
+                  "summary": "MT not found"
                   "description": ""
                   "value":
                     "code": 1040400
@@ -1007,7 +1218,69 @@
       "summary": "Get data of a certain MT contract"
       "operationId": "getMtContractDetail"
       "tags":
-        - "Token Contract"
+        - "th-contract"
+  "/v2/contract/mt/{mt-address}/holder":
+    "get":
+      "description": "Fetch the number of owners of all MTs issued by the MT contract.\n"
+      "parameters":
+        - "description": "Klaytn Network Chain ID (1001 or 8217)"
+          "in": "header"
+          "name": "x-chain-id"
+          "required": true
+          "schema":
+            "type": "string"
+        - "description": "MT Contract address"
+          "in": "path"
+          "name": "mt-address"
+          "required": true
+          "schema":
+            "type": "string"
+      "responses":
+        "200":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/MTTokenHolder.yaml"
+              "examples":
+                "Success":
+                  "summary": "Success"
+                  "description": ""
+                  "value":
+                    "address": "0x251f622e8b5e713f357e9c4d990e91da2f448134"
+                    "totalHolder": 48
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid URI":
+                  "summary": "Invalid URI"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid mt address"
+                    "requestId": "3e288b01-1c93-97fa-8850-18c89ebc340a"
+        "404":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "MT not found":
+                  "summary": "MT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found mt"
+                    "requestId": "0d5f6e9a-e1f6-94e3-a325-de540a33bb6d"
+      "summary": "Get the number of MT owners"
+      "operationId": "getMTTokenHolder"
+      "tags":
+        - "th-contract"
   "/v2/contract/nft/{nft-address}/token":
     "get":
       "description": "Selecting an NFT contract will fetch data of all NFTs created by this NFT contract.<p></p>
@@ -1054,11 +1327,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableNfts"
+                "$ref": "../../models/PageableNfts.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1069,36 +1342,50 @@
                         "owner": "0x36884a060be5438226c4deaf799b0f7de5abd5df"
                         "previousOwner": "0x0000000000000000000000000000000000000000"
                         "tokenUri": "http://ec2-13-125-244-0.ap-northeast-2.compute.amazonaws.com:8080/\
-                          meta/item9"
+                                  meta/item9"
                         "transactionHash": "0x2f6e8113862c1dbdc76a2fb29cda2dbefeca5878897af0bb3df682232\
-                          3e89440"
+                                  3e89440"
                         "createdAt": 1597718863
                         "updatedAt": 1597718863
                     "cursor": ""
+                "Empty tokens":
+                  "summary": "Empty tokens"
+                  "description": ""
+                  "value":
+                    "items": []
+                    "cursor": ""
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040020
-                "message": "[InvalidUriValue]invalid nft address"
-                "requestId": "e877af5f-99d8-98fb-9817-1e8bd970ae29"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid nft address"
+                    "requestId": "e877af5f-99d8-98fb-9817-1e8bd970ae29"
         "404":
-          "description": "Not found"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040400
-                "message": "[ResourceNotFound]not found nft"
-                "requestId": "5562b6ed-bb19-91f1-8897-b32999b9879e"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "NFT not found":
+                  "summary": "NFT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found nft"
+                    "requestId": "5562b6ed-bb19-91f1-8897-b32999b9879e"
       "summary": "Query all token data for certain NFT contracts"
       "operationId": "getNftsByContractAddress"
       "tags":
-        - "Token"
+        - "th-token"
   "/v2/contract/nft/{nft-address}/owner/{owner-address}":
     "get":
       "description": "Selecting an NFT contract and an EOA will fetch data of the NFTs by EOA
@@ -1152,11 +1439,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableNfts"
+                "$ref": "../../models/PageableNfts.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1168,34 +1455,62 @@
                         "previousOwner": "0x0000000000000000000000000000000000000000"
                         "tokenUri": "http://172.16.15.49:8080/meta/item7"
                         "transactionHash": "0x9b9d553d8b3141eabdc6ececd44958475366b1bc289088248b2b3dadc\
-                          ecf8ab4"
+                                  ecf8ab4"
                         "createdAt": 1597308968
                         "updatedAt": 1597308968
                     "cursor": ""
+                "Empty tokens":
+                  "summary": "Empty tokens"
+                  "description": ""
+                  "value":
+                    "items": []
+                    "cursor": ""
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040020
-                "message": "[InvalidUriValue]invalid nft address"
-                "requestId": "c9b6092a-ff75-9dab-a493-48672ef62169"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid query value"
+                    "requestId": "c9b6092a-ff75-9dab-a493-48672ef62169"
+                "Invalid URI - NFT":
+                  "summary": "Invalid URI - NFT"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid nft address"
+                    "requestId": "c9b6092a-ff75-9dab-a493-48672ef62169"
+                "Invalid URI - owner":
+                  "summary": "Invalid URI - owner"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid owner address"
+                    "requestId": "c9b6092a-ff75-9dab-a493-48672ef62169"
         "404":
-          "description": "Not found"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040400
-                "message": "[ResourceNotFound]not found nft"
-                "requestId": "d371921f-8198-98cb-89d5-cf3e9eb420c7"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "NFT not found":
+                  "summary": "NFT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found nft"
+                    "requestId": "d371921f-8198-98cb-89d5-cf3e9eb420c7"
       "summary": "Get token data for NFT data by EOA"
       "operationId": "getNftsByOwnerAddress"
       "tags":
-        - "Token"
+        - "th-token"
   "/v2/contract/nft/{nft-address}/token/{token-id}":
     "get":
       "description": "Fetch data for certain NFTs\n"
@@ -1220,11 +1535,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/Nft"
+                "$ref": "../../models/Nft.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1235,33 +1550,48 @@
                     "previousOwner": "0x0000000000000000000000000000000000000000"
                     "tokenUri": "http://172.16.15.49:8080/meta/item2"
                     "transactionHash": "0xc7d07066e4e42a7d896c34420ed43568ba44ae15a8ef771b13ba1f6f2\
-                      d2820c4"
+                              d2820c4"
                     "createdAt": 1597304701
                     "updatedAt": 1597304701
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040020
-                "message": "[InvalidUriValue]invalid nft address"
-                "requestId": "5d63e976-063d-984f-8676-881d71729d66"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid URI - NFT":
+                  "summary": "Invalid URI - NFT"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid nft address"
+                    "requestId": "5d63e976-063d-984f-8676-881d71729d66"
+                "Invalid URI - token":
+                  "summary": "Invalid URI - token"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid token id"
+                    "requestId": "5d63e976-063d-984f-8676-881d71729d66"
         "404":
-          "description": "Not found"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040400
-                "message": "[ResourceNotFound]not found nft token"
-                "requestId": "615a2f6a-5aa3-90f8-b714-b8005e42e985"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Token not found":
+                  "summary": "Token not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found nft token"
+                    "requestId": "615a2f6a-5aa3-90f8-b714-b8005e42e985"
       "summary": "Query token data for certain NFTs"
       "operationId": "getNftById"
       "tags":
-        - "Token"
+        - "th-token"
   "/v2/contract/mt/{mt-address}/token":
     "get":
       "description": "Selecting an MT contract will fetch all data of tokens issued by the contract.<p></p>
@@ -1315,11 +1645,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableMts"
+                "$ref": "../../models/PageableMts.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1332,30 +1662,43 @@
                     "cursor": "z53x014AdOQJGNl6V99k3wAap7M08oLKedg5DVqlLdZqWwPQzo3aM7v8A9J6V2nmqnpg\
                       DNOeGkblm1BKEX5x0Yr46bW2ZN4YGmQPJO1xBvrEzXrW2gbvDZ7EKMaYm\
                       kew"
+                "Empty tokens":
+                  "summary": "Empty tokens"
+                  "description": ""
+                  "value":
+                    "items": []
+                    "cursor": ""
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040020
-                "message": "[InvalidUriValue]invalid mt address"
-                "requestId": "28a79540-89b3-9c4c-ab6c-00ef6fbb5004"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid URI":
+                  "summary": "Invalid URI"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid mt address"
+                    "requestId": "28a79540-89b3-9c4c-ab6c-00ef6fbb5004"
         "404":
           "description": "Not found"
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040400
-                "message": "[ResourceNotFound]not found mt"
-                "requestId": "8339f2bf-1b9e-9150-a563-60f731c33a4e"
-      "summary": "Query data of all tokens for certain MT contracts"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "MT not found":
+                  "summary": "MT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found mt"
+                    "requestId": "8339f2bf-1b9e-9150-a563-60f731c33a4e"
       "operationId": "getMtsByContractAddress"
       "tags":
-        - "Token"
+        - "th-token"
   "/v2/contract/mt/{mt-address}/token/{token-id}":
     "get":
       "description": "Selecting an MT contract and a token ID will  data of the EOA that owns the tokens.<p></p>
@@ -1408,11 +1751,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableMtTokens"
+                "$ref": "../../models/PageableMtTokens.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1426,35 +1769,49 @@
                         "tokenUri": "http://evahello.com"
                         "balance": "0x1f"
                         "transactionHash": "0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7\
-                          c9032ee"
+                                  c9032ee"
                         "transferFrom": "0xb8bb4b109f18eb6f292757aaec623200f1a41369"
                         "transferTo": "0xae02aba56bae1624e2c4f029e3a79308e2a19e98"
                         "updatedAt": 1607319007
                     "cursor": ""
+                "Empty tokens":
+                  "summary": "Empty tokens"
+                  "description": ""
+                  "value":
+                    "items": []
+                    "cursor": ""
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040020
-                "message": "[InvalidUriValue]invalid token id"
-                "requestId": "aeca8406-9dda-9ece-bf9e-cf8569fccfbf"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid URI":
+                  "summary": "Invalid URI"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid token id"
+                    "requestId": "aeca8406-9dda-9ece-bf9e-cf8569fccfbf"
         "404":
-          "description": "Not found"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040400
-                "message": "[ResourceNotFound]not found mt"
-                "requestId": "116aece2-f79f-9cc9-b1ba-f77467afe89d"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "MT not found":
+                  "summary": "MT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found mt"
+                    "requestId": "116aece2-f79f-9cc9-b1ba-f77467afe89d"
       "summary": "Query list of all owners for certain MTs"
       "operationId": "getMtTokensByContractAddressAndTokenId"
       "tags":
-        - "Token"
+        - "th-token-ownership"
   "/v2/contract/mt/{mt-address}/owner/{owner-address}":
     "get":
       "description": "Selecting an MT contract and an EOA will fetch data of MTs by EOA created by 
@@ -1508,11 +1865,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableMtTokensWithBalance"
+                "$ref": "../../models/PageableMtTokensWithBalance.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1526,38 +1883,61 @@
                         "tokenUri": "http://evahello.com"
                         "balance": "0x1f"
                         "transactionHash": "0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7\
-                          c9032ee"
+                                  c9032ee"
                         "transferFrom": "0x39262962d3889b02915f943d6f917edcf6c71f5a"
                         "transferTo": "0xb8bb4b109f18eb6f292757aaec623200f1a41369"
                         "updatedAt": 1607319007
                     "totalBalance": "0xfa"
                     "cursor": "PBOQ20pEXl389k1K6W1AEzp2VBJ80b5MgowlXZYlkao45O0WMgr73BpPD6d9Rb9ZPK13\
-                      yKwbqezELvmN8Gx1Q2JVAXZGQqmxd9a7e4krKN3YLDPOvNY7Zvbom5MrD\
-                      A4V"
+                              yKwbqezELvmN8Gx1Q2JVAXZGQqmxd9a7e4krKN3YLDPOvNY7Zvbom5MrD\
+                              A4V"
+                "Empty tokens":
+                  "summary": "Empty tokens"
+                  "description": ""
+                  "value":
+                    "items": []
+                    "totalBalance": "0x0"
+                    "cursor": ""
+
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040020
-                "message": "[InvalidUriValue]invalid owner address"
-                "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid URI - MT":
+                  "summary": ""
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid mt address"
+                    "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+                "Invalid URI - owner":
+                  "summary": ""
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid owner address"
+                    "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
         "404":
-          "description": "Not found"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040400
-                "message": "[ResourceNotFound]not found mt"
-                "requestId": "0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "MT not found":
+                  "summary": "MT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found mt"
+                    "requestId": "0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee"
       "summary": "Get token data for MT data by EOA"
       "operationId": "getMtTokensByContractAddressAndOwnerAddress"
       "tags":
-        - "Token"
+        - "th-token"
   "/v2/contract/mt/{mt-address}/owner/{owner-address}/token/{token-id}":
     "get":
       "description": "Query data of certain MTs."
@@ -1588,11 +1968,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/MtToken"
+                "$ref": "../../models/MtToken.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1605,34 +1985,63 @@
                     "tokenUri": "http://evahello.com"
                     "balance": "0x1f"
                     "transactionHash": "0x23586a41831bd2044e1793d136ee7b9ac387ea376208dcd87bbded6f7\
-                      c9032ee"
+                              c9032ee"
                     "transferFrom": "0x39262962d3889b02915f943d6f917edcf6c71f5a"
                     "transferTo": "0xb8bb4b109f18eb6f292757aaec623200f1a41369"
                     "updatedAt": 1607319007
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040020
-                "message": "[InvalidUriValue]invalid owner address"
-                "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid URI - MT":
+                  "summary": "Invalid URI - MT"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid mt address"
+                    "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+                "Invalid URI - owner":
+                  "summary": "Invalid URI - owner"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid owner address"
+                    "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+                "Invalid URI - token":
+                  "summary": "Invalid URI - token"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid token id"
+                    "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
         "404":
-          "description": "Not found"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040400
-                "message": "[ResourceNotFound]not found mt"
-                "requestId": "0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "MT not found":
+                  "summary": "MT not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found mt"
+                    "requestId": "0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee"
+                "Token not found":
+                  "summary": "Token not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found mt token"
+                    "requestId": "0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee"
       "summary": "Get data of MT contracts for certain EOAs"
       "operationId": "getMtTokensByContractAddressAndOwnerAddressAndTokenId"
       "tags":
-        - "Token"
+        - "th-token"
   "/v2/contract/nft/{nft-address}/token/{token-id}/history":
     "get":
       "description": "Get ownership change history of certain NFTs.<p></p>
@@ -1685,11 +2094,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableNftOwnershipChanges"
+                "$ref": "../../models/PageableNftOwnershipChanges.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1700,10 +2109,52 @@
                         "to": "0x36884a060be5438226c4deaf799b0f7de5abd5df"
                         "timestamp": 1597226350
                     "cursor": ""
+        "400":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid query value"
+                    "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+                "Invalid URI - MT":
+                  "summary": "Invalid URI - NFT"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid nft address"
+                    "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+                "Invalid URI - token":
+                  "summary": "Invalid URI - token"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid token id"
+                    "requestId": "42132a53-17c8-9100-a857-9c42b48d5141"
+        "404":
+          "description": ""
+          "content":
+            "application/json":
+              "schema":
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "MT not found":
+                  "summary": "Token not found"
+                  "description": ""
+                  "value":
+                    "code": 1040400
+                    "message": "[ResourceNotFound]not found nft token"
+                    "requestId": "0c4f6ba5-bc92-9d35-812c-e97f9f00d5ee"
       "summary": "Query ownership change history for certain NFTs"
       "operationId": "getListOfNftOwnershipChanges"
       "tags":
-        - "Token Ownership"
+        - "th-token-ownership"
   "/v2/account/{address}/contract":
     "get":
       "description": "Selecting an EOA will fetch data of all contracts of tokens by EOA.<p></p>
@@ -1765,11 +2216,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableContractSummary"
+                "$ref": "../../models/PageableContractSummary.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1800,20 +2251,44 @@
                         "totalBalance": "0x1c2"
                         "extras": {}
                     "cursor": ""
+                "Empty contracts":
+                  "summary": "Empty contracts"
+                  "description": ""
+                  "value":
+                    "items": [ ]
+                    "cursor": ""
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040010
-                "message": "[InvalidQueryParameterValue]invalid kind:klay"
-                "requestId": "f8c0cbb7-c2a5-96b9-a3b5-23c0892d63bc"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid query value"
+                    "requestId": "f8c0cbb7-c2a5-96b9-a3b5-23c0892d63bc"
+                "Invalid query - kind":
+                  "summary": "Invalid query - kind"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid kind:klay"
+                    "requestId": "f8c0cbb7-c2a5-96b9-a3b5-23c0892d63bc"
+                "Invalid URI":
+                  "summary": "Invalid URI"
+                  "description": ""
+                  "value":
+                    "code": 1040020
+                    "message": "[InvalidUriValue]invalid account address"
+                    "requestId": "f8c0cbb7-c2a5-96b9-a3b5-23c0892d63bc"
       "summary": "Get contract data by  EOA"
       "operationId": "getListOfContractByOwnerAddress"
       "tags":
-        - "Token Ownership"
+        - "th-token"
   "/v2/account/{address}/token":
     "get":
       "description": "Selecting an EOA will get all token data by EOA.<p></p>
@@ -1883,11 +2358,11 @@
             "type": "string"
       "responses":
         "200":
-          "description": "Success"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/PageableTokenSummary"
+                "$ref": "../../models/PageableTokenSummary.yaml"
               "examples":
                 "Success":
                   "summary": "Success"
@@ -1900,7 +2375,7 @@
                         "balance": "0x1"
                         "lastTransfer":
                           "transactionHash": "0xc724efc8bd9e62d6149cfcb6ae08b6eb7b47fff16dfe0c1f169160ed1\
-                            b4870e5"
+                                    b4870e5"
                           "transferFrom": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
                           "transferTo": "0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21"
                         "extras":
@@ -1912,7 +2387,7 @@
                         "balance": "0x15e"
                         "lastTransfer":
                           "transactionHash": "0xcd23a37616840f997298a6ae62effb8d28303b1a22ee0acc73f8e4867\
-                            14837ff"
+                                    14837ff"
                           "transferFrom": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
                           "transferTo": "0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21"
                         "extras":
@@ -1927,7 +2402,7 @@
                         "balance": "0x1c2"
                         "lastTransfer":
                           "transactionHash": "0x85263b3d17fe92edd4a665bb65211c5b8a08e88ebeb0474f477bc4484\
-                            eb26096"
+                                    eb26096"
                           "transferFrom": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
                           "transferTo": "0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21"
                         "extras":
@@ -1935,1215 +2410,71 @@
                           "tokenUri": "https://www.klaytnapi.com/mt"
                           "totalSupply": "0xde0b6b3a7640000"
                     "cursor": ""
+                "Empty tokens":
+                  "summary": "Empty tokens"
+                  "description": ""
+                  "value":
+                    "items": [ ]
+                    "cursor": ""
         "400":
-          "description": "Invalid request"
+          "description": ""
           "content":
             "application/json":
               "schema":
-                "$ref": "#/components/schemas/ErrorResponse"
-              "example":
-                "code": 1040010
-                "message": "[InvalidQueryParameterValue]invalid kind:klay"
-                "requestId": "76269e63-28d9-9425-97fb-7a431dad1327"
+                "$ref": "../../models/ErrorResponse.yaml"
+              "examples":
+                "Invalid query":
+                  "summary": "Invalid query"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid query value"
+                    "requestId": "76269e63-28d9-9425-97fb-7a431dad1327"
+                "Invalid query - kind":
+                  "summary": "Invalid query - kind"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid kind:klay"
+                    "requestId": "76269e63-28d9-9425-97fb-7a431dad1327"
+                "Invalid query - ca filters":
+                  "summary": "Invalid query - ca filters"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]invalid address: not address"
+                    "requestId": "76269e63-28d9-9425-97fb-7a431dad1327"
+                "Invalid query - max size of ca filters":
+                  "summary": "Invalid query - max size of ca filters"
+                  "description": ""
+                  "value":
+                    "code": 1040010
+                    "message": "[InvalidQueryParameterValue]too many ca-filters query value"
+                    "requestId": "76269e63-28d9-9425-97fb-7a431dad1327"
       "summary": "Get data of certain tokens for certain EOAs"
       "operationId": "getListOfTokenByOwnerAddress"
       "tags":
-        - "Token Ownership"
-"tags": []
+        - "th-token"
 "servers":
   - "url": "https://th-api.klaytnapi.com"
 "components":
-  "schemas":
-    "ErrorResponse":
-      "title": "ErrorResponse"
-      "type": "object"
-      "properties":
-        "code":
-          "type": "integer"
-          "description": "KAS error code"
-        "message":
-          "type": "string"
-          "description": "KAS error message"
-        "requestId":
-          "type": "string"
-          "description": "Request ID"
-      "required":
-        - "code"
-        - "message"
-        - "requestId"
-    "PageableContractSummary":
-      "title": "PageableContractSummary"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "title": "ContractSummaryItem"
-            "anyOf":
-              - "$ref": "#/components/schemas/FTContractSummary"
-              - "$ref": "#/components/schemas/NFTContractSummary"
-              - "$ref": "#/components/schemas/MTContractSummary"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "FTContractSummary":
-      "title": "ftContractSummary"
-      "type": "object"
-      "properties":
-        "kind":
-          "type": "string"
-          "description": "Contract type"
-          "example": "ft"
-        "contractAddress":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0x66ac22b457006c3f519e4a5c49ff19eb531bba4e"
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in token balances (timestamp)"
-          "example": 1607993770
-        "totalBalance":
-          "type": "string"
-          "description": "Balances (in hexadecimal)"
-          "example": "0x15e"
-        "extras":
-          "$ref": "#/components/schemas/FTContractSummaryExtras"
-      "required":
-        - "kind"
-        - "contractAddress"
-        - "updatedAt"
-        - "totalBalance"
-        - "extras"
-    "FTContractSummaryExtras":
-      "title": "ftContractSummaryExtras"
-      "type": "object"
-      "properties":
-        "name":
-          "type": "string"
-          "description": "Token name"
-          "example": "KAS FCoin"
-        "decimals":
-          "type": "integer"
-          "format": "int64"
-          "description": "Token digits"
-          "example": 8
-        "symbol":
-          "type": "string"
-          "description": "Token symbols"
-          "example": "KFC"
-        "totalSupply":
-          "type": "string"
-          "description": "Total issued amount (in hexadecimal)"
-          "example": "0xde0b6b3a7640000"
-        "formattedValue":
-          "type": "string"
-          "description": "Formatted value with contracts `decimals`"
-          "example": "0.00000000000000035"
-    "NFTContractSummary":
-      "title": "nftContractSummary"
-      "type": "object"
-      "properties":
-        "kind":
-          "type": "string"
-          "description": "Contract type"
-          "example": "nft"
-        "contractAddress":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0xfa9a1b66b970dc713ae71d56a7cc44b573d4c8f7"
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change of token ownership (timestamp)"
-          "example": 1607993770
-        "totalBalance":
-          "type": "string"
-          "description": "Total balance of tokens (in hexadecimal)"
-          "example": "0x1"
-        "extras":
-          "$ref": "#/components/schemas/NFTContractSummaryExtras"
-      "required":
-        - "kind"
-        - "contractAddress"
-        - "updatedAt"
-        - "totalBalance"
-        - "extras"
-    "NFTContractSummaryExtras":
-      "title": "nftContractSummaryExtras"
-      "type": "object"
-      "properties":
-        "name":
-          "type": "string"
-          "description": "Token name"
-          "example": "KAS NCoin"
-        "symbol":
-          "type": "string"
-          "description": "Token symbol"
-          "example": "KNC"
-        "totalSupply":
-          "type": "string"
-          "description": "Total issued tokens (in hexadecimal)"
-          "example": "0x1d"
-    "MTContractSummary":
-      "title": "mtContractSummary"
-      "type": "object"
-      "properties":
-        "kind":
-          "type": "string"
-          "description": "Contract type"
-          "example": "mt"
-        "contractAddress":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0x2b2e50e8c8e0d097f22ac9389af2f354d18d2882"
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change of token ownership (timestamp)"
-          "example": 1607993770
-        "totalBalance":
-          "type": "string"
-          "description": "Total balance of tokens (in hexadecimal)"
-          "example": "0x1c2"
-        "extras":
-          "$ref": "#/components/schemas/MTContractSummaryExtras"
-      "required":
-        - "kind"
-        - "contractAddress"
-        - "updatedAt"
-        - "totalBalance"
-        - "extras"
-    "MTContractSummaryExtras":
-      "title": "mtContractSummaryExtras"
-      "type": "object"
-    "FtContract":
-      "title": "FtContract"
-      "type": "object"
-      "properties":
-        "address":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "decimals":
-          "type": "integer"
-          "format": "int64"
-          "description": "Token digits"
-          "example": 8
-        "name":
-          "type": "string"
-          "description": "Token name"
-          "example": "Test Coin"
-        "symbol":
-          "type": "string"
-          "description": "Token symbol"
-          "example": "TSTC"
-        "status":
-          "type": "string"
-          "description": "Contract labelling status (completed, processing, failed, cancelled)"
-          "example": "completed"
-      "required":
-        - "address"
-        - "decimals"
-        - "name"
-        - "symbol"
-        - "status"
-    "FtContractDetail":
-      "title": "FtContractDetail"
-      "type": "object"
-      "properties":
-        "address":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0xaD15bCa7D0f1e077f43eC18ACBA7eE2a347ADE87"
-        "decimals":
-          "type": "integer"
-          "format": "int32"
-          "description": "Token digits"
-          "example": 8
-        "name":
-          "type": "string"
-          "description": "Token name"
-          "example": "Test Token"
-        "symbol":
-          "type": "string"
-          "description": "Token symbol"
-          "example": "TSC"
-        "status":
-          "type": "string"
-          "description": "Contract labelling status (completed, processing, failed, cancelled)"
-          "example": "completed"
-        "totalSupply":
-          "type": "string"
-          "description": "Total issued amount (in hexadecimal)"
-          "example": "0x174876e800"
-        "createdAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Time of labelling (timestamp)"
-          "example": 1592180992
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in labelling information (timestamp)"
-          "example": 1592180992
-        "deletedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Time of removal of labelling (timestamp); 0 if not removed"
-          "example": 1592180992
-        "type":
-          "type": "string"
-          "description": "Contract type (KIP-7, ERC-20)"
-      "required":
-        - "address"
-        - "decimals"
-        - "name"
-        - "symbol"
-        - "totalSupply"
-        - "createdAt"
-        - "updatedAt"
-        - "deletedAt"
-        - "link"
-        - "type"
-        - "status"
-    "Mt":
-      "title": "Mt"
-      "type": "object"
-      "properties":
-        "tokenId":
-          "type": "string"
-          "description": "Token ID (in hexadecimal)"
-          "example": "0x1"
-        "totalSupply":
-          "type": "string"
-          "description": "Total issued amount (in hexadecimal)"
-          "example": "0xaf298d050e4395d69670b12b7f41"
-        "tokenUri":
-          "type": "string"
-          "description": "Token URL"
-          "example": "https://link.to/mt/1"
-      "required":
-        - "tokenId"
-        - "totalSupply"
-        - "tokenUri"
-    "MtToken":
-      "title": "MtToken"
-      "type": "object"
-      "properties":
-        "tokenId":
-          "type": "string"
-          "description": "Token ID (in hexadecimal)"
-          "example": "0x1"
-        "owner":
-          "type": "string"
-          "description": "Owner EOA (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "tokenAddress":
-          "type": "string"
-          "description": "CA (20-byte)"
-          "example": "0x2c2382bcca41295495973be1d5a997d21f77b50e"
-        "totalSupply":
-          "type": "string"
-          "description": "Total issued amount (in hexadecimal)"
-          "example": "0xaf298d050e4395d69670b12b7f41"
-        "tokenUri":
-          "type": "string"
-          "description": "Token URL"
-          "example": "https://link.to/mt/1"
-        "balance":
-          "type": "string"
-          "description": "Owner's balances in EOA"
-          "example": "0xaf298d050e4395d69670b12b7f4"
-        "transactionHash":
-          "type": "string"
-          "description": "Last transaction hash (32-byte)"
-          "example": "0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8"
-        "transferFrom":
-          "type": "string"
-          "description": "Sender EOA of last TransferSingle or TransferBatch (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "transferTo":
-          "type": "string"
-          "description": "Receiver EOA of recent TransferSingle or TransferBatch (20-byte)"
-          "example": "0xbe02aba56bae1624e2c4f029e3a79308e2a19e98"
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in token information (timestamp)"
-          "example": 1592180992
-      "required":
-        - "tokenId"
-        - "owner"
-        - "tokenAddress"
-        - "totalSupply"
-        - "tokenUri"
-        - "balance"
-        - "transactionHash"
-        - "transferFrom"
-        - "transferTo"
-        - "updatedAt"
-    "PageableMts":
-      "title": "PageableMts"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "$ref": "#/components/schemas/Mt"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "PageableMtTokens":
-      "title": "PageableMtTokens"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "$ref": "#/components/schemas/MtToken"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "PageableMtTokensWithBalance":
-      "title": "PageableMtTokensWithBalance"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "$ref": "#/components/schemas/MtToken"
-        "totalBalance":
-          "type": "string"
-          "description": "Total balance of tokens by EOA"
-          "example": "0xf1"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "totalBalance"
-        - "cursor"
-    "MtContractDetail":
-      "title": "MtContractDetail"
-      "type": "object"
-      "properties":
-        "address":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0xaD15bCa7D0f1e077f43eC18ACBA7eE2a347ADE87"
-        "status":
-          "type": "string"
-          "description": "Contract labelling status (completed, processing, failed, cancelled)"
-          "example": "completed"
-        "createdAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Timestamp of Labelling"
-          "example": 1592180992
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in labelling information (timestamp)"
-          "example": 1592180992
-        "deletedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Time of removal of labelling (timestamp); 0 if not removed"
-          "example": 1592180992
-        "type":
-          "type": "string"
-          "description": "Contract type (KIP-7, ERC-20)"
-      "required":
-        - "address"
-        - "status"
-        - "createdAt"
-        - "updatedAt"
-        - "deletedAt"
-        - "type"
-    "Nft":
-      "title": "Nft"
-      "type": "object"
-      "properties":
-        "owner":
-          "type": "string"
-          "description": "Owner EOA (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "previousOwner":
-          "type": "string"
-          "description": "Previous owner EOA (20-byte)"
-          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
-        "tokenId":
-          "type": "string"
-          "description": "Token ID (in hexadecimal)"
-          "example": "0x1"
-        "tokenUri":
-          "type": "string"
-          "description": "Token URL"
-          "example": "https://link.to/nft/1"
-        "transactionHash":
-          "type": "string"
-          "description": "Last transaction hash(32-byte)"
-          "example": "0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8"
-        "createdAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Time of token creation (timestamp)"
-          "example": 1592180992
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in token information (timestamp)"
-          "example": 1592180992
-      "required":
-        - "owner"
-        - "previousOwner"
-        - "tokenId"
-        - "tokenUri"
-        - "createdAt"
-        - "updatedAt"
-        - "transactionHash"
-    "PageableNfts":
-      "title": "PageableNfts"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "$ref": "#/components/schemas/Nft"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "NftContract":
-      "title": "NftContract"
-      "type": "object"
-      "properties":
-        "address":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "name":
-          "type": "string"
-          "description": "Token name"
-          "example": "Test contract"
-        "symbol":
-          "type": "string"
-          "description": "Token symbol"
-          "example": "TSTC"
-        "status":
-          "type": "string"
-          "description": "Contract labelling status (completed, processing, failed, cancelled)"
-          "example": "completed"
-      "required":
-        - "address"
-        - "name"
-        - "symbol"
-    "NftContractDetail":
-      "title": "NftContractDetail"
-      "type": "object"
-      "properties":
-        "address":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0xc7565d24af561fe783aa73747ca0eda1f09f1118"
-        "name":
-          "type": "string"
-          "description": "Token name"
-          "example": "Test Token"
-        "symbol":
-          "type": "string"
-          "description": "Token symbol"
-          "example": "TSTC"
-        "totalSupply":
-          "type": "string"
-          "description": "Total issued amount (in hexadecimal)"
-          "example": "0x174876e800"
-        "createdAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Time of labelling (timestamp)"
-          "example": 1592180992
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in token in labelling (timestamp)"
-          "example": 1592180992
-        "deletedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Time of removal of labelling (timestamp); 0 if not removed"
-          "example": 1592180992
-        "type":
-          "type": "string"
-          "description": "Contract type (KIP-17, ERC-721)"
-          "example": "KIP-7"
-        "status":
-          "type": "string"
-          "description": "Contract labelling status (completed, processing, failed, cancelled)"
-          "example": "completed"
-      "required":
-        - "address"
-        - "name"
-        - "symbol"
-        - "totalSupply"
-        - "createdAt"
-        - "updatedAt"
-        - "deletedAt"
-        - "type"
-        - "status"
-    "NftOwnershipChange":
-      "title": "NftOwnershipChange"
-      "type": "object"
-      "properties":
-        "from":
-          "type": "string"
-          "description": "Sender (previous owner) EOA (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "to":
-          "type": "string"
-          "description": "Receiver (current owner) EOA (20-byte)"
-          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
-        "timestamp":
-          "type": "integer"
-          "format": "int64"
-          "description": "Change of NFT ownership (timestamp)"
-          "example": 1592180992
-      "required":
-        - "to"
-        - "from"
-        - "timestamp"
-    "PageableNftOwnershipChanges":
-      "title": "PageableNftOwnershipChanges"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "$ref": "#/components/schemas/NftOwnershipChange"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "PageableTokenSummary":
-      "title": "PageableTokenSummary"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "title": "TokenSummaryItem"
-            "anyOf":
-              - "$ref": "#/components/schemas/FTTokenSummary"
-              - "$ref": "#/components/schemas/NFTTokenSummary"
-              - "$ref": "#/components/schemas/MTTokenSummary"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "FTTokenSummary":
-      "title": "ftTokenSummary"
-      "type": "object"
-      "properties":
-        "kind":
-          "type": "string"
-          "description": "Token type"
-          "example": "ft"
-        "contractAddress":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0x66ac22b457006c3f519e4a5c49ff19eb531bba4e"
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in token balances  (timestamp)"
-          "example": 1607993770
-        "balance":
-          "type": "string"
-          "description": "Balances (in hexadecimal)"
-          "example": "0x15e"
-        "lastTransfer":
-          "$ref": "#/components/schemas/LastTransfer"
-        "extras":
-          "$ref": "#/components/schemas/FTTokenSummaryExtras"
-      "required":
-        - "kind"
-        - "contractAddress"
-        - "updatedAt"
-        - "balance"
-        - "lastTransfer"
-        - "extras"
-    "FTTokenSummaryExtras":
-      "title": "ftTokenSummaryExtras"
-      "type": "object"
-      "properties":
-        "name":
-          "type": "string"
-          "description": "Token name"
-          "example": "KAS FCoin"
-        "decimals":
-          "type": "integer"
-          "format": "int64"
-          "description": "Token digits"
-          "example": 8
-        "symbol":
-          "type": "string"
-          "description": "Token symbol"
-          "example": "KFC"
-        "totalSupply":
-          "type": "string"
-          "description": "Total issued amount (in hexadecimal)"
-          "example": "0xde0b6b3a7640000"
-        "formattedValue":
-          "type": "string"
-          "description": "Formatted value with contracts `decimals`"
-          "example": "0.00000000000000035"
-    "NFTTokenSummary":
-      "title": "nftTokenSummary"
-      "type": "object"
-      "properties":
-        "kind":
-          "type": "string"
-          "description": "Contract type"
-          "example": "nft"
-        "contractAddress":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0xfa9a1b66b970dc713ae71d56a7cc44b573d4c8f7"
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in token ownership (timestamp)"
-          "example": 1607993770
-        "balance":
-          "type": "string"
-          "description": "Token balance (in hexadecimal)"
-          "example": "0x1"
-        "lastTransfer":
-          "$ref": "#/components/schemas/LastTransfer"
-        "extras":
-          "$ref": "#/components/schemas/NFTTokenSummaryExtras"
-      "required":
-        - "kind"
-        - "contractAddress"
-        - "updatedAt"
-        - "balance"
-        - "lastTransfer"
-        - "extras"
-    "NFTTokenSummaryExtras":
-      "title": "nftTokenSummaryExtras"
-      "type": "object"
-      "properties":
-        "tokenId":
-          "type": "string"
-          "description": "Token ID (in hexadecimal)"
-          "example": "0x1"
-        "tokenUri":
-          "type": "string"
-          "description": "Token URL"
-          "example": "https://link.to/nft/1"
-    "MTTokenSummary":
-      "title": "mtTokenSummary"
-      "type": "object"
-      "properties":
-        "kind":
-          "type": "string"
-          "description": "Contract type"
-          "example": "mt"
-        "contractAddress":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0x2b2e50e8c8e0d097f22ac9389af2f354d18d2882"
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in token balances (timestamp)"
-          "example": 1607993770
-        "balance":
-          "type": "string"
-          "description": "Token balance (in hexadecimal)"
-          "example": "0x1"
-        "lastTransfer":
-          "$ref": "#/components/schemas/LastTransfer"
-        "extras":
-          "$ref": "#/components/schemas/MTTokenSummaryExtras"
-      "required":
-        - "kind"
-        - "contractAddress"
-        - "updatedAt"
-        - "balance"
-        - "lastTransfer"
-        - "extras"
-    "MTTokenSummaryExtras":
-      "title": "MTTokenSummaryExtras"
-      "type": "object"
-      "properties":
-        "tokenId":
-          "type": "string"
-          "description": "Token ID (in hexadecimal)"
-          "example": "0x1"
-        "tokenUri":
-          "type": "string"
-          "description": "Token URL"
-          "example": "https://link.to/mt/1"
-        "totalSupply":
-          "type": "string"
-          "description": "Total issued amount (in hexadecimal)"
-          "example": "0xde0b6b3a7640000"
-    "LastTransfer":
-      "title": "lastTransfer"
-      "type": "object"
-      "properties":
-        "transactionHash":
-          "type": "string"
-          "description": "Transaction hash"
-          "example": "0xcd23a37616840f997298a6ae62effb8d28303b1a22ee0acc73f8e486714837ff"
-        "transferFrom":
-          "type": "string"
-          "description": "Sender EOA (20-byte)"
-          "example": "0xbdfaeffb231ed4ef4600a8be4f5aa02ba4821708"
-        "transferTo":
-          "type": "string"
-          "description": "Receiver EOA (20-byte)"
-          "example": "0x034e13e54e62c6ea3614a04b81e95cf4a4f18a21"
-      "required":
-        - "transactionHash"
-        - "transferFrom"
-        - "transferTo"
-    "TransferArray":
-      "title": "TransferArray"
-      "type": "array"
-      "items":
-        "title": "TransferItem"
-        "anyOf":
-          - "$ref": "#/components/schemas/KlayTransfer"
-          - "$ref": "#/components/schemas/FtTransfer"
-          - "$ref": "#/components/schemas/NftTransfer"
-          - "$ref": "#/components/schemas/MtTransfer"
-    "NftTransfer":
-      "title": "NftTransfer"
-      "type": "object"
-      "properties":
-        "contract":
-          "$ref": "#/components/schemas/NftContract"
-        "from":
-          "type": "string"
-          "description": "Sender EOA (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "to":
-          "type": "string"
-          "description": "Recipient EOA (20-byte)"
-          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
-        "transaction":
-          "$ref": "#/components/schemas/Transaction"
-        "transferType":
-          "type": "string"
-          "description": "Transaction type"
-          "example": "nft"
-        "tokenId":
-          "type": "string"
-          "description": "Token Identifier (in hexadecimal)"
-          "example": "0x1"
-      "required":
-        - "contract"
-        - "from"
-        - "to"
-        - "transaction"
-        - "transferType"
-        - "tokenId"
-    "Transaction":
-      "title": "Transaction"
-      "type": "object"
-      "properties":
-        "feePayer":
-          "type": "string"
-          "description": "Fee delegation account address (20-byte)"
-          "example": "0xd0ea3e0eabaea095ea3ba231c043dbf8c0feb40a"
-        "feeRatio":
-          "type": "integer"
-          "format": "int32"
-          "description": "Fee delegation ratio"
-          "example": 100
-        "fee":
-          "type": "string"
-          "description": "Gas fee"
-          "example": "0xa455"
-        "from":
-          "type": "string"
-          "description": "EOA of the sender of transaction (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "timestamp":
-          "type": "integer"
-          "format": "int64"
-          "description": "Time of transaction (timestamp)"
-          "example": 1592180992
-        "transactionHash":
-          "type": "string"
-          "description": "Transaction hash (32-byte)"
-          "example": "0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8"
-        "typeInt":
-          "type": "integer"
-          "format": "int32"
-          "description": "Transaction type"
-          "example": 10
-        "value":
-          "type": "string"
-          "description": "Amount of KLAY transferred (in hexadecimal)"
-          "example": "0xa"
-      "required":
-        - "feePayer"
-        - "feeRatio"
-        - "fee"
-        - "from"
-        - "timestamp"
-        - "transactionHash"
-        - "typeInt"
-        - "value"
-    "FtTransfer":
-      "title": "FtTransfer"
-      "type": "object"
-      "properties":
-        "contract":
-          "$ref": "#/components/schemas/FtContract"
-        "formattedValue":
-          "type": "string"
-          "description": "Formatted value with contracts `decimals`"
-          "example": "0.000000000000000002"
-        "from":
-          "type": "string"
-          "description": "Sender EOA (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "to":
-          "type": "string"
-          "description": "Receiver EOA (20-byte)"
-          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
-        "transaction":
-          "$ref": "#/components/schemas/Transaction"
-        "transferType":
-          "type": "string"
-          "description": "Transaction type"
-          "example": "ft"
-        "value":
-          "type": "string"
-          "description": "Number of tokens sent (in hexadecimal)"
-          "example": "0xa"
-      "required":
-        - "contract"
-        - "formattedValue"
-        - "from"
-        - "to"
-        - "transaction"
-        - "transferType"
-        - "value"
-    "MtContract":
-      "title": "MtContract"
-      "type": "object"
-      "properties":
-        "address":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-      "required":
-        - "address"
-    "MtTransfer":
-      "title": "MtTransfer"
-      "type": "object"
-      "properties":
-        "contract":
-          "$ref": "#/components/schemas/MtContract"
-        "operator":
-          "type": "string"
-          "description": "Validator EOA (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "from":
-          "type": "string"
-          "description": "Sender EOA (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "to":
-          "type": "string"
-          "description": "Receiver EOA (20-byte)"
-          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
-        "transaction":
-          "$ref": "#/components/schemas/Transaction"
-        "transferType":
-          "type": "string"
-          "description": "Transaction type"
-          "example": "mt"
-        "ids":
-          "type": "array"
-          "items":
-            "type": "string"
-          "description": "Array of token identifiers (in hexadecimal)"
-          "example": "[0x1,0x2]"
-        "values":
-          "type": "array"
-          "items":
-            "type": "string"
-          "description": "Array of sent tokens (in hexadecimal)"
-          "example": "[0xa,0xb]"
-      "required":
-        - "contract"
-        - "operator"
-        - "from"
-        - "to"
-        - "transaction"
-        - "transferType"
-        - "ids"
-        - "values"
-    "KlayTransfer":
-      "title": "KlayTransfer"
-      "type": "object"
-      "properties":
-        "feePayer":
-          "type": "string"
-          "description": "Fee delegation account address (20-byte)"
-          "example": "0xd0ea3e0eabaea095ea3ba231c043dbf8c0feb40a"
-        "feeRatio":
-          "type": "integer"
-          "format": "int32"
-          "description": "Fee delegation ratio"
-          "example": 100
-        "fee":
-          "type": "string"
-          "description": "Gas fee"
-          "example": "0xa455"
-        "from":
-          "type": "string"
-          "description": "Sender EOA (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "to":
-          "type": "string"
-          "description": "Receiver EOA (20-byte)"
-          "example": "0xb4bf60383c64d47f2e667f2fe8f7ed0c9380f770"
-        "transactionHash":
-          "type": "string"
-          "description": "Transaction hash"
-          "example": "0xc4a32f41e829f50c4e8774be68864f522120a2047db2143b59b3919ebd9234f8"
-        "transactionIndex":
-          "type": "integer"
-          "format": "int32"
-          "description": "Transaction index"
-          "example": 1
-        "transferType":
-          "type": "string"
-          "description": "Transactino type"
-          "example": "klay"
-        "typeInt":
-          "type": "integer"
-          "format": "int32"
-          "description": "Transaction type"
-          "example": 50
-        "value":
-          "type": "string"
-          "description": "Amount of KLAY transferred (in hexadecimal)"
-          "example": "0xa"
-      "required":
-        - "feePayer"
-        - "feeRatio"
-        - "fee"
-        - "from"
-        - "to"
-        - "transactionHash"
-        - "transactionIndex"
-        - "transferType"
-        - "typeInt"
-        - "value"
-    "PageableNftContractDetails":
-      "title": "PageableNftContractDetails"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "$ref": "#/components/schemas/NftContractDetail"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "PageableFtContractDetails":
-      "title": "PageableFtContractDetails"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "$ref": "#/components/schemas/FtContractDetail"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "PageableMtContractDetails":
-      "title": "PageableMtContractDetails"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "$ref": "#/components/schemas/MtContractDetail"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "PageableTransfers":
-      "title": "PageableTransfers"
-      "type": "object"
-      "properties":
-        "items":
-          "$ref": "#/components/schemas/TransferArray"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
-    "Transfers":
-      "title": "Transfers"
-      "type": "object"
-      "properties":
-        "items":
-          "$ref": "#/components/schemas/TransferArray"
-      "required":
-        - "items"
-    "AccountFT":
-      "title": "FT Summary"
-      "type": "object"
-      "properties":
-        "address":
-          "type": "string"
-          "description": "Contract address (20-byte)"
-          "example": "0x5e47b195eeb11d72f5e1d27aebb6d341f1a9bedb"
-        "owner":
-          "type": "string"
-          "description": "EOA to query (20-byte)"
-          "example": "0x00ebd049eff96861d9fb3843fd0de79b08a3cc17"
-        "balance":
-          "type": "string"
-          "description": "Token balances (in hexadecimal)"
-          "example": "0x15e"
-        "formattedValue":
-          "type": "string"
-          "description": "Formatted value with contracts `decimals`"
-          "example": "0.00000000000000035"
-        "decimals":
-          "type": "integer"
-          "format": "int64"
-          "description": "FT token digits"
-          "example": 8
-        "name":
-          "type": "string"
-          "description": "FT Token name"
-          "example": "KASFT"
-        "symbol":
-          "type": "string"
-          "description": "FT Token symbol"
-          "example": "KFT"
-        "totalSupply":
-          "type": "string"
-          "description": "FT total issued amount (in hexadecimal)"
-          "example": "0x174876e800"
-        "updatedAt":
-          "type": "integer"
-          "format": "int64"
-          "description": "Last change in token information (timestamp)"
-          "example": "1592180992"
-      "required":
-        - "address"
-        - "owner"
-        - "decimals"
-        - "name"
-        - "symbol"
-        - "totalSupply"
-        - "updatedAt"
-        - "balance"
-        - "formattedValue"
-    "PageableAccountFT":
-      "title": "PageableAccountFT"
-      "type": "object"
-      "properties":
-        "items":
-          "type": "array"
-          "items":
-            "$ref": "#/components/schemas/AccountFT"
-        "cursor":
-          "type": "string"
-          "description": "Next page cursor"
-          "example": "z2o87adeLbW4Aqm53gpq6VbGZg3JmE5vodrwD9XKmY5vMl4Gkw9PZO1NoBpV8LR83y0\
-            Edb3Aar7eKQqzJWDg6X2xOe1P27l4kzY0xQa8LNABMWv0VJQ6MpNlr9O1xBDE"
-      "required":
-        - "items"
-        - "cursor"
   "securitySchemes":
     "basic":
-      "description": "KAS uses Basic HTTP Auth. All requests must contain a valid Authorization header.
-        KAS user must use access key ID as `username`, and secret access key as `password`
-        to create credentials for Basic Auth.
+      description: |
+        KAS uses Basic HTTP Auth. All requests must contain a valid Authorization header. KAS user must use access key ID as `username`, and secret access key as `password` to create credentials for Basic Auth.
 
+        > **NOTE**
+        >
+        > The KAS account credentials grant access to all services of KAS and own all rights to the Klaytn account created with Wallet API, which means they can execute value transfer of assets on the Klaytn account (like KLAY) or a [Transaction](https://docs.klaytnapi.com/tutorial/wallet-transaction-api). To keep your KAS/Klaytn accounts secure, do not share your KAS API Secret Access Key with others.
 
-        The KAS account credentials grant access to all services of KAS and own all rights to the Klaytn account created with Wallet API, 
-        which means they can execute value transfer of assets on the Klaytn account (like KLAY) or a 
-        [Transaction](https://docs.klaytnapi.com/tutorial/wallet-transaction-api).
-        To keep your KAS/Klaytn accounts secure, do not share your 
-        KAS API Secret Access Key with others.
-
-        ### cURL
-
+        **cURL**
         ```
-
-        \  curl --location --request GET 'https://th-api.klaytnapi.com/v2/contract/ft'
-        \\
-
-        \  -u ${your_accessKeyId}:${your_secretAccessKey} \\
-
-        \  --header 'x-chain-id: 8217' \\
-
-        \  --header 'Content-Type: application/json'
-
-        ```     \ 
-
-        \n"
+        curl --location --request GET 'https://th-api.klaytnapi.com/v2/contract/ft' \
+        -u ${your_accessKeyId}:${your_secretAccessKey} \
+        --header 'x-chain-id: 8217' \
+        --header 'Content-Type: application/json'
+        ```
+        
       "type": "http"
       "scheme": "basic"
 "security":

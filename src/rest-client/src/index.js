@@ -142,8 +142,8 @@ const PageableTokenSummary = require('./tokenHistory/model/PageableTokenSummary'
 const PageableTransfers = require('./tokenHistory/model/PageableTransfers')
 const TransferArray = require('./tokenHistory/model/TransferArray')
 const Transfers = require('./tokenHistory/model/Transfers')
-// const NFTTokenHolder = require('./tokenHistory/model/NftTokenHolder')
-// const MTTokenHolder = require('./tokenHistory/model/MtTokenHolder')
+const NFTTokenHolder = require('./tokenHistory/model/NftTokenHolder')
+const MTTokenHolder = require('./tokenHistory/model/MtTokenHolder')
 const TokenApi = require('./tokenHistory/api/TokenApi')
 const TokenContractApi = require('./tokenHistory/api/TokenContractApi')
 const TokenHistoryApi = require('./tokenHistory/api/TokenHistoryApi')
@@ -887,12 +887,12 @@ module.exports = {
      * The MTTokenHolder model constructor.
      * @property {MTTokenHolder}
      */
-    // MTTokenHolder,
+    MTTokenHolder,
     /**
      * The NFTTokenHolder model constructor.
      * @property {NFTTokenHolder}
      */
-    // NFTTokenHolder,
+    NFTTokenHolder,
     /**
      * The NFTContractSummary model constructor.
      * @property {NFTContractSummary}
