@@ -229,6 +229,12 @@ const Kip37ContractApi = require('./kip37/api/Kip37ContractApi')
 const Kip37DeployerApi = require('./kip37/api/Kip37DeployerApi')
 const Kip37TokenApi = require('./kip37/api/Kip37TokenApi')
 const Kip37TokenOwnershipApi = require('./kip37/api/Kip37TokenOwnershipApi')
+// MetaData
+const UploadAssetRequest = require('./metadata/model/UploadAssetRequest')
+const UploadAssetResponse = require('./metadata/model/UploadAssetResponse')
+const UploadMetadataRequest = require('./metadata/model/UploadMetadataRequest')
+const UploadMetadataResponse = require('./metadata/model/UploadMetadataResponse')
+const DataUploadApi = require('./metadata/api/DataUploadApi')
 
 /**
  * _IntroductionThis_document_describes_KAS__Klaytn_API_Service_Anchor_API__Anchor_API_provides_features_sending_metadata_available_to_verify_data_reliability_to_ensure_the_reliability_of_service_chain_data_to_Klaytn_main_chain_For_more_details_on_using_the_Anchor_API_please_refer_to__Tutorial_httpsdocs_klaytnapi_comtutorialanchor_api__Error_Codes_400_Bad_Request__Code__Messages________________1071010__data_dont_exist1071615__its_value_is_out_of_range_size1072100__same_payload_ID_or_payload_was_already_anchored1072101__all_configured_accounts_have_insufficient_funds__.<br>
@@ -1462,4 +1468,34 @@ module.exports = {
      * @property {Kip37TokenOwnershipApi}
      */
     Kip37TokenOwnershipApi,
+
+    /**
+     * The UploadAssetRequest model constructor.
+     * @property {UploadAssetRequest}
+     */
+    UploadAssetRequest,
+
+    /**
+     * The UploadAssetResponse model constructor.
+     * @property {UploadAssetResponse}
+     */
+    UploadAssetResponse,
+
+    /**
+     * The UploadMetadataRequest model constructor.
+     * @property {UploadMetadataRequest}
+     */
+    UploadMetadataRequest,
+
+    /**
+     * The UploadMetadataResponse model constructor.
+     * @property {UploadMetadataResponse}
+     */
+    UploadMetadataResponse,
+
+    /**
+     * The DataUploadApi service constructor.
+     * @property {DataUploadApi}
+     */
+    DataUploadApi,
 }
