@@ -339,57 +339,6 @@ class TokenApi {
         )
     }
     /**
-     * Callback function to receive the result of the getNftsByContractAddress operation.
-     * @callback TokenApi~getNftsByContractAddressCallback
-     * @param {String} error Error message, if any.
-     * @param {PageableNfts} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Query all token data for certain MT contracts
-     * Selecting an MT contract will fetch data of all MTs created by this MT contract.&lt;p&gt;&lt;/p&gt;  ## Size&lt;p&gt;&lt;/p&gt;  * The query parameter &#x60;size&#x60; is optional. (Min &#x3D; 1, Max &#x3D; 1000, Default &#x3D; 100)&lt;br&gt; * Returns an error when given a negative number&lt;br&gt; * Uses default (&#x60;size&#x3D;100&#x60;) when given a 0&lt;br&gt; * Uses the maximum value (&#x60;size&#x3D;1000&#x60;) when given a value higher than 1000&lt;br&gt;
-     * @param {Object} opts Optional parameters
-     * @param {TokenApi~getMtsByContractAddressCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link PageableMts}
-     */
-    getMftsByContractAddress(xChainId, mtAddress, opts, callback) {
-        opts = opts || {}
-        const postBody = null
-
-        const pathParams = {
-            'mt-address': mtAddress,
-        }
-        const queryParams = {
-            size: opts.size,
-            cursor: opts.cursor,
-        }
-        const headerParams = {
-            'x-chain-id': xChainId,
-        }
-        const formParams = {}
-
-        const authNames = ['basic']
-        const contentTypes = []
-        const accepts = ['application/json']
-        const returnType = PageableMts
-
-        return this.apiClient.callApi(
-            '/v2/contract/mt/{mt-address}/token',
-            'GET',
-            pathParams,
-            queryParams,
-            headerParams,
-            formParams,
-            postBody,
-            authNames,
-            contentTypes,
-            accepts,
-            returnType,
-            callback
-        )
-    }
-    /**
      * Callback function to receive the result of the getNftsByOwnerAddress operation.
      * @callback TokenApi~getNftsByOwnerAddressCallback
      * @param {String} error Error message, if any.
