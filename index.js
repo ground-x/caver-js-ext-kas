@@ -29,6 +29,7 @@ const productionEndpoints = {
     kip7: 'https://kip7-api.klaytnapi.com',
     kip37: 'https://kip37-api.klaytnapi.com',
     metadata: 'https://metadata-api.klaytnapi.com',
+    resource: 'http://resource-api.klaytnapi.com',
 }
 
 /**
@@ -307,9 +308,7 @@ class CaverExtKAS extends Caver {
      */
     initKIP17API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip17, ver = 'v1') {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
-        if (ver === 'v2') {
-            this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
-        } else this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url)
+        this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url, ver)
     }
 
     /**
@@ -346,7 +345,6 @@ class CaverExtKAS extends Caver {
     initKIP37API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip37) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
-        this.kas.i
     }
 
     /**
