@@ -29,7 +29,7 @@ const productionEndpoints = {
     kip7: 'https://kip7-api.klaytnapi.com',
     kip37: 'https://kip37-api.klaytnapi.com',
     metadata: 'https://metadata-api.klaytnapi.com',
-    resource: 'http://resource-api.klaytnapi.com',
+    resource: 'https://resource-api.klaytnapi.com',
 }
 
 /**
