@@ -12,48 +12,35 @@
  */
 
 const ApiClient = require('../../ApiClient')
-const Kip17FeePayerOptions = require('./Kip17FeePayerOptions')
 
 /**
- * The Kip17DeployResponse model module.
- * @class Kip17DeployResponse
+ * The Kip17ContractOwnerResponse model module.
+ * @class Kip17ContractOwnerResponse
  * @version 1.0
  */
-class Kip17DeployResponse {
+class Kip17ContractOwnerResponse {
     /**
-     * Constructs a new <code>Kip17DeployResponse</code>.
-     * @alias Kip17DeployResponse
+     * Constructs a new <code>Kip17ContractOwnerResponse</code>.
      * @class
-     * @param status {String} Transaction status
-     * @param transactionHash {String} Transaction hash
+     * @param owner {String} The Klaytn account address of the current owner.
      */
 
-    constructor(status, transactionHash) {
-        this.status = status
-        this.transactionHash = transactionHash
+    constructor(owner) {
+        this.owner = owner
     }
 
     /**
-     * Constructs a <code>Kip17DeployResponse</code> from a plain JavaScript object, optionally creating a new instance.
+     * Constructs a <code>Kip17ContractOwnerResponse</code> from a plain JavaScript object, optionally creating a new instance.
      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
      * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip17DeployResponse} obj Optional instance to populate.
-     * @return {Kip17DeployResponse} The populated <code>Kip17DeployResponse</code> instance.
-     * @memberof Kip17DeployResponse
+     * @param {Kip17ContractOwnerResponse} obj Optional instance to populate.
+     * @return {Kip17ContractOwnerResponse} The populated <code>Kip17ContractOwnerResponse</code> instance.
+     * @memberof Kip17ContractOwnerResponse
      */
     static constructFromObject(data, obj) {
         if (data) {
-            obj = obj || new Kip17DeployResponse()
+            obj = obj || new Kip17ContractOwnerResponse()
 
-            if (data.hasOwnProperty('status')) {
-                obj.status = ApiClient.convertToType(data.status, 'String')
-            }
-            if (data.hasOwnProperty('transactionHash')) {
-                obj.transactionHash = ApiClient.convertToType(data.transactionHash, 'String')
-            }
-            if (data.hasOwnProperty('options')) {
-                obj.options = Kip17FeePayerOptions.constructFromObject(data.options)
-            }
             if (data.hasOwnProperty('owner')) {
                 obj.owner = ApiClient.convertToType(data.owner, 'String')
             }
@@ -63,21 +50,10 @@ class Kip17DeployResponse {
 }
 
 /**
- * Transaction status
+ * The Klaytn account address of the current owner.
  * @type {String}
- * @memberof Kip17DeployResponse
+ * @memberof Kip17ContractOwnerResponse
  */
-Kip17DeployResponse.prototype.status = undefined
-/**
- * Transaction hash
- * @type {String}
- * @memberof Kip17DeployResponse
- */
-Kip17DeployResponse.prototype.transactionHash = undefined
-/**
- * @type {Kip17FeePayerOptions}
- * @memberof Kip17DeployResponse
- */
-Kip17DeployResponse.prototype.options = undefined
+Kip17ContractOwnerResponse.prototype.owner = undefined
 
-module.exports = Kip17DeployResponse
+module.exports = Kip17ContractOwnerResponse

@@ -102,7 +102,6 @@ describe('Wallet API - Migration', () => {
             const key = keyring._key._privateKey
 
             setMigrateStubs(kasKey, kasRegistration)
-
             const ret = await caver.kas.wallet.migrateAccounts([{ address, key, nonce }])
 
             expect(ret).not.to.be.undefined

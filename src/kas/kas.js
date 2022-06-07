@@ -17,9 +17,11 @@
 const TokenHistory = require('./tokenHistory/tokenHistory')
 const Anchor = require('./anchor/anchor')
 const Wallet = require('./wallet/wallet')
-const KIP17 = require('./kip17/kip17')
+const KIP17 = require('./kip17/v1/kip17')
+const KIP17V2 = require('./kip17/v2/kip17')
 const KIP7 = require('./kip7/kip7')
 const KIP37 = require('./kip37/kip37')
+const MetaData = require('./metadata/metadata')
 const { createClient } = require('../utils/helper')
 
 const AnchorQueryOptions = require('./anchor/anchorQueryOptions')
@@ -52,6 +54,7 @@ class KAS {
         this.kip17 = new KIP17()
         this.kip7 = new KIP7()
         this.kip37 = new KIP37()
+        this.metaData = new MetaData()
 
         this.tokenHistory.queryOptions = TokenHistoryQueryOptions
         this.anchor.queryOptions = AnchorQueryOptions
@@ -131,6 +134,17 @@ class KAS {
     }
 
     /**
+     * @type {MetaData}
+     */
+    get metaData() {
+        return this._metaData
+    }
+
+    set metaData(metaData) {
+        this._metaData = metaData
+    }
+
+    /**
      * Sets chain id and authentication key for Token History API. <br>
      * Since `caver.initTokenHistoryAPI` calls this function internally, it is recommended to use `caver.initTokenHistoryAPI`.
      *
@@ -198,9 +212,17 @@ class KAS {
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
      * @param {string} url The end point url.
+     * @param {string} [ver] The version of kip. default value v1.
      * @return {void}
      */
-    initKIP17API(chainId, accessKeyId, secretAccessKey, url) {
+
+    initKIP17API(chainId, accessKeyId, secretAccessKey, url, ver = 'v1') {
+        if (ver === 'v2') {
+            this.kip17 = new KIP17V2()
+            this.kip17.queryOptions = KIP17QueryOptions
+            this.kip17.feePayerOptions = KIP17FeePayerOptions
+        }
+
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.kip17.accessOptions = accessOptions
         this.kip17.client = client
@@ -242,6 +264,25 @@ class KAS {
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.kip37.accessOptions = accessOptions
         this.kip37.client = client
+    }
+
+    /**
+     * Sets chain id and authentication key for Anchor API. <br>
+     * Since `caver.initMetaDataAPI` calls this function internally, it is recommended to use `caver.initMetaDataAPI`.
+     *
+     * @example
+     * caver.kas.initMetaDataAPI(1001, 'accessKeyId', 'secretAccessKey', 'https://meatadata-api.klaytnapi.com')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} url The end point url.
+     * @return {void}
+     */
+    initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url) {
+        const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
+        this.metaData.accessOptions = accessOptions
+        this.metaData.client = client
     }
 }
 

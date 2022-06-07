@@ -1,0 +1,1479 @@
+openapi: 3.0.0
+info:
+  title: KIP-17 API
+  description: |-
+    ### [DEPRECATED]
+    
+    It is recommended to use KIP-17 API v2, a compatible verion with newly added features. Click the drop-down menu on the upper right and select v2 or latest. Read [New features and compatibility with v1](./v2#section/Introduction/v2-v1) for more details.
+    
+    Read [KIP-17 v2](./latest) to use KIP-17.
+
+    # Introduction
+
+    The KIP-17 API helps BApp (Blockchain Application) developers to manage contracts and tokens created in accordance with the [KIP-17](https://docs.klaytnapi.com/v/en/api#kip-17-api) standard, which is Klaytn's technical speficication for Non-Fungible Tokens. 
+    The functionality of the multiple endpoints enables you to do the following actions:
+    - deploy smart contracts
+    - manage the entire life cycle of an NFT from minting, to sending and burning
+    - get contract or token data
+    - authorize a third party to execute token transfers
+    - view token ownership history
+
+    When you have created a contract on the Klaytn Network using SDKs like caver, you can use the contract address and your [Wallet API](https://refs.klaytnapi.com/en/wallet/latest) account to manage contracts and tokens.
+
+    For more details on KAS, please refer to [KAS Docs](https://docs.klaytnapi.com/). If you have any questions or comments, please leave them in the [KAS Developers Forum](https://support.klaytnapi.com/hc/en/community/topics).  
+
+    **alias**
+
+    When a method of the KIP-17 API requires a contract address, you can use the contract **alias**. You can give the contract an alias when deploying, and use it in place of the complicated address.
+
+    # Fee Payer Options
+    KAS KIP-17 supports four ways to pay the transaction fees.<br />
+
+    **1. Only using KAS Global FeePayer Account** <br />
+    Sends all transactions using KAS Global FeePayer Account.
+    ```
+    {
+        "options": {
+          "enableGlobalFeePayer": true
+        }
+    }
+    ```
+    <br />
+
+    **2. Using User FeePayer Account** <br />
+    Sends all transactions using User FeePayer Account.
+    ```
+    {
+      "options": {
+        "enableGlobalFeePayer": false,
+        "userFeePayer": {
+          "krn": "krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default",
+          "address": "0xd6905b98E4Ba43a24E842d2b66c1410173791cab"
+        }
+      }
+    }
+    ```
+    <br />
+
+    **3. Using both KAS Global FeePayer Account + User FeePayer Account** <br />
+    Sends transactions using User FeePayer Account by default, and switches to the KAS Global FeePayer Account when balances are insufficient.
+    ```
+    {
+      "options": {
+        "enableGlobalFeePayer": true,
+        "userFeePayer": {
+          "krn": "krn:1001:wallet:20bab367-141b-439a-8b4c-ae8788b86316:feepayer-pool:default",
+          "address": "0xd6905b98E4Ba43a24E842d2b66c1410173791cab"
+        }
+      }
+    }
+    ```
+    <br />
+
+    **4. Not using FeePayer Account** <br />
+    Sends transactions the default way, paying the transaction fee from the user's account.
+    ```
+    {
+      "options": {
+        "enableGlobalFeePayer": false
+      }
+    }
+    ```
+    <br />
+
+    # Error Code
+    This section contains the errors that might occur when using the KIP-17 API. KAS uses [HTTP status codes](https://developer.mozilla.org/en/docs/Web/HTTP/Status). Error code tables can be found [here](#tag/err-400).
+tags:
+  - name: err-400
+    x-displayName: "400: Bad Request"
+    description: |
+      The request is not valid.
+
+      | Code | Message | Description |
+      | --- | --- | --- |
+      | 1100050 | invalid request | The data format is wrong. 
+      | 1100101 | data not found | Data doesn't exist. 
+      | 1100251 | value out of range | Value is out of range.
+      | 1104401 | Invalid krn; options.userFeePayer.krn | The KRN or the `sender` address you entered is wrong. Please check your sender Account Pool.
+      | 1100251 | contract not ready | Checking contract deployment status.
+      | 1104401 | invalid alias | The alias is invalid. Please check the requirements.
+      | 1010007 | invalid path or method | The path or method you entered is wrong. 
+  - name: err-401
+    x-displayName: "401: Unauthorized"
+    description: |
+      The credential you entered is invalid.
+
+      | Code | Message | Description |
+      |  --- | --- | --- |
+      | 1010009 | invalid credential | The credential you entered is invalid. 
+  - name: err-404
+    x-displayName: "404: Not Found"
+    description: |
+      The resource you requested doesn't exist.
+
+      | Code | Messages | Description |
+      | --- | --- | --- |
+      | 1104404 | token not found | The token doesn't exist. 
+  - name: err-409
+    x-displayName: "409: Conflict"
+    description: |
+      There was a conflict with the current state of the server.
+        
+      | Code | Messages | Description |
+      | --- | --- | --- |
+      | 1104400 | duplicate alias- {alias} | This alias is already taken.
+  - name: kip17-contract
+    x-displayName: "Contract"
+  - name: kip17-token
+    x-displayName: "Token"
+x-tagGroups:
+  - name: API
+    tags:
+      - kip17-contract    
+      - kip17-token
+  - name: Error Codes
+    tags:
+      - err-400
+      - err-401
+      - err-404
+      - err-409
+paths:
+  /v1/contract:
+    post:
+      description: |-
+        Deploys a new KIP-17 contract with the given parameters. You can find the tutorial for KIP-17 contract deployment [here](https://docs.klaytnapi.com/tutorial/kip17-api#kip-17).  
+
+
+        Even if you see `Submitted` in the response, it doesn't mean that the transaction is `Committed`. To confirm transaction status, use [Get Contract List](#operation/ListContractsInDeployerPool) or [Get Transaction Receipt](https://refs.klaytnapi.com/en/wallet/latest#operation/TransactionReceipt) from the Wallet API.
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    status: Submitted
+                    transactionHash: '0x0a4f4f97d8a5904721514d60abd3f9ad7938862e415a6c043553a94ab68a5edb'
+                    options:
+                      enableGlobalFeePayer: true
+                      userFeePayer:
+                        krn: 'krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default'
+                        address: '0xE8964cA0C83cBbF520df5597dc1f5EFc27E5E729'
+              schema:
+                $ref: ../../models/Kip17DeployResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: Invalid alias.
+                  value:
+                    code: 1104400
+                    message: duplicate alias- test
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '409':
+          description: There was a conflict with the current state of the server.
+          content:
+            application/json:
+              examples:
+                Duplicate alias:
+                  summary: Duplicate alias
+                  description: This alias is already taken.
+                  value:
+                    code: 1104401
+                    message: duplicate alias- test
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Deploy Contract
+      operationId: DeployContract
+      tags:
+        - kip17-contract
+      requestBody:
+        $ref: '#/components/requestBodies/DeployKip17ContractRequest'
+        content:
+          application/json:
+            schema:
+              $ref: ../../models/DeployKip17ContractRequest.yaml
+    get:
+      description: Returns a list of KIP-17 contracts created from a KAS account.<p></p>
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'The number of items to return (min=1, max=1000, default=100).'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: string
+          example: ''
+        - description: 'The pointer for the next request, after which the result will be returned.'
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: eyJjm...ZSJ9
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    cursor: eyJjm...ZSJ9
+                    items:
+                      - address: '0x34132f491fea7aa622cca594e4bd2ccd6fc02bf7'
+                        alias: test
+                        name: TEST NFT
+                        symbol: TEST
+                        options:
+                          enableGlobalFeePayer: true
+                          userFeePayer:
+                            krn: 'krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default'
+                            address: '0xE8964cA0C83cBbF520df5597dc1f5EFc27E5E729'
+              schema:
+                $ref: ../../models/Kip17ContractListResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Get Contract List
+      operationId: ListContractsInDeployerPool
+      tags:
+        - kip17-contract
+  '/v1/contract/{contract-address-or-alias}':
+    get:
+      description: Returns the data for a specified KIP-17 contract. You can use either the contract alias or contract address.<p></p>
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    address: '0x7766a3af39e4fffbaccf6efa6a37ed195f9179b4'
+                    alias: test
+                    name: Test NFT
+                    symbol: TEST
+                    options:
+                      enableGlobalFeePayer: true
+                      userFeePayer:
+                        krn: 'krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default'
+                        address: '0xE8964cA0C83cBbF520df5597dc1f5EFc27E5E729'
+              schema:
+                $ref: ../../models/Kip17ContractInfoResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+                Nonexistent contract:
+                  summary: Nonexistent contract
+                  description: This contract does not exist.
+                  value:
+                    code: 1100101
+                    message: Data not found
+                    requestId: 564d53ce-0e45-9db6-9e8f-ac15a1c9b140
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Get Contract
+      operationId: GetContract
+      tags:
+        - kip17-contract
+    put:
+      description: |-
+        Updates the fee payment method for a contract.
+
+        ##### Options
+        With `options` you can set the transaction fee payment method. You can find more details in [Fee Payer Options](#section/Fee-Payer-Options).
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    address: '0x7766a3af39e4fffbaccf6efa6a37ed195f9179b4'
+                    alias: test
+                    name: TestNFT
+                    symbol: TEST
+                    options:
+                      enableGlobalFeePayer: false
+                      userFeePayer:
+                        krn: 'krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default'
+                        address: '0xd6905b98E4Ba43a24E842d2b66c1410173791cab'
+              schema:
+                $ref: ../../models/Kip17ContractInfoResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+              examples:
+                Invalid FeePayer KRN:
+                  description: The KRN you entered is wrong. Please check your sender Account Pool.
+                  value:
+                    code: 1104401
+                    message: invalid krn;options.userFeePayer.krn
+                    requestId: 3c59fd06-c838-4d47-b9cf-59b2e25311e7
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+        '404':
+          description: The resource you requested does not exist.
+          content:
+            application/json:
+              examples:
+                Not Found - alias:
+                  summary: Not found
+                  description: Contract doesn't exist.
+                  value:
+                    code: 1104504
+                    message: Contract not found
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Update Contract
+      operationId: UpdateContract
+      tags:
+        - kip17-contract
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateKip17ContractRequest'
+        content:
+          application/json:
+            schema:
+              $ref: ../../models/UpdateKip17ContractRequest.yaml
+  '/v1/contract/{contract-address-or-alias}/token':
+    post:
+      description: |-
+        Mints a new token from a specified KIP-17 contract. You can use the contract alias in place of the address.
+
+        > **NOTE** 
+        >
+        > Minting a token to an address outside the KAS Account Pool hinders you from sending or burning the token using KAS..
+      
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: KRN (KAS Resource Name) unique to an Account Pool
+          in: header
+          name: x-krn
+          required: false
+          schema:
+            type: string
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    status: Submitted
+                    transactionHash: '0x57d94989611cf0351fdea04dd5193398980642aaed82c8c34bdef12f4ecf356e'
+              schema:
+                $ref: ../../models/Kip17TransactionStatusResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Missing field or wrong value:
+                  summary: Missing field or wrong value
+                  description: A field is either missing or has a wrong value.
+                  value:
+                    code: 1100050
+                    message: invalid request
+                    requestId: 0fbb2970-41ae-978c-9edb-d759ed6e7c87
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Mint Token
+      operationId: MintToken
+      tags:
+        - kip17-token
+      requestBody:
+        $ref: '#/components/requestBodies/MintKip17TokenRequest'
+        content:
+          application/json:
+            schema:
+              $ref: ../../models/MintKip17TokenRequest.yaml
+    get:
+      description: Returns a list of all tokens minted from a specified KIP-17 contract. You can use the contract alias in place of the address.
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'The number of items to return (min=1, max=1000, default=100).'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: null
+        - description: 'The pointer for the next request, after which the result will be returned.'
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: eyJjm...ZSJ9
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    cursor: eyJjm...ZSJ9
+                    items:
+                      - createdAt: 1608640582
+                        updatedAt: 1608640582
+                        owner: '0xdc277e2d89b92336a4ee80be3c7142443fdade47'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenId: '0x9'
+                        tokenUri: 'https://metastore.kip17.com/0xbe02aba/0x1'
+                        transactionHash: '0xb5fcf5f9bb28e6584104b743630371cef234c176a5c42b65e5a01299c0c2e6ff'
+                      - createdAt: 1607396973
+                        updatedAt: 1607396973
+                        owner: '0xdc277e2d89b92336a4ee80be3c7142443fdade47'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenId: '0x8'
+                        tokenUri: 'https://metastore.kip17.com/0xbe02aba/0x1'
+                        transactionHash: '0xd2b5d09aa13e6306ef65507c324c92d3f91aa03003ed480fe8a11e4adca713d4'
+              schema:
+                $ref: ../../models/Kip17TokenListResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+                Nonexistent contract:
+                  summary: Nonexistent contract
+                  description: This contract does not exist.
+                  value:
+                    code: 1100101
+                    message: Data not found
+                    requestId: bb3b9e86-6a6f-9f1a-96bd-c9664df2dcbc
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Get Token List
+      operationId: ListTokens
+      tags:
+        - kip17-token
+  '/v1/contract/{contract-address-or-alias}/token/{token-id}':
+    get:
+      description: Returns the data of a specified token. You can use the contract alias in place of the address.<p></p>
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+        - description: The ID of the desired token.
+          in: path
+          name: token-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    createdAt: 1607330287
+                    updatedAt: 1607391306
+                    owner: '0xae7bb7efff289c163a95303795c4d59293f6ba92'
+                    previousOwner: '0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4'
+                    tokenId: '0x1'
+                    tokenUri: 'https://metastore.kip17.com/0xbe02aba/0x1'
+                    transactionHash: '0xf5f5d97ce5e6339fc767bd2f4df57d9ab39ca71e423d9f3b36a5f58ac894f578'
+              schema:
+                $ref: ../../models/GetKip17TokenResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+                Nonexistent contract:
+                  summary: Nonexistent contract
+                  description: This contract does not exist.
+                  value:
+                    code: 1100101
+                    message: data not found
+                    requestId: ef8177de-7b42-9c2a-ab3f-46ffd45b8767
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '404':
+          description: The resource you requested does not exist.
+          content:
+            application/json:
+              examples:
+                Nonexistent token:
+                  summary: Nonexistent token
+                  description: The token you entered does not exist.
+                  value:
+                    code: 1104404
+                    message: token not found
+                    requestId: 1b99498f-4f37-98cc-a1d4-6246a7a5be79
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Get Token Data
+      operationId: GetToken
+      tags:
+        - kip17-token
+    post:
+      description: |-
+        Sends a token to a specified address. If the token has a different `sender` and `owner`, the `sender` must be authorized to send the token. You can authorize an account to send tokens via [v1/contract/{contract-address-or-alias}/approve/{token-id}](#operation/ApproveToken).<p></p>
+
+        You will see `Submitted` in the response even when you enter a wrong token ID. But that does not mean that it is successfully `Committed`. To confirm transaction status, use [Get Transaction Receipt](https://refs.klaytnapi.com/en/wallet/latest#operation/TransactionReceipt) from the Wallet API.
+
+        ##### Sender 
+        `sender` is the address that sends the transaction. If it is an account in the default `account-pool` of KIP-17 or Wallet Service, you can omit the KRN header. <br /> Otherwise you need to include the KRN header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`).
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: KRN (KAS Resource Name) unique to an Account Pool
+          in: header
+          name: x-krn
+          required: false
+          schema:
+            type: string
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+        - description: Token ID
+          in: path
+          name: token-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    status: Submitted
+                    transactionHash: '0x72b05d3b27e17a132e60681f4a2ad487868181b0623fbaa841875ecb36f62b8f'
+              schema:
+                $ref: ../../models/Kip17TransactionStatusResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+                Failed to get account:
+                  summary: Failed to get account
+                  description: The KRN you entered is wrong. Please check the sender Account Pool.
+                  value:
+                    code: 1104401
+                    message: failed to get account
+                    requestId: 10cfc941-22e3-919a-bc61-ff949bd79442
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Transfer Token
+      operationId: TransferToken
+      tags:
+        - kip17-token
+      requestBody:
+        $ref: '#/components/requestBodies/TransferKip17TokenRequest'
+        content:
+          application/json:
+            schema:
+              $ref: ../../models/TransferKip17TokenRequest.yaml
+    delete:
+      description: |-
+        Burns a token.
+
+        You will see `Submitted` in the response even when you enter the wrong token ID, the `from` and `owner` are different, or when `from` is not authorized to burn the token. But that does not mean that it is successfully `Committed`. To confirm transaction status, use [Get Transaction Receipt](https://refs.klaytnapi.com/en/wallet/latest#operation/TransactionReceipt) from the Wallet API.<p></p> 
+
+        ##### From
+        `from` is the address that sends the transaction. If `from` is an account in the default `account-pool` of KIP-17 or Wallet Service, you can omit the KRN header. <br /> Otherwise you need to include the KRN header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`). 
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: KRN (KAS Resource Name) unique to an Account Pool
+          in: header
+          name: x-krn
+          required: false
+          schema:
+            type: string
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+        - description: The ID of the token to burn.
+          in: path
+          name: token-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    status: Submitted
+                    transactionHash: '0xbf6de339cf435447e58da05384bbf83a16fea40044bb49b84e11d3b00ea0325f'
+              schema:
+                $ref: ../../models/Kip17TransactionStatusResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+                Failed to get account:
+                  summary: Failed to get account
+                  description: The KRN or the from address you entered is wrong. Please check the sender Account Pool.
+                  value:
+                    code: 1104401
+                    message: failed to get account
+                    requestId: 10cfc941-22e3-919a-bc61-ff949bd79442
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Burn Token
+      operationId: BurnToken
+      tags:
+        - kip17-token
+      requestBody:
+        $ref: '#/components/requestBodies/BurnKip17TokenRequest'
+        content:
+          application/json:
+            schema:
+              $ref: ../../models/BurnKip17TokenRequest.yaml
+  '/v1/contract/{contract-address-or-alias}/approve/{token-id}':
+    post:
+      description: |-
+        Grant or deny authorization to `to` to send a specified token. To deny authorization, enter `0x0000000000000000000000000000000000000000` for `to`.
+
+        You will see in `Submitted` in the response even when you enter the wrong token ID, the `from` and `owner` are differet. But that does not mean that it is successfully `Committed`. To confirm transaction status, use [Get Transaction Receipt](https://refs.klaytnapi.com/en/wallet/latest#operation/TransactionReceipt) from the Wallet API.<p></p>
+
+        ##### From 
+        `from` is the address that sends the transaction. If `from` is an account in the default `account-pool` of KIP-17 or Wallet Service, you can omit the KRN header. <br /> Otherwise you need to include the KRN header (`x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}`).
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: KRN (KAS Resource Name) unique to an Account Pool
+          in: header
+          name: x-krn
+          required: false
+          schema:
+            type: string
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+        - description: The ID of the token that the `to` will be authorized to send.
+          in: path
+          name: token-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    status: Submitted
+                    transactionHash: '0x0a56e8dba1afc0cc1b96c1dec0eccc611863c5c3a181101b73f7471f2a4e550b'
+              schema:
+                $ref: ../../models/Kip17TransactionStatusResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Approve/Deny Authorization for Token Transfers
+      operationId: ApproveToken
+      tags:
+        - kip17-token
+      requestBody:
+        $ref: '#/components/requestBodies/ApproveKip17TokenRequest'
+        content:
+          application/json:
+            schema:
+              $ref: ../../models/ApproveKip17TokenRequest.yaml
+  '/v1/contract/{contract-address-or-alias}/approveall':
+    post:
+      description: |-
+        Grant or deny authorization to `to` to send all tokens owned by `from` in a specified contract.<p></p>
+
+
+        You will see in `Submitted` in the response even when you enter the wrong address or token ID, or when the `from` and `owner` are different. But that does not mean that it is successfully `Committed`). To confirm transaction status, use [Get Transaction Receipt](https://refs.klaytnapi.com/en/wallet/latest#operation/TransactionReceipt) from the Wallet API.<p></p>
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: KRN (KAS Resource Name) unique to an Account Pool
+          in: header
+          name: x-krn
+          required: false
+          schema:
+            type: string
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    status: Submitted
+                    transactionHash: '0xb5a0618be3508b3fe22e35aa96063005dd4c557cf040348cc542b0726cc30f7b'
+              schema:
+                $ref: ../../models/Kip17TransactionStatusResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+                    requestId: d2529337-b6e4-90c0-bb73-d50c74d207d1
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Approve/Deny Transfers of All Token
+      operationId: ApproveAll
+      tags:
+        - kip17-token
+      requestBody:
+        $ref: '#/components/requestBodies/ApproveAllKip17Request'
+        content:
+          application/json:
+            schema:
+              $ref: ../../models/ApproveAllKip17Request.yaml
+  '/v1/contract/{contract-address-or-alias}/owner/{owner-address}':
+    get:
+      description: Returns a list of all tokens existent for a contract.
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'The number of items to return (min=1, max=1000, default=100).'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: null
+        - description: 'The pointer for the next request, after which the result will be returned.'
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: eyJjm...ZSJ9
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+        - description: Address of the token owner
+          in: path
+          name: owner-address
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    cursor: eyJjm...ZSJ9
+                    items:
+                      - createdAt: 1608691873
+                        updatedAt: 1608691873
+                        owner: '0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenId: '0x13'
+                        tokenUri: 'https://metastore.kip17.com/0xbe02aba/0x1'
+                        transactionHash: '0x3bf8107f39158abf0f2b0dc1ee8ccce9320fbce14899f0021dc4d6ad970c9150'
+                      - createdAt: 1608690798
+                        updatedAt: 1608690798
+                        owner: '0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4'
+                        previousOwner: '0x0000000000000000000000000000000000000000'
+                        tokenId: '0x12'
+                        tokenUri: 'https://metastore.kip17.com/0xbe02aba/0x1'
+                        transactionHash: '0x3857bd481b4a993b4346e1b6c18862bb39ee19401fd3b04101993ce8eed05743'
+              schema:
+                $ref: ../../models/GetOwnerKip17TokensResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+                Invalid query parameter (size):
+                  summary: Invalid query parameter (size)
+                  description: The value is out of scope.
+                  value:
+                    code: 1100251
+                    message: value out of range; size
+                Nonexistent data:
+                  summary: Nonexistent data
+                  description: Data doesn't exist.
+                  value:
+                    code: 1100101
+                    message: Data not found
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: List Tokens by Address
+      operationId: GetOwnerTokens
+      tags:
+        - kip17-token
+  '/v1/contract/{contract-address-or-alias}/token/{token-id}/history':
+    get:
+      description: Returns the transaction history of a specified token from the time it was minted. Each item in the response represents a transfer.
+      parameters:
+        - description: Klaytn Network Chain ID (1001 or 8217)
+          in: header
+          name: x-chain-id
+          required: true
+          schema:
+            type: string
+        - description: 'The number of items to return (min=1, max=1000, default=100).'
+          in: query
+          name: size
+          required: false
+          schema:
+            type: integer
+            format: int64
+          example: null
+        - description: 'The pointer for the next request, after which the result will be returned.'
+          in: query
+          name: cursor
+          required: false
+          schema:
+            type: string
+          example: eyJjm...ZSJ9
+        - description: Contract address (in hex.) or alias.
+          in: path
+          name: contract-address-or-alias
+          required: true
+          schema:
+            type: string
+        - description: Token ID
+          in: path
+          name: token-id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              examples:
+                Success:
+                  summary: Success
+                  description: 'Your request was successful.'
+                  value:
+                    cursor: eyJjm...ZSJ9
+                    items:
+                      - from: '0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4'
+                        timestamp: 1607391306
+                        to: '0xae7bb7efff289c163a95303795c4d59293f6ba92'
+                      - from: '0x0000000000000000000000000000000000000000'
+                        timestamp: 1607330287
+                        to: '0xbafa182d3fccebcb1701b66a69f0e7b40f3a52c4'
+              schema:
+                $ref: ../../models/GetKip17TokenHistoryResponse.yaml
+        '400':
+          description: Your request is not valid.
+          content:
+            application/json:
+              examples:
+                Invalid request:
+                  summary: Invalid request
+                  description: The format of the data you entered is wrong.
+                  value:
+                    code: 1100050
+                    message: Invalid request
+                Invalid path or method:
+                  summary: Invalid path or method
+                  description: The path or method you entered is wrong.
+                  value:
+                    code: 1010007
+                    message: invalid path or method
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '401':
+          description: The credential you entered is invalid.
+          content:
+            application/json:
+              examples:
+                Invalid alias:
+                  summary: Invalid alias
+                  description: The credential you entered is invalid.
+                  value:
+                    code: 1010009
+                    message: The credential you provided is not valid.
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+        '404':
+          description: The resource you requested does not exist.
+          content:
+            application/json:
+              examples:
+                Nonexistent token:
+                  summary: Nonexistent token
+                  description: The token doesn't exist.
+                  value:
+                    code: 1104404
+                    message: Token not found
+                    requestId: 1b99498f-4f37-98cc-a1d4-6246a7a5be79
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+      summary: Get Token Ownership History
+      operationId: GetTokenHistory
+      tags:
+        - kip17-token
+servers:
+  - url: 'https://kip17-api.klaytnapi.com'
+components:
+  securitySchemes:
+    basic:
+      description: |-
+        KAS uses Basic HTTP Auth. All requests must have a correct Authorization header and a KAS user can create the credentials to be used for Basic Auth by using `username` as access key ID and `password` as secret access key.
+
+        >**NOTE**
+        >
+        > All credentials on KAS enable full access to KAS and to the Klaytn account created with the Wallet API. It authorizes asset transfers of Klaytn account's assets (like KLAY) as well as [Transaction Execution](https://docs.klaytnapi.com/v/en/tutorial/wallet-transaction-api). To keep your KAS/Klaytn accounts secure, do not share your KAS API Secret Access Key with others.
+        
+        **cURL**
+        ```
+          curl --location --request GET 'https://kip17-api.klaytnapi.com/v1/contract' \
+          -u ${your_accessKeyId}:${your_secretAccessKey} \
+          --header 'x-chain-id: 1001' \
+          --header 'Content-Type: application/json'
+        ```      
+      type: http
+      scheme: basic
+  requestBodies:
+    DeployKip17ContractRequest:
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                alias: test
+                symbol: TEST
+                name: TEST NFT
+                options:
+                  enableGlobalFeePayer: true
+                  userFeePayer:
+                    krn: 'krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default'
+                    address: '0xE8964cA0C83cBbF520df5597dc1f5EFc27E5E729'
+          schema:
+            $ref: ../../models/DeployKip17ContractRequest.yaml
+    UpdateKip17ContractRequest:
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                options:
+                  enableGlobalFeePayer: false
+                  userFeePayer:
+                    krn: 'krn:1001:wallet:88c1223c-66af-4122-9818-069b2e3c6b30:feepayer-pool:default'
+                    address: '0xd6905b98E4Ba43a24E842d2b66c1410173791cab'
+          schema:
+            $ref: ../../models/UpdateKip17ContractRequest.yaml
+    MintKip17TokenRequest:
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                to: '0x9EaF20b40E0f1ced5dbba6f5Cfb0D3E12B0534f4'
+                id: '0x13'
+                uri: 'https://metastore.kip17.com/0xbe02aba/0x1'
+            Bad request - missing field:
+              value:
+                to: '0xDc277E2D89b92336A4ee80be3c7142443FDaDE47'
+                uri: 'https://metastore.kip17.com/0xbe02aba/0x1'
+          schema:
+            $ref: ../../models/MintKip17TokenRequest.yaml
+    TransferKip17TokenRequest:
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                sender: '0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4'
+                owner: '0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4'
+                to: '0xDc277E2D89b92336A4ee80be3c7142443FDaDE47'
+          schema:
+            $ref: ../../models/TransferKip17TokenRequest.yaml
+    BurnKip17TokenRequest:
+      content:
+        application/json:
+          examples:
+            Bad request - failed to get an account:
+              value:
+                from: '0xDc277E2D89b92336A4ee80be3c7142443FDaDE47'
+            Success:
+              value:
+                from: '0xDc277E2D89b92336A4ee80be3c7142443FDaDE47'
+          schema:
+            $ref: ../../models/BurnKip17TokenRequest.yaml
+    ApproveKip17TokenRequest:
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                from: '0x9EaF20b40E0f1ced5dbba6f5Cfb0D3E12B0534f4'
+                to: '0xDc277E2D89b92336A4ee80be3c7142443FDaDE47'
+            Incorrect address:
+              value:
+                from: '0x9EaF20b40E0f1ced5dbba6f5Cfb0D3E12B0534f4'
+                to: 0xINCORRECT
+          schema:
+            $ref: ../../models/ApproveKip17TokenRequest.yaml
+    ApproveAllKip17Request:
+      content:
+        application/json:
+          examples:
+            Success:
+              value:
+                from: '0x9eaf20b40e0f1ced5dbba6f5cfb0d3e12b0534f4'
+                to: '0xDc277E2D89b92336A4ee80be3c7142443FDaDE47'
+                approved: true
+          schema:
+            $ref: ../../models/ApproveAllKip17Request.yaml
+security:
+  - basic: []

@@ -1,0 +1,215 @@
+openapi: 3.1.0
+info:
+  title: Metadata API
+  description: |
+    # Introduction
+
+    The Metadata API helps BApp (Blockchain Application) developers to manage assets and metadata for their tokens.
+    
+    Asset and metadata are used when you mint Klaytn's [KIP-17](https://kips.klaytn.com/KIPs/kip-17) Tokens (NFTs), [KIP-37](https://kips.klaytn.com/KIPs/kip-37) Tokens (MTs).
+
+    An asset refers to an image or a video file of an NFT or MT. When you mint an NFT or MT, you first have to upload the asset and include the returned asset URI in the metadata when minting the token.
+    Metadata originally refers to "data of data". In the context of NFTs or MTs, it refers to the properties (name, description, image URL etc.) of the tokens. It is stored in JSON format.
+
+    Metadata API enables you to do the following actions:
+    - upload assets
+    - upload metadata
+    - provide an externally accessible URI for the assets and metadata
+
+    # Error Code
+    This section contains the errors that might occur when using Metadata API. KAS uses [HTTP status codes](https://developer.mozilla.org/en/docs/Web/HTTP/Status). Error code tables can be found [here](#tag/err-400).
+tags:
+  - name: err-400
+    x-displayName: "400: Bad Request"
+    description: |
+      The request is not valid.
+
+      | Code | Messages | Description |
+      | --- | --- | --- |
+      | 1170050 | invalid request | Wrong request format. |
+      | 1174401 | invalid input | The data you entered is not valid. |
+      | 1174402 | invalid input : check json format | Wrong JSON format. |
+      | 1174403 | invalid input : you should check json format for metadata you should check json format for metadata | Wrong metadata JSON format. |
+      | 1174404 | invalid input : check your filename | Invalid file name. | 
+      | 1174405 | invalid input : body size should not exceed 10MB | File size too large. |
+      | 1174406 | invalid input : check Content-Type Header | Wrong Content-Type in the header. |
+      | 1174407 | duplicate KRN name | KRN already exists. |
+      | 1175301 | duplicate key | File name already exists. |
+      | 1175602 | data doesn't exist | Nonexistent data. |
+  - name: data-upload
+    x-displayName: "Data Upload"
+x-tagGroups:
+  - name: API
+    tags:
+      - data-upload
+  - name: Error Codes
+    tags:
+      - err-400
+servers:
+  - url: 'https://metadata-api.klaytnapi.com'
+paths:
+  /v1/metadata/asset:
+    post:
+      summary: Upload Asset
+      tags:
+        - data-upload
+      operationId: uploadAsset
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: ../../models/UploadAssetResponse.yaml
+              examples:
+                Image upload sample:
+                  value:
+                    contentType: image/png
+                    filename: 4a85e6be-3215-93e6-d8a9-3a7d633584e7.png
+                    uri: 'https://metadata-store.klaytnapi.com/e2d83fbb-c123-811c-d5f3-69132v482c51/4a85e6be-3215-93e6-d8a9-3a7d633584e7.png'
+        '400':
+          description: The request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+              examples:
+                Invalid input:
+                  summary: Invalid input
+                  description: The data you entered is not valid.
+                  value:
+                    code: 1174401
+                    message: invalid input
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+      description: |-
+        Uploads an asset. Supported file types include jpg, png, and gif. After uploading the asset file, it returns a public URI to access the asset.
+
+          You can use curl to upload the file as shown below:
+        ```
+        curl --location --request POST 'https://metadata-api.klaytnapi.com/v1/metadata/asset' \
+        --header 'x-chain-id: 8217' \
+        --header 'Authorization: Basic S0FTS0U0Mjc5Q01VMVhLVDg1UTRBVkRBOlFEMENMam5XRW94TzZfQ3pYLV9oLWRrQkZnMDVxR1FnbWlYcDAwVno=' \
+        --form 'file=@"/Users/usernamed/Documents/files/1kbfile.jpg"'
+        ```
+
+        > **Note** 
+        >
+        >The URI in the response looks like this: 
+        >
+        >`https://metadata-store.klaytnapi.com/{storage-id}/{assetID}.{extension}`.
+        >- `{storage-id}`(UUID) is an identifier value automatically given to each user.
+        >- {assetID} is a unique identifier given to the uploaded asset.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-chain-id
+          description: Klaytn Network Chain ID (1001 or 8217)
+          required: true
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: ../../models/UploadAssetRequest.yaml
+            examples:
+              test:
+                value:
+                  file: '@"/Users/username/Documents/files/1kbfile.jpg"'
+        description: 'Attach a file you want to upload.'
+  /v1/metadata:
+    post:
+      summary: Upload Metadata
+      tags:
+        - data-upload
+      responses:
+        '200':
+          description: Your request was successful.
+          content:
+            application/json:
+              schema:
+                $ref: ../../models/UploadMetadataResponse.yaml
+              examples:
+                No Filename:
+                  value:
+                    filename: 4f9asvf2f5-02d0-5b86-4f99-50acds269c8a.json
+                    contentType: application/json
+                    uri: 'https://metadata-store.klaytnapi.com/e2d83vdb-c108-823c-d5f3-69vdf2d871c51/4f9asvf2f5-02d0-5b86-4f99-50acds269c8a.json'
+                With Filename:
+                  value:
+                    filename: haha.json
+                    contentType: application/json
+                    uri: 'https://metadata-store.klaytnapi.com/e2d83vdb-c108-823c-d5f3-69vdf2d871c51/haha.json'
+        '400':
+          description: The request is not valid.
+          content:
+            application/json:
+              schema:
+                $ref: ../../models/ErrorResponse.yaml
+              examples:
+                Invalid input:
+                  summary: Invalid input
+                  description: The data you entered is not valid.
+                  value:
+                    code: 1174401
+                    message: invalid input
+                    requestId: 1b370cb5-590d-90c2-bf4f-afb89c0b6a5a
+      operationId: uploadMetadata
+      description: |
+        Uploads metadata. After uploading the metadata, it returns an externally accessible public URI for that metadata.
+
+        > **Note** 
+        >
+        >The URI in the response looks like this: 
+        >
+        >`https://metadata-store.klaytnapi.com/{storage-id}/{fileName}`.
+        >- `{storage-id}`(UUID) is an identifer automatically given to each user.
+        >- With no filename: .../{storage-id}/`{assetId}.json`
+        >- With filename (example: `haha.json`): .../{storage-id}/haha.json
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: x-chain-id
+          description: Klaytn Network Chain ID (1001 or 8217)
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../../models/UploadMetadataRequest.yaml
+            examples:
+              No filename:
+                value:
+                  metadata:
+                    name: Puppy Heaven NFT
+                    description: This is a sample description
+                    image: 'https://metadata-store.klaytnapi.com/e2d83vdb-c108-823c-d5f3-69vdf2d871c51/4a85e6be-3215-93e6-d8a9-3a7d633584e7.png'
+              With filename:
+                value:
+                  metadata:
+                    name: Kitty Heaven NFT
+                    description: This is a sample description
+                    image: 'https://metadata-store.klaytnapi.com/e2d83vdb-c108-823c-d5f3-69vdf2d871c51/4a85e6be-3215-93e6-d8a9-3a7d633584e7.png'
+                  filename: haha.json
+        description:
+components:
+  securitySchemes:
+    basic:
+      description: |
+        KAS uses Basic HTTP Auth. All requests must have a correct Authorization header. You can create the Credential for Basic Auth by using `username` as AccessKey ID and `password` as SecretAccessKey obtained on KAS Console.
+
+        > **NOTE**
+        >
+        > KAS Credential enables full access to KAS and the Klaytn accounts created using the Wallet API. It enables asset transfers of the Klaytn account's assets (like KLAY) as well as [Transaction Executions](https://docs.klaytnapi.com/v/en/tutorial/wallet-transaction-api). To keep your KAS/Klaytn accounts secure, do not share your KAS API Secret Access Key with others.  
+
+        **cURL**  
+        ```
+          curl --location --request GET 'https://kip7-api.klaytnapi.com/v1/contract' \
+          -u ${your_accessKeyId}:${your_secretAccessKey} \
+          --header 'x-chain-id: 1001' \
+          --header 'Content-Type: application/json'
+        ```      
+      type: http
+      scheme: basic
+security:
+  - basic: []

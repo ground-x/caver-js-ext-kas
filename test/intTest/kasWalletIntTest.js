@@ -62,13 +62,13 @@ const abi = [
 const input =
     '0xe942b5160000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000000000000000000000000000000008000000000000000000000000000000000000000000000000000000000000000036b65790000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000576616c7565000000000000000000000000000000000000000000000000000000'
 
-async function sendTestKLAY(to, klay = 1) {
+async function sendTestKLAY(to, klay = 10) {
     const keyring = caver.keyringContainer.keyring.createFromPrivateKey(senderPrivateKey)
     const vt = new caver.transaction.valueTransfer({
         from: keyring.address,
         to,
         value: caver.utils.toPeb(klay, 'KLAY'),
-        gas: 25000,
+        gas: 750000,
     })
 
     await vt.sign(keyring)
@@ -166,7 +166,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
         })
 
         try {
@@ -194,7 +194,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
         })
 
         const signed = await caver.wallet.sign(from, tx)
@@ -213,7 +213,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
         })
         const signed = await caver.wallet.sign(from, tx)
         expect(caver.utils.isEmptySig(signed.signatures)).to.be.false
@@ -225,7 +225,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             signatures: [
                 '0x07f5',
                 '0xb99eefa471f4ff2a6be78c9f66d512a286084c73c07bfd81e8c4c056b31e003b',
@@ -241,7 +241,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
         })
         const signed = await caver.wallet.sign(from, tx)
         expect(signed.signatures.length).to.equal(1)
@@ -253,7 +253,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             signatures: [
                 [
                     '0x07f5',
@@ -272,7 +272,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             input: caver.utils.toHex('memo'),
         })
         const signed = await caver.wallet.sign(from, tx)
@@ -285,7 +285,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             input: caver.utils.toHex('memo'),
             signatures: [
                 [
@@ -456,7 +456,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
         })
         const signed = await caver.wallet.sign(from, tx)
         expect(signed.signatures.length).to.equal(1)
@@ -469,7 +469,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             signatures: [
                 [
                     '0x07f5',
@@ -489,7 +489,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             input: caver.utils.toHex('memo'),
         })
         const signed = await caver.wallet.sign(from, tx)
@@ -503,7 +503,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             input: caver.utils.toHex('memo'),
             signatures: [
                 [
@@ -685,7 +685,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
         })
         const signed = await caver.wallet.sign(from, tx)
@@ -699,7 +699,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
             signatures: [
                 [
@@ -720,7 +720,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
             input: caver.utils.toHex('memo'),
         })
@@ -735,7 +735,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
             input: caver.utils.toHex('memo'),
             signatures: [
@@ -929,7 +929,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
         })
         const signed = await caver.wallet.signAsFeePayer(feePayer, tx)
         expect(signed.feePayerSignatures.length).to.equal(1)
@@ -944,7 +944,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feePayer,
             feePayerSignatures: [
                 [
@@ -967,7 +967,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             input: caver.utils.toHex('memo'),
         })
         const signed = await caver.wallet.signAsFeePayer(feePayer, tx)
@@ -983,7 +983,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             input: caver.utils.toHex('memo'),
             feePayer,
             feePayerSignatures: [
@@ -1193,7 +1193,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
         })
         const signed = await caver.wallet.signAsFeePayer(feePayer, tx)
@@ -1209,7 +1209,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
             feePayer,
             feePayerSignatures: [
@@ -1233,7 +1233,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
             input: caver.utils.toHex('memo'),
         })
@@ -1250,7 +1250,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
             input: caver.utils.toHex('memo'),
             feePayer,
@@ -1472,7 +1472,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
         })
         const signed = await caver.wallet.signAsGlobalFeePayer(tx)
         expect(signed.feePayerSignatures.length).to.equal(1)
@@ -1487,7 +1487,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
         })
         const feePayerSignedTx = await caver.wallet.signAsGlobalFeePayer(tx)
         const signed = await caver.wallet.signAsGlobalFeePayer(feePayerSignedTx)
@@ -1503,7 +1503,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             input: caver.utils.toHex('memo'),
         })
         const signed = await caver.wallet.signAsGlobalFeePayer(tx)
@@ -1519,7 +1519,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             input: caver.utils.toHex('memo'),
         })
         const feePayerSignedTx = await caver.wallet.signAsGlobalFeePayer(tx)
@@ -1687,7 +1687,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
         })
         const signed = await caver.wallet.signAsGlobalFeePayer(tx)
@@ -1703,7 +1703,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
         })
         const feePayerSignedTx = await caver.wallet.signAsGlobalFeePayer(tx)
@@ -1720,7 +1720,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
             input: caver.utils.toHex('memo'),
         })
@@ -1737,7 +1737,7 @@ describe('KAS Wallet', () => {
             from,
             to: from,
             value: 1,
-            gas: 25000,
+            gas: 750000,
             feeRatio: 50,
             input: caver.utils.toHex('memo'),
         })
@@ -1940,7 +1940,7 @@ describe('KAS Wallet', () => {
                 name: 'Jasmine',
                 symbol: 'JAS',
                 decimals: 18,
-                initialSupply: '100000000000000000000',
+                initialSupply: '5000000000000000000000',
             },
             from
         )

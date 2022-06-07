@@ -142,6 +142,8 @@ const PageableTokenSummary = require('./tokenHistory/model/PageableTokenSummary'
 const PageableTransfers = require('./tokenHistory/model/PageableTransfers')
 const TransferArray = require('./tokenHistory/model/TransferArray')
 const Transfers = require('./tokenHistory/model/Transfers')
+const NFTTokenHolder = require('./tokenHistory/model/NftTokenHolder')
+const MTTokenHolder = require('./tokenHistory/model/MtTokenHolder')
 const TokenApi = require('./tokenHistory/api/TokenApi')
 const TokenContractApi = require('./tokenHistory/api/TokenContractApi')
 const TokenHistoryApi = require('./tokenHistory/api/TokenHistoryApi')
@@ -195,9 +197,13 @@ const Kip17TransactionStatusResponse = require('./kip17/model/Kip17TransactionSt
 const MintKip17TokenRequest = require('./kip17/model/MintKip17TokenRequest')
 const TransferKip17TokenRequest = require('./kip17/model/TransferKip17TokenRequest')
 const UpdateKip17ContractRequest = require('./kip17/model/UpdateKip17ContractRequest')
-const Kip17ContractApi = require('./kip17/api/Kip17ContractApi')
-const Kip17TokenApi = require('./kip17/api/Kip17TokenApi')
-
+const Kip17ContractApi = require('./kip17/api/v1/Kip17ContractApi')
+const Kip17TokenApi = require('./kip17/api/v1/Kip17TokenApi')
+const Kip17ContractApiV2 = require('./kip17/api/v2/Kip17ContractApi')
+const Kip17TokenApiV2 = require('./kip17/api/v2/Kip17TokenApi')
+const Kip17ContractTransferRequest = require('./kip17/model/Kip17ContractTransferRequest')
+const Kip17ContractOwnerResponse = require('./kip17/model/Kip17ContractOwnerResponse')
+const RenounceKIP17Request = require('./kip17/model/RenounceKIP17Request')
 // KIP37
 const ApproveAllKip37ContractRequest = require('./kip37/model/ApproveAllKip37ContractRequest')
 const BurnKip37TokenRequest = require('./kip37/model/BurnKip37TokenRequest')
@@ -223,6 +229,12 @@ const Kip37ContractApi = require('./kip37/api/Kip37ContractApi')
 const Kip37DeployerApi = require('./kip37/api/Kip37DeployerApi')
 const Kip37TokenApi = require('./kip37/api/Kip37TokenApi')
 const Kip37TokenOwnershipApi = require('./kip37/api/Kip37TokenOwnershipApi')
+// MetaData
+const UploadAssetRequest = require('./metadata/model/UploadAssetRequest')
+const UploadAssetResponse = require('./metadata/model/UploadAssetResponse')
+const UploadMetadataRequest = require('./metadata/model/UploadMetadataRequest')
+const UploadMetadataResponse = require('./metadata/model/UploadMetadataResponse')
+const DataUploadApi = require('./metadata/api/DataUploadApi')
 
 /**
  * _IntroductionThis_document_describes_KAS__Klaytn_API_Service_Anchor_API__Anchor_API_provides_features_sending_metadata_available_to_verify_data_reliability_to_ensure_the_reliability_of_service_chain_data_to_Klaytn_main_chain_For_more_details_on_using_the_Anchor_API_please_refer_to__Tutorial_httpsdocs_klaytnapi_comtutorialanchor_api__Error_Codes_400_Bad_Request__Code__Messages________________1071010__data_dont_exist1071615__its_value_is_out_of_range_size1072100__same_payload_ID_or_payload_was_already_anchored1072101__all_configured_accounts_have_insufficient_funds__.<br>
@@ -878,6 +890,16 @@ module.exports = {
      */
     MtToken,
     /**
+     * The MTTokenHolder model constructor.
+     * @property {MTTokenHolder}
+     */
+    MTTokenHolder,
+    /**
+     * The NFTTokenHolder model constructor.
+     * @property {NFTTokenHolder}
+     */
+    NFTTokenHolder,
+    /**
      * The NFTContractSummary model constructor.
      * @property {NFTContractSummary}
      */
@@ -1165,6 +1187,24 @@ module.exports = {
     DeployKip17ContractRequest,
 
     /**
+     * The Kip17ContractTransferRequest model constructor.
+     * @property {Kip17ContractTransferRequest}
+     */
+    Kip17ContractTransferRequest,
+
+    /**
+     * The Kip17ContractOwnerResponse model constructor.
+     * @property {Kip17ContractOwnerResponse}
+     */
+    Kip17ContractOwnerResponse,
+
+    /**
+     * The RenounceKIP17Request model constructor.
+     * @property {RenounceKIP17Request}
+     */
+    RenounceKIP17Request,
+
+    /**
      * The GetKip17TokenHistoryResponse model constructor.
      * @property {GetKip17TokenHistoryResponse}
      */
@@ -1267,10 +1307,22 @@ module.exports = {
     Kip17ContractApi,
 
     /**
+     * The Kip17ContractApiV2 service constructor.
+     * @property {Kip17ContractApiV2}
+     */
+    Kip17ContractApiV2,
+
+    /**
      * The Kip17TokenApi service constructor.
      * @property {Kip17TokenApi}
      */
     Kip17TokenApi,
+
+    /**
+     * The Kip17TokenApi service constructor.
+     * @property {Kip17TokenApiV2}
+     */
+    Kip17TokenApiV2,
     // KIP37
 
     /**
@@ -1416,4 +1468,34 @@ module.exports = {
      * @property {Kip37TokenOwnershipApi}
      */
     Kip37TokenOwnershipApi,
+
+    /**
+     * The UploadAssetRequest model constructor.
+     * @property {UploadAssetRequest}
+     */
+    UploadAssetRequest,
+
+    /**
+     * The UploadAssetResponse model constructor.
+     * @property {UploadAssetResponse}
+     */
+    UploadAssetResponse,
+
+    /**
+     * The UploadMetadataRequest model constructor.
+     * @property {UploadMetadataRequest}
+     */
+    UploadMetadataRequest,
+
+    /**
+     * The UploadMetadataResponse model constructor.
+     * @property {UploadMetadataResponse}
+     */
+    UploadMetadataResponse,
+
+    /**
+     * The DataUploadApi service constructor.
+     * @property {DataUploadApi}
+     */
+    DataUploadApi,
 }

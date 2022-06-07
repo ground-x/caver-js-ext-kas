@@ -11,18 +11,12 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
-const ApproveAllKip17Request = require('../model/ApproveAllKip17Request')
-const ApproveKip17TokenRequest = require('../model/ApproveKip17TokenRequest')
-const BurnKip17TokenRequest = require('../model/BurnKip17TokenRequest')
-const ErrorResponse = require('../model/ErrorResponse')
-const GetKip17TokenHistoryResponse = require('../model/GetKip17TokenHistoryResponse')
-const GetKip17TokenResponse = require('../model/GetKip17TokenResponse')
-const GetOwnerKip17TokensResponse = require('../model/GetOwnerKip17TokensResponse')
-const Kip17TokenListResponse = require('../model/Kip17TokenListResponse')
-const Kip17TransactionStatusResponse = require('../model/Kip17TransactionStatusResponse')
-const MintKip17TokenRequest = require('../model/MintKip17TokenRequest')
-const TransferKip17TokenRequest = require('../model/TransferKip17TokenRequest')
+const ApiClient = require('../../../ApiClient')
+const GetKip17TokenHistoryResponse = require('../../model/GetKip17TokenHistoryResponse')
+const GetKip17TokenResponse = require('../../model/GetKip17TokenResponse')
+const GetOwnerKip17TokensResponse = require('../../model/GetOwnerKip17TokensResponse')
+const Kip17TokenListResponse = require('../../model/Kip17TokenListResponse')
+const Kip17TransactionStatusResponse = require('../../model/Kip17TransactionStatusResponse')
 
 /**
  * Kip17Token service.
