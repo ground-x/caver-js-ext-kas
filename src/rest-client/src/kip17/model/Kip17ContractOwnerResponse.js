@@ -11,7 +11,7 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
+const ApiClient = require("../../ApiClient");
 
 /**
  * The Kip17ContractOwnerResponse model module.
@@ -19,34 +19,34 @@ const ApiClient = require('../../ApiClient')
  * @version 1.0
  */
 class Kip17ContractOwnerResponse {
-    /**
-     * Constructs a new <code>Kip17ContractOwnerResponse</code>.
-     * @class
-     * @param owner {String} The Klaytn account address of the current owner.
-     */
+  /**
+   * Constructs a new <code>Kip17ContractOwnerResponse</code>.
+   * @class
+   * @param owner {String} The Klaytn account address of the current owner.
+   */
 
-    constructor(owner) {
-        this.owner = owner
+  constructor(owner) {
+    this.owner = owner;
+  }
+
+  /**
+   * Constructs a <code>Kip17ContractOwnerResponse</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {Kip17ContractOwnerResponse} obj Optional instance to populate.
+   * @return {Kip17ContractOwnerResponse} The populated <code>Kip17ContractOwnerResponse</code> instance.
+   * @memberof Kip17ContractOwnerResponse
+   */
+  static constructFromObject(data, obj) {
+    if (data) {
+      obj = obj || new Kip17ContractOwnerResponse();
+
+      if (data.hasOwnProperty("owner")) {
+        obj.owner = ApiClient.convertToType(data.owner, "String");
+      }
     }
-
-    /**
-     * Constructs a <code>Kip17ContractOwnerResponse</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip17ContractOwnerResponse} obj Optional instance to populate.
-     * @return {Kip17ContractOwnerResponse} The populated <code>Kip17ContractOwnerResponse</code> instance.
-     * @memberof Kip17ContractOwnerResponse
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Kip17ContractOwnerResponse()
-
-            if (data.hasOwnProperty('owner')) {
-                obj.owner = ApiClient.convertToType(data.owner, 'String')
-            }
-        }
-        return obj
-    }
+    return obj;
+  }
 }
 
 /**
@@ -54,6 +54,6 @@ class Kip17ContractOwnerResponse {
  * @type {String}
  * @memberof Kip17ContractOwnerResponse
  */
-Kip17ContractOwnerResponse.prototype.owner = undefined
+Kip17ContractOwnerResponse.prototype.owner = undefined;
 
-module.exports = Kip17ContractOwnerResponse
+module.exports = Kip17ContractOwnerResponse;

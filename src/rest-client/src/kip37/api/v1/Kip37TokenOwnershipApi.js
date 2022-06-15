@@ -11,9 +11,9 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
-const ErrorResponse = require('../model/ErrorResponse')
-const Kip37TokenListResponse = require('../model/Kip37TokenListResponse')
+const ApiClient = require('../../../ApiClient')
+const ErrorResponse = require('../../model/ErrorResponse')
+const Kip37TokenListResponse = require('../../model/Kip37TokenListResponse')
 
 /**
  * Kip37TokenOwnership service.

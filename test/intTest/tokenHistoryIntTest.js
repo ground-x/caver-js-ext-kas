@@ -317,7 +317,7 @@ describe('TokenHistory API service', () => {
         expect(ret.items[0].kind).to.equal('mt')
     }).timeout(1000000)
 
-    it('CAVERJS-EXT-KAS-INT-339: caver.kas.tokenHistory.getMTList should query MT list issued in specific MT contract', async () => {
+    it('CAVERJS-EXT-KAS-INT-280: caver.kas.tokenHistory.getMTList should query MT list issued in specific MT contract', async () => {
         const contractAddress = mtContractAddress
         const queryOptions = {
             size: 1,
@@ -330,7 +330,7 @@ describe('TokenHistory API service', () => {
         expect(ret.cursor).not.to.be.undefined
     }).timeout(1000000)
 
-    it('CAVERJS-EXT-KAS-INT-340: caver.kas.tokenHistory.getMTHolder should return number of owners', async () => {
+    it('CAVERJS-EXT-KAS-INT-281: caver.kas.tokenHistory.getMTHolder should return number of owners', async () => {
         const contractAddress = mtContractAddress
 
         const ret = await caver.kas.tokenHistory.getMTHolder(contractAddress)
@@ -339,7 +339,7 @@ describe('TokenHistory API service', () => {
         expect(ret.totalHolder).not.to.be.undefined
     }).timeout(1000000)
 
-    it('CAVERJS-EXT-KAS-INT-341: caver.kas.tokenHistory.getNFTHolder should return number of owners', async () => {
+    it('CAVERJS-EXT-KAS-INT-282: caver.kas.tokenHistory.getNFTHolder should return number of owners', async () => {
         const contractAddress = nftContractAddress
 
         const ret = await caver.kas.tokenHistory.getNFTHolder(contractAddress)

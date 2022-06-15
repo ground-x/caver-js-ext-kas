@@ -11,18 +11,19 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
-const Kip37DeployerResponse = require('../model/Kip37DeployerResponse')
+const ApiClient = require('../../../ApiClient')
+const ErrorResponse = require('../../model/ErrorResponse')
+const Kip37TokenListResponse = require('../../model/Kip37TokenListResponse')
 
 /**
- * Kip37Deployer service.
- * @class Kip37DeployerApi
+ * Kip37TokenOwnership service.
+ * @class Kip37TokenOwnershipApi
  * @version 1.0
  */
-class Kip37DeployerApi {
+class Kip37TokenOwnershipApi {
     /**
-     * Constructs a new Kip37DeployerApi.
-     * @alias Kip37DeployerApi
+     * Constructs a new Kip37TokenOwnershipApi.
+     * @alias Kip37TokenOwnershipApi
      * @class
      * @param {ApiClient} [apiClient] Optional API client implementation to use,
      * default to {@link ApiClient#instance} if unspecified.
@@ -32,24 +33,32 @@ class Kip37DeployerApi {
     }
 
     /**
-     * Callback function to receive the result of the getDefaultDeployer operation.
-     * @callback Kip37DeployerApi~getDefaultDeployerCallback
+     * Callback function to receive the result of the getTokensByOwner operation.
+     * @callback Kip37TokenOwnershipApi~getTokensByOwnerCallback
      * @param {String} error Error message, if any.
-     * @param {Kip37DeployerResponse} data The data returned by the service call.
+     * @param {Kip37TokenListResponse} data The data returned by the service call.
      * @param {String} response The complete HTTP response.
      */
 
     /**
-     * Get Default Account for Contract Deployment
-     * Get account for deploying and managing contract.
-     * @param {Kip37DeployerApi~getDefaultDeployerCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Kip37DeployerResponse}
+     * Get KIP-37 Token List of an Account
+     * Returns a list of tokens owned by a certain account.
+     * @param {Object} opts Optional parameters
+     * @param {Kip37TokenOwnershipApi~getTokensByOwnerCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip37TokenListResponse}
      */
-    getDefaultDeployer(xChainId, callback) {
+    getTokensByOwner(contractAddressOrAlias, ownerAddress, xChainId, opts, callback) {
+        opts = opts || {}
         const postBody = null
 
-        const pathParams = {}
-        const queryParams = {}
+        const pathParams = {
+            'contract-address-or-alias': contractAddressOrAlias,
+            'owner-address': ownerAddress,
+        }
+        const queryParams = {
+            size: opts.size,
+            cursor: opts.cursor,
+        }
         const headerParams = {
             'x-chain-id': xChainId,
         }
@@ -58,10 +67,10 @@ class Kip37DeployerApi {
         const authNames = ['basic']
         const contentTypes = []
         const accepts = ['application/json']
-        const returnType = Kip37DeployerResponse
+        const returnType = Kip37TokenListResponse
 
         return this.apiClient.callApi(
-            '/v1/deployer/default',
+            '/v2/contract/{contract-address-or-alias}/owner/{owner-address}/token',
             'GET',
             pathParams,
             queryParams,
@@ -76,4 +85,4 @@ class Kip37DeployerApi {
         )
     }
 }
-module.exports = Kip37DeployerApi
+module.exports = Kip37TokenOwnershipApi
