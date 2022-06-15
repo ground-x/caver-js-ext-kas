@@ -11,15 +11,15 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
-const BurnKip37TokenRequest = require('../model/BurnKip37TokenRequest')
-const CreateKip37TokenRequest = require('../model/CreateKip37TokenRequest')
-const ErrorResponse = require('../model/ErrorResponse')
-const Kip37TokenInfoListResponse = require('../model/Kip37TokenInfoListResponse')
-const Kip37TransactionStatusResponse = require('../model/Kip37TransactionStatusResponse')
-const MintKip37TokenRequest = require('../model/MintKip37TokenRequest')
-const OperateKip37ContractRequest = require('../model/OperateKip37ContractRequest')
-const TransferKip37TokenRequest = require('../model/TransferKip37TokenRequest')
+const ApiClient = require('../../../ApiClient')
+const BurnKip37TokenRequest = require('../../model/BurnKip37TokenRequest')
+const CreateKip37TokenRequest = require('../../model/CreateKip37TokenRequest')
+const ErrorResponse = require('../../model/ErrorResponse')
+const Kip37TokenInfoListResponse = require('../../model/Kip37TokenInfoListResponse')
+const Kip37TransactionStatusResponse = require('../../model/Kip37TransactionStatusResponse')
+const MintKip37TokenRequest = require('../../model/MintKip37TokenRequest')
+const OperateKip37ContractRequest = require('../../model/OperateKip37ContractRequest')
+const TransferKip37TokenRequest = require('../../model/TransferKip37TokenRequest')
 
 /**
  * Kip37Token service.

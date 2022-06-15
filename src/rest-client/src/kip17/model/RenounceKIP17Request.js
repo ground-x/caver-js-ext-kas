@@ -11,7 +11,7 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
+const ApiClient = require("../../ApiClient");
 
 /**
  * The RenounceKIP17Request model module.
@@ -19,35 +19,35 @@ const ApiClient = require('../../ApiClient')
  * @version 1.0
  */
 class RenounceKIP17Request {
-    /**
-     * Constructs a new <code>RenounceKIP17Request</code>.
-     * @alias RenounceKIP17Request
-     * @class
-     * @param from (optional){String} The Klaytn account address of the recipient.
-     */
+  /**
+   * Constructs a new <code>RenounceKIP17Request</code>.
+   * @alias RenounceKIP17Request
+   * @class
+   * @param from (optional){String} The Klaytn account address of the recipient.
+   */
 
-    constructor(from) {
-        this.from = from
+  constructor(from) {
+    this.from = from;
+  }
+
+  /**
+   * Constructs a <code>RenounceKIP17Request</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {RenounceKIP17Request} obj Optional instance to populate.
+   * @return {RenounceKIP17Request} The populated <code>RenounceKIP17Request</code> instance.
+   * @memberof RenounceKIP17Request
+   */
+  static constructFromObject(data, obj) {
+    if (data) {
+      obj = obj || new RenounceKIP17Request();
+
+      if (data.hasOwnProperty("from")) {
+        obj.from = ApiClient.convertToType(data.from, "String");
+      }
     }
-
-    /**
-     * Constructs a <code>RenounceKIP17Request</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {RenounceKIP17Request} obj Optional instance to populate.
-     * @return {RenounceKIP17Request} The populated <code>RenounceKIP17Request</code> instance.
-     * @memberof RenounceKIP17Request
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new RenounceKIP17Request()
-
-            if (data.hasOwnProperty('from')) {
-                obj.from = ApiClient.convertToType(data.from, 'String')
-            }
-        }
-        return obj
-    }
+    return obj;
+  }
 }
 
 /**
@@ -55,6 +55,6 @@ class RenounceKIP17Request {
  * @type {String}
  * @memberof RenounceKIP17Request
  */
-RenounceKIP17Request.prototype.from = undefined
+RenounceKIP17Request.prototype.from = undefined;
 
-module.exports = RenounceKIP17Request
+module.exports = RenounceKIP17Request;

@@ -71,11 +71,11 @@ describe('KIP7 API service enabling', () => {
             transactionHash: '0xf4a9c11fb3e5148050ac2a19ab221be72bebfea95078317dda01a1c207f6f779',
         }
 
-        const name = 'Jasmine'
-        const symbol = 'JAS'
+        const name = 'Alice'
+        const symbol = 'ALI'
         const decimals = 18
         const initialSupply = '1000000000000000000000000000'
-        const alias = 'jasmine'
+        const alias = 'alice'
 
         function setCallFakeForCallApi(callApiStub, feePayerOptions) {
             callApiStub.callsFake(
@@ -173,13 +173,13 @@ describe('KIP7 API service enabling', () => {
 
     context('caver.kas.kip7.updateContractOptions', () => {
         const contractAddress = '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280'
-        const alias = 'jasmine-contract'
+        const alias = 'alice-contract'
 
         const apiResult = {
             address: '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280',
             decimals: 18,
-            name: 'Jasmine',
-            symbol: 'JAS',
+            name: 'Alice',
+            symbol: 'ALI',
             totalSupply: '0x8ac7230489e80000',
             options: {
                 enableGlobalFeePayer: false,
@@ -284,8 +284,8 @@ describe('KIP7 API service enabling', () => {
         const apiResult = {
             address: '0xfa40c93100adfcd2c26d723d36bd77fbaa48a464',
             decimals: 18,
-            name: 'Jasmine',
-            symbol: 'JAS',
+            name: 'Alice',
+            symbol: 'ALI',
             totalSupply: '0x8ac7230489e80000',
         }
 
@@ -381,11 +381,11 @@ describe('KIP7 API service enabling', () => {
             items: [
                 {
                     address: '0x260e78c96d294fcac8c65b07c63622b328b3471d',
-                    alias: 'jasmine-3c5sysini01',
+                    alias: 'alice-3c5sysini01',
                     decimals: 18,
-                    name: 'Jasmine',
+                    name: 'Alice',
                     status: 'deployed',
-                    symbol: 'JAS',
+                    symbol: 'ALI',
                     totalSupply: '0x8ac7230489e80000',
                 },
             ],

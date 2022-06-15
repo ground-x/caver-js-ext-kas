@@ -48,20 +48,20 @@ describe('KIP7 API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-259: caver.kas.kip7.deploy should deploy KIP-7 token contract', async () => {
-        alias = createAlias('jasmine')
+        alias = createAlias('alice')
 
-        const ret = await caver.kas.kip7.deploy('Jasmine', 'JAS', 18, '10000000000000000000', alias)
+        const ret = await caver.kas.kip7.deploy('Alice', 'ALI', 18, '10000000000000000000', alias)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
     }).timeout(100000)
 
     it('CAVERJS-EXT-KAS-INT-310: caver.kas.kip7.deploy should deploy KIP-7 token contract with fee payer options', async () => {
-        alias = createAlias('jasmine')
+        alias = createAlias('alice')
 
         feePayer = await caver.kas.wallet.getFeePayer(walletEnv.feePayerAddress)
         const feePayerOptions = createFeePayerOptions(false, feePayer)
-        const ret = await caver.kas.kip7.deploy('Jasmine', 'JAS', 18, '10000000000000000000', alias, feePayerOptions)
+        const ret = await caver.kas.kip7.deploy('Alice', 'ALI', 18, '10000000000000000000', alias, feePayerOptions)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
@@ -104,8 +104,8 @@ describe('KIP7 API service', () => {
         let ret = await caver.kas.kip7.getContract(alias)
 
         expect(ret.address).not.to.be.undefined
-        expect(ret.name).to.equal('Jasmine')
-        expect(ret.symbol).to.equal('JAS')
+        expect(ret.name).to.equal('Alice')
+        expect(ret.symbol).to.equal('ALI')
         expect(ret.decimals).to.equal(18)
         expect(ret.totalSupply).to.equal(caver.utils.toHex('10000000000000000000'))
 
@@ -114,8 +114,8 @@ describe('KIP7 API service', () => {
         ret = await caver.kas.kip7.getContract(contractAddress)
 
         expect(ret.address).to.equal(contractAddress)
-        expect(ret.name).to.equal('Jasmine')
-        expect(ret.symbol).to.equal('JAS')
+        expect(ret.name).to.equal('Alice')
+        expect(ret.symbol).to.equal('ALI')
         expect(ret.decimals).to.equal(18)
         expect(ret.totalSupply).to.equal(caver.utils.toHex('10000000000000000000'))
     }).timeout(100000)

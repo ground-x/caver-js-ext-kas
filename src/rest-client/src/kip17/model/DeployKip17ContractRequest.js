@@ -27,14 +27,12 @@ class DeployKip17ContractRequest {
      * @param alias {String} The alias of the contract. When using KIP-17 API, you can use the contract alias in place of the address. The alias must only consist of lowercase letters, numbers and hyphens, and the first letter is restricted to a lowercase letter.<p></p>
      * @param symbol {String} The contract symbol. It usually consists of 3-4 uppercase letters.
      * @param name {String} The contract name. It can contain lowercase and uppercase letters, numbers and hyphens.
-     * @param owner {String} The address available to own the contract. The account creating this contract can be an owner if empty.
      */
 
-    constructor(alias, symbol, name, owner) {
+    constructor(alias, symbol, name) {
         this.alias = alias
         this.symbol = symbol
         this.name = name
-        this.owner = owner
     }
 
     /**
@@ -57,9 +55,6 @@ class DeployKip17ContractRequest {
             }
             if (data.hasOwnProperty('name')) {
                 obj.name = ApiClient.convertToType(data.name, 'String')
-            }
-            if (data.hasOwnProperty('owner')) {
-                obj.owner = ApiClient.convertToType(data.owner, 'String')
             }
             if (data.hasOwnProperty('options')) {
                 obj.options = Kip17FeePayerOptions.constructFromObject(data.options)
@@ -87,13 +82,6 @@ DeployKip17ContractRequest.prototype.symbol = undefined
  * @memberof DeployKip17ContractRequest
  */
 DeployKip17ContractRequest.prototype.name = undefined
-/**
- * The contract name. It can contain lowercase and uppercase letters, numbers and hyphens.
- * @type {String}
- * @memberof DeployKip17ContractRequest
- */
-DeployKip17ContractRequest.prototype.owner = undefined
-
 /**
  * @type {Kip17FeePayerOptions}
  * @memberof DeployKip17ContractRequest

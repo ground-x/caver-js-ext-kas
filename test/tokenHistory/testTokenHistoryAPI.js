@@ -636,8 +636,8 @@ describe('TokenHistory API service enabling', () => {
                     contract: {
                         address: '0xbbe63781168c9e67e7a8b112425aa84c479f39aa',
                         decimals: undefined,
-                        name: 'Jasmine',
-                        symbol: 'JAS',
+                        name: 'Alice',
+                        symbol: 'ALI',
                         status: undefined,
                     },
                     transaction: {
@@ -1423,8 +1423,8 @@ describe('TokenHistory API service enabling', () => {
             items: [
                 {
                     address: '0xbbe63781168c9e67e7a8b112425aa84c479f39aa',
-                    name: 'Jasmine',
-                    symbol: 'JAS',
+                    name: 'Alice',
+                    symbol: 'ALI',
                     totalSupply: '0x36',
                     createdAt: 1599101533,
                     updatedAt: 1599101533,
@@ -1434,8 +1434,8 @@ describe('TokenHistory API service enabling', () => {
                 },
                 {
                     address: '0xb50ebdb5026a1df752c69d8a6ce7140c99a426db',
-                    name: 'Jasmine',
-                    symbol: 'JAS',
+                    name: 'Alice',
+                    symbol: 'ALI',
                     totalSupply: '0x0',
                     createdAt: 1599101530,
                     updatedAt: 1599101530,
@@ -1663,8 +1663,8 @@ describe('TokenHistory API service enabling', () => {
     context('caver.kas.tokenHistory.getNFTContract', () => {
         const getNFTContractResult = {
             address: '0xbbe63781168c9e67e7a8b112425aa84c479f39aa',
-            name: 'Jasmine',
-            symbol: 'JAS',
+            name: 'Alice',
+            symbol: 'ALI',
             totalSupply: '0x36',
             createdAt: 1599101533,
             updatedAt: 1599101533,
@@ -2892,7 +2892,7 @@ describe('TokenHistory API service enabling', () => {
             )
         }
 
-        it('CAVERJS-EXT-KAS-TH-157: should return mt list', async () => {
+        it('CAVERJS-EXT-KAS-TH-161: should return mt list', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtsByContractAddress')
@@ -2907,7 +2907,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getMTListResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-158: should return mt list with query options (status)', async () => {
+        it('CAVERJS-EXT-KAS-TH-162: should return mt list with query options (status)', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = { status: caver.kas.tokenHistory.queryOptions.status.COMPLETE }
@@ -2923,7 +2923,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getMTListResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-159: should return mt list with query options (size)', async () => {
+        it('CAVERJS-EXT-KAS-TH-163: should return mt list with query options (size)', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = { size: 1 }
@@ -2939,7 +2939,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getMTListResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-160: should return mt list with query options (cursor)', async () => {
+        it('CAVERJS-EXT-KAS-TH-164: should return mt list with query options (cursor)', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = {
@@ -2958,7 +2958,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getMTListResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-161: should return mt list with query options (all)', async () => {
+        it('CAVERJS-EXT-KAS-TH-165: should return mt list with query options (all)', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = {
@@ -2979,7 +2979,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getMTListResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-162: should call callback function with mt list', async () => {
+        it('CAVERJS-EXT-KAS-TH-166: should call callback function with mt list', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getTransfersSpy = sandbox.spy(caver.kas.tokenHistory.tokenApi, 'getMtsByContractAddress')
@@ -2999,7 +2999,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getMTListResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-163: should call callback function with mt list with query options', async () => {
+        it('CAVERJS-EXT-KAS-TH-167: should call callback function with mt list with query options', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const queryOptions = {
@@ -3025,7 +3025,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.cursor).to.equal(getMTListResult.cursor)
         })
 
-        it('CAVERJS-EXT-KAS-TH-164: should resolve the promise when error is returned from KAS server', async () => {
+        it('CAVERJS-EXT-KAS-TH-168: should resolve the promise when error is returned from KAS server', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const errorResult = {
@@ -3591,8 +3591,8 @@ describe('TokenHistory API service enabling', () => {
                     updatedAt: 1617610961,
                     totalBalance: '0x1',
                     extras: {
-                        name: 'Jasmine',
-                        symbol: 'JAS',
+                        name: 'Alice',
+                        symbol: 'ALI',
                         totalSupply: '0x1',
                     },
                 },
@@ -4132,7 +4132,7 @@ describe('TokenHistory API service enabling', () => {
             )
         }
 
-        it('CAVERJS-EXT-KAS-TH-165: should return number of NFT owners', async () => {
+        it('CAVERJS-EXT-KAS-TH-157: should return number of NFT owners', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getListOfTokenByOwnerAddressSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getNftContractHolder')
@@ -4147,7 +4147,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.totalHolder).to.equal(getNFTHolderResult.totalHolder)
         })
 
-        it('CAVERJS-EXT-KAS-TH-166: should return number of NFT owners with callback function', async () => {
+        it('CAVERJS-EXT-KAS-TH-158: should return number of NFT owners with callback function', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getListOfTokenByOwnerAddressSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getNftContractHolder')
@@ -4210,7 +4210,7 @@ describe('TokenHistory API service enabling', () => {
             )
         }
 
-        it('CAVERJS-EXT-KAS-TH-167: should return number of MT owners', async () => {
+        it('CAVERJS-EXT-KAS-TH-159: should return number of MT owners', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getListOfTokenByOwnerAddressSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getMtContractHolder')
@@ -4225,7 +4225,7 @@ describe('TokenHistory API service enabling', () => {
             expect(ret.totalHolder).to.equal(getMTHolderResult.totalHolder)
         })
 
-        it('CAVERJS-EXT-KAS-TH-168: should return number of MT owners with callback function', async () => {
+        it('CAVERJS-EXT-KAS-TH-160: should return number of MT owners with callback function', async () => {
             caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const getListOfTokenByOwnerAddressSpy = sandbox.spy(caver.kas.tokenHistory.tokenContractApi, 'getMtContractHolder')
