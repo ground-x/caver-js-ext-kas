@@ -269,8 +269,8 @@ The example below introduces how to use `caver.kct.kip7`.
 const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey)
 
 const kip7 = await caver.kct.kip7.deploy({
-    name: 'Jasmine',
-    symbol: 'JAS',
+    name: 'Alice',
+    symbol: 'ALI',
     decimals: 18,
     initialSupply: '100000000000000000000',
 }, '0x{from address}') // An account corresponding to the address must exist in KAS.
@@ -291,8 +291,8 @@ The example below introduces how to use `caver.kct.kip17`.
 const caver = new CaverExtKAS(chainId, accessKeyId, secretAccessKey)
 
 const kip17 = await caver.kct.kip17.deploy({
-    name: 'Jasmine',
-    symbol: 'JAS',
+    name: 'Alice',
+    symbol: 'ALI',
 }, '0x{from address}') // An account corresponding to the address must exist in KAS.
 ```
 

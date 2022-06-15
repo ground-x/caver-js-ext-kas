@@ -14,7 +14,7 @@
 const superagent = require('superagent')
 const querystring = require('querystring')
 const ErrorResponse = require('./ErrorResponse')
-
+const version = require('../../../package.json').version
 /**
  * @module ApiClient
  * @version 1.0
@@ -372,7 +372,7 @@ class ApiClient {
 
         // set header parameters
         request.set(this.defaultHeaders).set(this.normalizeParams(headerParams))
-
+        request.header['User-Agent'] = `caver-ext-js/${version}`
         // set requestAgent if it is set by user
         if (this.requestAgent) {
             request.agent(this.requestAgent)

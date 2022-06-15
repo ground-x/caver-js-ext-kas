@@ -3648,7 +3648,7 @@ describe('Wallet API service', () => {
         const ret = await caver.kas.wallet.callContract(
             contractAddress,
             'set',
-            [{ type: 'string', value: 'jasmineKey' }, { type: 'string', value: 'jasmineValue' }],
+            [{ type: 'string', value: 'aliceKey' }, { type: 'string', value: 'aliceValue' }],
             { from: accountToTest.address, gas: 150000, value: 0 }
         )
 
@@ -3659,7 +3659,7 @@ describe('Wallet API service', () => {
                     name: 'set',
                     type: 'function',
                 },
-                ['jasmineKey', 'jasmineValue']
+                ['aliceKey', 'aliceValue']
             )
         )
     }).timeout(500000)

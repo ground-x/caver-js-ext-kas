@@ -636,8 +636,8 @@ describe('TokenHistory API service enabling', () => {
                     contract: {
                         address: '0xbbe63781168c9e67e7a8b112425aa84c479f39aa',
                         decimals: undefined,
-                        name: 'Jasmine',
-                        symbol: 'JAS',
+                        name: 'Alice',
+                        symbol: 'ALI',
                         status: undefined,
                     },
                     transaction: {
@@ -1423,8 +1423,8 @@ describe('TokenHistory API service enabling', () => {
             items: [
                 {
                     address: '0xbbe63781168c9e67e7a8b112425aa84c479f39aa',
-                    name: 'Jasmine',
-                    symbol: 'JAS',
+                    name: 'Alice',
+                    symbol: 'ALI',
                     totalSupply: '0x36',
                     createdAt: 1599101533,
                     updatedAt: 1599101533,
@@ -1434,8 +1434,8 @@ describe('TokenHistory API service enabling', () => {
                 },
                 {
                     address: '0xb50ebdb5026a1df752c69d8a6ce7140c99a426db',
-                    name: 'Jasmine',
-                    symbol: 'JAS',
+                    name: 'Alice',
+                    symbol: 'ALI',
                     totalSupply: '0x0',
                     createdAt: 1599101530,
                     updatedAt: 1599101530,
@@ -1663,8 +1663,8 @@ describe('TokenHistory API service enabling', () => {
     context('caver.kas.tokenHistory.getNFTContract', () => {
         const getNFTContractResult = {
             address: '0xbbe63781168c9e67e7a8b112425aa84c479f39aa',
-            name: 'Jasmine',
-            symbol: 'JAS',
+            name: 'Alice',
+            symbol: 'ALI',
             totalSupply: '0x36',
             createdAt: 1599101533,
             updatedAt: 1599101533,
@@ -3591,8 +3591,8 @@ describe('TokenHistory API service enabling', () => {
                     updatedAt: 1617610961,
                     totalBalance: '0x1',
                     extras: {
-                        name: 'Jasmine',
-                        symbol: 'JAS',
+                        name: 'Alice',
+                        symbol: 'ALI',
                         totalSupply: '0x1',
                     },
                 },

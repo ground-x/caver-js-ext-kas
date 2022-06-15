@@ -1,6 +1,6 @@
 {
     "name": "caver-js-ext-kas",
-    "version": "1.10.0",
+    "version": "1.11.0",
     "description": "This is extenstion library of caver-js for connecting KAS",
     "main": "index.js",
     "scripts": {
@@ -9,7 +9,7 @@
         "test": "npm run build && npm run unitTest && npm run intTest",
         "testQA": "npm run build && npm run unitTestQA && npm run intTestQA",
         "testDev": "npm run build && npm run unitTestDev && npm run intTestDev",
-        "unitTest": "./node_modules/mocha/bin/mocha ./test/anchor/testAnchorAPI.js && ./node_modules/mocha/bin/mocha ./test/tokenHistory/testTokenHistoryAPI.js && ./node_modules/mocha/bin/mocha ./test/wallet/*.js && ./node_modules/mocha/bin/mocha ./test/helperTest.js && ./node_modules/mocha/bin/mocha ./test/kip7/testKIP7API.js &&  ./node_modules/mocha/bin/mocha ./test/kip37/testKIP37API.js &&  ./node_modules/mocha/bin/mocha ./test/kip17/v1/testKIP17API.js &&  ./node_modules/mocha/bin/mocha ./test/kip17/v2/testKIP17API.js && ./node_modules/mocha/bin/mocha ./test/metadata/testMetaDataAPI.js",
+        "unitTest": "./node_modules/mocha/bin/mocha ./test/anchor/testAnchorAPI.js && ./node_modules/mocha/bin/mocha ./test/tokenHistory/testTokenHistoryAPI.js && ./node_modules/mocha/bin/mocha ./test/wallet/*.js && ./node_modules/mocha/bin/mocha ./test/helperTest.js && ./node_modules/mocha/bin/mocha ./test/kip7/testKIP7API.js &&  ./node_modules/mocha/bin/mocha ./test/kip37/testKIP37API.js &&  ./node_modules/mocha/bin/mocha ./test/kip17/v1/testKIP17API.js &&  ./node_modules/mocha/bin/mocha ./test/kip17/v2/testKIP17API.js && ./node_modules/mocha/bin/mocha ./test/metadata/testMetaDataAPI.js && ./node_modules/mocha/bin/mocha ./test/resource/testResourceAPI.js",
         "unitTestQA": "npm run unitTest --testEnv=qa",
         "unitTestDev": "npm run unitTest --testEnv=dev",
         "intNodeAPITest": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js",
