@@ -52,7 +52,7 @@ describe('KIP17 v2 API service enabling', () => {
         }).timeout(50000)
 
         it('CAVERJS-EXT-KAS-KIP17-085: should set valid auth and chain id', () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             expect(caver.kas.kip17.accessOptions).not.to.be.undefined
             expect(caver.kas.kip17.accessKeyId).to.equal(accessKeyId)
@@ -78,9 +78,9 @@ describe('KIP17 v2 API service enabling', () => {
             },
         }
 
-        const name = 'Jasmine'
-        const symbol = 'JAS'
-        const alias = 'jasmine'
+        const name = 'Alice'
+        const symbol = 'ALI'
+        const alias = 'alice'
         const owner = '0xa809284C83b901eD106Aba4Ccda14628Af128e14'
 
         function setCallFakeForCallApi(callApiStub, feePayerOptions) {
@@ -128,7 +128,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-086: should deploy KIP-17 token contract with alias', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'deployContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -143,7 +143,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-087: should deploy KIP-17 token contract with fee payer options', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'deployContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -159,7 +159,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-088: should call callback function with deployment response (with alias)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'deployContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -179,7 +179,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-089: should deploy KIP-17 token contract with alias and owner', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'deployContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -194,7 +194,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-090: should deploy KIP-17 token contract with fee payer options and owner', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'deployContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -210,7 +210,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-091: should call callback function with deployment response (with alias) and owner', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'deployContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -232,13 +232,13 @@ describe('KIP17 v2 API service enabling', () => {
 
     context('caver.kas.kip17.updateContractOptions', () => {
         const contractAddress = '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280'
-        const alias = 'jasmine-contract'
+        const alias = 'alice-contract'
 
         const apiResult = {
             address: '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280',
-            alias: 'jasmine-contract',
-            name: 'Jasmine',
-            symbol: 'JAS',
+            alias: 'alice-contract',
+            name: 'Alice',
+            symbol: 'ALI',
             options: {
                 enableGlobalFeePayer: false,
                 userFeePayer: {
@@ -290,7 +290,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-092: should import KIP-17 token contract with address and alias', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'updateContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -304,7 +304,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-093: should import KIP-17 token contract with address, alias and feePayerOptions', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'updateContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -319,7 +319,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-094: should call callback function with deployment response', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'updateContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -345,9 +345,9 @@ describe('KIP17 v2 API service enabling', () => {
             items: [
                 {
                     address: '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280',
-                    alias: 'jasmine-contract',
-                    name: 'Jasmine',
-                    symbol: 'JAS',
+                    alias: 'alice-contract',
+                    name: 'Alice',
+                    symbol: 'ALI',
                 },
             ],
         }
@@ -390,7 +390,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-095: should return KIP-17 contract list', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'listContractsInDeployerPool')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -405,7 +405,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-096: should return KIP-17 contract list with query options (size)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = { size: 1 }
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'listContractsInDeployerPool')
@@ -421,7 +421,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-097: should return KIP-17 contract list with query options (cursor)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 cursor:
@@ -440,7 +440,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-098: should return KIP-17 contract list with query options (all)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,
@@ -461,7 +461,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-099: should call callback function with KIP-17 contract list', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'listContractsInDeployerPool')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -481,7 +481,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-100: should call callback function with KIP-17 contract list with query options', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,
@@ -510,8 +510,8 @@ describe('KIP17 v2 API service enabling', () => {
     context('caver.kas.kip17.getContract', () => {
         const apiResult = {
             alias: 'simple-alias',
-            name: 'Jasmine',
-            symbol: 'JAS',
+            name: 'Alice',
+            symbol: 'ALI',
             address: '0x9ad4163329aa90eaf52a27ac8f5e7981becebc16',
         }
 
@@ -555,7 +555,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-101: should return KIP-17 contract with contract address', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'getContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -570,7 +570,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-102: should return KIP-17 contract with alias', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'getContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -585,7 +585,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-103: should call callback function with KIP-17 contract', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'getContract')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -650,7 +650,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-104: should return contract owner address with contract address', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'getContractOwner')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -664,7 +664,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-105: should return contract owner address with alias', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'getContractOwner')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -678,7 +678,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-106: should call callback function with contract owner', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'getContractOwner')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -746,7 +746,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-107: should transfer KIP-17 owner with alias from same sender and owner (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'transferOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -760,7 +760,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-108: should transfer KIP-17 owner with alias from different sender and owner (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'transferOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -774,7 +774,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-109: should transfer KIP-17 owner with alias from different sender and owner (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'transferOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -788,7 +788,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-110: should transfer KIP-17 owner with contract address from same sender and owner (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'transferOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -802,7 +802,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-111: should transfer KIP-17 owner with contract address from different sender and owner (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'transferOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -816,7 +816,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-112: should call callback function with transfering response', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'transferOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -882,7 +882,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-113: should renounce KIP-17 with alias', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'renounceOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -896,7 +896,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-114: should renounce KIP-17 with alias and from', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'renounceOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -910,7 +910,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-115: should call callback function after renounce KIP-17 with alias and from', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'renounceOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -929,7 +929,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-116: should renounce KIP-17 owner with contract address ', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'renounceOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -943,7 +943,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-117: should renounce KIP-17 owner with contract address and from ', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'renounceOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -957,7 +957,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-118: should call callback function with renounce response', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.kip17ContractApi, 'renounceOwnership')
             const callApiStub = sandbox.stub(caver.kas.kip17.kip17ContractApi.apiClient, 'callApi')
@@ -1029,7 +1029,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-119: should mint KIP-17 token with alias (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'mintToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1043,7 +1043,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-120: should mint KIP-17 token with alias (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'mintToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1057,7 +1057,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-121: should mint KIP-17 token with contractAddress (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'mintToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1071,7 +1071,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-122: should mint KIP-17 token with contractAddress (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'mintToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1085,7 +1085,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-123: should call callback function with minting response', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'mintToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1163,7 +1163,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-124: should return token list minted from specific KIP-17 contract (with alias)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'listTokens')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1178,7 +1178,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-125: should return token list minted from specific KIP-17 contract (with contractAddress)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'listTokens')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1193,7 +1193,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-126: should return token list minted from specific KIP-17 contract with query options (size)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = { size: 1 }
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'listTokens')
@@ -1209,7 +1209,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-127: should return token list minted from specific KIP-17 contract with query options (cursor)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 cursor:
@@ -1228,7 +1228,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-128: should return token list minted from specific KIP-17 contract with query options (all)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,
@@ -1249,7 +1249,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-129: should call callback function with token list minted from specific KIP-17 contract (with alias)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'listTokens')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1269,7 +1269,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-130: should call callback function with token list minted from specific KIP-17 contract (with contractAddress)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'listTokens')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1289,7 +1289,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-131: should call callback function with token list minted from specific KIP-17 contract with query options (with alias)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,
@@ -1315,7 +1315,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-132: should call callback function with token list minted from specific KIP-17 contract with query options (with contractAddress)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,
@@ -1395,7 +1395,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-133: should return KIP-17 contract with contract address and number id', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1409,7 +1409,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-134: should return token with contract address and hex string id', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1423,7 +1423,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-135: should return token with alias and number id', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1437,7 +1437,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-136: should return token with alias and hex string id', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1451,7 +1451,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-137: should call callback function with token', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1525,7 +1525,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-137: should transfer KIP-17 token with alias from same sender and owner (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'transferToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1539,7 +1539,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-138: should transfer KIP-17 token with alias from different sender and owner (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'transferToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1553,7 +1553,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-139: should transfer KIP-17 token with alias from same sender and owner (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'transferToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1567,7 +1567,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-140: should transfer KIP-17 token with alias from different sender and owner (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'transferToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1581,7 +1581,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-141: should transfer KIP-17 token with contract address from same sender and owner (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'transferToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1595,7 +1595,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-142: should transfer KIP-17 token with contract address from different sender and owner (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'transferToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1609,7 +1609,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-143: should transfer KIP-17 token with contract address from same sender and owner (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'transferToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1623,7 +1623,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-144: should transfer KIP-17 token with contract address from different sender and owner (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'transferToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1637,7 +1637,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-145: should call callback function with transfering response', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'transferToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1707,7 +1707,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-146: should burn KIP-17 token with alias (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'burnToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1721,7 +1721,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-147: should burn KIP-17 token with alias (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'burnToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1735,7 +1735,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-148: should burn KIP-17 token with contract address (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'burnToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1749,7 +1749,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-149: should burn KIP-17 token with contract address (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'burnToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1763,7 +1763,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-150: should call callback function with burning response', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'burnToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1835,7 +1835,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-151: should approve KIP-17 token with alias (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1849,7 +1849,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-152: should approve KIP-17 token with alias (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1863,7 +1863,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-153: should approve KIP-17 token with contract address (number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1877,7 +1877,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-154: should approve KIP-17 token with contract address (hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1891,7 +1891,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-155: should call callback function with approveing response', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveToken')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1961,7 +1961,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-156: should approveAll KIP-17 tokens with alias (approved === true)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveAll')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1977,7 +1977,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-157: should approveAll KIP-17 tokens with alias (approved === false)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveAll')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -1993,7 +1993,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-158: should approveAll KIP-17 tokens with contract address (approved === true)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveAll')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2009,7 +2009,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-159: should approveAll KIP-17 tokens with contract address (approved === false)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveAll')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2025,7 +2025,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-160: should call callback function with approveAlling response', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'approveAll')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2105,7 +2105,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-161: should return token list owned by owner at specific KIP-17 contract (with alias)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getOwnerTokens')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2120,7 +2120,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-162: should return token list owned by owner at specific KIP-17 contract (with contractAddress)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getOwnerTokens')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2135,7 +2135,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-163: should return token list owned by owner at specific KIP-17 contract with query options (size)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = { size: 1 }
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getOwnerTokens')
@@ -2151,7 +2151,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-164: should return token list owned by owner at specific KIP-17 contract with query options (cursor)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 cursor:
@@ -2170,7 +2170,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-165: should return token list owned by owner at specific KIP-17 contract with query options (all)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,
@@ -2191,7 +2191,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-166: should call callback function with token list owned by owner at specific KIP-17 contract (with alias)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getOwnerTokens')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2211,7 +2211,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-167: should call callback function with token list owned by owner at specific KIP-17 contract (with contractAddress)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getOwnerTokens')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2231,7 +2231,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-168: should call callback function with token list owned by owner at specific KIP-17 contract with query options (with alias)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,
@@ -2257,7 +2257,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-169: should call callback function with token list owned by owner at specific KIP-17 contract with query options (with contractAddress)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,
@@ -2341,7 +2341,7 @@ describe('KIP17 v2 API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-KIP17-170: should return transfer history related with specific token at specific KIP-17 contract (with alias and number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getTokenHistory')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2356,7 +2356,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-171: should return transfer history related with specific token at specific KIP-17 contract (with alias and hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getTokenHistory')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2371,7 +2371,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-172: should return transfer history related with specific token at specific KIP-17 contract (with contractAddress and number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getTokenHistory')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2386,7 +2386,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-173: should return transfer history related with specific token at specific KIP-17 contract (with contractAddress and hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getTokenHistory')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2401,7 +2401,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-174: should return transfer history related with specific token at specific KIP-17 contract with query options (size)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = { size: 1 }
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getTokenHistory')
@@ -2417,7 +2417,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-175: should return transfer history related with specific token at specific KIP-17 contract with query options (cursor)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 cursor:
@@ -2436,7 +2436,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-176: should return transfer history related with specific token at specific KIP-17 contract with query options (all)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,
@@ -2457,7 +2457,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-177: should call callback function with transfer history related with specific token at specific KIP-17 contract (with alias and number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getTokenHistory')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2477,7 +2477,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-178: should call callback function with transfer history related with specific token at specific KIP-17 contract (with alias and hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getTokenHistory')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2497,7 +2497,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-179: should call callback function with transfer history related with specific token at specific KIP-17 contract (with contractAddress and number id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getTokenHistory')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2517,7 +2517,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-180: should call callback function with transfer history related with specific token at specific KIP-17 contract (with contractAddress and hex string id)', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const clientFunctionSpy = sandbox.spy(caver.kas.kip17.tokenApi, 'getTokenHistory')
             const callApiStub = sandbox.stub(caver.kas.kip17.tokenApi.apiClient, 'callApi')
@@ -2537,7 +2537,7 @@ describe('KIP17 v2 API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-KIP17-181: should call callback function with transfer history related with specific token at specific KIP-17 contract with query options', async () => {
-            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+            caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
 
             const queryOptions = {
                 size: 1,

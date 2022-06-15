@@ -38,7 +38,7 @@ describe('MetaData API service', () => {
         caver.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
     })
 
-    it('CAVERJS-EXT-KAS-INT-342: caver.kas.metaData.uploadMetadata should return metadata data', async () => {
+    it('CAVERJS-EXT-KAS-INT-001: caver.kas.metaData.uploadMetadata should return metadata data', async () => {
         const metadata = {
             name: 'Puppy Heaven NFT',
             description: 'This is a sample description',
@@ -52,7 +52,7 @@ describe('MetaData API service', () => {
         expect(ret.uri).not.to.be.undefined
     })
 
-    it('CAVERJS-EXT-KAS-INT-343: caver.kas.metaData.uploadMetadata with filename should return metadata data ', async () => {
+    it('CAVERJS-EXT-KAS-INT-002: caver.kas.metaData.uploadMetadata with filename should return metadata data ', async () => {
         const metadata = {
             name: 'Puppy Heaven NFT',
             description: 'This is a sample description',
@@ -66,7 +66,7 @@ describe('MetaData API service', () => {
         expect(ret.uri).not.to.be.undefined
     })
 
-    it('CAVERJS-EXT-KAS-INT-344: caver.kas.metaData.uploadAsset with jpg file should return asset metadata data ', async () => {
+    it('CAVERJS-EXT-KAS-INT-003: caver.kas.metaData.uploadAsset with jpg file should return asset metadata data ', async () => {
         const filepath = path.join(__dirname, '../fixture/img-jpg.jpg')
         const file = fs.createReadStream(filepath)
 
@@ -78,7 +78,7 @@ describe('MetaData API service', () => {
         expect(ret.uri).not.to.be.undefined
     })
 
-    it('CAVERJS-EXT-KAS-INT-345: caver.kas.metaData.uploadAsset with png file should return asset metadata data ', async () => {
+    it('CAVERJS-EXT-KAS-INT-004: caver.kas.metaData.uploadAsset with png file should return asset metadata data ', async () => {
         const filepath = path.join(__dirname, '../fixture/img-png.png')
         const file = fs.createReadStream(filepath)
 

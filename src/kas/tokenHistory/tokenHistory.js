@@ -361,7 +361,7 @@ class TokenHistory {
 
     /**
      * Retrieves the information of the NFT contract labeled with the address of the NFT contract. <br>
-     * GET /v2/contract/nft/{nft-Address}
+     * GET /v2/contract/nft/{nftAddress}
      *
      * @example
      * const result = await caver.kas.tokenHistory.getNFTContract('0xbbe63781168c9e67e7a8b112425aa84c479f39aa')
@@ -386,7 +386,7 @@ class TokenHistory {
 
     /**
      * Retrieves the information of the NFT contract labeled with the address of the NFT contract. <br>
-     * GET /v2/contract/nft/{nft-Address}/holder
+     * GET /v2/contract/nft/{nftAddress}/holder
      *
      * @example
      * const result = await caver.kas.tokenHistory.getNFTHolder('0xbbe63781168c9e67e7a8b112425aa84c479f39aa')
@@ -395,7 +395,7 @@ class TokenHistory {
      * @param {Function} [callback] The callback function to call.
      * @return {NFTTokenHolder}
      */
-    getNFTHolder(nftAddress, callback) {
+     getNFTHolder(nftAddress, callback) {
         if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         return new Promise((resolve, reject) => {
@@ -411,7 +411,7 @@ class TokenHistory {
 
     /**
      * Retrieves the information of the MT contract labeled with the address of the MT contract. <br>
-     * GET /v2/contract/mt/{mt-Address}/holder
+     * GET /v2/contract/mt/{mtAddress}/holder
      *
      * @example
      * const result = await caver.kas.tokenHistory.getMTHolder('0xbbe63781168c9e67e7a8b112425aa84c479f39aa')
@@ -425,6 +425,41 @@ class TokenHistory {
 
         return new Promise((resolve, reject) => {
             this.tokenContractApi.getMtContractHolder(this.chainId, mtAddress, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+
+    /**
+     * Retrieves information of all MTs issued by a specific MT contract. <br>
+     * GET /v2/contract/mt/{mt-address}/token
+     *
+     * @example
+     * const query = { size: 1 }
+     * const result = await caver.kas.tokenHistory.getMTList('0xbbe63781168c9e67e7a8b112425aa84c479f39aa', query)
+     *
+     * @param {string} mtAddress MT contract address for which you want to search all issued MTs.
+     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
+     * @param {Function} [callback] The callback function to call.
+     * @return {PageableMts}
+     */
+     getMTList(mtAddress, queryOptions, callback) {
+        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (_.isFunction(queryOptions)) {
+            callback = queryOptions
+            queryOptions = {}
+        }
+
+        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
+        if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
+
+        return new Promise((resolve, reject) => {
+            this.tokenApi.getMtsByContractAddress(this.chainId, mtAddress, queryOptions, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -826,41 +861,6 @@ class TokenHistory {
                     resolve(data)
                 }
             )
-        })
-    }
-
-    /**
-     * Retrieves information of all MTs issued by a specific MT contract. <br>
-     * GET /v2/contract/mt/{mt-address}/token
-     *
-     * @example
-     * const query = { size: 1 }
-     * const result = await caver.kas.tokenHistory.getMTList('0xbbe63781168c9e67e7a8b112425aa84c479f39aa', query)
-     *
-     * @param {string} mtAddress MT contract address for which you want to search all issued MTs.
-     * @param {TokenHistoryQueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
-     * @param {Function} [callback] The callback function to call.
-     * @return {PageableMts}
-     */
-    getMTList(mtAddress, queryOptions, callback) {
-        if (!this.accessOptions || !this.tokenApi) throw new Error(NOT_INIT_API_ERR_MSG)
-
-        if (_.isFunction(queryOptions)) {
-            callback = queryOptions
-            queryOptions = {}
-        }
-
-        queryOptions = TokenHistoryQueryOptions.constructFromObject(queryOptions || {})
-        if (!queryOptions.isValidOptions(['size', 'cursor'])) throw new Error(`Invalid query options: 'size', and 'cursor' can be used.`)
-
-        return new Promise((resolve, reject) => {
-            this.tokenApi.getMtsByContractAddress(this.chainId, mtAddress, queryOptions, (err, data, response) => {
-                if (err) {
-                    reject(err)
-                }
-                if (callback) callback(err, data, response)
-                resolve(data)
-            })
         })
     }
 

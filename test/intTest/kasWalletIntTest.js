@@ -1937,8 +1937,8 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-229: caver.kct.kip7 deploys KIP-7 contract with an account in KAS Wallet API Service', async () => {
         const kip7 = await caver.kct.kip7.deploy(
             {
-                name: 'Jasmine',
-                symbol: 'JAS',
+                name: 'Alice',
+                symbol: 'ALI',
                 decimals: 18,
                 initialSupply: '5000000000000000000000',
             },
@@ -1963,8 +1963,8 @@ describe('KAS Wallet', () => {
     it('CAVERJS-EXT-KAS-INT-231: caver.kct.kip17 deploys KIP-17 contract with an account in KAS Wallet API Service', async () => {
         const kip17 = await caver.kct.kip17.deploy(
             {
-                name: 'Jasmine',
-                symbol: 'JAS',
+                name: 'Alice',
+                symbol: 'ALI',
             },
             from
         )
