@@ -30,7 +30,7 @@ commands:
               sed -i "s/\"version\": \".*\",/\"version\": \"${CIRCLE_TAG:1}\",/" package.json
               sed -n '/\"version\":/p' package.json
             else
-              echo "Not RC version"
+              echo "Not RC version.."
             fi
 
 jobs:
