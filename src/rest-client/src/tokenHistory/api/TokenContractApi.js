@@ -15,12 +15,12 @@ const ApiClient = require('../../ApiClient')
 const ErrorResponse = require('../model/ErrorResponse')
 const FtContractDetail = require('../model/FtContractDetail')
 const MtContractDetail = require('../model/MtContractDetail')
-const MTTokenHolder = require('../model/MtTokenHolder')
 const NftContractDetail = require('../model/NftContractDetail')
-const NFTTokenHolder = require('../model/NftTokenHolder')
 const PageableFtContractDetails = require('../model/PageableFtContractDetails')
 const PageableMtContractDetails = require('../model/PageableMtContractDetails')
 const PageableNftContractDetails = require('../model/PageableNftContractDetails')
+const MTTokenHolder = require('../model/MtTokenHolder')
+const NFTTokenHolder = require('../model/NftTokenHolder')
 
 /**
  * TokenContract service.
@@ -345,7 +345,7 @@ class TokenContractApi {
      * @param {TokenContractApi~getNftTokenHolderCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link NFTTokenHolder}
      */
-    getNftContractHolder(xChainId, nftAddress, callback) {
+     getNftContractHolder(xChainId, nftAddress, callback) {
         const postBody = null
 
         const pathParams = {

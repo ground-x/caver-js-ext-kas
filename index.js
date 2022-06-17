@@ -134,7 +134,8 @@ class CaverExtKAS extends Caver {
         this.initKIP17API(chainId, accessKeyId, secretAccessKey)
         this.initKIP7API(chainId, accessKeyId, secretAccessKey)
         this.initKIP37API(chainId, accessKeyId, secretAccessKey)
-        this.initMetaDataAPI(chainId, accessKeyId, secretAccessKey)
+        this.initMetadataAPI(chainId, accessKeyId, secretAccessKey)
+        this.initResourceAPI(chainId, accessKeyId, secretAccessKey)
     }
 
     /**
@@ -296,17 +297,22 @@ class CaverExtKAS extends Caver {
      *
      * @example
      * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey', 2)
      * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-17 API url to use')
-     * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-17 API url to use' , 'v2')
+     * caver.initKIP17API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-17 API url to use' , 2)
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
      * @param {string} [url] The end point url.
-     * @param {string} [ver] The version of kip. default value v1.
+     * @param {number} [ver] The version of kip17. The default version is v1.
      * @return {void}
      */
-    initKIP17API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip17, ver = 'v1') {
+    initKIP17API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip17, ver = 1) {
+        if (_.isNumber(url)) {
+            ver = url
+            url = productionEndpoints.kip17
+        }
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initKIP17API(chainId, accessKeyId, secretAccessKey, url, ver)
     }
@@ -334,25 +340,31 @@ class CaverExtKAS extends Caver {
      *
      * @example
      * caver.initKIP37API(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initKIP37API(1001, 'accessKeyId', 'secretAccessKey', 2)
      * caver.initKIP37API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-37 API url to use')
-     *
+     * caver.initKIP37API(1001, 'accessKeyId', 'secretAccessKey', 'KIP-37 API url to use' , 2)
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
      * @param {string} secretAccessKey The secret access key.
      * @param {string} [url] The end point url.
+     * @param {number} [ver] The version of kip37. The default version is v1.
      * @return {void}
      */
-    initKIP37API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip37) {
+    initKIP37API(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.kip37, ver = 1) {
+        if (_.isNumber(url)) {
+            ver = url
+            url = productionEndpoints.kip37
+        }
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
-        this.kas.initKIP37API(chainId, accessKeyId, secretAccessKey, url)
+        this.kas.initKIP37API(chainId, accessKeyId, secretAccessKey, url, ver)
     }
 
     /**
      * Sets chain id and authentication key for METADATA API.
      *
      * @example
-     * caver.initMetaDataAPI(1001, 'accessKeyId', 'secretAccessKey')
-     * caver.initMetaDataAPI(1001, 'accessKeyId', 'secretAccessKey', 'MataData API url to use')
+     * caver.initMetadataAPI(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initMetadataAPI(1001, 'accessKeyId', 'secretAccessKey', 'MataData API url to use')
      *
      * @param {number} chainId The chain id.
      * @param {string} accessKeyId The access key id.
@@ -360,9 +372,27 @@ class CaverExtKAS extends Caver {
      * @param {string} [url] The end point url.
      * @return {void}
      */
-    initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.metadata) {
+    initMetadataAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.metadata) {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
-        this.kas.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+        this.kas.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
+    }
+
+    /**
+     * Sets chain id and authentication key for RESOURCE API.
+     *
+     * @example
+     * caver.initResourceAPI(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initResourceAPI(1001, 'accessKeyId', 'secretAccessKey', 'Resource API url to use')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initResourceAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.resource) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+        this.kas.initResourceAPI(chainId, accessKeyId, secretAccessKey, url)
     }
 }
 

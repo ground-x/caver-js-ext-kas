@@ -11,49 +11,50 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
-/**
- * The UploadAssetRequest model module.
- * @class UploadAssetRequest
- * @version 1.0
- */
-class UploadAssetRequest {
-    /**
-     * Constructs a new <code>UploadAssetRequest</code>.
-     * @alias UploadAssetRequest
-     * @class
-     * @param file {String} Addes a file with multipart/form-data. File number is limited to one, and file size is limited to 10MB. If the file size exceeds 10MB, you will get an invalid input error.
-     */
+ const ApiClient = require('../../ApiClient')
 
-    constructor(file) {
-        this.file = file
-    }
-
-    /**
-     * Constructs a <code>UploadAssetRequest</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {UploadAssetRequest} obj Optional instance to populate.
-     * @return {UploadAssetRequest} The populated <code>UploadAssetRequest</code> instance.
-     * @memberof UploadAssetRequest
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new UploadAssetRequest()
-
-            if (data.hasOwnProperty('file')) {
-                obj.file = ApiClient.convertToType(data.file, 'String')
-            }
-        }
-        return obj
-    }
-}
-
-/**
- * Addes a file with multipart/form-data. File number is limited to one, and file size is limited to 10MB. If the file size exceeds 10MB, you will get an invalid input error.
- * @type {String}
- * @memberof UploadAssetRequest
- */
-UploadAssetRequest.prototype.file = undefined
-
-module.exports = UploadAssetRequest
+ /**
+  * The UploadAssetRequest model module.
+  * @class UploadAssetRequest
+  * @version 1.0
+  */
+ class UploadAssetRequest {
+     /**
+      * Constructs a new <code>UploadAssetRequest</code>.
+      * @alias UploadAssetRequest
+      * @class
+      * @param file {String} Addes a file with multipart/form-data. File number is limited to one, and file size is limited to 10MB. If the file size exceeds 10MB, you will get an invalid input error.
+      */
+ 
+     constructor(file) {
+         this.file = file
+     }
+ 
+     /**
+      * Constructs a <code>UploadAssetRequest</code> from a plain JavaScript object, optionally creating a new instance.
+      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+      * @param {Object} data The plain JavaScript object bearing properties of interest.
+      * @param {UploadAssetRequest} obj Optional instance to populate.
+      * @return {UploadAssetRequest} The populated <code>UploadAssetRequest</code> instance.
+      * @memberof UploadAssetRequest
+      */
+     static constructFromObject(data, obj) {
+         if (data) {
+             obj = obj || new UploadAssetRequest()
+ 
+             if (data.hasOwnProperty('file')) {
+                 obj.file = ApiClient.convertToType(data.file, 'String')
+             }
+         }
+         return obj
+     }
+ }
+ 
+ /**
+  * Addes a file with multipart/form-data. File number is limited to one, and file size is limited to 10MB. If the file size exceeds 10MB, you will get an invalid input error.
+  * @type {String}
+  * @memberof UploadAssetRequest
+  */
+ UploadAssetRequest.prototype.file = undefined
+ 
+ module.exports = UploadAssetRequest

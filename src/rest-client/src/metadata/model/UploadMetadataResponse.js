@@ -11,65 +11,65 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
+ const ApiClient = require('../../ApiClient')
 
-/**
- * The UploadMetadataResponse model module.
- * @class UploadMetadataResponse
- * @version 1.0
- */
-class UploadMetadataResponse {
-    /**
-     * Constructs a new <code>UploadMetadataResponse</code>.
-     * @alias UploadMetadataResponse
-     * @class
-     */
-
-    constructor() {}
-
-    /**
-     * Constructs a <code>UploadMetadataResponse</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {UploadMetadataResponse} obj Optional instance to populate.
-     * @return {UploadMetadataResponse} The populated <code>UploadMetadataResponse</code> instance.
-     * @memberof UploadMetadataResponse
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new UploadMetadataResponse()
-
-            if (data.hasOwnProperty('filename')) {
-                obj.filename = ApiClient.convertToType(data.filename, 'String')
-            }
-            if (data.hasOwnProperty('contentType')) {
-                obj.contentType = ApiClient.convertToType(data.contentType, 'String')
-            }
-            if (data.hasOwnProperty('uri')) {
-                obj.uri = ApiClient.convertToType(data.uri, 'String')
-            }
-        }
-        return obj
-    }
-}
-
-/**
- * File name of the metadata
- * @type {String}
- * @memberof UploadMetadataResponse
- */
-UploadMetadataResponse.prototype.filename = undefined
-/**
- * Content type of the metadata
- * @type {String}
- * @memberof UploadMetadataResponse
- */
-UploadMetadataResponse.prototype.contentType = undefined
-/**
- * Externally accessible URI of the metadata
- * @type {String}
- * @memberof UploadMetadataResponse
- */
-UploadMetadataResponse.prototype.uri = undefined
-
-module.exports = UploadMetadataResponse
+ /**
+  * The UploadMetadataResponse model module.
+  * @class UploadMetadataResponse
+  * @version 1.0
+  */
+ class UploadMetadataResponse {
+     /**
+      * Constructs a new <code>UploadMetadataResponse</code>.
+      * @alias UploadMetadataResponse
+      * @class
+      */
+ 
+     constructor() {}
+ 
+     /**
+      * Constructs a <code>UploadMetadataResponse</code> from a plain JavaScript object, optionally creating a new instance.
+      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+      * @param {Object} data The plain JavaScript object bearing properties of interest.
+      * @param {UploadMetadataResponse} obj Optional instance to populate.
+      * @return {UploadMetadataResponse} The populated <code>UploadMetadataResponse</code> instance.
+      * @memberof UploadMetadataResponse
+      */
+     static constructFromObject(data, obj) {
+         if (data) {
+             obj = obj || new UploadMetadataResponse()
+ 
+             if (data.hasOwnProperty('filename')) {
+                 obj.filename = ApiClient.convertToType(data.filename, 'String')
+             }
+             if (data.hasOwnProperty('contentType')) {
+                 obj.contentType = ApiClient.convertToType(data.contentType, 'String')
+             }
+             if (data.hasOwnProperty('uri')) {
+                 obj.uri = ApiClient.convertToType(data.uri, 'String')
+             }
+         }
+         return obj
+     }
+ }
+ 
+ /**
+  * File name of the metadata
+  * @type {String}
+  * @memberof UploadMetadataResponse
+  */
+ UploadMetadataResponse.prototype.filename = undefined
+ /**
+  * Content type of the metadata
+  * @type {String}
+  * @memberof UploadMetadataResponse
+  */
+ UploadMetadataResponse.prototype.contentType = undefined
+ /**
+  * Externally accessible URI of the metadata
+  * @type {String}
+  * @memberof UploadMetadataResponse
+  */
+ UploadMetadataResponse.prototype.uri = undefined
+ 
+ module.exports = UploadMetadataResponse
