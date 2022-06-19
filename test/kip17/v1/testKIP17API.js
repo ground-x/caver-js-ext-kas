@@ -78,9 +78,9 @@ describe('KIP17 API service enabling', () => {
             },
         }
 
-        const name = 'Jasmine'
-        const symbol = 'JAS'
-        const alias = 'jasmine'
+        const name = 'Alice'
+        const symbol = 'ALI'
+        const alias = 'alice'
 
         function setCallFakeForCallApi(callApiStub, feePayerOptions) {
             callApiStub.callsFake(
@@ -179,13 +179,13 @@ describe('KIP17 API service enabling', () => {
 
     context('caver.kas.kip17.updateContractOptions', () => {
         const contractAddress = '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280'
-        const alias = 'jasmine-contract'
+        const alias = 'alice-contract'
 
         const apiResult = {
             address: '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280',
-            alias: 'jasmine-contract',
-            name: 'Jasmine',
-            symbol: 'JAS',
+            alias: 'alice-contract',
+            name: 'Alice',
+            symbol: 'ALI',
             options: {
                 enableGlobalFeePayer: false,
                 userFeePayer: {
@@ -292,9 +292,9 @@ describe('KIP17 API service enabling', () => {
             items: [
                 {
                     address: '0xb5fa02d64cd194b9e4dcaa593723efd655e3b280',
-                    alias: 'jasmine-contract',
-                    name: 'Jasmine',
-                    symbol: 'JAS',
+                    alias: 'alice-contract',
+                    name: 'Alice',
+                    symbol: 'ALI',
                 },
             ],
         }
@@ -457,8 +457,8 @@ describe('KIP17 API service enabling', () => {
     context('caver.kas.kip17.getContract', () => {
         const apiResult = {
             alias: 'simple-alias',
-            name: 'Jasmine',
-            symbol: 'JAS',
+            name: 'Alice',
+            symbol: 'ALI',
             address: '0x9ad4163329aa90eaf52a27ac8f5e7981becebc16',
         }
 

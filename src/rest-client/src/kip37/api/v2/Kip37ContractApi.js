@@ -11,17 +11,21 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
-const ApproveAllKip37ContractRequest = require('../model/ApproveAllKip37ContractRequest')
-const DeployKip37ContractRequest = require('../model/DeployKip37ContractRequest')
-const ErrorResponse = require('../model/ErrorResponse')
-const ImportKip37ContractRequest = require('../model/ImportKip37ContractRequest')
-const Kip37Contract = require('../model/Kip37Contract')
-const Kip37ContractListResponse = require('../model/Kip37ContractListResponse')
-const Kip37DeployResponse = require('../model/Kip37DeployResponse')
-const Kip37TransactionStatusResponse = require('../model/Kip37TransactionStatusResponse')
-const OperateKip37ContractRequest = require('../model/OperateKip37ContractRequest')
-const UpdateKip37ContractRequest = require('../model/UpdateKip37ContractRequest')
+const ApiClient = require('../../../ApiClient')
+const ApproveAllKip37ContractRequest = require('../../model/ApproveAllKip37ContractRequest')
+const DeployKip37ContractRequest = require('../../model/DeployKip37ContractRequest')
+const ErrorResponse = require('../../model/ErrorResponse')
+const ImportKip37ContractRequest = require('../../model/ImportKip37ContractRequest')
+const Kip37Contract = require('../../model/Kip37Contract')
+const Kip37ContractDeleteResponse = require('../../model/Kip37ContractDeleteResponse')
+const Kip37ContractListResponse = require('../../model/Kip37ContractListResponse')
+const Kip37ContractOwnerResponse = require('../../model/Kip37ContractOwnerResponse')
+const Kip37ContractTransferRequest = require('../../model/Kip37ContractTransferRequest')
+const Kip37ContractTransferResponse = require('../../model/Kip37ContractTransferResponse')
+const Kip37DeployResponse = require('../../model/Kip37DeployResponse')
+const Kip37TransactionStatusResponse = require('../../model/Kip37TransactionStatusResponse')
+const RenounceKIP37Request = require('../../model/RenounceKIP37Request')
+const UpdateKip37ContractRequest = require('../../model/UpdateKip37ContractRequest')
 
 /**
  * Kip37Contract service.
@@ -49,8 +53,8 @@ class Kip37ContractApi {
      */
 
     /**
-     * Grant/Remove Authorization for Token Transfers
-     * Grants/cancels authorization to a third party (&#x60;to&#x60;) to transfer all tokens for a specified contract.    ##### From The account that sends the transaction.  If the &#x60;from&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.
+     * Approve/Deny Token Transfer
+     * Grants approval to a third party to send tokens from a certain smart contract. To revoke the approval, set \&quot;approved\&quot; to &#x60;false&#x60; in the body.  ##### From The account that sends the transactions.  You can omit the KRN if the &#x60;owner&#x60; address is managed by KIP-37 or Wallet Service &#x60;account-pool&#x60;.&lt;br /&gt; Otherwise you have to provide the KRN object in the header (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;).
      * @param {Object} opts Optional parameters
      * @param {Kip37ContractApi~approveAllCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37TransactionStatusResponse}
@@ -74,7 +78,7 @@ class Kip37ContractApi {
         const returnType = Kip37TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}/approveall',
+            '/v2/contract/{contract-address-or-alias}/approveall',
             'POST',
             pathParams,
             queryParams,
@@ -97,8 +101,8 @@ class Kip37ContractApi {
      */
 
     /**
-     * Deploy KIP-37 Contract
-     * Deploys a KIP-37 contract. &lt;br/&gt;   KIP-37 supports the use of &#x60;alias&#x60;, which you can use in place of the account address. The &#x60;alias&#x60; must only contain lowercase letters, numbers and hyphens and begin with a lowercase letter.  ##### Options   Options for paying the transaction fee. For more details, please refer to [Fee Payer Options](#section/Fee-Payer-Options).
+     * Deploy Contract
+     * Deploys a new KIP-37 contract with the given parameters.  &lt;br/&gt; To see how to deploy a KIP-37 contract, please refer to [KIP-37 Tutorial](https://docs.klaytnapi.com/tutorial/kip37-api).   ##### Options With &#x60;options&#x60; you can set the transaction fee payment method. You can find more details in [Fee Payer Options](#section/Fee-Payer-Options).
      * @param {Object} opts Optional parameters
      * @param {Kip37ContractApi~deployContractCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37DeployResponse}
@@ -120,7 +124,7 @@ class Kip37ContractApi {
         const returnType = Kip37DeployResponse
 
         return this.apiClient.callApi(
-            '/v1/contract',
+            '/v2/contract',
             'POST',
             pathParams,
             queryParams,
@@ -143,8 +147,8 @@ class Kip37ContractApi {
      */
 
     /**
-     * Get KIP-37 Contract Information
-     * Queries a specified contract using the alias or the contract address.
+     * Get Contract
+     * Returns the information of a KIP-37 contract. Use the &#x60;alias&#x60; or contract address to specify the contract.
      * @param {Kip37ContractApi~getContractCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37Contract}
      */
@@ -166,7 +170,7 @@ class Kip37ContractApi {
         const returnType = Kip37Contract
 
         return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}',
+            '/v2/contract/{contract-address-or-alias}',
             'GET',
             pathParams,
             queryParams,
@@ -189,8 +193,8 @@ class Kip37ContractApi {
      */
 
     /**
-     * Import KIP-37 Contract
-     * Import a contract that has already been deployed.&lt;br/&gt;   The &#x60;alias&#x60; must only contain lowercase letters, numbers and hyphens and begin with a lowercase letter.  ##### Options   Options for paying the transaction fee. For more details, please refer to [Fee Payer Options](#section/Fee-Payer-Options).
+     * Import Contract
+     * Imports a KIP-37 contract deployed without KAS to manage and use it. But in order to execute the functions such as those for minting, pausing, resuming tokens, you need a KAS account. To know more about the account and more, please refer to [KIP-37 Standard](http://kips.klaytn.com/KIPs/kip-37).&lt;br/&gt;   ##### Options With &#x60;options&#x60; you can set the transaction fee payment method. You can find more details in [Fee Payer Options](#section/Fee-Payer-Options).
      * @param {Object} opts Optional parameters
      * @param {Kip37ContractApi~importContractCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37Contract}
@@ -212,7 +216,7 @@ class Kip37ContractApi {
         const returnType = Kip37Contract
 
         return this.apiClient.callApi(
-            '/v1/contract/import',
+            '/v2/contract/import',
             'POST',
             pathParams,
             queryParams,
@@ -235,8 +239,8 @@ class Kip37ContractApi {
      */
 
     /**
-     * Get KIP-37 Contract
-     * Get a list of all KIP-37 contracts by account. The response items will be listed in the order of contract creation request time. &lt;br/&gt;&lt;br/&gt; The &#x60;status&#x60; field in the response can contain the following: - &#x60;init&#x60;: Initial state before transaction is sent - &#x60;submitted&#x60;: Contract deployment transaction has been sent - &#x60;deployed&#x60;: Contract has been deployed - &#x60;imported&#x60;: Contract list has been imported - &#x60;failed&#x60: Contract deployment transaction has failed
+     * Get Contract List
+     * Returns a list of all KIP-37 contracts deployed by a specified user. Contracts will be displayed in order of the requested creation time. &lt;br/&gt;&lt;br/&gt; The &#x60;status&#x60; field in the response means the following: - &#x60;init&#x60;: The initial state before sending the transaction - &#x60;submitted&#x60;: The transaction for contract deployment has been sent - &#x60;deployed&#x60;: Contract has been deployed - &#x60;imported&#x60;: Contract list has been imported - &#x60;failed&#x60: Deploy Contract transaction failed
      * @param {Object} opts Optional parameters
      * @param {Kip37ContractApi~listContractsInDeployerPoolCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37ContractListResponse}
@@ -262,7 +266,53 @@ class Kip37ContractApi {
         const returnType = Kip37ContractListResponse
 
         return this.apiClient.callApi(
-            '/v1/contract',
+            '/v2/contract',
+            'GET',
+            pathParams,
+            queryParams,
+            headerParams,
+            formParams,
+            postBody,
+            authNames,
+            contentTypes,
+            accepts,
+            returnType,
+            callback
+        )
+    }
+    /**
+     * Callback function to receive the result of the owner operation.
+     * @callback Kip37ContractApi~ownerCallback
+     * @param {String} error Error message, if any.
+     * @param {Kip37ContractOwnerResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Get Contract Owner
+     * Returns the owner of a specified KIP-37 contract. You can use either the contract alias or contract address.
+     * @param {Kip37ContractApi~ownerCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip37ContractOwnerResponse}
+     */
+    owner(xChainId, contractAddressOrAlias, callback) {
+        const postBody = null
+
+        const pathParams = {
+            'contract-address-or-alias': contractAddressOrAlias,
+        }
+        const queryParams = {}
+        const headerParams = {
+            'x-chain-id': xChainId,
+        }
+        const formParams = {}
+
+        const authNames = ['basic']
+        const contentTypes = []
+        const accepts = ['application/json']
+        const returnType = Kip37ContractOwnerResponse
+
+        return this.apiClient.callApi(
+            '/v2/contract/{contract-address-or-alias}/owner',
             'GET',
             pathParams,
             queryParams,
@@ -286,7 +336,7 @@ class Kip37ContractApi {
 
     /**
      * Pause KIP-37 Contract
-     * Pauses all operations for a specified contract, such as minting, transfering tokens.&lt;br /&gt; You can resume using [/v1/{contract-address-or-alias/unpause](#operation/UnpauseContract).    ##### Sender The Account that sends the transaction.  If the &#x60;sender&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt;&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.
+     * Pauses all operations for a specified contract, such as minting, transfering tokens.&lt;br /&gt; You can resume using [/v2/{contract-address-or-alias/unpause](#operation/UnpauseContract).    ##### Sender The Account that sends the transaction.  If the &#x60;sender&#x60; account belongs to a default &#x60;account-pool&#x60; for either KIP-37 or Wallet, you can omit the KRN.&lt;br /&gt;&lt;br /&gt; Otherwise you have to provide the KRN data (&#x60;x-krn: krn:{chain-id}:wallet:{account-id}:account-pool:{pool name}&#x60;) in the header.
      * @param {Object} opts Optional parameters
      * @param {Kip37ContractApi~pauseContractCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link Kip37TransactionStatusResponse}
@@ -310,7 +360,7 @@ class Kip37ContractApi {
         const returnType = Kip37TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}/pause',
+            '/v2/contract/{contract-address-or-alias}/pause',
             'POST',
             pathParams,
             queryParams,
@@ -358,7 +408,103 @@ class Kip37ContractApi {
         const returnType = Kip37Contract
 
         return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}',
+            '/v2/contract/{contract-address-or-alias}',
+            'PUT',
+            pathParams,
+            queryParams,
+            headerParams,
+            formParams,
+            postBody,
+            authNames,
+            contentTypes,
+            accepts,
+            returnType,
+            callback
+        )
+    }
+    /**
+     * Callback function to receive the result of the renounceContract operation.
+     * @callback Kip37ContractApi~renounceContractCallback
+     * @param {String} error Error message, if any.
+     * @param {Kip37ContractDeleteResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Renounce Contract Ownership
+     * Renounces the ownership of a specified KIP-37 contract. You can use either the contract alias or contract address.
+     * @param {Object} opts Optional parameters
+     * @param {Kip37ContractApi~renounceContractCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip37ContractDeleteResponse}
+     */
+    renounceContract(xChainId, contractAddressOrAlias, opts, callback) {
+        opts = opts || {}
+        const postBody = opts.body
+
+        const pathParams = {
+            'contract-address-or-alias': contractAddressOrAlias,
+        }
+        const queryParams = {}
+        const headerParams = {
+            'x-chain-id': xChainId,
+        }
+        const formParams = {}
+
+        const authNames = ['basic']
+        const contentTypes = ['application/json']
+        const accepts = ['application/json']
+        const returnType = Kip37ContractDeleteResponse
+
+        return this.apiClient.callApi(
+            '/v2/contract/{contract-address-or-alias}/owner',
+            'DELETE',
+            pathParams,
+            queryParams,
+            headerParams,
+            formParams,
+            postBody,
+            authNames,
+            contentTypes,
+            accepts,
+            returnType,
+            callback
+        )
+    }
+    /**
+     * Callback function to receive the result of the transferOwnership operation.
+     * @callback Kip37ContractApi~transferOwnershipCallback
+     * @param {String} error Error message, if any.
+     * @param {Kip37ContractTransferResponse} data The data returned by the service call.
+     * @param {String} response The complete HTTP response.
+     */
+
+    /**
+     * Transfer Contract Ownership
+     * Transfers the ownership of the contract. You can access the contract to be transferred using either the contract alias or contract address.
+     * @param {Object} opts Optional parameters
+     * @param {Kip37ContractApi~transferOwnershipCallback} callback The callback function, accepting three arguments: error, data, response
+     * data is of type: {@link Kip37ContractTransferResponse}
+     */
+    transferOwnership(xChainId, contractAddressOrAlias, opts, callback) {
+        opts = opts || {}
+        const postBody = opts.body
+
+        const pathParams = {
+            'contract-address-or-alias': contractAddressOrAlias,
+        }
+        const queryParams = {}
+        const headerParams = {
+            'x-chain-id': xChainId,
+        }
+        const formParams = {}
+
+        const authNames = ['basic']
+        const contentTypes = ['application/json']
+        const accepts = ['application/json']
+        const returnType = Kip37ContractTransferResponse
+
+        return this.apiClient.callApi(
+            '/v2/contract/{contract-address-or-alias}/owner/transfer',
             'PUT',
             pathParams,
             queryParams,
@@ -406,7 +552,7 @@ class Kip37ContractApi {
         const returnType = Kip37TransactionStatusResponse
 
         return this.apiClient.callApi(
-            '/v1/contract/{contract-address-or-alias}/unpause',
+            '/v2/contract/{contract-address-or-alias}/unpause',
             'POST',
             pathParams,
             queryParams,

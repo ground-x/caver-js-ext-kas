@@ -411,7 +411,7 @@ describe('Anchor API service enabling', () => {
 
     context('caver.kas.anchor.getAnchoringTransactionByTxHash', () => {
         const getAnchoringTxByTxHashResult = {
-            payload: { block_number: 10, custom_field: 'custom jasmine', id: '90015' },
+            payload: { block_number: 10, custom_field: 'custom alice', id: '90015' },
             transactionHash: '0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2',
         }
         const txHashToQuery = '0xfb1963440a9de68f768c208756d8e3d11638bce28578696b8685192fe6728903'
@@ -500,7 +500,7 @@ describe('Anchor API service enabling', () => {
 
     context('caver.kas.anchor.getAnchoringTransactionByPayloadId', () => {
         const getAnchoringTxByPayloadIdResult = {
-            payload: { block_number: 10, custom_field: 'custom jasmine', id: '90015' },
+            payload: { block_number: 10, custom_field: 'custom alice', id: '90015' },
             transactionHash: '0xbf0ca9b24a51a089ad4a9e41607a50cfbe7fa76f658d64437e885b42af075ec2',
         }
         const payloadId = '90006'

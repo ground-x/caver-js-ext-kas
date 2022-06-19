@@ -17,10 +17,10 @@
 const _ = require('lodash')
 const utils = require('caver-js').utils
 
-const { Kip37DeployerApi, Kip37ContractApi, Kip37TokenApi, Kip37TokenOwnershipApi } = require('../../rest-client/src')
-const KIP37QueryOptions = require('./kip37QueryOptions')
-const KIP37FeePayerOptions = require('./kip37FeePayerOptions')
-const { checkTypeAndConvertForIdsAndAmounts } = require('../../utils/helper')
+const { Kip37DeployerApi, Kip37ContractApi, Kip37TokenApi, Kip37TokenOwnershipApi } = require('../../../rest-client/src')
+const KIP37QueryOptions = require('../kip37QueryOptions')
+const KIP37FeePayerOptions = require('../kip37FeePayerOptions')
+const { checkTypeAndConvertForIdsAndAmounts } = require('../../../utils/helper')
 
 const NOT_INIT_API_ERR_MSG = `KIP37 API is not initialized. Use 'caver.initKIP37API' function to initialize KIP37 API.`
 
@@ -149,7 +149,7 @@ class KIP37 {
      * POST /v1/contract
      *
      * @example
-     * const ret = await caver.kas.kip37.deploy('https://caver.example/id/{id}.json', 'jasmine-alias')
+     * const ret = await caver.kas.kip37.deploy('https://caver.example/id/{id}.json', 'alice-alias')
      *
      * @param {string} uri The URI for all token types, by relying on the {@link http://kips.klaytn.com/KIPs/kip-37#metadata|token type ID substitution mechanism}.
      * @param {string} alias The alias of KIP-37 token. Your `alias` must only contain lowercase alphabets, numbers and hyphens and begin with an alphabet.
@@ -185,7 +185,7 @@ class KIP37 {
      * POST /v1/contract/import
      *
      * @example
-     * const ret = await caver.kas.kip37.importContract('0x{address in hex}', 'https://caver.example/id/{id}.json', 'jasmine-alias')
+     * const ret = await caver.kas.kip37.importContract('0x{address in hex}', 'https://caver.example/id/{id}.json', 'alice-alias')
      *
      * @param {string} address The contract address to import to the KAS KIP-37 API service.
      * @param {string} uri The URI for all token types, by relying on the {@link http://kips.klaytn.com/KIPs/kip-37#metadata|token type ID substitution mechanism}.
@@ -261,7 +261,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.getContract('0x{address in hex}')
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.getContract('jasmine-alias')
+     * const ret = await caver.kas.kip37.getContract('alice-alias')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {Function} [callback] The callback function to call.
@@ -333,7 +333,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.getTokenListByOwner('0x{contract address}', '0x{owner address}')
      *
      * // with query parameter
-     * const ret = await caver.kas.kip37.getTokenListByOwner('jasmine-alias', '0x{owner address}', {
+     * const ret = await caver.kas.kip37.getTokenListByOwner('alice-alias', '0x{owner address}', {
      *     size: 1,
      *     cursor: 'eyJjc...',
      * })
@@ -381,7 +381,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.setApprovalForAll('0x{contract address}', from, to, true)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.setApprovalForAll('jasmine-alias', from, to, true)
+     * const ret = await caver.kas.kip37.setApprovalForAll('alice-alias', from, to, true)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} from The Klaytn account address of the owner.
@@ -424,7 +424,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.pause('0x{contract address}')
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.pause('jasmine-alias')
+     * const ret = await caver.kas.kip37.pause('alice-alias')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} [pauser] Account to execute token operations such as pause and resume. The default value is the account that deployed the contract.
@@ -463,7 +463,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.unpause('0x{contract address}')
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.unpause('jasmine-alias')
+     * const ret = await caver.kas.kip37.unpause('alice-alias')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} [pauser] Account to execute token operations such as pause and resume. The default value is the account that deployed the contract.
@@ -505,7 +505,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.pauseToken('0x{contract address}', tokenId)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.pauseToken('jasmine-alias', tokenId, '0x{address in hex}')
+     * const ret = await caver.kas.kip37.pauseToken('alice-alias', tokenId, '0x{address in hex}')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string|number} tokenId ID of the token to pause.
@@ -548,7 +548,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.unpauseToken('0x{contract address}')
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.unpauseToken('jasmine-alias')
+     * const ret = await caver.kas.kip37.unpauseToken('alice-alias')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string|number} tokenId ID of the token to resume.
@@ -597,8 +597,8 @@ class KIP37 {
      * const ret = await caver.kas.kip37.create('0x{contract address}', id, initialSupply, uri, sender)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.create('jasmine-alias', id, initialSupply, uri)
-     * const ret = await caver.kas.kip37.create('jasmine-alias', id, initialSupply, uri, sender)
+     * const ret = await caver.kas.kip37.create('alice-alias', id, initialSupply, uri)
+     * const ret = await caver.kas.kip37.create('alice-alias', id, initialSupply, uri, sender)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string|number} id ID of the new token; cannot use an existing one.
@@ -655,7 +655,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.getTokenList('0x{contract address}')
      *
      * // with query parameter
-     * const ret = await caver.kas.kip37.getTokenList('jasmine-alias', {
+     * const ret = await caver.kas.kip37.getTokenList('alice-alias', {
      *     size: 1,
      *     cursor: 'eyJjc...',
      * })
@@ -701,7 +701,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.burn('0x{contract address}', ids, amounts)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.burn('jasmine-alias', ids, amounts, from)
+     * const ret = await caver.kas.kip37.burn('alice-alias', ids, amounts, from)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string|number|Array.<string|number>} ids IDs of the token to burn.
@@ -754,7 +754,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.mint('0x{contract address}', to, ids, amounts)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.mint('jasmine-alias', to, ids, amounts, from)
+     * const ret = await caver.kas.kip37.mint('alice-alias', to, ids, amounts, from)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} to The Klaytn account address of the token owner.
@@ -809,7 +809,7 @@ class KIP37 {
      * const ret = await caver.kas.kip37.transfer('0x{contract address}', sender, owner, to, ids, amounts)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip37.transfer('jasmine-alias', sender, owner, to, ids, amounts)
+     * const ret = await caver.kas.kip37.transfer('alice-alias', sender, owner, to, ids, amounts)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} sender The Klaytn account address to send the tokens.

@@ -1,0 +1,126 @@
+openapi: 3.1.0
+info:
+    title: Resource API
+    description: |-
+        # Introduction
+        Resource API allows you to query the resources in the pools on KAS.
+tags:
+    - name: resource-list
+      x-displayName: 'Resource'
+x-tagGroups:
+    - name: API
+      tags:
+          - resource-list
+servers:
+    - url: 'https://resource-api.klaytnapi.com'
+paths:
+    '/v1/resource/account/{account-id}':
+        get:
+            summary: Query resource list
+            operationId: get-resources
+            description: Returns a list of user resources
+            parameters:
+                - schema:
+                      type: string
+                  in: query
+                  name: from-timestamp
+                  description: Timestamp (in sec.) at the start of the query
+                - schema:
+                      type: string
+                  in: query
+                  name: to-timestamp
+                  description: Timestamp (in sec.) at the end of the query
+                - schema:
+                      type: string
+                  in: query
+                  name: size
+                  description: Maximum size of the account query
+                - schema:
+                      type: string
+                  in: query
+                  name: resource-type
+                  description: Resource type
+                - schema:
+                      type: string
+                  in: query
+                  name: service-id
+                  description: Service name
+                - schema:
+                      type: string
+                  in: query
+                  name: cursor
+                  description: Last cursor record
+            responses:
+                '200':
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: ../../models/ResourceListResponse.yaml
+                            examples:
+                                200 - Success:
+                                    value:
+                                        cursor: ''
+                                        items:
+                                            - accountId: 676de94a-9ca9-45e2-a67b-ed72178cdbcc
+                                              chainId: 8217
+                                              createdAt: 1623650884
+                                              default: false
+                                              krn: 'krn:8217:wallet:676de94a-9ca9-45e2-a67b-ed72178cdbcc:account-pool:this-is-test'
+                                              resourceId: this-is-test
+                                              resourceType: account-pool
+                                              serviceId: wallet
+                                            - accountId: 676de94a-9ca9-45e2-a67b-ed72178cdbcc
+                                              chainId: 8217
+                                              createdAt: 1615525538
+                                              default: false
+                                              krn: 'krn:8217:wallet:676de94a-9ca9-45e2-a67b-ed72178cdbcc:account-pool:default'
+                                              resourceId: default
+                                              resourceType: account-pool
+                                              serviceId: wallet
+                                            - accountId: 676de94a-9ca9-45e2-a67b-ed72178cdbcc
+                                              chainId: 8217
+                                              createdAt: 1615525538
+                                              default: true
+                                              krn: 'krn:8217:wallet:676de94a-9ca9-45e2-a67b-ed72178cdbcc:account-pool:test2'
+                                              resourceId: test2
+                                              resourceType: account-pool
+                                              serviceId: wallet
+                                            - accountId: 676de94a-9ca9-45e2-a67b-ed72178cdbcc
+                                              chainId: 1001
+                                              createdAt: 1610699963
+                                              default: true
+                                              krn: 'krn:1001:wallet:676de94a-9ca9-45e2-a67b-ed72178cdbcc:account-pool:default'
+                                              resourceId: default
+                                              resourceType: account-pool
+                                              serviceId: wallet
+                                            - accountId: 676de94a-9ca9-45e2-a67b-ed72178cdbcc
+                                              chainId: 1001
+                                              createdAt: 1598849415
+                                              default: false
+                                              krn: 'krn:1001:wallet:676de94a-9ca9-45e2-a67b-ed72178cdbcc:account-pool:ap1'
+                                              resourceId: ap1
+                                              resourceType: account-pool
+                                              serviceId: wallet
+                    headers: {}
+            tags:
+                - resource-list
+        parameters:
+            - schema:
+                  type: string
+              name: account-id
+              description: KAS account ID to query resource lists
+              in: path
+              required: true
+            - schema:
+                  type: string
+              in: header
+              name: x-chain-id
+              description: Klaytn Network Chain ID(1001 or 8217)
+              required: true
+components:
+    schemas: {}
+    securitySchemes:
+        Basic:
+            type: http
+            scheme: basic

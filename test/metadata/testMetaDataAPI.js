@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 The caver-js-ext-kas MetaData
+ * Copyright 2020 The caver-js-ext-kas Metadata
  *
  * Licensed under the Apache License, Version 2.0 (the “License”);
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ const { url, chainId, accessKeyId, secretAccessKey, operator } = require('../tes
 
 const sandbox = sinon.createSandbox()
 
-describe('MetaData API service enabling', () => {
+describe('Metadata API service enabling', () => {
     beforeEach(() => {
         caver = new CaverExtKAS()
     })
@@ -41,14 +41,14 @@ describe('MetaData API service enabling', () => {
         sandbox.restore()
     })
 
-    context('caver.initMetaDataAPI', () => {
+    context('caver.initMetadataAPI', () => {
         it('CAVERJS-EXT-KAS-MATADATA-001: should return error if metadataAPI is not initialized', async () => {
-            const expectedError = `MetaData API is not initialized. Use 'caver.initMetaDataAPI' function to initialize MetaData API.`
+            const expectedError = `Metadata API is not initialized. Use 'caver.initMetadataAPI' function to initialize Metadata API.`
             expect(() => caver.kas.metaData.uploadMetadata()).to.throw(expectedError)
         }).timeout(50000)
 
         it('CAVERJS-EXT-KAS-MATADATA-002: should set valid auth and chain id', () => {
-            caver.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+            caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
 
             expect(caver.kas.metaData.accessOptions).not.to.be.undefined
             expect(caver.kas.metaData.accessKeyId).to.equal(accessKeyId)
@@ -100,7 +100,7 @@ describe('MetaData API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-METADATA-003: should send post request to jpg file data', async () => {
-            caver.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+            caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
             const filepath = fpath.join(__dirname, '../fixture/img-jpg.jpg')
             const file = fs.createReadStream(filepath)
 
@@ -119,7 +119,7 @@ describe('MetaData API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-METADATA-004: should send post request to png file data', async () => {
-            caver.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+            caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
             const filepath = fpath.join(__dirname, '../fixture/img-png.png')
             const file = fs.createReadStream(filepath)
 
@@ -138,7 +138,7 @@ describe('MetaData API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-METADATA-005: should call callback function with assest upload response', async () => {
-            caver.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+            caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
             const filepath = fpath.join(__dirname, '../fixture/img-png.png')
             const file = fs.createReadStream(filepath)
 
@@ -209,7 +209,7 @@ describe('MetaData API service enabling', () => {
         }
 
         it('CAVERJS-EXT-KAS-METADATA-006: should return meta data result without file name', async () => {
-            caver.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+            caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const metadataSpy = sandbox.spy(caver.kas.metaData.dataUploadApi, 'uploadMetadata')
             const callApiStub = sandbox.stub(caver.kas.metaData.dataUploadApi.apiClient, 'callApi')
@@ -226,7 +226,7 @@ describe('MetaData API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-METADATA-007: should return meta data result with file name', async () => {
-            caver.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+            caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const filename = 'puppy.json'
             const metadataSpy = sandbox.spy(caver.kas.metaData.dataUploadApi, 'uploadMetadata')
@@ -244,7 +244,7 @@ describe('MetaData API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-METADATA-008: should call callback function with meta data upload response without file name', async () => {
-            caver.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+            caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const metadataSpy = sandbox.spy(caver.kas.metaData.dataUploadApi, 'uploadMetadata')
             const callApiStub = sandbox.stub(caver.kas.metaData.dataUploadApi.apiClient, 'callApi')
@@ -267,7 +267,7 @@ describe('MetaData API service enabling', () => {
         })
 
         it('CAVERJS-EXT-KAS-METADATA-009: should call callback function with meta data upload response with file name', async () => {
-            caver.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+            caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
 
             const metadataSpy = sandbox.spy(caver.kas.metaData.dataUploadApi, 'uploadMetadata')
             const callApiStub = sandbox.stub(caver.kas.metaData.dataUploadApi.apiClient, 'callApi')
