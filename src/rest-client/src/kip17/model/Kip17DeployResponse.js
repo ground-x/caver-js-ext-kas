@@ -54,9 +54,6 @@ class Kip17DeployResponse {
             if (data.hasOwnProperty('options')) {
                 obj.options = Kip17FeePayerOptions.constructFromObject(data.options)
             }
-            if (data.hasOwnProperty('owner')) {
-                obj.owner = ApiClient.convertToType(data.owner, 'String')
-            }
         }
         return obj
     }

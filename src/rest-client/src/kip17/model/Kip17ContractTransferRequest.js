@@ -11,7 +11,7 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
+const ApiClient = require("../../ApiClient");
 
 /**
  * The Kip17ContractTransferRequest model module.
@@ -19,40 +19,40 @@ const ApiClient = require('../../ApiClient')
  * @version 1.0
  */
 class Kip17ContractTransferRequest {
-    /**
-     * Constructs a new <code>Kip17ContractTransferRequest</code>.
-     * @alias Kip17ContractTransferRequest
-     * @class
-     * @param sender {String} The Klaytn account address of the sender.
-     * @param owner {String} The Klaytn account address of the current owner.
-     */
+  /**
+   * Constructs a new <code>Kip17ContractTransferRequest</code>.
+   * @alias Kip17ContractTransferRequest
+   * @class
+   * @param sender {String} The Klaytn account address of the sender.
+   * @param owner {String} The Klaytn account address of the current owner.
+   */
 
-    constructor(sender, owner) {
-        this.sender = sender
-        this.owner = owner
+  constructor(sender, owner) {
+    this.sender = sender;
+    this.owner = owner;
+  }
+
+  /**
+   * Constructs a <code>Kip17ContractTransferRequest</code> from a plain JavaScript object, optionally creating a new instance.
+   * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+   * @param {Object} data The plain JavaScript object bearing properties of interest.
+   * @param {Kip17ContractTransferRequest} obj Optional instance to populate.
+   * @return {Kip17ContractTransferRequest} The populated <code>Kip17ContractTransferRequest</code> instance.
+   * @memberof Kip17ContractTransferRequest
+   */
+  static constructFromObject(data, obj) {
+    if (data) {
+      obj = obj || new Kip17ContractTransferRequest();
+
+      if (data.hasOwnProperty("sender")) {
+        obj.sender = ApiClient.convertToType(data.sender, "String");
+      }
+      if (data.hasOwnProperty("owner")) {
+        obj.owner = ApiClient.convertToType(data.owner, "String");
+      }
     }
-
-    /**
-     * Constructs a <code>Kip17ContractTransferRequest</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {Kip17ContractTransferRequest} obj Optional instance to populate.
-     * @return {Kip17ContractTransferRequest} The populated <code>Kip17ContractTransferRequest</code> instance.
-     * @memberof Kip17ContractTransferRequest
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new Kip17ContractTransferRequest()
-
-            if (data.hasOwnProperty('sender')) {
-                obj.sender = ApiClient.convertToType(data.sender, 'String')
-            }
-            if (data.hasOwnProperty('owner')) {
-                obj.owner = ApiClient.convertToType(data.owner, 'String')
-            }
-        }
-        return obj
-    }
+    return obj;
+  }
 }
 
 /**
@@ -60,12 +60,12 @@ class Kip17ContractTransferRequest {
  * @type {String}
  * @memberof Kip17ContractTransferRequest
  */
-Kip17ContractTransferRequest.prototype.sender = undefined
+Kip17ContractTransferRequest.prototype.sender = undefined;
 /**
  * The Klaytn account address of the current owner.
  * @type {String}
  * @memberof Kip17ContractTransferRequest
  */
-Kip17ContractTransferRequest.prototype.owner = undefined
+Kip17ContractTransferRequest.prototype.owner = undefined;
 
-module.exports = Kip17ContractTransferRequest
+module.exports = Kip17ContractTransferRequest;

@@ -1,85 +1,85 @@
 {
-    "name": "caver-js-ext-kas",
-    "version": "1.10.0",
-    "description": "This is extenstion library of caver-js for connecting KAS",
-    "main": "index.js",
-    "scripts": {
-        "build": "./node_modules/.bin/webpack --mode production && npm run generateDocs",
-        "generateDocs": "jsdoc -c jsdoc.json README.md",
-        "test": "npm run build && npm run unitTest && npm run intTest",
-        "testQA": "npm run build && npm run unitTestQA && npm run intTestQA",
-        "testDev": "npm run build && npm run unitTestDev && npm run intTestDev",
-        "unitTest": "./node_modules/mocha/bin/mocha ./test/anchor/testAnchorAPI.js && ./node_modules/mocha/bin/mocha ./test/tokenHistory/testTokenHistoryAPI.js && ./node_modules/mocha/bin/mocha ./test/wallet/*.js && ./node_modules/mocha/bin/mocha ./test/helperTest.js && ./node_modules/mocha/bin/mocha ./test/kip7/testKIP7API.js &&  ./node_modules/mocha/bin/mocha ./test/kip37/testKIP37API.js &&  ./node_modules/mocha/bin/mocha ./test/kip17/v1/testKIP17API.js &&  ./node_modules/mocha/bin/mocha ./test/kip17/v2/testKIP17API.js && ./node_modules/mocha/bin/mocha ./test/metadata/testMetaDataAPI.js",
-        "unitTestQA": "npm run unitTest --testEnv=qa",
-        "unitTestDev": "npm run unitTest --testEnv=dev",
-        "intNodeAPITest": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js",
-        "intNodeAPITestQA": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js --testEnv=qa",
-        "intNodeAPITestDev": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js --testEnv=dev",
-        "intTest": "./node_modules/mocha/bin/mocha ./test/intTest/*.js && npm run intNodeAPITest ",
-        "intTestQA": "./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=qa && npm run intNodeAPITestQA ",
-        "intTestDev": "./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=dev && npm run intNodeAPITestDev ",
-        "lint": "eslint './**/*.js'",
-        "lintFix": "./yamlFormatting.sh && eslint './**/*.js' --fix"
-    },
-    "keywords": [
-        "caver",
-        "caver-js",
-        "kas",
-        "caver-js-ext",
-        "caver-js-kas",
-        "caver-js-ext-kas",
-        "klatyn",
-        "Ground X",
-        "ground x"
-    ],
-    "author": "Ground X Team",
-    "license": "Apache-2.0",
-    "dependencies": {
-        "caver-js": "1.6.5-rc.1",
-        "dotenv": "8.2.0",
-        "lodash": "4.17.21",
-        "querystring": "0.2.0",
-        "superagent": "3.7.0",
-        "webpack": "4.43.0",
-        "webpack-cli": "3.3.12"
-    },
-    "devDependencies": {
-        "@babel/cli": "7.14.8",
-        "@babel/core": "7.11.1",
-        "@babel/node": "7.10.5",
-        "@babel/preset-env": "7.11.0",
-        "babel-eslint": "8.2.6",
-        "chai": "4.2.0",
-        "chai-as-promised": "7.1.1",
-        "docdash": "1.2.0",
-        "eslint": "6.5.1",
-        "eslint-config-airbnb": "17.0.0",
-        "eslint-config-google": "0.14.0",
-        "eslint-config-prettier": "6.4.0",
-        "eslint-plugin-import": "2.13.0",
-        "eslint-plugin-jsx-a11y": "6.1.1",
-        "eslint-plugin-prettier": "3.1.1",
-        "eslint-plugin-react": "7.10.0",
-        "jsdoc": "^3.6.7",
-        "mocha": "6.2.3",
-        "prettier": "1.18.2",
-        "sinon": "9.0.3",
-        "sinon-chai": "3.5.0"
-    },
-    "directories": {
-        "test": "test"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/ground-x/caver-js-ext-kas.git"
-    },
-    "bugs": {
-        "url": "https://github.com/ground-x/caver-js-ext-kas/issues"
-    },
-    "homepage": "https://github.com/ground-x/caver-js-ext-kas#readme",
-    "babel": {
-        "presets": [
-            "@babel/env"
-        ]
-    }
+  "name": "caver-js-ext-kas",
+  "version": "1.11.0",
+  "description": "This is extenstion library of caver-js for connecting KAS",
+  "main": "index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/webpack --mode production && npm run generateDocs",
+    "generateDocs": "jsdoc -c jsdoc.json README.md",
+    "test": "npm run build && npm run unitTest && npm run intTest",
+    "testQA": "npm run build && npm run unitTestQA && npm run intTestQA",
+    "testDev": "npm run build && npm run unitTestDev && npm run intTestDev",
+    "unitTest": "./node_modules/mocha/bin/mocha ./test/anchor/testAnchorAPI.js && ./node_modules/mocha/bin/mocha ./test/tokenHistory/testTokenHistoryAPI.js && ./node_modules/mocha/bin/mocha ./test/wallet/*.js && ./node_modules/mocha/bin/mocha ./test/helperTest.js && ./node_modules/mocha/bin/mocha ./test/kip7/testKIP7API.js &&  ./node_modules/mocha/bin/mocha ./test/kip37/testKIP37API.js &&  ./node_modules/mocha/bin/mocha ./test/kip17/v1/testKIP17API.js &&  ./node_modules/mocha/bin/mocha ./test/kip17/v2/testKIP17API.js && ./node_modules/mocha/bin/mocha ./test/metadata/testMetaDataAPI.js",
+    "unitTestQA": "npm run unitTest --testEnv=qa",
+    "unitTestDev": "npm run unitTest --testEnv=dev",
+    "intNodeAPITest": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js",
+    "intNodeAPITestQA": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js --testEnv=qa",
+    "intNodeAPITestDev": "./node_modules/mocha/bin/mocha ./test/nodeAPI/*.js --testEnv=dev",
+    "intTest": "./node_modules/mocha/bin/mocha ./test/intTest/*.js && npm run intNodeAPITest ",
+    "intTestQA": "./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=qa && npm run intNodeAPITestQA ",
+    "intTestDev": "./node_modules/mocha/bin/mocha ./test/intTest/*.js --testEnv=dev && npm run intNodeAPITestDev ",
+    "lint": "eslint './**/*.js'",
+    "lintFix": "./yamlFormatting.sh && eslint './**/*.js' --fix"
+  },
+  "keywords": [
+    "caver",
+    "caver-js",
+    "kas",
+    "caver-js-ext",
+    "caver-js-kas",
+    "caver-js-ext-kas",
+    "klatyn",
+    "Ground X",
+    "ground x"
+  ],
+  "author": "Ground X Team",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "caver-js": "1.6.5-rc.1",
+    "dotenv": "8.2.0",
+    "lodash": "4.17.21",
+    "querystring": "0.2.0",
+    "superagent": "3.7.0",
+    "webpack": "4.43.0",
+    "webpack-cli": "3.3.12"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.14.8",
+    "@babel/core": "7.11.1",
+    "@babel/node": "7.10.5",
+    "@babel/preset-env": "7.11.0",
+    "babel-eslint": "8.2.6",
+    "chai": "4.2.0",
+    "chai-as-promised": "7.1.1",
+    "docdash": "1.2.0",
+    "eslint": "6.5.1",
+    "eslint-config-airbnb": "17.0.0",
+    "eslint-config-google": "0.14.0",
+    "eslint-config-prettier": "6.4.0",
+    "eslint-plugin-import": "2.13.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-prettier": "3.1.1",
+    "eslint-plugin-react": "7.10.0",
+    "jsdoc": "^3.6.7",
+    "mocha": "6.2.3",
+    "prettier": "1.18.2",
+    "sinon": "9.0.3",
+    "sinon-chai": "3.5.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ground-x/caver-js-ext-kas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ground-x/caver-js-ext-kas/issues"
+  },
+  "homepage": "https://github.com/ground-x/caver-js-ext-kas#readme",
+  "babel": {
+    "presets": [
+      "@babel/env"
+    ]
+  }
 }

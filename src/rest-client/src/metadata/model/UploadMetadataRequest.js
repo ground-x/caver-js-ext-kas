@@ -11,59 +11,59 @@
  *
  */
 
-const ApiClient = require('../../ApiClient')
+ const ApiClient = require('../../ApiClient')
 
-/**
- * The UploadMetadataRequest model module.
- * @class UploadMetadataRequest
- * @version 1.0
- */
-class UploadMetadataRequest {
-    /**
-     * Constructs a new <code>UploadMetadataRequest</code>.
-     * @alias UploadMetadataRequest
-     * @class
-     * @param metadata {Object.<String, Object>} JSON metadata
-     */
-
-    constructor(metadata) {
-        this.metadata = metadata
-    }
-
-    /**
-     * Constructs a <code>UploadMetadataRequest</code> from a plain JavaScript object, optionally creating a new instance.
-     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
-     * @param {Object} data The plain JavaScript object bearing properties of interest.
-     * @param {UploadMetadataRequest} obj Optional instance to populate.
-     * @return {UploadMetadataRequest} The populated <code>UploadMetadataRequest</code> instance.
-     * @memberof UploadMetadataRequest
-     */
-    static constructFromObject(data, obj) {
-        if (data) {
-            obj = obj || new UploadMetadataRequest()
-
-            if (data.hasOwnProperty('metadata')) {
-                obj.metadata = ApiClient.convertToType(data.metadata, [{ String: Object }])
-            }
-            if (data.hasOwnProperty('filename')) {
-                obj.filename = ApiClient.convertToType(data.filename, 'String')
-            }
-        }
-        return obj
-    }
-}
-
-/**
- * JSON metadata
- * @type {Object.<String, Object>}
- * @memberof UploadMetadataRequest
- */
-UploadMetadataRequest.prototype.metadata = undefined
-/**
- * A file name of your choice. File extension must be `.json`. If the file name is already taken you will get a duplicate key error.
- * @type {String}
- * @memberof UploadMetadataRequest
- */
-UploadMetadataRequest.prototype.filename = undefined
-
-module.exports = UploadMetadataRequest
+ /**
+  * The UploadMetadataRequest model module.
+  * @class UploadMetadataRequest
+  * @version 1.0
+  */
+ class UploadMetadataRequest {
+     /**
+      * Constructs a new <code>UploadMetadataRequest</code>.
+      * @alias UploadMetadataRequest
+      * @class
+      * @param metadata {Object.<String, Object>} JSON metadata
+      */
+ 
+     constructor(metadata) {
+         this.metadata = metadata
+     }
+ 
+     /**
+      * Constructs a <code>UploadMetadataRequest</code> from a plain JavaScript object, optionally creating a new instance.
+      * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+      * @param {Object} data The plain JavaScript object bearing properties of interest.
+      * @param {UploadMetadataRequest} obj Optional instance to populate.
+      * @return {UploadMetadataRequest} The populated <code>UploadMetadataRequest</code> instance.
+      * @memberof UploadMetadataRequest
+      */
+     static constructFromObject(data, obj) {
+         if (data) {
+             obj = obj || new UploadMetadataRequest()
+ 
+             if (data.hasOwnProperty('metadata')) {
+                 obj.metadata = ApiClient.convertToType(data.metadata, { String: Object })
+             }
+             if (data.hasOwnProperty('filename')) {
+                 obj.filename = ApiClient.convertToType(data.filename, 'String')
+             }
+         }
+         return obj
+     }
+ }
+ 
+ /**
+  * JSON metadata
+  * @type {Object.<String, Object>}
+  * @memberof UploadMetadataRequest
+  */
+ UploadMetadataRequest.prototype.metadata = undefined
+ /**
+  * A file name of your choice. File extension must be `.json`. If the file name is already taken you will get a duplicate key error.
+  * @type {String}
+  * @memberof UploadMetadataRequest
+  */
+ UploadMetadataRequest.prototype.filename = undefined
+ 
+ module.exports = UploadMetadataRequest
