@@ -140,7 +140,7 @@ class KIP17 {
      * Deploy KIP-17 token contract with a Klaytn account in KAS. <br>
      * POST /v2/contract
      * @example
-     * const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', 'jasmine-alias')
+     * const ret = await caver.kas.kip17.deploy('Alice', 'ALI', 'alice-alias')
      *
      * @param {string} name The name of KIP-17 token.
      * @param {string} symbol The symbol of KIP-17 token.
@@ -169,10 +169,6 @@ class KIP17 {
                     }
                     break
                 case 'object':
-                    if (_.isFunction(options)) {
-                        callback = options
-                        options = {}
-                    }
                     options = owner
                     owner = ''
                     break
@@ -280,7 +276,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.getContract('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16')
      *
      * // with contract alias
-     * const ret = await caver.kas.kip17.getContract('jasmine-alias')
+     * const ret = await caver.kas.kip17.getContract('alice-alias')
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {Function} [callback] The callback function to call.
@@ -309,21 +305,21 @@ class KIP17 {
      * const owner = '0x661e2075de14d267c0f141e917a76871d3b299ad'
      * const sender = '0x0c12a8f720f721cb3879217ee45709c2345c8446'
      *
-     * // with contract address and token id in hex
-     * const ret = await caver.kas.kip17.transferOwnership('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16', owner, sender)
+     * // with contract address
+     * const ret = await caver.kas.kip17.transferOwnership('0x{address in hex}', owner)
      *
-     * // with contract alias and token id in number
-     * const ret = await caver.kas.kip17.approve('jasmine-alias', owner, sender)
+     * // with contract alias
+     * const ret = await caver.kas.kip17.transferOwnership('alice-alias', owner, sender)
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string} owner The contract address (hexadecimal, starting with 0x)
-     * @param {string} sender (optional) The address of the owner who owns the contract. If nothing is entered, The address of the deployer who created this contract will fill this value.
+     * @param {string} [sender] The address of the owner who owns the contract. If nothing is entered, The address of the deployer who created this contract will fill this value.
      * @param {Function} [callback] The callback function to call.
      * @return {Kip17ContractTransferRequest}
      */
     transferOwnership(addressOrAlias, owner, sender, callback) {
         if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
-        if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
+        if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 contract should be string type.`)
         if (!_.isString(owner) && !utils.isAddress(owner)) throw new Error(`Invalid address format: ${owner}`)
 
         if (sender !== undefined && _.isFunction(sender)) {
@@ -347,11 +343,11 @@ class KIP17 {
     }
 
     /**
-     * Lists all tokens of the same owner (`owner-address`) of a contract. <br>
+     * Returns the owner of a specified KIP-17 contract. You can use either the contract alias or contract address. <br>
      * GET /v2/contract/{contract-address-or-alias}/owner
      * @example
      *
-     * const ret = await caver.kas.kip17.getContractOwner('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16' )
+     * const ret = await caver.kas.kip17.getContractOwner('0x{address in hex}' )
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {Function} [callback] The callback function to call.
@@ -359,7 +355,7 @@ class KIP17 {
      */
     getContractOwner(addressOrAlias, callback) {
         if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
-        if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
+        if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 contract should be string type.`)
 
         return new Promise((resolve, reject) => {
             this.kip17ContractApi.getContractOwner(this.chainId, addressOrAlias, (err, data, response) => {
@@ -378,11 +374,11 @@ class KIP17 {
      * DELETE /v2/contract/{contract-address-or-alias}/owner
      * @example
      *
-     * // with contract address and token id in hex
-     * const ret = await caver.kas.kip17.renounceOwnership('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16')
+     * // with contract address
+     * const ret = await caver.kas.kip17.renounceOwnership('0x{address in hex}')
      *
-     * // with contract alias and token id in number
-     * const ret = await caver.kas.kip17.renounceOwnership('jasmine-alias')
+     * // with contract alias
+     * const ret = await caver.kas.kip17.renounceOwnership('alice-alias')
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string} from (optional) The address of the owner who is to give up the contract ownership. If nothing is entered, The address of the deployer who created this contract will fill this value.
@@ -391,7 +387,7 @@ class KIP17 {
      */
     renounceOwnership(addressOrAlias, from, callback) {
         if (!this.accessOptions || !this.kip17ContractApi) throw new Error(NOT_INIT_API_ERR_MSG)
-        if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 token contract should be string type.`)
+        if (!_.isString(addressOrAlias)) throw new Error(`The address and alias of KIP-17 contract should be string type.`)
 
         if (from !== undefined) {
             if (_.isFunction(from)) {
@@ -423,7 +419,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.mint('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16', '0x6650d7f9bfb13561a37b15707b486f103f3a15cd', '0x1', 'uri')
      *
      * // with contract alias and token id in number
-     * const ret = await caver.kas.kip17.mint('jasmine-alias', '0x6650d7f9bfb13561a37b15707b486f103f3a15cd', 1, 'uri string')
+     * const ret = await caver.kas.kip17.mint('alice-alias', '0x6650d7f9bfb13561a37b15707b486f103f3a15cd', 1, 'uri string')
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string} to The address of recipient EOA account for the newly minted token.
@@ -464,7 +460,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.getTokenList('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16')
      *
      * // with contract alias and query parameter
-     * const ret = await caver.kas.kip17.getTokenList('jasmine-alias', { size: 1, cursor: 'eyJjc...' })
+     * const ret = await caver.kas.kip17.getTokenList('alice-alias', { size: 1, cursor: 'eyJjc...' })
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {KIP17QueryOptions} [queryOptions] Filters required when retrieving data. `size`, and `cursor`.
@@ -502,7 +498,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.getToken('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16', '0x1')
      *
      * // with contract alias and token id in number
-     * const ret = await caver.kas.kip17.getToken('jasmine-alias', 1)
+     * const ret = await caver.kas.kip17.getToken('alice-alias', 1)
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string|number} tokenId The token ID to retreive.
@@ -539,7 +535,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.transfer('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16', sender, owner, to, '0x1')
      *
      * // with contract alias and token id in number
-     * const ret = await caver.kas.kip17.transfer('jasmine-alias', sender, owner, to, 1)
+     * const ret = await caver.kas.kip17.transfer('alice-alias', sender, owner, to, 1)
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string} sender The address of the account sending the transaction to transfer the token. The sender must be the owner of the token or have been approved by the owner for the token to be transfered.
@@ -584,7 +580,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.burn('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16', from, '0x1')
      *
      * // with contract alias and token id in number
-     * const ret = await caver.kas.kip17.burn('jasmine-alias', from, 1)
+     * const ret = await caver.kas.kip17.burn('alice-alias', from, 1)
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string} from The address of sender or owner. If the from that burns the token is not the owner, the sender that sends the transaction to burn the token must have been approved by the owner.
@@ -627,7 +623,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.approve('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16', from, to, '0x1')
      *
      * // with contract alias and token id in number
-     * const ret = await caver.kas.kip17.approve('jasmine-alias', from, to, 1)
+     * const ret = await caver.kas.kip17.approve('alice-alias', from, to, 1)
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string} from The address of owner.
@@ -671,7 +667,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.approveAll('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16', from, to, true)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip17.approveAll('jasmine-alias', from, to, true)
+     * const ret = await caver.kas.kip17.approveAll('alice-alias', from, to, true)
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string} from The address of owner.
@@ -711,7 +707,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.getTokenListByOwner('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16', owner)
      *
      * // with query parameter
-     * const ret = await caver.kas.kip17.getTokenListByOwner('jasmine-alias', owner, { size: 1, cursor: 'eyJjc...' })
+     * const ret = await caver.kas.kip17.getTokenListByOwner('alice-alias', owner, { size: 1, cursor: 'eyJjc...' })
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string} owner The address of owner.
@@ -750,7 +746,7 @@ class KIP17 {
      * const ret = await caver.kas.kip17.getContractList('0x9ad4163329aa90eaf52a27ac8f5e7981becebc16', '0x1')
      *
      * // with token id in number and query parameter
-     * const ret = await caver.kas.kip17.getContractList('jasmine-alias', 1, { size: 1, cursor: 'eyJjc...' })
+     * const ret = await caver.kas.kip17.getContractList('alice-alias', 1, { size: 1, cursor: 'eyJjc...' })
      *
      * @param {string} addressOrAlias The contract address (hexadecimal, starting with 0x) or alias.
      * @param {string|number} tokenId The token ID to search transfer history.

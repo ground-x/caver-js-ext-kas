@@ -47,20 +47,20 @@ describe('KIP17 API service', () => {
     })
 
     it('CAVERJS-EXT-KAS-INT-247: caver.kas.kip17.deploy should deploy KIP-17 token contract', async () => {
-        alias = createAlias('jasmine')
+        alias = createAlias('alice')
 
-        const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', alias)
+        const ret = await caver.kas.kip17.deploy('Alice', 'ALI', alias)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
     }).timeout(100000)
 
     it('CAVERJS-EXT-KAS-INT-320: caver.kas.kip17.deploy should deploy KIP-17 token contract with fee payer options', async () => {
-        alias = createAlias('jasmine')
+        alias = createAlias('alice')
 
         feePayer = await caver.kas.wallet.getFeePayer(walletEnv.feePayerAddress)
         const feePayerOptions = createFeePayerOptions(false, feePayer)
-        const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', alias, feePayerOptions)
+        const ret = await caver.kas.kip17.deploy('Alice', 'ALI', alias, feePayerOptions)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
@@ -104,8 +104,8 @@ describe('KIP17 API service', () => {
 
         expect(ret.alias).to.equal(alias)
         expect(ret.address).not.to.be.undefined
-        expect(ret.name).to.equal('Jasmine')
-        expect(ret.symbol).to.equal('JAS')
+        expect(ret.name).to.equal('Alice')
+        expect(ret.symbol).to.equal('ALI')
 
         contractAddress = ret.address
 
@@ -113,8 +113,8 @@ describe('KIP17 API service', () => {
 
         expect(ret.alias).to.equal(alias)
         expect(ret.address).to.equal(contractAddress)
-        expect(ret.name).to.equal('Jasmine')
-        expect(ret.symbol).to.equal('JAS')
+        expect(ret.name).to.equal('Alice')
+        expect(ret.symbol).to.equal('ALI')
     }).timeout(100000)
 
     it('CAVERJS-EXT-KAS-INT-250: caver.kas.kip17.mint should mint KIP-17 token', async () => {
@@ -275,25 +275,27 @@ describe('KIP17 API service', () => {
 describe('KIP17 V2 API service', () => {
     before(() => {
         caver = new CaverExtKAS()
-        caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 'v2')
+        caver.initKIP17API(chainId, accessKeyId, secretAccessKey, url, 2)
         caver.initWalletAPI(walletEnv.chainId, walletEnv.accessKeyId, walletEnv.secretAccessKey, walletEnv.url)
     })
 
-    it('CAVERJS-EXT-KAS-INT-321: caver.kas.kip17.deploy should deploy KIP-17 token contract', async () => {
-        alias = createAlias('jasmine')
 
-        const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', alias)
+    it('CAVERJS-EXT-KAS-INT-247: caver.kas.kip17.deploy should deploy KIP-17 token contract', async () => {
+        alias = createAlias('alice')
+
+        const ret = await caver.kas.kip17.deploy('Alice', 'ALI', alias)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
     }).timeout(100000)
 
-    it('CAVERJS-EXT-KAS-INT-322: caver.kas.kip17.deploy should deploy KIP-17 token contract with fee payer options', async () => {
-        alias = createAlias('jasmine')
+
+    it('CAVERJS-EXT-KAS-INT-320: caver.kas.kip17.deploy should deploy KIP-17 token contract with fee payer options', async () => {
+        alias = createAlias('alice')
 
         feePayer = await caver.kas.wallet.getFeePayer(walletEnv.feePayerAddress)
         const feePayerOptions = createFeePayerOptions(false, feePayer)
-        const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', alias, feePayerOptions)
+        const ret = await caver.kas.kip17.deploy('Alice', 'ALI', alias, feePayerOptions)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
@@ -306,9 +308,9 @@ describe('KIP17 V2 API service', () => {
     it('CAVERJS-EXT-KAS-INT-323: caver.kas.kip17.deploy should deploy KIP-17 token contract with owner', async () => {
         const accounts = await caver.wallet.generate(1)
         owner = accounts[0]
-        alias = createAlias('jasmine')
+        alias = createAlias('alice')
 
-        const ret = await caver.kas.kip17.deploy('Jasmine', 'JAS', alias, owner)
+        const ret = await caver.kas.kip17.deploy('Alice', 'ALI', alias, owner)
 
         expect(ret.status).to.equal('Submitted')
         expect(ret.transactionHash).not.to.be.undefined
@@ -348,8 +350,8 @@ describe('KIP17 V2 API service', () => {
 
         expect(ret.alias).to.equal(alias)
         expect(ret.address).not.to.be.undefined
-        expect(ret.name).to.equal('Jasmine')
-        expect(ret.symbol).to.equal('JAS')
+        expect(ret.name).to.equal('Alice')
+        expect(ret.symbol).to.equal('ALI')
 
         contractAddress = ret.address
 
@@ -357,8 +359,8 @@ describe('KIP17 V2 API service', () => {
 
         expect(ret.alias).to.equal(alias)
         expect(ret.address).to.equal(contractAddress)
-        expect(ret.name).to.equal('Jasmine')
-        expect(ret.symbol).to.equal('JAS')
+        expect(ret.name).to.equal('Alice')
+        expect(ret.symbol).to.equal('ALI')
     }).timeout(100000)
 
     it('CAVERJS-EXT-KAS-INT-327: caver.kas.kip17.mint should mint KIP-17 token', async () => {
