@@ -11,6 +11,7 @@
  *
  */
 
+
  const ApiClient = require('../../ApiClient')
  const ErrorResponse = require('../model/ErrorResponse')
  const UploadAssetResponse = require('../model/UploadAssetResponse')
@@ -44,6 +45,7 @@ class DataUploadApi {
 
     /**
      * Upload Asset
+     
      * Uploads an asset. Supported file types include jpg, png, and gif. After uploading the asset file, it returns a public URI to access the asset.  
      * @param {Object} opts Optional parameters
      * @param {DataUploadApi~uploadAssetCallback} callback The callback function, accepting three arguments: error, data, response
@@ -129,4 +131,6 @@ class DataUploadApi {
         )
     }
 }
+
 module.exports = DataUploadApi
+

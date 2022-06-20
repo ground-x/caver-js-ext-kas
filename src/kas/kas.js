@@ -24,6 +24,7 @@ const KIP37 = require('./kip37/v1/kip37')
 const KIP37V2 = require('./kip37/v2/kip37')
 const Metadata = require('./metadata/metadata')
 const Resource = require('./resource/resource')
+
 const { createClient } = require('../utils/helper')
 
 const AnchorQueryOptions = require('./anchor/anchorQueryOptions')
@@ -316,6 +317,7 @@ class KAS {
      * @return {void}
      */
     initMetadataAPI(chainId, accessKeyId, secretAccessKey, url) {
+
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
         this.metaData.accessOptions = accessOptions
         this.metaData.client = client
@@ -339,6 +341,7 @@ class KAS {
         this.resource.accessOptions = accessOptions
         this.resource.client = client
     }
+
 }
 
 module.exports = KAS
