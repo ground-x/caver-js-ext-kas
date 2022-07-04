@@ -11,17 +11,17 @@
  *
  */
 
- const ApiClient = require('../../ApiClient')
- const ErrorResponse = require('../model/ErrorResponse')
- const UploadAssetResponse = require('../model/UploadAssetResponse')
- const UploadMetadataRequest = require('../model/UploadMetadataRequest')
- const UploadMetadataResponse = require('../model/UploadMetadataResponse')
- 
+const ApiClient = require('../../ApiClient')
+const ErrorResponse = require('../model/ErrorResponse')
+const UploadAssetResponse = require('../model/UploadAssetResponse')
+const UploadMetadataRequest = require('../model/UploadMetadataRequest')
+const UploadMetadataResponse = require('../model/UploadMetadataResponse')
+
 /**
  * DataUpload service.
  * @class DataUploadApi
  * @version 1.0
-*/
+ */
 class DataUploadApi {
     /**
      * Constructs a new DataUploadApi.
@@ -44,12 +44,12 @@ class DataUploadApi {
 
     /**
      * Upload Asset
-     * Uploads an asset. Supported file types include jpg, png, and gif. After uploading the asset file, it returns a public URI to access the asset.  
+     * Uploads an asset. Supported file types include jpg, png, and gif. After uploading the asset file, it returns a public URI to access the asset.
      * @param {Object} opts Optional parameters
      * @param {DataUploadApi~uploadAssetCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link UploadAssetResponse}
      */
-    uploadAsset(xChainId, opts, callback) {
+    uploadAsset(xChainId, krn, opts, callback) {
         opts = opts || {}
         const postBody = null
 
@@ -57,6 +57,7 @@ class DataUploadApi {
         const queryParams = {}
         const headerParams = {
             'x-chain-id': xChainId,
+            'x-krn': krn,
         }
         const formParams = {
             file: opts.file,
@@ -97,7 +98,7 @@ class DataUploadApi {
      * @param {DataUploadApi~uploadMetadataCallback} callback The callback function, accepting three arguments: error, data, response
      * data is of type: {@link UploadMetadataResponse}
      */
-    uploadMetadata(xChainId, opts, callback) {
+    uploadMetadata(xChainId, krn, opts, callback) {
         opts = opts || {}
         const postBody = opts.body
 
@@ -105,6 +106,7 @@ class DataUploadApi {
         const queryParams = {}
         const headerParams = {
             'x-chain-id': xChainId,
+            'x-krn': krn,
         }
         const formParams = {}
 
