@@ -186,7 +186,7 @@ console.log(queryOptions)
 You can now use KAS's Metadata API through caver-js-ext-kas. You can send a Metadata API request to the KAS as shown below and check the results.
 
 ```javascript
-const metadata = await caver.kas.metaData.uploadMetadata({ name, description, image})
+const metadata = await caver.kas.metadata.uploadMetadata({ name, description, image})
 console.log(metadata)
 ```
 
