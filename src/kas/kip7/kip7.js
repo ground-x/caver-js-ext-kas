@@ -803,10 +803,10 @@ class KIP7 {
      * const minter = '0x{minter address}' // should have authority to mint
      *
      * // with contract address
-     * const ret = await caver.kas.kip7.addMinter('0x{address in hex}', minter)
+     * const ret = await caver.kas.kip7.renounceMinter('0x{address in hex}', minter)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.addMinter('jasmine-alias', minter)
+     * const ret = await caver.kas.kip7.renounceMinter('jasmine-alias', minter)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} minter Klaytn account address that grants authority to mint and burn a token. The default value is the `deployer`'s address'.
