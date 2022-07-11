@@ -211,7 +211,11 @@ const CreateKip37TokenRequest = require('./kip37/model/CreateKip37TokenRequest')
 const DeployKip37ContractRequest = require('./kip37/model/DeployKip37ContractRequest')
 const ImportKip37ContractRequest = require('./kip37/model/ImportKip37ContractRequest')
 const Kip37Contract = require('./kip37/model/Kip37Contract')
+const Kip37ContractDeleteResponse = require('./kip37/model/Kip37ContractDeleteResponse')
 const Kip37ContractListResponse = require('./kip37/model/Kip37ContractListResponse')
+const Kip37ContractOwnerResponse = require('./kip37/model/Kip37ContractOwnerResponse')
+const Kip37ContractTransferRequest = require('./kip37/model/Kip37ContractTransferRequest')
+const Kip37ContractTransferResponse = require('./kip37/model/Kip37ContractTransferResponse')
 const Kip37DeployResponse = require('./kip37/model/Kip37DeployResponse')
 const Kip37DeployerResponse = require('./kip37/model/Kip37DeployerResponse')
 const Kip37FeePayerOptions = require('./kip37/model/Kip37FeePayerOptions')
@@ -223,19 +227,27 @@ const Kip37TokenListResponseItem = require('./kip37/model/Kip37TokenListResponse
 const Kip37TransactionStatusResponse = require('./kip37/model/Kip37TransactionStatusResponse')
 const MintKip37TokenRequest = require('./kip37/model/MintKip37TokenRequest')
 const OperateKip37ContractRequest = require('./kip37/model/OperateKip37ContractRequest')
+const RenounceKIP37Request = require('./kip37/model/RenounceKIP37Request')
 const TransferKip37TokenRequest = require('./kip37/model/TransferKip37TokenRequest')
 const UpdateKip37ContractRequest = require('./kip37/model/UpdateKip37ContractRequest')
-const Kip37ContractApi = require('./kip37/api/Kip37ContractApi')
-const Kip37DeployerApi = require('./kip37/api/Kip37DeployerApi')
-const Kip37TokenApi = require('./kip37/api/Kip37TokenApi')
-const Kip37TokenOwnershipApi = require('./kip37/api/Kip37TokenOwnershipApi')
-// MetaData
+const Kip37ContractApi = require('./kip37/api/v1/Kip37ContractApi')
+const Kip37DeployerApi = require('./kip37/api/v1/Kip37DeployerApi')
+const Kip37TokenApi = require('./kip37/api/v1/Kip37TokenApi')
+const Kip37TokenOwnershipApi = require('./kip37/api/v1/Kip37TokenOwnershipApi')
+const Kip37ContractApiV2 = require('./kip37/api/v2/Kip37ContractApi')
+const Kip37DeployerApiV2 = require('./kip37/api/v2/Kip37DeployerApi')
+const Kip37TokenApiV2 = require('./kip37/api/v2/Kip37TokenApi')
+const Kip37TokenOwnershipApiV2 = require('./kip37/api/v2/Kip37TokenOwnershipApi')
+// Metadata
 const UploadAssetRequest = require('./metadata/model/UploadAssetRequest')
 const UploadAssetResponse = require('./metadata/model/UploadAssetResponse')
 const UploadMetadataRequest = require('./metadata/model/UploadMetadataRequest')
 const UploadMetadataResponse = require('./metadata/model/UploadMetadataResponse')
 const DataUploadApi = require('./metadata/api/DataUploadApi')
-
+// Resource
+const ResourceListResponse = require('./resource/model/ResourceListResponse')
+const ResourceResponse = require('./resource/model/ResourceResponse')
+const ResourceListApi = require('./resource/api/ResourceListApi')
 /**
  * _IntroductionThis_document_describes_KAS__Klaytn_API_Service_Anchor_API__Anchor_API_provides_features_sending_metadata_available_to_verify_data_reliability_to_ensure_the_reliability_of_service_chain_data_to_Klaytn_main_chain_For_more_details_on_using_the_Anchor_API_please_refer_to__Tutorial_httpsdocs_klaytnapi_comtutorialanchor_api__Error_Codes_400_Bad_Request__Code__Messages________________1071010__data_dont_exist1071615__its_value_is_out_of_range_size1072100__same_payload_ID_or_payload_was_already_anchored1072101__all_configured_accounts_have_insufficient_funds__.<br>
  * The <code>index</code> module provides access to constructors for all the classes which comprise the public API.
@@ -1470,6 +1482,30 @@ module.exports = {
     Kip37TokenOwnershipApi,
 
     /**
+     * The Kip37ContractApiV2 service constructor.
+     * @property {Kip37ContractApiV2}
+     */
+    Kip37ContractApiV2,
+
+    /**
+     * The Kip37DeployerApiV2 service constructor.
+     * @property {Kip37DeployerApiV2}
+     */
+    Kip37DeployerApiV2,
+
+    /**
+     * The Kip37TokenApiV2 service constructor.
+     * @property {Kip37TokenApiV2}
+     */
+    Kip37TokenApiV2,
+
+    /**
+     * The Kip37TokenOwnershipApiV2 service constructor.
+     * @property {Kip37TokenOwnershipApiV2}
+     */
+    Kip37TokenOwnershipApiV2,
+
+    /**
      * The UploadAssetRequest model constructor.
      * @property {UploadAssetRequest}
      */
@@ -1498,4 +1534,52 @@ module.exports = {
      * @property {DataUploadApi}
      */
     DataUploadApi,
+
+    /**
+     * The ResourceListResponse model constructor.
+     * @property {ResourceListResponse}
+     */
+    ResourceListResponse,
+
+    /**
+     * The ResourceResponse model constructor.
+     * @property {ResourceResponse}
+     */
+    ResourceResponse,
+
+    /**
+     * The ResourceListApi service constructor.
+     * @property {ResourceListApi}
+     */
+    ResourceListApi,
+
+    /**
+     * The Kip37ContractDeleteResponse service constructor.
+     * @property {Kip37ContractDeleteResponse}
+     */
+    Kip37ContractDeleteResponse,
+
+    /**
+     * The Kip37ContractOwnerResponse service constructor.
+     * @property {Kip37ContractOwnerResponse}
+     */
+    Kip37ContractOwnerResponse,
+
+    /**
+     * The Kip37ContractTransferRequest service constructor.
+     * @property {Kip37ContractTransferRequest}
+     */
+    Kip37ContractTransferRequest,
+
+    /**
+     * The Kip37ContractTransferResponse service constructor.
+     * @property {Kip37ContractTransferResponse}
+     */
+    Kip37ContractTransferResponse,
+
+    /**
+     * The RenounceKIP37Request service constructor.
+     * @property {RenounceKIP37Request}
+     */
+    RenounceKIP37Request,
 }

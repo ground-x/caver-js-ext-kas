@@ -35,7 +35,7 @@ function createFeePayerOptions(enableGlobalFeePayer, userFeePayer) {
     }
 }
 
-function createMetaDataFileName(prefix) {
+function createMetadataFileName(prefix) {
     // Make random string for file name to avoid duplicated file name
     return `${prefix}-${Math.random(12)
         .toString(36)
@@ -46,5 +46,5 @@ module.exports = {
     timeout,
     createAlias,
     createFeePayerOptions,
-    createMetaDataFileName,
+    createMetadataFileName,
 }

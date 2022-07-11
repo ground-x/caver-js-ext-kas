@@ -72,6 +72,13 @@ const auths = {
         accessKeyId: '',
         secretAccessKey: '',
     },
+    resourceAPI: {
+        url: 'https://resource-api.klaytnapi.com',
+        chainId: 1001,
+        accessKeyId: '',
+        secretAccessKey: '',
+        accountId: process.env.ACCOUNT_ID,
+    },
 }
 
 if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm_config_testEnv === 'dev') {
@@ -111,6 +118,10 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.metaDataAPI.url = process.env.METADATA_API_DEV
     auths.metaDataAPI.accessKeyId = process.env.ACCESS_KEY_DEV
     auths.metaDataAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
+
+    auths.resourceAPI.url = process.env.RESOURCE_API_DEV
+    auths.resourceAPI.accessKeyId = process.env.ACCESS_KEY_DEV
+    auths.resourceAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_DEV
 } else if (process.argv[process.argv.length - 1] === '--testEnv=qa' || process.env.npm_config_testEnv === 'qa') {
     senderPrivateKey = process.env.SENDER_PRV_KEY_JS_QA
 
@@ -148,6 +159,10 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
     auths.metaDataAPI.url = process.env.METADATA_API_QA
     auths.metaDataAPI.accessKeyId = process.env.ACCESS_KEY_QA
     auths.metaDataAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_QA
+
+    auths.resourceAPI.url = process.env.RESOURCE_API_QA
+    auths.resourceAPI.accessKeyId = process.env.ACCESS_KEY_QA
+    auths.resourceAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY_QA
 } else {
     senderPrivateKey = process.env.SENDER_PRV_KEY_JS
 
@@ -177,6 +192,9 @@ if (process.argv[process.argv.length - 1] === '--testEnv=dev' || process.env.npm
 
     auths.metaDataAPI.accessKeyId = process.env.ACCESS_KEY
     auths.metaDataAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
+
+    auths.resourceAPI.accessKeyId = process.env.ACCESS_KEY
+    auths.resourceAPI.secretAccessKey = process.env.SECRET_ACCESS_KEY
 }
 
 // console.log(auths)

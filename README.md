@@ -10,6 +10,8 @@ caver-js-ext-kas is [caver-js](https://github.com/klaytn/caver-js)'s extension l
 	  * [Use Token History API](#use-token-history-api)
 	  * [Use Wallet API](#use-wallet-api)
 	  * [Use Anchor API](#use-anchor-api)
+	  * [Use Metadata API](#use-metadata-api)
+	  * [Use Resource API](#use-resource-api)
 	  * [Use KIP17 API](#use-kip17-api)
 	  * [Use KIP7 API](#use-kip7-api)
 	  * [Use KIP37 API](#use-kip37-api)
@@ -47,6 +49,7 @@ This library contains tests. Create `.env` file to define environment variables 
 SENDER_PRV_KEY_JS=''
 ACCESS_KEY=''
 SECRET_ACCESS_KEY=''
+ACCOUNT_ID=''
 PRESET=
 FEE_PAYER_ADDR=''
 OPERATOR=''
@@ -86,9 +89,11 @@ caver.initNodeAPI(chainId, accessKeyId, secretAccessKey [, url])
 caver.initTokenHistoryAPI(chainId, accessKeyId, secretAccessKey [, url])
 caver.initWalletAPI(chainId, accessKeyId, secretAccessKey [, url])
 caver.initAnchorAPI(chainId, accessKeyId, secretAccessKey [, url])
-caver.initKIP17API(chainId, accessKeyId, secretAccessKey [, url])
+caver.initKIP17API(chainId, accessKeyId, secretAccessKey [, url] [, version])
 caver.initKIP7API(chainId, accessKeyId, secretAccessKey [, url])
-caver.initKIP37API(chainId, accessKeyId, secretAccessKey [, url])
+caver.initKIP37API(chainId, accessKeyId, secretAccessKey [, url] [, version])
+caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey [, url])
+caver.initResourceAPI(chainId, accessKeyId, secretAccessKey [, url])
 ```
 
 `caver.wallet` in [CaverExtKAS](https://refs.klaytnapi.com/en/sdk/js/latest/CaverExtKAS.html) is a [KASWallet](https://refs.klaytnapi.com/en/sdk/js/latest/KASWallet.html) that internally connects the [KAS Wallet API](https://refs.klaytnapi.com/en/sdk/js/latest/Wallet.html) since [caver-js-ext-kas v1.0.2](https://www.npmjs.com/package/caver-js-ext-kas/v/1.0.2).
@@ -173,6 +178,31 @@ The query options used in the anchor api can be used as follows.
 
 ```javascript
 const queryOptions = new caver.kas.anchor.queryOptions({ size, fromTimestamp, toTimestamp, ... })
+console.log(queryOptions)
+```
+
+### Use Metadata API
+
+You can now use KAS's Metadata API through caver-js-ext-kas. You can send a Metadata API request to the KAS as shown below and check the results.
+
+```javascript
+const metadata = await caver.kas.metaData.uploadMetadata({ name, description, image})
+console.log(metadata)
+```
+
+### Use Resource API
+
+You can now use KAS's Resource API through caver-js-ext-kas. You can send a Resource API request to the KAS as shown below and check the results.
+
+```javascript
+const resourceList = await caver.kas.wallet.getResourceList(accountId)
+console.log(resourceList)
+```
+
+The query options used in the anchor api can be used as follows.
+
+```javascript
+const queryOptions = new caver.kas.resource.queryOptions({ size, fromTimestamp, toTimestamp, ... })
 console.log(queryOptions)
 ```
 

@@ -150,7 +150,7 @@ class KIP7 {
      * POST /v1/contract
      *
      * @example
-     * const ret = await caver.kas.kip7.deploy('Jasmine', 'JAS', 18, '1000000000000000000', 'jasmine-alias')
+     * const ret = await caver.kas.kip7.deploy('Alice', 'ALI', 18, '1000000000000000000', 'alice-alias')
      *
      * @param {string} name The name of KIP-7 token.
      * @param {string} symbol The symbol of KIP-7 token.
@@ -246,7 +246,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.getContract('0x{address in hex}')
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.getContract('jasmine-alias')
+     * const ret = await caver.kas.kip7.getContract('alice-alias')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {Function} [callback] The callback function to call.
@@ -321,7 +321,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.allowance('0x{contract address}', owner, spender)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.allowance('jasmine-alias', owner, spender)
+     * const ret = await caver.kas.kip7.allowance('alice-alias', owner, spender)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} owner Token owner's Klaytn account address.
@@ -357,7 +357,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.allowance('0x{contract address}', owner)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.allowance('jasmine-alias', owner)
+     * const ret = await caver.kas.kip7.allowance('alice-alias', owner)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} owner Token owner's Klaytn account address.
@@ -392,7 +392,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.approve('0x{contract address}', owner, spender, 10)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.approve('jasmine-alias', owner, spender, '0x1')
+     * const ret = await caver.kas.kip7.approve('alice-alias', owner, spender, '0x1')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} [owner] Klaytn account address of the owner delegating the token tranfer. The default is the contract deployer account.
@@ -438,7 +438,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.transfer('0x{contract address}', from, to, 10)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.transfer('jasmine-alias', from, to, '0x1')
+     * const ret = await caver.kas.kip7.transfer('alice-alias', from, to, '0x1')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} [from] Token owner's Klaytn account address. The default value is the contract deployer account.
@@ -495,7 +495,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.transferFrom('0x{contract address}', spender, owner, to, 10)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.transferFrom('jasmine-alias', spender, owner, to, '0x1')
+     * const ret = await caver.kas.kip7.transferFrom('alice-alias', spender, owner, to, '0x1')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} spender Klaytn account address to send tokens by delegated token.
@@ -542,7 +542,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.mint('0x{contract address}', to, 10)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.mint('jasmine-alias', to, '0x1')
+     * const ret = await caver.kas.kip7.mint('alice-alias', to, '0x1')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} to Klaytn account address to receive the newly created token.
@@ -590,7 +590,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.burn('0x{contract address}', from, 10)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.burn('jasmine-alias', from, '0x1')
+     * const ret = await caver.kas.kip7.burn('alice-alias', from, '0x1')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} [from] Klaytn account address on which the tokens will be burned. The default value is the contract deployer account.
@@ -642,7 +642,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.burnFrom('0x{contract address}', spender, owner, 10)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.burnFrom('jasmine-alias', spender, owner, '0x1')
+     * const ret = await caver.kas.kip7.burnFrom('alice-alias', spender, owner, '0x1')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} spender Klaytn account address on which the tokens will be burned.
@@ -685,7 +685,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.pause('0x{contract address}')
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.pause('jasmine-alias')
+     * const ret = await caver.kas.kip7.pause('alice-alias')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} [pauser] The Klaytn account address whose authority to send contracts will be removed. The default value is the `deployer`'s address.
@@ -722,7 +722,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.unpause('0x{contract address}')
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.unpause('jasmine-alias')
+     * const ret = await caver.kas.kip7.unpause('alice-alias')
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} [pauser] The Klaytn account address whose authority to send contracts will be removed. The default value is the `deployer`'s address.
@@ -763,7 +763,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.addMinter('0x{address in hex}', minterToBe)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.addMinter('jasmine-alias', minterToBe, minter)
+     * const ret = await caver.kas.kip7.addMinter('alice-alias', minterToBe, minter)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} accountToBeMinter The Klaytn account address to be granted authority to mint and burn tokens.
@@ -842,7 +842,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.addPauser('0x{address in hex}', pauserToBe)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.addPauser('jasmine-alias', pauserToBe, pauser)
+     * const ret = await caver.kas.kip7.addPauser('alice-alias', pauserToBe, pauser)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} accountToBePauser The Klaytn account address to be granted authority to send and pause a contract.
@@ -885,7 +885,7 @@ class KIP7 {
      * const ret = await caver.kas.kip7.renouncePauser('0x{address in hex}', pauser)
      *
      * // with contract alias
-     * const ret = await caver.kas.kip7.renouncePauser('jasmine-alias', pauser)
+     * const ret = await caver.kas.kip7.renouncePauser('alice-alias', pauser)
      *
      * @param {string} addressOrAlias Contract address (in hexadecimal with the 0x prefix) or an alias.
      * @param {string} pauser Klaytn account address that grants authority to mint and burn a token. The default value is the `deployer`'s address'.
