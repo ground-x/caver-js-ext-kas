@@ -115,7 +115,7 @@ class Metadata {
     }
 
     /**
-     * Uploads an asset. Supported file types include jpg, png, and gif. After uploading the asset file, it returns a public URI to access the asset. <br>
+     * Uploads an asset. Supported file types include jpg, png, and gif etc.. After uploading the asset file, it returns a public URI to access the asset. <br>
      * POST /v1/metadata/asset
      *
      * @example
