@@ -72,4 +72,6 @@ UploadAssetResponse.prototype.filename = undefined
  */
 UploadAssetResponse.prototype.uri = undefined
 
+
 module.exports = UploadAssetResponse
+

@@ -11,6 +11,7 @@
  *
  */
 
+
 const ApiClient = require('../../ApiClient')
 const ErrorResponse = require('../model/ErrorResponse')
 const UploadAssetResponse = require('../model/UploadAssetResponse')
@@ -131,4 +132,6 @@ class DataUploadApi {
         )
     }
 }
+
 module.exports = DataUploadApi
+

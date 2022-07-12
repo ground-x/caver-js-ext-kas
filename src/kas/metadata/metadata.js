@@ -21,6 +21,7 @@ const { DataUploadApi } = require('../../rest-client/src')
 
 const NOT_INIT_API_ERR_MSG = `Metadata API is not initialized. Use 'caver.initMetadataAPI' function to initialize Metadata API.`
 
+
 /**
  * A warpping class that connects Metadata API.
  * @class

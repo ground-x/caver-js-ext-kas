@@ -79,4 +79,6 @@ ErrorResponse.prototype.message = undefined
  */
 ErrorResponse.prototype.requestId = undefined
 
+
 module.exports = ErrorResponse
+

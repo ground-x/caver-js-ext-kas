@@ -73,3 +73,4 @@
  UploadMetadataResponse.prototype.uri = undefined
  
  module.exports = UploadMetadataResponse
+

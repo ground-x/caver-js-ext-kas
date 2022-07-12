@@ -394,6 +394,24 @@ class CaverExtKAS extends Caver {
         if (url.endsWith('/')) url = url.slice(0, url.length - 1)
         this.kas.initResourceAPI(chainId, accessKeyId, secretAccessKey, url)
     }
+
+    /**
+     * Sets chain id and authentication key for METADATA API.
+     *
+     * @example
+     * caver.initMetaDataAPI(1001, 'accessKeyId', 'secretAccessKey')
+     * caver.initMetaDataAPI(1001, 'accessKeyId', 'secretAccessKey', 'MataData API url to use')
+     *
+     * @param {number} chainId The chain id.
+     * @param {string} accessKeyId The access key id.
+     * @param {string} secretAccessKey The secret access key.
+     * @param {string} [url] The end point url.
+     * @return {void}
+     */
+    initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url = productionEndpoints.metadata) {
+        if (url.endsWith('/')) url = url.slice(0, url.length - 1)
+        this.kas.initMetaDataAPI(chainId, accessKeyId, secretAccessKey, url)
+    }
 }
 
 CaverExtKAS.CHAIN_ID_BAOBAB = chainIds.CHAIN_ID_BAOBAB

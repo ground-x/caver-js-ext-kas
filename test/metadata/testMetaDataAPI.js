@@ -1,5 +1,6 @@
 /*
  * Copyright 2020 The caver-js-ext-kas Metadata
+
  *
  * Licensed under the Apache License, Version 2.0 (the “License”);
  * you may not use this file except in compliance with the License.
@@ -31,6 +32,8 @@ let caver
 const { url, chainId, accessKeyId, secretAccessKey, krn } = require('../testEnv').auths.metadataAPI
 
 const sandbox = sinon.createSandbox()
+
+
 describe('Metadata API service enabling', () => {
     beforeEach(() => {
         caver = new CaverExtKAS()
@@ -39,6 +42,7 @@ describe('Metadata API service enabling', () => {
     afterEach(() => {
         sandbox.restore()
     })
+
 
     context('caver.initMetadataAPI', () => {
         it('CAVERJS-EXT-KAS-MATADATA-001: should return error if metadataAPI is not initialized', async () => {
@@ -120,6 +124,7 @@ describe('Metadata API service enabling', () => {
 
         it('CAVERJS-EXT-KAS-METADATA-004: should send post request to png file data', async () => {
             caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
+
             const filepath = fpath.join(__dirname, '../fixture/img-png.png')
             const file = fs.createReadStream(filepath)
 
@@ -139,6 +144,7 @@ describe('Metadata API service enabling', () => {
 
         it('CAVERJS-EXT-KAS-METADATA-005: should call callback function with assest upload response', async () => {
             caver.initMetadataAPI(chainId, accessKeyId, secretAccessKey, url)
+
             const filepath = fpath.join(__dirname, '../fixture/img-png.png')
             const file = fs.createReadStream(filepath)
 
