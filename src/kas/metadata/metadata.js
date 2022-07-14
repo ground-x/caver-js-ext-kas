@@ -15,8 +15,7 @@
  */
 
 const _ = require('lodash')
-const utils = require('caver-js').utils
-const fs = require('fs')
+const helper = require('../../utils/helper')
 
 const { DataUploadApi } = require('../../rest-client/src')
 
@@ -117,28 +116,34 @@ class Metadata {
     }
 
     /**
-     * Uploads an asset. Supported file types include jpg, png, and gif. After uploading the asset file, it returns a public URI to access the asset. <br>
+     * Uploads an asset. Supported file types include jpg, png, and gif etc.. After uploading the asset file, it returns a public URI to access the asset. <br>
      * POST /v1/metadata/asset
      *
      * @example
-     * const result = await caver.kas.metadata.uploadAsset(file)
+     * const krn = 'krn:1001:metadata:{account-id}:metadata-storage:{storage-name}'
      *
+     * const result = await caver.kas.metadata.uploadAsset(file [, krn] [, callback])
      * @param {file} file Addes a file with multipart/form-data. File number is limited to one, and file size is limited to 10MB. If the file size exceeds 10MB, you will get an invalid input error.
+     * @param {string} [krn] If you want to set up storage, you have to provide the Storage KRN object in the header. KRN must start with "krn:"
      * @param {Function} [callback] The callback function to call.
      * @return {UploadAssetResponse}
      */
-    uploadAsset(file, callback) {
+    uploadAsset(file, krn, callback) {
         if (!this.accessOptions || !this.dataUploadApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (file === undefined) throw new Error(`File should be defined`)
         if (!_.isObject(file)) throw new Error(`File must be object type.`)
+        if (_.isFunction(krn)) {
+            callback = krn
+            krn = undefined
+        }
 
         const opts = {
             file,
         }
 
         return new Promise((resolve, reject) => {
-            this.dataUploadApi.uploadAsset(this.chainId, opts, (err, data, response) => {
+            this.dataUploadApi.uploadAsset(this.chainId, krn, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }
@@ -152,32 +157,110 @@ class Metadata {
      * POST /v1/metadata
      *
      * @example
-     * const metadata = { "name": "Puppy Heaven NFT", "description": "This is a sample description", "image": "https://metadata-store.klaytnapi.com/e2d83vdb-c108-823c-d5f3-69vdf2d871c51/4a85e6be-3215-93e6-d8a9-3a7d633584e7.png" }
+     * const metadata = { "name": "Puppy Heaven NFT", "description": "This is a sample description", "image": "url" }
      * const filename = "PuppyHeavenNFT.json"
      * const result = await caver.kas.metadata.uploadMetadata(metadata,filename)
      *
      * @param {object} metadata JSON metadata.
-     * @param {string} filename (option) File extension must be .json. If the file name is already taken you will get a duplicate key error.
+     * @param {string} [filename] File extension must be .json. If the file name is already taken you will get a duplicate key error.
+     * @param {string} [krn] If you want to set up storage, you have to provide the Storage KRN object in the header. KRN must start with "krn:"
      * @param {Function} [callback] The callback function to call.
      * @return {UploadMetadataResponse}
      */
 
-    uploadMetadata(metadata, filename, callback) {
+    uploadMetadata(metadata, filename, krn, callback) {
         if (!this.accessOptions || !this.dataUploadApi) throw new Error(NOT_INIT_API_ERR_MSG)
 
         if (metadata === undefined) throw new Error(`The metadata should be defined.`)
         if (!_.isObject(metadata)) throw new Error(`The metadata must be Object type.`)
 
-        if (_.isFunction(filename)) {
-            callback = filename
-            filename = ''
+        if (krn !== undefined && _.isFunction(krn)) {
+            callback = krn
+            krn = ''
+        }
+        if (filename !== undefined) {
+            switch (typeof filename) {
+                case 'function':
+                    callback = filename
+                    filename = ''
+                    break
+                case 'string':
+                    if (helper.isKRN(filename)) {
+                        krn = filename
+                        filename = ''
+                    }
+                    break
+                default:
+                    throw new Error(`The second param must be a string or a function.`)
+            }
         }
 
         const opts = {
             body: { metadata, filename },
         }
         return new Promise((resolve, reject) => {
-            this.dataUploadApi.uploadMetadata(this.chainId, opts, (err, data, response) => {
+            this.dataUploadApi.uploadMetadata(this.chainId, krn, opts, (err, data, response) => {
+                if (err) {
+                    reject(err)
+                }
+                if (callback) callback(err, data, response)
+                resolve(data)
+            })
+        })
+    }
+    /**
+     * Uploads metadata. After uploading the metadata, it returns an externally accessible public URI for that metadata.
+     *
+     * @example
+     * const metadata = { "name": "Puppy Heaven NFT", "description": "This is a sample description", "image": FILE || "url" }
+     * const filename = "PuppyHeavenNFT.json"
+     * const result = await caver.kas.metadata.uploadAssetMetadata(metadata, filename ,krn)
+     *
+     * @param {object} metadata JSON metadata.
+     * @param {string} [filename] File extension must be .json. If the file name is already taken you will get a duplicate key error.
+     * @param {string} [krn] If you want to set up storage, you have to provide the Storage KRN object in the header. KRN must start with "krn:"
+     * @param {Function} [callback] The callback function to call.
+     * @return {UploadMetadataResponse}
+     */
+
+    async uploadKIPMetadataWithAsset(metadata, filename, krn, callback) {
+        if (!this.accessOptions || !this.dataUploadApi) throw new Error(NOT_INIT_API_ERR_MSG)
+
+        if (metadata === undefined) throw new Error(`The metadata should be defined.`)
+        if (!_.isObject(metadata)) throw new Error(`The metadata must be Object type.`)
+
+        if (krn !== undefined && _.isFunction(krn)) {
+            callback = krn
+            krn = ''
+        }
+
+        if (filename !== undefined) {
+            switch (typeof filename) {
+                case 'function':
+                    callback = filename
+                    filename = ''
+                    break
+                case 'string':
+                    if (helper.isKRN(filename)) {
+                        krn = filename
+                        filename = ''
+                    }
+                    break
+                default:
+                    throw new Error(`The second param must be a string or a function.`)
+            }
+        }
+
+        if (metadata.image && !_.isString(metadata.image)) {
+            const url = await this.uploadAsset(metadata.image, krn)
+            metadata.image = url
+        }
+
+        const opts = {
+            body: { metadata, filename },
+        }
+        return new Promise((resolve, reject) => {
+            this.dataUploadApi.uploadMetadata(this.chainId, krn, opts, (err, data, response) => {
                 if (err) {
                     reject(err)
                 }

@@ -182,6 +182,20 @@ const checkTypeAndConvertForIdsAndAmounts = function(ids, amounts) {
     return { ids, amounts }
 }
 
+/**
+ * Check KRN validation.
+ *
+ * @param {string} krn KAS Resource Name. krn:{chain-id}:{service}:{account-id}:{resource-type}:{resource-id}
+ * @return {boolean}
+ */
+const isKRN = function(krn) {
+    if (_.isString(krn)) {
+        if (krn.split(':').length !== 6 || krn.slice(0, 3) !== 'krn') return false
+    } else return false
+
+    return true
+}
+
 module.exports = {
     createClient,
     formatDate,
@@ -189,5 +203,6 @@ module.exports = {
     addUncompressedPublickeyPrefix,
     formatAccountKey,
     checkTypeAndConvertForIdsAndAmounts,
+    isKRN,
     chainIds,
 }

@@ -65,7 +65,7 @@ class KAS {
         this.kip17 = new KIP17()
         this.kip7 = new KIP7()
         this.kip37 = new KIP37()
-        this.metaData = new Metadata()
+        this.metadata = new Metadata()
         this.resource = new Resource()
 
         this.tokenHistory.queryOptions = TokenHistoryQueryOptions
@@ -149,12 +149,12 @@ class KAS {
     /**
      * @type {Metadata}
      */
-    get metaData() {
-        return this._metaData
+    get metadata() {
+        return this._metadata
     }
 
-    set metaData(metaData) {
-        this._metaData = metaData
+    set metadata(metadata) {
+        this._metadata = metadata
     }
 
     /**
@@ -319,8 +319,8 @@ class KAS {
     initMetadataAPI(chainId, accessKeyId, secretAccessKey, url) {
 
         const { client, accessOptions } = createClient(url, chainId, accessKeyId, secretAccessKey)
-        this.metaData.accessOptions = accessOptions
-        this.metaData.client = client
+        this.metadata.accessOptions = accessOptions
+        this.metadata.client = client
     }
 
     /**
